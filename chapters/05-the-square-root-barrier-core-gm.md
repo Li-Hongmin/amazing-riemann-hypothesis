@@ -157,8 +157,10 @@ against a fixed archimedean degree cost $x$ plus a congruence/Selmer error from 
   at step $j$), the numerator would have been $\sum_{j=1}^m j \cdot B_0 \asymp m^2 B_0 \asymp n m^3 b x^\varepsilon$,
   which after dividing by $m \cdot n b$ leaves
   $$\frac{x}{m} + m^2\,x^\varepsilon, \qquad \min_{m \ge 1}\Bigl(\frac{x}{m} + m^2\Bigr) = \frac{3}{2^{2/3}}\,x^{2/3} \quad\text{at } m \asymp x^{1/3}!$$
-  That is the $2/3$ barrier mentioned in Alpöge's timeline ("10/29/26: $2/3+\epsilon$ is easy",
-  `remark.pdf` p. 4, item 9) [Paper; remark p. 4] and traced in community guides [Community].
+  That is the a priori $2/3$ barrier recorded in Alpöge's timeline ("11/15/26: precise computation
+  of the 'cost' of each lift, showing that one would stop at $2/3$ a priori, attempt to get a main
+  term and transfer constant to a function field or kill via twisting, need for 'division'",
+  `remark.pdf` p. 4, item 14) [Paper; remark p. 4] and traced in community guides [Community].
 - **Non-compounding per-lift cost (`SZ.T1`–`SZ.T4`):** Because `CoreAtH` / `SizeData₂` charges only
   $m \cdot B_0$ (one factor of $m$ times $B_0 \asymp n m b x^\varepsilon$), dividing by the signal
   prefactor $Q \asymp n_T m b$ leaves
@@ -181,14 +183,15 @@ We now state the exact Lean definitions used in `ChBalance`, `ChCore`, `ChTop`, 
 ### 5.3.1 Finite group arithmetic data, `ASK`, `MAIN`, and `De`
 
 Let $E_0 := \mathbb Z/2\mathbb Z \times \mathbb Z/2\mathbb Z$ (`E0`, additive group of order $4$)
-with distinguished elements $\mathrm{sg} = (1, 0)$, $\mathrm{sgc}_0 = (1, 1)$, and character
+with distinguished elements $\mathrm{sg} = (0, 1)$, $\mathrm{sgc}_0 = (1, 0)$, complex-conjugation
+element $\mathrm{cconj} = (1, 1)$ (viewed in $E_0 \times H$ via $(e, 0)$), and character
 $\mathrm{ch}_C((e_1, e_2), h) = (-1)^{e_1}$, and let $\Phi := \{g \in E_0 \times H : g_{1,1} = 0\}$
 (`InPhi`, `PhiSet` of cardinality $f_{\mathrm{Pl}}(H) = 2\lvert H \rvert$, where $H$ is a finite
 abelian group, instantiated as $H = \varphi.A$) [Lean, read]
 (`src/Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:15–25`). For $t \in H$ and
 $g \in E_0 \times H$, define the **partner map** (`partner`, `:19`)
-$$\mathrm{partner}_t(g) := g + (\mathrm{sg}, t) = \bigl((g_{1,1} + 1, g_{1,2}),\,g_2 + t\bigr).$$
-Because $\mathrm{sg}$ flips the first coordinate $g_{1,1}$, for every $g \notin \Phi$ ($g_{1,1} = 1$)
+$$\mathrm{partner}_t(g) := \mathrm{cconj} + g + \mathrm{topPl}(t) = \bigl((g_{1,1} + 1, g_{1,2} + 1),\,g_2 + t\bigr).$$
+Because $\mathrm{cconj}$ flips the first coordinate $g_{1,1}$, for every $g \notin \Phi$ ($g_{1,1} = 1$)
 the element $\mathrm{partner}_t(g)$ has first coordinate $1 + 1 = 0$, landing **inside $\Phi$**
 (`partner_inPhi : g ∉ PhiSet H → partner t g ∈ PhiSet H`, `LipschitzWeightAndMinimum.lean:214`)
 bijectively as a map $\Phi^c \xrightarrow{\sim} \Phi$ (`PartnerBij`, `:127`) [Lean, read]. Thus a
@@ -197,34 +200,41 @@ CM-type places of $E$) evaluates at $\mathrm{partner}_t(g) \in \Phi$ for every $
 
 **Definition 5.1 (`ArithData`, `GPsi`, `ASK`, `MAIN`, and `De`, `src/Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:38,65,68,72,84,89,93`).**
 
-1. **Arithmetic host record (`ArithData H`, `:38`).** Packages primes $q_1, d$ ($q_1 = H.q$, $d = H.d$),
-   unramified Frobenius map $\mathrm{frob} : \mathbb N \to E_0 \times H$, inertia subgroup
-   $\mathrm{inertia}(p) \subseteq E_0 \times H$, and ramified Frobenius coset $\mathrm{dCoset} \subseteq E_0 \times H$
-   at $d$. By `HostFactsS D S₀` (`src/Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean:14`),
-   at unramified primes $p \notin S_0 \cup \{d\}$ we have $\mathrm{inertia}(p) = \{0\}$; at split
-   primes $p \in S_0 = \{2, q\} \cup \mathrm{small}$ ($d \notin S_0$), both $\mathrm{frob}(p)$ and
-   $\mathrm{inertia}(p)$ lie inside $\Phi$; and at $d$, $\mathrm{inertia}(d) = \{0, (\mathrm{sgc}_0, 0)\}$
-   with $\mathrm{dCoset}$ meeting $\Phi^c$ in a single element [Lean, read].
+1. **Arithmetic host record (`ArithData H`, `:38`).** Packages the four fields `q1`, `d`
+   ($q_1 = H.q$, $d = H.d$), inertia subgroup $\mathrm{inertia} : \mathbb N \to \mathrm{AddSubgroup}(E_0 \times H)$,
+   and Frobenius representative $\mathrm{frob} : \mathbb N \to E_0 \times H$. By `HostFactsS D S₀`
+   (`src/Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean:14`), at unramified
+   primes $p \notin S_0 \cup \{d\}$ we have $\mathrm{inertia}(p) = \{0\}$; at split primes
+   $p \in S_0 = \{2, q_1\} \cup \mathrm{small}$ ($d \notin S_0$), both $\mathrm{frob}(p)$ and
+   $\mathrm{inertia}(p)$ lie inside $\Phi$; and at $d$, $\mathrm{inertia}(d) = \{0, \mathrm{sgc}_0\}$,
+   whose first bit $(1, 0)$ guarantees that every coset $i\,\mathrm{frob}(d) + \mathrm{inertia}(d)$
+   meets $\Phi^c$ in a unique element (`DCosetSingle`, `:130`) [Lean, read].
 2. **Primitive character values and Riesz sums (`primVal` and `GPsi`, `:65, 68`).** For an additive
    character $\psi \in \widehat{E_0 \times H}$ and $n = p_1^{a_1}\cdots p_k^{a_k} \ge 1$,
    `primVal D ψ n` (`:65`) multiplies over $p^a \parallel n$ the inertia-averaged Frobenius values
-   $\Bigl(\frac{1}{\lvert I_p \rvert}\sum_{u \in I_p} \psi(\mathrm{frob}(p) + u)\Bigr)^a$ (which by
+   $\frac{1}{\lvert I_p \rvert}\sum_{u \in I_p} \psi(a\,\mathrm{frob}(p) + u)$ (which by
    `prim_read`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean:48`, equals
-   $\chi_\psi^*(n)$ for the primitive Dirichlet character $\chi_\psi^*$ attached to $\psi$!) [Lean, read].
-   Given $\ell : \widehat{E_0 \times H} \to \mathbb C$ with $\ell(\psi) = \frac{L'}{L}(1, \chi_\psi^*)$
+   $\chi_\psi^\ast(n)$ for the primitive Dirichlet character $\chi_\psi^\ast$ attached to $\psi$!) [Lean, read].
+   Given $\ell : \widehat{E_0 \times H} \to \mathbb C$ with $\ell(\psi) = \frac{L'}{L}(1, \chi_\psi^\ast)$
    for $\psi \neq 0$ (`HostAddCharCompatible`, `CoreAtH.lean:18`), `GPsi D ell ψ y` (`:68`) equals
-   `An.gChi χ_ψ^* y` (`prim_read`, `:51`) [Lean, read].
-3. **Inert prime sum, main term, and character-side discrepancy (`ASK`, `MAIN`, `De`, `:72–93`).**
+   `Gz y` when $\psi = 0$ and $\sum_{1 \le n \le \lfloor y \rfloor} \Lambda(n)\,\mathrm{primVal}(D,\psi,n)(y/n - 1) + y\,\ell(\psi) = \mathrm{An.gChi}\,\chi_\psi^\ast\,y$
+   when $\psi \neq 0$ (`prim_read`, `:51`) [Lean, read].
+3. **Inert prime sum, main term, and character-side discrepancy (`ASK`, `MAIN`, `De`, `:72–96`).**
    A prime $p \neq 2, q_1, d$ is **inert** (`IsInert D p`, `:72`) if $\mathrm{frob}(p) \notin \Phi$.
    For truncation $N \in \mathbb N$, top parameter $a > 0$, shift $t \in H$, and place weights
-   $w : \Phi \to \mathbb R$ [Lean, read]:
-   $$\mathrm{ASK}(D, N, a, t, w) := \sum_{\substack{p \le N \\ \mathrm{IsInert}\,D\,p}} \log p
-   \sum_{\substack{1 \le r \le N \\ r\text{ odd}}} w(\mathrm{partner}_t(r\,\mathrm{frob}(p)))\,\max\Bigl(\frac{a}{w(\mathrm{partner}_t(r\,\mathrm{frob}(p))) p^r} - 1,\ 0\Bigr) + \mathrm{askD},$$
-   where $\mathrm{askD}$ (`:79`) is the analogous odd-power sum at $p = d$ (which vanishes identically
+   $w : E_0 \times H \to \mathbb R$ [Lean, read]:
+   $$\mathrm{ASK}(D, N, a, t, w) := \sum_{\substack{p \le N \\ \mathrm{IsInert}\,D\,p}} 2\log p
+   \sum_{\substack{1 \le i \le N \\ i\cdot\mathrm{frob}(p) \notin \Phi}}
+   \max\Bigl(\frac{a}{p^i} - w\bigl(\mathrm{partner}_t(i\,\mathrm{frob}(p))\bigr),\ 0\Bigr)
+   + \log d \cdot \mathrm{askD}(D, N, a, t, w),$$
+   where $\mathrm{askD}$ (`:79`) sums $\max(a/d^i - w(\mathrm{partner}_t(g)), 0)$ over $1 \le i \le N$
+   and $g \in (i\,\mathrm{frob}(d) + \mathrm{inertia}(d)) \cap \Phi^c$ (vanishing identically
    whenever $N < d$, `ramifiedPrimeTerm_eq_zero_of_lt_ramifiedPrime`, `ChBalance.lean:18`!);
-   $$\mathrm{MAIN}(\ell, a, w) := \frac{1}{\lvert\Phi\rvert}\sum_{\rho \in \Phi}
-   \frac{1}{2}\Bigl[a\log\Bigl(\frac{a}{w(\rho)}\Bigr) - (1 + \gamma)a + w(\rho) + a\,\ell(\mathrm{ch}_C)\Bigr];$$
-   $$\mathrm{De}(D, \ell, a, t, w) := \frac{1}{2\lvert\Phi\rvert}\sum_{g \in \Phi^c}
+   $$\mathrm{MAIN}(\ell, a, w) := a\Bigl(\log a - 1 - \gamma + \ell(\mathrm{ch}_C)
+   - \frac{1}{\lvert\Phi\rvert}\sum_{\rho \in \Phi} \log w(\rho)\Bigr)
+   = \frac{1}{\lvert\Phi\rvert}\sum_{\rho \in \Phi}
+   \Bigl[a\log\Bigl(\frac{a}{w(\rho)}\Bigr) - (1 + \gamma)a + a\,\ell(\mathrm{ch}_C)\Bigr];$$
+   $$\mathrm{De}(D, \ell, a, t, w) := \frac{1}{\lvert\Phi\rvert}\sum_{g \in \Phi^c}
    \sum_{\psi \in \widehat{E_0 \times H}} \overline{\psi(g)}\,w(\mathrm{partner}_t(g))\,
    \mathrm{GPsi}\Bigl(D, \ell, \psi, \frac{a}{w(\mathrm{partner}_t(g))}\Bigr).$$
 
@@ -269,11 +279,13 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
    $T_2 \subseteq \Phi$ of density $\delta_2 = \lvert T_2 \rvert / \lvert \varphi.A \rvert \ge x^{-\varepsilon}$,
    top scales $a_t = x b + O(b)$ ($t \in TT$), place weights $w_{u_0, j} : \Phi \to \mathbb R$
    ($0 \le j < m$), and error parameters $(\eta, X', \theta)$ satisfying [Lean, read]:
-   - **Algebraic & Arakelov chain clauses (`IdentU`, `ReadsKept`, `ErrWindows`, `BNBoundsU`,
-     `SplitInertia.lean:67,74,81` and `ErrorFormsWeakWindowsFalse.lean:43`):** the $11$-clause
-     Hermitian/Hida divisibility-and-slope package `SizeData₂` (`SChain.lean:17`, opened in Part II,
-     Chapters 7–10) whose weighted-mean gap is bounded by $x^{\mathrm{CErr}(C_c)\varepsilon}\,\mathcal E_{\mathrm{win}}$,
-     where $\mathrm{CErr}(C_c) = e_{\mathrm{Div}} + e_{\mathrm{Loss}} + 3 \le e_D + e_L + 3$
+   - **Algebraic & Arakelov chain clauses (`IdentU`, `ErrWindows`, `BNBoundsU`, plus the host-character
+     bridge `ReadsKept`, `SplitInertia.lean:67,74,81`, `CoreAtH.lean:29`, and
+     `ErrorFormsWeakWindowsFalse.lean:43`):** the $11$-clause Hermitian/Hida divisibility-and-slope
+     package `SizeData₂` (`SChain.lean:17`, opened in Part II, Chapters 6–10) whose weighted-mean
+     gap is bounded by $x^{\mathrm{CErr}(C_c)\varepsilon}\,\mathcal E_{\mathrm{win}}$ (paired with
+     `ReadsKept` on `CoreAtH` matching `keptA` to the host characters), where
+     $\mathrm{CErr}(C_c) = e_{\mathrm{Div}} + e_{\mathrm{Loss}} + 3 \le e_D + e_L + 3$
      (`ErrorFormsWeakWindowsFalse.lean:19`) and
      $$\mathcal E_{\mathrm{win}}(x, \varepsilon, n, n_T, n_{T_2}, m, b, k, a_E)
      := n_T a_E + n_T a_E \frac{m^2}{k} + m\,(2 n m b\,x^\varepsilon) + m\,\frac{n_{T_2} k b\,x^{2\varepsilon}}{n^2}$$
@@ -286,7 +298,8 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
      a_E \le 2 x b,$$
      thick weights $w_{u_0, j}(\rho) \in [b, b + \eta + 1]$ on $\rho \in T_2 + (0, u_0)$, thin
      weights $A / w \ge X'/3$ with unconditional zero-free decay $\theta$ satisfying
-     $(x + 1)\theta \le 1/x$, and Lipschitz window step $x\eta \le b/x$.
+     $2 f (x + 1)\theta \le 1/x$, and Lipschitz window step $6 f (x + 1)(\eta + 1) \le b/x$
+     (`CostWindows`, `SChain.lean:50`, where $f = 2\lvert\varphi.A\rvert$).
 
 ---
 
@@ -300,50 +313,56 @@ We now prove `core_gm` from end to end in five clean steps, following the exact 
 
 **Theorem 5.1 (Inert prime sum minus main term equals character-side discrepancy: `ch_balance`).**
 *Let $H$ be a finite abelian group, let $D : \mathrm{ArithData}\,H$ satisfy `HostFactsS D S₀` for a
-finite prime set $S_0$ with $d \notin S_0$, let $\ell : \widehat{E_0 \times H} \to \mathbb C$ with
-$\ell(0) = 0$, and let $N \in \mathbb N$, $a > 0$, $t \in H$, and $w : \Phi \to \mathbb R_{>0}$
-satisfy $a \le N \cdot \min_{\rho \in \Phi} w(\rho)$. Then*
+finite prime set $S_0$ with $d \notin S_0$, let $\ell : \widehat{E_0 \times H} \to \mathbb C$, and
+let $N \in \mathbb N$, $a > 0$, $t \in H$, and $w : E_0 \times H \to \mathbb R$ satisfy $w(\rho) > 0$
+and $a / w(\rho) \le N$ for all $\rho \in \Phi$. Then*
 $$\mathrm{ASK}(D, N, a, t, w) - \mathrm{MAIN}(\ell, a, w) = \mathrm{De}(D, \ell, a, t, w).$$
 *(Lean: `Deduction.CH.ch_balance`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChBalance.lean:200`.)* [Lean, read]
 
 *Proof.* Start from the right-hand side $\mathrm{De}(D, \ell, a, t, w)$. Fix $g \in \Phi^c$, set
-$\rho := \mathrm{partner}_t(g) \in \Phi$, and set $y_\rho := a / w(\rho) \le N$ (since $a \le N w(\rho)$).
-Recall how $\mathrm{GPsi}(D, \ell, \psi, y_\rho)$ splits between $\psi = 0$ and $\psi \neq 0$:
+$\rho := \mathrm{partner}_t(g) \in \Phi$, and set $y_\rho := a / w(\rho) \le N$. Recall from
+`FirstPrimeNeSecondPrime.lean:68` and `src/Formalism/StatementOC.lean:13` how
+$\mathrm{GPsi}(D, \ell, \psi, y_\rho)$ splits between $\psi = 0$ and $\psi \neq 0$ (note that
+$\ell(0)$ is never evaluated!):
 
-- For $\psi = 0$, $\mathrm{primVal}(D, 0, n) = 1$, and $\mathrm{GPsi}(D, \ell, 0, y_\rho) = S_\zeta(y_\rho) - y_\rho\log y_\rho + (1 + \gamma)y_\rho - 1$.
-- For $\psi \neq 0$, $\mathrm{GPsi}(D, \ell, \psi, y_\rho) = \sum_{n \le y_\rho} \Lambda(n)\,\mathrm{primVal}(D, \psi, n)(y_\rho/n - 1) + y_\rho\,\ell(\psi)$.
+- For $\psi = 0$, $\mathrm{primVal}(D, 0, n) = 1$, and $\mathrm{GPsi}(D, \ell, 0, y_\rho) = \mathrm{Gz}(y_\rho) = \sum_{1 \le n \le \lfloor y_\rho \rfloor} \Lambda(n)(y_\rho/n - 1) - y_\rho\log y_\rho + (1 + \gamma)y_\rho$.
+- For $\psi \neq 0$, $\mathrm{GPsi}(D, \ell, \psi, y_\rho) = \sum_{1 \le n \le \lfloor y_\rho \rfloor} \Lambda(n)\,\mathrm{primVal}(D, \psi, n)(y_\rho/n - 1) + y_\rho\,\ell(\psi)$.
 
 Multiply by $\overline{\psi(g)}\,w(\rho)$ (note $w(\rho) y_\rho = a$) and sum over all
-$\psi \in \widehat{E_0 \times H}$ and $g \in \Phi^c$, dividing by $2\lvert\Phi\rvert = \lvert E_0 \times H \rvert = 4\lvert H \rvert$:
+$\psi \in \widehat{E_0 \times H}$ and $g \in \Phi^c$, dividing by $\lvert\Phi\rvert = \frac{1}{2}\lvert E_0 \times H \rvert = 2\lvert H \rvert$:
 
 1. **The main-term pieces cancel to $-\mathrm{MAIN}(\ell, a, w)$ (`colour_sum`, `ChBalance.lean:212–235`).**
-   First, at $\psi = 0$ ($\overline{0(g)} = 1$), the counterterm $w(\rho)\bigl(-y_\rho\log y_\rho + (1+\gamma)y_\rho - 1\bigr) = -a\log(a/w(\rho)) + (1+\gamma)a - w(\rho)$
-   averages over $g \in \Phi^c$ (as $\rho = \mathrm{partner}_t(g)$ runs bijectively over $\Phi$) to
-   $-\frac{1}{2\lvert\Phi\rvert}\sum_{\rho \in \Phi}\bigl[a\log(a/w(\rho)) - (1+\gamma)a + w(\rho)\bigr]$.
-   Second, for the linear $\ell(\psi)$ counterterms ($w(\rho) y_\rho\,\ell(\psi) = a\,\ell(\psi)$,
-   which is independent of $g$), summing $\overline{\psi(g)}$ over $g \in \Phi^c = \{((1, e_2), h)\}$
-   annihilates every character $\psi$ **except** $\psi = 0$ (where $\ell(0) = 0$) and $\psi = \mathrm{ch}_C$
-   (where $\mathrm{ch}_C(g) = -1$ for every $g \in \Phi^c$, giving $\frac{1}{2\lvert\Phi\rvert}\sum_{g \in \Phi^c} (-1)\,a\,\ell(\mathrm{ch}_C) = -\frac{1}{2}a\,\ell(\mathrm{ch}_C)$).
+   First, at $\psi = 0$ ($\overline{0(g)} = 1$), the counterterm $w(\rho)\bigl(-y_\rho\log y_\rho + (1+\gamma)y_\rho\bigr) = -a\log(a/w(\rho)) + (1+\gamma)a$
+   averages over $g \in \Phi^c$ (as $\rho = \mathrm{partner}_t(g)$ runs bijectively over the
+   $\lvert\Phi\rvert$ elements of $\Phi$) to
+   $-\frac{1}{\lvert\Phi\rvert}\sum_{\rho \in \Phi}\bigl[a\log(a/w(\rho)) - (1+\gamma)a\bigr]$.
+   Second, for the linear $\ell(\psi)$ counterterms ($\psi \neq 0$, where $w(\rho) y_\rho\,\ell(\psi) = a\,\ell(\psi)$
+   is independent of $g$), summing $\overline{\psi(g)}$ over $g \in \Phi^c = \{((1, e_2), h)\}$
+   annihilates every character $\psi \neq 0$ **except** $\psi = \mathrm{ch}_C$, where
+   $\mathrm{ch}_C(g) = -1$ for all $\lvert\Phi\rvert$ elements $g \in \Phi^c$, giving
+   $\frac{1}{\lvert\Phi\rvert}\sum_{g \in \Phi^c} (-1)\,a\,\ell(\mathrm{ch}_C) = -a\,\ell(\mathrm{ch}_C)$.
    Combining the two pieces produces $-\mathrm{MAIN}(\ell, a, w)$ on the nose.
 2. **The prime-power sum collapses to $\mathrm{ASK}(D, N, a, t, w)$ (`askExp`, `lunram`, `lsplit`, `ld`,
-   `ChBalance.lean:55–198`).** For each prime power $n = p^r \le y_\rho \le N$ ($r \ge 1$), character
-   orthogonality on the finite abelian group $E_0 \times H$ of order $4\lvert H \rvert = 2\lvert\Phi\rvert$
-   gives, for any inertia subgroup $I_p \le E_0 \times H$,
-   $$\frac{1}{2\lvert\Phi\rvert}\sum_{\psi \in \widehat{E_0 \times H}} \overline{\psi(g)}\,\mathrm{primVal}(D, \psi, p^r)
-   = \frac{1}{\lvert I_p \rvert}\,\mathbf{1}_{\,g - r\,\mathrm{frob}(p) \in I_p}.$$
+   `ChBalance.lean:55–198`).** For each prime power $n = p^i \le y_\rho \le N$ ($i \ge 1$), character
+   orthogonality on the finite abelian group $E_0 \times H$ of order $2\lvert\Phi\rvert$ gives, upon
+   dividing by $\lvert\Phi\rvert$ instead of $2\lvert\Phi\rvert$,
+   $$\frac{1}{\lvert\Phi\rvert}\sum_{\psi \in \widehat{E_0 \times H}} \overline{\psi(g)}\,\mathrm{primVal}(D, \psi, p^i)
+   = \frac{2}{\lvert I_p \rvert}\,\mathbf{1}_{\,g - i\,\mathrm{frob}(p) \in I_p}.$$
    Examine the three types of primes $p$ for $g \in \Phi^c$ ($g_{1,1} = 1$):
    - **Split primes $p \in S_0$ (`lsplit`, `:77`):** Both $\mathrm{frob}(p)$ and every $u \in I_p$
-     lie in $\Phi$ (first bit $0$). Hence $r\,\mathrm{frob}(p) + u \in \Phi$ can **never** equal
-     $g \in \Phi^c$: every prime in $S_0$ (including $2$, $q$, and all prime divisors of $\psi.N$)
+     lie in $\Phi$ (first bit $0$). Hence $i\,\mathrm{frob}(p) + u \in \Phi$ can **never** equal
+     $g \in \Phi^c$: every prime in $S_0$ (including $2$, $q_1$, and all prime divisors of $\psi.N$)
      contributes **identically $0$**.
-   - **Unramified primes $p \notin S_0 \cup \{d\}$ (`lunram`, `:55`):** Here $I_p = \{0\}$. Because
-     the first coordinate of $E_0$ lives in $\mathbb Z/2\mathbb Z$, $r \cdot \mathrm{frob}(p)_{1,1} = 1$
-     holds if and only if **$\mathrm{frob}(p)_{1,1} = 1$ ($\mathrm{frob}(p) \notin \Phi$, so $p$ is
-     inert) and $r$ is odd**. When both hold, the unique $g = r\,\mathrm{frob}(p) \in \Phi^c$
-     contributes $\log p \cdot w(\mathrm{partner}_t(r\,\mathrm{frob}(p)))\max(a/(w(\dots)p^r) - 1, 0)$,
-     matching `askP` (`FirstPrimeNeSecondPrime.lean:75`).
-   - **The ramified prime $p = d$ (`ld`, `:99`):** Here $\lvert I_d \rvert = 2$ and $\mathrm{dCoset}$
-     meets $\Phi^c$ in a single point, reproducing `askD`.
+   - **Unramified primes $p \notin S_0 \cup \{d\}$ (`lunram`, `:55`):** Here $\lvert I_p \rvert = 1$,
+     so the prefactor $\frac{2}{\lvert I_p \rvert} = 2$! Because the first coordinate of $E_0$ lives
+     in $\mathbb Z/2\mathbb Z$, $i\,\mathrm{frob}(p) \notin \Phi$ holds if and only if
+     **$\mathrm{frob}(p) \notin \Phi$ ($p$ is inert) and $i$ is odd**. When both hold, the unique
+     $g = i\,\mathrm{frob}(p) \in \Phi^c$ contributes
+     $2\log p \cdot \max\bigl(a/p^i - w(\mathrm{partner}_t(i\,\mathrm{frob}(p))),\ 0\bigr)$,
+     matching $2\log p \cdot \mathrm{askP}(p)$ (`FirstPrimeNeSecondPrime.lean:75, 86`).
+   - **The ramified prime $p = d$ (`ld`, `:99`):** Here $\lvert I_d \rvert = 2$, so
+     $\frac{2}{\lvert I_d \rvert} = 1$, and $i\,\mathrm{frob}(d) + I_d$ meets $\Phi^c$ in a unique
+     element $g$, reproducing $\log d \cdot \mathrm{askD}$.
 
 Thus $\mathrm{De} = \mathrm{ASK} - \mathrm{MAIN}$. $\square$
 
@@ -359,8 +378,9 @@ does `ChCore.lean` replace $a_t / w_{u_0, j}(\rho)$ by $x$ and isolate $\Psi_A(A
    *Because the thick indicator $\mathbf{1}_{\rho \in T_2 + (0, u_0)}$ is invariant under simultaneous
    translation $(\rho, u_0) \mapsto (\rho + (0, s), u_0 + s)$ for $s \in A_0$, averaging over
    $u_0 \in A_0$ kills every character $\psi \notin \Psi_A(A_0)$, while on $\psi \in \Psi_A(A_0)$
-   each $(t, j, \rho \in T_2)$ contributes $\lvert A_0 \rvert \cdot \frac{\lvert T_2 \rvert}{\lvert E_0 \times H \rvert} = \lvert A_0 \rvert\,\frac{\delta_2}{4}$
-   copies of $b\,\overline{\psi(\mathrm{sg}, t)}\,\mathrm{GPsi}(\psi, a_t/b)$.* [Lean, read]
+   each $(t, j)$ contributes $\lvert A_0 \rvert \cdot \frac{\lvert T_2 \rvert}{\lvert \Phi \rvert} = \lvert A_0 \rvert\,\frac{\delta_2}{2}$
+   copies of $b\,\psi(\mathrm{e}_1(t))\,\mathrm{GPsi}(\psi, a_t/b)$, where
+   $\mathrm{e}_1(t) := ((1, 0), t) \in E_0 \times H$ (`ChCore.lean:16, 59`).* [Lean, read]
 2. **Thick Lipschitz + thin zero-free error (`th_le`, `ChCore.lean:75`, and `move`, `:154`).**
    *On thick places ($\rho \in T_2 + (0, u_0)$), $w_{u_0, j}(\rho) \in [b, b + \eta + 1]$, and the
    Lipschitz bound `LipW` (`LipschitzWeightAndMinimum.lean:957`) bounds the replacement of
@@ -651,10 +671,11 @@ self-contained size-layer blueprints [Lean, read]. On the actual `Main.lean` cal
 definitions `SizeData₂`, `CostWindows`, `RestSize`, `errorBracketSizeWindows`, `CErr`, `KBig`, and
 the theorems `each_unit_bound_statement`, `errX5at_le`, `large_x_eventually`, `le_rpow_26`, and
 `proposition_size_bound` (via `ch_top` and `ch_core`) are invoked [Lean, read] (consistent with the
-declaration-reachability counts reported by LUMI and Dixit [Community]). Notice one telling file
-name: `ErrorFormsWeakWindowsFalse.lean` (`:60` proves `¬ ErrWindowsWeak ...` for a naive unslackened
-inequality!), fossil evidence of an earlier parameter-tuning check during the AI-assisted search
-[Expository].
+declaration-reachability counts reported by LUMI and Dixit [Community]). Notice one telling file name: `ErrorFormsWeakWindowsFalse.lean` (containing only `def` declarations
+and zero theorems; `:60` defines `ErrorFormsWeakWindowsFalse : Prop` with `ErrWindowsWeak`, `:47`,
+where `etaBar ≤ 1 ∧ eBar ≤ 1` replaces the decaying trace condition of `ErrWindows`, `:43`), fossil
+evidence of why exponential near-orthogonality decay in `LinkS` (Chapter 9) is indispensable
+[Lean, read].
 
 ### 5.5.4 Masullo's counterpart
 

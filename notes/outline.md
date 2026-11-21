@@ -74,14 +74,17 @@ Chapter 14 needs only Chapters 1 and 3.
 | 5 | done (R3; `core_gm`, `ch_core`, `ch_top`, `ch_balance`, `proposition_size_bound`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le`, `level_gm_le_on_family_scales` all read in full; written in `chapters/05-the-square-root-barrier-core-gm.md`) |
 | 6 | done (Stepanov–Bombieri function-field proof + R3 reading of `EvenCeil`, `DataParams₂`, `MeanBoundSecondForm`, `WeightedMeanData`, `QuotientSlopeBoundsWith`, `LevelOfCongruence`, `SChain`, `FamCore`, `ParConsts`, `TieGlobal`; drafted in `chapters/06-stepanovs-method-and-multiplicity.md`) |
 | 7 | done (R3 reading of `Hyps`, `SiegelEisensteinSecondTermHypotheses`, `WeilTensorModels`, `LiftLambdaBound`, `BernsteinUnitaryProductIrreducible`, `TopPlug`, `TopShape`, `DesWin`, `LiftConvContGrowth`, `IntegrableThetaKernelProduct`, `ThetaChainUpwardLiftHeckeParamTransferred`, `FirstOccurrenceRuleThetaChainStepBothDirections`, `ThetaChainUpwardInductionFixedMetric`, `PairLiftOfHoweDualityBernstein`; R2 for imported sub-packages; drafted in `chapters/07-chains-of-theta-lifts.md`) |
-| 8–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
+| 8 | done (R3 reading of `WeilJacquetShalikaLaw`, `DataDIVDefs`, `DataParams₂`, `DataExtra`, `DefsInst`, `DataG`, `JointServices`, `GServT`, `DIVRecBridgeSel`; R2 for `FormalGroupSystem` and `trueColumns_row_sharp_bounds`; written in `chapters/08-divisibility-at-inert-primes.md`) |
+| 9 | done (R3 reading of `LatticeSlopes/`, `HarderNarasimhan/` including `SlopeIneq`, `ShiftInvariance`, `StatementFrame`, `Example`, plus `DivisionHeightBoundStatement`, `GlobalBoundRefinements`, `GlobalTheoremInputs`, `TieGlobal`, and top wrappers `LinkG`/`LinkAltAltBis`; R2 for deep period cones; written in `chapters/09-heights-slopes-and-near-orthogonality.md`) |
+| 10 | done (R3 reading of `DivinNOfHypV`, `IdempotentChoiceDepthZero`, `LengthHeckeValueIdealLeDeterminantBound`, `GlobalCongruenceCountOfRootDifferenceUnit`, `IntegralHeckeForms`, `ChosenTwistAnnihilatesSelmerGroups`, `LinkNAlongFamilyOfLocalBounds`, `LinkEta`, `GaloisCohomology/Statement`; R2 for imported DVR/cocycle/twisting sub-lemmas; written in `chapters/10-congruence-modules-to-sha.md`) |
+| 11 | statement-level and top-deduction reading of `VWin` (`P12`: `VwinOfRow`, `TopMainZj`, `JointWinOfCounts`, `LengthEqAddEigen`, `KatoUse`, `FerreroWashington`, `TaylorWilesObstructionBound`); proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
 
 ## Next batch
 
-Chapters 8–10 (continuing Part II): divisibility at inert primes and `Conclusion1` (Chapter 8, node `P8`),
-Hermitian heights, Bost's slope inequality, and near-orthogonality of periods `LinkG`/`LinkS`
-(Chapter 9, nodes `P9`–`P10`), and congruence modules to Tate–Shafarevich groups `CutCoreUnit.main` /
-`divinN_of_hypV` (Chapter 10, node `P11`).
+Chapter 11 (closing Part II: the global Tate–Shafarevich window bound `VWin`, node `P12`) and
+Part III Chapters 12–13 (automorphic Galois representations `Row0b` and partial local Langlands
+`RecTExists`, nodes `P14`–`P15`, followed by Green's finite-general-linear classification `Green`
+and the ~250 named literature theorems `OpenLiteratureStatements`, nodes `P16` and `P18`).
 
 ## Numbering note (2026-11-21)
 

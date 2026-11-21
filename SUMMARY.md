@@ -20,6 +20,9 @@
 
 - [6. Stepanov's method and multiplicity over the integers](chapters/06-stepanovs-method-and-multiplicity.md)
 - [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
+- [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
+- [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
+- [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 
 # Records
 

@@ -176,16 +176,23 @@ Check the arithmetic by hand [Expository]:
      (`ExistsPageN.lean:24–25`):
      $$a \in H_E \iff a \equiv \pm 1 \pmod{16},\quad \psi(a) = 1,\quad
      \Bigl(\frac{a}{11}\Bigr) = 1,\quad \Bigl(\frac{a}{263}\Bigr) = 1.$$
-     At $a = -1$, $(\frac{-1}{11}) = -1 \neq 1$ and $(\frac{-1}{263}) = -1 \neq 1$, so **$-1 \notin H_E$**,
-     even if $\psi$ had been the trivial character $\psi = 1$! Better still, the product character
-     $\psi^\flat(a) = \psi(a)(\frac{a}{11})$ satisfies $\psi^\flat(-1) = (-1)(-1) = +1$, so
-     $E = F(\sqrt{-263})$ is a **CM extension** of the totally real field
-     $$F = F_1\bigl(\sqrt{33}\bigr) = \mathbb Q(\zeta_{16})^+\bigl(\sqrt{(-3)(-11)}\bigr),$$
-     with $\operatorname{Gal}(E/\mathbb Q) \cong (\{\pm 1\} \times \{\pm 1\}) \times \mathbb Z/4\mathbb Z$
-     and complex conjugation acting as $((-1, -1), 1)$: trivial on $F$, negating $\sqrt{-263}$! And
-     inside the character group of $\operatorname{Gal}(E/\mathbb Q)$, multiplying $\psi^\flat$ back
-     by the host sign character $(\frac{\cdot}{11})$ recovers our original odd target character
-     $\psi$!
+     The four conditions on $(\mathbb Z/16\mathbb Z)^\times \times (\mathbb Z/3\mathbb Z)^\times \times (\mathbb Z/11\mathbb Z)^\times \times (\mathbb Z/263\mathbb Z)^\times$
+     (of order $\varphi(N) = 8 \times 2 \times 10 \times 262 = 41{,}920$) are independent of indices
+     $4, 2, 2, 2$, so $\lvert H_E \rvert = 1{,}310$ and $[E : \mathbb Q] = 32$ (`4 * φ.ord = 4 * 8 = 32`),
+     cutting out $E = F_1(\sqrt{-3}, \sqrt{-11}, \sqrt{-263})$. At $a = -1$, $(\frac{-1}{11}) = -1 \neq 1$
+     and $(\frac{-1}{263}) = -1 \neq 1$, so **$-1 \notin H_E$**, even if $\psi$ had been the trivial
+     character $\psi = 1$! Specifically, complex conjugation $a \equiv -1 \pmod N$ fixes $F_1$ and
+     negates $\sqrt{-3}$, $\sqrt{-11}$, and $\sqrt{-263}$, so its fixed field inside $E$ is the
+     degree-$16$ totally real subfield
+     $$F = E^+ = F_1\bigl(\sqrt{33},\,\sqrt{789}\bigr)
+     = \mathbb Q(\zeta_{16})^+\bigl(\sqrt{(-3)(-11)},\,\sqrt{(-3)(-263)}\bigr),$$
+     and $E = F(\sqrt{-263})$ is a **CM extension** of $F$ with
+     $\operatorname{Gal}(E/\mathbb Q) \cong (\{\pm 1\} \times \{\pm 1\}) \times (\mathbb Z/2\mathbb Z \times \mathbb Z/4\mathbb Z)$
+     (whereas e.g. $a = 17 \equiv 1 \pmod{16}$ fixes $F_1(\sqrt{33}, \sqrt{-263})$ yet satisfies
+     $\psi(17) = (\frac{17}{3}) = -1$ and $(\frac{17}{11}) = -1$, so $17 \notin H_E$). Inside the
+     character group of $\operatorname{Gal}(E/\mathbb Q)$, the even product $\psi^\flat(a) = \psi(a)(\frac{a}{11})$
+     satisfies $\psi^\flat(-1) = (-1)(-1) = +1$, and multiplying $\psi^\flat$ back by the host sign
+     character $(\frac{\cdot}{11})$ recovers our original odd target character $\psi$!
 
 ### 4.2.2 Why $1/400$, $401$, $\lambda = 3/2$, and $\varepsilon < 1/52$?
 
@@ -280,24 +287,28 @@ character $\chi_0 \bmod M$), and let $q, d \in \mathbb N$ and $(i, j) \in \{0, 1
    holds if for every $s \in \mathbb C$ [Lean, read]:
    $$1 - \frac{1}{400} < \Re s \quad\text{and}\quad \lvert \Im s \rvert \le H
    \implies L(s, \chi) \neq 0.$$
-   For $(i, j) \in \{0, 1\}^2$, the box height assigned to $(q, d, i, j)$ is (`height`,
-   `PairGood.lean:15`) [Lean, read]:
-   $$\mathrm{height}(q, d, i, j) := \begin{cases} d & \text{if } j \neq 0,\\ q & \text{if } j = 0.\end{cases}$$
+   For $M \ge 1$, reals $\varepsilon, Y$, and $j \in \{0, 1\}$, the box height assigned to Stage
+   $j$ is (`height`, `PairGood.lean:15`) [Lean, read]:
+   $$\mathrm{height}(M, \varepsilon, Y, j) := 8 M\,\exp\bigl(Y^{\varepsilon/5}\bigr)\,\Bigl(\exp\bigl(Y^{\varepsilon/5}(\log Y)^2\bigr)\Bigr)^j.$$
 3. **Analytically good prime pair (`PairGood` and `PairEx`, `src/Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean:18,28`).**
    Given $M \ge 1$ and reals $\varepsilon, Y, X$, a pair $(q, d)$ satisfies `PairGood M eps Y X q d`
-   if `WinPair eps Y q d` holds, $\gcd(M, qd) = 1$, and for every $\chi_0 \bmod M$, every
-   $(i, j) \in \{0, 1\}^2$ with $(i \neq 0 \lor j \neq 0)$, and every primitive character
-   $\chi \bmod N$ (`[NeZero N]`) satisfying `An.Induces χ (tw χ₀ q d i j) (2 * M * q * d)` [Lean, read]:
-   - **(`box`)** `ZeroBox (height q d i j) χ` holds; and
-   - **(`bounds`)** for every real $x \in [Y, X]$,
-     $$\lvert G_\chi(x) \rvert \le x^{1/2 + \varepsilon/2}
+   if `WinPair eps Y q d` holds, $\gcd(M, qd) = 1$, and [Lean, read]:
+   - **(`bounds`)** for every Dirichlet character $\xi \bmod M$, every $(i, j) \in \{0, 1\}^2$ with
+     $(i \neq 0 \lor j \neq 0)$, every $\chi \bmod N$ (`[NeZero N]`) satisfying
+     `An.Induces χ (tw (fun a => ξ a) q d i j) (2 * M * q * d)` (note `An.Induces` includes
+     `χ.IsPrimitive`), and every real $y \in [Y, X]$,
+     $$\lVert G_\chi(y) \rVert \le y^{1/2 + \varepsilon/2}
      \qquad\text{and}\qquad
-     \Bigl\lvert \frac{L'}{L}(1, \chi) \Bigr\rvert \le 4 \log x,$$
+     \Bigl\lVert \frac{L'}{L}(1, \chi) \Bigr\rVert \le 4 \log y,$$
      where $G_\chi = \mathrm{An.gChi}\,\chi$ is the normalized Riesz prime sum of Chapter 3
-     (Definition 3.1).
+     (Definition 3.1); and
+   - **(`boxes`)** for every real primitive character $\rho \in \mathrm{PChar}$ (`ρ.IsReal`) with
+     $\rho.N \mid 8M$, every $(i, j) \in \{0, 1\}^2$ with $(i \neq 0 \lor j \neq 0)$, and every
+     $\chi \bmod N$ (`[NeZero N]`) satisfying `An.Induces χ (tw ρ.val q d i j) (2 * M * q * d)`,
+     `ZeroBox (height M eps Y j) χ` holds.
    The global existence proposition `PairEx : Prop` (`PairGood.lean:28`) asserts that for every
-   $M \ge 1$, every $0 < \varepsilon < 1/52$, and every $A \ge 1$, there exists $Y_0$ such that
-   for every $Y \ge Y_0$, there exist $q, d \in \mathbb N$ satisfying `PairGood M eps Y (Y^A) q d`
+   $M \ge 1$, every $0 < \varepsilon < 1/52$, and every $A \ge 1$, there exists $Y_1$ such that
+   for every $Y \ge Y_1$, there exist $q, d \in \mathbb N$ satisfying `PairGood M eps Y (Y^A) q d`
    [Lean, read].
 
 ### 4.3.2 Classical sieve inputs (`ZeroDensityBox`, `MeanSq`, and arithmetic progressions)
@@ -316,24 +327,28 @@ Notice the dyadic lower bound $q > U^{1/2}$, which means $\frac{1}{2}\log U < \l
    primitive, and $\neg\mathrm{ZeroFreeBox}(Q, \chi)$ has cardinality at most $C\,Q^{1/4}$ [Lean, read].
    (Its proof term `zero_density_box : ZeroDensityBox` lives at `…/CountZAll.lean:13` [Lean].)
 2. **Truncated Riesz prime sum and $L^2$ family hypothesis (`QH.S` and `QH.MeanSq`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/PrimeSetTwoBounds.lean:13,26`).**
-   For an arithmetic weight $\kappa : \mathbb N \to \mathbb C$ with $\lvert \kappa(n) \rvert \le 1$,
-   truncation $Z \in \mathbb R$, scale $y \in \mathbb R$, and integer $q \in \mathbb N$, define the
-   truncated Jacobi-twisted prime sum [Lean, read]
-   $$S(Z, y, q, \kappa) := \sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)}{y}\,\min(n, y)\,\kappa(n)\,\Bigl(\frac{n}{q}\Bigr)
-   = \sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)}{n}\,\min\Bigl(1, \frac{n}{y}\Bigr)\,\kappa(n)\,\Bigl(\frac{n}{q}\Bigr).$$
-   Observe the exact algebraic identity linking $\frac{\Lambda(n)}{y}\min(n, y)$ to the Riesz ramp
-   $(y/n - 1)_+$: for $n \le y$ we have $\frac{y}{n} - (\frac{y}{n} - 1)_+ = 1 = \frac{\min(n, y)}{n} \cdot \frac{y}{n}$,
-   and for $n > y$ we have $\frac{y}{n} - (\frac{y}{n} - 1)_+ = \frac{y}{n}$. Dividing by $y$ gives
-   $\frac{1}{y}\min(n, y) = \frac{1}{n} - \frac{1}{y}(\frac{y}{n} - 1)_+$ for every $n \ge 1$, so
-   multiplying $S(Z, y, q, \kappa)$ by $y$ yields
-   $$y\,S(Z, y, q, \kappa) - y\sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)\kappa(n)(\frac{n}{q})}{n}
+   For an arithmetic weight $\kappa : \mathbb N \to \mathbb C$ with $\lVert \kappa(n) \rVert \le 1$,
+   truncation $Z \in \mathbb R$, scale $y \in \mathbb R$, and integer $q \in \mathbb N$, define
+   $c_n(y) := \Lambda(n)\min(1, y/n) = \frac{\Lambda(n)}{n}\min(n, y)$ (`cN y n`,
+   `src/Formalism/GL3MeanSquares/SecondEstimateOfIntervalHypothesis.lean:23`) and the truncated Jacobi-twisted prime
+   sum [Lean, read]
+   $$S(Z, y, q, \kappa) := \sum_{1 \le n \le \lfloor Z \rfloor} \Lambda(n)\,\min\Bigl(1, \frac{y}{n}\Bigr)\,\kappa(n)\,\Bigl(\frac{n}{q}\Bigr)
+   = \sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)}{n}\,\min(n, y)\,\kappa(n)\,\Bigl(\frac{n}{q}\Bigr).$$
+   Observe the exact algebraic identity linking $\min(1, y/n)$ to the Riesz ramp $(y/n - 1)_+$:
+   for $n \le y$ we have $\frac{y}{n} - (\frac{y}{n} - 1)_+ = 1 = \min(1, y/n)$, and for $n > y$
+   we have $\frac{y}{n} - (\frac{y}{n} - 1)_+ = \frac{y}{n} = \min(1, y/n)$. Multiplying by
+   $\Lambda(n)\kappa(n)(\frac{n}{q})$ and summing over $1 \le n \le \lfloor Z \rfloor$ ($Z \ge y > 0$)
+   yields
+   $$S(Z, y, q, \kappa) - y\sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)\kappa(n)(\frac{n}{q})}{n}
    = -\sum_{1 \le n \le \lfloor y \rfloor} \Lambda(n)\Bigl(\frac{y}{n} - 1\Bigr)\kappa(n)\Bigl(\frac{n}{q}\Bigr)$$
-   (`BoxOfS.lean:45–52`) [Lean, read]! That algebraic identity is why bounding $\lvert S(Z, y, q, \kappa) \rvert \le \frac{1}{2}y^{-1/2 + \varepsilon/2}$
-   (multiplied by $y$) bounds the Riesz prime sum by $\frac{1}{2} y^{1/2 + \varepsilon/2}$! The
-   proposition `MeanSq m₀ a₀ U Z y` (`PrimeSetTwoBounds.lean:26`) states that for every $\kappa : \mathbb N \to \mathbb C$
-   with $\lVert \kappa(n) \rVert \le 1$ (`n ≥ 1`),
-   $$\sum_{q \in \mathrm{PPset}(m_0, a_0, U)} \bigl\lVert S(Z, y, q, \kappa) \bigr\rVert^2
-   \le \frac{64\,\log y}{y}\,\bigl\lvert \mathrm{PPset}(m_0, a_0, U) \bigr\rvert$$
+   (`finite_splitting_of_group` and `BoxOfS.lean:45–50`) [Lean, read]! That algebraic identity is
+   why bounding $\lVert S(Z, y, q, \kappa) \rVert \le \frac{1}{2}y^{1/2 + \tau}$ directly bounds the
+   Riesz prime sum on $[1, y]$ by $\frac{1}{2} y^{1/2 + \tau}$! Given $C, Z \in \mathbb R$, a finite
+   prime set $P \subset \mathbb N$, and a scale set $A \subseteq \mathbb R$, the proposition
+   `MeanSq C Z P A` (`PrimeSetTwoBounds.lean:26`) states that for every $y \in A$ and every
+   $\kappa : \mathbb N \to \mathbb C$ with $\lVert \kappa(n) \rVert \le 1$,
+   $$\sum_{q \in P} \bigl\lVert S(Z, y, q, \kappa) \bigr\rVert^2
+   \le C\,y\,\log y\,\lvert P \rvert$$
    [Lean, read].
 
 ### 4.3.3 Frames, CM host fields, and the window bound interface
@@ -564,15 +579,18 @@ $0 < \varepsilon < 1/52$ and $K \ge 1$.*
    $$\Bigl\lvert \frac{L'}{L}(1, \chi) \Bigr\rvert \le 4 \log Y.$$
    [Lean, read]
 3. **(`QH.box_of_S`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/BoxOfS.lean:28`.)**
-   *Set $Z := (Y^K)^{400}$, and suppose $\chi(n) = \kappa(n)\,(\frac{n}{q})$ for all $n \ge 1$ not
-   dividing $2Mqd$ (`GoodC κ q χ`, `PrimeSetTwoBounds.lean:32`). If $Y$ is large enough that
-   $Y^\varepsilon + 2\log Y \le \frac{1}{2} Y^{1/2 + \varepsilon/2}$, and if
-   $\lvert S(Z, y, q, \kappa) \rvert \le \frac{1}{2} y^{-1/2 + \varepsilon/2}$ for all
-   $y \in [Y, Y^K]$, then under `ZeroFreeBox Q χ` we have*
-   $$\lvert G_\chi(y) \rvert \le y^{1/2 + \varepsilon/2} \quad \forall y \in [Y, Y^K],
+   *There exists an absolute constant $C > 0$ (`kappaC`, `…/MeanSquareBounds/kappaC.lean:10`) such
+   that for $0 < \varepsilon \le 1/4$, $\tau > 0$, $K \ge 1$, and all sufficiently large $Y$
+   ($\ge 16$), whenever $Y^{\varepsilon/6} \le \log Q \le Y^{\varepsilon/4}$, `GoodC Q χ` holds
+   (`χ ≠ 1 ∧ (N : ℝ) ≤ Q ∧ ZeroFreeBox Q χ`, `PrimeSetTwoBounds.lean:32`),
+   $\chi(n) = \kappa(n)\,(\frac{n}{q})$ for all $n \in \mathbb N$, and
+   $\lVert S((Y^K)^{400}, y, q, \kappa) \rVert \le \frac{1}{2} y^{1/2 + \tau}$ for all
+   $y \in [Y, Y^K]$, then `Box Q C τ Y (Y^K) χ` (`PrimeSetTwoBounds.lean:35`) holds:*
+   $$\lVert G_\chi(y) \rVert \le y^{1/2 + \tau} \quad \forall y \in [Y, Y^K],
    \qquad\text{and}\qquad
-   \Bigl\lvert \frac{L'}{L}(1, \chi) \Bigr\rvert \le 4 \log Y.$$
-   [Lean, read]
+   \Bigl\lVert \frac{L'}{L}(1, \chi) \Bigr\rVert \le C \log Y.$$
+   *(In `pairEx.lean:117,162`, the generic $C\log Y$ output of `box_of_S` is then sharpened to
+   $4\log y$ on $[Y, Y^A]$ by applying part 2, `kappa4`, once $\varepsilon < 1/52$!)* [Lean, read]
 
 *Proof.*
 
@@ -604,33 +622,36 @@ $0 < \varepsilon < 1/52$ and $K \ge 1$.*
    $$1000\log\log Q + C' \le 200\varepsilon \log Y + 2000\log\log Y + 1000\log A + C'.$$
    Because $\varepsilon < 1/52$, we have $4 - 200\varepsilon > 4 - \frac{200}{52} = \frac{2}{13} > 0$,
    so for $Y$ large enough (`Kappa4Loglog.lean:133–153`), the right-hand side is $\le 4\log Y$.
-3. For `box_of_S` (`BoxOfS.lean:28–61`), let $y \in [Y, Y^K]$ and $Z = (Y^K)^{400} \ge y$. For
-   every $1 \le n \le \lfloor Z \rfloor$, we noted in Definition 4.3(2) that
-   $$\frac{\Lambda(n)}{y}\,\min(n, y) = \frac{\Lambda(n)}{n} - \frac{1}{y}\,\Lambda(n)\Bigl(\frac{y}{n} - 1\Bigr)_+.$$
-   Multiplying by $y\,\chi(n)$ and summing over $1 \le n \le \lfloor Z \rfloor$ (since $(y/n - 1)_+ = 0$
-   for $n > y$, and primes dividing $2Mqd$ contribute at most $2\log Y$, `BoxOfS.lean:47–58`) gives
-   $$S_\chi(y) + y\,\frac{L'}{L}(1,\chi)
-   = y\sum_{1 \le n \le \lfloor Z \rfloor} \frac{\Lambda(n)\chi(n)}{n} - y\,S(Z, y, q, \kappa) + y\,\frac{L'}{L}(1,\chi) + O_{\le 2}(\log Y)
-   = -y\,\mathrm{tailL}_\chi(Z) - y\,S(Z, y, q, \kappa) + O_{\le 2}(\log Y).$$
-   By the triangle inequality,
-   $$\lvert G_\chi(y) \rvert \le y\,\lvert S(Z, y, q, \kappa) \rvert + \lvert y\,\mathrm{tailL}_\chi(Z) \rvert + 2\log Y
-   \le \frac{1}{2} y^{1/2 + \varepsilon/2} + Y^\varepsilon + 2\log Y
-   \le y^{1/2 + \varepsilon/2}$$
-   since $Y^\varepsilon + 2\log Y \le \frac{1}{2} Y^{1/2 + \varepsilon/2} \le \frac{1}{2} y^{1/2 + \varepsilon/2}$. $\square$
+3. For `box_of_S` (`BoxOfS.lean:28–61`), first `kappaC` (`kappaC.lean:10`) gives $\lVert \frac{L'}{L}(1,\chi) \rVert \le C\log Y$
+   from `GoodC Q χ` and $\log Q \le Y^{\varepsilon/4}$. Next let $y \in [Y, Y^K]$ and
+   $Z = (Y^K)^{400} \ge y$. Because $\chi(n) = \kappa(n)(\frac{n}{q})$ holds for **every**
+   $n \in \mathbb N$ (`BoxOfS.lean:46–50`, invoked for primitive $\psi_{r,q}$ of conductor $f_r q$
+   where $\kappa_r(n) = \xi_r(n)$), the truncated character sum `Sz χ y Z` equals $S(Z, y, q, \kappa)$
+   identically with zero bad-prime discrepancy, and `finite_splitting_of_group` (`BoxOfS.lean:45`)
+   rewrites
+   $$G_\chi(y) = -S(Z, y, q, \kappa) - y\,\mathrm{tailL}_\chi(Z).$$
+   For $Y \ge 16$, $\varepsilon \le 1/4$, and $\tau > 0$, we have $Y^\varepsilon \le Y^{1/4}$ and
+   $2 \le 16^{1/4} \le Y^{1/4}$, so $Y^\varepsilon \le \frac{1}{2} Y^{1/2} \le \frac{1}{2} y^{1/2 + \tau}$
+   (`num_box`, `BoxOfS.lean:10`). By the triangle inequality and part 1 (`tailK`),
+   $$\lVert G_\chi(y) \rVert \le \lVert S(Z, y, q, \kappa) \rVert + \lVert y\,\mathrm{tailL}_\chi(Z) \rVert
+   \le \frac{1}{2} y^{1/2 + \tau} + Y^\varepsilon
+   \le y^{1/2 + \tau}. \quad \square$$
 
 ### 4.4.4 Mean-square bounds over primes and the Sobolev–Markov uniformization (`meanSqK`, `twistK`, `bad_share`)
 
-Next we bound $\sum_{q \in \mathrm{PPset}} \lvert S(Z, y, q, \kappa) \rvert^2$ at a single point $y$,
+Next we bound $\sum_{q \in \mathrm{PPset}} \lVert S(Z, y, q, \kappa) \rVert^2$ at a single point $y$,
 and then upgrade that pointwise $L^2$ bound to a **simultaneous uniform bound for all $y \in [Y, Y^K]$**!
 
 **Proposition 4.5 ($L^2$ mean-square bound over primes with at most one Landau–Page modulus).**
-*Let $0 < \varepsilon \le 1/4$ and $K \ge 1$. Suppose $8 \mid m_0$, $\gcd(a_0, m_0) = 1$,
-$Z = (Y^K)^{400}$, $U = \exp(u)$ with $Y^{\varepsilon/5} \le u \le 2\,Y^{\varepsilon/5}(\log Y)^2$
-and $\frac{1}{4}(\log Y)^2 \log m_0 \le u$, and $\log m_0 \le 4\,Y^{\varepsilon/5}$. Then for all
-sufficiently large $Y$ and every $y \in [Y, Y^K]$, `MeanSq m₀ a₀ U Z y` holds:*
-$$\sum_{q \in \mathrm{PPset}(m_0, a_0, U)} \bigl\lvert S(Z, y, q, \kappa) \bigr\rvert^2
-\le \frac{64 \log y}{y}\,\bigl\lvert \mathrm{PPset}(m_0, a_0, U) \bigr\rvert$$
-*for every $\kappa : \mathbb N \to \mathbb C$ with $\lvert \kappa(n) \rvert \le 1$.*
+*There exists an absolute constant $C_{\mathrm{m}} > 0$ such that for every $0 < \varepsilon \le 1$
+and $K \ge 1$, there exists $Y_0$ such that for all $Y \ge Y_0$, whenever `admitted ε Y U m₀ a₀`
+holds ($8 \mid m_0$, $\gcd(a_0, m_0) = 1$, $Y^{\varepsilon/6} \le \log U \le Y^{\varepsilon/5}(\log Y)^2$,
+and $\frac{1}{4}(\log Y)^2 \log m_0 \le \log U$) and every prime $p \mid m_0$ satisfies either
+$p \le Y^{\varepsilon/5}$ or $p > (Y^K)^{400}$, we have
+`MeanSq C_{\mathrm{m}} ((Y^K)^400) (PPset m₀ a₀ U) (Set.Icc Y (Y^K))`: for every $y \in [Y, Y^K]$
+and every $\kappa : \mathbb N \to \mathbb C$ with $\lVert \kappa(n) \rVert \le 1$,*
+$$\sum_{q \in \mathrm{PPset}(m_0, a_0, U)} \bigl\lVert S\bigl((Y^K)^{400}, y, q, \kappa\bigr) \bigr\rVert^2
+\le C_{\mathrm{m}}\,y\,\log y\,\bigl\lvert \mathrm{PPset}(m_0, a_0, U) \bigr\rvert.$$
 *(Lean: `QH.twistK`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/twistK.lean:148`;
 `QH.meanSqK`, `…/meanSqK.lean:51`; `QH.meanSq_abs`, `…/MeanSqAbs.lean:8`; `meanSquareHypW_of_pnt`,
 `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqMain.lean:55`, using
@@ -638,9 +659,9 @@ $$\sum_{q \in \mathrm{PPset}(m_0, a_0, U)} \bigl\lvert S(Z, y, q, \kappa) \bigr\
 `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32`, and `page_across` [Lean]
 via `…/MSqTwist.lean:26`.)* [Lean, read]
 
-*Proof.* First (`meanSq_abs`, `MeanSqAbs.lean:8–59`), setting $c_n(y) := \frac{\Lambda(n)}{y}\min(n, y) \ge 0$,
-expanding the square and applying $\lvert \kappa(n_1)\overline{\kappa(n_2)} \rvert \le 1$ gives
-$$\sum_{q \in \mathcal P} \bigl\lvert S(Z, y, q, \kappa) \bigr\rvert^2
+*Proof.* First (`meanSq_abs`, `MeanSqAbs.lean:8–59`), setting $c_n(y) := \Lambda(n)\min(1, y/n) \ge 0$
+and $Z := (Y^K)^{400}$, expanding the square and applying $\lvert \kappa(n_1)\overline{\kappa(n_2)} \rvert \le 1$ gives
+$$\sum_{q \in \mathcal P} \bigl\lVert S(Z, y, q, \kappa) \bigr\rVert^2
 = \sum_{1 \le n_1, n_2 \le \lfloor Z \rfloor} c_{n_1}(y) c_{n_2}(y)\,\kappa(n_1)\overline{\kappa(n_2)}
 \sum_{q \in \mathcal P} \Bigl(\frac{n_1 n_2}{q}\Bigr)
 \le \sum_{1 \le n_1, n_2 \le \lfloor Z \rfloor} c_{n_1}(y) c_{n_2}(y)
@@ -656,14 +677,14 @@ $\gcd(t s, m_0) = 1$, and $s \ge 1$ is odd, squarefree, and coprime to $m_0$, wi
 $$s \le n_1 n_2 \le Z^2 = Y^{800K}.$$
 For every $q \in \mathcal P$, we have $q \equiv a_0 \pmod{m_0}$ (so $(\frac{m'}{q})$ is a fixed
 sign $\pm 1$ determined by $a_0 \bmod m_0$, since $8 \mid m_0$ fixes $(\frac{2}{q})$ as well) and
-$q > U^{1/2} = \exp(u/2) \ge \exp(\frac{1}{2} Y^{\varepsilon/5}) \gg Y^{800K} \ge n_1 n_2$, so the
+$q > U^{1/2} \ge \exp(\frac{1}{2} Y^{\varepsilon/6}) \gg Y^{800K} \ge n_1 n_2$, so the
 prime $q$ never divides $t$, making $(\frac{t^2}{q}) = 1$. Finally, since $s$ is odd and $8 \mid m_0$
 fixes $q \bmod 4$, quadratic reciprocity turns $(\frac{s}{q})$ into $\pm (\frac{q}{s})$ with a sign
 independent of $q \in \mathcal P$:
 $$\Bigl\lvert \sum_{q \in \mathcal P} \Bigl(\frac{n_1 n_2}{q}\Bigr) \Bigr\rvert
 = \Bigl\lvert \sum_{q \in \mathcal P} \Bigl(\frac{q}{s}\Bigr) \Bigr\rvert.$$
 
-Now `twistK` (`twistK.lean:148–354`, invoked at exponent parameter $B = 3K$ in `meanSqK.lean:62`)
+Now `twistK` (`twistK.lean:148–354`, invoked at exponent parameter $B = K + 1$ in `meanSqK.lean:63`)
 splits the odd squarefree moduli $s \le Z^2$ coprime to $m_0$ into three regimes:
 
 1. **The off-diagonal non-exceptional moduli ($s > 1$, $s \neq n_*$).** As a function of $q$,
@@ -674,86 +695,91 @@ splits the odd squarefree moduli $s \le Z^2$ coprime to $m_0$ into three regimes
    most one** can violate the classical zero-free region. Hence there exists at most **one** odd
    squarefree integer $n_*$ such that for every $s \notin \{1, n_*\}$ ($s \le Z^2$, $\gcd(s, m_0) = 1$),
    the prime number theorem in progressions modulo $\operatorname{lcm}(m_0, 4s) \le 4 m_0 Z^2$ (note
-   $\frac{1}{4}(\log Y)^2 \log m_0 \le u = \log U$ places $U$ inside the Siegel–Walfisz /
+   $\frac{1}{4}(\log Y)^2 \log m_0 \le \log U$ places $U$ inside the Siegel–Walfisz /
    Page-uniform range, with Siegel's bound `excBound` [Lean] guaranteeing $\lvert \mathcal P \rvert \ge U^{9/10}$)
    yields (`twistK.lean:151`)
    $$\Bigl\lvert \sum_{q \in \mathcal P} \Bigl(\frac{q}{s}\Bigr) \Bigr\rvert
-   \le Y^{-(3K + 1)}\,\lvert \mathcal P \rvert.$$
-   Since $\sum_{n \le Z} c_n(y) \le \frac{1}{y}\sum_{n \le y}\Lambda(n) + \sum_{n \le Z}\frac{\Lambda(n)}{n} \ll K\log Y$,
-   multiplying $(\sum_{n \le Z} c_n(y))^2 \ll K^2 (\log Y)^2$ by $Y^{-(3K + 1)}\lvert\mathcal P\rvert$
-   is $\ll \frac{1}{y}\lvert\mathcal P\rvert$.
+   \le Y^{-(K + 1)}\,\lvert \mathcal P \rvert.$$
+   Since $\sum_{n \le Z} c_n(y) = \sum_{n \le y}\Lambda(n) + y\sum_{y < n \le Z}\frac{\Lambda(n)}{n} \ll y K\log Y$
+   (`sum_cN_le`, `meanSqK.lean:58`), multiplying $(\sum_{n \le Z} c_n(y))^2 \ll y^2 K^2 (\log Y)^2$
+   by $Y^{-(K + 1)}\lvert\mathcal P\rvert \le Y^{-1} y^{-1}\lvert\mathcal P\rvert$ contributes
+   $\ll y\,(\log y)\,\lvert\mathcal P\rvert$.
 2. **The diagonal ($s = 1$).** Recall $\Lambda(n)$ is supported on prime powers $p^a$. If
    $n_1 = p_1^{a_1}$ and $n_2 = p_2^{a_2}$ have coprime squarefree core $s = 1$, then either
-   $p_1 = p_2$ (diagonal prime powers) or both $p_1, p_2$ divide $m_0$. On true diagonal prime powers,
-   $$\sum_{n \le Z} c_n(y)^2 = \frac{1}{y^2}\sum_{n \le y} \Lambda(n)^2 + \sum_{y < n \le Z} \frac{\Lambda(n)^2}{n^2}
-   \sim \frac{1}{y^2}\,(y \log y) + \frac{\log y}{y} = \frac{2\log y}{y},$$
-   and primes dividing $m_0$ (at most $\omega(m_0) \ll Y^{\varepsilon/5}$ primes, handled via Cauchy–Schwarz
-   in `MSqMain.lean:95–135`) also contribute $O((\log y)/y)\,\lvert\mathcal P\rvert$.
+   $p_1 = p_2$ (diagonal prime powers) or both $p_1, p_2$ divide $m_0$ (hence both are $\le Y^{\varepsilon/5}$
+   since $n_1, n_2 \le Z = (Y^K)^{400}$). On true diagonal prime powers,
+   $$\sum_{n \le Z} c_n(y)^2 = \sum_{n \le y} \Lambda(n)^2 + y^2\sum_{y < n \le Z} \frac{\Lambda(n)^2}{n^2}
+   \sim y \log y + y^2 \cdot \frac{\log y}{y} = 2 y \log y,$$
+   and primes dividing $m_0$ ($\le Y^{\varepsilon/5}$, handled in `meanSqK.lean:45–48, 95–155`) also
+   contribute $O(y \log y)\,\lvert\mathcal P\rvert$.
 3. **The single Landau–Page modulus ($s = n_* > 1$).** If $n_1 = p_1^{a_1}$ and $n_2 = p_2^{a_2}$
    have squarefree odd core $s(n_1 n_2) = n_* > 1$, then since $n_*$ is squarefree and $> 1$ while
    $n_1, n_2$ are prime powers, $n_*$ can have **at most two prime factors**: either $n_* = p$ is
    prime or $n_* = p_1 p_2$ is a semiprime with $\{p_1, p_2\}$ fixed by $n_*$ (`abs_pair_sum_eq`,
-   `MSqMain.lean:38`). Thus $n_*$ contributes at most $O((\log y)/y)\,\lvert\mathcal P\rvert$ as well.
+   `MSqMain.lean:38`). Thus $n_*$ contributes at most $O(y \log y)\,\lvert\mathcal P\rvert$ as well.
 
-Adding the diagonal $s = 1$, the single exceptional $s = n_*$, and the off-diagonal tail gives
-$\sum_{q \in \mathcal P} \lvert S(Z, y, q, \kappa) \rvert^2 \le \frac{64\log y}{y}\lvert\mathcal P\rvert$. $\square$
+Combining the five partial constants into $C_{\mathrm{m}} := C_3 + 25 C_1^2 + 4 C_2^2 + 20 C_1 C_2 + C_4^2$
+(`meanSqK.lean:59`) gives $\sum_{q \in \mathcal P} \lVert S(Z, y, q, \kappa) \rVert^2 \le C_{\mathrm{m}}\,y\log y\,\lvert\mathcal P\rvert$. $\square$
 
 How do we pass from a bound **at each fixed $y$** to a bound **simultaneously for all uncountably
-many $y \in [Y, Y^K]$** without losing a factor of $Y$? Look at the archive's `bad_share`
+many $y \in [Y, X]$** without losing a factor of $Y$? Look at the archive's `bad_share`
 (`BadShare.lean:1–320`), which we read in full (`R3`) — it is a textbook one-dimensional Sobolev
 embedding ($W^{1,2} \hookrightarrow L^\infty$) on dyadic intervals!
 
-**Lemma 4.6 (Dyadic Sobolev–Markov uniformization: `QH.bad_share`).** *Fix $Z \ge 1$, $q$-set
-$\mathcal P = \mathrm{PPset}(m_0, a_0, U)$ nonempty, $\kappa : \mathbb N \to \mathbb C$ with
-$\lvert \kappa(n) \rvert \le 1$, $\tau > 0$, $\eta > 0$, $R \in \mathbb N$, and $K \ge 1$. Assume
-`MeanSq m₀ a₀ U Z y` holds for **every** $y \in [Y, 2 Y^K]$, where $Y \ge 3$ satisfies*
-$$2^{14}\,(R + 1)\,K\,\frac{(\log(2 Y^K))^2}{\eta\,Y^{2\tau}} \le 1.$$
-*Then the set of $q \in \mathcal P$ for which $\sup_{y \in [Y, Y^K]} y^{1/2 - \tau} \lvert S(Z, y, q, \kappa) \rvert > \frac{1}{2}$
-has cardinality at most $\frac{\eta}{2(R + 1)}\,\lvert \mathcal P \rvert$.*
+**Lemma 4.6 (Dyadic Sobolev–Markov uniformization: `QH.bad_share`).** *Let $C \ge 0$, $\tau > 0$,
+and $\eta > 0$. There exists $Y_0 \ge 2$ (chosen so that
+$\frac{32 C}{\tau}\,Y^{-\tau}\,(1 - 2^{-\tau})^{-1} \le \eta$ for all $Y \ge Y_0$) such that for
+every $Y \ge Y_0$, every $X, Z \in \mathbb R$, every finite prime set $P$, and every
+$\kappa : \mathbb N \to \mathbb C$ with $\lVert \kappa(n) \rVert \le 1$, if `MeanSq C Z P (Set.Icc Y X)`
+holds, then every subset $B \subseteq P$ satisfying*
+$$\forall q \in B,\ \exists y \in [Y, X],\ \frac{1}{2}\,y^{1/2 + \tau} < \bigl\lVert S(Z, y, q, \kappa) \bigr\rVert$$
+*has cardinality $\lvert B \rvert \le \eta\,\lvert P \rvert$.*
 *(Lean: `QH.bad_share`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/BadShare.lean:251`.)* [Lean, read]
 
-*Proof.* Write $S_q(y) := S(Z, y, q, \kappa) = \sum_{1 \le n \le \lfloor Z \rfloor} c_n(y)\kappa(n)(\frac{n}{q})$,
-where $c_n(y) = \frac{\Lambda(n)}{n}$ for $n > y$ and $c_n(y) = \frac{\Lambda(n)}{y}$ for $n \le y$.
-Differentiating $y \mapsto c_n(y)$ for $y > 0$ (`bs_hasDeriv_min`, `BadShare.lean:48`):
-- for $n > y$, $c_n(y) = \frac{\Lambda(n)}{n}$ is **constant** in $y$, so its derivative is $0$;
-- for $n < y$, $c_n(y) = \frac{\Lambda(n)}{y}$ has derivative $-\frac{\Lambda(n)}{y^2} = -\frac{1}{y}\,c_n(y)$!
-Therefore, away from the finitely many integers $n$, $S_q(y)$ is continuous and piecewise $C^1$ with
-almost-everywhere derivative $D_q(y)$ satisfying (`bs_S_sub_S` and `bs_mul_D_eq_S`,
-`BadShare.lean:76, 83`)
+*Proof.* Write $S_q(y) := S(Z, y, q, \kappa) = \sum_{1 \le m \le \lfloor Z \rfloor} c_m(y)\kappa(m)(\frac{m}{q})$,
+where $c_m(y) = \Lambda(m)\min(1, y/m)$ equals $\Lambda(m)$ for $m \le y$ and $\Lambda(m)\frac{y}{m}$
+for $m > y$. Differentiating $y \mapsto \min(1, y/m)$ from the right (`bs_hasDeriv_min`,
+`BadShare.lean:48`):
+- for $m \le y$, $\min(1, y/m) = 1$ is **constant** on $[y, \infty)$, so its right-derivative is $0$;
+- for $y < m$, $\min(1, y/m) = \frac{y}{m}$ has derivative $+\frac{1}{m}$, so $c_m'(y) = +\frac{\Lambda(m)}{m} = \frac{1}{y}\,c_m(y)$!
+Therefore $S_q(y)$ is continuous and piecewise linear with right-derivative $D_q(y) := \mathrm{bsD}(Z, y, q, \kappa)$
+satisfying (`bs_S_sub_S` and `bs_mul_D_eq_S`, `BadShare.lean:76, 83`)
 $$S_q(b) - S_q(a) = \int_a^b D_q(v)\,dv
 \qquad\text{and}\qquad
-y\,D_q(y) = -S\bigl(Z, y, q, \mathbf{1}_{n < y}\,\kappa\bigr)!$$
+y\,D_q(y) = S\bigl(Z, y, q, \mathbf{1}_{y < m}\,\kappa\bigr)!$$
 Pause to appreciate that identity (`bs_mul_D_eq_S`, `:83`): **$y\,D_q(y)$ is itself an instance of
-$S(Z, y, q, \kappa_{<y})$** for the truncated weight $\kappa_{<y}(n) := -\mathbf{1}_{n < y}\,\kappa(n)$,
-which still satisfies $\lvert \kappa_{<y}(n) \rvert \le 1$! Hence `MeanSq` applies **not only to
-$S_q(y)$ itself, but also to $v\,D_q(v)$ at every point $v$**:
-$$\sum_{q \in \mathcal P} \lvert S_q(a) \rvert^2 \le \frac{64\log a}{a}\lvert\mathcal P\rvert,
+$S(Z, y, q, \kappa_{>y})$** for the truncated weight $\kappa_{>y}(m) := \mathbf{1}_{y < m}\,\kappa(m)$,
+which still satisfies $\lVert \kappa_{>y}(m) \rVert \le 1$! Hence `MeanSq` on $[Y, X]$ gives at
+every $v \in [Y, X]$ (`bs_sum_D_le`, `:146`):
+$$\sum_{q \in P} \lVert S_q(v) \rVert^2 \le C\,v\log v\,\lvert P \rvert,
 \qquad
-\sum_{q \in \mathcal P} v^2 \lvert D_q(v) \rvert^2 \le \frac{64\log v}{v}\lvert\mathcal P\rvert!$$
+\sum_{q \in P} \lVert D_q(v) \rVert^2 = \frac{1}{v^2}\sum_{q \in P} \lVert v\,D_q(v) \rVert^2
+\le C\,\frac{\log v}{v}\,\lvert P \rvert!$$
 
-Now cover $[Y, Y^K]$ by $M \le \lceil K \log_2 Y \rceil + 1$ dyadic blocks $[a_j, 2 a_j] \subseteq [Y, 2 Y^K]$
-with $a_j = 2^j Y$ (`bs_block`, `:163`). On a single dyadic block $[a, 2a]$ ($a \ge Y$), for any
-$y \in [a, 2a]$, Cauchy–Schwarz gives (`bs_sq_integral_le`, `:98`):
-$$\begin{aligned}
-\lvert S_q(y) \rvert^2
-&\le 2\lvert S_q(a) \rvert^2 + 2\Bigl(\int_a^{2a} \lvert D_q(v) \rvert\,dv\Bigr)^2 \\
-&\le 2\lvert S_q(a) \rvert^2 + 2a \int_a^{2a} \lvert D_q(v) \rvert^2\,dv \\
-&\le 2\lvert S_q(a) \rvert^2 + \frac{2}{a}\int_a^{2a} v^2 \lvert D_q(v) \rvert^2\,dv.
-\end{aligned}$$
-The right-hand side is **independent of $y \in [a, 2a]$**! Taking $\sup_{y \in [a, 2a]} \lvert S_q(y) \rvert^2$
-on the left, summing over $q \in \mathcal P$, and exchanging $\sum_q$ with $\int_a^{2a}$ by Tonelli's
-theorem (`bs_sum_D_le`, `:146`) yields
-$$\sum_{q \in \mathcal P} \sup_{y \in [a, 2a]} \lvert S_q(y) \rvert^2
-\le \frac{128\log a}{a}\lvert\mathcal P\rvert + \frac{2}{a}\int_a^{2a} \frac{64\log v}{v}\lvert\mathcal P\rvert\,dv
-\le \frac{256\log(2a)}{a}\,\lvert\mathcal P\rvert!$$
-Look at that: **uniformity over the entire continuum $[a, 2a]$ cost only a factor of $4$!** Now if
-$\sup_{y \in [a, 2a]} y^{1/2 - \tau} \lvert S_q(y) \rvert > \frac{1}{2}$, then since $y \le 2a$,
-$\sup_{y \in [a, 2a]} \lvert S_q(y) \rvert^2 > \frac{1}{4}(2a)^{-1 + 2\tau} \ge \frac{1}{8}\,a^{-1 + 2\tau}$.
-Markov's inequality on $[a, 2a]$ bounds the number of bad $q$ on block $j$ by
-$8\,a_j^{1 - 2\tau} \cdot \frac{256\log(2a_j)}{a_j}\lvert\mathcal P\rvert = 2^{11}\,\frac{\log(2a_j)}{a_j^{2\tau}}\lvert\mathcal P\rvert$.
-Summing over all $M \ll K \log Y$ dyadic blocks (`bs_markov` and `bad_share`, `:207–319`) bounds
-the total number of bad $q$ across all of $[Y, Y^K]$ by
-$2^{13}\,K\,\frac{(\log(2Y^K))^2}{Y^{2\tau}}\lvert\mathcal P\rvert \le \frac{\eta}{2(R+1)}\lvert\mathcal P\rvert$. $\square$
+Now consider a single truncated dyadic block $[a, W] \subseteq [Y, X]$ with $2 \le a \le W \le 2a$.
+For any $q \in P$ and any witness point $w(q) \in [a, W]$, Cauchy–Schwarz gives (`bs_normSq_S_le`,
+`:118`):
+$$\lVert S_q(w(q)) \rVert^2
+\le 2\lVert S_q(a) \rVert^2 + 2\Bigl(\int_a^{w(q)} \lVert D_q(v) \rVert\,dv\Bigr)^2
+\le 2\lVert S_q(a) \rVert^2 + 2a \int_a^W \lVert D_q(v) \rVert^2\,dv.$$
+Summing over $q \in P$ and exchanging $\sum_{q \in P}$ with $\int_a^W$ (`bs_block`, `:163`) yields
+$$\sum_{q \in P} \lVert S_q(w(q)) \rVert^2
+\le 2 C\,a\log a\,\lvert P \rvert + 2a\int_a^W C\,\frac{\log(2a)}{a}\,\lvert P \rvert\,dv
+\le 4 C\,a\log(2a)\,\lvert P \rvert!$$
+Look at that: **choosing a worst-case point $w(q) \in [a, W]$ separately for every prime $q$ cost
+only a factor of $4$!** If $B_a \subseteq P$ consists of primes $q$ with a bad witness
+$w(q) \in [a, W]$ satisfying $\lVert S_q(w(q)) \rVert > \frac{1}{2} w(q)^{1/2 + \tau} \ge \frac{1}{2} a^{1/2 + \tau}$,
+then using $\log(2a) \le \frac{2}{\tau} a^\tau$ for $a \ge 2$, Markov's inequality (`bs_markov`,
+`:207`) gives
+$$\lvert B_a \rvert \cdot \frac{1}{4}\,a^{1 + 2\tau}
+\le 4 C\,a\log(2a)\,\lvert P \rvert
+\le \frac{8 C}{\tau}\,a^{1 + \tau}\,\lvert P \rvert
+\implies \lvert B_a \rvert \le \frac{32 C}{\tau}\,a^{-\tau}\,\lvert P \rvert.$$
+Finally, partition $B$ according to the unique dyadic index $i \ge 0$ for which the bad point
+$y \in [Y, X]$ satisfies $2^i Y \le y < 2^{i+1} Y$, and apply `bs_markov` on $[a_i, \min(2 a_i, X)]$
+with $a_i = 2^i Y$ (`BadShare.lean:269–318`). Since $a_i^{-\tau} = Y^{-\tau}\,(2^{-\tau})^i$ and
+$r := 2^{-\tau} \in (0, 1)$, summing the geometric series $\sum_i r^i \le (1 - r)^{-1}$ yields
+$$\lvert B \rvert \le \frac{32 C}{\tau}\,Y^{-\tau}\,(1 - 2^{-\tau})^{-1}\,\lvert P \rvert \le \eta\,\lvert P \rvert. \quad \square$$
 
 ### 4.4.5 Assembling the two-stage sieve (`stage` and `pairEx`)
 
@@ -763,72 +789,74 @@ then the two-stage prime-pair existence theorem `PairEx`.
 **Theorem 4.7 (Single-stage and two-stage prime sieve: `QH.stage` and `PairEx`).**
 
 1. **Single-stage sieve (`QH.stage`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/StagePow.lean:41`).**
-   *Let $0 < \varepsilon \le 1/4$, $A \ge 1$, $K \ge 1$, $0 < \eta \le 1$, and $R \in \mathbb N$.
-   There exists $Y_0 \ge 3$ such that for every $Y \ge Y_0$, whenever $8 \mid m_0$, $\gcd(a_0, m_0) = 1$,
-   $\log m_0 \le 4\,Y^{\varepsilon/5}$, and $U = \exp(u)$ satisfies $Y^{\varepsilon/5} \le u \le A\,Y^{\varepsilon/5}(\log Y)^2$
-   and $\frac{1}{4}(\log Y)^2 \log m_0 \le u$, and $(f_r, \xi_r)_{r \in I}$ ($\lvert I \rvert \le R + 1$)
-   is a family of primitive characters of conductors $f_r \le \exp(\frac{1}{3} u)$ whose twists
-   $\psi_{r, q}$ ($q \in \mathrm{PPset}(m_0, a_0, U)$) have conductor $f_r q$ and satisfy
-   $\psi_{r, q}(n) = \kappa_r(n)(\frac{n}{q})$, the set of $q \in \mathrm{PPset}(m_0, a_0, U)$ failing
-   either `ZeroFreeBox (exp((4/3)u)) ψ_{r,q}` or $\sup_{y \in [Y, Y^K]} y^{-1/2 - \varepsilon/2}\lvert G_{\psi_{r,q}}(y) \rvert \le 1$
-   or $\lvert \frac{L'}{L}(1, \psi_{r,q}) \rvert \le 4\log Y$ for some $r \in I$ has cardinality at
-   most $\eta\,\lvert \mathrm{PPset}(m_0, a_0, U) \rvert$.* [Lean, read]
+   *There exists an absolute constant $C > 0$ such that for every $0 < \varepsilon \le 1/4$,
+   $\tau > 0$, $K \ge 1$, $\eta > 0$, and $R \in \mathbb N$, there exists $Y_0$ such that for every
+   $Y \ge Y_0$, whenever `admitted ε Y U m₀ a₀` holds, every prime $p \mid m_0$ is either
+   $\le Y^{\varepsilon/5}$ or $> (Y^K)^{400}$, $1 \le F \le U^{1/2}$, and $\Xi$ is a set of at most
+   $R$ primitive characters $\xi \bmod f_\xi$ with $f_\xi \le F$, the set $\mathcal P := \mathrm{PPset}(m_0, a_0, U)$
+   is nonempty and every subset $B \subseteq \mathcal P$ of primes $q$ failing
+   `BoxAll (F * U) C τ Y (Y^K) (ξ · J q) M` for some $\xi \in \Xi$ and $M \neq 0$ satisfies
+   $\lvert B \rvert \le \eta\,\lvert \mathcal P \rvert$.* [Lean, read]
 2. **Two-stage existence (`QH.pairEx` / `PairEx`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/pairEx.lean:112`).**
    *`PairEx` holds: for every $M \ge 1$, every $0 < \varepsilon < 1/52$, and every $A \ge 1$, there
-   exists $Y_0$ such that for all $Y \ge Y_0$, there exist primes $(q, d)$ satisfying
+   exists $Y_1$ such that for all $Y \ge Y_1$, there exist primes $(q, d)$ satisfying
    `PairGood M eps Y (Y^A) q d`.* [Lean, read]
 
 *Proof.*
 
-1. Set $Q := \exp(\frac{4}{3} u) = U^{4/3}$, so $f_r q \le U^{1/3} U = U^{4/3} = Q$ and
-   $Y^{\varepsilon/6} \le \frac{4}{3} u = \log Q \le \frac{4}{3} A\,Y^{\varepsilon/5}(\log Y)^2 \le Y^{\varepsilon/4}$
+1. Set $Q := F U$. Because $1 \le F \le U^{1/2}$ (`StagePow.lean:44`), we have $U \le Q \le U^{3/2}$,
+   so $Y^{\varepsilon/6} \le \log U \le \log Q \le \frac{3}{2}\log U \le \frac{3}{2} Y^{\varepsilon/5}(\log Y)^2 \le Y^{\varepsilon/4}$
    for large $Y$ (`stage_log`, `StagePow.lean:16`). Every bad $q \in B \subseteq \mathcal P$ either
-   lies in the zero-box failure set $B_1$ (where `ZeroFreeBox Q ψ_{r,q}` fails for some $r$) or
-   satisfies `ZeroFreeBox Q ψ_{r,q}` for all $r$ while failing the $G_\chi$ or $L'/L$ bound for
-   some $r$. In `StagePow.lean:105`, so that Stage 2 can call `stage` at $\varepsilon' = \frac{6}{5}\varepsilon$
-   and still deliver exponent $\frac{1}{2} + \frac{\varepsilon}{2} = \frac{1}{2} + \frac{5}{12}\varepsilon'$,
-   `box_of_S` and `bad_share` are run at $\tau = \frac{5}{12}\varepsilon'$: any $q \in B \setminus B_1$
-   must fail $\sup_{y \in [Y, Y^K]} y^{1/2 - \tau} \lvert S((Y^K)^{400}, y, q, \kappa_r) \rvert \le \frac{1}{2}$
-   for some $r \in I$.
-   - For $B_1$: Lemma 4.3 gives $\lvert B_1 \rvert \le C_{\mathrm{ZD}}\,Q^{1/4} = C_{\mathrm{ZD}}\,U^{1/3}$,
+   lies in the zero-box failure set $B_1$ (where the primitive twist $\psi_{\xi, q}$ of conductor
+   $f_\xi q \le F U = Q$ fails `ZeroFreeBox (F * U)`) or satisfies `GoodC (F * U) ψ_{ξ,q}` for all
+   $\xi \in \Xi$ while failing $\sup_{y \in [Y, Y^K]} y^{-1/2 - \tau}\lVert S((Y^K)^{400}, y, q, \xi) \rVert \le \frac{1}{2}$
+   for some $\xi \in \Xi$ (`StagePow.lean:100–160`, by Lemma 4.4(3), `box_of_S`).
+   - For $B_1$: Lemma 4.3 (`count_bad`) gives $\lvert B_1 \rvert \le \lvert C_b \rvert\,(FU)^{1/4} \le \lvert C_b \rvert\,U^{3/8}$,
      while `count_a` (`PNTFinal.lean:22` + `excBound` [Lean]) gives $\lvert \mathcal P \rvert \ge U^{9/10}$
-     (`stage_pow`, `StagePow.lean:29`). Since $\frac{1}{3} < \frac{9}{10}$, $C_{\mathrm{ZD}} U^{1/3} \le \frac{\eta}{2} U^{9/10} \le \frac{\eta}{2}\lvert \mathcal P \rvert$
-     for large $Y$.
-   - For $B \setminus B_1$: Proposition 4.5 supplies `MeanSq` on $[Y, 2 Y^K]$, so Lemma 4.6 (`bad_share`)
-     gives at most $\frac{\eta}{2(R+1)}\lvert\mathcal P\rvert$ bad primes for each $r \in I$. Summing
-     over the $\le R + 1$ indices $r \in I$ gives $\lvert B \setminus B_1 \rvert \le \frac{\eta}{2}\lvert\mathcal P\rvert$.
+     (which also proves $\mathcal P$ is nonempty!). Since $\frac{3}{8} + \frac{21}{40} = \frac{9}{10}$,
+     $\lvert C_b \rvert U^{3/8} \le \frac{\eta}{2} U^{9/10} \le \frac{\eta}{2}\lvert \mathcal P \rvert$
+     for large $U$ (`stage_pow`, `StagePow.lean:29`).
+   - For $B \setminus B_1$: Proposition 4.5 (`meanSqK`) supplies `MeanSq C_{\mathrm{m}} ((Y^K)^400) P (Set.Icc Y (Y^K))`,
+     so Lemma 4.6 (`bad_share` at share $\frac{\eta}{2(R + 1)}$) gives at most $\frac{\eta}{2(R+1)}\lvert\mathcal P\rvert$
+     bad primes for each $\xi \in \Xi$. Summing over the $\le R$ characters $\xi \in \Xi$ gives
+     $\lvert B \setminus B_1 \rvert \le \frac{\eta}{2}\lvert\mathcal P\rvert$.
    Hence $\lvert B \rvert \le (\frac{\eta}{2} + \frac{\eta}{2})\lvert\mathcal P\rvert = \eta\,\lvert\mathcal P\rvert$.
 2. Now fix $M \ge 1$, $0 < \varepsilon < 1/52$, and $A \ge 1$, and set $z := Y^{\varepsilon/5}$ and
    $z' := Y^{\varepsilon/5}(\log Y)^2$ (`pairEx.lean:112–170`, `PairExists.lean:9`, `PairShare.lean:26`).
-   - **Stage 1 (`stage1`, `Stage1Succ.lean:36`):** Apply `QH.stage` (with $\eta = 1/4$) to
-     $\mathcal P_1 := \mathrm{PPset}(8, 3, \exp(z))$, twisting all primitive characters dividing
-     $2M$ ($R_1 + 1 \le 2M$ characters of conductor $\le 2M \ll \exp(z/3)$). Note $\log m_0 = \log 8$,
+   In `PairExists.lean:15`, `pair_share` invokes `QH.stage` in both stages with bad-share threshold
+   $\eta = 1/2$ (and $\tau = \varepsilon / 2$ in `pairEx.lean:120`):
+   - **Stage 1 (`stage1`, `Stage1Succ.lean:36`):** Apply `QH.stage` ($\eta = 1/2$) to
+     $\mathcal P_1 := \mathrm{PPset}(8, 3, \exp(z))$, twisting primitive characters dividing $8M$
+     ($N_0 = 8M$, conductor $F = 8M \le \exp(z/2)$ for large $Y$). Note $\log m_0 = \log 8$,
      so $\frac{1}{4}(\log Y)^2 \log 8 \ll Y^{\varepsilon/5} = z$ holds trivially. Because
-     $\lvert \mathcal P_1 \rvert > 0$ and at most $\frac{1}{4}\lvert\mathcal P_1\rvert$ primes are
-     bad, at least $\frac{3}{4}\lvert\mathcal P_1\rvert \ge 1$ primes $q \in \mathcal P_1$ satisfy
-     every $(i = 1, j = 0)$ requirement of `PairGood` (`GoodQ`). Pick one such prime $q \equiv 3 \pmod 8$
-     with $\frac{1}{2} z < \log q \le z$ (for large $Y$, $q > 2M$, so $\gcd(M, q) = 1$).
+     $\lvert \mathcal P_1 \rvert > 0$ and at most $\frac{1}{2}\lvert\mathcal P_1\rvert$ primes are
+     bad, more than $\frac{1}{2}\lvert\mathcal P_1\rvert > 0$ primes $q \in \mathcal P_1$ satisfy
+     `GoodQ (8*M)` (`PairExists.lean:29–34`). Pick one such prime $q \equiv 3 \pmod 8$ with
+     $\frac{1}{2} z < \log q \le z$ and $8M < q$ (so $\gcd(M, q) = 1$).
    - **Stage 2 (`stage2`, `CharOf.lean:61`):** With $q$ fixed, let
      $\mathrm{oddM}(z, q) := q \cdot \prod_{2 < p \le z,\,p\text{ prime}} p$ (`SecondEstimateOfIntervalHypothesis.lean:53`).
      By the Chebyshev primorial bound $\sum_{2 < p \le z} \log p \le 2z$ (`PrimorialBound`), the Stage 2
      progression modulus $m_0 := 16 \cdot \mathrm{oddM}(z, q)$ satisfies
-     $$\log m_0 = \log 16 + \log q + \sum_{2 < p \le z} \log p \le \log 16 + z + 2z \le 4z = 4\,Y^{\varepsilon/5}.$$
-     By the Chinese remainder theorem, since $16$ and $\mathrm{oddM}(z, q)$ are coprime, there is a
-     residue class $a_0 \bmod m_0$ with $\gcd(a_0, m_0) = 1$ defined by
+     $$\log m_0 = \log 16 + \log q + \sum_{2 < p \le z} \log p \le \log 16 + z + 2z \le 4z = 4\,Y^{\varepsilon/5},$$
+     and every prime dividing $m_0$ is either $\le z = Y^{\varepsilon/5}$ or equal to $q$ (with
+     $q > \exp(z/2) > (Y^A)^{400}$ for large $Y$). By the Chinese remainder theorem, since $16$ and
+     $\mathrm{oddM}(z, q)$ are coprime, there is a residue class $a_0 \bmod m_0$ with
+     $\gcd(a_0, m_0) = 1$ defined by
      $$a_0 \equiv 7 \pmod{16} \qquad\text{and}\qquad a_0 \equiv -1 \pmod{\mathrm{oddM}(z, q)}$$
      (`PrimeSetTwoBounds.lean:45`). Any prime $d \in \mathcal P_2 := \mathrm{PPset}(m_0, a_0, \exp(z'))$
      automatically satisfies $d \equiv 7 \pmod{16}$, $q \mid d + 1$, $p \mid d + 1$ for all odd
      primes $p \le z = Y^{\varepsilon/5}$, and $\frac{1}{2}z' < \log d \le z'$ — so **`WinPair eps Y q d`
      holds for every $d \in \mathcal P_2$**. Moreover, Stage 2 calls `QH.stage` at
      $\varepsilon' := \frac{6}{5}\varepsilon < \frac{6}{5}\cdot\frac{1}{52} < \frac{1}{4}$ (`CharOf.lean:71`)
-     on $u = z' = z(\log Y)^2$ (or $u \ge \frac{1}{4}(\log Y)^2 \log m_0$ since $\log m_0 \le 4z$).
-     Twisting all primitive characters of $\chi_0 \cdot (\frac{\cdot}{q})^i$
-     ($i \in \{0, 1\}$, conductor $\le 2Mq \le 2M e^z \ll e^{z'/3}$) by $(\frac{\cdot}{d})$ and
-     applying `stage` ($\eta = 1/4$) leaves at least $\frac{3}{4}\lvert \mathcal P_2 \rvert \ge 1$
-     primes $d \in \mathcal P_2$ satisfying all $(i, 1)$ conditions (`GoodD`, `PairShare.lean:26`,
-     `PairExists.lean:9`). Note finally that in `PairGood`, `height q d i 0` $= q \le \exp(\frac{4}{3}\log q)$
-     and `height q d i 1` $= d \le \exp(\frac{4}{3}\log d)$, so `ZeroFreeBox Q` implies `ZeroBox (height q d i j)`
-     (`pairEx_box`, `pairEx.lean:17`), completing `PairEx`. $\square$
+     on $\log U = z' = z(\log Y)^2 \ge \frac{1}{4}(\log Y)^2 \log m_0$. Twisting primitive characters
+     of $\xi \cdot (\frac{\cdot}{q})^i$ ($i \in \{0, 1\}$, conductor $\le 8Mq \le 8M e^z \le e^{z'/2}$)
+     by $(\frac{\cdot}{d})$ at $\eta = 1/2$ leaves more than $\frac{1}{2}\lvert \mathcal P_2 \rvert > 0$
+     primes $d \in \mathcal P_2$ satisfying `GoodD (8*M)` (`PairShare.lean:26`, `PairExists.lean:9`).
+     Note finally that `GoodQ (8*M)` and `GoodD (8*M)` give `ZeroFreeBox Q` precisely up to
+     $Q = 8M e^z = \mathrm{height}(M, \varepsilon, Y, 0)$ when $j = 0$ and
+     $Q = 8M e^{z + z'} = \mathrm{height}(M, \varepsilon, Y, 1)$ when $j = 1$ (`pairEx_box`,
+     `pairEx.lean:17`), while `kappa4` (`pairEx.lean:117, 162`) upgrades $\lVert L'/L(1,\chi) \rVert$
+     to $4\log Y \le 4\log y$ on $[Y, Y^A]$, completing `PairEx`. $\square$
 
 ### 4.4.6 Window rescaling (`winPairs`) and assembling the host supply (`supplyChi`)
 
@@ -943,8 +971,9 @@ Let us double-check the logical hygiene of Chapter 4 [Expository]:
    closer human reading because `PairShare.lean` takes existence hypotheses on Stage 1 and Stage 2
    as parameters [Community]. Having read `PairShare.lean`, `PairExists.lean`, `Stage1Succ.lean`,
    `CharOf.lean`, and `pairEx.lean` line by line (`R3`), we can report that `pair_exists`
-   instantiates `pair_share` at $\eta = 1/4$ and deduces $\lvert G \rvert > 0$ from $\lvert \mathcal P \rvert > 0$
-   (supplied unconditionally by PNT in progressions `count_a`) and $\lvert B \rvert \le \frac{1}{4}\lvert \mathcal P \rvert$:
+   instantiates `pair_share` at $\eta = 1/2$ (`PairExists.lean:15`) and deduces $\lvert G \rvert > 0$
+   from $\lvert \mathcal P \rvert > 0$ (supplied unconditionally by PNT in progressions `count_a`)
+   and $\lvert B \rvert \le \frac{1}{2}\lvert \mathcal P \rvert$:
    there is no vacuity at the seam [Lean, read].
 
 ### 4.5.2 Summary of the numerical constants
@@ -1008,7 +1037,7 @@ priori control on $L_f(s, \chi)$ before the trace formula is invoked [Paper; Mas
 Notice the sharp contrast: Masullo uses a **logarithmic-width** zero-free region
 $1 - c / \log(\mathfrak q(\lvert t \rvert + 3))$ for the *fixed* $L$-function under study (to justify
 contour integration), whereas the Lean archive uses a **fixed-width** box $\Re s > 1 - 1/400$ up to
-subexponential height $Q \approx \exp(\frac{4}{3}Y^{\varepsilon/5})$ — impossible to prove a priori
+subexponential height $Q = F U \le U^{3/2}$ ($\log Q \le \frac{3}{2} Y^{\varepsilon/5}(\log Y)^2$) — impossible to prove a priori
 for an individual character, and obtained only by discarding $O(Q^{1/4})$ exceptions out of a random
 prime family!
 
@@ -1052,9 +1081,9 @@ Every file in `CharacterBoxes/`, `MeanSquareBounds/`, `ShortNorms/supplyOfAdmOf.
 | `QH.count_bad_core`, `QH.count_bad` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/CountBadCore.lean:18`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/CountBad.lean:9` | Lemma 4.3: injectivity of $q \mapsto (f_{r(q)} q, \psi_{r(q),q})$ for $q > F$ reduces $\lvert B_1 \rvert$ to `zero_density_box`. | [Lean, read] |
 | `QH.tailK_exp`, `tailK_num`, `tailK` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/TailKExp.lean:8,23,92` | Lemma 4.4(1): $\lvert y\,\mathrm{tailL}_\chi((Y^K)^{400}) \rvert \le Y^\varepsilon$ via $x \cdot (x^{400})^{-1/400} = 1$. | [Lean, read] |
 | `QH.kappa4_num`, `kappa4_loglog`, `kappa4` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/Kappa4Loglog.lean:9,44,126` | Lemma 4.4(2): $\lvert \frac{L'}{L}(1,\chi) \rvert \le 1000\log\log Q + C \le 4\log Y$ for $\varepsilon < 1/52$. | [Lean, read] |
-| `QH.box_of_S` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/BoxOfS.lean:28` | Lemma 4.4(3): splits $G_\chi(y)$ at $Z = (Y^K)^{400}$ into $-y\,S(Z, y, q, \kappa)$ and $-y\,\mathrm{tailL}_\chi(Z)$. | [Lean, read] |
+| `QH.box_of_S` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/BoxOfS.lean:28` | Lemma 4.4(3): splits $G_\chi(y)$ at $Z = (Y^K)^{400}$ into $-S(Z, y, q, \kappa)$ and $-y\,\mathrm{tailL}_\chi(Z)$. | [Lean, read] |
 | `QH.meanSq_abs`, `QH.meanSqK`, `QH.twistK` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/MeanSqAbs.lean:8`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/meanSqK.lean:51`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/twistK.lean:148` | Proposition 4.5: expands $L^2$ norm, strips $\kappa$, and bounds Jacobi character sums over primes outside at most one Landau–Page modulus $n_*$. | [Lean, read] |
-| `QH.bs_S_sub_S`, `bs_mul_D_eq_S`, `bs_sq_integral_le`, `bs_sum_D_le`, `bs_markov`, `bad_share` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/BadShare.lean:76,83,98,146,207,251` | Lemma 4.6: fundamental theorem of calculus $y D_q(y) = -S(Z, y, q, \mathbf{1}_{n<y}\kappa)$, dyadic Cauchy–Schwarz, and Markov uniformization on $[Y, Y^K]$. | [Lean, read] |
+| `QH.bs_S_sub_S`, `bs_mul_D_eq_S`, `bs_sq_integral_le`, `bs_sum_D_le`, `bs_block`, `bs_markov`, `bad_share` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/BadShare.lean:76,83,98,146,163,207,251` | Lemma 4.6: fundamental theorem of calculus $y D_q(y) = S(Z, y, q, \mathbf{1}_{y < m}\kappa)$, dyadic Cauchy–Schwarz, and geometric-series Markov uniformization on $[Y, X]$. | [Lean, read] |
 | `QH.stage_log`, `stage_pow`, `stage` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/StagePow.lean:16,29,41` | Theorem 4.7(1): single-stage prime sieve combining `count_bad`, `box_of_S`, `meanSqK`, and `bad_share`. | [Lean, read] |
 | `QH.stage1`, `QH.stage2`, `QH.pair_share`, `QH.pair_exists`, `QH.pairEx` | `src/Development/AutomorphicArithmetic/MeanSquareBounds/Stage1Succ.lean:36`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:61`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairShare.lean:26`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:9`; `src/Development/AutomorphicArithmetic/MeanSquareBounds/pairEx.lean:112` | Theorem 4.7(2): Stage 1 ($q \equiv 3 \pmod 8$) + Stage 2 ($d \equiv 7 \pmod{16}$, $q \mid d+1$, small odd $p \mid d+1$) $\implies$ `PairEx`. | [Lean, read] |
 | `ZeroDensityBox`, `zero_density_box` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/CountSt.lean:7`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/CountZAll.lean:13` | Definition 4.3(1) (`[Lean, read]`) and imported proof (`[Lean]`, 9 internal large-sieve/mollifier files) of the $C Q^{1/4}$ zero-density bound on $\mathcal B(Q)$. | [Lean] |
