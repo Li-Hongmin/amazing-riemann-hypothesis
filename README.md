@@ -12,15 +12,22 @@ proofs of the Riemann Hypothesis and organises it into one cited, readable accou
 
 ## What this book is
 
-1. **A map of the sources.** Every public document, repository, thread and article, with its exact
-   version, retrieval date and hash, and a one-paragraph summary of what it contributes —
-   see [`sources/SOURCES.md`](sources/SOURCES.md).
-2. **A narrative of the mathematics.** Chapters in [`chapters/`](chapters/) that explain why the
-   proof works, from the statement down to the final contradiction, aimed at a graduate student in
-   analytic number theory. Each claim cites the Lean declaration (file:line, pinned archive hash)
-   or the page of the human source that supports it.
-3. **A record of verification.** What has been checked, by whom and how; what is still open;
-   where the two proofs agree and where they diverge.
+**The main line is a textbook.** The chapters in [`chapters/`](chapters/) teach how to understand the
+proof: they start from the background a graduate student in analytic number theory already has,
+introduce each new idea with motivation and small examples, and then prove it — definition, lemma,
+proof, remark — in the order a reader needs, down to the final contradiction. Each step cites the Lean
+declaration (file:line, pinned archive hash) or the page of the human source it rests on. Where
+Masullo's route differs, it is presented alongside.
+
+Around the main line, the book keeps three records:
+
+1. **Sources** — [`sources/SOURCES.md`](sources/SOURCES.md): every public document, repository,
+   thread and article, with version, retrieval date, hash where available, and a paragraph on what it
+   contributes.
+2. **Contributions** — [`CONTRIBUTIONS.md`](CONTRIBUTIONS.md): who contributed what — the proof
+   authors, everyone who compiled, checked, explained, found errata, fixed gaps or formalized parts,
+   and our own work — each entry linked to its public record.
+3. **Verification** — what has been checked, by whom and how; what is still open.
 
 ## Status tags
 
