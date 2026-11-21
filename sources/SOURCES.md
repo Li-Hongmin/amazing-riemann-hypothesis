@@ -8,6 +8,13 @@ redistributed with the book. The summaries below are ours; tags follow the READM
 the two human-written mathematical sources, cited by page; [Community] for everything reported
 by others, cited by link).
 
+This file has two parts. **Part I** (below: the source map and the exact-version tables, first
+written 2026-11-21 by run `rhbook-architecture-11211200`) pins the sources the mathematical
+chapters cite. **Part II** (at the end: an annotated bibliography in six categories — primary
+sources, verification, guides and teaching, errata and disputes, commentary, press — plus sources
+surveyed only, added by run `rhbook-sources-11211242`) covers the wider public record and gives the
+entry IDs that Chapter 2 cites.
+
 ## Source map: what each source contributes
 
 **The Lean archive (Alpöge with Claude).** The primary object of the book: 175,187 Lean 4 files
@@ -228,3 +235,860 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 `citations_report.txt` (by `check_citations.py`, a machine check of every file:line citation in
 `chapters/` and `notes/` against the extracted archive and the Mathlib files above). See
 `notes/proof-map.md`, "Reproducibility".
+
+# Part II. Annotated bibliography by category
+
+*Added 2026-11-21 (run `rhbook-sources-11211242`); status as of 05:57 UTC. Part I above — the source map and the exact-version tables — is unchanged; entries here that Part I already pins point back to it instead of repeating its hashes.*
+
+**Conventions.**
+
+- All times are UTC. "Retrieved" is our own download in this run unless another run is named. Raw copies, API responses and the fetch logs (`FETCH-LOG.tsv`, one line per request: time, HTTP status, bytes, sha256, ETag, Last-Modified, final URL) are kept outside the repository in `~/Hermes/state/quota/runs/rhbook-sources-11211242/` (`raw/`, `research/*/raw/`); nothing listed here is redistributed with the book.
+- sha256 is of the bytes we received. Pages with live parts (blogs with comment counts, news sites, GitHub pages, Zulip) return different bytes on every request, so for them the hash only identifies our copy; the version line says which text we read. Pages that refused scripted requests were read in a rendering browser; those have no byte hash, and we say so. "HEAD" means we asked for headers only.
+- Internet Archive digests are base32 SHA-1 of the archived payload. Where we write "equals our copy", we computed the same digest from our file.
+- Each entry ends with what the source contributes and how much weight it can bear. That judgment is about the source as a record of events; it is not a verdict on the mathematics.
+- Entry IDs (A1, V3, …) are cited in Chapter 2. A: primary sources; V: verification; G: guides and teaching; E: errata and disputes; C: commentary; P: press; S: surveyed only.
+
+## Primary sources (A)
+
+### Alpöge
+
+<a id="a1"></a>
+**A1. Levent Alpöge, four-page note announcing the proof (`remark.pdf`).**
+
+- URL: <https://alpo.ge/remark.pdf>
+- Author: Levent Alpöge (the note is unsigned; it is posted on his site and its footnote 1 links the archive).
+- Version / date: PDF `CreationDate` 2026-11-20 12:52:48 UTC. First Internet Archive capture 2026-11-20 14:19:58 UTC, digest `M652L7WBO6BAV3OFKUXHFEEP4J767IYF`, which equals our copy: the file has not changed since that capture.
+- Retrieved: 2026-11-21 04:47:40 UTC, HTTP 200, 245,114 bytes, sha256 `3fc97784b71ddd44ff8aa0a177e99622a1c61b13cfa843a0989ee4a7a0cfeb8d`; byte-identical to the copies of 02:51 (run `rheval-1121`), 04:02 (Part I) and 04:58 UTC
+- Contribution and reliability: The only account of the method by its author. Page 1 states the claim ("I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis"), says the method gives GRH and, the author expects, ERH "with more time", and that the arguments are formalized "without assumptions"; it describes the proof as a descendant of Stepanov's method in which a chain of theta lifts of length about $\sqrt X$ plays the role of multiplicity. Page 2 explains the timing ("This all happened for me late Sunday night"; he messaged "Dario" — identified by the press as Anthropic's chief executive Dario Amodei — about announcing) and why only Lean was released; its footnote 2 says the informal text "hit 250,000+ pages". Pages 3–4 give a dated list of twenty steps from 2026-10-06 to "11/16/26: GRH", which the note says Claude compiled. Authoritative for what the author claims and when; it contains no proofs, and the author himself warns that parts of the timeline paraphrase an AI summary and may need correcting. Cited as [Paper] by page.
+
+<a id="a2"></a>
+**A2. Alpöge, Lean archive `lean.tar.gz`, 14 parts.**
+
+- URL: <https://alpo.ge/lean.tar.gz.part01>; …; <https://alpo.ge/lean.tar.gz.part14>
+- Author: Levent Alpöge "working with Claude" (A1, p. 1); no author or licence file inside the archive (Part I, §1).
+- Version / date: One version only. Joined archive 239,275,554 bytes, sha256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` (Part I, §1, with the hash of every part). Internet Archive captures of 2026-11-20 14:20:03 UTC (part01, digest `CZ6VXZQYX2DFMC5VUK5DU4DNNWQZ6MJ6`) and 14:20:02 UTC (part14, digest `MJWCBVZTTX6PBY6G3CU7VZBR3MKIL2SD`) equal our copies.
+- Retrieved: Downloaded 2026-11-21 04:01:46–04:05:21 UTC (Part I, §1). Re-checked by HEAD requests at 04:52:54 UTC (parts 01, 14) and 05:23:34–05:23:40 UTC (all 14): every part answered HTTP 200 with the ETag recorded at download. The ETag is not a content hash (it differs from the parts' MD5), so it is evidence that the server holds the same file, not proof.
+- Contribution and reliability: The primary object of the book: 175,187 Lean files whose `src/Main.lean` proves Mathlib's `RiemannHypothesis` and four forms of GRH for Dirichlet L-functions (Chapter 1). Every public check (V1–V9) names the same joined hash, so all reports are about the same bytes. The server answers HTTP 200 with an HTML page for parts that do not exist, so only the joined hash is a real check (Part I, §1).
+
+<a id="a3"></a>
+**A3. Alpöge, personal home page.**
+
+- URL: <https://alpo.ge/>
+- Author: Levent Alpöge.
+- Version / date: No date on the page. The Internet Archive holds 44 captures from 2024-07-28 to 2026-10-19 (CDX index, retrieved 05:23:40 UTC); none after the announcement.
+- Retrieved: 2026-11-21 04:47:40 UTC, HTTP 200, 11,625 bytes, sha256 `a7ee08f4821ec5bfdebbc8860730b497b3e252a49fadc14d0d888c9e38a25276`; same bytes as the copies of 02:51, 04:02 and 04:42 UTC (Part I, §2)
+- Contribution and reliability: Establishes that the note and the archive sit on the author's own domain; the page itself does not link them, so the note is reachable only by its direct URL. Useful only for provenance.
+
+### Masullo
+
+<a id="a4"></a>
+**A4. Alessandro Maria Masullo, *The Music of the Primes* (draft, 940 pages).**
+
+- URL: <https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf>
+- Author: Alessandro Maria Masullo. Posted by Ravi Vakil on his Math 216 blog (A5).
+- Version / date: PDF `CreationDate` 2026-11-20 19:13:46 +01:00 (18:13:46 UTC). First Internet Archive capture 2026-11-20 18:35:24 UTC, digest `JIP2RPUAOK3GITO37F4XCPDPBWJBGJ56`, which equals our copy. sha256 `e039d3f6cf0a4b14f03c7edb85097752dd65c0a2fe543c76fe992be234f97bf5`, 6,756,996 bytes (Part I, §3).
+- Retrieved: 2026-11-21 04:58:41 UTC, HTTP 200, 6,756,996 bytes, sha256 `e039d3f6cf0a4b14f03c7edb85097752dd65c0a2fe543c76fe992be234f97bf5`; identical to Part I's download of 04:05:30 UTC and to the copy of 03:01 UTC
+- Contribution and reliability: The human-written GRH draft: an adelic trace-formula route aimed at GRH for Hecke L-functions of all number fields (p. 6). By its author's account it is unfinished — the acknowledgements (p. 6) mention "several glitches here and there" known to him and Brian Conrad, footnotes such as "Insert statement." remain, and Chapter 13, where GRH should follow from Theorem 12.5.1.1, is two pages without a main theorem (pp. 521–522). The same page says the work took "nearly 12 years", that Conrad and Vakil were arranging "for me to return to Stanford for a year to finish the polishing of the paper", that "In light of the current climate I am being advised to release the current version as it is", and that "The math is complete, and only filling in some writing remains on several parts across this long paper". Authoritative for what Masullo claims; its correctness is disputed (E1–E7). Cited as [Paper] by page.
+
+<a id="a5"></a>
+**A5. Ravi Vakil, "Hurried Announcement: Alessandro Masullo GRH" (blog post).**
+
+- URL: <https://math216.wordpress.com/2026/11/20/hurried-announcement-alessandro-masullo-grh/>
+- Author: Ravi Vakil (Stanford).
+- Version / date: Published 2026-11-20 18:18:42 UTC; edited, `dateModified` 2026-11-21 02:54:54 UTC. Original text preserved by Internet Archive captures of 18:35:24 and 20:18:59 UTC (CDX digests `X5TH55RVY7PF3HJRPDJVUBJWXY7G5NN5`, `VGEGSYSHI6NYEWT5AAZAS7HACOPRVCQM`).
+- Retrieved: 2026-11-21 04:58:46 UTC, HTTP 200, 76,180 bytes, sha256 `e8097afe19b0a095e2cc2df04d9ee94c44162e71a247f0e928ebbfee309c62f4`; capture of 18:35:24 UTC read via `web.archive.org/web/20261120183524id_/…`, 2026-11-21 05:01:26 UTC, HTTP 200, 86,353 bytes, sha256 `45dfdec5e57dfeaddf7c928f515fcd3d470e3a0ad66a4e5520a548e3aa30c524`; Part I's copy of 04:05:38 UTC is the edited version
+- Contribution and reliability: The release of Masullo's draft. The original post, written from an AMS meeting, says Conrad "has been looking closely at it for months", that it is "so far looking good", that "It is all human, with no AI", and that the plan had been to bring Masullo to Stanford for a year before announcing. The edit (our diff of the capture against the live page) changes the name to "Alessandro Maria Masullo", "so far looking good" to "so far looking good to him", and the plan to "have Brian work with Alessandro for a year", and adds an "Update about 8 hours later": several people reported problems found "with the assistance of different AI models", and "(I make no claim as to the correctness of the proof strategy.)". First-hand for Vakil's own statements; second-hand for Conrad's view (Conrad's own words are in P4). Quote the version you mean.
+
+### Background documents (not about the November claims)
+
+<a id="a6"></a>
+**A6. Anthropic, "Learning more about Claude's mathematical capabilities" (research post on zeros of ζ).**
+
+- URL: <https://www.anthropic.com/research/riemann-zeta>
+- Author: Anthropic (organisation).
+- Version / date: Published 2026-08-10; `dateModified` 2026-11-13 22:37:05 UTC.
+- Retrieved: 2026-11-21 05:23:46 UTC, HTTP 200, 169,931 bytes, sha256 `55ba08ad9eb05e1fab4f9e8c2e60a7fa453c62ca62a636ff9129cc21948f4c43`
+- Contribution and reliability: Context only. Anthropic reports that an unreleased Claude model raised the proven proportion of zeros of ζ on the critical line from 41.6% to 67.2%, with the paper examined by Brian Conrey and Dan Goldston, and states "We don’t expect that the techniques Claude used will lead to proving the Riemann hypothesis" — a sentence The Verge quoted on 20 November (P10). A company statement about its own model, not about Alpöge's claim.
+
+<a id="a7"></a>
+**A7. Alessandro Maria Masullo, *Arithmetic deformations of crystalline cohomology* (Ph.D. thesis, Stanford University).**
+
+- URL: <https://purl.stanford.edu/kp533pz4708>; <https://mathgenealogy.org/id.php?id=272472>
+- Author: Alessandro Maria Masullo.
+- Version / date: Stanford Digital Repository record dated 2020; the Mathematics Genealogy Project lists the Ph.D. in 2019.
+- Retrieved: 2026-11-21 05:03:06 UTC, HTTP 200, 22,629 bytes, sha256 `d81ce2ef3bbbe45e855c26258957f6caea7cfbad8a325a6f10cee423dc93ade2`; MGP page 2026-11-21 05:03:07 UTC, HTTP 200, 10,409 bytes, sha256 `d32bd28f89e7160628725d95c7d97ed52abf4d37f46de444d88c177ccae5a476`
+- Contribution and reliability: Background on the author: a Stanford Ph.D. in arithmetic geometry; the record lists Brian Conrad as degree supervisor and Conrad, Daniel Bump and Ravi Vakil as thesis advisors. It explains why Conrad and Vakil appear in A4–A5. It says nothing about his present position, which the press reports inconsistently (P7, P12, P17 citing LinkedIn, and P21 call him a postdoctoral researcher at Stanford; A4, p. 6, speaks of arrangements "for me to return to Stanford for a year").
+
+## Verification (V)
+
+<a id="v1"></a>
+**V1. Andrew Sutherland, "Verification files for the Lean proof of the Riemann Hypothesis".**
+
+- URL: <https://math.mit.edu/~drew/grh/>
+- Author: Andrew Sutherland (MIT); "checks run with Claude Code" (page header).
+- Version / date: Two versions seen. (a) "Page last updated 2026-11-20 19:45 UTC", preserved by the only Internet Archive capture (2026-11-20 19:57:27 UTC); we read it via the `id_` endpoint, retrieved 2026-11-21 05:25:07 UTC, HTTP 200, 10,285 bytes, sha256 `73f96192496df3a3adca39a462e704c7dd4186e342f5c53c32ae1910ee91a697`. (b) "Page last updated 2026-11-20 22:05 UTC", the live page.
+- Retrieved: 2026-11-21 05:24:05 UTC, HTTP 200, 12,782 bytes, sha256 `de7153ec1b22acab193a99824d427d41050e2c0d2c4374ec518d52fc0de62307`; identical bytes at 02:51, 04:02, 04:42 (Part I, §5) and 04:47:41 UTC; files linked from the page retrieved 05:24:06–05:24:14 UTC: `SHA256SUMS` sha256 `d8496902f492eeb0274460e525071cc30803bba7817d59b27c874f5a25317373`, `comparator.json` `8ea890e6ccda9cf3983ada343af18a41d12542036875a3936e7925ed5b1582ff`, `audit.log` `0a1473fce6eed840011f4a76b1c51558fc6f03edd1e6bd1ee542e6c738d87a62`, `nanoda.log` `d4c5360b02d8dd885150c1cc28b616cb6fb5bf5b20d142558d79a7b15ae9d9df`, con-leche logs `23e27eacb9e83785…`, `5a068bf55f24904e…`; each equals the value in `SHA256SUMS`. The export `solution.ndjson.zst` (7,699,933,588 bytes, Last-Modified 2026-11-20 18:37:31 UTC), `challenge.ndjson.zst` (46,881,299 bytes, 19:03:08 UTC) and `project-oleans.sha256` (28,865,695 bytes, 19:39:50 UTC) were checked by HEAD only
+- Contribution and reliability: The most detailed public record of the machine checks: full compile (finished 16:43:21 UTC), axiom audit, `leanchecker` replay of every module (about 18:17), nanoda on the 61.57 GB export (exit 0 at 19:05:45), con-leche master and `--compare` (21:19:04 and 21:19:12), lean4lean module by module (about 21:55), with versions, hashes, a reproduction recipe and an explicit list of caveats (unsandboxed build; a 77-module sample compared with `lake build`; sandboxed-export comparison not yet made). The 19:45 version showed con-leche and con-ron "declined" (older binaries could not read one reflexive inductive type); the 22:05 version records the master build accepting. As of our last check the Lean default and paranoid kernels on the export and the end-to-end `lake comparator` run are "running". A careful first-hand log by a named expert; the checks were orchestrated by an AI agent and the page is updated in place, so cite the version.
+
+<a id="v2"></a>
+**V2. Lean Zulip, channel #general, topic "Discussion: Alpöge Proves the Riemann Hypothesis".**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis>; read through the public API: `https://leanprover.zulipchat.com/json/messages` with narrow `channels:web-public`, `channel:general`, `topic:<name>`
+- Author: Lean community; 119 distinct posters in our copy. First message by Jack McCarthy (Zulip user 989743).
+- Version / date: 403 messages, ids 642224678 (2026-11-20 13:58:06 UTC) to 642423725 (2026-11-21 05:23:32 UTC). Messages can be edited, moved or deleted by moderators, who said they had deleted off-topic messages (Rémy Degenne, quoted at 17:14:14; Buzzard, 18:39:29).
+- Retrieved: 2026-11-21 05:27:36 UTC, JSON 793,590 bytes, sha256 `8337bcdddb66a9b65970a6a2ba28ad12c09c51b99446a80ece725c1dbe8b95a3`; the 40 newest messages again at 2026-11-21 05:57:11 UTC (to id 642425070, 05:35:31 UTC; 80,510 bytes, sha256 `b45b9e8882b8c38616f18f6430b1685ff1e3b2ac681ceb5d89255b22df9e651e`), no new verification report
+- Contribution and reliability: The working record of the verification: the first public report (McCarthy 13:58:06, compiling "on two separate devservers"), Sutherland's posts of his compile (16:53:16, 16:55:59) and of nanoda (19:09:53), Teżewski's runs of con-leche (20:40:10), pestka (20:58:04) and gruszka (01:56:46), Breitner's and Carneiro's explanations of the checkers, Buzzard's moderation and his "we still await a successful `comparator` run" (18:44:35), and Kim Morrison's summary that "there are essentially no remaining doubts as to whether this is a correct proof" (01:07:22) with plans for clean-up. Earlier book text and Part I treated the stream as login-only; it is web-public. Primary for who reported what and when; each claim is the poster's own and many posts relay AI-generated summaries (marked as spoilers per channel rules). Cite by message id (`/near/<id>`).
+
+<a id="v3"></a>
+**V3. Lean Zulip, channel #general, topic "Formalising Masullo's proof of GRH".**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Formalising.20Masullo.27s.20proof.20of.20GRH>
+- Author: Lean community; opened by David Loeffler.
+- Version / date: 106 messages, ids 642314625 (2026-11-20 19:16:18 UTC) to 642417410 (2026-11-21 04:30:16 UTC).
+- Retrieved: 2026-11-21 05:28:04 UTC, JSON 125,534 bytes, sha256 `8d27170d8f5f7f19b3feccbbf11e399c8d1348fd2507985620a4d2f164ba037c`; the 40 newest messages again at 2026-11-21 05:57:12 UTC (52,519 bytes, sha256 `626025488f4c2b51f5097a2c2000e35f1a15836c158e6cb61f5c05d4cd376aa9`), no new message
+- Contribution and reliability: Where the Masullo formalization was organised (Prove2Me mission opened 19:16:58, live 21:41:34) and where the first public doubts about the main theorem appeared: Tim Gehrunger reported at 19:32:09 that an LLM found an apparently simple counterexample to Theorem 12.5.1.1 and at 19:42:57 that correcting one error reduces it to a classical formula ("at least that is what Astra and Fable seem to agree on"); Brent Yee linked the Refine report (E6) at 22:38:07. Buzzard objected (20:05:57) to using the forum "to deconstruct someone's proof in public", since the author "did not ask for it to be disassembled in this public way"; Floris van Doorn replied (20:13:09) by quoting Vakil's request that people "quickly check it, formalize, fill any small gaps". Primary for the sequence; the mathematical claims are relayed AI readings unless stated otherwise.
+
+<a id="v4"></a>
+**V4. Lean Zulip, channel #AI authored projects, topic "Anthropic employee claims proof of the Riemann Hypothesis?".**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/AI%20authored%20projects>
+- Author: Kelly Davis (opening post), Kevin Buzzard, Junyan Xu.
+- Version / date: 4 messages, 2026-11-20 16:16:43–17:36:28 UTC.
+- Retrieved: 2026-11-21 05:28:25 UTC, JSON 3,884 bytes, sha256 `2ed47e42b413df0f826d1e48adb70ca7bd3840c45520c1904c0ca673ddf487c0`
+- Contribution and reliability: A short side thread, redirected by Buzzard to V2; its value is Junyan Xu's pointers to the first two public repositories of the extracted code (G8). Minor.
+
+<a id="v5"></a>
+**V5. Comparator setup `leanprover-community/riemann-hypothesis` (created as `Deicyde/riemann-hypothesis`).**
+
+- URL: <https://github.com/leanprover-community/riemann-hypothesis>
+- Author: Created by GitHub user Deicyde (commits as Jack McCarthy); contributions by marcelolynch, kim-em and others.
+- Version / date: Created 2026-11-20 14:47:49 UTC; first commit `40e56bab0265` 14:36:09 "Mirror the submission exactly as published"; HEAD `4286c9ca372a` (2026-11-21 04:27:41) at our check; 27 commits, issues and PRs #1–#10, 42 CI runs.
+- Retrieved: GitHub API (repository, commits, issues, pulls, Actions runs, tree) retrieved 2026-11-21 05:24:18–05:24:32 UTC; `README.md` 2026-11-21 05:24:33 UTC, HTTP 200, 4,642 bytes, sha256 `1e6b09aa2f416d580eea1ccb1532ac1d76f0d51aac0600c368db84463a7faa95` (changed since Part I's copy of 04:02:24 UTC); `verification/NOTES.md` 2026-11-21 05:24:33 UTC, HTTP 200, 15,489 bytes, sha256 `a0b67cd13f99bb2c6de9a3ff569716f44fe732abaf31fe013a07434fb5dfcf2b` (same as Part I); `src/Challenge.lean` 2026-11-21 05:24:34 UTC, HTTP 200, 1,222 bytes, sha256 `a3cebbf30be6b9268a0ed413c9bbc256dfa9f4bfa04f1a75f144d135da5e21a5`
+- Contribution and reliability: A byte-exact mirror of the archive plus what Comparator needs: a challenge file stating the five theorems against Mathlib alone, a pinned export procedure, CI that publishes the challenge export (its sha256 `bd484ac9…b2b9` matches V1), and verification notes on the statements, pins, kernel fixes and metaprogramming. The notes were corrected after issue #2 (commit `e50d09817ad8`, 20:43:21). After moving to the leanprover-community organisation it became the hub for clean-up: a public build cache (PR #7, merged 04:27:42), import minimisation (PRs #4, #8–#10, open) and the observation that `.olean` hashes depend on the build directory (issue #6). It does not itself post a Comparator verdict. Reliable as a record of procedure; the repository is a mirror, so we link rather than copy it.
+
+<a id="v6"></a>
+**V6. Aapo Lipponen, independent check on LUMI (`aapolipponen/rh-lean-check-lumi`).**
+
+- URL: <https://github.com/aapolipponen/rh-lean-check-lumi>
+- Author: Aapo Lipponen; docs edited from AI review reports.
+- Version / date: README "Status: compile complete (updated 2026-11-20 22:30 UTC)"; repository HEAD `82d91dbbd04d` (2026-11-20 23:56:59 UTC), unchanged at 04:42 and 05:24 UTC.
+- Retrieved: README 2026-11-21 05:24:35 UTC, HTTP 200, 9,064 bytes, sha256 `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c`; `results/build-summary.json` 2026-11-21 05:24:36 UTC, HTTP 200, 453 bytes, sha256 `a2763844491a03287ecdbfe5868d71146a7d8ed22a70695b95bf7c12091fe072`; both identical to Part I's copies (§5)
+- Contribution and reliability: A second full compile, each `lean` process in a no-network sandbox on 8 LUMI-C nodes: 175,187 of 175,187 modules, 0 failures, `Main.lean` finished 22:21 UTC; `Main.olean` and `Statements.olean` hashes equal to Sutherland's. That match is the strongest public evidence that V1's unsandboxed build was not tampered with. The README is explicit about what it did not run (kernel replay, second kernel) and credits V1 and Teżewski for those. High reliability for what it reports.
+
+<a id="v7"></a>
+**V7. Infatoshi, "Independent Verification Receipts" (`Infatoshi/rh-verification-receipts`).**
+
+- URL: <https://github.com/Infatoshi/rh-verification-receipts>
+- Author: GitHub user Infatoshi.
+- Version / date: Repository created 2026-11-20 21:51:07 UTC, last push 21:51:13 UTC.
+- Retrieved: 2026-11-21 05:32:03 UTC, HTTP 200, 5,192 bytes, sha256 `b34fb1aa96eea0af2a86b881f1d0bee96264e09bedb3a260dec5c0c8584a5ba7`
+- Contribution and reliability: A third compile (stock Lean 4.33.1 called directly, 175,187 of 175,187 modules, finished 19:05:21 UTC), a statement pin against unmodified Mathlib, `#print axioms`, a static scan, and a nanoda run (commit `0da9f98f`) over the closure of the five theorems: "Checked 1484729 declarations with no errors". Its `Main.olean` hash (`ce9a2006…`) differs from V1/V6, probably because compiled files record the build directory (V5, issue #6; our inference), so it confirms the result, not V1's bytes. Pseudonymous and self-published, but the receipts are specific and reproducible.
+
+<a id="v8"></a>
+**V8. Simon DeDeo, "Compiled oleans for the alpo.ge Proof of the Riemann Hypothesis" (Proofs & Reasons).**
+
+- URL: <https://proofsandreasons.io/rh-oleans.html>
+- Author: Simon DeDeo (Carnegie Mellon); the page credits a John Templeton Foundation grant.
+- Version / date: Build of 2026-11-20 (x86_64 Linux, Lean 4.33.1, Mathlib v4.33.1); link posted on V2 at 20:13:23 UTC.
+- Retrieved: 2026-11-21 05:32:05 UTC, HTTP 200, 25,330 bytes, sha256 `f31a6196e3ecb3426c45f52e5bfe3a3c680a3072b70ed2faab9c5379a76339f9`
+- Contribution and reliability: Hosts the `.olean` files of all 175,187 modules (31.9 GiB in 14 archives) and two `lean4export` files so that others can run kernels without about 530 CPU-hours of compiling. Reports `#print axioms` and a kernel replay with Lean itself, and says plainly that no second kernel was run there and that "Sharing them is not a statement about whether the proof is correct." A resource, honestly labelled.
+
+<a id="v9"></a>
+**V9. Szymon Teżewski, independent-checker runs, and the Gruszka kernel (`jasisz/gruszka`).**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642355040>; <https://github.com/jasisz/gruszka>
+- Author: Szymon Teżewski (Zulip); GitHub user jasisz.
+- Version / date: Zulip messages 642334721 (20:40:10), 642338051 (20:52:29), 642339366 (20:58:04), 642340706 (21:02:44), 642355040 (22:06:33), 642395135 (2026-11-21 01:56:46). Repository created 2026-11-16, last push 2026-11-21 02:02:35 UTC.
+- Retrieved: Zulip messages from V2; repository metadata by GitHub API at 05:32 UTC.
+- Contribution and reliability: The first report that con-leche accepts the export (20:40, before V1 recorded it), a run of the pestka checker (accepted), notes on checkers that did not get through (nano-lean could not parse the export; gruszka stuck on two declarations — "neither is a rejection"), a table of all accepted runs at 22:06, and later a fixed gruszka accepting the whole export "in 4.5 min on my laptop". Specific and consistent with V1; individual claims are the poster's own.
+
+<a id="v10"></a>
+**V10. Rohan Arun, "Independent replay of Alpöge’s RH release" (`rohanarun/alpoge-rh-replay`).**
+
+- URL: <https://github.com/rohanarun/alpoge-rh-replay>
+- Author: GitHub user rohanarun.
+- Version / date: README as of our retrieval: "Full replay in progress. No full RH verification receipt has been produced by this project."
+- Retrieved: 2026-11-21 05:32:04 UTC, HTTP 200, 24,355 bytes, sha256 `2ab5aeaae069a52752a7b010842acfa8f6b3b5f4a873b102d4e07c1da7bdae85`
+- Contribution and reliability: A crowd-sourced, module-by-module replay with 175,187 tasks in 2,858 packets; only a pilot has run. Useful as infrastructure; no result yet.
+
+<a id="v11"></a>
+**V11. The checkers and toolchains.**
+
+- URL: <https://github.com/leanprover/con-leche>; <https://github.com/leanprover/con-leche/pull/22>; <https://github.com/digama0/lean4lean>; <https://github.com/leanprover/lean4/releases/tag/v4.36.0>; <https://github.com/leanprover/lean4/releases/tag/v4.34.1>
+- Author: Lean FRO and contributors (con-leche: Joachim Breitner and others; lean4lean: Mario Carneiro).
+- Version / date: Versions used in V1: con-leche master `cd2eceab` and branch `compare` `5dc36dc1`; lean4lean `67f63b0c`; nanoda as bundled with Lean v4.36.0 (published 2026-11-16 15:45:27 UTC); Lean v4.34.1 published 2026-09-24. con-leche master has moved on since (HEAD `11d8ff13`, 2026-11-21 01:20:35 UTC).
+- Retrieved: GitHub API (release records, con-leche commit lists) retrieved 2026-11-21 05:24:30–05:24:32 UTC.
+- Contribution and reliability: Background for reading V1, V7 and V9: what each checker is and which version produced which verdict. Breitner explains on V2 (20:50:29) what con-leche's guarantees rest on, and that the version bundled with Lean 4.36 was out of date (20:54:33). Cite release pages for versions only.
+
+<a id="v12"></a>
+**V12. Internet Archive captures used as integrity evidence.**
+
+- URL: <https://web.archive.org/web/20261120141958/https://alpo.ge/remark.pdf>; <https://web.archive.org/web/20261120183524/https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf>; <https://web.archive.org/web/20261120195727/https://math.mit.edu/~drew/grh/>
+- Author: Internet Archive (captures made by its crawlers or by readers).
+- Version / date: CDX records: remark 20261120141958; part01 20261120142003; part14 20261120142002; Masullo PDF 20261120183524; Vakil post 20261120183524 and 20261120201859; Sutherland page 20261120195727; alpo.ge root, 44 captures to 20261019120255.
+- Retrieved: CDX API retrieved 2026-11-21 05:23:40–05:23:45 UTC (`raw/A/wayback/`).
+- Contribution and reliability: Our own integrity check [Checked]: for remark.pdf, part01, part14 and the Masullo PDF the archived SHA-1 equals that of our download, so these files have not changed since the first captures (14:19–14:20 and 18:35 UTC on 20 November). For the HTML pages the captures preserve earlier wording (A5, V1) but the digests are of the archived payload and need not equal a fresh download.
+
+### Formalization of Masullo's draft
+
+<a id="v13"></a>
+**V13. Ryan McCorvie and contributors, `mccorvie/riemann-masullo` (Lean formalization of the draft).**
+
+- URL: <https://github.com/mccorvie/riemann-masullo>
+- Author: Ryan McCorvie (integrator) with human and agent contributors.
+- Version / date: README states: "On hold (20 November 2026)" in commit `9384ba8` (20:03:39 UTC); "Active: formalizing the prerequisites" again in `579875a8` (22:57:02 UTC); last README change `f0e128c2` (2026-11-21 03:06:11); HEAD `27567d50` (04:56:05). Counts at 04:59 UTC: 1,845 issues (1,086 open) and 605 PRs (587 merged).
+- Retrieved: 2026-11-21 04:59:47 UTC, HTTP 200 (gh api, authenticated read-only), 8,899 bytes, sha256 `69352b475c7a8b58785d2d0e4ae50bb944cf7e7f79d422f8c36e81794e223b9f`; README byte-identical to Part I's copy of 04:05:40 UTC; README at `9384ba8` and the counts are in `research/GM-guides-masullo/raw/gh/`
+- Contribution and reliability: A public, agent-assisted formalization proceeding in waves (appendices and early chapters first). Its README separates what the project found (small errors in standard material, logged in E1) from the concerns about Theorem 12.5.1.1 raised on V3, which "did not come from this formalization". The "On hold" episode and its reversal are part of the story (Chapter 2). Reliable as a record of its own state; its statements of Masullo's results are reconstructions, some explicitly unreviewed.
+
+<a id="v14"></a>
+**V14. Prove2Me mission "Masullo: The Music of the Primes — Riemann Hypothesis specialization".**
+
+- URL: <https://prove2.me/missions/Masullo%3A_The_Music_of_the_Primes_%E2%80%94_Riemann_Hypothesis_specialization>
+- Author: Mission captain "davidloeffler" (page); announced on V3 by David Loeffler.
+- Version / date: Announced 2026-11-20 19:16:58 UTC, live after maintainer approval at 21:41:34 UTC (V3).
+- Retrieved: 2026-11-21 05:03:05 UTC, HTTP 200, 96,430 bytes, sha256 `92bd19702276e818356467cd4f84734b6358e66df4d861cc00a82571fee454bf`
+- Contribution and reliability: A second formalization effort, working backwards from the goal: by 22:18 Loeffler reported a formal proof that RH follows from Masullo's "Main Theorem" 12.5.1.1 (V3). The page is script-heavy and shows little without login; that the captain is the number theorist David Loeffler is our inference from the matching names. Cite for the mission's existence and stated scope.
+
+## Guides and teaching (G)
+
+<a id="g1"></a>
+**G1. LUMI reader's guide, `docs/` of `aapolipponen/rh-lean-check-lumi` (pages 01–10, glossary, reports).**
+
+- URL: <https://github.com/aapolipponen/rh-lean-check-lumi/tree/main/docs>
+- Author: Aapo Lipponen (editor), from AI-agent review reports.
+- Version / date: Added in commit `40e1ae43477a` (2026-11-20 22:40:20 UTC); unchanged at HEAD `82d91dbbd04d`.
+- Retrieved: Every file pinned in Part I, §5 (retrieved 04:02:57–04:03:28 UTC); re-downloaded at 04:57:55–04:58:16 UTC by this run with identical hashes for the twelve guide files
+- Contribution and reliability: The most complete map of the archive: what is proved, the proof map, the analytic endgame, the theta chain, Galois representations, the window bound, the named theorems, the archive's anatomy, building and checking, and the open frontier, each with reading-status markers and a list of what nobody has read. Its reports include a vacuity check (E10). Edited AI readings, labelled as such; use for navigation and cite findings as [Community]. The book does not reuse its text (outline, design decision 5).
+
+<a id="g2"></a>
+**G2. Readers' maps in the Comparator repository: issues #3 and #5.**
+
+- URL: <https://github.com/leanprover-community/riemann-hypothesis/issues/3>; <https://github.com/leanprover-community/riemann-hypothesis/issues/5>
+- Author: GitHub users keithadler (#3) and JoseClaudioSJr (#5).
+- Version / date: #3 opened 2026-11-20 21:58:55 UTC, corrected by its author at 22:08 and 23:30; #5 opened 2026-11-21 02:10:48 UTC, follow-ups to 04:09.
+- Retrieved: 2026-11-21 05:01:44 UTC, HTTP 200 (gh api, authenticated read-only), 5,944 bytes, sha256 `5b39ee857bcfb74530837d22146603761148472fa922c15d3c757a06a4cb331a`; #5 2026-11-21 05:01:44 UTC, HTTP 200 (gh api, authenticated read-only), 46,695 bytes, sha256 `4d3d5783d700643e4dd43a48a9fb69b735a90a8b246371814af560819e097ecc`
+- Contribution and reliability: Two independent call-path maps from `riemannHypothesis` down to the load-bearing inputs (#3 by declaration-level reachability, #5 tagged [code]/[reading], AI-assisted). #3 retracted its first headline figure (55% of declarations needed) for about 80% (a safe reduction of only about 9%) after a trimmed build failed; cite the corrected figures only. Both agree with G1 on the upper chain. Useful cross-checks, not verifications.
+
+<a id="g3"></a>
+**G3. Kim Morrison, plan for the "next stage" (Lean Zulip).**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642386327>
+- Author: Kim Morrison (Lean FRO).
+- Version / date: Messages 642386327–642386494 (2026-11-21 01:07:22–01:07:57 UTC), 642418781 (04:41:53) and 642420104 (04:52:43).
+- Retrieved: From V2
+- Contribution and reliability: Declares the checking stage finished and sets out the next one: AI-assisted autoinformalization and written accounts; stating intermediate results in Lean (pointing to `lean-lang.org/eval` and to Prove2Me missions); condensing material into Mathlib and Tau Ceti; and, at 04:41–04:52, instructions for getting the repository with cached `.olean`s plus a to-do list (minimise imports, delete dead code, bump Lean and Mathlib, remove duplicates). The organising voice of the community effort; programmatic, not a result.
+
+<a id="g4"></a>
+**G4. Chris Birkbeck, AI-generated overview of the proof and Tau Ceti roadmaps (Lean Zulip).**
+
+- URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642250042>
+- Author: Chris Birkbeck (UEA), relaying a summary "fable has given me".
+- Version / date: Messages 642250042 (15:18:32 UTC), 642254589 (15:31:46) and 642372756 (23:45:35).
+- Retrieved: From V2
+- Contribution and reliability: The first public sketch of the architecture (RH from non-vanishing for $\Re s>1/2$; that from bounds on Selmer/Ш-type groups in a family of fields; use of Galois representations attached to polarized cuspidal automorphic representations), widely relayed — by MathOverflow (C8) and TechCrunch (P12). An AI summary, labelled as such by its poster; later readings (G1, G2) refine it. Do not cite as a description of the proof without checking against the archive.
+
+<a id="g5"></a>
+**G5. tamnd, `riemann` ("A written proof, for people, of the Lean proof of the Riemann Hypothesis").**
+
+- URL: <https://github.com/tamnd/riemann>; <https://riemann.tamnd.com>
+- Author: GitHub user tamnd.
+- Version / date: Repository created 2026-11-20 18:28:36 UTC; last push 2026-11-21 05:07:31 UTC.
+- Retrieved: 2026-11-21 05:32:05 UTC, HTTP 200, 3,246 bytes, sha256 `18e1c3520cd2d63fd027d7a1b2faba67a6985afde83579997ecae205f5c15770`
+- Contribution and reliability: An announced top-down written account (overview, chapters, steps, declarations) with learning paths. Its own README says: "The claim is not checked yet. We did not build the project yet". Not examined further by us; likely AI-generated at this scale and speed (our inference). Listed for completeness.
+
+<a id="g6"></a>
+**G6. Lean 4 Dev Editorial Team, "The Riemann Hypothesis: a claimed proof, delivered in Lean".**
+
+- URL: <https://lean4.dev/proofs/riemann-hypothesis-claim>
+- Author: Lean 4 Dev Editorial Team (unnamed).
+- Version / date: Date-only metadata (2026-11-20).
+- Retrieved: 2026-11-21 04:59:33 UTC, HTTP 200, 338,020 bytes, sha256 `622a8da758acb74e6a7cf1e3aa4adfcaeeccb6640640ced105f9e92bce37b158`
+- Contribution and reliability: A clear explainer of the statement in Lean and of what was checked, and one of the few that places the 250,000-page figure correctly (A1, p. 2, fn. 2). Commercial learning site, anonymous, probably AI-assisted; no errors found in what we checked. Low–medium weight.
+
+<a id="g7"></a>
+**G7. Masullo manuscript search tool.**
+
+- URL: <https://masullo-grh.vercel.app/>
+- Author: Not named; "Powered by TopK".
+- Version / date: Undated.
+- Retrieved: 2026-11-21 04:59:36 UTC, HTTP 200, 5,595 bytes, sha256 `f9ba81db7bfc59bc736aa931c0ac1b69a6b21bb6f12c1df9af4947a03a144056`
+- Contribution and reliability: A semantic-search front end for A4: type an idea, get pages. A finding aid only.
+
+<a id="g8"></a>
+**G8. Build guides and early repositories of the extracted code.**
+
+- URL: <https://github.com/CocoSgt/riemann-hypothesis-lean>; <https://github.com/TomasOrtega/RH>
+- Author: GitHub users CocoSgt and TomasOrtega.
+- Version / date: TomasOrtega/RH created 2026-11-20 14:16:39 UTC (first commit "import extracted Lean project", 14:16:28); CocoSgt/riemann-hypothesis-lean created 14:59:14 UTC, last push 15:13:36 UTC.
+- Retrieved: CocoSgt README 2026-11-21 05:23:47 UTC, HTTP 200, 8,726 bytes, sha256 `2c613919744434c3499c5f75c8019f5686673bc85e2487189f619ca76980cf89`; TomasOrtega README 2026-11-21 05:32:06 UTC, HTTP 200, 296 bytes, sha256 `3d0957ad7c8e8ac811779c2cef6f706fb70ec8d8b2a5db1750938b9bbeb67143`
+- Contribution and reliability: Both repositories are mirrors of the archive (we link, never copy). TomasOrtega/RH is the earliest public repository of the extracted code we found (V4); CocoSgt's README gives step-by-step download, hash check (`9631b4f0…`) and build instructions, and asks reporters to include commit, toolchain and machine. Practical guides; no checking of their own.
+
+<a id="g9"></a>
+**G9. Video explainers.**
+
+- URL: <https://www.youtube.com/watch?v=Lrle6EiXqfs>; <https://www.youtube.com/watch?v=ptivrqGvoV8>; <https://www.youtube.com/watch?v=sMZMpsHeFKc>; <https://www.youtube.com/watch?v=zlm1aajH6gY>
+- Author: Dirac (@DiracExplained), Numberphile, Quanta Magazine.
+- Version / date: Upload dates not available to us; titles via YouTube oEmbed.
+- Retrieved: 2026-11-21 05:05:26 UTC, HTTP 200, 846 bytes, sha256 `9e3e0538eb71292bf58db6705cfbbe40b242d399e1fda4900f5d25cc7816b1f4`
+- Contribution and reliability: Popular explainers of the two claims and of RH. Not watched by us; the auto-generated descriptions misspell names. Surveyed only.
+
+## Errata and disputes (E)
+
+<a id="e1"></a>
+**E1. McCorvie et al., `ERRATA.md` of `mccorvie/riemann-masullo`.**
+
+- URL: <https://github.com/mccorvie/riemann-masullo/blob/27567d5098ecaf57d44fed6b6bfa146ca54a68f3/ERRATA.md>
+- Author: Ryan McCorvie (integrator), from reports by contributors and their agents.
+- Version / date: File added 2026-11-20 20:22:11 UTC (commit `e61d5090`); last ERRATA commit `3641550c` (2026-11-21 04:39:42); read at HEAD `27567d50`.
+- Retrieved: 2026-11-21 05:00:08 UTC, HTTP 200 (gh api, authenticated read-only), 57,398 bytes, sha256 `9b6e7f1e6343ea1a60048f6e8373886ddcc12a51ea42123e56a419be909a8469`
+- Contribution and reliability: A running list with page numbers: at our copy 123 entries — 96 imprecise or wrongly justified, 18 false as stated, 7 placeholders or missing material, 2 reported from reading beyond what is formalized. The file says most entries were first reported by an AI agent and that none has been reviewed by a specialist. A progress indicator for the formalization, not a verdict on the draft.
+
+<a id="e2"></a>
+**E2. mccorvie/riemann-masullo issue #1169: the uniform bound on biorthogonal pairs after (10.3.1.18).**
+
+- URL: <https://github.com/mccorvie/riemann-masullo/issues/1169>
+- Author: Opened by yikerman; comments by grootstebozewolf, PeaBrane, leecrossley and others.
+- Version / date: Opened 2026-11-20 23:35:48 UTC; comments to 2026-11-21 04:22:08 (edited 04:39).
+- Retrieved: 2026-11-21 04:59:47 UTC, HTTP 200 (gh api, authenticated read-only), 6,323 bytes, sha256 `29294e8a6f04f2c9d7045e944482c487f041a1e2e092acb97a4beffd4c93c44a`
+- Contribution and reliability: The best-documented technical objection: the draft needs a constant bounding $\|\eta\|\cdot\|\psi\|$ for biorthogonal pairs uniformly in the zero (p. 451, resting on Terminology 10.2.1.2(2), p. 444), and close pairs of zeros of ζ on the critical line make such a bound impossible. Comments add a Rocq file, a repair via finite-rank windows (E3), and a trace-class argument. Community work, partly AI-assisted; the counterexample is elementary and we reproduced it (E9). The Refine report (E6) had stated the same failure about two hours earlier.
+
+<a id="e3"></a>
+**E3. Yan Ru Pei, "Trace class without bounded biorthogonals: repairing a step in Masullo's spectral nuclearity theorem" (Zenodo).**
+
+- URL: <https://doi.org/10.5281/zenodo.24409811>
+- Author: Pei, Yan Ru (independent researcher; GitHub PeaBrane).
+- Version / date: Version 1, record 24409812, created 2026-11-21 01:56:01 UTC; concept DOI 10.5281/zenodo.24409811.
+- Retrieved: 2026-11-21 04:59:44 UTC, HTTP 200, 6,510 bytes, sha256 `dbabf22dc9aae9b256516c541989d0108417def60cc67d83428d939ffdb8fb07`
+- Contribution and reliability: A 19-page AI-assisted note proposing a repair of the step in E2 on the critical line ($I=\{0\}$), crediting the counterexample to Yi Cao (issue #1169). It says the strip case is not repaired and that it does not bear on the main theorem. Self-published, not peer reviewed, and its abstract says the arguments have not been checked by human experts.
+
+<a id="e4"></a>
+**E4. mccorvie/riemann-masullo issue #587: Theorem 12.5.1.1 as printed, and its corrected form.**
+
+- URL: <https://github.com/mccorvie/riemann-masullo/issues/587>
+- Author: GitHub user AVBlom.
+- Version / date: Opened 2026-11-20 22:06:36 UTC; no replies at 05:15 UTC.
+- Retrieved: 2026-11-21 05:05:20 UTC, HTTP 200 (gh api, authenticated read-only), 6,739 bytes, sha256 `154d1a8fbdca773a406b5c1a32b77dfe873c4e26fd6e3dc9a2e7a7145b17cf79`
+- Contribution and reliability: Claims, with numerical checks, that the trace formula as printed fails for $\mathbb Q(i)$ and $\mathbb Q(\sqrt{-3})$ by a normalising factor, and that once corrected it coincides with Weil's explicit formula (the draft's own B.4.4.7) — consistent with the claim reported on V3 at 19:42:57. If right, the main theorem carries no information beyond the classical explicit formula. One contributor, unreviewed; [Open].
+
+<a id="e5"></a>
+**E5. mccorvie/riemann-masullo issue #1358: shell cutoff in the proof of Theorem 11.3.2.1.**
+
+- URL: <https://github.com/mccorvie/riemann-masullo/issues/1358>
+- Author: GitHub user yikerman.
+- Version / date: Opened 2026-11-21 00:07:23 UTC.
+- Retrieved: 2026-11-21 05:05:20 UTC, HTTP 200 (gh api, authenticated read-only), 6,377 bytes, sha256 `d307ec3d8ef5095baac5e881e9fc89049820c05009d30a3379dabc9648513741`
+- Contribution and reliability: Reports two steps on pp. 495–496 that must be replaced before they can feed Theorem 12.5.1.1. Unreviewed community report.
+
+<a id="e6"></a>
+**E6. Refine Technologies, Inc., "Report on The Music of the Primes".**
+
+- URL: <https://github.com/Refine-Technologies-Inc/music-of-primes-report-by-refine>; <https://raw.githubusercontent.com/Refine-Technologies-Inc/music-of-primes-report-by-refine/main/report.pdf>
+- Author: Refine Technologies, Inc. ("We used the Refine harness and all frontier models to prepare this report").
+- Version / date: 8 pages; PDF `CreationDate` 2026-11-20 15:12:41 −06:00 (21:12:41 UTC); first commit `1aa155d494` 21:12:42 UTC, files renamed in `f4844e58ed` 21:20:43 UTC. Linked on V3 at 22:38:07 UTC.
+- Retrieved: 2026-11-21 05:29:02 UTC, HTTP 200, 304,050 bytes, sha256 `13669bfc6a53d46da0df19ef1afc114dfdc0b93b7ac144979d450052411dcadc`
+- Contribution and reliability: An AI-produced audit that concludes the draft "does not establish the claimed results": ten gaps or errors, including the two omitted central steps (Section 12.3; Theorem 13.3.1.2), the Chapter 11 prime-shell truncation that "collapses every prime shell to zero", and — earliest in writing among the sources we found — the failure of the individual biorthogonal bound at p. 451 because clustered zeros make individual norms unbounded (citing Bui–Conrey–Young). The repository also hosts a copy of the draft (we link the original, A4). A company report made with AI tools and not peer reviewed; detailed and page-referenced, so checkable.
+
+<a id="e7"></a>
+**E7. Early public error reports on the Masullo draft.**
+
+- URL: <https://x.com/AcerFur/status/2123853069599547786>; <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Formalising.20Masullo.27s.20proof.20of.20GRH/near/642318488>; <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Formalising.20Masullo.27s.20proof.20of.20GRH/near/642362262>
+- Author: @AcerFur (X); Tim Gehrunger and Brent Yee (Lean Zulip).
+- Version / date: X post 2026-11-20 18:56:45 UTC (from the post id); Zulip messages 642318488 (19:32:09), 642321263 (19:42:57), 642362262 (22:42:18).
+- Retrieved: 2026-11-21 05:22:49 UTC, HTTP 200, 3,207 bytes, sha256 `bb5032eb29b5f1dd49683beb00b661139a46c1bcd4f99c9d8f0a7437e44d2968`; Zulip messages from V3
+- Contribution and reliability: The first public signals, all relaying AI readings: "ok GPT quickly finds some errors, but idk how irreparable it is" (18:56:45); an LLM-found counterexample to Theorem 12.5.1.1 (19:32:09) and the reduction to a classical formula (19:42:57); and Brent Yee's quotation, without naming its source, of the note "Error on page 444. He claims a Markushevich basis whose vectors are bounded away from zero necessarily has a bounded biorthogonal sequence. This is not true." (22:42:18). These dated the dispute; the substance is in E2, E4 and E6.
+
+<a id="e8"></a>
+**E8. Premature report of a completed paranoid Comparator run.**
+
+- URL: <https://x.com/nasqret/status/2123858004542189855>
+- Author: Bartosz Naskręcki (@nasqret).
+- Version / date: 2026-11-20 19:16:22 UTC (post id); an earlier post, id 2123816210441936983 (16:30:17 UTC), had said "We don't yet have full confirmation from the paranoid-mode comparator test, but we are close".
+- Retrieved: 2026-11-21 05:14:36 UTC, HTTP 200, 5,706 bytes, sha256 `6a7ac526c9b87b88f56871a12417c65bee277ee724c4fdc0ba41f46edb739a54`; post JSON also at 2026-11-21 05:23:59 UTC, HTTP 200, 5,706 bytes, sha256 `747729d5d3e9f9321ca619b90cb419165b84bbec82ff79be8c456dc5f20985e0`
+- Contribution and reliability: States: "We have a full confirmation from Andrew Sutherland who first managed to finish the nanoda kernel run and comparator in paranoid mode." [Checked]: neither version of V1 (19:45 and 22:05 UTC) supports the second half — nanoda had accepted at 19:05:45, but the paranoid kernels and `lake comparator` were still "running". A widely shared (232k views at our fetch) overstatement; cite only as an example of how status was misreported.
+
+<a id="e9"></a>
+**E9. Our reproduction of the p. 451 gap (not in the repository).**
+
+- URL: run `rheval-opportunity-11211046`, `work/masullo/NOTE-mbasis-gap.md` and `verify_mbasis.py` (outside the repository)
+- Author: This project (run `rheval-opportunity-11211046`, 2026-11-21).
+- Version / date: Note written 2026-11-21 about 03:38 UTC; computation `verify_mbasis.py` (CPU 25.2 s). An independent audit of that run was in progress at 05:45 UTC.
+- Retrieved: Local files; not published
+- Contribution and reliability: [Checked]: for $F=\mathbb Q$, $\chi=1$, the norm formula of Prop. 10.2.1.3 (p. 443) gives $\|\eta_t\|\cdot\|\psi_t\|\ge (J_s/Q_s(d))^{1/2}$ for two critical zeros at distance $d$, which is about $1/d$ for $s=4$; since zeros with $d\to0$ exist (Conrey 1989 plus zero counting), no uniform constant exists. A ball-arithmetic computation of Hardy's $Z$ finds sign changes isolating two zeros (nos. 6709 and 6710, about 0.0377 apart) in an interval of length 0.0497, which forces $\|\eta_t\|\,\|\psi_t\|\ge 20.4565$ for $s=4$. Priority belongs to others (E6, E2); our note had credited E2 and is corrected here. A same-project check, not yet independently audited.
+
+<a id="e10"></a>
+**E10. LUMI report, "Vacuity check of the load-bearing statements".**
+
+- URL: <https://github.com/aapolipponen/rh-lean-check-lumi/blob/82d91dbbd04d71f2cb45c3f2898f421b91c1c9d7/docs/reports/vacuity-check.md>
+- Author: AI agent (read-only review), in G1.
+- Version / date: Committed 2026-11-20 22:40:20 UTC (`40e1ae43`).
+- Retrieved: 2026-11-21 04:58:15 UTC, HTTP 200, 14,690 bytes, sha256 `4c50ec8cba3dfe9e8e874d49a089d6b00bda71b462b05f2128376409367e814b`
+- Contribution and reliability: Addresses the worry that a load-bearing hypothesis might be vacuous or trivially satisfied: it finds the window hypothesis applied to window pairs the archive proves exist, the Ш bound not trivial by definition, and part of `Row0b` not vacuous, and names the density proof `pair_share` and `vwin_of_row` as the places most deserving scrutiny. An AI reading, not human-checked; good evidence that no public reviewer has found vacuity, not a proof of non-vacuity.
+
+<a id="e11"></a>
+**E11. Statement-fidelity and metaprogramming disputes about the Lean archive.**
+
+- URL: <https://github.com/leanprover-community/riemann-hypothesis/issues/2>; <https://github.com/leanprover-community/riemann-hypothesis/issues/6>; <https://news.ycombinator.com/item?id=50576189>
+- Author: GitHub users joni15 (#2; reply by Deicyde) and patunz (#6); Hacker News commenters.
+- Version / date: #2 opened 2026-11-20 20:14:38 UTC; #6 opened 2026-11-21 02:33:46 UTC; HN parent comment 2026-11-20 15:31:47 UTC.
+- Retrieved: #2 2026-11-21 05:01:44 UTC, HTTP 200 (gh api, authenticated read-only), 4,492 bytes, sha256 `0ad0767ef965ca2e08019c05052ebb8ccd8d09504d91151f20cdbdc46ff1327b`; HN 2026-11-21 05:10:28 UTC, HTTP 200, 192 bytes, sha256 `642746d086274444b4d365ed8ba6eb14124e554ad5c32fa16c751a0fade8ad9e`
+- Contribution and reliability: Issue #2: a static audit finding every module inside `Main`'s import cone, no `sorry`/`axiom`/`native_decide`, but four home-made tactics and three `MVarId.assign` sites that bypass elaboration-time type checks (the kernel still checks the final terms); it led to the correction of V5's notes. Issue #6: `.olean` hashes depend on the build directory. On Hacker News, a reply (seen by us only in search-result snippets, not fetched) asserted that the archive might certify an LLM-written definition rather than the real statement; other commenters rebutted it in the same sub-thread, and the archive in fact proves Mathlib's own definition (Chapter 1). Record the first two as resolved observations and the third as a refuted claim.
+
+<a id="e12"></a>
+**E12. Criticism of the announcement itself.**
+
+- URL: <https://www.nature.com/articles/d41586-026-03812-7>; <https://www.quantamagazine.org/updates/transformation/>; <https://siliconreckoner.substack.com/p/mathematics-as-gift-economy>
+- Author: Andrew Granville (quoted in P1); Maksym Radziwiłł (quoted in P6); Michael Harris (C6).
+- Version / date: 2026-11-20.
+- Retrieved: See P1, P6, C6
+- Contribution and reliability: Granville: "What he released is garbled", and the author should have prepared a clearer write-up; Radziwiłł: the object of mathematics is the question "why?" and "this doesn’t answer it at all"; Harris: "very little sense can be extracted from the sketch in Alpöge’s four-page announcement". These are disputes about readability and understanding, not about correctness of the formal proof.
+
+<a id="e13"></a>
+**E13. Factual errors in coverage, checked against the primary sources.**
+
+- URL: see the Press section (P1–P38)
+- Author: Compiled by us.
+- Version / date: Checked 2026-11-21 04:50–05:35 UTC.
+- Retrieved: Outlet copies listed under Press
+- Contribution and reliability: [Checked] against A1, A4, A5: (1) the "250,000 pages" are the unposted informal text (A1, p. 2, fn. 2), but BBC English and Japanese (P15, P16) say the Lean proof is over 250,000 pages, and New Scientist's explainer (P8) calls the 250,000-page text the proof and Lean its "translation"; (2) BBC's headline spells "Reimann"; (3) BBC Japanese dates the message to Amodei to the 5th, whereas the note says "late Sunday night" and BBC English says Sunday (15 November); (4) TechCrunch calls Vakil president of the "American Mathematics Association" (P12); (5) Scientific American's 21:00 story quotes Buzzard's Xena essay of 12 November as "a blog post" in a way that reads as a comment on this claim, which it predates (P5); (6) Masullo is called a Stanford postdoc by several outlets, which neither A4 nor A7 confirms. Correct the record by citing the primary source, not the outlet.
+
+## Commentary (C)
+
+<a id="c1"></a>
+**C1. Terence Tao, "Unforced Euler singularity, unforced Navier-Stokes singularity, and the Generalized Riemann Hypothesis" (blog post and comments).**
+
+- URL: <https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/>
+- Author: Terence Tao (UCLA).
+- Version / date: Published 2026-11-20 17:19:00 UTC, modified 19:13:39 UTC (the "UPDATE" on Zulip moderation); 31 comments at our copy.
+- Retrieved: 2026-11-21 04:58:59 UTC, HTTP 200, 319,924 bytes, sha256 `adc622033b887bf59000424a6ac973f2e36e577d3b94b1049d47b1bea7503157`; Part I's copy of 04:05:41 UTC has sha256 `28d6e810…` (comments differ)
+- Contribution and reliability: Lists three AI-assisted results "in decreasing order of how “digested”" they are; of the GRH claim: "Levent Alpöge, using an internal AI model, has generated an (enormous) Lean-only proof of the Generalized Riemann Hypothesis", points to V2 as "probably the best place to follow the efforts to verify the proof", and adds "I imagine the digestion process will take some time, though in this case at least we have a human author to communicate with to assist with this task." In a comment he notes the AI proof seems to use automorphic, algebraic and arithmetic-geometric inputs and, after an edit, places Masullo's manuscript "closer to Deninger’s strategy towards RH than Connes’". Expert, careful, explicitly preliminary.
+
+<a id="c2"></a>
+**C2. Kevin Buzzard, "…and the proof is checked in Lean" (Xena blog), and his moderation on V2.**
+
+- URL: <https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/>; <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642306912>
+- Author: Kevin Buzzard (Imperial College London).
+- Version / date: Essay of 2026-11-12, eight days before the announcement (pinned in Part I, §5); Zulip messages 642305635 (18:39:29) and 642306912 (18:44:35).
+- Retrieved: 2026-11-21 04:58:59 UTC, HTTP 200, 131,894 bytes, sha256 `1276c27358e0c092c9986df031ebc1dbb8b800b27980673d236eae0a09cd08cc`; Part I's copy of 04:23:04 UTC has sha256 `b404e77b…` (dynamic page)
+- Contribution and reliability: The essay explains what "checked in Lean" does and does not mean, starting with comparing the Lean statement with the intended theorem; it predates and does not mention the claim, although press quoted it as if it did (E13). On the day, Buzzard kept V2 on Lean topics ("posts which are not about Lean are off-topic") and stated what was still missing: a successful `comparator` run, checking (a) that nothing redefines the symbols in the statement and (b), in paranoid mode, acceptance by several independent kernels. Authoritative on the Lean side.
+
+<a id="c3"></a>
+**C3. Scott Aaronson, "The stochastic parrots have apparently proved the Riemann Hypothesis" (Shtetl-Optimized).**
+
+- URL: <https://scottaaronson.blog/?p=10344>
+- Author: Scott Aaronson (UT Austin).
+- Version / date: Published 2026-11-20 18:29:03 UTC; modified 22:20:32 UTC; 62 comments at our copy.
+- Retrieved: 2026-11-21 05:13:17 UTC, HTTP 200, 97,548 bytes, sha256 `cb664f92e0a545e23ee6973a45b903e7d7d593933f29f2c70045ece8e80cef19`
+- Contribution and reliability: A widely read reaction: "my bet is that the proof will stand", while "Mathematicians of course won’t be satisfied with 17 million lines of Lean." Opinion by a computer scientist; useful for the reception, not for the mathematics.
+
+<a id="c4"></a>
+**C4. Gil Kalai, "Fan Chang, Hong Liu, and Maio Liu Proved Chvátal’s 1972 conjecture" (Combinatorics and more), opening update.**
+
+- URL: <https://gilkalai.wordpress.com/2026/11/20/fan-chang-hong-liu-and-maio-liu-proved-chvatals-1972-conjecture/>
+- Author: Gil Kalai.
+- Version / date: Posted 2026-11-20.
+- Retrieved: 2026-11-21 05:13:20 UTC, HTTP 200, 318,636 bytes, sha256 `8ec3e04af47a0f32c3ffa70d5ec1177e4df0e46f7a121ed248a583f6a2875e27`
+- Contribution and reliability: A one-line mention ("Levent Alpöge also announced a proof of the Riemann Hypothesis. Good day for Levent!"). Reception only.
+
+<a id="c5"></a>
+**C5. Simon Willison, link posts on the two announcements.**
+
+- URL: <https://simonwillison.net/2026/Nov/20/levent-alpoge/>; <https://simonwillison.net/2026/Nov/20/ravi-vakil/>
+- Author: Simon Willison.
+- Version / date: Dated 2026-11-20; the page time ("7:21 pm") has no time zone.
+- Retrieved: 2026-11-21 05:13:17 UTC, HTTP 200, 14,006 bytes, sha256 `4f67bb70d4030328e554d16348985d82156cc0a13c3281f39f5083b9ea437e70`; Vakil post 2026-11-21 04:59:37 UTC, HTTP 200, 13,023 bytes, sha256 `76be14d4206d5e9ce747eedd65c5fdeb45dbef098f526c8a36378b5597a74f5c`
+- Contribution and reliability: Quotation posts without analysis; useful as an independent witness of the original wording of A5 ("bring Alessandro to Stanford for a year").
+
+<a id="c6"></a>
+**C6. Michael Harris, "Mathematics as gift economy" (Silicon Reckoner).**
+
+- URL: <https://siliconreckoner.substack.com/p/mathematics-as-gift-economy>
+- Author: Michael Harris (Columbia).
+- Version / date: Published 2026-11-20 18:51:48 UTC.
+- Retrieved: 2026-11-21 05:14:04 UTC, HTTP 200, 297,602 bytes, sha256 `bdc6e16971f308781c16a61e5457e6d7732e1eec6d3ede95c9d2f5a9246e538a`
+- Contribution and reliability: A critical essay: Harris says his 2024 guess that a proof of RH might arrive as about a million pages of code was "of the right order of magnitude", and that "very little sense can be extracted from the sketch in Alpöge’s four-page announcement". Opinion by a number theorist; reception and critique.
+
+<a id="c7"></a>
+**C7. X posts that spread the news.**
+
+- URL: <https://x.com/scottnarmstrong/status/2123773647919661288>; <https://x.com/kevinweil/status/2123798040339419484>; <https://x.com/thomasfbloom/status/2123800965677748665>; <https://x.com/nasqret/status/2123816210441936983>
+- Author: Scott Armstrong; Kevin Weil; Thomas Bloom; Bartosz Naskręcki.
+- Version / date: Times decoded from the post ids and matched against fxtwitter: 13:41:10, 15:18:05, 15:29:43 and 16:30:17 UTC on 2026-11-20.
+- Retrieved: Armstrong 2026-11-21 05:03:49 UTC, HTTP 200, 2,235 bytes, sha256 `d6c7e0b34f97bc59015e2c09cb5d7449aff5e7e3b43e468ae9f6defbe81c3a08`; Weil 2026-11-21 05:14:37 UTC, HTTP 200, 4,407 bytes, sha256 `5d50ec15faad2a7366ca702f1e6f6494ae388c9226f281e9c2afe473b7fcb592`; Bloom 2026-11-21 05:14:59 UTC, HTTP 200, 2,751 bytes, sha256 `d58c42ed09fa4282bf36e5c816481b0943077d37d12b1472706d386edd86b806`; Naskręcki 2026-11-21 05:14:35 UTC, HTTP 200, 5,472 bytes, sha256 `4cb483c276a7b8b65a9b6e20b4f31500083663ec41fe43faf8a33baa879acc12`
+- Contribution and reliability: Armstrong's screenshot of the note ("@__alpoge__ ftw") is the earliest public signal we found, 17 minutes before V2 opened; Quanta reports he posted it because Tristan Buckmaster had sent it to him (P17). Weil's post spread it to the AI audience; Bloom pointed readers to V2 ("Lean experts are currently investigating"); Naskręcki's 16:30 post correctly said the paranoid check was not done (compare E8). Timestamps reliable; content is reaction.
+
+<a id="c8"></a>
+**C8. MathOverflow and Mathematics Stack Exchange.**
+
+- URL: <https://mathoverflow.net/questions/518033>; <https://mathoverflow.net/questions/518043>; <https://math.stackexchange.com/questions/5155823>
+- Author: Sam Hopkins (518033, answers by Will Sawin, Timothy Chow and others); Will Jagy (518043); Ashwin Sivakumar (5155823).
+- Version / date: 518033 asked 2026-11-20 15:42:16 UTC; 518043 asked 2026-11-21 00:39:02 UTC and closed 00:46:53 UTC.
+- Retrieved: 518033 2026-11-21 05:01:06 UTC, HTTP 200, 2,353 bytes, sha256 `0f92282961ab54cf816190b0b669c343e6703c2724f816aa0a2ac5c8503bbe1f`; 518043 2026-11-21 04:59:37 UTC, HTTP 200, 2,284 bytes, sha256 `e7ebe7e78e4aca9513fee6f281ef35dace5f29570e7bec9bd78fac5b89860eba`; MSE 2026-11-21 05:01:07 UTC, HTTP 200, 830 bytes, sha256 `10fc7422ec8cf9b9b29dfda79ba8d3912133d4489111595496e4f918ca1a3681`
+- Contribution and reliability: 518033, "How to 'human verify' enormous AI math output?", gathers expert views on understanding a proof nobody has read (Sawin on collaborative partial expositions; Chow relaying G4). 518043 pasted A5's original text and was closed as unsuitable within eight minutes. Expert discussion; Chow's answer is second-hand.
+
+<a id="c9"></a>
+**C9. Hacker News discussions.**
+
+- URL: <https://news.ycombinator.com/item?id=50574968>; <https://news.ycombinator.com/item?id=50578358>; <https://news.ycombinator.com/item?id=50579568>; <https://news.ycombinator.com/item?id=50581084>; <https://news.ycombinator.com/item?id=50583982>
+- Author: Submitters iamronaldo (A1), archon1410 (C1), jasondavies (A5), stratos123 (C3), _dain_ (an essay, "Re: Riemann").
+- Version / date: 2026-11-20/21.
+- Retrieved: HN Algolia API 2026-11-21 05:23:59 UTC, HTTP 200, 29,754 bytes, sha256 `47da9525ee54961102e34436ac1d9efb3ef3c8a85d958650f211e5df72ac2e30`; item pages: 2026-11-21 05:05:22 UTC, HTTP 200, 2,567 bytes, sha256 `50338f49311cc2abc884ab668131a3f8debf71a14936de4f8c3b70acac7cd452`
+- Contribution and reliability: Large public discussions; the first thread (50574968) is the one Kelly Davis cited on V4. Anonymous comments; useful for reception and as a source of claims to check (E11), not as evidence.
+
+<a id="c10"></a>
+**C10. Blogs and accounts checked without a relevant post.**
+
+- URL: <https://www.math.columbia.edu/~woit/wordpress/>; <https://mathstodon.xyz/@tao>
+- Author: Peter Woit; Lance Fortnow and Bill Gasarch; Daniel Litt (Bluesky); Terence Tao (Mathstodon).
+- Version / date: Checked 2026-11-21 05:00–05:14 UTC.
+- Retrieved: 2026-11-21 05:13:18 UTC, HTTP 200, 146,164 bytes, sha256 `aed8cf91db00eb926dbacd75c869fa64ffd83d3d7b98396133b44e7e45fd3f91`; Mathstodon 2026-11-21 05:00:58 UTC, HTTP 200, 195,770 bytes, sha256 `665110db606e0897494fb7a49fe5628407044483b05956ba070a59087602acbf`
+- Contribution and reliability: Negative results, recorded so that later readers know these were looked at: no post on the claims at our check (Tao's latest Mathstodon status was of 10 November). Searches not exhaustive.
+
+## Press (P)
+
+Ordered by first publication. Unless stated, outlets report the claims second-hand from A1, A5, V1 and V2; quotations of Alpöge in the press match A1 verbatim where we checked.
+
+<a id="p1"></a>
+**P1. Joseph Howlett, "Anthropic mathematician claims to prove Riemann hypothesis, most famous problem in all of math", *Scientific American*.**
+
+- URL: <https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/>
+- Author: Joseph Howlett (edited by Claire Cameron).
+- Version / date: Published 2026-11-20 14:00 UTC; `dateModified` 23:26:31 UTC.
+- Retrieved: 2026-11-21 04:57:37 UTC, HTTP 200, 146,746 bytes, sha256 `ee1ee085c8f3bc8b7c035e213da6c8befcec0ec6e9d76b9369e69dcf22b57795`
+- Contribution and reliability: The first press report we found, timestamped two minutes after the first Zulip message. The later updates add Sutherland's comments ("This is indeed an historic moment"; he calls it "a human triumph") after his 16:43 compile, so the article as read is not the 14:00 text. Careful science journalism; cite with the version caveat.
+
+<a id="p2"></a>
+**P2. Matthew Sparkes, "Anthropic mathematician claims AI-assisted proof of the Riemann hypothesis", *New Scientist*.**
+
+- URL: <https://www.newscientist.com/article/2600134-anthropic-mathematician-claims-ai-assisted-proof-of-the-riemann-hypothesis/>
+- Author: Matthew Sparkes.
+- Version / date: Published 2026-11-20 15:20:01 UTC; modified 16:39:22 UTC.
+- Retrieved: 2026-11-21 05:08:28 UTC (browser); curl got HTTP 406 at 05:02:07Z, no byte hash
+- Contribution and reliability: Early report with Buzzard's reaction, "Let’s see if it compiles first", and James McKee's "There are numerous results that are conditional on the generalised Riemann hypothesis, and now those are theorems!". Read in a browser (curl refused).
+
+<a id="p3"></a>
+**P3. Robert Hart, "Anthropic mathematician claims to have solved prestigious Millennium Prize problem with Claude", *The Verge*.**
+
+- URL: <https://www.theverge.com/ai-artificial-intelligence/1010051/anthropic-riemann-hypothesis-millennium-prize-problem>
+- Author: Robert Hart (JSON-LD also lists Emma Roth).
+- Version / date: Published 2026-11-20 16:34:13 UTC.
+- Retrieved: 2026-11-21 05:02:16 UTC, HTTP 200, 446,993 bytes, sha256 `81d97a58f3b317ab59adbe83745c32839c0cbfc6ce560632dc26978877d1aa49`
+- Contribution and reliability: Early tech-press report: notes Anthropic had not commented, quotes Anthropic's August statement (A6) and explains the Clay prize rules. Second-hand; minor spelling errors.
+
+<a id="p4"></a>
+**P4. Joseph Howlett, "Dueling claims of Riemann hypothesis proofs emerge", *Scientific American*.**
+
+- URL: <https://www.scientificamerican.com/article/dueling-claims-of-riemann-hypothesis-proofs-emerge/>
+- Author: Joseph Howlett (edited by Lee Billings).
+- Version / date: Published 2026-11-20 20:40 UTC; modified 21:32:45 UTC.
+- Retrieved: 2026-11-21 04:57:38 UTC, HTTP 200, 136,175 bytes, sha256 `a059f86dbe7db91b7640465f244d044b4fefbee462d8573bf88514c73a66c654`
+- Contribution and reliability: The only source with Brian Conrad's own words on the Masullo draft: "To judge the success of the method requires the paper to reach a stage of more final revision" and "It’s undergoing major revision." Primary for Conrad's view as quoted.
+
+<a id="p5"></a>
+**P5. Clara Moskowitz, "The AI Riemann hypothesis proof is almost certainly true, independent mathematicians attest", *Scientific American*.**
+
+- URL: <https://www.scientificamerican.com/article/the-ai-riemann-hypothesis-proof-is-almost-certainly-true-independent-mathematicians-attest/>
+- Author: Clara Moskowitz (edited by Lee Billings).
+- Version / date: Published 2026-11-20 21:00 UTC; modified 21:47:41 UTC (pinned in Part I, §5).
+- Retrieved: 2026-11-21 04:57:39 UTC, HTTP 200, 137,656 bytes, sha256 `f51e63f20b44981373271181cfb46554ee66668612e1af3f972af9dbf22faac4`
+- Contribution and reliability: Quotes Sutherland ("Honestly the chance that anything is fishy here is approximately zero"; the proof "has been compiled and independently rechecked by the Lean kernel with only the three standard axioms") and Buzzard's Zulip line that a successful comparator run was still awaited. Calls the 12 November Xena essay a "blog post" on this claim (E13). Good on status as of 21:00.
+
+<a id="p6"></a>
+**P6. Lee Billings, "What the Riemann hypothesis proof really means about AI and the future", *Scientific American*.**
+
+- URL: <https://www.scientificamerican.com/article/what-the-riemann-hypothesis-proof-really-means-about-ai-and-the-future/>
+- Author: Lee Billings (edited by Clara Moskowitz).
+- Version / date: Published 2026-11-20 18:10 UTC; modified 18:38:14 UTC.
+- Retrieved: 2026-11-21 04:57:39 UTC, HTTP 200, 144,081 bytes, sha256 `164781bcbcd05084dab05adf29d56107958b11cb4112bbaf26e10ba17a16dd63`
+- Contribution and reliability: Explainer on consequences (no threat to RSA; significance as evidence of AI capability). Does not note that the Lean statement covers Dirichlet L-functions only. Analysis, not reporting.
+
+<a id="p7"></a>
+**P7. AFP (Alex Pigman with Thomas Urbain), "Anthropic researcher says Claude solved math's greatest riddle", via France 24.**
+
+- URL: <https://www.france24.com/en/live-news/20261120-anthropic-researcher-says-claude-solved-math-s-greatest-riddle-1>
+- Author: Agence France-Presse.
+- Version / date: Earliest AFP version seen: RTL Today, 2026-11-20 17:25:53 UTC (short, no expert quotes). France 24 version published 18:34:17 UTC, modified 22:10:30 UTC (adds Conrey and Vakil).
+- Retrieved: France 24 page read in a rendering browser at 2026-11-21 05:09:28 UTC (curl got HTTP 403 at 04:57:41 UTC), no byte hash
+- Contribution and reliability: Wire story carried worldwide (copies under S1). Its expanded version quotes Brian Conrey: "It's a monumental moment in human history. It's really the biggest thing I think that's ever happened in mathematics", while reporting that he had seen only the remarks on Alpöge's site and had asked for a manuscript. Reports Vakil's announcement and that neither Vakil nor Masullo had responded. Read in a browser (curl got HTTP 403); copies on phys.org and Yahoo have byte hashes (S1).
+
+<a id="p8"></a>
+**P8. Karmela Padavic-Callaghan and Matthew Sparkes, "What is the Riemann hypothesis and why is its solution so monumental?", *New Scientist*.**
+
+- URL: <https://www.newscientist.com/article/2600226-what-is-the-riemann-hypothesis-and-why-is-its-solution-so-monumental/>
+- Author: Karmela Padavic-Callaghan and Matthew Sparkes.
+- Version / date: 2026-11-20 (browser read).
+- Retrieved: 2026-11-21 05:08:34 UTC (browser); curl HTTP 406, no byte hash
+- Contribution and reliability: Explainer. Error: says Alpöge wrote that his proof "is over 250,000 pages long" and that "its translation into the language of the proof-checking software Lean is 17,000,000 lines long" — the reverse of A1, where Lean is the only proof released and the 250,000+ pages are an unposted informal text (E13).
+
+<a id="p9"></a>
+**P9. Hallie Golden (AP), "Anthropic worker claims to have solved a Holy Grail of math problems with the help of AI", via *The Independent*.**
+
+- URL: <https://www.the-independent.com/news/claude-anthropic-san-francisco-rutgers-university-wall-street-b3089058.html>
+- Author: Hallie Golden (Associated Press).
+- Version / date: AP original 2026-11-20 (apnews.com not readable to us); The Independent's copy published 2026-11-21 04:32:55 UTC.
+- Retrieved: 2026-11-21 05:02:12 UTC, HTTP 200, 238,039 bytes, sha256 `348a91c801af67e45c3b81dca539216b0392f9ba5362d7637f24a31d8b1837dc`
+- Contribution and reliability: Adds the Clay Mathematics Institute's response: its president Martin Bridson calls it "an announcement of historic significance" and warns that "the journey from today’s announcement to a place of real understanding will be long and difficult"; quotes Alex Kontorovich ("Navier-Stokes fell and now the Riemann Hypothesis"). Wire copy; reliable for quotations.
+
+<a id="p10"></a>
+**P10. Mark Wilson, "Claude helps Anthropic mathematician solve a 167-year-old…", *TechRadar*.**
+
+- URL: <https://www.techradar.com/ai-platforms-assistants/claude/claude-helps-anthropic-mathematician-solve-a-167-year-old-math-problem-riemann-hypothesis-potentially-proven-after-the-ai-flew-danced-and-sparkled-in-breakthrough>
+- Author: Mark Wilson.
+- Version / date: Published 2026-11-20 18:42:11 UTC.
+- Retrieved: 2026-11-21 05:02:14 UTC, HTTP 200, 1,902,828 bytes, sha256 `4879fe85f987de6bf868c55c1fd0d8aa8fb081280fac6a8d7717ee7d8742ab72`
+- Contribution and reliability: Consumer-tech rewrite of A1; correct on the 250,000-page draft and on Lean being the only release; errs on Anthropic's listing figures. Low weight.
+
+<a id="p11"></a>
+**P11. Express Global Desk, report on the claim, *The Indian Express*.**
+
+- URL: <https://indianexpress.com/article/world/us-news/anthropic-claude-ai-riemann-hypothesis-proof-claim-10971928/>
+- Author: Express Global Desk.
+- Version / date: Published 2026-11-20 19:15:38 UTC.
+- Retrieved: 2026-11-21 05:02:13 UTC, HTTP 200, 719,742 bytes, sha256 `b1c80a401e0119055abef9ae454c2e44c6c4ff3f0e52dae8a373a44dd3f02cf8`
+- Contribution and reliability: Aggregated from Scientific American and OfficeChai; reasonable paraphrase of the method. Low weight.
+
+<a id="p12"></a>
+**P12. Tim Fernholz, "AI claimed a solution to the 167-year-old Riemann hypothesis — and a human did, too", *TechCrunch*.**
+
+- URL: <https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/>
+- Author: Tim Fernholz.
+- Version / date: Published 2026-11-20 19:32:08 UTC; modified 22:51:18 UTC ("updated to include that" independent sources had checked the Lean code).
+- Retrieved: 2026-11-21 04:57:40 UTC, HTTP 200, 237,868 bytes, sha256 `c320a0e64b6878ccd2185d40e2ec8f90e2c99f5ae90bbf4050220bcf3b640bf6`
+- Contribution and reliability: An early piece covering both claims (AFP had mentioned Vakil's announcement at 18:34, P7); reproduces a Zulip remark by Chris Birkbeck on Galois representations (G4) and Masullo's acknowledgement line "we are still here. We are very much alive. We are not going anywhere." (A4, p. 6). Errors: calls Vakil president of the "American Mathematics Association" (it is the American Mathematical Society) and Masullo a "Stanford postdoc" (unconfirmed; E13).
+
+<a id="p13"></a>
+**P13. Truman Dickerson, "Anthropic mathematician says he used AI to solve Riemann hypothesis", *Business Insider*.**
+
+- URL: <https://www.businessinsider.com/reimann-hypothesis-anthropic-claude-solved-biggest-problem-in-math-2026-11>
+- Author: Truman Dickerson.
+- Version / date: Published 2026-11-20 19:34:11 UTC.
+- Retrieved: 2026-11-21 05:02:11 UTC, HTTP 200, 429,810 bytes, sha256 `657840773e1e852861772cd4d0556352392d00b49fd184a9807f12f026234f2f`
+- Contribution and reliability: Quotes Steven Strogatz: "If it holds up, it's an extremely big deal" and "So it's fair to say that the claimed proof has not yet been independently verified". General-audience; the URL misspells Riemann.
+
+<a id="p14"></a>
+**P14. Anna Loren, report on the claim, *The Independent* (own story).**
+
+- URL: <https://www.independent.co.uk/tech/riemann-hypothesis-solved-levent-alpoge-b3088927.html>
+- Author: Anna Loren.
+- Version / date: Published 2026-11-20 18:42:01 UTC.
+- Retrieved: 2026-11-21 05:12:15 UTC, HTTP 200, 268,450 bytes, sha256 `559acde2de33d8aaddfd225793bce4ac0962668c826cae4502d27c2c3bdd7958`
+- Contribution and reliability: Rewrite of A1 quotes with biographical colour. Low weight.
+
+<a id="p15"></a>
+**P15. Kali Hays, "Anthropic may have solved major maths problem Reimann hypothesis" [sic], *BBC News*.**
+
+- URL: <https://www.bbc.com/news/articles/c6pqr2g7w059o>
+- Author: Kali Hays (technology reporter).
+- Version / date: Published 2026-11-20 23:08:57 UTC.
+- Retrieved: 2026-11-21 04:57:40 UTC, HTTP 200, 243,335 bytes, sha256 `3e0cb47fbc0a574a3ea937026645d5e63b0451b95ddcbba01d2b9b6b2bd97322`
+- Contribution and reliability: Mainstream general-news report: places the claim in the context of Anthropic's listing and OpenAI's mathematical announcements, says Alpöge messaged Dario Amodei on Sunday, quotes A1 ("The precise timing is horrible"; "There is an obvious cynical view, to do with the timing, but it is false") and C1. Errors: "Reimann" in the headline, "Terrance Tao", and a 250,000-page Lean proof (E13). The page differs between requests.
+
+<a id="p16"></a>
+**P16. BBC News Japan, Japanese version of P15.**
+
+- URL: <https://www.bbc.com/japanese/articles/cwlyl6ymz841o>
+- Author: カリ・ヘイズ (Kali Hays), translated by BBC News Japan.
+- Version / date: Published 2026-11-21 03:52:23 UTC.
+- Retrieved: 2026-11-21 04:57:41 UTC, HTTP 200, 282,159 bytes, sha256 `4ef92e38cd3b29a70b6e45eb33d00806cc95cd5d34ce6c2b97539f36cbd53011`
+- Contribution and reliability: Translation; carries P15's errors and adds two: the message to Amodei is dated to the 5th (the note says "late Sunday night", 15 November), and a typo (照明 for 証明). Main Japanese mainstream source.
+
+<a id="p17"></a>
+**P17. Konstantin Kakaes, "Transformation" (Quanta Magazine live updates): "As mathematicians race to verify AI Riemann proof, a human…".**
+
+- URL: <https://www.quantamagazine.org/updates/transformation/>
+- Author: Konstantin Kakaes.
+- Version / date: Items dated 2026-11-20 on the page (no machine-readable time); Quanta's X post linking it, 19:17:14 UTC.
+- Retrieved: 2026-11-21 05:02:08 UTC, HTTP 200, 197,031 bytes, sha256 `dac1ce074077dbc3780ce1fc52eef1f8731b819dc642351383075362df27bd09`
+- Contribution and reliability: Reported detail found nowhere else: Armstrong posted the screenshot because Buckmaster had sent it to him (phone call); Sutherland finished compiling "shortly before noon" Eastern (consistent with V1's 16:43:21 UTC); Simon DeDeo: "I’d be very surprised if there were any secret tricks"; Radziwiłł on "why?"; Alpöge obtained the result on Monday 16 November. It also writes, without a source, that an earlier RH proof Masullo worked on "did not, in the end, hold up" — not checked by us [Open]. Strong science journalism; the live page changes.
+
+<a id="p18"></a>
+**P18. Davide Castelvecchi, "Mathematician says he and AI solved Riemann hypothesis — the field’s biggest outstanding challenge", *Nature* (news).**
+
+- URL: <https://www.nature.com/articles/d41586-026-03812-7>
+- Author: Davide Castelvecchi.
+- Version / date: Dated 20 November 2026 (no time exposed).
+- Retrieved: 2026-11-21 04:57:35 UTC, HTTP 200, 233,821 bytes, sha256 `4f1c7c5e97af3ebb2d8659e0ed0588a71f52df8db89ba5d32426207233a29ceb`
+- Contribution and reliability: Quotes James Maynard ("If this fully checks out, it is clearly a historic milestone in mathematics") and Andrew Granville ("What he released is garbled"; Alpöge should have prepared a clearer write-up before announcing, which came "just days after" Anthropic's IPO). The leading science-news source for expert reactions.
+
+<a id="p19"></a>
+**P19. Ariel Zilber, report on the claim, *New York Post*.**
+
+- URL: <https://nypost.com/2026/11/20/business/anthropic-researcher-claims-claude-cracked-legendary-1m-math-problem-and-left-him-struggling-to-keep-up/>
+- Author: Ariel Zilber.
+- Version / date: Published 2026-11-20 21:06:45 UTC.
+- Retrieved: 2026-11-21 05:12:14 UTC, HTTP 200, 746,503 bytes, sha256 `7a767c81486a1cb2800ede6d7c056b023f4a2718af1bdd72fe009ee6921c040d`
+- Contribution and reliability: Tabloid rewrite of A1 with biography; correct on the 250,000-page draft. Low weight.
+
+<a id="p20"></a>
+**P20. Karmela Padavic-Callaghan and Matthew Sparkes, "Mathematicians are amazed by ‘holy grail’ proof of Riemann hypothesis", *New Scientist*.**
+
+- URL: <https://www.newscientist.com/article/2600235-mathematicians-are-amazed-by-holy-grail-proof-of-riemann-hypothesis/>
+- Author: Karmela Padavic-Callaghan and Matthew Sparkes.
+- Version / date: Published 2026-11-20 22:33:06 UTC; modified 2026-11-21 02:26:43 UTC.
+- Retrieved: 2026-11-21 05:08:38 UTC (browser); curl HTTP 406, no byte hash
+- Contribution and reliability: Reaction round-up; paywalled, only the opening was readable to us. Existence and framing only.
+
+<a id="p21"></a>
+**P21. Truman Dickerson, "Race to prove Riemann Hypothesis just became a human-versus-AI showdown", *Business Insider*.**
+
+- URL: <https://www.businessinsider.com/riemann-hypothesis-math-human-ai-dueling-solution-alpoge-masullo-2026-11>
+- Author: Truman Dickerson.
+- Version / date: Published 2026-11-20 23:33:11 UTC.
+- Retrieved: 2026-11-21 05:02:12 UTC, HTTP 200, 430,472 bytes, sha256 `0dd7aa983dd56cb36601af7c0ed3e45a81a33605a39dc3f83caa18c5e7316c6f`
+- Contribution and reliability: Follow-up on the Masullo claim with Strogatz ("The plot thickens!", from X) and Sergei Gukov; reports that Masullo, Conrad and Alpöge did not respond. Second-hand.
+
+<a id="p22"></a>
+**P22. Bloomberg, "Anthropic researcher claims AI helped solve 150-year-old Riemann hypothesis", via *Business Standard* (also Bloomberg Law).**
+
+- URL: <https://www.business-standard.com/technology/tech-news/anthropic-researcher-claims-ai-helped-solve-150-year-old-riemann-hypothesis-126112100179_1.html>
+- Author: Bloomberg News (the Bloomberg Law copy credits Elena Eisenstadt).
+- Version / date: Bloomberg Law copy 2026-11-21 00:17:14 UTC; Business Standard copy 04:10:18 UTC.
+- Retrieved: 2026-11-21 05:12:01 UTC, HTTP 200, 218,951 bytes, sha256 `a85f8916c7653a44aaaf8fdce1fcd5ede6a23d2f20e0ed6ea62bacd25d2952cf`
+- Contribution and reliability: Adds that Sutherland said he had verified the code on his own computer and had seen at least three other verifications on multiple systems by professional mathematicians, and that Anthropic declined to comment. Business wire; quotations of A1 accurate.
+
+<a id="p23"></a>
+**P23. Keiichi Nakane (中根圭一), report from Washington, *Yomiuri Shimbun*.**
+
+- URL: <https://www.yomiuri.co.jp/science/20261121-GYT1T00089/>
+- Author: Keiichi Nakane.
+- Version / date: Published 2026-11-20 22:13 UTC (07:13 JST on 21 November).
+- Retrieved: 2026-11-21 05:12:08 UTC, HTTP 200, 217,269 bytes, sha256 `3255b821cba7428f33a2ebfa406d0126db4c3aa7303dd69f99fcea4a7261c4f5`
+- Contribution and reliability: Main Japanese newspaper report by its own correspondent. Second-hand; no errors spotted in the visible part.
+
+<a id="p24"></a>
+**P24. Ken Narabe and Tetsuya Ishikura (奈良部健, 石倉徹也), report, *Asahi Shimbun*.**
+
+- URL: <https://www.asahi.com/articles/ASVCP10Z2VCPUHBI00GM.html>
+- Author: Per search snippet.
+- Version / date: Published 2026-11-21 03:23:02 UTC.
+- Retrieved: 2026-11-21 05:12:09 UTC, HTTP 200, 216,187 bytes, sha256 `5695b4c7df7b9295dadde09117dfeb62473f9da834b500854dbc8b90d90c0213`
+- Contribution and reliability: Paywalled after the lead; paraphrases A1 correctly. Existence and lead only.
+
+<a id="p25"></a>
+**P25. Nikkei Science (日経サイエンス), news item.**
+
+- URL: <https://nk-science.nikkei.com/atcl/nsc/00058/112100036/>
+- Author: No personal byline.
+- Version / date: Published 2026-11-21 01:00 UTC.
+- Retrieved: 2026-11-21 05:12:12 UTC, HTTP 200, 39,516 bytes, sha256 `b31ae6dcd02c2a19bf113095337144dfdad5b7e245a94d91022f0a3ea09a75ac`
+- Contribution and reliability: Short Japanese science-magazine item. Second-hand.
+
+<a id="p26"></a>
+**P26. José Luis Ávila, report, *El País* (US edition).**
+
+- URL: <https://elpais.com/us/2026-11-21/un-matematico-de-anthropic-asegura-haber-resuelto-la-hipotesis-de-riemann-el-mayor-enigma-de-las-matematicas-con-ayuda-de-la-ia.html>
+- Author: José Luis Ávila.
+- Version / date: Published 2026-11-21 01:12:10 UTC.
+- Retrieved: 2026-11-21 05:12:05 UTC, HTTP 200, 338,439 bytes, sha256 `96d066b4007e3fd4e07454bc00c947318968bd0f8f4f66789548db710206f338`
+- Contribution and reliability: Spanish-language report drawing on Quanta; attributes Maynard's "historic milestone" line to "IBM Think", which we could not check (we saw the line in P18).
+
+<a id="p27"></a>
+**P27. Tristan Vey, report, *Le Figaro*.**
+
+- URL: <https://www.lefigaro.fr/sciences/l-hypothese-de-riemann-plus-celebre-probleme-de-mathematiques-au-monde-aurait-ete-resolue-par-claude-l-ia-d-anthropic-20261120>
+- Author: Tristan Vey.
+- Version / date: Published 2026-11-20 17:10:46 UTC.
+- Retrieved: 2026-11-21 05:12:06 UTC, HTTP 200, 587,485 bytes, sha256 `bec3c7975697a62d95fefe037903314d5baf52e62df2872c5f3d70c76a15fd69`
+- Contribution and reliability: Main French report found. Second-hand.
+
+<a id="p28"></a>
+**P28. *Der Spiegel*, report on the claim.**
+
+- URL: <https://www.spiegel.de/wissenschaft/riemann-vermutung-mathematiker-behauptet-mit-ki-einen-beweis-fuer-den-heiligen-gral-der-mathematik-gefunden-zu-haben-a-cb24fb59-9f4e-44f7-a7cc-c3c19418721b>
+- Author: No personal byline in the metadata.
+- Version / date: Published 2026-11-20 17:30 UTC.
+- Retrieved: 2026-11-21 05:12:04 UTC, HTTP 200, 596,139 bytes, sha256 `5033a65cf7927ed112357d77deea2cf369ebbae7e81522fee303665c2894dbf4`
+- Contribution and reliability: Main German report; stresses that Alpöge does not yet fully understand the proof himself (cf. A1, p. 2). Second-hand.
+
+<a id="p29"></a>
+**P29. Nan Boyi (南博一), report, *The Paper* (澎湃新闻).**
+
+- URL: <https://www.thepaper.cn/newsDetail_forward_34527053>
+- Author: Nan Boyi.
+- Version / date: Published 2026-11-21 02:35:46 UTC.
+- Retrieved: 2026-11-21 05:12:13 UTC, HTTP 200, 22,139 bytes, sha256 `343ec6e4f2302a6ae92f289b14502267e5d46bda54fd85c5785032de6e74b406`
+- Contribution and reliability: Mainland Chinese mainstream report. Second-hand summary.
+
+<a id="p30"></a>
+**P30. Jiang Yu (江宇), round-up, *Zhidx* (智东西; also on 36Kr).**
+
+- URL: <https://zhidx.com/p/612978.html>
+- Author: Jiang Yu.
+- Version / date: Published 2026-11-20 23:12:50 UTC.
+- Retrieved: 2026-11-21 05:12:14 UTC, HTTP 200, 54,936 bytes, sha256 `45304f083d1c5e437539b6e7fa5bd6eff48d2d13641d7f28cee73aeaa0f9b060`
+- Contribution and reliability: Chinese round-up of reactions; it reproduces a screenshot only "suspected" (疑似) to be from Deng Yu. We do not attribute that statement to anyone.
+
+<a id="p31"></a>
+**P31. QbitAI (量子位), report.**
+
+- URL: <https://www.qbitai.com/2026/11/511727.html>
+- Author: QbitAI editorial.
+- Version / date: 2026-11-20/21 (no machine-readable time).
+- Retrieved: 2026-11-21 05:12:13 UTC, HTTP 200, 57,983 bytes, sha256 `190f9e07d62f5087c7fd519173e06be8059011b83549e9249221b72f15017c67`
+- Contribution and reliability: Chinese AI-industry summary of A1 and the archive. Second-hand.
+
+<a id="p32"></a>
+**P32. Liu Jia (刘佳), report, *Yicai* (第一财经).**
+
+- URL: <https://www.yicai.com/news/103448932.html>
+- Author: Per search snippet.
+- Version / date: Published 2026-11-21 00:25:49 UTC.
+- Retrieved: 2026-11-21 05:12:13 UTC, HTTP 200, 26,545 bytes, sha256 `eb376b5f877959cd9ff2dca742b1592e50000588af1eb3b56052d92a45022cc8`
+- Contribution and reliability: Chinese financial-press report; recalls an earlier bet on AI and RH. Second-hand.
+
+**Coverage that exists but that we could not read.** Each is known from search results or from a blocked page; none is cited as evidence.
+
+<a id="p33"></a>
+- **P33.** *Science* (AAAS), "AI may have solved math’s greatest mystery. Can humans understand the answer?". <https://www.science.org/content/article/ai-may-have-solved-math-s-greatest-mystery-can-humans-understand-answer>. Retrieved 2026-11-21 05:02:11 UTC (curl) and 2026-11-21 05:09:05 UTC (browser), HTTP 403 to curl; Cloudflare challenge in browser; web_extract unavailable (search-only backend), 5,997 bytes, sha256 `30f532cb2d5b0a23000fbe80eda275492dad26f146abd101ae1a1216b2119bf7` (of the error or challenge page we received, not of the article).
+<a id="p34"></a>
+- **P34.** *The New York Times*, Kenneth Chang and Siobhan Roberts, "Anthropic Mathematician Claims to Have Solved Math’s Most Famous Problem" (known from syndicated copies and Kyodo). <https://www.dailygazette.com/nyt-feed/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem/article_44676e77-ae1c-5bdb-91a0-5325ede658a8.html ; https://www.deccanherald.com/technology/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem-riemann-hypothesis-4226294>. Retrieved 2026-11-21 05:12:03 UTC, HTTP 429 from dailygazette.com; text not read, 66 bytes, sha256 `4d68560587b8c4aa50b4e432c88f96c8c411f4b7d4402b2d17fc34154e707261` (of the error or challenge page we received, not of the article).
+<a id="p35"></a>
+- **P35.** *The Wall Street Journal*, "Anthropic Mathematician Says AI Has Solved the Most Famous Problem in Math". <https://www.wsj.com/tech/ai/anthropic-mathematician-says-claude-has-solved-the-most-famous-problem-in-math-9361920b>. Retrieved 2026-11-21 05:12:00 UTC, HTTP 401, 767 bytes, sha256 `b6673fc66e18fa11bd7ea3d669e30499615a80bfd32a3e3510708b9389490515` (of the error or challenge page we received, not of the article).
+<a id="p36"></a>
+- **P36.** *Financial Times*, "Anthropic staffer claims solution to mathematics’ Riemann hypothesis". <https://www.ft.com/content/fa8eeb49-2cb4-4286-8131-03db15383d87>. Retrieved 2026-11-21 05:12:00 UTC, HTTP 403, 270,573 bytes, sha256 `3b525cb840e2357ce9768be4a78f81efc82e02cb91e8b62ff14f230fded58395` (of the error or challenge page we received, not of the article).
+<a id="p37"></a>
+- **P37.** *Quartz*, report on the claim. <https://qz.com/anthropic-alpoge-claude-riemann-hypothesis-proof-112026>. Retrieved 2026-11-21 05:02:15 UTC (curl) and 2026-11-21 05:09:13 UTC (browser), HTTP 403 to curl; Cloudflare challenge in browser, 5,807 bytes, sha256 `3e88594dde57835cdc93883f514576059144a90f4e30aebe5e769490df2ad1e0` (of the error or challenge page we received, not of the article).
+<a id="p38"></a>
+- **P38.** Associated Press original at apnews.com (content read via P9). <https://apnews.com/article/anthropic-claude-math-solution-ai-4fe8b69a891f160f9e7f0c85af8c55c8>. Retrieved 2026-11-21 04:57:42 UTC (curl) and 2026-11-21 05:07:57 UTC (browser), HTTP 403 to curl; Cloudflare challenge in browser (not bypassed), 5,911 bytes, sha256 `08806ebb4554eda4ca3ca8614f0910c7bbd24db365901d44cb48f781ce5fcf4e` (of the error or challenge page we received, not of the article).
+
+## Surveyed only (S)
+
+Seen and logged, not relied on. Listed so that readers can judge coverage and so that errors repeated from these sites can be traced.
+
+<a id="s1"></a>
+- **S1.** AFP copies: phys.org. <https://phys.org/news/2026-11-anthropic-claude-math-greatest-riddle.html>. Retrieved 2026-11-21 05:10:09 UTC, HTTP 403, 17,730 bytes, sha256 `1724bbea90ac1af05cc26e52c149ffb5155d7267dbaa2db11e6c22f9e823c8aa` (of the error or challenge page we received, not of the article).
+<a id="s2"></a>
+- **S2.** AFP copy: Yahoo Tech. <https://tech.yahoo.com/ai/claude/articles/anthropic-researcher-says-claude-solved-183242612.html>. Retrieved 2026-11-21 05:10:10 UTC, HTTP 200, 538,180 bytes, sha256 `23287aa15f5ada3c87f97c69aa784e24caba665107a9c4216daf75d7e3abd242`.
+<a id="s3"></a>
+- **S3.** AFP copy: The Straits Times. <https://www.straitstimes.com/world/united-states/anthropic-researcher-says-ai-chatbot-claude-solved-maths-greatest-riddle>. Retrieved 2026-11-21 05:10:12 UTC, HTTP 200, 138,572 bytes, sha256 `ad9c400cbf3f78c360f3dc04c71b1ebb6c240799be025a332a60acd2c3736e5f`.
+<a id="s4"></a>
+- **S4.** AFP copy: RTL Today (earliest AFP version, 17:25:53 UTC). <https://today.rtl.lu/news/world/anthropic-researcher-says-claude-solved-maths-greatest-riddle-376623520>. Retrieved 2026-11-21 05:10:20 UTC, HTTP 200, 388,224 bytes, sha256 `6f99d9a5fa0d88a3766ce55ce34d39675e109bf76c3d8a0282f6873b40aeffea`.
+<a id="s5"></a>
+- **S5.** AP copies (Winnipeg Free Press and others). <https://winnipegfreepress.com/arts-and-life/life/sci-tech/2026/11/20/anthropic-worker-claims-to-have-solved-a-holy-grail-of-math-problems-with-the-help-of-ai>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
+<a id="s6"></a>
+- **S6.** NYT and Kyodo copies (Deccan Herald and Japanese regional papers). <https://www.deccanherald.com/technology/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem-riemann-hypothesis-4226294>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
+<a id="s7"></a>
+- **S7.** Other outlets: Washington Post (not readable), Tom's Hardware, SiliconANGLE, NDTV, OfficeChai, Deutschlandfunk, Der Standard, Le Parisien, Numerama and others. <https://www.washingtonpost.com/technology/2026/11/20/using-anthropic-ai-mathematician-claims-have-solved-riemann-hypothesis/>. Retrieved 2026-11-21 05:11:59 UTC, HTTP 000, 0 bytes, sha256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` (of the error or challenge page we received, not of the article).
+<a id="s8"></a>
+- **S8.** Chinese aggregators: 36Kr (果壳), cls.cn, ifeng (知识分子), qq.com. <https://www.36kr.com/p/4078902157185920>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
+<a id="s9"></a>
+- **S9.** Machine-written or low-quality news sites (nacionale, huggingnews, traictory, kingy.ai and about 25 others); do not cite. <https://nacionale.com/en/articles/is-riemann-hypothesis-proof-correct-what-mathematicians-say-sutherland-buzzard-lean>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
+<a id="s10"></a>
+- **S10.** riemannhypothesisclaude.org (anonymous site with a "verification log"). <https://riemannhypothesisclaude.org/>. Retrieved 2026-11-21 04:59:35 UTC, HTTP 200, 34,517 bytes, sha256 `f2e51bcf496fab96240f1120cead6d7b7676c0019c942979f7d15e92c49439e5`.
+<a id="s11"></a>
+- **S11.** felloai.com, "Riemann hypothesis solved". <https://felloai.com/riemann-hypothesis-solved>. Retrieved 2026-11-21 04:59:35 UTC, HTTP 403, 5,594 bytes, sha256 `984d3a1c08990245213f22ffffd30bdbe53d9d2c3c94ffa0a6f51df5150d5a4f` (of the error or challenge page we received, not of the article).
+<a id="s12"></a>
+- **S12.** explainx.ai, "claimed vs verified" explainers on both claims. <https://explainx.ai/blog/levent-alpoge-anthropic-riemann-hypothesis-claude-lean-proof-claimed-vs-verified-2026>. Retrieved 2026-11-21 05:03:01 UTC, HTTP 200, 195,246 bytes, sha256 `9005cc834e9d081e8a19f0b665e0ee4dc7027187dbff87864656712ffa51ae52`.
+<a id="s13"></a>
+- **S13.** HN comment repeating the 250,000-page error. <https://news.ycombinator.com/item?id=50580704>. Retrieved 2026-11-21 05:10:29 UTC, HTTP 200, 216 bytes, sha256 `405f2cb996710fed79d3d0b377f3ee0001939da644b8238918e53c13816bda3d`.
+<a id="s14"></a>
+- **S14.** OfficeChai, "Hours after Alpöge’s AI-assisted Riemann Hypothesis proof, AMS president Ravi Vakil…". <https://officechai.com/ai/hours-after-alpoges-ai-assisted-riemann-hypothesis-proof-ams-president-ravi-vakil-rushes-out-a-rival-all-human-proof-by-alessandro-masullo/>. Retrieved 2026-11-21 05:05 UTC-05:11Z (approx.), HTTP web_search snippet only (not fetched), no byte hash.
+
+## Updates to Part I
+
+- **Lean Zulip (Part I, §5, last paragraph).** The two threads are web-public and were read in full through Zulip's public API on 2026-11-21 05:27–05:28 UTC (V2–V4); the remark "login required, not read" applied to the web client only.
+- **Comparator repository (Part I, §5).** Its README changed after Part I's copy (04:02:24 UTC): new copy in V5. Still no Comparator verdict posted at 05:24 UTC.
+- **Sutherland's page (Part I, §5).** Unchanged at 04:47:41 and 05:24:05 UTC; the earlier 19:45 UTC version is now pinned (V1).
+- **Priority on the p. 451 gap.** The earliest written statement we found is the Refine report (E6, 21:12 UTC), before mccorvie issue #1169 (E2, 23:35 UTC).
+- **First public report on Zulip.** Posted by Jack McCarthy (V2), who also created the Comparator mirror (V5, commits as Deicyde).
+- **Final re-check, 2026-11-21 05:56:45–05:57:12 UTC** (`raw/F/`): A1, A3, A4, V1 (page), V5 (README) and V6 (README) returned the same sha256 as listed above; parts 01 and 14 of A2 returned the same ETags; V5 had new items #11 and #12 (05:38, 05:41) but no Comparator verdict; the two Zulip threads had no new verification report.
+

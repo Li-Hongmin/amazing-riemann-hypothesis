@@ -79,3 +79,13 @@ Chapter 14 needs only Chapters 1 and 3.
 Chapters 2 and 3 (Part I opening): their Lean nodes are short, Mathlib-heavy and fully
 readable, and Chapter 3 is the conceptual hinge of the whole book (why a one-sided bound
 on windows is enough). Chapter 4 can follow in the same batch if `QH.stage` is read in full.
+
+## Numbering note (2026-11-21)
+
+`chapters/02-the-story-so-far.md` ("The story so far": a dated narrative of the two announcements and
+of the verification effort, with every fact tagged [Author], [Community] or [Checked]) was added at
+the owner's request under the prefix 02, which the table above assigns to "One half-plane implies
+everything". The table is left unchanged for now, and "Chapter 2" in Chapters 0–1 and in
+`notes/proof-map.md` still means that mathematical chapter. Proposal for the next renumbering:
+keep "The story so far" as Chapter 2 and shift rows 2–16 of the table to 3–17, updating file names and
+cross-references in one commit. The story chapter cites `sources/SOURCES.md`, Part II, by entry ID.
