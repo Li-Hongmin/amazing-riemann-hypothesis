@@ -72,13 +72,16 @@ Chapter 14 needs only Chapters 1 and 3.
 | 3 | done (R3; `landau_window`, `lemmaL`, `windowHyp_of_rpow`, `poleData`, `level_family`, `level_of_tiedWin`, `zeroFreeOn_of_levels` all read in full; written in `chapters/03-landau-window-criterion.md`) |
 | 4 | done (R3 for all `CharacterBoxes/` and `MeanSquareBounds/` glue, `bad_share`, `winPairs`, `supplyChi`, `ExistsPageN`, `IsChiField`; R2 `[Lean]` for imported classical analytic sub-packages; written in `chapters/04-auxiliary-prime-pairs-and-host-fields.md`) |
 | 5 | done (R3; `core_gm`, `ch_core`, `ch_top`, `ch_balance`, `proposition_size_bound`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le`, `level_gm_le_on_family_scales` all read in full; written in `chapters/05-the-square-root-barrier-core-gm.md`) |
-| 7–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
+| 6 | done (Stepanov–Bombieri function-field proof + R3 reading of `EvenCeil`, `DataParams₂`, `MeanBoundSecondForm`, `WeightedMeanData`, `QuotientSlopeBoundsWith`, `LevelOfCongruence`, `SChain`, `FamCore`, `ParConsts`, `TieGlobal`; drafted in `chapters/06-stepanovs-method-and-multiplicity.md`) |
+| 7 | done (R3 reading of `Hyps`, `SiegelEisensteinSecondTermHypotheses`, `WeilTensorModels`, `LiftLambdaBound`, `BernsteinUnitaryProductIrreducible`, `TopPlug`, `TopShape`, `DesWin`, `LiftConvContGrowth`, `IntegrableThetaKernelProduct`, `ThetaChainUpwardLiftHeckeParamTransferred`, `FirstOccurrenceRuleThetaChainStepBothDirections`, `ThetaChainUpwardInductionFixedMetric`, `PairLiftOfHoweDualityBernstein`; R2 for imported sub-packages; drafted in `chapters/07-chains-of-theta-lifts.md`) |
+| 8–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
 
 ## Next batch
 
-Chapters 6 and 7 (opening Part II): Stepanov's function-field warm-up and the dictionary for
-"multiplicity over $\mathbb Z$" (Chapter 6), followed by iterated chains of theta lifts,
-`HypsAlt`, and `ChainTied`/`SizeData₂` (Chapter 7).
+Chapters 8–10 (continuing Part II): divisibility at inert primes and `Conclusion1` (Chapter 8, node `P8`),
+Hermitian heights, Bost's slope inequality, and near-orthogonality of periods `LinkG`/`LinkS`
+(Chapter 9, nodes `P9`–`P10`), and congruence modules to Tate–Shafarevich groups `CutCoreUnit.main` /
+`divinN_of_hypV` (Chapter 10, node `P11`).
 
 ## Numbering note (2026-11-21)
 

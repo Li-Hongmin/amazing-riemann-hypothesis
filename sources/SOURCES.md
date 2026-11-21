@@ -92,7 +92,10 @@ that a successful Comparator run was still awaited. Used only for those two quot
 [Community] (Section 5).
 
 **Literature.** Davenport's and Iwaniec–Kowalski's books are the analytic background the book
-assumes; Bombieri's Bourbaki exposé is our reference for Stepanov's method (Chapter 6)
+assumes; Stepanov's paper, Bombieri's Bourbaki exposé, Schmidt's monograph, and Hasse–Schmidt's
+paper are our references for Stepanov's method and higher derivations (Chapter 6); Jacobi's
+treatise, Weil's *Acta Mathematica* memoir, and the papers of Howe, Rallis, Kudla–Rallis, and
+Gan–Takeda are our references for theta kernels and the theta correspondence (Chapter 7)
 (Section 6).
 
 **Our derived data.** Declaration index, import graph, text scan and citation check, all
@@ -216,41 +219,116 @@ cited only through the reports above).
 
 ## 6. Literature
 
-Bibliographic data checked online on 2026-11-21.
+Bibliographic data checked online on 2026-11-21. Entries cited by `[AuthorYear]` key in the
+textbook chapters carry their key in bold and an explicit `Verified:` record below.
 
-- H. Davenport, *Multiplicative Number Theory*, 3rd ed., revised by H. L. Montgomery, Graduate
-  Texts in Mathematics 74, Springer, New York, 2000, ISBN 978-0-387-95097-6.
-- H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53, 2004,
-  ISBN 978-0-8218-3633-0, doi:10.1090/coll/053.
-- E. Bombieri, "Counting points on curves over finite fields (d'après S. A. Stepanov)",
-  Séminaire Bourbaki, 25e année (1972/73), exp. no. 430, in Lecture Notes in Math. 383,
-  Springer, 1974, pp. 234–241, doi:10.1007/BFb0057311; open copy at
-  `https://www.numdam.org/item/SB_1972-1973__15__234_0/`.
-- E. Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18, Société
-  Mathématique de France, Paris, 1974 (cited in Chapter 4).
-- E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61 (1905), 527–550,
-  doi:10.1007/BF01449495.
-- J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis", *The American
-  Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in `CONTRIBUTIONS.md`).
-- H. L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in Mathematics 227,
-  Springer, Berlin–Heidelberg, 1971, ISBN 978-3-540-05641-6, doi:10.1007/BFb0060851 (Chapter 12,
-  cited in Chapter 4).
-- H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I: Classical Theory*,
-  Cambridge Studies in Advanced Mathematics 97, Cambridge University Press, 2007,
-  ISBN 978-0-521-84903-6 (Theorem 1.7 and §15.1, cited in Chapter 3).
-- A. Page, "On the number of primes in an arithmetic progression", *Proceedings of the London
-  Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in Chapter 4).
-- G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von der
-  Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930, 19–27.
-- D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number Fields*, Graduate Texts in
-  Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0 (cited in Chapter 2).
-- C. L. Siegel, "Über die Classenzahl quadratischer Zahlkörper", *Acta Arithmetica* 1 (1935),
-  no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapter 4).
-- J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950 thesis), in
-  J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press, London,
-  1967, pp. 305–347 (cited in Chapter 2).
-- L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate Texts in Mathematics 83,
-  Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in Chapter 2).
+- **[Bombieri1973]** E. Bombieri, "Counting points on curves over finite fields (d'après
+  S. A. Stepanov)", *Séminaire Bourbaki*, 25e année (1972/73), exp. no. 430 (June 1973), in
+  *Lecture Notes in Mathematics* 383, Springer, Berlin–Heidelberg, 1974, pp. 234–241,
+  doi:10.1007/BFb0057311; open copy at `https://www.numdam.org/item/SB_1972-1973__15__234_0/`
+  (cited in Chapters 0 and 6).
+  Verified: 2026-11-21 via Numdam (`SB_1972-1973__15__234_0`) and Springer (`doi:10.1007/BFb0057311`), vol. 383, pp. 234–241.
+- **[Bombieri1974]** E. Bombieri, *Le grand crible dans la théorie analytique des nombres*,
+  Astérisque 18, Société Mathématique de France, Paris, 1974 (cited in Chapter 4).
+  Verified: 2026-11-21 via SMF Astérisque catalogue (vol. 18, 1974).
+- **[Davenport2000]** H. Davenport, *Multiplicative Number Theory*, 3rd ed., revised by
+  H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
+  ISBN 978-0-387-95097-6 (cited in Chapters 0, 2, 4, and 7).
+  Verified: 2026-11-21 via Springer GTM 74 catalogue (`ISBN 978-0-387-95097-6`).
+- **[GanTakeda2016]** W. T. Gan and S. Takeda, "A proof of the Howe duality conjecture",
+  *Journal of the American Mathematical Society* 29 (2016), no. 2, 473–493,
+  doi:10.1090/jams/839 (cited in Chapter 7).
+  Verified: 2026-11-21 via AMS (`doi:10.1090/jams/839`), vol. 29, no. 2, pp. 473–493.
+- **[Hasse1936]** H. Hasse, "Zur Theorie der abstrakten elliptischen Funktionenkörper. I, II, III",
+  *Journal für die reine und angewandte Mathematik* 175 (1936), 55–62, 69–88, 193–208,
+  doi:10.1515/crll.1936.175.55, doi:10.1515/crll.1936.175.69, doi:10.1515/crll.1936.175.193
+  (cited in Chapter 6).
+  Verified: 2026-11-21 via EuDML and De Gruyter (*J. Reine Angew. Math.* 175 (1936), pp. 55–62, 69–88, 193–208).
+- **[HasseSchmidt1937]** H. Hasse and F. K. Schmidt, "Noch eine Begründung der Theorie der höheren
+  Differentialquotienten in einem algebraischen Funktionenkörper einer Unbestimmten", *Journal für
+  die reine und angewandte Mathematik* 177 (1937), 215–237, doi:10.1515/crll.1937.177.215
+  (cited in Chapter 6).
+  Verified: 2026-11-21 via De Gruyter (`doi:10.1515/crll.1937.177.215`), vol. 177, pp. 215–237.
+- **[Howe1979]** R. Howe, "$\theta$-series and invariant theory", in A. Borel and W. Casselman
+  (eds.), *Automorphic Forms, Representations and $L$-Functions* (Proc. Sympos. Pure Math., Oregon
+  State Univ., Corvallis, 1977), Proceedings of Symposia in Pure Mathematics 33, Part 1, American
+  Mathematical Society, Providence, RI, 1979, pp. 275–285 (cited in Chapter 7).
+  Verified: 2026-11-21 via AMS PSPM vol. 33, Part 1 (1979), pp. 275–285.
+- **[IwaniecKowalski2004]** H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium
+  Publications 53, American Mathematical Society, Providence, RI, 2004, ISBN 978-0-8218-3633-0,
+  doi:10.1090/coll/053 (cited in Chapters 0, 4, 6, and 7).
+  Verified: 2026-11-21 via AMS Colloquium Publications vol. 53 (`doi:10.1090/coll/053`).
+- **[Jacobi1829]** C. G. J. Jacobi, *Fundamenta Nova Theoriae Functionum Ellipticarum*, Sumtibus
+  Fratrum Borntraeger, Regiomonti (Königsberg), 1829; reprinted in *C. G. J. Jacobi's Gesammelte
+  Werke*, Band 1, Reimer, Berlin, 1881, pp. 49–239 (cited in Chapter 7).
+  Verified: 2026-11-21 via bibliographic records for Borntraeger (Königsberg, 1829) and *Gesammelte Werke* Bd. 1, pp. 49–239.
+- **[KudlaRallis1994]** S. S. Kudla and S. Rallis, "A regularized Siegel–Weil formula: the first
+  term identity", *Annals of Mathematics* (2) 140 (1994), no. 1, 1–80, doi:10.2307/2118540
+  (cited in Chapter 7).
+  Verified: 2026-11-21 via *Annals of Mathematics* / JSTOR (`doi:10.2307/2118540`), vol. 140, no. 1, pp. 1–80.
+- **[Lagarias2002]** J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis",
+  *The American Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in
+  `CONTRIBUTIONS.md`).
+  Verified: 2026-11-21 via MAA / JSTOR (`doi:10.2307/2695443`), vol. 109, no. 6, pp. 534–543.
+- **[Landau1905]** E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61
+  (1905), 527–550, doi:10.1007/BF01449495 (cited in Chapter 3).
+  Verified: 2026-11-21 via Springer (`doi:10.1007/BF01449495`), vol. 61, pp. 527–550.
+- **[Montgomery1971]** H. L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in
+  Mathematics 227, Springer, Berlin–Heidelberg, 1971, ISBN 978-3-540-05641-6,
+  doi:10.1007/BFb0060851 (Chapter 12, cited in Chapter 4).
+  Verified: 2026-11-21 via Springer LNM vol. 227 (`doi:10.1007/BFb0060851`).
+- **[MontgomeryVaughan2007]** H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I:
+  Classical Theory*, Cambridge Studies in Advanced Mathematics 97, Cambridge University Press,
+  2007, ISBN 978-0-521-84903-6 (Theorem 1.7 and §15.1, cited in Chapter 3).
+  Verified: 2026-11-21 via Cambridge University Press CSAM vol. 97 (`ISBN 978-0-521-84903-6`).
+- **[Page1935]** A. Page, "On the number of primes in an arithmetic progression", *Proceedings of
+  the London Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in
+  Chapter 4).
+  Verified: 2026-11-21 via LMS (`doi:10.1112/plms/s2-39.1.116`), ser. 2, vol. 39, pp. 116–141.
+- **[Polya1930]** G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von
+  der Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930,
+  19–27 (cited in Chapter 3).
+  Verified: 2026-11-21 via Göttingen Digitalisierungszentrum (*Nachr. Ges. Wiss. Göttingen* 1930, pp. 19–27).
+- **[Rallis1984]** S. Rallis, "On the Howe duality conjecture", *Compositio Mathematica* 51 (1984),
+  no. 3, 333–399; open copy at `http://www.numdam.org/item/CM_1984__51_3_333_0/` (cited in
+  Chapter 7).
+  Verified: 2026-11-21 via Numdam (`CM_1984__51_3_333_0`) and EuDML (`doc/89648`), vol. 51, no. 3, pp. 333–399.
+- **[RamakrishnanValenza1999]** D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number
+  Fields*, Graduate Texts in Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0
+  (cited in Chapter 2).
+  Verified: 2026-11-21 via Springer GTM vol. 186 (`ISBN 978-0-387-98436-0`).
+- **[Riemann1859]** B. Riemann, "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse",
+  *Monatsberichte der Königlich Preußischen Akademie der Wissenschaften zu Berlin* (November 1859),
+  671–680 (cited in Chapter 7).
+  Verified: 2026-11-21 via Berlin Academy *Monatsberichte* (Nov. 1859, pp. 671–680).
+- **[Schmidt1976]** W. M. Schmidt, *Equations over Finite Fields: An Elementary Approach*, Lecture
+  Notes in Mathematics 536, Springer, Berlin–Heidelberg, 1976, ISBN 978-3-540-07855-5,
+  doi:10.1007/BFb0080437 (cited in Chapter 6).
+  Verified: 2026-11-21 via Springer LNM vol. 536 (`ISBN 978-3-540-07855-5`, `doi:10.1007/BFb0080437`).
+- **[Siegel1935]** C. L. Siegel, "Über die Classenzahl quadratischer Zahlkörper", *Acta Arithmetica*
+  1 (1935), no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapter 4).
+  Verified: 2026-11-21 via IMPAN (`doi:10.4064/AA-1-1-83-86`), vol. 1, no. 1, pp. 83–86.
+- **[Stepanov1969]** S. A. Stepanov, "On the number of points of a hyperelliptic curve over a
+  finite prime field" (Russian: *О числе точек гиперэллиптической кривой над конечным простым
+  полем*), *Izvestiya Akademii Nauk SSSR, Seriya Matematicheskaya* 33 (1969), no. 5, 1171–1181;
+  English transl. in *Mathematics of the USSR-Izvestiya* 3 (1969), no. 5, 1103–1114 (cited in
+  Chapter 6).
+  Verified: 2026-11-21 via Math-Net.Ru (*Izv. AN SSSR Ser. Mat.* 33:5 (1969), 1171–1181) and *Math. USSR-Izv.* 3:5 (1969), 1103–1114.
+- **[Tate1967]** J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950
+  thesis), in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press,
+  London, 1967, pp. 305–347 (cited in Chapters 2 and 7).
+  Verified: 2026-11-21 via Cassels–Fröhlich *Algebraic Number Theory* (Academic Press, 1967, Ch. XV, pp. 305–347).
+- **[Washington1997]** L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate
+  Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in
+  Chapter 2).
+  Verified: 2026-11-21 via Springer GTM vol. 83 (`ISBN 978-0-387-94762-4`).
+- **[Weil1948]** A. Weil, *Sur les courbes algébriques et les variétés qui s'en déduisent*,
+  Actualités Scientifiques et Industrielles 1041 (Publications de l'Institut de Mathématique de
+  l'Université de Strasbourg VII), Hermann, Paris, 1948 (cited in Chapter 6).
+  Verified: 2026-11-21 via Hermann ASI no. 1041 (1948) bibliographic records.
+- **[Weil1964]** A. Weil, "Sur certains groupes d'opérateurs unitaires", *Acta Mathematica* 111
+  (1964), 143–211, doi:10.1007/BF02391012 (cited in Chapter 7).
+  Verified: 2026-11-21 via Project Euclid / Springer (`doi:10.1007/BF02391012`), vol. 111, pp. 143–211.
 
 ## 7. Our own derived data (not in the repository)
 
@@ -1117,4 +1195,5 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **First public report on Zulip.** Posted by Jack McCarthy (V2), who also created the Comparator mirror (V5, commits as Deicyde).
 - **Final re-check, 2026-11-21 05:56:45–05:57:12 UTC** (`raw/F/`): A1, A3, A4, V1 (page), V5 (README) and V6 (README) returned the same sha256 as listed above; parts 01 and 14 of A2 returned the same ETags; V5 had new items #11 and #12 (05:38, 05:41) but no Comparator verdict; the two Zulip threads had no new verification report.
 - **Re-check during Part I completion, 2026-11-21 12:42:26–12:42:37 UTC** (run `rhbook-ch4-5-1121d-11212036/fetches/`): `alpo.ge` unchanged (`11,625` B, `a7ee08f4…`); Sutherland's page (V1) updated at `10:05 UTC` (`18,306` B, `d35ac26a…`, adding `kimihiro64/Robin1984` arithmetic-consequences logs and a 240-module `lake build` path check, with main and combined `lake comparator` and export Lean kernels still running); LUMI (V6) updated at `12:40 UTC` (`README.md` `9,779` B, `72da7b8d…`, compiled-environment walk of `1,478,243` constants complete); Comparator repository (V5) at HEAD `d4544218d7` (`12:39:14 UTC`, `README.md` `5,290` B, `de494296…`, `verification/NOTES.md` `16,117` B, `d1c06dee…`, no Comparator verdict yet); `ishaan2006/rh-lean-reproduction` (`README.md` `24,807` B, `0ea8d58d…`, Zulip `#642470541`) reported a byte-identical `lean4export` sha256 match (`5ea74b91…244e`) with Sutherland's 61.57 GB export; `shosonoda/lean-rh-alpoge` (`README.md` `18,375` B, `939ab080…`) reported sandboxed Comparator rebuild/export complete and kernel replay running; `mccorvie/riemann-masullo` `README.md` unchanged (`8,899` B, `69352b47…`) and `ERRATA.md` (`61,379` B, `05a26a0e…`) at 127 paper entries.
+- **Re-check during Part II opening (Chapters 6–7), 2026-11-21 16:10–16:13 UTC** (run `rhbook-ch6-7-1121e-11220006/fetches/`): the Lean and Mathlib communities published an official joint verification statement (`https://leanprover-community.github.io/blog/posts/riemann-hypothesis/`, dated `2026-11-21 13:55 UTC`, `8,501` B, sha256 `f1bc87e6bf7aa9285fc0507377b850cfa166c9035c8fbc6394a182655f0a9a35`, announced by Johan Commelin on Zulip `#642485818`), endorsed by the Lean FRO and the Mathlib Initiative, certifying that both the statement and the Lean proof of `RiemannHypothesis` are correct; Sutherland's page (V1) updated at `12:55 UTC` (`20,460` B, sha256 `e46488825acc7e4f…`, main and combined `lake comparator` and single-threaded export Lean kernels still listed as `running`); LUMI `README.md` (V6) updated (`11,570` B, sha256 `28c0a13c24d5642a…`), cross-checking its `1,478,243`-constant walk against James Shore's newly published kernel-term dependency dataset (`https://github.com/james-shore/rh-proof-dependencies`, `README.md` `22,828` B, sha256 `394093e4cd4e8a78…`, reporting `804,912 / 1,061,400` project declarations and `146,287 / 175,187` source files used, or `1,484,729` constants including `6,486` unreferenced recursors); `leanprover-community/riemann-hypothesis` reached issue/PR `#40`, including merged PR `#34` (`gh-dv-openclaw`, machine-checked equivalence of `PrimitiveDirichletLZerosOnLine` with `formal-conjectures`'s GRH) and open issue `#39` (`aapolipponen`, table of named classical theorems); and this book's own repository (`Li-Hongmin/amazing-riemann-hypothesis`) had open community PR `#1` (`leecrossley`, `2026-11-21 09:43:46 UTC`, proposing a three-term delayed-difference note on Theorem 3.6 backed by `leecrossley/dirichlet-window-transfer` and `doi:10.5281/zenodo.24410863`).
 

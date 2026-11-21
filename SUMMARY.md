@@ -16,6 +16,11 @@
 - [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
 - [5. The square-root barrier as bookkeeping: `core_gm`](chapters/05-the-square-root-barrier-core-gm.md)
 
+# Part II. The arithmetic engine: Stepanov over the integers
+
+- [6. Stepanov's method and multiplicity over the integers](chapters/06-stepanovs-method-and-multiplicity.md)
+- [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
+
 # Records
 
 - [Sources](sources/SOURCES.md)
