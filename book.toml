@@ -1,0 +1,21 @@
+[book]
+title = "Amazing Riemann Hypothesis"
+description = "An open textbook on the 2026 claimed proofs of the Riemann Hypothesis, organised from public sources with citations"
+authors = ["Hongmin Li"]
+language = "en"
+src = "."
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[preprocessor.katex]
+after = ["links"]
+
+[output.html]
+git-repository-url = "https://github.com/Li-Hongmin/amazing-riemann-hypothesis"
+edit-url-template = "https://github.com/Li-Hongmin/amazing-riemann-hypothesis/edit/main/{path}"
+site-url = "/amazing-riemann-hypothesis/"
+
+[output.html.search]
+enable = true

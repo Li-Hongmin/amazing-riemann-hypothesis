@@ -134,7 +134,7 @@ Pitfall: macOS's `/bin/bash` (3.2) does not zero-pad the brace range `{01..14}`,
 `cat lean.tar.gz.part{01..14}` silently skips parts 01–09 (our first join gave 77,275,554
 bytes). Use `for i in $(seq -w 1 14); do cat lean.tar.gz.part$i; done > lean.tar.gz`, or zsh.
 
-Extracted to `lean-archive/lean/` (git-ignored): 175,187 `.lean` files under `src/`,
+Extracted locally outside this repository: 175,187 `.lean` files under `src/`,
 17,374,215 lines, 1,030,531,854 bytes of source. `lean-toolchain` = `leanprover/lean4:v4.33.1`;
 `lakefile.toml` pins Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`;
 `lake-manifest.json` pins plausible `b7eb3304`, LeanSearchClient `5f4d51b8`, importGraph

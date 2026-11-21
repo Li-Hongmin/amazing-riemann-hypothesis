@@ -229,8 +229,8 @@ reasons as for $\zeta$ [Expository]:
   L-function [Lean] (`IsPrimitive.completedLFunction_one_sub`,
   `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:284`) shows that the zeros with
   $\Re s\le0$ are the trivial zeros coming from the Gamma factor;
-- for imprimitive $\chi$ induced from a primitive $\chi^\*$, the extra zeros are those of the
-  Euler factors $1-\chi^\*(p)p^{-s}$ with $p\mid N$, which lie on $\Re s=0$.
+- for imprimitive $\chi$ induced from a primitive $\chi^*$, the extra zeros are those of the
+  Euler factors $1-\chi^*(p)p^{-s}$ with $p\mid N$, which lie on $\Re s=0$.
 
 So `DirichletLZerosOnLine` is GRH for all Dirichlet L-functions in the usual sense. The
 half-plane statement `DirichletLNonvanishingRightOfHalf` is equivalent to it, by the reflection
@@ -330,10 +330,10 @@ to a zero of $L(1-s,\bar\chi)$ with $\Re(1-s)>1/2$, contradicting the hypothesis
 
 **All characters in the strip.** `Claim.strip` handles an arbitrary $\chi$ mod $N$ [Lean, read]
 (`src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:59`). A zero of
-$L(s,\chi)$ with $0<\Re s<1$ is a zero of $L(s,\chi^\*)$ for the primitive character $\chi^\*$
+$L(s,\chi)$ with $0<\Re s<1$ is a zero of $L(s,\chi^*)$ for the primitive character $\chi^*$
 inducing $\chi$, because
-$L(s,\chi)=L(s,\chi^\*)\prod_{p\mid N}(1-\chi^\*(p)p^{-s})$ and each factor satisfies
-$|\chi^\*(p)p^{-s}|\le p^{-\Re s}<1$ (`Claim.prim_zero` and `Claim.factor_ne_zero`,
+$L(s,\chi)=L(s,\chi^*)\prod_{p\mid N}(1-\chi^*(p)p^{-s})$ and each factor satisfies
+$|\chi^*(p)p^{-s}|\le p^{-\Re s}<1$ (`Claim.prim_zero` and `Claim.factor_ne_zero`,
 `src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:23`, `:7`). Then the
 reflection step for primitive characters (`Claim.prim_reflect`, `:42`) finishes as above.
 
