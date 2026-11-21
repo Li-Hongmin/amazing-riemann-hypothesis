@@ -155,22 +155,23 @@ explained and tags what the step rests on.
    Riesz-weighted prime sums $\sum_{n\le x}\Lambda(n)\chi(n)(x/n-1)$, each normalized by its
    expected main term. If $0<\theta<1$ and $G_m(x)\le x^{\theta}$ for all $x$ in windows $[Y,Y^{1+\delta}]$
    with $Y$ arbitrarily large, then none of these $L$-functions vanishes on $\Re s>\theta$
-   [Lean] (`src/Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean:8`;
+   [Lean, read] (`src/Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean:8`;
    `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean:83`).
    This is a Landau-type argument: a one-sided bound suffices because the Laplace transform
    of $G_m(e^u)$ has its poles at the zeros (Chapter 3).
 3. **The one-sided bound at exponent $1/2$.** The theorem `core_gm` gives
    $G_m(x)\le x^{1/2+(e_D+e_L+7)\varepsilon}$ for every large $x$ at which two bundles of
-   data exist: "host" data `EAtH` and "chain" data `CoreAtH` [Lean]
+   data exist: "host" data `EAtH` and "chain" data `CoreAtH` [Lean, read]
    (`src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean:12`). Letting
    $\varepsilon\to0$ gives the half-plane $\Re s>1/2$ (Chapters 3–5).
 4. **Where $1/2$ comes from.** The chain data describe a chain of $m$ "lifts" with
-   $m\le x^{1/2+\varepsilon/2}$ [Lean] (hypothesis of `Deduction.ch_core`,
-   `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:343`).
-   According to the announcement and the LUMI reading, the chain imitates the high-order
+   $x^{1/2-\varepsilon}\le m\le x^{1/2+\varepsilon/2}$ [Lean, read] (hypotheses of
+   `Deduction.ch_core`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:343`,
+   and `proposition_size_bound`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean:507`),
+   balancing a normalized chain error of size $x/m + m\,x^{O(\varepsilon)}$ at $m\approx\sqrt x$
+   (Chapter 5) [Lean, read]. According to the announcement, the chain imitates the high-order
    vanishing in Stepanov's proof of the Riemann hypothesis for curves over finite fields, each
-   lift contributing one order of "multiplicity", and an error of size about $x/m+m$ is
-   balanced at $m\approx\sqrt x$ [Paper; remark p. 1 and p. 4, timeline items 8–10] [Community; LUMI doc 04].
+   lift contributing one order of "multiplicity" [Paper; remark p. 1 and p. 4, timeline items 8–10].
    We explain the function-field model in Chapter 6 [Expository].
 5. **The engine.** Building the chain requires iterated theta lifts between definite unitary
    groups, $p$-adic divisibility of the chain at inert primes, Arakelov slope inequalities,
@@ -188,9 +189,9 @@ explained and tags what the step rests on.
    (Chapter 11).
 7. **Foundations.** Galois representations for automorphic forms on CM fields, a weak local
    Langlands correspondence, Green's classification of cuspidal characters of
-   $\mathrm{GL}_d(\mathbb F_q)$ and about 250 named classical theorems are stated and
-   proved inside the archive [Lean] (Chapters 12–13). Whether each named statement matches the
-   published theorem of that name is a separate audit [Open].
+   $\mathrm{GL}_d(\mathbb F_g)$ for prime fields $\mathbb F_g$ ($g$ prime) and about 250 named
+   classical theorems are stated and proved inside the archive [Lean] (Chapters 12–13). Whether
+   each named statement matches the published theorem of that name is a separate audit [Open].
 
 Two remarks put this summary in perspective. First, steps 1–3 contain nothing that a specialist
 in analytic number theory would find surprising: they are a careful, explicit version of the

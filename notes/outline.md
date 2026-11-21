@@ -36,8 +36,8 @@ Lengths are estimates in words of prose, excluding quoted Lean and tables
 | **Part I** | **The analytic endgame** | | | | | |
 | 2 | One half-plane implies everything: functional equations and primitive characters | The five theorems follow from "no zeros on $\Re s>1/2$" by reflection $s\mapsto1-s$ and by removing Euler factors; worked proofs mirroring `rh_of_right`, `critLine`, `Claim.strip`, `imprimitive`. | 1 | P1, P3 | Ch. 3 (Tate's thesis), §13.1 | 5,000 |
 | 3 | Prime sums with a sign: the Landau-window criterion | Riesz-weighted prime sums $G_\chi(x)=\sum_{n\le x}\Lambda(n)\chi(n)(x/n-1)+\dots$; their explicit formula $-\sum_\rho x^\rho/(\rho(\rho-1))$; why a **one-sided** bound on **windows** $[Y,Y^{1+\delta}]$ already forces zero-freeness right of $\theta$ (Landau/Pólya on the Laplace transform, `PoleData`); why one needs a positive combination over a cyclic level. | 2 | P5, P4 (the $\varepsilon\to0$ limit) | App. B.4 (explicit formulas) as the contrasting zeros↔primes link | 8,000 |
-| 4 | Auxiliary prime pairs and host fields | Choosing $q\equiv3\ (8)$, $d\equiv7\ (16)$ of size $\exp(Y^{\varepsilon/5})$ so that quadratic twists have square-root prime-sum bounds and zero-free boxes; zero density + mean square + Siegel; the CM host fields $E\subset\mathbb Q(\zeta_N)$ and the role of the constants $1/400$, $401$, $\varepsilon<1/52$. | 3 | P13, `IsChiField`/`WinPair` from P12 | App. B.1, B.6 | 6,000 |
-| 5 | The square-root barrier as bookkeeping: `core_gm` | What `core_gm` proves and what it assumes; the finite Fourier analysis on the host's character group; where $1/2$ comes from (chain length $m\approx\sqrt x$, error $\approx x/m+m$); why the hard content is in the Props `EAtH` and `CoreAtH`. | 3, 4 | P6 | none (contrast: the $|\cdot|^{1/2}$ normalization, §1.2.1) | 7,000 |
+| 4 | Auxiliary prime pairs and host fields | Choosing $q\equiv3\ (8)$, $d\equiv7\ (16)$ of size $\exp(Y^{\varepsilon/5})$ so that quadratic twists have square-root prime-sum bounds and zero-free boxes; zero density + mean square + Siegel; the CM host fields $E\subset\mathbb Q(\zeta_N)$ and the role of the constants $1/400$, $401$, $\varepsilon<1/52$. | 3 | P13, `IsChiField`/`WinPair` from P12 | App. B.1 (pp. 588–591), B.6 (pp. 636–643) | 6,000 |
+| 5 | The square-root barrier as bookkeeping: `core_gm` | What `core_gm` proves and what it assumes; the finite Fourier analysis on the host's character group; where $1/2$ comes from (chain length $m\approx\sqrt x$, error $\approx x/m+m$); why the hard content is in the Props `EAtH` and `CoreAtH`. | 3, 4 | P6 | none (contrast: the $\lvert\cdot\rvert^{1/2}$ normalization, §1.2.1) | 7,000 |
 | **Part II** | **The arithmetic engine: Stepanov over the integers** | | | | | |
 | 6 | Stepanov's method and what "multiplicity over $\mathbb Z$" could mean | Function-field warm-up: Stepanov's auxiliary polynomial with high vanishing order and the resulting point count; the announcement's idea of replacing derivatives by a chain of theta lifts; the dictionary we will use in Chapters 7–11. Largely `[Expository]` and `[Paper]`. | 5 | motivation for P7–P10 | §14.2 (function fields) as the other route to the function-field analogue | 6,000 |
 | 7 | Chains of theta lifts | Iterated lifts $U(X_0)\to U(X_1)\to\dots\to U(X_m)$ between definite unitary groups; Howe duality, Siegel–Weil and the matching of theta integrals; the families `HypsAlt` and the chain data `ChainTied`/`SizeData₂`; how $m$ and the 2-power level are chosen. | 6 | P17, P7 | none (Ch. 2 "θ-functions" is a different object; say so) | 9,000 |
@@ -49,7 +49,7 @@ Lengths are estimates in words of prose, excluding quoted Lean and tables
 | 12 | Galois representations and partial local Langlands | `Row0b`: Galois representations for polarized cuspidal $\pi$ on $\mathrm{GL}_a$ over CM fields with weak local–global compatibility; their construction (Shimura-variety cohomology, congruences, theta lifts for even rank) as reported; `RecTExists` and how weak it is compared with local Langlands. | 11 | P14, P15 | Ch. 3 is the $\mathrm{GL}_1$ case (local class field theory) | 8,000 |
 | 13 | Green's theorem and the literature layer | Cuspidal characters of $\mathrm{GL}_d(\mathbb F_g)$ (`Green`); the ~250 named theorems stated as `GlobalTheory.Published.*` Props and proved in the archive; how to audit a name against the literature; current verdicts (with sources). | 12 | P16, P18 | Apps. A–E (cited background) | 6,000 |
 | **Part IV** | **Comparison and assessment** | | | | | |
-| 14 | Masullo's trace-formula route | Tate's thesis → Schauder bases → Hardy–Sobolev completions → spectral side (Ch. 10) = geometric side (Ch. 12) → Theorem 12.5.1.1 → the unwritten Ch. 13; why the content of GRH sits in the independence of the geometric side from the strip parameter; the public gap in Ch. 10 and its repair; the formalization effort. | 1, 3 | none | Chs. 1–13, App. B | 9,000 |
+| 14 | Masullo's trace-formula route | Tate's thesis → Schauder bases → Hardy–Sobolev completions → spectral side (Ch. 10) = geometric side (Ch. 12) → Theorem 12.5.1.1 → the unwritten Ch. 13; why the content of GRH sits in the independence of the geometric side from the strip parameter; the public gap in Ch. 10 (with Pei's unreviewed $I=\{0\}$ partial repair and the unrepaired strip case $I=[-\alpha,\alpha]$ `[Open]`); the formalization effort. | 1, 3 | none | Chs. 1–13, App. B | 9,000 |
 | 15 | Two proofs side by side | Scope (Dirichlet vs. all Hecke characters), method (Stepanov/theta chain vs. trace formula), verification state (kernel-checked but unread vs. readable but unfinished), shared classical frame, what each would teach the other. | 5, 11, 14 | P0–P18 summary | whole draft | 6,000 |
 | 16 | Open problems and what remains to be checked | Pending machine checks; statement-fidelity items; unread proof bodies by block; fidelity of literature Props; Masullo's open items; consequences that do and do not follow (ERH not covered); a checklist for readers who want to help. | all | all | all | 5,000 |
 
@@ -70,21 +70,23 @@ Chapter 14 needs only Chapters 1 and 3.
 |---|---|
 | 2 | done (R3; written in `chapters/02-functional-equations-and-primitive-characters.md`) |
 | 3 | done (R3; `landau_window`, `lemmaL`, `windowHyp_of_rpow`, `poleData`, `level_family`, `level_of_tiedWin`, `zeroFreeOn_of_levels` all read in full; written in `chapters/03-landau-window-criterion.md`) |
-| 4 | read `QH.stage`, `pair_share`, `winPairs`, `supplyChi`; statements of `zero_density_box`, `twistK`, `meanSqK` |
-| 5 | read `core_gm` in full, `ch_core`, `ch_top`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le` |
+| 4 | done (R3 for all `CharacterBoxes/` and `MeanSquareBounds/` glue, `bad_share`, `winPairs`, `supplyChi`, `ExistsPageN`, `IsChiField`; R2 `[Lean]` for imported classical analytic sub-packages; written in `chapters/04-auxiliary-prime-pairs-and-host-fields.md`) |
+| 5 | done (R3; `core_gm`, `ch_core`, `ch_top`, `ch_balance`, `proposition_size_bound`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le`, `level_gm_le_on_family_scales` all read in full; written in `chapters/05-the-square-root-barrier-core-gm.md`) |
 | 7–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
 
 ## Next batch
 
-Chapters 4 and 5 (completing Part I): auxiliary prime pairs and host fields (`QH.stage`,
-`winPairs`, `supplyChi`), followed by the finite Fourier analysis in `core_gm`.
+Chapters 6 and 7 (opening Part II): Stepanov's function-field warm-up and the dictionary for
+"multiplicity over $\mathbb Z$" (Chapter 6), followed by iterated chains of theta lifts,
+`HypsAlt`, and `ChainTied`/`SizeData₂` (Chapter 7).
 
 ## Numbering note (2026-11-21)
 
 `chapters/02-the-story-so-far.md` ("The story so far": a dated narrative of the two announcements and
 of the verification effort, with every fact tagged [Author], [Community] or [Checked]) was added at
-the owner's request under the prefix 02, which the table above assigns to "One half-plane implies
-everything". In `SUMMARY.md`, `02-the-story-so-far.md` is placed as an unnumbered prefix chapter
-alongside `00-preface.md`, so the mathematical chapters in `SUMMARY.md` retain the numbering of the
-table above (`chapters/02-functional-equations-and-primitive-characters.md` as Chapter 2 and
-`chapters/03-landau-window-criterion.md` as Chapter 3). The story chapter cites `sources/SOURCES.md`, Part II, by entry ID.
+the owner's request under the filename prefix `02`, which the table above assigns to "One half-plane implies
+everything". Its heading is `# The story so far` (with unnumbered sections) and in `SUMMARY.md` it is
+placed as an unnumbered prefix chapter alongside `00-preface.md`, so the mathematical chapters retain
+unambiguous numbering throughout the book (`chapters/02-functional-equations-and-primitive-characters.md`
+as Chapter 2 through `chapters/05-the-square-root-barrier-core-gm.md` as Chapter 5). The story chapter
+cites `sources/SOURCES.md`, Part II, by entry ID.

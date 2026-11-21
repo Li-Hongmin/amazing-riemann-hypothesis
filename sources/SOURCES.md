@@ -13,7 +13,7 @@ written 2026-11-21 by run `rhbook-architecture-11211200`) pins the sources the m
 chapters cite. **Part II** (at the end: an annotated bibliography in six categories — primary
 sources, verification, guides and teaching, errata and disputes, commentary, press — plus sources
 surveyed only, added by run `rhbook-sources-11211242`) covers the wider public record and gives the
-entry IDs that Chapter 2 cites.
+entry IDs that "The story so far" (`chapters/02-the-story-so-far.md`) cites.
 
 ## Source map: what each source contributes
 
@@ -226,13 +226,26 @@ Bibliographic data checked online on 2026-11-21.
   Séminaire Bourbaki, 25e année (1972/73), exp. no. 430, in Lecture Notes in Math. 383,
   Springer, 1974, pp. 234–241, doi:10.1007/BFb0057311; open copy at
   `https://www.numdam.org/item/SB_1972-1973__15__234_0/`.
+- E. Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18, Société
+  Mathématique de France, Paris, 1974 (cited in Chapter 4).
 - E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61 (1905), 527–550,
   doi:10.1007/BF01449495.
+- J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis", *The American
+  Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in `CONTRIBUTIONS.md`).
+- H. L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in Mathematics 227,
+  Springer, Berlin–Heidelberg, 1971, ISBN 978-3-540-05641-6, doi:10.1007/BFb0060851 (Chapter 12,
+  cited in Chapter 4).
 - H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I: Classical Theory*,
   Cambridge Studies in Advanced Mathematics 97, Cambridge University Press, 2007,
   ISBN 978-0-521-84903-6 (Theorem 1.7 and §15.1, cited in Chapter 3).
+- A. Page, "On the number of primes in an arithmetic progression", *Proceedings of the London
+  Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in Chapter 4).
 - G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von der
   Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930, 19–27.
+- D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number Fields*, Graduate Texts in
+  Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0 (cited in Chapter 2).
+- C. L. Siegel, "Über die Classenzahl quadratischer Zahlkörper", *Acta Arithmetica* 1 (1935),
+  no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapter 4).
 - J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950 thesis), in
   J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press, London,
   1967, pp. 305–347 (cited in Chapter 2).
@@ -258,7 +271,7 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - sha256 is of the bytes we received. Pages with live parts (blogs with comment counts, news sites, GitHub pages, Zulip) return different bytes on every request, so for them the hash only identifies our copy; the version line says which text we read. Pages that refused scripted requests were read in a rendering browser; those have no byte hash, and we say so. "HEAD" means we asked for headers only.
 - Internet Archive digests are base32 SHA-1 of the archived payload. Where we write "equals our copy", we computed the same digest from our file.
 - Each entry ends with what the source contributes and how much weight it can bear. That judgment is about the source as a record of events; it is not a verdict on the mathematics.
-- Entry IDs (A1, V3, …) are cited in Chapter 2. A: primary sources; V: verification; G: guides and teaching; E: errata and disputes; C: commentary; P: press; S: surveyed only.
+- Entry IDs (A1, V3, …) are cited in "The story so far" (`chapters/02-the-story-so-far.md`). A: primary sources; V: verification; G: guides and teaching; E: errata and disputes; C: commentary; P: press; S: surveyed only.
 
 ## Primary sources (A)
 
@@ -338,7 +351,7 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 
 - URL: <https://math.mit.edu/~drew/grh/>
 - Author: Andrew Sutherland (MIT); "checks run with Claude Code" (page header).
-- Version / date: Two versions seen. (a) "Page last updated 2026-11-20 19:45 UTC", preserved by the only Internet Archive capture (2026-11-20 19:57:27 UTC); we read it via the `id_` endpoint, retrieved 2026-11-21 05:25:07 UTC, HTTP 200, 10,285 bytes, sha256 `73f96192496df3a3adca39a462e704c7dd4186e342f5c53c32ae1910ee91a697`. (b) "Page last updated 2026-11-20 22:05 UTC", the live page.
+- Version / date: Three versions seen. (a) "Page last updated 2026-11-20 19:45 UTC", preserved by the only Internet Archive capture (2026-11-20 19:57:27 UTC); we read it via the `id_` endpoint, retrieved 2026-11-21 05:25:07 UTC, HTTP 200, 10,285 bytes, sha256 `73f96192496df3a3adca39a462e704c7dd4186e342f5c53c32ae1910ee91a697`. (b) "Page last updated 2026-11-20 22:05 UTC", retrieved through 05:56 UTC (`12,782` bytes, `de7153ec…`). (c) "Page last updated 2026-11-21 10:05 UTC", retrieved 2026-11-21 12:42:26 UTC, HTTP 200, 18,306 bytes, sha256 `d35ac26a55e5f4a318450fd4e8b52029fbe82df546f1559511ce9cbc1bda629b` (adds the `kimihiro64/Robin1984` arithmetic-consequences checks on a 61,752,134,938-byte combined export `44651dcc…` and a 240-module `lake build` path-comparison sample; main `lake comparator` and export Lean kernels remain "running").
 - Retrieved: 2026-11-21 05:24:05 UTC, HTTP 200, 12,782 bytes, sha256 `de7153ec1b22acab193a99824d427d41050e2c0d2c4374ec518d52fc0de62307`; identical bytes at 02:51, 04:02, 04:42 (Part I, §5) and 04:47:41 UTC; files linked from the page retrieved 05:24:06–05:24:14 UTC: `SHA256SUMS` sha256 `d8496902f492eeb0274460e525071cc30803bba7817d59b27c874f5a25317373`, `comparator.json` `8ea890e6ccda9cf3983ada343af18a41d12542036875a3936e7925ed5b1582ff`, `audit.log` `0a1473fce6eed840011f4a76b1c51558fc6f03edd1e6bd1ee542e6c738d87a62`, `nanoda.log` `d4c5360b02d8dd885150c1cc28b616cb6fb5bf5b20d142558d79a7b15ae9d9df`, con-leche logs `23e27eacb9e83785…`, `5a068bf55f24904e…`; each equals the value in `SHA256SUMS`. The export `solution.ndjson.zst` (7,699,933,588 bytes, Last-Modified 2026-11-20 18:37:31 UTC), `challenge.ndjson.zst` (46,881,299 bytes, 19:03:08 UTC) and `project-oleans.sha256` (28,865,695 bytes, 19:39:50 UTC) were checked by HEAD only
 - Contribution and reliability: The most detailed public record of the machine checks: full compile (finished 16:43:21 UTC), axiom audit, `leanchecker` replay of every module (about 18:17), nanoda on the 61.57 GB export (exit 0 at 19:05:45), con-leche master and `--compare` (21:19:04 and 21:19:12), lean4lean module by module (about 21:55), with versions, hashes, a reproduction recipe and an explicit list of caveats (unsandboxed build; a 77-module sample compared with `lake build`; sandboxed-export comparison not yet made). The 19:45 version showed con-leche and con-ron "declined" (older binaries could not read one reflexive inductive type); the 22:05 version records the master build accepting. As of our last check the Lean default and paranoid kernels on the export and the end-to-end `lake comparator` run are "running". A careful first-hand log by a named expert; the checks were orchestrated by an AI agent and the page is updated in place, so cite the version.
 
@@ -348,7 +361,7 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - URL: <https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis>; read through the public API: `https://leanprover.zulipchat.com/json/messages` with narrow `channels:web-public`, `channel:general`, `topic:<name>`
 - Author: Lean community; 119 distinct posters in our copy. First message by Jack McCarthy (Zulip user 989743).
 - Version / date: 403 messages, ids 642224678 (2026-11-20 13:58:06 UTC) to 642423725 (2026-11-21 05:23:32 UTC). Messages can be edited, moved or deleted by moderators, who said they had deleted off-topic messages (Rémy Degenne, quoted at 17:14:14; Buzzard, 18:39:29).
-- Retrieved: 2026-11-21 05:27:36 UTC, JSON 793,590 bytes, sha256 `8337bcdddb66a9b65970a6a2ba28ad12c09c51b99446a80ece725c1dbe8b95a3`; the 40 newest messages again at 2026-11-21 05:57:11 UTC (to id 642425070, 05:35:31 UTC; 80,510 bytes, sha256 `b45b9e8882b8c38616f18f6430b1685ff1e3b2ac681ceb5d89255b22df9e651e`), no new verification report
+- Retrieved: 2026-11-21 05:27:36 UTC, JSON 793,590 bytes, sha256 `8337bcdddb66a9b65970a6a2ba28ad12c09c51b99446a80ece725c1dbe8b95a3`; the 40 newest messages again at 2026-11-21 05:57:11 UTC (to id 642425070, 05:35:31 UTC; 80,510 bytes, sha256 `b45b9e8882b8c38616f18f6430b1685ff1e3b2ac681ceb5d89255b22df9e651e`); and the 80 newest messages at 2026-11-21 12:42:37 UTC (to id 642473400, 12:37:00 UTC; 137,989 bytes, sha256 `b3ee190658a57bce05dc1bd66acc92fc587194c0718186560854f3cb7707648f`, including Dixit's build/trace/export-hash posts `#642435200` and `#642470541` and Loeffler's `KatoTwoW` reply `#642442900`)
 - Contribution and reliability: The working record of the verification: the first public report (McCarthy 13:58:06, compiling "on two separate devservers"), Sutherland's posts of his compile (16:53:16, 16:55:59) and of nanoda (19:09:53), Teżewski's runs of con-leche (20:40:10), pestka (20:58:04) and gruszka (01:56:46), Breitner's and Carneiro's explanations of the checkers, Buzzard's moderation and his "we still await a successful `comparator` run" (18:44:35), and Kim Morrison's summary that "there are essentially no remaining doubts as to whether this is a correct proof" (01:07:22) with plans for clean-up. Earlier book text and Part I treated the stream as login-only; it is web-public. Primary for who reported what and when; each claim is the poster's own and many posts relay AI-generated summaries (marked as spoilers per channel rules). Cite by message id (`/near/<id>`).
 
 <a id="v3"></a>
@@ -383,8 +396,8 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 
 - URL: <https://github.com/aapolipponen/rh-lean-check-lumi>
 - Author: Aapo Lipponen; docs edited from AI review reports.
-- Version / date: README "Status: compile complete (updated 2026-11-20 22:30 UTC)"; repository HEAD `82d91dbbd04d` (2026-11-20 23:56:59 UTC), unchanged at 04:42 and 05:24 UTC.
-- Retrieved: README 2026-11-21 05:24:35 UTC, HTTP 200, 9,064 bytes, sha256 `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c`; `results/build-summary.json` 2026-11-21 05:24:36 UTC, HTTP 200, 453 bytes, sha256 `a2763844491a03287ecdbfe5868d71146a7d8ed22a70695b95bf7c12091fe072`; both identical to Part I's copies (§5)
+- Version / date: README "Status: compile complete (updated 2026-11-20 22:30 UTC)" at HEAD `82d91dbbd04d` (2026-11-20 23:56:59 UTC); updated to "Status: compile and dependency audit complete (updated 2026-11-21 12:40 UTC)" at HEAD `d6881c9066` (2026-11-21 12:37:16 UTC), walking all 1,478,243 constants in the compiled proof terms (`146,437 / 175,187` project modules and `5,081` Mathlib modules used).
+- Retrieved: README 2026-11-21 05:24:35 UTC, HTTP 200, 9,064 bytes, sha256 `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c`; re-retrieved 2026-11-21 12:42:27 UTC, HTTP 200, 9,779 bytes, sha256 `72da7b8d8e8ad0b3c6822fbc7151a198e8234516093b9a2ad11fb6a54c01ec7a`; `results/build-summary.json` 2026-11-21 05:24:36 UTC, HTTP 200, 453 bytes, sha256 `a2763844491a03287ecdbfe5868d71146a7d8ed22a70695b95bf7c12091fe072`; earlier copies identical to Part I's (§5)
 - Contribution and reliability: A second full compile, each `lean` process in a no-network sandbox on 8 LUMI-C nodes: 175,187 of 175,187 modules, 0 failures, `Main.lean` finished 22:21 UTC; `Main.olean` and `Statements.olean` hashes equal to Sutherland's. That match is the strongest public evidence that V1's unsandboxed build was not tampered with. The README is explicit about what it did not run (kernel replay, second kernel) and credits V1 and Teżewski for those. High reliability for what it reports.
 
 <a id="v7"></a>
@@ -816,9 +829,9 @@ Ordered by first publication. Unless stated, outlets report the claims second-ha
 <a id="p7"></a>
 **P7. AFP (Alex Pigman with Thomas Urbain), "Anthropic researcher says Claude solved math's greatest riddle", via France 24.**
 
-- URL: <https://www.france24.com/en/live-news/20261120-anthropic-researcher-says-claude-solved-math-s-greatest-riddle-1>
+- URL: <https://www.france24.com/en/live-news/20261120-anthropic-researcher-says-claude-solved-math-s-greatest-riddle-1>; earliest syndicated dispatch <https://today.rtl.lu/news/world/anthropic-researcher-says-claude-solved-maths-greatest-riddle-376623520>
 - Author: Agence France-Presse.
-- Version / date: Earliest AFP version seen: RTL Today, 2026-11-20 17:25:53 UTC (short, no expert quotes). France 24 version published 18:34:17 UTC, modified 22:10:30 UTC (adds Conrey and Vakil).
+- Version / date: Earliest AFP version seen: RTL Today, 2026-11-20 17:25:53 UTC (short, no expert quotes; retrieved 2026-11-21 05:10:20 UTC, HTTP 200, 388,224 bytes, sha256 `6f99d9a5fa0d88a3766ce55ce34d39675e109bf76c3d8a0282f6873b40aeffea`). France 24 version published 18:34:17 UTC, modified 22:10:30 UTC (adds Conrey and Vakil).
 - Retrieved: France 24 page read in a rendering browser at 2026-11-21 05:09:28 UTC (curl got HTTP 403 at 04:57:41 UTC), no byte hash
 - Contribution and reliability: Wire story carried worldwide (copies under S1). Its expanded version quotes Brian Conrey: "It's a monumental moment in human history. It's really the biggest thing I think that's ever happened in mathematics", while reporting that he had seen only the remarks on Alpöge's site and had asked for a manuscript. Reports Vakil's announcement and that neither Vakil nor Masullo had responded. Read in a browser (curl got HTTP 403); copies on phys.org and Yahoo have byte hashes (S1).
 
@@ -1052,7 +1065,7 @@ Ordered by first publication. Unless stated, outlets report the claims second-ha
 <a id="p33"></a>
 - **P33.** *Science* (AAAS), "AI may have solved math’s greatest mystery. Can humans understand the answer?". <https://www.science.org/content/article/ai-may-have-solved-math-s-greatest-mystery-can-humans-understand-answer>. Retrieved 2026-11-21 05:02:11 UTC (curl) and 2026-11-21 05:09:05 UTC (browser), HTTP 403 to curl; Cloudflare challenge in browser; web_extract unavailable (search-only backend), 5,997 bytes, sha256 `30f532cb2d5b0a23000fbe80eda275492dad26f146abd101ae1a1216b2119bf7` (of the error or challenge page we received, not of the article).
 <a id="p34"></a>
-- **P34.** *The New York Times*, Kenneth Chang and Siobhan Roberts, "Anthropic Mathematician Claims to Have Solved Math’s Most Famous Problem" (known from syndicated copies and Kyodo). <https://www.dailygazette.com/nyt-feed/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem/article_44676e77-ae1c-5bdb-91a0-5325ede658a8.html ; https://www.deccanherald.com/technology/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem-riemann-hypothesis-4226294>. Retrieved 2026-11-21 05:12:03 UTC, HTTP 429 from dailygazette.com; text not read, 66 bytes, sha256 `4d68560587b8c4aa50b4e432c88f96c8c411f4b7d4402b2d17fc34154e707261` (of the error or challenge page we received, not of the article).
+- **P34.** *The New York Times*, Kenneth Chang and Siobhan Roberts, "Anthropic Mathematician Claims to Have Solved Math’s Most Famous Problem" (known from syndicated copies and Kyodo). <https://www.dailygazette.com/nyt-feed/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem/article_44676e77-ae1c-5bdb-91a0-5325ede658a8.html>; <https://www.deccanherald.com/technology/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem-riemann-hypothesis-4226294>. Retrieved 2026-11-21 05:12:03 UTC, HTTP 429 from dailygazette.com; text not read, 66 bytes, sha256 `4d68560587b8c4aa50b4e432c88f96c8c411f4b7d4402b2d17fc34154e707261` (of the error or challenge page we received, not of the article).
 <a id="p35"></a>
 - **P35.** *The Wall Street Journal*, "Anthropic Mathematician Says AI Has Solved the Most Famous Problem in Math". <https://www.wsj.com/tech/ai/anthropic-mathematician-says-claude-has-solved-the-most-famous-problem-in-math-9361920b>. Retrieved 2026-11-21 05:12:00 UTC, HTTP 401, 767 bytes, sha256 `b6673fc66e18fa11bd7ea3d669e30499615a80bfd32a3e3510708b9389490515` (of the error or challenge page we received, not of the article).
 <a id="p36"></a>
@@ -1073,13 +1086,13 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 <a id="s3"></a>
 - **S3.** AFP copy: The Straits Times. <https://www.straitstimes.com/world/united-states/anthropic-researcher-says-ai-chatbot-claude-solved-maths-greatest-riddle>. Retrieved 2026-11-21 05:10:12 UTC, HTTP 200, 138,572 bytes, sha256 `ad9c400cbf3f78c360f3dc04c71b1ebb6c240799be025a332a60acd2c3736e5f`.
 <a id="s4"></a>
-- **S4.** AFP copy: RTL Today (earliest AFP version, 17:25:53 UTC). <https://today.rtl.lu/news/world/anthropic-researcher-says-claude-solved-maths-greatest-riddle-376623520>. Retrieved 2026-11-21 05:10:20 UTC, HTTP 200, 388,224 bytes, sha256 `6f99d9a5fa0d88a3766ce55ce34d39675e109bf76c3d8a0282f6873b40aeffea`.
+- **S4.** AFP copy: RTL Today (earliest AFP version, 17:25:53 UTC; also recorded under P7). <https://today.rtl.lu/news/world/anthropic-researcher-says-claude-solved-maths-greatest-riddle-376623520>. Retrieved 2026-11-21 05:10:20 UTC, HTTP 200, 388,224 bytes, sha256 `6f99d9a5fa0d88a3766ce55ce34d39675e109bf76c3d8a0282f6873b40aeffea`.
 <a id="s5"></a>
 - **S5.** AP copies (Winnipeg Free Press and others). <https://winnipegfreepress.com/arts-and-life/life/sci-tech/2026/11/20/anthropic-worker-claims-to-have-solved-a-holy-grail-of-math-problems-with-the-help-of-ai>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
 <a id="s6"></a>
 - **S6.** NYT and Kyodo copies (Deccan Herald and Japanese regional papers). <https://www.deccanherald.com/technology/anthropic-mathematician-claims-to-have-solved-maths-most-famous-problem-riemann-hypothesis-4226294>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
 <a id="s7"></a>
-- **S7.** Other outlets: Washington Post (not readable), Tom's Hardware, SiliconANGLE, NDTV, OfficeChai, Deutschlandfunk, Der Standard, Le Parisien, Numerama and others. <https://www.washingtonpost.com/technology/2026/11/20/using-anthropic-ai-mathematician-claims-have-solved-riemann-hypothesis/>. Retrieved 2026-11-21 05:11:59 UTC, HTTP 000, 0 bytes, sha256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` (of the error or challenge page we received, not of the article).
+- **S7.** Other outlets: Washington Post (not readable), Tom's Hardware, SiliconANGLE, NDTV, OfficeChai, Deutschlandfunk, Der Standard, Le Parisien, Numerama and others. <https://www.washingtonpost.com/technology/2026/11/20/using-anthropic-ai-mathematician-claims-have-solved-riemann-hypothesis/>. Retrieved 2026-11-21 05:11:59 UTC, HTTP 000, 0 bytes, sha256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` (sha256 of the empty 0-byte response when curl failed to connect or timed out, not an error page or the article).
 <a id="s8"></a>
 - **S8.** Chinese aggregators: 36Kr (果壳), cls.cn, ifeng (知识分子), qq.com. <https://www.36kr.com/p/4078902157185920>. Not fetched; seen in web_search results 2026-11-21 between 05:05Z and 05:16Z, HTTP n/a (search result only), no byte hash.
 <a id="s9"></a>
@@ -1103,4 +1116,5 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Priority on the p. 451 gap.** The earliest written statement we found is the Refine report (E6, 21:12 UTC), before mccorvie issue #1169 (E2, 23:35 UTC).
 - **First public report on Zulip.** Posted by Jack McCarthy (V2), who also created the Comparator mirror (V5, commits as Deicyde).
 - **Final re-check, 2026-11-21 05:56:45–05:57:12 UTC** (`raw/F/`): A1, A3, A4, V1 (page), V5 (README) and V6 (README) returned the same sha256 as listed above; parts 01 and 14 of A2 returned the same ETags; V5 had new items #11 and #12 (05:38, 05:41) but no Comparator verdict; the two Zulip threads had no new verification report.
+- **Re-check during Part I completion, 2026-11-21 12:42:26–12:42:37 UTC** (run `rhbook-ch4-5-1121d-11212036/fetches/`): `alpo.ge` unchanged (`11,625` B, `a7ee08f4…`); Sutherland's page (V1) updated at `10:05 UTC` (`18,306` B, `d35ac26a…`, adding `kimihiro64/Robin1984` arithmetic-consequences logs and a 240-module `lake build` path check, with main and combined `lake comparator` and export Lean kernels still running); LUMI (V6) updated at `12:40 UTC` (`README.md` `9,779` B, `72da7b8d…`, compiled-environment walk of `1,478,243` constants complete); Comparator repository (V5) at HEAD `d4544218d7` (`12:39:14 UTC`, `README.md` `5,290` B, `de494296…`, `verification/NOTES.md` `16,117` B, `d1c06dee…`, no Comparator verdict yet); `ishaan2006/rh-lean-reproduction` (`README.md` `24,807` B, `0ea8d58d…`, Zulip `#642470541`) reported a byte-identical `lean4export` sha256 match (`5ea74b91…244e`) with Sutherland's 61.57 GB export; `shosonoda/lean-rh-alpoge` (`README.md` `18,375` B, `939ab080…`) reported sandboxed Comparator rebuild/export complete and kernel replay running; `mccorvie/riemann-masullo` `README.md` unchanged (`8,899` B, `69352b47…`) and `ERRATA.md` (`61,379` B, `05a26a0e…`) at 127 paper entries.
 

@@ -465,8 +465,8 @@ The archive pins Lean `v4.33.1` (`lean-toolchain:1`) and Mathlib at commit
 `0df444a360eaa60ab8c11dca51a86af692955474` (`lakefile.toml:16`, matching
 `lake-manifest.json`) [Lean, read]. The Comparator notes report that this commit is Mathlib's
 tag `v4.33.1`, one commit on top of tag `v4.33.0` that changes only `lean-toolchain`, and that
-each of the other eight pins in `lake-manifest.json` is a commit on the main branch of the
-corresponding upstream repository [Community]. Sutherland reports that the
+each of the other eight pins in `lake-manifest.json` is a commit on the default branch (`main` or
+`master`) of the corresponding upstream repository [Community]. Sutherland reports that the
 8,322 Mathlib and 378 dependency `.olean` files used in his build are byte-identical to the
 official cache [Community].
 
@@ -515,10 +515,15 @@ Three remarks on this table.
   identical `Main.olean` hashes from the sandboxed LUMI build make tampering with Sutherland's
   build implausible [Expository]; the pending comparison of a sandboxed export with the
   unsandboxed one would close the point [Open].
-- **What is still running.** At our last check (2026-11-21 04:42 UTC), Sutherland's page
-  still showed its 2026-11-20 22:05 version, and the community Comparator repository had not
-  posted a result (its latest commit, at 04:27 UTC, concerns build caching). Any reader of this chapter should check
-  both pages for updates [Open].
+- **What is still running.** At our latest check (2026-11-21 12:42 UTC), Sutherland's page
+  (updated 2026-11-21 10:05 UTC) added unconditional `kimihiro64/Robin1984` divisor-sum checks
+  and a 240-module `lake build` path check, Lipponen's LUMI repository (updated 12:40 UTC)
+  completed a full compiled-environment dependency walk across all 1,478,243 constants, and
+  Ishaan Dixit reported that an independent unsandboxed `lean4export` matched Sutherland's
+  61.57 GB export byte-for-byte (`5ea74b91…244e`) [Community]; the end-to-end `lake comparator`
+  runs, the single-threaded Lean default/paranoid export kernels, and a sandboxed-export
+  comparison remain in progress [Open]. Any reader of this chapter should check both pages for
+  updates [Open].
 
 Commentators have summarized the situation in strong terms. Sutherland is quoted as saying that
 "the chance that anything is fishy here is approximately zero", while Buzzard, writing on the

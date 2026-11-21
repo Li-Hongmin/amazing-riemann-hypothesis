@@ -13,6 +13,8 @@
 
 - [2. One half-plane implies everything: functional equations and primitive characters](chapters/02-functional-equations-and-primitive-characters.md)
 - [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
+- [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
+- [5. The square-root barrier as bookkeeping: `core_gm`](chapters/05-the-square-root-barrier-core-gm.md)
 
 # Records
 

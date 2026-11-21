@@ -190,7 +190,7 @@ be reduction modulo $d$.
 
 1. Given $\psi \bmod d$, the **induced character** (or **level change**) modulo $N$, written
    `DirichletCharacter.changeLevel` for $d \mid N$ [Lean]
-   (`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:87`), is the character modulo $N$ whose
+   (`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:66`), is the character modulo $N$ whose
    restriction to $(\mathbb Z/N\mathbb Z)^\times$ is $\psi \circ \pi_{N,d}$. On integers $a$ with
    $\gcd(a, N) = 1$ it equals $\psi(a)$; on integers sharing a prime factor with $N$ it equals $0$.
 2. A character $\chi \bmod N$ **factors through $d$** (`FactorsThrough χ d`) if $d \mid N$ and
@@ -611,8 +611,8 @@ non-abelian Galois groups [Expository]:
 
 In Masullo's draft *The Music of the Primes*, the mathematical counterpart of this chapter sits in
 **Chapter 3 ("Idelic Zeta Functions", pp. 117–154)** and in the overview of the intended endgame
-in **Section 1.8.5.1 (pp. 55–56)**, pointing toward the unfinished **Chapter 13 (pp. 521–522)**
-[Paper; Masullo pp. 55–56, 117–154, 521–522].
+in **Section 1.8.5.1 (p. 55)**, pointing toward the unfinished **Chapter 13 (pp. 521–522)**
+[Paper; Masullo pp. 55, 117–154, 521–522].
 
 - **Tate's thesis instead of Hurwitz zeta functions.** Where Mathlib defines $L(s,\chi)$ over
   $\mathbb Q$ as a linear combination of Hurwitz zeta functions and proves the functional equation
@@ -620,14 +620,15 @@ in **Section 1.8.5.1 (pp. 55–56)**, pointing toward the unfinished **Chapter 1
   `_odd`), Masullo works over an arbitrary number field $F$ following J. T. Tate's 1950 thesis
   ("Fourier analysis in number fields, and Hecke's zeta-functions", published in J. W. S. Cassels
   and A. Fröhlich, eds., *Algebraic Number Theory*, Academic Press, London, 1967, pp. 305–347) and
-  D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number Fields* ( Springer, 1999) [Paper;
+  D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number Fields* (Springer, 1999) [Paper;
   Masullo p. 11, §1.1.1, and p. 123, Prop. 3.2.1.3]. By working directly with continuous
   characters $\chi$ of the idele class group $C_F = \mathrm{GL}_1(\mathbb A_F)/F^\times$, every
   character is automatically primitive (its ramification at each finite place $v$ determines the
-  exact local Euler factor of the finite Hecke $L$-function $L_f(s,\chi)$, Definition 3.2.1.2,
-  p. 122), and the global idelic Mellin transform of an adelic theta function yields meromorphic
+  exact local Euler factor of the completed Hecke $L$-function $L(s,\chi)$, Definition 3.2.1.2,
+  p. 123, and of the finite Hecke $L$-function $L_f(s,\chi)$, Definition 3.2.1.4, pp. 123–124),
+  and the global idelic Mellin transform of an adelic theta function yields meromorphic
   continuation and the functional equation in one stroke (Theorem 3.2.2.1, p. 124) [Paper; Masullo
-  pp. 122–124].
+  pp. 123–124].
 - **Same half-plane-to-strip logic, shifted by $1/2$.** Masullo normalizes his spectral variable so
   that the critical line sits at $\Re s = 0$, writing $L_f(s + 1/2, \chi)$. In the sketch from his
   letter to Sarnak (§1.8.5.1, equation (1.8.5.1), p. 55), the intended output of his trace formula
@@ -678,7 +679,7 @@ Mathlib declarations are cited at the pinned commit `0df444a360eaa60ab8c11dca51a
 |---|---|---|---|
 | `RiemannHypothesis`, `riemannZeta_zero`, `riemannZeta_def_of_ne_zero`, `completedRiemannZeta_one_sub`, `riemannZeta_one_sub` | `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:185,151,154,106,178` | Global RH statement, $\zeta(0) = -1/2$, $\zeta(s) = \Lambda_\zeta(s)/\Gamma_{\mathbb R}(s)$ ($s \neq 0$), and symmetric/asymmetric functional equations of $\zeta$. | [Lean] |
 | `riemannZeta_ne_zero_of_one_le_re`, `LFunction_ne_zero_of_one_le_re` | `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:411,398` | Classical non-vanishing on $\Re s \ge 1$ for $\zeta$ and Dirichlet $L$-functions. | [Lean] |
-| `DirichletCharacter`, `level_one`, `changeLevel_one`, `conductor`, `conductor_dvd_level`, `conductor_ne_zero`, `conductor_one`, `IsPrimitive`, `primitiveCharacter`, `changeLevel_primitiveCharacter`, `primitiveCharacter_isPrimitive`, `conductor_inv`, `Odd`, `Even`, `even_or_odd` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40,202,220,246,251,255,259,292,307,310,314,405,533,536,538` | Dirichlet characters, conductors, primitive characters, level changes, inverse conductors, and parity. | [Lean] |
+| `DirichletCharacter`, `changeLevel`, `level_one`, `changeLevel_one`, `conductor`, `conductor_dvd_level`, `conductor_ne_zero`, `conductor_one`, `IsPrimitive`, `primitiveCharacter`, `changeLevel_primitiveCharacter`, `primitiveCharacter_isPrimitive`, `conductor_inv`, `Odd`, `Even`, `even_or_odd` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40,66,202,220,246,251,255,259,292,307,310,314,405,533,536,538` | Dirichlet characters, conductors, primitive characters, level changes, inverse conductors, and parity. | [Lean] |
 | `LFunction_modOne_eq`, `LFunction_changeLevel`, `gammaFactor`, `completedLFunction`, `LFunction_eq_completed_div_gammaFactor`, `IsPrimitive.completedLFunction_one_sub` | `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:67,150,207,224,259,284` | Identification $L(s, 1 \bmod 1) = \zeta(s)$, Euler-factor product under level change, $\gamma_\chi(s)$, $\Lambda(s,\chi)$, and the primitive functional equation. | [Lean] |
 
 **Summary of the chapter.** Every Dirichlet $L$-function differs from its primitive $L$-function

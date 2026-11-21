@@ -1,11 +1,11 @@
-# Chapter 2. The story so far
+# The story so far
 
 *A dated record of the first seventeen hours, from the posting of Alpöge's note on 20 November 2026 to
 05:57 UTC on 21 November. It narrates who claimed, reported and checked what, and in which order.
 It is not a verdict: Chapter 1 discusses what the formal statement says, §1.6 tabulates the machine
 checks, and the later chapters planned in `notes/outline.md` discuss the mathematics of both proofs.*
 
-## 2.0 How to read this chapter
+## How to read this chapter
 
 Every factual sentence carries one of three provenance markers, followed by the source.
 
@@ -29,7 +29,7 @@ do not treat them as proof of when a file was written.
 
 Quotations are short and marked; everything else is our paraphrase.
 
-## 2.1 Before the announcement
+## Before the announcement
 
 The last page of Alpöge's note lists twenty steps, the earliest dated 6 October
 2026 and the last "11/16/26: GRH" [Author · A1, pp. 3–4]. The note says that this "rough timeline"
@@ -56,7 +56,7 @@ arrangements by Conrad and Vakil "for me to return to Stanford for a year to fin
 of the paper" [Author · A4, p. 6]. Vakil later wrote that Conrad "has been looking closely at it for
 months" [Community · A5].
 
-## 2.2 The announcement (12:52–14:50)
+## The announcement (12:52–14:50)
 
 The PDF of Alpöge's note records its creation at 12:52:48 [Checked · A1: PDF metadata]. The note
 is four pages long and is posted on Alpöge's personal domain, whose home page does not link it
@@ -80,7 +80,7 @@ The first public signal we found is a post on X by Scott Armstrong at 13:41:10, 
 note with the words "@__alpoge__ ftw" [Community · C7]. *Quanta* reports that Armstrong posted it
 because Tristan Buckmaster had sent it to him [Community · P17]. At 13:58:06 Jack McCarthy opened
 the Lean Zulip thread "Discussion: Alpöge Proves the Riemann Hypothesis": the note had been
-"uploaded less than an hour ago" with "no formal announcement yet", and he was compiling the code
+"[u]ploaded less than an hour ago" with "no formal announcement yet", and he was compiling the code
 "on two separate devservers" [Community · V2 #642224678]. *Scientific American* published its first
 article with a timestamp of 14:00 [Community · P1].
 
@@ -101,7 +101,7 @@ these three files equal the files we downloaded the next morning, so every later
 files posted that afternoon [Checked · A1, A2, V12: SHA-1 of our copies against the archive's
 digests]. The fourteen parts join to sha256 `9631b4f0…49c7fc` [Checked · A2; Part I, §1].
 
-## 2.3 First builds (14:50–19:10)
+## First builds (14:50–19:10)
 
 Kevin Weil reposted Armstrong's post at 15:18:05 [Community · C7]. *New
 Scientist* published at 15:20, quoting Buzzard: "Let’s see if it compiles first" [Community · P2].
@@ -126,7 +126,7 @@ generated an (enormous) Lean-only proof of the Generalized Riemann Hypothesis", 
 Zulip thread as "probably the best place to follow the efforts to verify the proof", and added: "I
 imagine the digestion process will take some time, though in this case at least we have a human
 author to communicate with to assist with this task" [Community · C1]. The first AFP dispatch
-appeared at 17:25:53 [Community · S4]. Moderators kept the Zulip thread on Lean topics and said they
+appeared at 17:25:53 [Community · P7]. Moderators kept the Zulip thread on Lean topics and said they
 had deleted off-topic messages [Community · V2 #642283561, #642305635]; Tao later added an update to his
 post saying so; the post was last modified at 19:13:39 [Community · C1].
 
@@ -150,7 +150,7 @@ second half was not so: both versions of Sutherland's page that we read, those o
 list the paranoid kernels and `lake comparator` as still running [Checked · E8, V1: the archived
 19:45 version and the live 22:05 version].
 
-## 2.4 Masullo's draft (18:13–19:45)
+## Masullo's draft (18:13–19:45)
 
 The PDF of Masullo's draft records its creation at 18:13:46 [Checked · A4: PDF metadata]. At 18:18:42
 Ravi Vakil, writing from a meeting of the American Mathematical Society, posted it on his blog under
@@ -181,7 +181,7 @@ reported that an LLM judged the Main Theorem 12.5.1.1 incorrect, with "a pretty 
 counterexample", and at 19:42 that correcting one error reduces the theorem to a classical formula,
 "at least that is what Astra and Fable seem to agree on" [Community · V3 #642318488, #642321263].
 
-## 2.5 Independent kernels and the end of the "hot phase" (19:45–01:10)
+## Independent kernels and the end of the "hot phase" (19:45–01:10)
 
 At 19:45 Sutherland's page showed compile, axioms, `leanchecker` and nanoda passed, and recorded
 that con-leche and con-ron "declined" with exit code 2, "not a rejection": those binaries did not
@@ -230,7 +230,7 @@ intermediate results, and clean-up into Mathlib and Tau Ceti [Community · G3]. 
 reported that his own checker, Gruszka, accepts the whole export "in 4.5 min on my laptop"
 [Community · V2 #642395135; V9].
 
-## 2.6 The dispute over Masullo's draft (19:45–04:40)
+## The dispute over Masullo's draft (19:45–04:40)
 
 At 20:05 Buzzard objected to using the Lean Zulip "as a place to
 deconstruct someone's proof in public" when the author "did not ask for it to be disassembled in
@@ -276,7 +276,7 @@ proof he worked on "did not, in the end, hold up" [Community · P17; Open]. Seve
 postdoctoral researcher at Stanford, while his acknowledgements speak of returning to Stanford
 [Community · P7, P12, P17, P21; Author · A4, p. 6; Open].
 
-## 2.7 The next morning (01:10–05:57, 21 November)
+## The next morning (01:10–05:57, 21 November)
 
 A public build cache was merged into the Comparator repository at
 04:27:42 [Community · V5]; an issue noted that `.olean` hashes depend on the build directory, and
@@ -313,7 +313,7 @@ Comparator verdict by 05:56, and neither Zulip thread had a new verification rep
 [Checked · A3], and no message in either Zulip thread comes from an account in his name [Checked ·
 V2, V3: sender lists of our copies].
 
-## 2.8 Where things stand (05:57 UTC, 21 November)
+## Where things stand (05:57 UTC, 21 November)
 
 | Question | Claimed | Reported by others | Checked by us |
 |---|---|---|---|
@@ -324,7 +324,7 @@ V2, V3: sender lists of our copies].
 | Is the proof understood? | A proper write-up is intended [Author · A1, p. 1] | Maps and AI-assisted guides; most of the arithmetic engine unread [Community · G1–G4] | Top layers read in Chapter 1 [Lean, read] |
 | Is Masullo's draft a proof? | "The math is complete" [Author · A4, p. 6] | Gaps, errata and a disputed main theorem [Community · E1–E7]; Conrad: "undergoing major revision" [Community · P4] | The p. 451 bound fails [Checked · E9]; the status of Theorem 12.5.1.1 is [Open · E4] |
 
-## 2.9 What we checked, and how
+## What we checked, and how
 
 For readers who want to repeat our part of this chapter:
 

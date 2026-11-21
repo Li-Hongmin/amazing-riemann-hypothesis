@@ -159,8 +159,9 @@ Using $(y/n - 1)_+$ instead of $\mathbf{1}_{n \le y}$ buys two decisive advantag
    $\frac{1}{(s-1)^2} - \frac{1+\gamma}{s-1}$) cancels *both* singular terms at $s = 1$! For
    instance, at $y = 4$,
    $$S_\zeta(4) = \Lambda(2)\Bigl(\frac{4}{2}-1\Bigr) + \Lambda(3)\Bigl(\frac{4}{3}-1\Bigr) + \Lambda(4)\Bigl(\frac{4}{4}-1\Bigr)
-   = \log 2 + \frac{\log 3}{3} \approx 1.0593,$$
-   and $G_\zeta(4) = S_\zeta(4) - 4\log 4 + 4(1 + \gamma) \approx 1.0593 - 5.5452 + 6.3089 = 1.8230$.
+   = \log 2 + \frac{\log 3}{3} \approx 1.0594,$$
+   and $G_\zeta(4) = S_\zeta(4) - 4\log 4 + 4(1 + \gamma) \approx 1.0594 - 5.5452 + 6.3089 \approx 1.8230$
+   (unrounded: $1.823036\dots$).
 2. **Positive real residues at real zeros.** At any zero $\rho \in (0, 1)$ of $L(s,\chi)$ of order
    $m \ge 1$, we have $\frac{L'}{L}(s,\chi) = \frac{m}{s - \rho} + O(1)$, so the Mellin transform
    has principal part $\frac{-m / (\rho(\rho - 1))}{s - \rho}$. Because $\rho(\rho - 1) < 0$ on
@@ -1035,10 +1036,10 @@ the functional equation [Expository]:
 
 | Feature | Lean archive (Alpöge with Claude) | Masullo's draft |
 |---|---|---|
-| Analytic transform | Riesz-smoothed prime sum $G_\chi(y)$ and Laplace transform $\Phi(s) = \int_0^\infty G_m(e^u) e^{-su}\,du$ [Lean, read] | Weil-style explicit formula pairing smooth compactly supported test functions $\varphi \in \mathcal D(C_F)$ against zeros (Theorem B.4.4.7, p. 625) [Paper; Masullo pp. 607, 624–625] |
+| Analytic transform | Riesz-smoothed prime sum $G_\chi(y)$ and Laplace transform $\Phi(s) = \int_0^\infty G_m(e^u) e^{-su}\,du$ [Lean, read] | Weil-style explicit formula pairing smooth compactly supported test functions $\varphi \in \mathcal D(C_F)$ against zeros (Theorem B.4.4.7, p. 623, proved on pp. 623–625) [Paper; Masullo pp. 607, 623–625] |
 | Equality vs. inequality | **One-sided inequality** $G_m(y) \le y^\theta$ on sparse windows $[Y, Y^{3/2}]$ [Lean, read] | **Exact identity**: spectral trace = geometric orbital trace (Theorem 12.5.1.1, p. 519) [Paper; Masullo p. 519] |
 | Positivity mechanism | Landau–Pólya positivity: positive weights $a_i > 0$, positive real residue $c_\beta > 0$ at real zeros $\beta \in (0, 1)$, and kernel concentration of $u^k e^{-\sigma u}/k!$ [Lean, read] | None (relies instead on showing that the geometric side is independent of the strip width parameter $a > 0$, §1.8.5.1, p. 55) [Paper; Masullo p. 55] |
-| Where $1/2$ enters | In the upper bound exponent $1/2 + (e_D + e_L + 7)\varepsilon$ supplied by `core_gm` (Chapter 5) [Lean] | Built into the normalization $\lvert g \rvert_v^{1/2}$ of local principal-value distributions (eq. (B.4.4.20), p. 625; §1.2.1, p. 13) [Paper; Masullo pp. 13, 625] |
+| Where $1/2$ enters | In the upper bound exponent $1/2 + (e_D + e_L + 7)\varepsilon$ supplied by `core_gm` (Chapter 5) [Lean, read] | Built into the normalization $\lvert g \rvert_v^{1/2}$ of local principal-value distributions (eq. (B.4.4.20), p. 625; §1.2.1, p. 13) [Paper; Masullo pp. 13, 625] |
 
 ---
 
@@ -1046,7 +1047,7 @@ the functional equation [Expository]:
 
 Every declaration of nodes `P5` and `P4` listed below (except the upstream statement types `TopG`,
 `HostExW`, and `level_gm_le_on_family_scales` cited at the top boundary of `zeroFreeAll_of_topG`,
-whose proofs belong to Chapters 4, 5, 7, and 13 and are tagged `[Lean]`) has been read in full,
+whose proofs are given in Chapters 4 and 5 or belong to Chapters 7 and 13) has been read in full,
 proof body included (`R3` / `[Lean, read]`).
 
 ### 3.6.1 Riesz sums, `PoleData`, and the Landau-window theorem (node P5)

@@ -38,6 +38,11 @@ Around the main line, the book keeps three records:
 - **[Expository]** — our explanation or heuristic, not a proof.
 - **[Open]** — gap, unclear step or disputed point.
 
+(In the narrative chronicle [`chapters/02-the-story-so-far.md`](chapters/02-the-story-so-far.md),
+**[Author]** marks statements by Alpöge or Masullo in their own documents or words, and
+**[Checked]** marks non-Lean file/metadata/computation checks performed by us with logs in the run
+directories.)
+
 ## Citation policy
 
 We summarise and explain in our own words and link to the original. Short quotations are marked and
