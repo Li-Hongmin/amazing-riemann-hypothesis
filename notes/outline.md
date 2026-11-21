@@ -1,0 +1,81 @@
+# Outline of the book
+
+Working plan, derived from `notes/proof-map.md` (node IDs P0–P18 refer to that note).
+Lengths are estimates in words of prose, excluding quoted Lean and tables
+(roughly 500 words per printed page).
+
+## Design decisions
+
+1. **One spine, read top down, then bottom up.** Part I follows the proof from the final
+   theorems down to the one place where the exponent $1/2$ is produced (`core_gm`, P6).
+   Everything above that point is classical analytic number theory and can be explained
+   completely. Part II then opens the hypotheses of `core_gm`, which is where the new
+   mathematics lives. Part III covers the foundations that the archive builds for itself.
+   Part IV compares with Masullo and lists what is still unverified.
+2. **Every claim tagged.** `[Lean]` / `[Lean, read]` claims cite `src/…:line` in the pinned
+   archive (or `Mathlib/…:line` at commit `0df444a`). Content we take from the announcement or
+   Masullo's draft is `[Paper]` with its page; content from verification pages, community guides,
+   formalization projects, blogs and press is `[Community]` with its link; our own explanations
+   are `[Expository]`; anything unresolved is `[Open]` (tags as in the README). A chapter may not upgrade a tag beyond what
+   `notes/proof-map.md` records as our reading level (R1/R2/R3).
+3. **Explain the classical layer fully, the new layer honestly.** For P1–P5 and P13 the book
+   gives proofs a graduate student can check by hand. For P7–P12 and P14–P17 the book explains
+   the role, the statement and the classical analogue, and says plainly which proofs nobody
+   (as far as we know) has read.
+4. **Masullo side by side, not interleaved everywhere.** Each chapter ends with a short
+   "Masullo's counterpart" box (often "none"); the full comparison is Chapters 14–15.
+5. **No copying.** Community guides (LUMI docs 01–10, Deicyde/leanprover-community notes,
+   mccorvie/riemann-masullo) are cited as sources; their text is not reused.
+
+## Chapters
+
+| # | Title | Core idea to make clear | Prerequisites | Lean nodes | Masullo | Length |
+|---|---|---|---|---|---|---|
+| 0 | Preface and reading guide | What the book is for, what is and is not established, how tags and citations work, reading paths, the argument on one page. | — | overview of P0–P18 | the draft's status and scope | 4,500 |
+| 1 | The statement and its fidelity | Mathlib's `RiemannHypothesis` and `DirichletCharacter.LFunction`; the exact five theorems; why the hypotheses are the right exclusions; the definitional identities checked by the kernel; the reduction to `EveryCharacter`; axioms, metaprogramming, kernel versions; public verification status and what a pass does not show. | 0 | P0, P1 (statements), static scan | Ch. 13 (scope comparison only) | 8,000 |
+| **Part I** | **The analytic endgame** | | | | | |
+| 2 | One half-plane implies everything: functional equations and primitive characters | The five theorems follow from "no zeros on $\Re s>1/2$" by reflection $s\mapsto1-s$ and by removing Euler factors; worked proofs mirroring `rh_of_right`, `critLine`, `Claim.strip`, `imprimitive`. | 1 | P1, P3 | Ch. 3 (Tate's thesis), §13.1 | 5,000 |
+| 3 | Prime sums with a sign: the Landau-window criterion | Riesz-weighted prime sums $G_\chi(x)=\sum_{n\le x}\Lambda(n)\chi(n)(x/n-1)+\dots$; their explicit formula $-\sum_\rho x^\rho/(\rho(\rho-1))$; why a **one-sided** bound on **windows** $[Y,Y^{1+\delta}]$ already forces zero-freeness right of $\theta$ (Landau/Pólya on the Laplace transform, `PoleData`); why one needs a positive combination over a cyclic level. | 2 | P5, P4 (the $\varepsilon\to0$ limit) | App. B.4 (explicit formulas) as the contrasting zeros↔primes link | 8,000 |
+| 4 | Auxiliary prime pairs and host fields | Choosing $q\equiv3\ (8)$, $d\equiv7\ (16)$ of size $\exp(Y^{\varepsilon/5})$ so that quadratic twists have square-root prime-sum bounds and zero-free boxes; zero density + mean square + Siegel; the CM host fields $E\subset\mathbb Q(\zeta_N)$ and the role of the constants $1/400$, $401$, $\varepsilon<1/52$. | 3 | P13, `IsChiField`/`WinPair` from P12 | App. B.1, B.6 | 6,000 |
+| 5 | The square-root barrier as bookkeeping: `core_gm` | What `core_gm` proves and what it assumes; the finite Fourier analysis on the host's character group; where $1/2$ comes from (chain length $m\approx\sqrt x$, error $\approx x/m+m$); why the hard content is in the Props `EAtH` and `CoreAtH`. | 3, 4 | P6 | none (contrast: the $|\cdot|^{1/2}$ normalization, §1.2.1) | 7,000 |
+| **Part II** | **The arithmetic engine: Stepanov over the integers** | | | | | |
+| 6 | Stepanov's method and what "multiplicity over $\mathbb Z$" could mean | Function-field warm-up: Stepanov's auxiliary polynomial with high vanishing order and the resulting point count; the announcement's idea of replacing derivatives by a chain of theta lifts; the dictionary we will use in Chapters 7–11. Largely `[Expository]` and `[Paper]`. | 5 | motivation for P7–P10 | §14.2 (function fields) as the other route to the function-field analogue | 6,000 |
+| 7 | Chains of theta lifts | Iterated lifts $U(X_0)\to U(X_1)\to\dots\to U(X_m)$ between definite unitary groups; Howe duality, Siegel–Weil and the matching of theta integrals; the families `HypsAlt` and the chain data `ChainTied`/`SizeData₂`; how $m$ and the 2-power level are chosen. | 6 | P17, P7 | none (Ch. 2 "θ-functions" is a different object; say so) | 9,000 |
+| 8 | Divisibility at inert primes | The statement `Conclusion1`; supersingular CM points and $p$-adic analysis of theta kernels (as reported); the analogue of vanishing order; what has and has not been read. | 7 | P8 | none | 7,000 |
+| 9 | Heights, slopes and near-orthogonality | Hermitian lattices, Bost's slope inequality (`SlopeIneq`), height of a composite of $m$ steps, the divisor inequality; near-orthogonality of periods (`LinkS`) and gains (`LinkG`); the announcement's Chowla–Selberg / Siegel mass / Rallis inputs. | 7, 8 | P9, P10 | none | 7,000 |
+| 10 | From congruence modules to Tate–Shafarevich groups | Congruence numbers of each lift; the Fitting-ideal argument on a generalized matrix algebra (`CutCoreUnit.main`); killing Selmer classes by twisting (`TwistingCharacterExistence`); where the Ш bound enters (`HypV`, `LinkN`). | 9 | P11 | none | 8,000 |
+| 11 | The window bound `VWin` | Statement (`VVle`, `VAt`, `VWinAt`); split into $\ell=2$, minus and plus parts; Bernoulli numbers and Euler systems; U(3) congruences and residually reducible modularity (`PropGK`, `PfromAut`); Ferrero–Washington; why a bound of size $\exp(x^\varepsilon/2)$ suffices. The largest block of the archive. | 10 | P12 | none | 10,000 |
+| **Part III** | **Foundations built inside the archive** | | | | | |
+| 12 | Galois representations and partial local Langlands | `Row0b`: Galois representations for polarized cuspidal $\pi$ on $\mathrm{GL}_a$ over CM fields with weak local–global compatibility; their construction (Shimura-variety cohomology, congruences, theta lifts for even rank) as reported; `RecTExists` and how weak it is compared with local Langlands. | 11 | P14, P15 | Ch. 3 is the $\mathrm{GL}_1$ case (local class field theory) | 8,000 |
+| 13 | Green's theorem and the literature layer | Cuspidal characters of $\mathrm{GL}_d(\mathbb F_g)$ (`Green`); the ~250 named theorems stated as `GlobalTheory.Published.*` Props and proved in the archive; how to audit a name against the literature; current verdicts (with sources). | 12 | P16, P18 | Apps. A–E (cited background) | 6,000 |
+| **Part IV** | **Comparison and assessment** | | | | | |
+| 14 | Masullo's trace-formula route | Tate's thesis → Schauder bases → Hardy–Sobolev completions → spectral side (Ch. 10) = geometric side (Ch. 12) → Theorem 12.5.1.1 → the unwritten Ch. 13; why the content of GRH sits in the independence of the geometric side from the strip parameter; the public gap in Ch. 10 and its repair; the formalization effort. | 1, 3 | none | Chs. 1–13, App. B | 9,000 |
+| 15 | Two proofs side by side | Scope (Dirichlet vs. all Hecke characters), method (Stepanov/theta chain vs. trace formula), verification state (kernel-checked but unread vs. readable but unfinished), shared classical frame, what each would teach the other. | 5, 11, 14 | P0–P18 summary | whole draft | 6,000 |
+| 16 | Open problems and what remains to be checked | Pending machine checks; statement-fidelity items; unread proof bodies by block; fidelity of literature Props; Masullo's open items; consequences that do and do not follow (ERH not covered); a checklist for readers who want to help. | all | all | all | 5,000 |
+
+Total ≈ 129,000 words.
+
+## Dependencies between chapters
+
+```
+0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13
+                3 ──────────────────────────────────────────→ 14 → 15 → 16
+```
+Chapters 12–13 can be read after Chapter 7 by readers interested only in the foundations;
+Chapter 14 needs only Chapters 1 and 3.
+
+## What each chapter needs from the archive before it can be written
+
+| Chapter | Reading needed (beyond proof-map level) |
+|---|---|
+| 2 | done (R3) |
+| 3 | read `landau_window` (171 lines), `lemmaL`, `windowHyp_of_rpow`, `level_family` (how `PoleData` is realized from $G_m$), `level_of_tiedWin`, `zeroFreeOn_of_levels` → R3 |
+| 4 | read `QH.stage`, `pair_share`, `winPairs`, `supplyChi`; statements of `zero_density_box`, `twistK`, `meanSqK` |
+| 5 | read `core_gm` in full, `ch_core`, `ch_top`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le` |
+| 7–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
+
+## Next batch
+
+Chapters 2 and 3 (Part I opening): their Lean nodes are short, Mathlib-heavy and fully
+readable, and Chapter 3 is the conceptual hinge of the whole book (why a one-sided bound
+on windows is enough). Chapter 4 can follow in the same batch if `QH.stage` is read in full.
