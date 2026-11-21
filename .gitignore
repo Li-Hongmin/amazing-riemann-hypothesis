@@ -1,0 +1,3 @@
+lean-archive/
+*.tar.gz*
+.DS_Store
