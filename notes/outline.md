@@ -68,24 +68,23 @@ Chapter 14 needs only Chapters 1 and 3.
 
 | Chapter | Reading needed (beyond proof-map level) |
 |---|---|
-| 2 | done (R3) |
-| 3 | read `landau_window` (171 lines), `lemmaL`, `windowHyp_of_rpow`, `level_family` (how `PoleData` is realized from $G_m$), `level_of_tiedWin`, `zeroFreeOn_of_levels` → R3 |
+| 2 | done (R3; written in `chapters/02-functional-equations-and-primitive-characters.md`) |
+| 3 | done (R3; `landau_window`, `lemmaL`, `windowHyp_of_rpow`, `poleData`, `level_family`, `level_of_tiedWin`, `zeroFreeOn_of_levels` all read in full; written in `chapters/03-landau-window-criterion.md`) |
 | 4 | read `QH.stage`, `pair_share`, `winPairs`, `supplyChi`; statements of `zero_density_box`, `twistK`, `meanSqK` |
 | 5 | read `core_gm` in full, `ch_core`, `ch_top`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le` |
 | 7–11 | statement-level reading of every node; proof-level reading where community reports say "[unread]" is the main open task (see Chapter 16) |
 
 ## Next batch
 
-Chapters 2 and 3 (Part I opening): their Lean nodes are short, Mathlib-heavy and fully
-readable, and Chapter 3 is the conceptual hinge of the whole book (why a one-sided bound
-on windows is enough). Chapter 4 can follow in the same batch if `QH.stage` is read in full.
+Chapters 4 and 5 (completing Part I): auxiliary prime pairs and host fields (`QH.stage`,
+`winPairs`, `supplyChi`), followed by the finite Fourier analysis in `core_gm`.
 
 ## Numbering note (2026-11-21)
 
 `chapters/02-the-story-so-far.md` ("The story so far": a dated narrative of the two announcements and
 of the verification effort, with every fact tagged [Author], [Community] or [Checked]) was added at
 the owner's request under the prefix 02, which the table above assigns to "One half-plane implies
-everything". The table is left unchanged for now, and "Chapter 2" in Chapters 0–1 and in
-`notes/proof-map.md` still means that mathematical chapter. Proposal for the next renumbering:
-keep "The story so far" as Chapter 2 and shift rows 2–16 of the table to 3–17, updating file names and
-cross-references in one commit. The story chapter cites `sources/SOURCES.md`, Part II, by entry ID.
+everything". In `SUMMARY.md`, `02-the-story-so-far.md` is placed as an unnumbered prefix chapter
+alongside `00-preface.md`, so the mathematical chapters in `SUMMARY.md` retain the numbering of the
+table above (`chapters/02-functional-equations-and-primitive-characters.md` as Chapter 2 and
+`chapters/03-landau-window-criterion.md` as Chapter 3). The story chapter cites `sources/SOURCES.md`, Part II, by entry ID.

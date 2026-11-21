@@ -9,6 +9,11 @@
 
 - [1. The statement and its fidelity](chapters/01-statement-and-fidelity.md)
 
+# Part I. The analytic endgame
+
+- [2. One half-plane implies everything: functional equations and primitive characters](chapters/02-functional-equations-and-primitive-characters.md)
+- [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
+
 # Records
 
 - [Sources](sources/SOURCES.md)

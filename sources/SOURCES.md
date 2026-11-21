@@ -226,6 +226,18 @@ Bibliographic data checked online on 2026-11-21.
   Séminaire Bourbaki, 25e année (1972/73), exp. no. 430, in Lecture Notes in Math. 383,
   Springer, 1974, pp. 234–241, doi:10.1007/BFb0057311; open copy at
   `https://www.numdam.org/item/SB_1972-1973__15__234_0/`.
+- E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61 (1905), 527–550,
+  doi:10.1007/BF01449495.
+- H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I: Classical Theory*,
+  Cambridge Studies in Advanced Mathematics 97, Cambridge University Press, 2007,
+  ISBN 978-0-521-84903-6 (Theorem 1.7 and §15.1, cited in Chapter 3).
+- G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von der
+  Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930, 19–27.
+- J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950 thesis), in
+  J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press, London,
+  1967, pp. 305–347 (cited in Chapter 2).
+- L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate Texts in Mathematics 83,
+  Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in Chapter 2).
 
 ## 7. Our own derived data (not in the repository)
 
