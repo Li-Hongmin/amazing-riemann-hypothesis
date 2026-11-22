@@ -29,12 +29,14 @@
 
 - [12. Galois representations and partial local Langlands](chapters/12-galois-representations-and-local-langlands.md)
 - [13. Green's theorem and the literature layer](chapters/13-greens-theorem-and-the-literature-layer.md)
+- [17. Host-field geometry and Behrend's sphere lemma: inside `P5` and `HostOfField`](chapters/17-behrends-sphere-lemma-and-host-geometry.md)
 
 # Part IV. Comparison and assessment
 
 - [14. Masullo's trace-formula route](chapters/14-masullos-trace-formula-route.md)
 - [15. Two proofs side by side](chapters/15-two-proofs-side-by-side.md)
 - [16. Open problems and what remains to be checked](chapters/16-open-problems-and-what-remains.md)
+- [18. Auditing `GlobalTheory.Published`: worked statement-fidelity case studies (`P18`)](chapters/18-auditing-the-published-layer-case-studies.md)
 
 # Records
 

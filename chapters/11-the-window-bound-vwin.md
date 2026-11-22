@@ -7,7 +7,7 @@
 > `AdmissibleOfPageN.lean`, `PointArith.lean`, `ThmHV.lean`, `CountVs.lean`, `SumOut.lean`,
 > `FinalLe.lean`, `JointWinOfCounts.lean`, `PublishedTheorems/FerreroWashington.lean`,
 > `FerreroWashingtonIndex/FerreroWashington.lean`, `ExistsIwasawaRankBoundOfFerreroWashington.lean`,
-> `LemmaK.lean`, `KatoUse.lean`, `TaylorWilesObstructionBound.lean`,
+> `LemmaK.lean`, `KatoUse.lean`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean`,
 > `WindowBoundOfLiteratureLevel.lean`, `TopMainZj.lean`, and `VwinOfRow.lean` (`R3`); `[Lean]` for
 > statement-level inspections of imported sub-modules in the 157,603-module cone (`R2` / `R1`);
 > `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public
@@ -37,7 +37,7 @@ by splitting the left-hand side (`vvle_of_parts`, `LengthEqAddEigen.lean:127`) [
    Bounded by $\exp(x^{4\varepsilon / 5})$ on a pigeonholed window $[Y, Y^2]$ using **Iwasawa theory**
    in the cyclotomic $\mathbb Z_\ell$-tower `[Iwasawa1959]`, `[Iwasawa1973]`, an in-archive proof of
    the **Ferrero–Washington theorem ($\mu = 0$)** `[FerreroWashington1979]` via Sinnott's rational-function
-   method `[Sinnott1984]` (`FW.ferreroWashington`, `FerreroWashington.lean:104`), and a Soulé-type
+   method `[Sinnott1984]` (`FW.ferreroWashington`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104`), and a Soulé-type
    $K$-theoretic torsion bound `[Soule1979]` (`LemmaK`, `LemmaK.lean:13`) on the few exceptional twists
    near Iwasawa roots.
 2. **The odd-$\ell$ minus eigenspace of complex conjugation (`ShaMinus`, `ThmBcFree`, `PrimeSetBoundDataOfPrimitiveChar.lean:64`):**
@@ -51,7 +51,7 @@ by splitting the left-hand side (`vvle_of_parts`, `LengthEqAddEigen.lean:127`) [
    differences on $U(3)$ and $\mathrm{GSp}_4$ Galois representations, combining **Kato's $\mathrm{GL}_2$
    Euler system** `[Kato2004]` (`KatoUse`, `:13`) with a **residually reducible ordinary modularity-lifting
    machine** built on **Taylor–Wiles patching** `[TaylorWiles1995]`, `[ClozelHarrisTaylor2008]`,
-   `[Thorne2015]` (`PfromAut`, `TaylorWilesObstructionBound.lean:150`).
+   `[Thorne2015]` (`PfromAut`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean:150`).
 
 Once those three bounds are assembled, an elementary exponent comparison (`error_terms_le_sqrt_exp_rpow`,
 `ErrorTermsLeSqrtExpRpow.lean:6`, read in full) squeezes their sum below $\exp(x^\varepsilon / 2)$
@@ -94,13 +94,15 @@ conductor, Bernoulli, and Iwasawa error terms? Trace the two sides of the inequa
    Look at the conductor $\operatorname{cond}(E)$ of our CM host field $E \subset \mathbb Q(\zeta_N)$
    (`conductor_bounds_of_isChiField`, `ConductorBoundsOfIsChiField.lean:77`) [Lean, read]:
    $$\operatorname{cond}(E) \le 2^{e(x) + 2} \cdot \psi.N \cdot q \cdot d.$$
-   Remember from Chapter 4 (`WinPair`, `ExistsPageN.lean:27–38`) that $2^{e(x)} \asymp x^{2 + 8\varepsilon}$,
+   Remember from Chapter 4 (`WinPair`, `src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean:27–37`) that $2^{e(x)} \asymp x^{2 + 8\varepsilon}$,
    while the auxiliary primes $(q, d)$ were chosen at the subexponential scale $\log q \le Y^{\varepsilon/5}$
    and $\log d \le Y^{\varepsilon/5}(\log Y)^2$! Consequently, for $x \ge Y$,
    $$\log\bigl(\operatorname{cond}(E) \cdot \lfloor x^{401} \rfloor\bigr)
    \le (403 + 8\varepsilon)\log x + \log(8\,\psi.N) + x^{\varepsilon/4}
    \le 2\,x^{\varepsilon/4}$$
-   for all large $x$ (`log_conductor_mul_height_le_of_pageN`, `AdmissibleOfPageN.lean:49`) [Lean, read]!
+   for all large $x$ (`log_conductor_mul_height_le_of_pageN`,
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6`,
+   invoked at `…/CMFieldExponentialBounds/AdmissibleOfPageN.lean:49` and proved line by line in **Chapter 17**, Theorem 17.4(3)) [Lean, read]!
    Therefore **any bound that is polynomial in $(\operatorname{cond}(E), t)$ — even $(\operatorname{cond}(E)\cdot t)^{10{,}000}$! —
    has size $\exp\bigl(O(x^{\varepsilon/4})\bigr)$**, while the Iwasawa window bounds at $\ell = 2$ and
    $l \in B_\chi(\psi)$ have size $\exp(x^{4\varepsilon/5})$! Because
@@ -330,7 +332,7 @@ statement and assembly files from the deep modularity/Kato/K-theory interface de
    - `VVminusLe E t B` (`:113`) and `VVplusLe E t B` (`:120`): finiteness at all odd primes $p \neq 2$
      and $\sum_{\ell \in S} \log \ell \sum_{1 \le e < t} \mathrm{minusLen}(\mathrm{ld}\,\ell, e) \le B$
      (respectively `plusLen`) for every finite set $S$ of **odd** primes ($\forall \ell \in S,\ \ell \neq 2$).
-3. **The three global component theorems (`PrimeSetBoundDataOfPrimitiveChar.lean:12–95`):**
+3. **The three global component theorems (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PrimeSetBoundDataOfPrimitiveChar.lean:12–94`):**
    - `ThmBab K Ct` (`:49`,given `K : BConst` with $R = R_0(M) + \sum_{\ell \in B'} R_\ell(L_\ell)$ and
      window count $K.J = 2^{R+2}(2 C_K C_t / \varepsilon)^R$, `:18–21`): inside every super-window
      $[X^{1/K.J}, X]$ with $\log(qd) \le X^{\varepsilon / (4 K.J)}$, there exists $Y \in [X^{1/K.J}, X^{1/2}]$
@@ -403,7 +405,7 @@ modularity wiring `vwin_of_row`.
    an $R$-linear involution ($f(f(x)) = x$ for all $x \in M$) preserving $N$ ($f(N) \subseteq N$), and
    $s \in R$ an element with $s^2 = 1$. Then*
    $$\operatorname{len}_R(N) = \operatorname{len}_R\bigl(N \cap \ker(f - s)\bigr) + \operatorname{len}_R\bigl(N \cap \ker(f + s)\bigr).$$
-2. *(`shaLen_eq_add` and `vvle_of_parts`, `LengthEqAddEigen.lean:88–104, 127–190`)* *Let $E$ be a CM
+2. *(`shaLen_eq_add` and `vvle_of_parts`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/LengthEqAddEigen.lean:88–103, 127–189`)* *Let $E$ be a CM
    number field and $t \in \mathbb N$. For every odd prime $\ell \neq 2$, every package $D : \mathrm{LData}\,E\,\Omega\,\ell$,
    and every $e \in \mathbb N$, $\mathrm{shaLen}(D, e) = \mathrm{plusLen}(D, e) + \mathrm{minusLen}(D, e)$
    in $\mathbb N_\infty$. Consequently, if `BoundedHeightTwoPlaceCondition E t B₂`, `VVminusLe E t Bm`,
@@ -476,7 +478,7 @@ $\bigl(\frac{a}{q}\bigr) = 1$, and $\bigl(\frac{a}{d}\bigr) = 1$, so $j(E) \subs
 (`descend`, `:11–64`), giving $\operatorname{cond}(E) \le L \le 2^{e+2}\,\psi.N\,q\,d$ and
 $[E : \mathbb Q] \le \varphi(\operatorname{cond}(E)) \le \operatorname{cond}(E)$ (`finrank_le`, `:66–75`).
 
-(2) Look at how `JointWinOfCounts.lean:16–24` splits the odd primes $\ell \neq 2$ in `VVplusLe` into
+(2) Look at how `src/Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/JointWinOfCounts.lean:16–23` splits the odd primes $\ell \neq 2$ in `VVplusLe` into
 two regimes (`PointArith.lean:36–92`):
 - **Outside the fixed bad set ($\ell \notin B_\chi(\psi)$, `sumOut` in `SumOut.lean:50–231`):** At each
   twist $1 \le e < t$, filter $S$ by `CaseI l e` ($\ell \notin B_\chi$ and $(\ell - 1) \nmid 2e$, `:171`).
@@ -500,7 +502,7 @@ two regimes (`PointArith.lean:36–92`):
   (`hostCond`, `ThmHV.lean:39`) yields `HVAt`:
   $$\mathrm{VVplusLe}\Bigl(E,\ t(x),\ \bigl(\operatorname{cond}(E)\cdot t(x)\bigr)^C + C\,\exp\bigl(x^{4\varepsilon/5}\bigr)\Bigr)!$$
 
-(3) Finally, follow `vwinAt_of_joint` (`AdmissibleOfPageN.lean:41–130`):
+(3) Finally, follow `vwinAt_of_joint` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/AdmissibleOfPageN.lean:41–129`):
 - `jointWin_of` (`PrimeSetBoundDataOfPrimitiveChar.lean:145–156`) intersects the threshold of `ThmBab`
   and `ThmHV` to obtain a window $[Y, Y^2] \subset [X^{1/J}, X]$ on which both `BaAt`
   ($B_2 = \exp(x^{4\varepsilon/5})$) and `HVAt` ($B_p = u^C + C\exp(x^{4\varepsilon/5})$ with
@@ -516,7 +518,7 @@ two regimes (`PointArith.lean:36–92`):
   every term is bounded by $N \exp(D b) \le \exp(x^\varepsilon / 2) = \sqrt{\exp(x^\varepsilon)}$,
   so `VVle.mono` (`ExistsPageN.lean:51`) concludes `VAt ψ eps 401 q d (e x) x`! $\square$
 
-### 11.4.3 Sinnott's proof of Ferrero–Washington ($\mu = 0$) and Iwasawa $\ell$-rank bounds (`FerreroWashington.lean`)
+### 11.4.3 Sinnott's proof of Ferrero–Washington ($\mu = 0$) and Iwasawa $\ell$-rank bounds (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean`)
 
 Remarkably, `FerreroWashington` is **not** left in the unreviewed `GlobalTheory.Published` pool: we read
 the entire 119-line file `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean`
@@ -535,7 +537,7 @@ $$\exists r \in \mathbb N,\ \forall n \in \mathbb N,\quad \bigl\lvert \mathrm{Cl
 `exists_iwasawaRank_bound_of_ferreroWashington`,
 `…/RealPlaceConjugation/ExistsIwasawaRankBoundOfFerreroWashington.lean:23`.)* [Lean, read]
 
-*Proof.* Look at the two-step proof in `FerreroWashington.lean`:
+*Proof.* Look at the two-step proof in `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean`:
 
 1. **Full cyclotomic towers $\mathbb Q(\zeta_{f \ell^n})$ (`FW.cyc`, `:18–103`):** Let $f > 1$ be
    coprime to $\ell$, and set $c := 2 f \ell + 1$ (odd, $> 1$, coprime to $f\ell$, `:25–28`).
@@ -584,7 +586,7 @@ Chapter 12). Then `UpperTheory.Top.VWin` holds.*
 
 1. **Packaging `OpenImageCondition` and four literature bundles (`VwinOfRow.lean:4–5`, `TopMainZj.lean:18–74` `[Lean, read]`):**
    `vwin_of_row h` wraps `h` into the 1-field structure `O := OpenImageCondition.mk h`
-   (`TemperedProductOfSquareIntegrable.lean:207`) and passes `O`, `baseChangeN` (`[Lean]`), and `h` into
+   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207`) and passes `O`, `baseChangeN` (`[Lean]`), and `h` into
    `automorphic_window_of_inputs`. Inside `TopMainZj.lean`, the archive constructs four hypothesis bundles
    feeding `LiteratureRankNHypothesis`:
    - `local_inputs_from_literature O` (`:18–37`): 18 local $\mathrm{GL}_n$ representation-theory fields
@@ -626,7 +628,7 @@ Our exact transitive import-cone audit separates the fully read (`R3`) algebraic
 | `ExistsPageN.lean`, `LengthEqAddEigen.lean`, `PrimeSetBoundDataOfPrimitiveChar.lean`, `AdmissibleOfPageN.lean` | **19–38** | `R3` (`[Lean, read]`) | Master definitions `VVle`, `VWin`, parity split `vvle_of_parts`, CM/conductor proofs, and subexponential squeeze `vwin_of_joint`. |
 | `FerreroWashingtonIndex/FerreroWashington.lean` | **809** | `R3` (`[Lean, read]` top proof; `R2` `[Lean]` Sinnott sub-lemmas) | Proves `FW.ferreroWashington` via Sinnott's independence lemma, Stickelberger annihilation, and Kummer reflection. |
 | `JointWinOfCounts.lean` (with `ThmHV`, `FinalLe`, `SumOut`, `CountVs`) | **1,144** | `R3` (`[Lean, read]` top files; `R2` `[Lean]` character-orbit helpers) | Assembles `CountI`–`CountV`, `CountZ`, `LemmaK`, `ThmBab`, and `ThmBcFree` into `VWin`. |
-| `TaylorWilesObstructionBound.lean`, `KatoUse.lean` | **1,711–1,713** | `R3` (`[Lean, read]` statements; proof cones `[Open]`) | Interfaces `PfromAut` (Taylor–Wiles patching on universal ordinary determinant rings) and `KatoUse` / `PropGK` ($U(3)$ trace annihilator). |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean`, `KatoUse.lean` | **1,711–1,713** | `R3` (`[Lean, read]` statements; proof cones `[Open]`) | Interfaces `PfromAut` (Taylor–Wiles patching on universal ordinary determinant rings) and `KatoUse` / `PropGK` ($U(3)$ trace annihilator). |
 | `WindowBoundOfLiteratureLevel.lean` $\to$ `TopMainZj.lean` $\to$ `VwinOfRow.lean` | **55,066 $\to$ 157,603** | `R3` (`[Lean, read]` top wiring; deep proof cones `[Open]`) | Wires `Row0b`, `OpenImageCondition`, `LemmaK`, Kato, and residually reducible $U(3)/\mathrm{GSp}_4$ modularity into `VWin`. |
 
 Three community observations (`[Community]`) help orient specialists reading into the 157,603-module cone:
@@ -646,14 +648,23 @@ Three community observations (`[Community]`) help orient specialists reading int
    in `KatoUse` (`KatoUse.lean:15–17`), twisting a weight-$(2e + 1)$ newform ($e \ge 1$) by $\chi_{\mathrm{cyc}}^{-e}$
    evaluates Kato's Euler system at $s = 2e + 1 - e = e + 1$ in classical normalization (analytic
    $s = 1$, strictly to the right of the critical center $s = 1/2$ and at the edge of Euler-product
-   non-vanishing!), where $L$-values of $\mathrm{GL}_2$ cusp forms never vanish `[Kato2004]` [Community]!
-3. **What happened to Behrend's set (`remark.pdf` p. 4, item 19 vs. static scan):** In `remark.pdf`
+   non-vanishing!), where $L$-values of $\mathrm{GL}_2$ cusp forms never vanish `[Kato2004]` [Community]
+   (see **Chapter 18**, Lemma 18.2(1), for the line-by-line `R3` verification of `Published.Kato` and `2 * r ≠ k` `[Lean, read]`)!
+3. **What happened to Behrend's set (`remark.pdf` p. 4, item 19 vs. `P12` and `HostOfField`):** In `remark.pdf`
    (p. 4, item 19 and fn. 7), Alpöge listed an October step tuning the choice of the Iwasawa tower via
    Behrend sets while noting *"This is the sort of trick that intuitively to me is
-   obviously going to be unnecessary"* [Paper; remark p. 4]. Community dependency scans (`LUMI doc 06`,
-   James Shore's `rh-proof-dependencies` [Community]) found that although 14 `Formalism.BehrendSets.*`
-   files still sit in the archive, **none of them is reachable from `Main.lean`** — the final proof uses
-   the ordinary elementary window pigeonhole `BConst.J` (`PrimeSetBoundDataOfPrimitiveChar.lean:20`) instead!
+   obviously going to be unnecessary"* [Paper; remark p. 4]. Indeed, on the **P12 `VWin`** branch (`LUMI doc 06`
+   [Community]), the Iwasawa root-avoidance window uses the elementary pigeonhole count `BConst.J`
+   (`PrimeSetBoundDataOfPrimitiveChar.lean:20`), while the 14-file folder `src/Formalism/BehrendSets/`
+   is an evolutionary remnant whose misfiled export `Formalism.BehrendSets.FinalE.trivStab`
+   (`src/Formalism/BehrendSets/FinalE.lean:12`, Minkowski cyclotomic matrix torsion-freeness) is still
+   imported inside `VwinOfRow`'s cone — **whereas Mathlib's genuine Behrend sphere lemma
+   `Behrend.exists_large_sphere` (`Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean:245`) IS
+   load-bearing on the `src/Main.lean` spine** inside host-field thick-frame assembly
+   (`src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:181` $\to$
+   `src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:29` $\to$
+   `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8`), which we prove in full
+   in **Chapter 17** [Lean, read]!
 
 ### 11.5.2 Masullo's counterpart
 

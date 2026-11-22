@@ -32,11 +32,11 @@ This chapter does two jobs:
    multiplicative and additive character sums `[Weil1948]`, `[IwaniecKowalski2004]`.
 2. **The formal P7 bridge to $\mathbb Z$ (`[Lean, read]` on node `P7`):** We inspect the actual Lean
    files of node `P7` — `MeanBoundSecondForm.lean`, `WeightedMeanData.lean`,
-   `QuotientSlopeBoundsWith.lean`, `LevelOfCongruence.lean`, `SChain.lean`, `DataParams₂.lean`,
+   `QuotientSlopeBoundsWith.lean`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean`, `src/Formalism/SizeWindowBrackets/SChain.lean`, `DataParams₂.lean`,
    `EvenCeil.lean`, and `TieGlobal.lean` — and prove in full human prose the archive's unconditional
-   algebraic deduction `each_unit_bound_statement` (`LevelOfCongruence.lean:175`) [Lean, read]. Doing
+   algebraic deduction `each_unit_bound_statement` (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`) [Lean, read]. Doing
    so reveals an exact structural isomorphism between Stepanov's zero-versus-pole inequality over
-   $\mathbb F_q(x)$ and the archive's 11-clause package `SizeData₂` (`SChain.lean:17`) [Lean, read],
+   $\mathbb F_q(x)$ and the archive's 11-clause package `SizeData₂` (`src/Formalism/SizeWindowBrackets/SChain.lean:17`) [Lean, read],
    while keeping a strict line between the elementary algebra genuinely proved in `P7` (`[Lean, read]`)
    and the deep arithmetic hypotheses packaged as `structure` fields (`[Lean]` / `[Open]`).
 
@@ -263,7 +263,7 @@ Look at concrete numbers when $x = 10^4$ and $\varepsilon = 1/64 < 1/52$ (`Scale
   which Alpöge compares (`remark.pdf` p. 4, item 11: *"Iwasawa tower via analogy to pigeonhole on
   $\mathbb F_{q^n}/\mathbb F_q$"* [Paper; remark p. 4]) to passing to a controlled field tower to
   create linear-algebra room!
-- `kAt` $= 2\lceil (10^4)^{9/2 + 10/64}/2 \rceil = 4{,}216{,}965{,}034{,}285{,}822{,}464 \approx 4.22 \times 10^{18}$
+- `kAt` $= 2\lceil (10^4)^{9/2 + 10/64}/2 \rceil = 4{,}216{,}965{,}034{,}285{,}822{,}486 \approx 4.22 \times 10^{18}$
   (`10^{18.625}`) — the auxiliary Hermitian rank parameter (`Ranks.k_even`, `:50`) chosen large enough
   that the word-ratio error $x m / k$ (`SZ.T2`) is negligible while $k / n^2 \approx 14.63 \le x^{1/2 - \varepsilon} \approx 86.60$
   (`SZ.T4`) stays well below the square-root barrier!
@@ -323,7 +323,7 @@ Now compare Definition 6.1 with how the Lean archive packages "multiplicity $m$ 
 node `P7`. Note carefully a naming detail in the archive that can confuse first-time readers: the
 identifier `SizeData₂` appears in **two** namespaces [Lean, read]:
 
-- `Formalism.BasicNotions.SizeData₂ (D : D7)` (`src/Formalism/LocalRingCardinality/DataParams₂.lean:76–183`)
+- `Formalism.BasicNotions.SizeData₂ (D : D7)` (`src/Formalism/LocalRingCardinality/DataParams₂.lean:76–182`)
   is a concrete **data `structure`** attached to a global unitary-chain datum `D : D7`, storing the
   scale `sc : Scale`, integer top/bottom cutoffs `aT, bT`, finite place support `supp`, per-lift
   inert-prime divisibility gains `gain j w`, Fourier/period terms `F j w`, congruence error exponents
@@ -337,7 +337,7 @@ identifier `SizeData₂` appears in **two** namespaces [Lean, read]:
   bridged to `D7` by `TieGlobal`, `TieLocal`, `TieArith`, and `ChainTied`
   (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:50,63,84,97`)!
 
-**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `MeanBoundSecondForm.lean:37`, `QuotientSlopeBoundsWith.lean:19–35`, `SChain.lean:17`).**
+**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `MeanBoundSecondForm.lean:37`, `QuotientSlopeBoundsWith.lean:19–35`, `src/Formalism/SizeWindowBrackets/SChain.lean:17`).**
 Fix a finite index set $U_0$ (shift cosets in $H = \varphi.A$), nonempty finite word sets $W(u_0)$
 ($u_0 \in U_0$), a finite set `Top` of cardinality $n_T = \lvert TT \rvert$, chain length $m \in \mathbb N$,
 and CM-type place count $f = 2\lvert H \rvert$. A record `Dd : Data U0 W Top m f` packages scalar
@@ -351,7 +351,7 @@ in-out losses $\mathrm{IO}(u_0)$, and near-orthogonality defect parameters $(\ma
 [Lean, read].
 
 Given nonnegative constants `C : Consts` (`MeanBoundSecondForm.lean:15`) and $X'' \in \mathbb R$,
-`SizeData₂ Dd C Xpp` (`SChain.lean:17–19`) is the conjunction of **eleven clauses** [Lean, read]:
+`SizeData₂ Dd C Xpp` (`src/Formalism/SizeWindowBrackets/SChain.lean:17–19`) is the conjunction of **eleven clauses** [Lean, read]:
 
 1. `Dd.HidaSetting C` (`MeanBoundSecondForm.lean:111`): positivity/ordering of scales, weights
    $w_{u_0,j,\rho} > 0$, lattice ranks $d(u_0, u) > 0$, $\mu_N \le \mu_{\max, N}$, $\bar\delta < 1$,
@@ -660,7 +660,7 @@ in characteristic zero! In Chapter 5 (Theorem 5.5, Step 1, `ChTop.lean:37`), `co
 single theorem from `P7` — `each_unit_bound_statement`
 (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`) [Lean, read]. We
 have read `MeanBoundSecondForm.lean`, `WeightedMeanData.lean`, `QuotientSlopeBoundsWith.lean`, and
-`LevelOfCongruence.lean` line by line (`R3`). Every step in these four files is genuine, `sorry`-free
+`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean` line by line (`R3`). Every step in these four files is genuine, `sorry`-free
 real algebra and convexity (`[Lean, read]`).
 
 First we isolate the two elementary analytic/algebraic lemmas inside `WeightedMeanData.lean` (`:81, 170`):
@@ -672,7 +672,7 @@ First we isolate the two elementary analytic/algebraic lemmas inside `WeightedMe
    $U$ satisfying $H \le X b$ and $u \le U$,*
    $$u\,\log\Bigl(1 + \frac{H}{u}\Bigr) \le \log(1 + X)\cdot (U + b)$$
    *(with $0 \cdot \log(1 + H/0) := 0$ at $u = 0$).*
-2. *(`key_identity5`, `LevelOfCongruence.lean:105`, via `Data.key_identity`, `WeightedMeanData.lean:170`)*
+2. *(`key_identity5`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`, via `Data.key_identity`, `WeightedMeanData.lean:170`)*
    *Suppose $D.v > 0$, $f > 0$, and $D.w(u_0, j, \rho) > 0$ for all $(j, \rho)$. Put
    $\mathrm{Lam}_5(u_0) := \sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log\bigl(D.w(u_0,j,\rho) D.v / \pi\bigr) + m\cdot D.\mathrm{lg} - C.c_{\mathrm{Count}}(D.L_a + m^2 D.L_a / D.k)$. Then*
    $$D.\mathrm{SDiv} - D.\mathrm{sum}_A\cdot \mathrm{Lam}_5(u_0) + m\cdot D.\mathrm{sum}_A\cdot D.\mathrm{lg}
@@ -704,7 +704,7 @@ $D.\mathrm{Main}(u_0) + \mathrm{sum}_A\cdot C.c_{\mathrm{Count}}(D.L_a + m^2 D.L
 
 **Theorem 6.6 (Pointwise Arakelov–Stepanov chain bound: `each_unit_bound_statement`).** *Let
 `D : Data U0 W Top m f`, `C : Consts`, and $X'' \in \mathbb R$ satisfy the 11-clause conjunction
-`SizeData₂ D C Xpp` (`SChain.lean:17`). Then for every coset shift $u_0 \in U_0$,*
+`SizeData₂ D C Xpp` (`src/Formalism/SizeWindowBrackets/SChain.lean:17`). Then for every coset shift $u_0 \in U_0$,*
 $$D.\mathrm{ASK}(u_0) \le D.\mathrm{Main}(u_0) + \mathrm{ErrX5at}(D, C, X'', u_0),$$
 *where $\mathrm{ErrX5at}(D, C, X'', u_0)$ (`QuotientSlopeBoundsWith.lean:45`) is bounded under
 `ErrWindows` and `LargeX` by $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathrm{ErrText}(D)$ (`errX5at_le`,
@@ -713,10 +713,10 @@ yields the window bound in terms of $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\math
 (`top_each_bound_sized`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:674`, feeding Chapter 5's `ch_top`).*
 *(Lean: `each_unit_bound_statement`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`.)* [Lean, read]
 
-*Proof.* Fix $u_0 \in U_0$. Watch how the proof in `LevelOfCongruence.lean:50–198` mirrors Stepanov's
+*Proof.* Fix $u_0 \in U_0$. Watch how the proof in `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50–197` mirrors Stepanov's
 argument step for step:
 
-1. **Slope lower bound from $m$-lift divisibility (`s_lower5`, `LevelOfCongruence.lean:50–67` — the
+1. **Slope lower bound from $m$-lift divisibility (`s_lower5`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50–66` — the
    analogue of $\deg(\text{zeros}) \ge m N$):** For each word $u \in W(u_0)$, combine the lower
    quotient-slope inequality of Clause 7 (`QuotientSlopeBoundsWith`:
    $\mu_N(u) \ge \mu_M(u) + \mathrm{Ga}(u_0) + \mathrm{Fo}(u_0) - \mathrm{Ee}(u) - \mathrm{Lo}_5(u)$)
@@ -729,7 +729,7 @@ argument step for step:
    (Clause 3, `exponent_le_upper`, `:32`). Taking the $d(u_0, u)$-weighted average over $u \in W(u_0)$
    (`sub_wmean_le`, `WeightedMeanData.lean:40`) yields
    $$D.s(u_0) \ge \mathrm{Ga}(u_0) + \mu_{CC}(u_0) - K_{5,\mathrm{v5}}(u_0) - \mathrm{wmean}_{d}(\mathrm{Lo}_5).$$
-2. **Bounding the slope spread across words (`u_function_le_mean`, `LevelOfCongruence.lean:81–103`):**
+2. **Bounding the slope spread across words (`u_function_le_mean`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:81–103`):**
    For any pair of words $u, u' \in W(u_0)$, comparing the upper quotient-slope bound on $\mu_{\max, N}(u) - h(u)$
    with the lower bound on $\mu_N(u') - h(u')$ cancels $\mathrm{Ga}(u_0) + \mathrm{Fo}(u_0)$, while
    Clauses 3, 4, and 5 bound the variation of $(-\mathrm{Ee}(u) - h(u))$ across $u, u'$ by $D.\mathrm{Vvar}(C)$
@@ -769,10 +769,10 @@ the Lean archive's number-field engine side by side [Expository]:
 | **Multiplicity parameter $m$** | Vanishing order $m \asymp \sqrt{Q}$ at rational points | Chain length `mAt = evenCeil (sqrt (x * delta1))` $\asymp \sqrt{x}$ (`EvenCeil.lean:21`) [Lean, read] |
 | **Operators creating $m$ layers** | Hasse–Schmidt derivations $D_t^{(0)}, \dots, D_t^{(m-1)}$ (`[HasseSchmidt1937]`) | $m$ iterated theta lifts $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ (`remark.pdf` p. 4, item 8 [Paper]; Chapter 7) |
 | **Linear-algebra ambient** | Extensions $\mathbb F_{q^n}$ and Riemann–Roch space $\mathcal L((r + Q\ell)P_\infty)$ | Real $2$-cyclotomic tower $n = 2^{e} \asymp x^{2+8\varepsilon}$ (`eAt`, `nAt`) and word set $W(u_0)$ (`EvenCeil.lean:15,17,86`) [Lean, read] |
-| **Local vanishing / divisibility** | $\operatorname{ord}_P(\Phi) \ge m$ at each $P \in C(\mathbb F_Q) \setminus \{P_\infty\}$ | Inert-prime $p$-adic divisibility `DIV` / `Conclusion1` (`MeanBoundSecondForm.lean:118` [Lean, read]; `WeilJacquetShalikaLaw.lean:97` [Lean], Chapter 8) |
-| **Global conservation law** | $\sum_P \operatorname{ord}_P(\Phi) = 0$ ($\#\text{zeros} \le \deg(\Phi)_\infty$) | Bost's Hermitian slope inequality `SlopeIneq` + `s_lower5` (`MeanBoundSecondForm.lean:151`, `LevelOfCongruence.lean:50`) [Lean, read] |
-| **Main-term extraction** | Leading pole term $Q\ell / m = Q + O(\sqrt{Q})$ | Exact cancellation `key_identity5`: $\mathrm{SDiv} - \mathrm{sum}_A\cdot\mathrm{Lam}_5 + m\,\mathrm{sum}_A\cdot\mathrm{lg} = \mathrm{Main}(u_0) + \dots$ (`LevelOfCongruence.lean:105`) [Lean, read] |
-| **Per-step "differentiation cost"** | Pole shift $c_C m$ from $R_1^k D_t^{(k)} s_b$ ($m^2/m = m$) | Non-compounding congruence/Selmer budget $m(B_0 + N_c)$ (`BNBounds`, `SChain.lean:33` [Lean, read]; bounded via $Ш^1$ in Chapters 10–11) |
+| **Local vanishing / divisibility** | $\operatorname{ord}_P(\Phi) \ge m$ at each $P \in C(\mathbb F_Q) \setminus \{P_\infty\}$ | Inert-prime $p$-adic divisibility `DIV` / `Conclusion1` (`MeanBoundSecondForm.lean:118` [Lean, read]; `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97` [Lean], Chapter 8) |
+| **Global conservation law** | $\sum_P \operatorname{ord}_P(\Phi) = 0$ ($\#\text{zeros} \le \deg(\Phi)_\infty$) | Bost's Hermitian slope inequality `SlopeIneq` + `s_lower5` (`MeanBoundSecondForm.lean:151`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50`) [Lean, read] |
+| **Main-term extraction** | Leading pole term $Q\ell / m = Q + O(\sqrt{Q})$ | Exact cancellation `key_identity5`: $\mathrm{SDiv} - \mathrm{sum}_A\cdot\mathrm{Lam}_5 + m\,\mathrm{sum}_A\cdot\mathrm{lg} = \mathrm{Main}(u_0) + \dots$ (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`) [Lean, read] |
+| **Per-step "differentiation cost"** | Pole shift $c_C m$ from $R_1^k D_t^{(k)} s_b$ ($m^2/m = m$) | Non-compounding congruence/Selmer budget $m(B_0 + N_c)$ (`BNBounds`, `src/Formalism/SizeWindowBrackets/SChain.lean:33` [Lean, read]; bounded via $Ш^1$ in Chapters 10–11) |
 | **One-sided $\implies$ zeros on $\Re s = 1/2$** | Twisting + rationality of $Z(C, T)$ (Steps 2–3 of Theorem 6.3) | Positive cyclic weights $(4,3)/(3o+1)$ + Landau window criterion `formB` (Chapters 3 and 5) [Lean, read] |
 
 ### 6.5.2 Honest audit of formalization scope in node P7: `structure` packaging vs. proved algebra
@@ -786,22 +786,22 @@ It is essential not to overstate what node `P7` proves on its own [Expository]:
    and `Data U0 W Top m f`.
 2. **What is genuinely proved without `sorry` in the P7 files we read (`R3` / `[Lean, read]`):**
    - the real-analytic concavity inequality `phi_bound` (`WeightedMeanData.lean:81`) and exact main-term
-     cancellation `key_identity` / `key_identity5` (`WeightedMeanData.lean:170`, `LevelOfCongruence.lean:105`);
+     cancellation `key_identity` / `key_identity5` (`WeightedMeanData.lean:170`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`);
    - the entire deduction `s_lower5` $\to$ `u_function_le_mean` $\to$ `Ga_bound5` $\to$ `each_unit_bound_statement`
-     and `uniform_bound_statement` (`LevelOfCongruence.lean:50–243`), proving unconditionally that
+     and `uniform_bound_statement` (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50–242`), proving unconditionally that
      *any* `Data` record satisfying the 11 inequalities of `SizeData₂` obeys `ASK u0 ≤ Main u0 + ErrX5at`;
    - the explicit integer/rational parameter constructors `evenCeil`, `eAt`, `mAt`, `kAt`, `tAt`,
-     `ranksOf`, and the rational Harish-Chandra interlacing verification `HCIn.hc` (`EvenCeil.lean:11–162`),
+     `ranksOf`, and the rational Harish-Chandra interlacing verification `HCIn.hc` (`EvenCeil.lean:11–161`),
      whose order inequalities (`u_gt_v`, `v_gt_u`, `u_last_gt`, `gap_be`, `gap_eb`) are discharged
      purely by `omega` and `linarith`;
    - the shift-covering lemmas `wt_self`, `coverS_of_cover`, `FamCore.coverS_carry` (`FamCore.lean:27,47,187`)
      and the bundle projection `ChainTied.core_of` (`TieGlobal.lean:116`).
 3. **What is packaged as `structure` fields or `Prop` hypotheses (and proved only in the deep Part II–III
-   engine):** Inside `LevelOfCongruence.lean` and `SChain.lean`, `DIV`, `QuotientSlopeBoundsWith`,
+   engine):** Inside `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean` and `src/Formalism/SizeWindowBrackets/SChain.lean`, `DIV`, `QuotientSlopeBoundsWith`,
    `SlopeIneq`, `LossBounds`, and `BNBounds` are **hypotheses** (conjuncts of the `Prop` `SizeData₂`),
-   and `SChain.lean` even contains toy `Unit`-word model propositions such as `DataCompletion` (`:126`),
+   and `src/Formalism/SizeWindowBrackets/SChain.lean` even contains toy `Unit`-word model propositions such as `DataCompletion` (`:126`),
    `SizesModelAt` (`:153`), and `SizesTextAt` (`:207`) used for sanity-checking the parameter inequalities
-   in isolation [Lean, read]! On the actual `Main.lean` proof path, `ChainTied` (`TieGlobal.lean:97`)
+   in isolation [Lean, read]! On the actual `src/Main.lean` proof path, `ChainTied` (`TieGlobal.lean:97`)
    is inhabited not by a toy `Unit` model, but by the genuine automorphic chain family built in
    nodes `P17` and `P8`–`P12` (`topDesWin`, `DesWin.lean:11`), which we begin opening in Chapter 7.
 
@@ -860,7 +860,7 @@ that *inhabit* `FamP` and `ChainTied` belong to Chapters 7–12 (`P17`, `P8`–`
 
 | Declaration | File:line | Mathematical content / role in Sections 6.3–6.4 | Tag |
 |---|---|---|---|
-| `Scale`, `Scale.L`, `b`, `a`, `X'`, `b'`, `w''`, `X''`, `delta1`, `Formalism.BasicNotions.SizeData₂`, `SizeData₂.AdmT`, `lifts`, `Fo`, `Ga`, `Ee`, `MAIN`, `VV` | `src/Formalism/LocalRingCardinality/DataParams₂.lean:9,27,29,31,33,35,37,39,45,76,186,208,218,220,222,232,238` | Concrete scale record (`L = x^ε`, `b = exp(x^ε)`, `delta1 = x^{-ε/8}`), concrete `D7`-attached `SizeData₂` structure (`:76–183`), and derived definitions `Fo`, `Ga`, `Ee`, `MAIN`, `VV` in `namespace SizeData₂`. | [Lean, read] |
+| `Scale`, `Scale.L`, `b`, `a`, `X'`, `b'`, `w''`, `X''`, `delta1`, `Formalism.BasicNotions.SizeData₂`, `SizeData₂.AdmT`, `lifts`, `Fo`, `Ga`, `Ee`, `MAIN`, `VV` | `src/Formalism/LocalRingCardinality/DataParams₂.lean:9,27,29,31,33,35,37,39,45,76,186,208,218,220,222,232,238` | Concrete scale record (`L = x^ε`, `b = exp(x^ε)`, `delta1 = x^{-ε/8}`), concrete `D7`-attached `SizeData₂` structure (`:76–182`), and derived definitions `Fo`, `Ga`, `Ee`, `MAIN`, `VV` in `namespace SizeData₂`. | [Lean, read] |
 | `GlobalTheory.Mem.Num.evenCeil`, `eAt`, `nAt`, `fAt`, `mAt`, `kAt`, `rAt`, `tAt`, `NAt`, `RanksOK`, `ranksOf`, `HCIn`, `HCIn.OK`, `HCIn.hc` | `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:11,15,17,19,21,23,25,33,35,41,45,92,100,109` | Section 6.2.2 & 6.5.2: even ceiling `2 * ⌈y / 2⌉₊`, chain length `mAt` $\approx \sqrt{x\delta_1}$, $2$-power tower `nAt = 2^(eAt)`, rank admissibility `RanksOK`, and verified rational Harish-Chandra parameters `HCIn.hc`. | [Lean, read] |
 | `ph`, `wmean`, `umean`, `Consts`, `Data`, `Data.s`, `uF`, `Main`, `HidaSetting`, `DIV`, `HComp`, `Slopes`, `SlopeIneq`, `HHBound`, `FParams` | `src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:9,11,13,15,37,92,94,107,111,118,126,139,151,158,161` | Definition 6.2: abstract numerical chain record `Data U0 W Top m f`, weighted mean slope `s`, slope spread `uF`, global divisibility clause `DIV`, and Bost slope inequality clause `SlopeIneq`. | [Lean, read] |
 | `wmean_le_const`, `sub_wmean_le`, `phi_bound`, `Data.SDiv`, `EDiv`, `K3`, `Data.key_identity` | `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:34,40,81,129,131,138,170` | Lemma 6.5: weighted-mean inequalities, logarithmic concavity bound $u\log(1+H/u) \le \log(1+X)(U+b)$, and exact cancellation of $\log(\pi/v)$ and $\mathrm{lg}$ into `Main`. | [Lean, read] |

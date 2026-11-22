@@ -2,7 +2,7 @@
 
 > **Status tags used in this chapter:** `[Lean, read]` for definitions and `sorry`-free proofs read
 > in full across `LatticeSlopes/`, `HarderNarasimhan/`, `DivisionHeightBoundStatement.lean`,
-> `GlobalBoundRefinements.lean`, `GlobalTheoremInputs.lean`, `TieGlobal.lean`, `ThirdPlaceSeries/LinkG.lean`,
+> `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean`, `GlobalTheoremInputs.lean`, `TieGlobal.lean`, `ThirdPlaceSeries/LinkG.lean`,
 > `ThirdPlaceSeries/LinkAltAltBis.lean`, `GlobalInterpolation/LinkGl.lean`, and `ThirdPlaceSeries/Link.lean`
 > (`R3`); `[Lean]` for statement-level inspections of deep period and archimedean sub-packages (`R2`);
 > `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public
@@ -11,7 +11,7 @@
 
 In Chapter 8 we saw how $m$ composed theta lifts accumulate high $\mathfrak p_w$-adic divisibility
 at places $w$ of the CM host field $E$ lying over inert rational primes (`Conclusion1`,
-`WeilJacquetShalikaLaw.lean:97`) [Lean, read]. Local divisibility by itself, however, proves nothing:
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97`) [Lean, read]. Local divisibility by itself, however, proves nothing:
 inside the completion $E_w$, the number $0$ is divisible by $\mathfrak p_w^N$ for every $N \ge 1$,
 and even a nonzero global algebraic integer $x \in \mathcal O_E$ can be divisible by a huge prime
 power if its archimedean absolute values $\lvert \sigma(x) \rvert_\infty$ are allowed to grow just as
@@ -91,7 +91,7 @@ quotient slope** $\mu_{\min}(L) := \inf_{Q \neq 0} \mu(Q)$:
 Let us work out two concrete rank-$2$ examples by hand, directly mirroring two explicit `example` /
 test constructions built inside the Lean archive itself [Lean, read]!
 
-### 9.2.1 The Harder–Narasimhan polygon of $L_x = \mathbb Z e_0 \oplus \mathbb Z(2 e_1)$ (`Example.lean`)
+### 9.2.1 The Harder–Narasimhan polygon of $L_x = \mathbb Z e_0 \oplus \mathbb Z(2 e_1)$ (`src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/Example.lean`)
 
 In `src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/Example.lean:18–351` [Lean, read], the
 archive constructs a complete worked Euclidean lattice example `polygon_worked_example : Example`.
@@ -99,7 +99,7 @@ Equip $V = \mathbb R^2$ with its standard orthonormal basis $(e_0, e_1)$, and co
 lattice
 $$L_x := \mathbb Z\,e_0 \oplus \mathbb Z\,(2 e_1).$$
 
-Compute its invariants by hand (`Example.lean:92–351`):
+Compute its invariants by hand (`src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/Example.lean:92–351`):
 
 1. **Covolume, degree, and total slope:** The fundamental rectangle $[0, 1] \times [0, 2]$ has
    Euclidean volume $\operatorname{covol}(L_x) = 2$ (`covol_Lx`, `:92`), so
@@ -120,7 +120,7 @@ Compute its invariants by hand (`Example.lean:92–351`):
    (attained at $(a, b) = (\pm 1, 0)$). Thus **$\mu_{\min}(L_x) = -\log 2$**, and the
    Harder–Narasimhan filtration $0 \subsetneq \mathbb Z e_0 \subsetneq L_x$ has decreasing slopes
    $(0,\ -\log 2)$, whose sum $0 + (-\log 2) = -\log 2$ recovers $\widehat{\deg}(L_x)$
-   (`polygon_worked_example`, `Example.lean:351`) [Lean, read]!
+   (`polygon_worked_example`, `src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/Example.lean:351`) [Lean, read]!
 
 ### 9.2.2 Rank-$2$ near-orthogonality versus collapse, and why metric ties cannot slip (`not_tied_two`)
 
@@ -197,7 +197,7 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
    \qquad\text{and in fact}\qquad
    \mu_{\min}(L_1) - \log K \le \mu_{\min}\bigl(T(L_1)\bigr)$$
    (`imageStep`, `FinalCor.lean:9`). Over a totally complex number field $K$ with `nPl K` infinite
-   places $v \in \mathrm{InfinitePlace}(K)$, `StatementPl.lean` (`:29, 55, 60, 64, 67, 70, 133, 148`)
+   places $v \in \mathrm{InfinitePlace}(K)$, `src/Formalism/HarderNarasimhan/StatementPl.lean` (`:29, 55, 60, 64, 67, 70, 133, 148`)
    equips finitely generated $\mathcal O_K$-submodules $L \subset V$ with Hermitian Gram matrices
    $X_v$ at the **archimedean** places $v \in \mathrm{InfinitePlace}(K)$, defines the mean
    archimedean logarithmic squared operator norm [Lean, read]
@@ -270,7 +270,7 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
 
 Because the archive's proofs of Bost's slope inequality (`LatticeSlopes/` and `HarderNarasimhan/`),
 of the $m$-step composite height bound (`DivisionHeightBoundStatement.lean`), and of the explicit
-divisor refinement (`GlobalBoundRefinements.lean`) are completely self-contained (`R3`), we present
+divisor refinement (`src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean`) are completely self-contained (`R3`), we present
 their full mathematical proofs below!
 
 ### 9.4.1 Haar volume, Gram determinants, and orthogonal-projection rounding (`gram_det_le`, `norm_starProjection_le`)
@@ -400,10 +400,10 @@ fractional ideal $I_u^{-1}$ immediately produces the global height-and-divisor t
    $N_{K/\mathbb Q}(I_u)$ and shifts its Arakelov degree in proportion to
    $\sum_{w \in \mathrm{supp}} f_w \lfloor e_w \mathrm{sg}(u, w) \rfloor \log p_w$ (tracked in
    `LinkMu` / `NprimeMuR` at `GlobalTheoremInputs.lean:69, 74`, whereas archimedean metric rescaling
-   is `Twist` at `StatementPl.lean:133`)! Combining Theorem 9.2 (`SlopeIneqMean`), part (1)
+   is `Twist` at `src/Formalism/HarderNarasimhan/StatementPl.lean:133`)! Combining Theorem 9.2 (`SlopeIneqMean`), part (1)
    (`height_chain`), and the constant refinement $(50 C_0 + 10)(c_e / C_0) \le 60 c_e$ for
-   $C_0 \ge 1$ (`constant_factor_le_sixty`, `GlobalBoundRefinements.lean:58`) establishes `DivClauses`
-   (`divClauses_of`, `:752`) and `divisor_inequality_explicit` (`GlobalBoundRefinements.lean:91`).* [Lean, read]
+   $C_0 \ge 1$ (`constant_factor_le_sixty`, `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:58`) establishes `DivClauses`
+   (`divClauses_of`, `:752`) and `divisor_inequality_explicit` (`src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:91`).* [Lean, read]
 
 *Proof.*
 
@@ -414,14 +414,14 @@ fractional ideal $I_u^{-1}$ immediately produces the global height-and-divisor t
    (`height_chain`, `:641`) yields $\mathrm{htMap}(T) \le \frac{1}{\mathrm{nPl}(K)}\sum_{j=1}^m \sum_v B_{j,v}$.
 2. Replacing a lattice component by its fractional-ideal multiple $\mathfrak p_w^{-n_w}\Lambda$
    ($n_w = \lfloor e_w \mathrm{sg}(u,w) \rfloor \ge 0$, `shiftLat` at `:555, 561`, using the index
-   multiplicativity of `HtGram` at `StatementPl.lean:83–91`) shifts its normalized Arakelov slope by
+   multiplicativity of `HtGram` at `src/Formalism/HarderNarasimhan/StatementPl.lean:83–91`) shifts its normalized Arakelov slope by
    the exact finite-place contribution $\mathrm{sz}(w, \mathrm{sg}(u, w))$ up to the rounding error
    bounded in `NprimeMuR` (`GlobalTheoremInputs.lean:69`), while any archimedean scalar adjustment of
-   the Hermitian form shifts slopes additively by `Twist` (`StatementPl.lean:133`). Up to the floor
+   the Hermitian form shifts slopes additively by `Twist` (`src/Formalism/HarderNarasimhan/StatementPl.lean:133`). Up to the floor
    rounding error absorbed into `DataExtra`, summing $f_w e_w\,\mathrm{sg}(u, w)\log p_w$ over inert
    places recovers the logarithmic inert-prime gain `ASK`! Feeding this shifted lattice into Bost's
    `SlopeIneqMean` and simplifying $(50 C_0 + 10)\frac{c_e}{C_0} = 50 c_e + \frac{10 c_e}{C_0} \le 60 c_e$
-   for $C_0 \ge 1$ (`constant_factor_le_sixty`, `GlobalBoundRefinements.lean:58`) completes
+   for $C_0 \ge 1$ (`constant_factor_le_sixty`, `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:58`) completes
    `divIneqRecord_of` (`:63`) and `divisor_inequality_explicit` (`:91`). $\square$
 
 ### 9.4.4 Why near-orthogonality (`FrameHerm` & `LinkS`), inert gains (`LinkG`), and period bounds (`LinkDIV`) close the loop
@@ -497,7 +497,7 @@ lattice library is [Lean, read]:
   imports **only Mathlib**!);
 - the entire proof of Harder–Narasimhan existence/uniqueness, duality, Bost's slope inequality
   `SlopeIneq`, the worked rank-$2$ example `polygon_worked_example`, and the number-field extension
-  `ShiftInvariance.lean` sits inside **68 modules**, zero of which touch automorphic forms, theta
+  `src/Formalism/HarderNarasimhan/ShiftInvariance.lean` sits inside **68 modules**, zero of which touch automorphic forms, theta
   lifts, or literature `Prop`s!
 
 In Kim Morrison's post-verification digestion roadmap (`CONTRIBUTIONS.md`), extracting standalone,

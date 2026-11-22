@@ -41,8 +41,8 @@ the classical theory directly to node `P17` (and its interface with `P7` and `P4
    (`ThetaChainUpwardLiftHeckeParamTransferred.lean`, `PairLiftOfHoweDualityBernstein.lean`,
    `FirstOccurrenceRuleThetaChainStepBothDirections.lean`, `ThetaChainUpwardInductionFixedMetric.lean`,
    `EvenCeil.lean`), and the top-level `P17` $\to$ `P7` $\to$ `P4` assembly
-   (`BernsteinUnitaryProductIrreducible.lean`, `LiftLambdaBound.lean`, `Hyps.lean`,
-   `SiegelEisensteinSecondTermHypotheses.lean`, `TopShape.lean`, `DesWin.lean`, `TopPlug.lean`),
+   (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean`, `LiftLambdaBound.lean`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Hyps.lean`,
+   `SiegelEisensteinSecondTermHypotheses.lean`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`, `DesWin.lean`, `TopPlug.lean`),
    mapping out where every remaining obligation of Chapters 8–11 plugs in.
 
 ---
@@ -133,7 +133,7 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
    is dual with respect to the Petersson inner products to the composite downward adjoint
    $\Theta = \Theta_1^\ast \circ \dots \circ \Theta_m^\ast$:
    $$\langle y, x_m \rangle_{U(X_m)} = \langle \Theta(y), u \rangle_{U(X_0)}$$
-   (`thetaChain_upward_induction_fixed_metric`, `ThetaChainUpwardInductionFixedMetric.lean:41–64`
+   (`thetaChain_upward_induction_fixed_metric`, `ThetaChainUpwardInductionFixedMetric.lean:41–63`
    [Lean, read]), while Rallis's inner-product formula `[Rallis1984]`, `[KudlaRallis1994]` relates the
    norm-squared of each step to shifted Hecke $L$-values at the right of the critical strip (non-zero
    by `LNe`, `:43`) and, at primes inert in $K = \mathbb Q(\sqrt{-d})$, produces one additive unit of
@@ -199,7 +199,7 @@ Now step up to a rank-$1$ positive-definite Hermitian space $V = E$ over the ima
 field $E = \mathbb Q(i)$ ($F = \mathbb Q$, involution $\sigma(z) = \bar z$), with Hermitian form
 $\langle z, w \rangle = z\bar w$ and self-dual $\mathbb Z[i]$-lattice $L = \mathbb Z[i]$ (`Spc.IsHerm`
 at $n = 1$, proven in the archive's own sanity check `example : HasSig (1 : Matrix (Fin 1) (Fin 1) ℂ) 1 0 ∧ IsCartan 1 1`
-at `WeilTensorModels.lean:596–603` [Lean, read]!) [Expository].
+at `WeilTensorModels.lean:596–602` [Lean, read]!) [Expository].
 
 Here the definite unitary group at $\infty$ is the compact circle
 $$U(1)(\mathbb R) = \{u \in \mathbb C^\times : u\bar u = 1\} = S^1,$$
@@ -332,7 +332,7 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
    `:503`, `Coinv` at `:508`), and the inductive
    rank-$+2$ $L$-factor recursion clauses `StepBeta` (`:559`) and `StepAlpha` (`:571`) involving
    `charL` and local Gauss/epsilon factors `stepFac` (`:552`, built from `gauss`, `:125`, and `eps`, `:131`) [Lean, read].
-2. **Named-literature bundle (`UnitaryGroupThirdPlaceHypotheses`, `BernsteinUnitaryProductIrreducible.lean:22–82`):**
+2. **Named-literature bundle (`UnitaryGroupThirdPlaceHypotheses`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean:22–82`):**
    A `Prop`-valued `structure` bundling **60 fields**, mostly named literature propositions in
    `GlobalTheory.Published.*` — including `weilSiegelFormulaUnitary` (`:32`),
    `siegelWeilUnitaryConvergent` (`:33`), `doublingMethod` (`:34`), `bernsteinZelevinskyFiniteness` (`:36`),
@@ -340,7 +340,7 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
    `weilRepresentationUnitaryPair` (`:60`), `discreteSeriesClassification` (`:62`), `strongApproxSU` (`:63`),
    `greenRegularCharacters` (`:50`), and local Galois cohomology (`localFiniteness`, `localTateDuality`,
    `localEulerChar`, `:80–82`) [Lean, read].
-3. **Definite-chain hypothesis bundle (`GlobalTheory.Fc.HypsAlt`, `Hyps.lean:22–90`):**
+3. **Definite-chain hypothesis bundle (`GlobalTheory.Fc.HypsAlt`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Hyps.lean:22–90`):**
    A `Type 1` `structure` parameterized by a residual class condition `N : FamClass → Prop` (instantiated
    as `Closed 𝒞 fun Fm _ => LinkN Fm`!) and `DefiniteSideCondition`. It packages **46 fields**: a family
    class `𝒜 : FamClass` of `FamP eps` families, a raw level/row selector `σ`, constants `cT, c30, cIc`,
@@ -468,7 +468,7 @@ and for each $1 \le j \le m$ let $K_j : X_{j-1} \times X_j \to \mathbb C$ be $(\
      $f \in L^1([U(X_0)])$ and $h \in L^1([U(X_m)])$,
      $\mathcal I_m(f, h) \le \lVert f \rVert_{L^1} \lVert h \rVert_{L^1} \bigl(\prod_{j=1}^m M_j\bigr)\bigl(\prod_{j=1}^{m-1} \mu_j([U(X_j)])\bigr) < \infty$
      holds unconditionally!*
-   - *(Non-compact moderate-growth $\times$ rapid-decay step, `LiftConvContGrowth.lean:22–77` `[Lean, read]`)*
+   - *(Non-compact moderate-growth $\times$ rapid-decay step, `LiftConvContGrowth.lean:22–76` `[Lean, read]`)*
      *On a general adelic unitary quotient $\mathcal F_T \subset U(T)(\mathbb A_F)$ of finite Haar
      volume $\mu_T(\mathcal F_T) < \infty$, if a kernel $\theta_\Phi(g, h)$ is continuous and satisfies
      uniform moderate growth $\lvert \theta_\Phi(g, h) \rvert \le C\,\mathrm{ht}_S(g)^A\,\mathrm{ht}_T(h)^A$
@@ -525,7 +525,7 @@ is integrable on $(\mathcal F_T, \mu_T)$, giving both $L^1(\mathcal F_T, \mu_T)$
 continuity in $g$ by Lebesgue's dominated convergence theorem (`continuousAt_of_dominated`, `:56`),
 and the moderate-growth bound $C \cdot 2^A B_A \mu_T(\mathcal F_T)\,\mathrm{ht}_S(g)^A$ (`:75`). $\square$
 
-*(Remark on the 4-factor Fubini step in `IntegrableThetaKernelProduct.lean:131–199`: when the archive
+*(Remark on the 4-factor Fubini step in `IntegrableThetaKernelProduct.lean:131–198`: when the archive
 unfolds a pair of theta kernels along a Witt/Jacobi block decomposition $n = \operatorname{rank} W + t$
 using upper-triangular unipotent matrices `bl hn 1 y 0 1` of determinant $1$, `lintegral_bl` (`:52–68`
 [Lean, read]) proves unimodular Haar invariance `addEquivAddHaarChar φ = 1` from $\det = 1$, and
@@ -544,7 +544,7 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
 **Proposition 7.3 (Non-interlacing Harish-Chandra schedule, local Hecke transfer, and $m$-step chain induction).**
 *Fix `D : D7` with chain length $m = D.R.m$ and rank step $t = D.R.t$* [Lean, read]:
 
-1. *(Verified non-interlacing archimedean schedule: `HCIn.hc`, `EvenCeil.lean:109–162`)* *Given
+1. *(Verified non-interlacing archimedean schedule: `HCIn.hc`, `EvenCeil.lean:109–161`)* *Given
    `I : HCIn` satisfying `I.OK R` (`1 ≤ Del`, `t + 3 ≤ 2 * hh`, `(k - 2) * (4 * Del) ≤ U1`, `Uk ≤ -1`,
    `-B ≤ Uk`, `:100`), the rational sequences
    $u_i = u_{\mathbb Z}(i) + \frac{1}{2}$ ($0 \le i < k$), $v_i = (k - 2 - i)(4\,\mathrm{Del})$
@@ -561,11 +561,11 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
    with $r_0 = r < t$, `:25`), local theta lifting from $\mathrm{GL}_{r_j}$ to $\mathrm{GL}_{r_j + t}$
    coupled with `RecLawsH` sends the Weil–Deligne parameter of a row representation $\sigma$ to the
    direct sum with the $t$-dimensional twisted Speh / determinant parameter $\mu_i[t]$
-   (`PairLiftOfHoweDualityBernstein.lean:17–59`), and globally transfers Hecke eigenvalues across
+   (`PairLiftOfHoweDualityBernstein.lean:17–58`), and globally transfers Hecke eigenvalues across
    $r_{k+1} = r_k + t$ whenever the upward theta integral `Step.up` is nonzero (`upPar_of_transfer`,
-   `ThetaChainUpwardLiftHeckeParamTransferred.lean:42,46–68`).*
+   `ThetaChainUpwardLiftHeckeParamTransferred.lean:42,46–67`).*
 3. *($m$-step inductive adjointness and parameter propagation: `thetaChain_upward_induction_fixed_metric`,
-   `ThetaChainUpwardInductionFixedMetric.lean:41–78`)* *Assume stage metric existence `hMet : MetEx D`
+   `ThetaChainUpwardInductionFixedMetric.lean:41–77`)* *Assume stage metric existence `hMet : MetEx D`
    and node gap `hgap : NodeGap D` (`ParBoundW.lean:24`). Suppose $s_0$ is a stage-$0$ localization with
    Hermitian metric `(ipD₀, ip₀)`, $u \in s_0.\mathrm{CC}(c)$ is nonzero with initial spectral parameter
    `IsPar u B`, every step $0 \le k < m$ has non-vanishing $L$-value `LNe c (c.chT (k + 1)) (chainPar c B k)`
@@ -587,18 +587,18 @@ if any entry $y$ of the base parameter satisfied $y = \frac{t+1}{2}$, then $y + 
 `FarFrom aT ((t+3)/2)` ($\lvert (y + a_T) - a_T \rvert \ge \frac{t+3}{2} > \frac{t+1}{2}$), a contradiction
 by `linarith`!
 
-(2) In `PairLiftOfHoweDualityBernstein.lean:19–59`, non-orthogonality `hpair` implies the $\sigma$-isotypic
+(2) In `PairLiftOfHoweDualityBernstein.lean:19–58`, non-orthogonality `hpair` implies the $\sigma$-isotypic
 space is nonzero (`hne`), `R.rank_add_five_le` gives $r < t$ (`hrt`), `theta_lift_general_linear`
 identifies the untwisted $\mathrm{GL}_{r + t}$ theta lift $\pi'$ with the parabolic induction
 $\mathrm{prod}_2(\sigma, \det_{\mu, t})$, and injectivity of `(T.e w)` equates the Weil–Deligne
-parameters `liftPar = (X.rc ...).lpSum (speh ... R.t)`. In `ThetaChainUpwardLiftHeckeParamTransferred.lean:46–68`,
+parameters `liftPar = (X.rc ...).lpSum (speh ... R.t)`. In `ThetaChainUpwardLiftHeckeParamTransferred.lean:46–67`,
 taking complex conjugates under the integral sign (`← integral_conj`, `:56`) expresses
 $\overline{(p.\mathrm{up}\,\varphi\,y)(x)} = \int_{s.\mathrm{fd}} \theta_{p.\omega}(g, x, p.\mathrm{pt}\,\varphi)\,\overline{y(g)}\,ds.\nu$,
 and for every finite place $w_0 \notin c.S$ where the Fock lattice vector is the unramified vacuum
 (`fock_vectors_lattice_vacua_off_finite_set`, `:67`), `thetaIntegral_conjCuspForm_parameterTransfer`
 transfers the spherical Hecke parameter!
 
-(3) Follow the induction in `ThetaChainUpwardInductionFixedMetric.lean:46–64`!
+(3) Follow the induction in `ThetaChainUpwardInductionFixedMetric.lean:46–63`!
 - **Base case $k = 0$ (`Reach.zero`, $\Theta = \mathrm{id}$, $s = s_0$):** First prove metric
   uniqueness `ip_unique` (`:25–39`): because pure tensors span $s.\mathrm{M}$ (`PiTensorProduct.span_tprod_eq_top`),
   any nonzero $z \in s.\mathrm{CC}(c)$ evaluates non-trivially on some pure tensor $v_\otimes = \bigotimes_\tau v_\tau \neq 0$
@@ -618,16 +618,16 @@ transfers the spherical Hecke parameter!
 ### 7.4.4 Top-level P17 $\to$ P7 $\to$ P4 assembly (`HypsAlt` $\to$ `TopG` $\to$ `EveryCharacter`)
 
 Finally, we connect `P17` all the way back to Part I (`EveryCharacter`) by reading the four short
-assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `TopShape.lean`, `DesWin.lean`, and
+assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`, `DesWin.lean`, and
 `TopPlug.lean` in full (`R3` / `[Lean, read]`).
 
 **Theorem 7.4 (From definite-unitary theta hypotheses and `VWin` to `TopG` and `EveryCharacter`).**
 *Assume the seven packages:*
-- *`P : UnitaryGroupThirdPlaceHypotheses` (`BernsteinUnitaryProductIrreducible.lean:22`),*
+- *`P : UnitaryGroupThirdPlaceHypotheses` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean:22`),*
 - *`F : ThetaLocalInputs`,*
 - *`hA : ThetaIntegralsAgree` and `hM : LocalMatching` (`WeilTensorModels.lean:585,581`),*
 - *`hX : CovolumeBoundOfX` (`LiftLambdaBound.lean:60`),*
-- *`hL : RecTExists` (partial local Langlands, node `P15`, `IsRecTOfIsRec.lean:78`), and*
+- *`hL : RecTExists` (partial local Langlands, node `P15`, `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:78`), and*
 - *`hV : VWin` (the Tate–Shafarevich window bound, node `P12`, `ExistsPageN.lean:49`).*
 
 *Then `Nonempty (HypsAlt (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) DefiniteSideCondition)` holds,
@@ -655,9 +655,9 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `TopShape.lean`, `De
      (`:68`) inhabits `Nonempty (HypsAlt S0.NL DefiniteSideCondition)` (where `S0.NL` comes from `P.nLink`
      via `boundAtTwoThree_linked_of_recT`, `:73`).
 2. **Wiring `HypsAlt` + Green's classification into the nine chain links (`shape_closed_link_n_of_green`,
-   `TopShape.lean:33–56`):**
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33–55`):**
    Given `hGreen : GlobalTheory.GLq.Green` (obtained from `P.greenRegularCharacters` via
-   `green_of_regular`, `SumRangeEqRoots.lean:225`) and the fields of `HypsAlt`, `TopShape.lean`
+   `green_of_regular`, `SumRangeEqRoots.lean:225`) and the fields of `HypsAlt`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`
    derives:
    - `hDIV`: the divisibility link `Closed (D3 3 𝒜) ... LinkDIVt` (`:47`, from `link_brest_alt`,
      `wire_sel_alt`, twisted admissibility `hA2`, and spectral decay `hC5`);
@@ -667,7 +667,7 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `TopShape.lean`, `De
      `link_alt_alt_alt` (`SmallLevelRankEq`), `hgl.1` (lattice rank `NuFullF ∧ J.MuRank`),
      `closed_linkG_of_duty` (`LinkG`), `link_alt_alt_bis` (`LinkS`), and `hgl.2` (`LinkGLOBAL`),
      feeding all nine into `topDesWin` (`:52–55`)!
-3. **Converting the nine links + `HypV` into `FamilyClassConnected` (`topDesWin`, `DesWin.lean:11–32`):**
+3. **Converting the nine links + `HypV` into `FamilyClassConnected` (`topDesWin`, `DesWin.lean:11–31`):**
    Intersecting the eventual $\varepsilon$-thresholds `min ε1 ε3` of `DesignExists` and the nine
    `Closed` links produces, for every $0 < \varepsilon < \min(\varepsilon_1, \varepsilon_3)$, a family
    `Fm : FamP eps` in `G.cls la`; combining `HypV` (supplied by `VWin`!) with `LinkN` and
@@ -722,14 +722,14 @@ Reading the actual Lean source of node `P17` brings two essential realities into
 
 ### 7.5.2 Structural map of the rest of Part II (Chapters 8–11)
 
-Look back at lines 29–31 of `topDesWin` (`DesWin.lean:11–32`, Step 3 of Theorem 7.4 above):
+Look back at lines 29–31 of `topDesWin` (`DesWin.lean:11–31`, Step 3 of Theorem 7.4 above):
 ```lean
 have hD := aD hT hDG aE (divinN_of_hypV Fm h0 (hV Fm (h2 Fm hc.1.1)) aN aZ)
 exact ⟨Fm, h2 Fm hc.1.1, aGL hT hDG hCh ⟨aG, aS hT, aI, hD, ...⟩⟩
 ```
 That two-line proof term is the **table of contents for Chapters 8–11** [Lean, read]:
 
-- **Chapter 8 (`P8`, Divisibility at inert primes):** Opens `hDIV` / `LinkDIVt` (`TopShape.lean:47`)
+- **Chapter 8 (`P8`, Divisibility at inert primes):** Opens `hDIV` / `LinkDIVt` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:47`)
   and `WeilJacquetShalikaLaw.Conclusion1` (`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97` [Lean]),
   explaining why at primes of the host inert in $K = \mathbb Q(\sqrt{-d})$, supersingular CM evaluation
   and $p$-adic analysis of the $m$ theta kernels force the columns of the chain to vanish modulo high

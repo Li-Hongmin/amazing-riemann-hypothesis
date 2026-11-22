@@ -3,7 +3,7 @@
 > Sources as of 2026-11-21. Pinned archive sha256 `9631b4f0…9c7fc`; Mathlib at commit
 > `0df444a` (tag `v4.33.1`); Masullo's draft sha256 `e039d3f6…97bf5`. See `sources/SOURCES.md`.
 
-Chapter 2 reduced the five theorems of `Main.lean` to `Formalism.HC.ZeroFreeAll`: for every
+Chapter 2 reduced the five theorems of `src/Main.lean` to `Formalism.HC.ZeroFreeAll`: for every
 primitive Dirichlet character $\psi$, the function $L(s,\psi)$ has no zeros in the open half-plane
 $\Re s > 1/2$ [Lean, read]
 (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:18`).

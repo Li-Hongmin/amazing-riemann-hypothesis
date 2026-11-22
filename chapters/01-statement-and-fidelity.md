@@ -46,18 +46,18 @@ to the right of the colons are the statements. Everything to the right of `:=` i
 for the question of this chapter it does not matter how it was found.
 
 Of the five statement constants, `RiemannHypothesis` is defined in Mathlib, the community library
-on which the archive builds; the other four are defined in the archive's file `Statements.lean`,
+on which the archive builds; the other four are defined in the archive's file `src/Statements.lean`,
 which imports Mathlib and nothing else [Lean, read] (`src/Statements.lean:1`). So the meaning of
-the five theorems depends only on Mathlib and on sixteen lines of `Statements.lean`. No other file
+the five theorems depends only on Mathlib and on sixteen lines of `src/Statements.lean`. No other file
 of the archive can change it: a Lean environment never contains two declarations with the same
 name, so no file can supply a second, different `RiemannHypothesis` or `DirichletLZerosOnLine`,
 and a declaration, once added, is immutable [Expository]. (Whether the compiled environment really contains
-Mathlib's and `Statements.lean`'s definitions unchanged is what `lake comparator` checks
+Mathlib's and `src/Statements.lean`'s definitions unchanged is what `lake comparator` checks
 mechanically, by comparing the statement constants of the proof's export with those of a
 separately built "challenge" file that imports only Mathlib; see Section 1.6.)
 
 The proofs are four names defined in `Supplements/Kernels/MainTheorems.lean`, which
-`Main.lean` imports through `MainTheoremsAll` and `MainTheoremsCritical` [Lean, read]
+`src/Main.lean` imports through `MainTheoremsAll` and `MainTheoremsCritical` [Lean, read]
 (`src/Supplements/Kernels/MainTheorems.lean:7`, `:9`, `:11`, `:15`):
 
 ```lean
@@ -148,7 +148,7 @@ archive in fact proves the stronger form, and Section 1.4 shows the case analysi
 
 In `s.re = 1 / 2`, the left side `s.re` is a real number (`Complex.re : ℂ → ℝ`), so Lean
 elaborates `1 / 2` as a real number, $0.5$. The well-known pitfall that `1 / 2` denotes $0$ in
-natural-number arithmetic does not arise. The same holds in every `1 / 2` of `Statements.lean`,
+natural-number arithmetic does not arise. The same holds in every `1 / 2` of `src/Statements.lean`,
 each of which is compared with `s.re` [Lean, read] (`src/Statements.lean:4`, `:8`, `:12`,
 `:16`). The same observation appears in the Comparator notes of
 `leanprover-community/riemann-hypothesis` [Community].
@@ -157,7 +157,7 @@ each of which is compared with `s.re` [Lean, read] (`src/Statements.lean:4`, `:8
 
 ### 1.3.1 The four definitions
 
-The archive's `Statements.lean` reads, after `import Mathlib` [Lean, read]
+The archive's `src/Statements.lean` reads, after `import Mathlib` [Lean, read]
 (`src/Statements.lean:3`, `:6`, `:10`, `:14`):
 
 ```lean
@@ -269,14 +269,14 @@ Its body is, symbol for symbol, the body of `DirichletLNonvanishingRightOfHalf`
 (`src/Development/AutomorphicArithmetic/CharacterBoxes/HalfPlane.lean:3`). But textual
 identity of definitions in different files is not what makes the final theorems correct. What
 does is that the kernel accepted each proof term at the stated type, which forces the relevant
-definitions to unfold to the same proposition. Reading `Main.lean` with this in mind gives four
+definitions to unfold to the same proposition. Reading `src/Main.lean` with this in mind gives four
 small facts that the kernel has checked [Lean, read]:
 
 - `src/Main.lean:4` and `src/Main.lean:6` use the same term `rhOfAll`, whose type is Mathlib's
   `RiemannHypothesis` (`src/Supplements/Kernels/MainTheorems.lean:9`). So
   `RiemannZetaZerosOnLine` and `RiemannHypothesis` are definitionally equal. (They differ in
   appearance only: Mathlib writes `-2 * (n + 1)` and lets the coercion $\mathbb N\to\mathbb C$
-  be inserted during elaboration; `Statements.lean` writes the coercion explicitly.)
+  be inserted during elaboration; `src/Statements.lean` writes the coercion explicitly.)
 - `src/Main.lean:8` proves `DirichletLNonvanishingRightOfHalf` with `allChi`, whose type is
   `UpperTheory.EveryCharacter` (`src/Supplements/Kernels/MainTheorems.lean:7`).
 - `src/Main.lean:10` proves `DirichletLZerosOnLine` with the second component of `claimAll`,
@@ -343,7 +343,7 @@ functional equation of the completed zeta function together with the zeros of
 $\Gamma_{\mathbb R}$ [Lean, read]
 (`src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:75`). The file closes with
 `Claim.zeta_iff : Zeta ↔ RiemannHypothesis := Iff.rfl` (`:102`), another kernel-checked
-definitional identity. `Main.lean` does not use this second derivation for its first theorem; it
+definitional identity. `src/Main.lean` does not use this second derivation for its first theorem; it
 is part of `claimAll` (`src/Supplements/Kernels/MainTheorems.lean:15`).
 
 **From primitive to all characters, in the half-plane.** For completeness: the archive's own
@@ -385,7 +385,7 @@ introduces, or a user-declared `axiom` — is conditional on it, and Lean's comm
 
 ### 1.5.2 Axiom audits
 
-Sutherland reports that `#print axioms` for the five theorems of `Main.lean` lists only
+Sutherland reports that `#print axioms` for the five theorems of `src/Main.lean` lists only
 `propext`, `Classical.choice` and `Quot.sound`, and that the environment contains 15 axioms, all
 in Lean's core library `Init` [Community; math.mit.edu/~drew/grh, version of 2026-11-20 22:05 UTC].
 The LUMI run reports a finer audit from the compiled environment, in which 292 declarations
@@ -450,7 +450,7 @@ reach the same conclusion [Community; `verification/NOTES.md`, corrected after i
   to by the corresponding copies, and adds each copy with `addDecl`
   (`src/Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean:78`) [Lean, read].
   `addDecl` submits the copy to the kernel, which checks it like any other declaration.
-- **`BuildAid`.** The five files `src/BuildAid/D1.lean` … `D5.lean` each add one namespace
+- **`BuildAid`.** The five files `src/BuildAid/D1.lean` … `src/BuildAid/D5.lean` each add one namespace
   (`CompanionTheory`, `CrystallineSemistableComparison`, `GlobalTheory`, `PositivityTheory`,
   `UpperTheory`) to the deny list of Lean's library-suggestion tool, for example
   `src/BuildAid/D1.lean:4` [Lean, read]. They contain no mathematics.

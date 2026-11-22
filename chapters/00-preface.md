@@ -122,7 +122,7 @@ Three conventions make the tags precise.
 ## 0.5 Citations
 
 - **Lean archive.** Paths are relative to the archive's top-level `lean/` directory:
-  `src/Main.lean:4` is line 4 of `lean/src/Main.lean` inside the tarball with sha256
+  `src/Main.lean:4` is line 4 of `src/Main.lean` inside `lean/` in the tarball with sha256
   `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Line numbers refer to
   the line on which the declaration's header begins, unless the text says otherwise (a few
   citations point at an `import` line, a docstring, or a step inside a proof). The archive is

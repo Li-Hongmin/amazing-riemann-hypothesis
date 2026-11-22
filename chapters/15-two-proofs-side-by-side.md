@@ -104,7 +104,7 @@ Trace $\psi := \chi_{-4}$ (`N = 4`, `ψ.IsPrimitive`) from `src/Main.lean` down 
    just **two** characters modulo $4$: the imprimitive principal character $\chi_{0, 4} = \chi_{-4}^0$
    ($\mathbf{1}_{\text{odd}}$) and $\chi_{-4} = \chi_{-4}^1$! Look at their individual and combined
    Riesz-weighted prime sums $G_\chi(x) = \sum_{n \le x} \Lambda(n)\,\chi(n)\,\bigl(\frac{x}{n} - 1\bigr)$
-   (plus the smooth subtraction of the $s = 1$ pole for $\chi_{0, 4}$ in `An.gChi`, `Analytic.lean:23`)
+   (plus the smooth subtraction of the $s = 1$ pole for $\chi_{0, 4}$ in `An.gChi`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean:23`)
    [Lean, read]: before pole subtraction, the raw prime sums take the exact numerical values:
 
    | Scale $x$ | $\sum_{n \le x, \text{ odd}} \Lambda(n)(x/n - 1)$ | $G_{\chi_{-4}}^{\mathrm{raw}}(x) = \sum_{n \le x} \Lambda(n)\chi_{-4}(n)(x/n - 1)$ | Sum over $\{1, \chi_{-4}\}$ ($\equiv 1 \bmod 4$ odd powers!) |
@@ -125,7 +125,7 @@ Trace $\psi := \chi_{-4}$ (`N = 4`, `ψ.IsPrimitive`) from `src/Main.lean` down 
    Fix a tiny $\varepsilon \in (0, \frac{1}{52})$ (`ZeroFreeAllOfTopG.lean:26`) and a large scale $Y$.
    The two-stage sieve `QH.pairEx` (`MeanSquareBounds/pairEx.lean:112`) [Lean, read] selects primes
    $q \equiv 3 \pmod 8$ ($\log q \asymp Y^{\varepsilon/5}$) and $d \equiv 7 \pmod{16}$
-   ($\log d \asymp Y^{\varepsilon/5}(\log Y)^2$) such that $2$ and $4$ (the prime factor of $N = 4$) and
+   ($\log d \asymp Y^{\varepsilon/5}(\log Y)^2$) such that $2$ (the sole prime factor of $N = 4$) and
    $q$ split appropriately while parasitic quadratic twists have $O(x^{1/2})$ prime-sum bounds and
    zero-free boxes of width $\frac{1}{400}$. For $x \in [Y, Y^{1+\delta}]$, let $2^e \asymp x^{2+8\varepsilon}$
    (`eAt`, `EvenCeil.lean:15`); then the host field $E \subset \mathbb Q(\zeta_{2^e \cdot 4 q d})$
@@ -165,12 +165,12 @@ Now feed the **exact same character $\chi_{-4}$** into Masullo's *The Music of t
    $(1 - (-1)^{(p-1)/2} p^{-s-1/2})^{-1}$. Because $[F : \mathbb Q] = 1$, no two distinct odd primes
    $p \neq q$ share a pole of $(1 - \chi_{-4}(p)p^{-z})^{-1}$ (`Theorem 7.1.3.2`, p. 324), so Masullo's
    Sobolev threshold is simply **$s \ge 2[\mathbb Q : \mathbb Q] = 2$**!
-3. **Strip Hardy–Sobolev completion $W_{[-\alpha, \alpha]}^{2, 2}\mathcal H_{\mathbb Q}(\chi_{-4})$ (`Chs. 9–10`, pp. 395–474):**
+3. **Strip Hardy–Sobolev completion $W_{[-\alpha, \alpha]}^{2, 2}\mathcal H_{\mathbb Q}(\chi_{-4})$ (`Chs. 9–10`, pp. 395–474; `Ch. 9` pp. 395–432, `Ch. 10` pp. 433–474):**
    For $\alpha \in (0, \frac{1}{2})$, completing the $\chi_{-4}$-quotient in weight
-   $\max\{t^{-2\alpha}, t^{2\alpha}\}(1 + (\log t)^2)$ restricts dual eigenmodes $t^{\rho - 1/2}$ to
+   $\max\{t^{-2\alpha}, t^{2\alpha}\}(1 + (\log t)^2)^{s/2}$ (at $s = 2$, exponent $s/2 = 1$) restricts dual eigenmodes $t^{\rho - 1/2}$ to
    zeros of $L(\rho, \chi_{-4})$ in $\frac{1}{2} - \alpha \le \Re \rho \le \frac{1}{2} + \alpha$ (`p. 446`).
 4. **Geometric trace (`Chs. 11–12`, pp. 475–520) — and the double stall (`pp. 451, 463, 514, 521–522`):**
-   For a smooth test function $\varphi \in C_c^\infty(\mathbb R_{>0})$ with $\int_0^\infty \varphi(t)\frac{dt}{t} = 0$,
+   For a smooth test function $\varphi \in C_c^\infty(\mathbb R_{>0})$ vanishing at the identity coset ($\varphi(1) = 0$, i.e. pointwise $\varphi(C_F^1) = 0$, `pp. 28, 514, 519`),
    `Theorem 12.5.1.1` (`p. 519`) asserts that the trace on $W_{[-\alpha, \alpha]}^{2, 2}\mathcal H_{\mathbb Q}(\chi_{-4})$
    equals the $\alpha$-independent explicit-formula sum over odd prime powers
    $-\sum_{p \ge 3} (\log p) \sum_{k \neq 0} (-1)^{(p-1)\lvert k\rvert/2} p^{-\lvert k \rvert/2}\varphi(p^k)$
@@ -188,7 +188,7 @@ the full infinite-dimensional analytic resistance of strip-holomorphic quotient 
 ### 15.2.3 Top-to-bottom dependency spines compared on one screen
 
 To anchor every `file:line` and page reference before we dissect the five structural axes, compare the
-exact top-to-bottom deduction chain of `Main.lean` (`P0` $\to$ `P18`) [Lean, read] against the intended
+exact top-to-bottom deduction chain of `src/Main.lean` (`P0` $\to$ `P18`) [Lean, read] against the intended
 deduction chain of Masullo's manuscript (`Ch. 13` $\Leftarrow$ `Chs. 2–12`) [Paper]:
 
 1. **Alpöge–Claude's verified Lean call spine (`src/Main.lean` $\to$ four foundational pillars):**
@@ -223,7 +223,7 @@ deduction chain of Masullo's manuscript (`Ch. 13` $\Leftarrow$ `Chs. 2–12`) [P
      `(10.4.2.24)` on `p. 463` `[Open]`) with the **geometric shell + $S$-local trace** (`Chs. 11–12`,
      resting on `Theorem 11.3.2.1` `p. 495`, omitted `§12.3` `p. 514`, and `(12.4.1.17)` `p. 518` `[Open]`),
      built atop Hardy–Sobolev strip completions (`Ch. 9`), Polar Multiplicities (`Thm. 7.1.3.2` `p. 324`),
-     Structure Theorems I–V (`Chs. 5–6`, where the printed proof of `Thm. 5.2.1.1` `p. 229` is flagged
+     Structure Theorems I–V (`Chs. 5–6`, where the printed proof of `Thm. 5.2.1.1` `p. 230` is flagged
      in `mccorvie/riemann-masullo` `[Community]`), and Tate's $\mathrm{GL}_1$ thesis (`Chs. 2–3`)!
 
 ---
@@ -242,7 +242,7 @@ routes along **five structural axes** [Expository]:
 2. **Axis II — The analytic zeros $\leftrightarrow$ primes bridge:** How locations of zeros are
    connected to prime powers: **one-sided** Riesz-weighted prime sums + real Laplace pole monotonicity
    on sparse windows (`Deduction.landau_window`, `P5` [Lean, read]) versus a **two-sided** distributional
-   convolution trace on $C_F$ with zero-mean test functions $\varphi(C_F^1) = 0$ (`Theorem 12.5.1.1`,
+   convolution trace on $C_F$ for test functions vanishing on the norm-$1$ fiber $\varphi(C_F^1) = 0$ (`Theorem 12.5.1.1`,
    [Paper; Masullo p. 519]).
 3. **Axis III — Exact origin of the critical exponent $\frac{1}{2}$:** How the number $\frac{1}{2}$
    emerges algebraically/analytically: discrete AM–GM balancing of $x/m + m\,x^{O(\varepsilon)}$ at
@@ -277,7 +277,7 @@ $$\bigl\{\zeta(s)\bigr\}
 \;\subsetneq\; \bigl\{\text{unitary Hecke }L(s, \chi)\text{ over all number fields }F\bigr\}
 \;\subsetneq\; \bigl\{\text{autom. }\mathrm{GL}_n(\mathbb A_{\mathbb Q})\ L\text{-functions}\bigr\}.$$
 
-1. *Alpöge's `Main.lean` (`:4, 6, 8, 10, 12`) [Lean, read] proves GRH for the **second** class
+1. *Alpöge's `src/Main.lean` (`:4, 6, 8, 10, 12`) [Lean, read] proves GRH for the **second** class
    (`EveryCharacter`: all Dirichlet $L(s, \chi)$ over $\mathbb Q$, hence by Kronecker–Weber also
    Dedekind $\zeta_K(s)$ for every **abelian** number field $K / \mathbb Q$), and states **no** theorem
    for Hecke characters of number fields $[F : \mathbb Q] > 1$ or Dedekind $\zeta_K(s)$ of **non-abelian**
@@ -304,7 +304,7 @@ Conversely, for any number field $K / \mathbb Q$ with $[K : \mathbb Q] > 1$:
   $\mathbb Q$! Thus the third class strictly contains the second. $\square$
 
 *(Remark on internal versus external scope.)* Notice a fascinating irony inside Alpöge's archive:
-although `Main.lean` only **outputs** GRH for $\mathrm{GL}_1 / \mathbb Q$ (`DirichletCharacter.LFunction`),
+although `src/Main.lean` only **outputs** GRH for $\mathrm{GL}_1 / \mathbb Q$ (`DirichletCharacter.LFunction`),
 its **internal proof** constructs automorphic representations and Galois representations (`Row0b`, `P14`)
 for high-rank $\mathrm{GL}_a$ and definite unitary groups $U(X_j)$ over CM number fields $E$ of degree
 $[E : \mathbb Q] \asymp x^{2+8\varepsilon}$! Conversely, Masullo **outputs** (in intention) GRH for all
@@ -435,7 +435,7 @@ Finally, look at the epistemic mirror image between the two works as of `2026-11
 
 | Lean node (`notes/proof-map.md`) | Role in Alpöge–Claude archive | Nearest counterpart in Masullo's *The Music of the Primes* |
 |---|---|---|
-| `P0` Target statements (`Main.lean`, `Statements.lean`) | Mathlib `RiemannHypothesis` + 4 Dirichlet GRH theorems `[Lean, read]` | Placeholder `§13.3` (`pp. 521–522`), aiming at all unitary Hecke $L(s, \chi)$ `[Paper]` / `[Open]` |
+| `P0` Target statements (`src/Main.lean`, `src/Statements.lean`) | Mathlib `RiemannHypothesis` + 4 Dirichlet GRH theorems `[Lean, read]` | Placeholder `§13.3` (`pp. 521–522`), aiming at all unitary Hecke $L(s, \chi)$ `[Paper]` / `[Open]` |
 | `P1`, `P3` Functional equations & Euler factors | Reduces 5 theorems to `EveryCharacter` on $\Re s > \frac{1}{2}$ `[Lean, read]` | `Ch. 3` (`pp. 117–154`, Tate's thesis) and intended `§13.1` — **shared classical foundation** |
 | `P4`, `P5` Landau-window zero-free engine | One-sided prime-sum bound on $[Y, Y^{1+\delta}]$ $\implies$ zero-free (`landau_window`) `[Lean, read]` | `App. B.4` (`pp. 606–625`, idelic explicit formulas) and `§1.4.2–1.4.5` (`pp. 28–30`) — **same role, opposite mechanism** |
 | `P13` Auxiliary prime pairs $(q, d)$ & host $E$ | Zero-density + mean-square + Siegel sieve supplying CM host fields `[Lean, read]` / `[Lean]` | `App. B.1` (convexity, `pp. 588–591`) & `App. B.6` (zero-free regions, `pp. 636–643`) as classical analytic background only |
@@ -461,15 +461,14 @@ Studying both works side by side leaves two lasting lessons for working mathemat
    Conversely, Masullo's explicit statement of every intermediate topological structure theorem (`Chs. 2–9`)
    allowed human readers and Lean formalizers (`mccorvie/riemann-masullo`) to isolate both true reusable
    foundations (Wave 1's ~3,950 proved theorems on adeles, Haar measures, and Hardy–Sobolev spaces) and
-   exact broken steps (`Terminology 10.2.1.2(2)` on p. 444, `Theorem 5.2.1.1` on p. 229) within 48 hours.
+   exact broken steps (`Terminology 10.2.1.2(2)` on p. 444, `Theorem 5.2.1.1` on p. 230) within 48 hours.
    Applying that same wave-by-wave human digestion and clean interface extraction to Alpöge's 175,187
-   Lean files is the central task now facing the mathematical community — and the subject of our final
-   chapter, **Chapter 16**!
+   Lean files is the central task now facing the mathematical community — and the subject of **Chapters 16 and 18**!
 
 **Summary of the chapter.** Tracing $\chi_{-4} \bmod 4$ through both routes and comparing them across
 five structural axes shows that Alpöge–Claude and Masullo share only Euler products, Tate/Dirichlet
 functional equations, and the classical duality between prime powers and zeros. Alpöge proves GRH for
-Dirichlet $L$-functions over $\mathbb Q$ (`Main.lean:4–12`) [Lean, read] by combining a one-sided
+Dirichlet $L$-functions over $\mathbb Q$ (`src/Main.lean:4–12`) [Lean, read] by combining a one-sided
 Landau-window prime-sum criterion (`P5`) with an $\mathbb F_q(X)$-inspired arithmetic-geometric engine
 of $m \asymp \sqrt{x}$ unitary theta lifts, supersingular $p$-adic divisibility, Bost Arakelov slopes,
 and Iwasawa/$U(3)$ bounds on $\mathrm{Ш}^1$ (`P6`–`P17`) — kernel-checked across 175,187 modules

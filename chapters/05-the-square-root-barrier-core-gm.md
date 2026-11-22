@@ -17,8 +17,8 @@ That inequality is proved by `UpperTheory.Comparison₂.core_gm`
 (`src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean:12`, node `P6` of
 `notes/proof-map.md`). Every Lean file in the proof of `core_gm` — `CoreGm.lean`, `CoreAtH.lean`,
 `charsA.lean`, `GmAEq.lean`, `SigALe.lean`, `hostFactsS.lean`, `TopsSum.lean`, `PrimRead.lean`,
-`ChCore.lean`, `ChTop.lean`, `ChBalance.lean`, `SplitInertia.lean`,
-`LipschitzWeightAndMinimum.lean`, `LevelOfCongruence.lean`, `WindowInequalityOfArtinInputs.lean`,
+`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`, `ChTop.lean`, `ChBalance.lean`, `SplitInertia.lean`,
+`LipschitzWeightAndMinimum.lean`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean`, `WindowInequalityOfArtinInputs.lean`,
 and `LevelGmLeOnFamilyScales.lean` — has been read line by line by us (`R3` / `[Lean, read]`).
 
 The title of this chapter is deliberate. The theorem `core_gm` sits in a tiny import cone of just
@@ -72,7 +72,7 @@ Three questions immediately confront an analytic number theorist looking at $\ma
      and Chapter 4 already proved square-root cancellation for the $\chi_{-d}$-twisted primes!
 2. **How do we eliminate the $4n - 4o \approx 4 x^{2+8\varepsilon}$ unwanted characters of $E$ that
    depend nontrivially on the $2$-power tower $A_0 \le H$?**
-   By **averaging the chain inequality over translations $u_0 \in A_0$** (`sum_Th`, `ChCore.lean:56`)!
+   By **averaging the chain inequality over translations $u_0 \in A_0$** (`sum_Th`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:56`)!
    Exact orthogonality of characters on the finite subgroup $\{0\} \times A_0$ annihilates every
    character $\psi \notin \Psi_A(A_0) := \{\psi : \psi\rvert_{\{0\}\times A_0} = 1\}$ with **zero
    analytic error** — leaving only the $4\,\Lambda.o$ characters trivial on $A_0$! Then summing
@@ -282,7 +282,7 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
    - **Algebraic & Arakelov chain clauses (`IdentU`, `ErrWindows`, `BNBoundsU`, plus the host-character
      bridge `ReadsKept`, `SplitInertia.lean:67,74,81`, `CoreAtH.lean:29`, and
      `ErrorFormsWeakWindowsFalse.lean:43`):** the $11$-clause Hermitian/Hida divisibility-and-slope
-     package `SizeData₂` (`SChain.lean:17`, opened in Part II, Chapters 6–10) whose weighted-mean
+     package `SizeData₂` (`src/Formalism/SizeWindowBrackets/SChain.lean:17`, opened in Part II, Chapters 6–10) whose weighted-mean
      gap is bounded by $x^{\mathrm{CErr}(C_c)\varepsilon}\,\mathcal E_{\mathrm{win}}$ (paired with
      `ReadsKept` on `CoreAtH` matching `keptA` to the host characters), where
      $\mathrm{CErr}(C_c) = e_{\mathrm{Div}} + e_{\mathrm{Loss}} + 3 \le e_D + e_L + 3$
@@ -291,7 +291,7 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
      := n_T a_E + n_T a_E \frac{m^2}{k} + m\,(2 n m b\,x^\varepsilon) + m\,\frac{n_{T_2} k b\,x^{2\varepsilon}}{n^2}$$
      (`errorBracketSizeWindows`, `ErrorFormsWeakWindowsFalse.lean:133`);
    - **Scale windows (`SizesA`, `ThinScales`, `CostWindows`, `RestSize`, `SplitInertia.lean:42` and
-     `SChain.lean:50,53`):** in particular,
+     `src/Formalism/SizeWindowBrackets/SChain.lean:50,53`):** in particular,
      $$x^{1/2 - \varepsilon} \le m \le x^{1/2 + \varepsilon/2}, \qquad
      x m \le k \le n^2\,x^{1/2 - \varepsilon}, \qquad
      n \le 2\,n_T\,x^{\varepsilon/8}, \qquad
@@ -299,14 +299,14 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
      thick weights $w_{u_0, j}(\rho) \in [b, b + \eta + 1]$ on $\rho \in T_2 + (0, u_0)$, thin
      weights $A / w \ge X'/3$ with unconditional zero-free decay $\theta$ satisfying
      $2 f (x + 1)\theta \le 1/x$, and Lipschitz window step $6 f (x + 1)(\eta + 1) \le b/x$
-     (`CostWindows`, `SChain.lean:50`, where $f = 2\lvert\varphi.A\rvert$).
+     (`CostWindows`, `src/Formalism/SizeWindowBrackets/SChain.lean:50`, where $f = 2\lvert\varphi.A\rvert$).
 
 ---
 
 ## 5.4 Lemmas and proofs
 
 We now prove `core_gm` from end to end in five clean steps, following the exact proof terms of
-`ChBalance.lean`, `LipschitzWeightAndMinimum.lean`, `ChCore.lean`, `ChTop.lean`, `GmAEq.lean`,
+`ChBalance.lean`, `LipschitzWeightAndMinimum.lean`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`, `ChTop.lean`, `GmAEq.lean`,
 `SigALe.lean`, and `CoreGm.lean`.
 
 ### 5.4.1 Prime-to-character Fourier identity on $E_0 \times H$ (`ch_balance`)
@@ -343,7 +343,7 @@ $\psi \in \widehat{E_0 \times H}$ and $g \in \Phi^c$, dividing by $\lvert\Phi\rv
    $\frac{1}{\lvert\Phi\rvert}\sum_{g \in \Phi^c} (-1)\,a\,\ell(\mathrm{ch}_C) = -a\,\ell(\mathrm{ch}_C)$.
    Combining the two pieces produces $-\mathrm{MAIN}(\ell, a, w)$ on the nose.
 2. **The prime-power sum collapses to $\mathrm{ASK}(D, N, a, t, w)$ (`askExp`, `lunram`, `lsplit`, `ld`,
-   `ChBalance.lean:55–198`).** For each prime power $n = p^i \le y_\rho \le N$ ($i \ge 1$), character
+   `ChBalance.lean:55–196`).** For each prime power $n = p^i \le y_\rho \le N$ ($i \ge 1$), character
    orthogonality on the finite abelian group $E_0 \times H$ of order $2\lvert\Phi\rvert$ gives, upon
    dividing by $\lvert\Phi\rvert$ instead of $2\lvert\Phi\rvert$,
    $$\frac{1}{\lvert\Phi\rvert}\sum_{\psi \in \widehat{E_0 \times H}} \overline{\psi(g)}\,\mathrm{primVal}(D, \psi, p^i)
@@ -370,7 +370,7 @@ Thus $\mathrm{De} = \mathrm{ASK} - \mathrm{MAIN}$. $\square$
 
 Theorem 5.1 still evaluates $\mathrm{GPsi}(D, \ell, \psi, a_t / w_{u_0, j}(\rho))$ at the
 place-dependent argument $a_t / w_{u_0, j}(\rho)$ rather than at the single target scale $x$. How
-does `ChCore.lean` replace $a_t / w_{u_0, j}(\rho)$ by $x$ and isolate $\Psi_A(A_0)$?
+does `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean` replace $a_t / w_{u_0, j}(\rho)$ by $x$ and isolate $\Psi_A(A_0)$?
 
 **Lemma 5.2 (Subgroup orthogonality, thick/thin replacement, and coset equidistribution).**
 
@@ -380,8 +380,8 @@ does `ChCore.lean` replace $a_t / w_{u_0, j}(\rho)$ by $x$ and isolate $\Psi_A(A
    $u_0 \in A_0$ kills every character $\psi \notin \Psi_A(A_0)$, while on $\psi \in \Psi_A(A_0)$
    each $(t, j)$ contributes $\lvert A_0 \rvert \cdot \frac{\lvert T_2 \rvert}{\lvert \Phi \rvert} = \lvert A_0 \rvert\,\frac{\delta_2}{2}$
    copies of $b\,\psi(\mathrm{e}_1(t))\,\mathrm{GPsi}(\psi, a_t/b)$, where
-   $\mathrm{e}_1(t) := ((1, 0), t) \in E_0 \times H$ (`ChCore.lean:16, 59`).* [Lean, read]
-2. **Thick Lipschitz + thin zero-free error (`th_le`, `ChCore.lean:75`, and `move`, `:154`).**
+   $\mathrm{e}_1(t) := ((1, 0), t) \in E_0 \times H$ (`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:16, 59`).* [Lean, read]
+2. **Thick Lipschitz + thin zero-free error (`th_le`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:75`, and `move`, `:154`).**
    *On thick places ($\rho \in T_2 + (0, u_0)$), $w_{u_0, j}(\rho) \in [b, b + \eta + 1]$, and the
    Lipschitz bound `LipW` (`LipschitzWeightAndMinimum.lean:957`) bounds the replacement of
    $w\,\mathrm{GPsi}(\psi, a_t/w)$ by $b\,\mathrm{GPsi}(\psi, a_t/b)$ within $O(x\eta) \le b/x$
@@ -398,7 +398,7 @@ does `ChCore.lean` replace $a_t / w_{u_0, j}(\rho)$ by $x$ and isolate $\Psi_A(A
      \le \varphi.o\,\delta\,\lvert TT \rvert.$$
    *(At $\delta = x^{-1 + \varepsilon}$, pairing against the elementary a priori bound
    $\lvert \mathrm{GPsi}(\psi, x) \rvert \le 3x + x\lvert\ell(\psi)\rvert \ll x\log x$ in `vv`,
-   `ChCore.lean:183`, gives error $O(\varphi.o\,x^\varepsilon \log x) \ll x^{1/2}$.)* [Lean, read]
+   `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:183`, gives error $O(\varphi.o\,x^\varepsilon \log x) \ll x^{1/2}$.)* [Lean, read]
 
 *Proof.* Items (1) and (2) are direct applications of finite character orthogonality
 $\sum_{u_0 \in A_0} \psi(0, u_0) = \lvert A_0 \rvert\,\mathbf{1}_{\psi \in \Psi_A(A_0)}$, the
@@ -445,7 +445,7 @@ $$G_x \le x^{1/2 + (C + 3)\varepsilon}.$$
 `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean:31,41,53,77,507`.)* [Lean, read]
 
 *Proof.* Set $Q := n_T\,m\,b > 0$ and bound each of the four summands of
-$\mathcal E_{\mathrm{win}} / Q$ one by one (`LipschitzWeightAndMinimum.lean:31–114`):
+$\mathcal E_{\mathrm{win}} / Q$ one by one (`LipschitzWeightAndMinimum.lean:31–113`):
 
 1. **Term `T1` (archimedean top weight $n_T a_E$):** Using $a_E \le 2xb$ and $m \ge x^{1/2 - \varepsilon}$,
    $$\frac{n_T\,a_E}{n_T\,m\,b} = \frac{a_E}{m\,b} \le \frac{2xb}{m\,b} = \frac{2x}{m}
@@ -507,12 +507,12 @@ character level $\Lambda$, after which `core_gm` closes in ten lines of algebra!
    $\psi \in \mathrm{keptA}(\Lambda, H) \subseteq \Psi_A(\varphi.A_0)$ with $\theta(\mathrm{iod}) = +1$.
    Why does each $p \in \Lambda.\mathrm{KEPT}$ appear once rather than twice in $\mathrm{keptA}$
    (at $\theta$ versus $\theta \cdot \mathrm{ps}_C$, where $\mathrm{ps}_C$ is the $(\frac{\cdot}{q})$
-   sign character)? In `keptA` (`CoreAtH.lean:24`) and `HostRaw.Kept` (`Analytic.lean:127`), a
+   sign character)? In `keptA` (`CoreAtH.lean:24`) and `HostRaw.Kept` (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean:127`), a
    character $\theta$ is in `Kept` if and only if $\theta \in \varphi.Xp$ **and** its primitive
    character lies in $\Lambda.\mathrm{KEPT}$. Since $q = H.q$ is coprime to every conductor in
    $\Lambda.\mathrm{KEPT}$ ($\gcd(\psi.N, qd) = 1$), multiplying by $(\frac{\cdot}{q})$ multiplies
    the conductor by $q$, throwing $\theta \cdot \mathrm{ps}_C$ **out** of $\Lambda.\mathrm{KEPT}$
-   (`gmA_eq_triv`, `GmAEq.lean:16–60`). Moreover, for $\psi \in \mathrm{keptA}$:
+   (`gmA_eq_triv`, `GmAEq.lean:16–59`). Moreover, for $\psi \in \mathrm{keptA}$:
    - $\psi$ is trivial on $\{0\} \times \varphi.A$ if and only if $\theta = 1$ (since $\theta \cdot \mathrm{ps}_C$
      is ramified at $q$, hence not in $\Lambda.\mathrm{KEPT}$), which corresponds to $p = \mathrm{PChar.one}$,
      receiving weight $\mathrm{wt}_A = 1 = \Lambda.\mathrm{wt}(\mathrm{PChar.one})$;
@@ -542,20 +542,20 @@ combining `Deduction.ch_top` (`src/Development/AutomorphicArithmetic/DedekindLFu
 (`CoreGm.lean:16–74`):
 
 1. **Unpack the chain gap (`ch_top`, `ChTop.lean:37`, + `e_D + e_L + 3`):** Given `CoreAtH` at
-   $x \ge x_1$, `each_unit_bound_statement` (`LevelOfCongruence.lean:175`, unpacked by `ch_top`) and
+   $x \ge x_1$, `each_unit_bound_statement` (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`, unpacked by `ch_top`) and
    surjectivity of $\mathrm{tr} : U_0 \twoheadrightarrow \varphi.A_0$ give, for every $u_0 \in \varphi.A_0$,
    $$\mathrm{gap}_A(u_0) := \sum_{t \in TT} \sum_{j=0}^{m-1}
    \bigl(\mathrm{ASK}(a_t, t, w_{u_0, j}) - \Re\,\mathrm{MAIN}(\ell, a_t, w_{u_0, j})\bigr)
    \le x^{(e_D + e_L + 3)\varepsilon}\,\mathcal E_{\mathrm{win}},$$
    since `CErr Cc = Cc.eDiv + Cc.eLoss + 3 ≤ e_D + e_L + 3` (`CoreGm.lean:51–54`, with $e_D + e_L \ge 0$).
-2. **Apply finite Fourier projection and the size lemma (`ch_core`, `ChCore.lean:343`, adding $+3\varepsilon$):**
+2. **Apply finite Fourier projection and the size lemma (`ch_core`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:343`, adding $+3\varepsilon$):**
    By Theorem 5.1 (`ch_balance`), $\mathrm{ASK} - \Re\,\mathrm{MAIN} = \Re\,\mathrm{De}$ at every
    $(t, j, u_0)$. Averaging $u_0 \in \varphi.A_0$, smoothing thick/thin weights, and summing
    $t \in TT$ via Lemma 5.2 (`charsA`, `charsA.lean:80`, supplies `CharsA` with $c_{\mathrm{top}} = (3\Lambda.o + 1)^{-1}$,
    $\lvert \Psi_A \rvert \le 4\Lambda.o$, and $\lvert \ell(\psi) \rvert \le C\log x$ from `EAtH.bdL`)
    yields the core Fourier inequality of Proposition 5.3 for
    $$G_x := \mathrm{Gm}_A(x) - \mathrm{Sig}_A(x)$$
-   with exponent parameter $C_{\mathrm{chain}} := e_D + e_L + 3$ (`ChCore.lean:283–445`). Applying
+   with exponent parameter $C_{\mathrm{chain}} := e_D + e_L + 3$ (`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:283–442`). Applying
    Proposition 5.3 (`proposition_size_bound`) gives
    $$\mathrm{Gm}_A(x) - \mathrm{Sig}_A(x) \le x^{1/2 + (C_{\mathrm{chain}} + 3)\varepsilon}
    = x^{1/2 + (e_D + e_L + 6)\varepsilon}.$$
@@ -594,7 +594,7 @@ reduces all five theorems of `src/Main.lean` to the three arithmetic inputs `Top
 *(Lean: `UpperTheory.Comparison₂.windowInequality_of_artinInputs`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/WindowInequalityOfArtinInputs.lean:17`;
 `tiedCore_of_chainTied` and `level_gm_le_on_family_scales`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/LevelGmLeOnFamilyScales.lean:13,28`.)* [Lean, read]
 
-*Proof.* `tiedCore_of_chainTied` (`LevelGmLeOnFamilyScales.lean:13–27`) unpacks the existential
+*Proof.* `tiedCore_of_chainTied` (`LevelGmLeOnFamilyScales.lean:13–26`) unpacks the existential
 tuple of `ChainTied Fm eD eL K cHH eK CL x` (`TieGlobal.lean:97` [Lean]), verifies that the sample
 set $TT$ coincides with `(Fm.D x i0).host.TT` via injectivity of `Frame.A.val`, checks that every
 digit shift lands inside the cyclic subgroup $\varphi.A_0$ (`Frame.digit_mem_cyclic_subgroup`), and
@@ -608,7 +608,7 @@ Theorem 5.5 (`core_gm`) at index $i_0$ gives $\Lambda.\mathrm{Gm}(x) \le x^{1/2 
 
 ### 5.5.1 Accounting for every $\varepsilon$ in $1/2 + (e_D + e_L + 7)\varepsilon$
 
-One virtue of reading `CoreGm.lean`, `ChCore.lean`, `LipschitzWeightAndMinimum.lean`, and
+One virtue of reading `CoreGm.lean`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`, `LipschitzWeightAndMinimum.lean`, and
 `ErrorFormsWeakWindowsFalse.lean` line by line is that the coefficient $e_D + e_L + 7$ is no longer
 a mysterious constant — every single $+1$ in $+7$ has an explicit origin [Lean, read]:
 
@@ -616,7 +616,7 @@ a mysterious constant — every single $+1$ in $+7$ has an explicit origin [Lean
 |---|---|---|
 | $(e_D + e_L + 3)\varepsilon$ | `ErrorFormsWeakWindowsFalse.lean:19`, `CoreGm.lean:51` | `CErr Cc = eDiv + eLoss + 3`: chain divisibility exponent $e_{\mathrm{Div}} \le e_D$, word-loss exponent $e_{\mathrm{Loss}} \le e_L$, plus $+3\varepsilon$ slack converting `SizeData₂` clauses into `ErrWindows`. |
 | $+1\,\varepsilon$ | `LipschitzWeightAndMinimum.lean:556` | Dividing by the thick-place density $\delta_2 / 2 \ge \frac{1}{2} x^{-\varepsilon}$. |
-| $+2\,\varepsilon$ ($\frac{13}{8} + \frac{3}{8}$) | `LipschitzWeightAndMinimum.lean:53,585`, `PChain.lean:130` | Term `SZ.T3` gives $x^{1/2 + 13\varepsilon/8}$ (from $n/n_T \le 2x^{\varepsilon/8}$, $m \le x^{1/2+\varepsilon/2}$, and $x^\varepsilon$ in $B_0$), plus $26 \le x^{3\varepsilon/8}$. |
+| $+2\,\varepsilon$ ($\frac{13}{8} + \frac{3}{8}$) | `LipschitzWeightAndMinimum.lean:53,585`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:130` | Term `SZ.T3` gives $x^{1/2 + 13\varepsilon/8}$ (from $n/n_T \le 2x^{\varepsilon/8}$, $m \le x^{1/2+\varepsilon/2}$, and $x^\varepsilon$ in $B_0$), plus $26 \le x^{3\varepsilon/8}$. |
 | $+1\,\varepsilon$ | `CoreGm.lean:25,65` | Absorbing the parasitic-character prefactor $1 + 4\,\Lambda.o \le x^\varepsilon$ from `sigA_le`. |
 
 Notice again why the exact numbers $3$, $1$, $2$, $1$ do not matter once they are independent of
@@ -663,11 +663,11 @@ single-mindedly on the arithmetic engine.
 
 ### 5.5.3 Note on unused parallel variants in `SizeWindowBrackets/`
 
-While reading `PChain.lean`, `SChain.lean`, `GrowthBoundGivesRiemannHypothesis.lean`, and
+While reading `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean`, `src/Formalism/SizeWindowBrackets/SChain.lean`, `GrowthBoundGivesRiemannHypothesis.lean`, and
 `ErrorFormsWeakWindowsFalse.lean` (`R3`), we observed roughly twenty standalone "model" or
 "reduced-hypothesis" propositions (such as `GrowthBoundGivesRiemannHypothesis`,
-`ChainGivesRiemannHypothesis`, and `exists_data_completion`, `PChain.lean:306`) that record
-self-contained size-layer blueprints [Lean, read]. On the actual `Main.lean` call path, only the
+`ChainGivesRiemannHypothesis`, and `exists_data_completion`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:306`) that record
+self-contained size-layer blueprints [Lean, read]. On the actual `src/Main.lean` call path, only the
 definitions `SizeData₂`, `CostWindows`, `RestSize`, `errorBracketSizeWindows`, `CErr`, `KBig`, and
 the theorems `each_unit_bound_statement`, `errX5at_le`, `large_x_eventually`, `le_rpow_26`, and
 `proposition_size_bound` (via `ch_top` and `ch_core`) are invoked [Lean, read] (consistent with the

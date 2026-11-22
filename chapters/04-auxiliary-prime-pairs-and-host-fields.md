@@ -212,7 +212,7 @@ comes from a two-line calculation we can verify on the back of an envelope [Lean
    The exponent $400$ is simply the reciprocal of the zero-free box width $1/400$, chosen large
    enough that a $Q^{1/4}$ zero-density saving holds unconditionally on $\{\Re s > 1 - 1/400\}$.
 2. **Why $\varepsilon < 1/52$ gives the constant $4$ in $\lvert L'(1,\chi)/L(1,\chi) \rvert \le 4\log Y$
-   (`Kappa4Loglog.lean:9–25, 126–154`).** Apply that same zero-free box of width $1/400$ at a tiny auxiliary
+   (`Kappa4Loglog.lean:9–25, 126–153`).** Apply that same zero-free box of width $1/400$ at a tiny auxiliary
    parameter $x_0 = (\log Q)^{10/4}$ (`s = (\log Q)^{1/4}`, `x = s^{10}`, `Kappa4Loglog.lean:10, 56`) [Lean, read].
    Then the prime sum up to $x_0^{400} = (\log Q)^{1000}$ has length $\log(x_0^{400}) = 1000\log\log Q$,
    so Mertens's bound $\sum_{n \le Z} \Lambda(n)/n \le \log Z + O(1)$ gives
@@ -229,7 +229,7 @@ comes from a two-line calculation we can verify on the back of an envelope [Lean
    (A second place also uses $\varepsilon < 1/52$: in `EventuallyRankLeRpowOfLtOneDivFiftytwo.lean:5`,
    bounding all growth exponents using $\varepsilon < 1/52 < 0.02$ makes the Hodge–Tate/Selmer twist
    cutoff satisfy $R.t \le 10708\,x^{399.67} \le \lfloor x^{400} \rfloor$ for large $x$ [Lean, read].)
-3. **Why $401 = 1 + 400$ and $\lambda = 3/2$ (`WinPairs.lean:40–81`).** The global Tate–Shafarevich
+3. **Why $401 = 1 + 400$ and $\lambda = 3/2$ (`src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:40–81`).** The global Tate–Shafarevich
    theorem `VWin` (`ExistsPageN.lean:49`) is proved on **quadratic** windows $x' \in [W, W^2]$ at
    pure $2$-power host scale $2^{e(x')} \asymp (x')^{2 + 8\varepsilon}$, controlling twists up to
    $e_{\mathrm{HT}} < \lfloor (x')^{401} \rfloor$. When $\psi$ has conductor $> 1$, `fieldChi`
@@ -430,7 +430,7 @@ theorem `pairEx`, and finally to `winPairs` and the host-supply theorem `supplyC
 *Proof.*
 
 1. For each real $x \ge 1$, set $y := x^{2 + 8\varepsilon} \ge 1$ (since $2 + 8\varepsilon > 0$), and
-   choose the minimal $k \in \mathbb N$ with $y \le 2^k$ (`ExistsPageN.lean:69–80`). For $y = 1$,
+   choose the minimal $k \in \mathbb N$ with $y \le 2^k$ (`ExistsPageN.lean:69–77`). For $y = 1$,
    $k = 0$ satisfies $1 \le 2^0 \le 2$; for $y > 1$, minimality gives $k \ge 1$ and $2^{k-1} < y \le 2^k$,
    hence $y \le 2^k < 2y$. Setting $e(x) := k$ gives $x^{2 + 8\varepsilon} \le 2^{e(x)} \le 2\,x^{2 + 8\varepsilon}$.
 2. Let $(q, d)$ satisfy `WinPair eps Y q d`. By definition $q$ is prime with $q \equiv 3 \pmod 8$
@@ -486,7 +486,7 @@ $\psi \in \mathrm{PChar}$, let $\varphi$ be a `Frame`, and let $H : \mathrm{Host
    preserving primitive roots forces $\gcd(a, \mathrm{condN}) = 1$; by `art_spec`, $\tau$ fixes
    $\iota(E)$ if and only if $H.\mathrm{art}(a) = 1$, which `KerChi` equates to the four conditions
    of `IsChiField` (`IsChiField.lean:22–51`).
-2. Recall from `Analytic.lean:92–94, 136` that among characters $\theta \in \widehat{\varphi.\mathrm{GG}}$
+2. Recall from `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean:92–94, 136` that among characters $\theta \in \widehat{\varphi.\mathrm{GG}}$
    trivial on the cyclic subgroup $A_0 \le A$, the plus-space $X_p$ consists of those with
    $\theta(\mathrm{iod}) = +1$, the minus-space $X_m$ consists of those with $\theta(\mathrm{iod}) = -1$,
    and `Bounded` is $(X_p \setminus \mathrm{Kept}) \cup X_m$. By `TwistForm ψ H`, there exist
@@ -546,12 +546,14 @@ and $q_2$ are both prime, $q_1 \mid q_2$ forces $q_1 = q_2$! By `ZeroDensityBox`
 bad pairs $(N, \chi)$ with $N \le \lfloor Q \rfloor$ has cardinality at most $C_{\mathrm{ZD}}\,Q^{1/4}$,
 so $\lvert B_1 \rvert \le C_{\mathrm{ZD}}\,Q^{1/4}$. $\square$
 
-*(Remark on `zero_density_box` [Lean].)* In the archive, `zero_density_box` (`CountZAll.lean:13`)
-is proved unconditionally inside nine files of `JacobiCharacterSums/` (`CountAll.lean`, `CountRect.lean`,
-`CountLargeT.lean`, `CountMedT.lean`, `CountLowT.lean`, `LargeSieveDuality.lean`, `MollifierDetect.lean`,
-`DirichletPolyMean.lean`, `ZeroFreeWidth.lean`, import cone $\approx 250$ modules) by classical
+*(Remark on `zero_density_box` [Lean].)* In the archive, `zero_density_box`
+(`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/CountZAll.lean:13`)
+is proved unconditionally inside the ten `CountZ*` files of `JacobiCharacterSums/` (`CountZAll.lean`,
+`CountZBlock.lean`, `CountZDefs.lean`, `CountZDetect.lean`, `CountZDual.lean`, `CountZFinal.lean`,
+`CountZMoll.lean`, `CountZNum.lean`, `CountZPair.lean`, `CountZTwist.lean`, import cone $\approx 250$
+modules) by classical
 Montgomery–Bombieri large-sieve duality and mollifier zero-detection; since we did not read those
-nine internal proof files line by line, `zero_density_box` itself carries `[Lean]` (`R2`), while
+ten internal proof files line by line, `zero_density_box` itself carries `[Lean]` (`R2`), while
 the reduction `count_bad_core` / `count_bad` above is `[Lean, read]` (`R3`).
 
 ### 4.4.3 Splitting $G_\chi(y)$ at $Z = (Y^K)^{400}$ (`box_of_S`, `tailK`, `kappa4`)
@@ -622,7 +624,7 @@ $0 < \varepsilon < 1/52$ and $K \ge 1$.*
    $$1000\log\log Q + C' \le 200\varepsilon \log Y + 2000\log\log Y + 1000\log A + C'.$$
    Because $\varepsilon < 1/52$, we have $4 - 200\varepsilon > 4 - \frac{200}{52} = \frac{2}{13} > 0$,
    so for $Y$ large enough (`Kappa4Loglog.lean:133–153`), the right-hand side is $\le 4\log Y$.
-3. For `box_of_S` (`BoxOfS.lean:28–61`), first `kappaC` (`kappaC.lean:10`) gives $\lVert \frac{L'}{L}(1,\chi) \rVert \le C\log Y$
+3. For `box_of_S` (`BoxOfS.lean:28–60`), first `kappaC` (`kappaC.lean:10`) gives $\lVert \frac{L'}{L}(1,\chi) \rVert \le C\log Y$
    from `GoodC Q χ` and $\log Q \le Y^{\varepsilon/4}$. Next let $y \in [Y, Y^K]$ and
    $Z = (Y^K)^{400} \ge y$. Because $\chi(n) = \kappa(n)(\frac{n}{q})$ holds for **every**
    $n \in \mathbb N$ (`BoxOfS.lean:46–50`, invoked for primitive $\psi_{r,q}$ of conductor $f_r q$
@@ -659,7 +661,7 @@ $$\sum_{q \in \mathrm{PPset}(m_0, a_0, U)} \bigl\lVert S\bigl((Y^K)^{400}, y, q,
 `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32`, and `page_across` [Lean]
 via `…/MSqTwist.lean:26`.)* [Lean, read]
 
-*Proof.* First (`meanSq_abs`, `MeanSqAbs.lean:8–59`), setting $c_n(y) := \Lambda(n)\min(1, y/n) \ge 0$
+*Proof.* First (`meanSq_abs`, `MeanSqAbs.lean:8–58`), setting $c_n(y) := \Lambda(n)\min(1, y/n) \ge 0$
 and $Z := (Y^K)^{400}$, expanding the square and applying $\lvert \kappa(n_1)\overline{\kappa(n_2)} \rvert \le 1$ gives
 $$\sum_{q \in \mathcal P} \bigl\lVert S(Z, y, q, \kappa) \bigr\rVert^2
 = \sum_{1 \le n_1, n_2 \le \lfloor Z \rfloor} c_{n_1}(y) c_{n_2}(y)\,\kappa(n_1)\overline{\kappa(n_2)}
@@ -684,7 +686,7 @@ independent of $q \in \mathcal P$:
 $$\Bigl\lvert \sum_{q \in \mathcal P} \Bigl(\frac{n_1 n_2}{q}\Bigr) \Bigr\rvert
 = \Bigl\lvert \sum_{q \in \mathcal P} \Bigl(\frac{q}{s}\Bigr) \Bigr\rvert.$$
 
-Now `twistK` (`twistK.lean:148–354`, invoked at exponent parameter $B = K + 1$ in `meanSqK.lean:63`)
+Now `twistK` (`twistK.lean:148–353`, invoked at exponent parameter $B = K + 1$ in `meanSqK.lean:63`)
 splits the odd squarefree moduli $s \le Z^2$ coprime to $m_0$ into three regimes:
 
 1. **The off-diagonal non-exceptional moduli ($s > 1$, $s \neq n_*$).** As a function of $q$,
@@ -723,7 +725,7 @@ Combining the five partial constants into $C_{\mathrm{m}} := C_3 + 25 C_1^2 + 4 
 
 How do we pass from a bound **at each fixed $y$** to a bound **simultaneously for all uncountably
 many $y \in [Y, X]$** without losing a factor of $Y$? Look at the archive's `bad_share`
-(`BadShare.lean:1–320`), which we read in full (`R3`) — it is a textbook one-dimensional Sobolev
+(`BadShare.lean:1–318`), which we read in full (`R3`) — it is a textbook one-dimensional Sobolev
 embedding ($W^{1,2} \hookrightarrow L^\infty$) on dyadic intervals!
 
 **Lemma 4.6 (Dyadic Sobolev–Markov uniformization: `QH.bad_share`).** *Let $C \ge 0$, $\tau > 0$,
@@ -822,7 +824,7 @@ then the two-stage prime-pair existence theorem `PairEx`.
      $\lvert B \setminus B_1 \rvert \le \frac{\eta}{2}\lvert\mathcal P\rvert$.
    Hence $\lvert B \rvert \le (\frac{\eta}{2} + \frac{\eta}{2})\lvert\mathcal P\rvert = \eta\,\lvert\mathcal P\rvert$.
 2. Now fix $M \ge 1$, $0 < \varepsilon < 1/52$, and $A \ge 1$, and set $z := Y^{\varepsilon/5}$ and
-   $z' := Y^{\varepsilon/5}(\log Y)^2$ (`pairEx.lean:112–170`, `PairExists.lean:9`, `PairShare.lean:26`).
+   $z' := Y^{\varepsilon/5}(\log Y)^2$ (`pairEx.lean:112–169`, `PairExists.lean:9`, `PairShare.lean:26`).
    In `PairExists.lean:15`, `pair_share` invokes `QH.stage` in both stages with bad-share threshold
    $\eta = 1/2$ (and $\tau = \varepsilon / 2$ in `pairEx.lean:120`):
    - **Stage 1 (`stage1`, `Stage1Succ.lean:36`):** Apply `QH.stage` ($\eta = 1/2$) to
@@ -833,7 +835,7 @@ then the two-stage prime-pair existence theorem `PairEx`.
      bad, more than $\frac{1}{2}\lvert\mathcal P_1\rvert > 0$ primes $q \in \mathcal P_1$ satisfy
      `GoodQ (8*M)` (`PairExists.lean:29–34`). Pick one such prime $q \equiv 3 \pmod 8$ with
      $\frac{1}{2} z < \log q \le z$ and $8M < q$ (so $\gcd(M, q) = 1$).
-   - **Stage 2 (`stage2`, `CharOf.lean:61`):** With $q$ fixed, let
+   - **Stage 2 (`stage2`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:61`):** With $q$ fixed, let
      $\mathrm{oddM}(z, q) := q \cdot \prod_{2 < p \le z,\,p\text{ prime}} p$ (`SecondEstimateOfIntervalHypothesis.lean:53`).
      By the Chebyshev primorial bound $\sum_{2 < p \le z} \log p \le 2z$ (`PrimorialBound`), the Stage 2
      progression modulus $m_0 := 16 \cdot \mathrm{oddM}(z, q)$ satisfies
@@ -847,7 +849,7 @@ then the two-stage prime-pair existence theorem `PairEx`.
      automatically satisfies $d \equiv 7 \pmod{16}$, $q \mid d + 1$, $p \mid d + 1$ for all odd
      primes $p \le z = Y^{\varepsilon/5}$, and $\frac{1}{2}z' < \log d \le z'$ — so **`WinPair eps Y q d`
      holds for every $d \in \mathcal P_2$**. Moreover, Stage 2 calls `QH.stage` at
-     $\varepsilon' := \frac{6}{5}\varepsilon < \frac{6}{5}\cdot\frac{1}{52} < \frac{1}{4}$ (`CharOf.lean:71`)
+     $\varepsilon' := \frac{6}{5}\varepsilon < \frac{6}{5}\cdot\frac{1}{52} < \frac{1}{4}$ (`src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:71`)
      on $\log U = z' = z(\log Y)^2 \ge \frac{1}{4}(\log Y)^2 \log m_0$. Twisting primitive characters
      of $\xi \cdot (\frac{\cdot}{q})^i$ ($i \in \{0, 1\}$, conductor $\le 8Mq \le 8M e^z \le e^{z'/2}$)
      by $(\frac{\cdot}{d})$ at $\eta = 1/2$ leaves more than $\frac{1}{2}\lvert \mathcal P_2 \rvert > 0$
@@ -878,7 +880,7 @@ satisfying `WinDatum ψ eps J c x Y q d e` (`TwistForm.lean:19`), namely:*
 
 *Proof.* First choose $e : \mathbb R \to \mathbb N$ satisfying `PageN eps e` by Lemma 4.1(1).
 Applying `VWinAt ψ 401` to $(\varepsilon, e)$ gives $J \ge 1$ and $X_0$, and applying `PairEx` to
-$(\psi.N, \varepsilon, J)$ gives $Y_1$ (`WinPairs.lean:10–13`). Define the rescaling factor
+$(\psi.N, \varepsilon, J)$ gives $Y_1$ (`src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:10–13`). Define the rescaling factor
 $$k := c^{1/(2 + 8\varepsilon)} \ge 1, \qquad\text{so}\quad k^{2 + 8\varepsilon} = c.$$
 Given any threshold $y \in \mathbb R$, set $M := \max(1, y, Y_1, k^3, k^{400})$ and
 $X := \max(X_0, M^J)$, and define $Y := X^{1/J} \ge M \ge Y_1$ (`:23–34`). By `PairEx` at $Y$,
@@ -962,7 +964,7 @@ Let us double-check the logical hygiene of Chapter 4 [Expository]:
    bound $L(1, \chi_{\mathrm{real}}) \gg_\eta q^{-\eta}$ (*Acta Arith.* **1** (1935), 83–86) has an
    ineffective implied constant, which makes the threshold $Y_0(M, \varepsilon, A)$ in `PairEx`
    (`pairEx.lean:112`) existentially quantified rather than explicit. Look back at Chapter 3,
-   Definition 3.4 (`HasWindows`, `Window.lean:7`): the Landau-window criterion only asks that
+   Definition 3.4 (`HasWindows`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean:7`): the Landau-window criterion only asks that
    $\forall y_0,\ \exists Y \ge y_0$ with a good window $[Y, Y^{3/2}]$ — a purely existential
    statement! Whether $Y_0(\varepsilon)$ is computable or not makes no difference to proving
    $L(s, \psi) \neq 0$ on $\Re s > 1/2$ [Expository].
@@ -970,7 +972,7 @@ Let us double-check the logical hygiene of Chapter 4 [Expository]:
    (`aapolipponen/rh-lean-check-lumi`, `docs/reports/vacuity-check.md`) flagged `pair_share` for
    closer human reading because `PairShare.lean` takes existence hypotheses on Stage 1 and Stage 2
    as parameters [Community]. Having read `PairShare.lean`, `PairExists.lean`, `Stage1Succ.lean`,
-   `CharOf.lean`, and `pairEx.lean` line by line (`R3`), we can report that `pair_exists`
+   `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean`, and `pairEx.lean` line by line (`R3`), we can report that `pair_exists`
    instantiates `pair_share` at $\eta = 1/2$ (`PairExists.lean:15`) and deduces $\lvert G \rvert > 0$
    from $\lvert \mathcal P \rvert > 0$ (supplied unconditionally by PNT in progressions `count_a`)
    and $\lvert B \rvert \le \frac{1}{2}\lvert \mathcal P \rvert$:
@@ -984,8 +986,8 @@ of this chapter originates [Lean, read]:
 | Constant | Lean location | Mathematical role |
 |---|---|---|
 | $1/400$ and $400$ | `PairGood.lean:13`, `BoxOfS.lean:33`, `TailKExp.lean:26` | Zero-free box width $\Re s > 1 - 1/400$ paired with explicit-formula truncation $Z = x^{400}$ so $x \cdot (x^{400})^{-1/400} = 1$. |
-| $401$ | `ExistsPageN.lean:49`, `WinPairs.lean:78` | Upstream Tate–Shafarevich twist cutoff $\lfloor (x')^{401} \rfloor$; absorbs $k^{400} \le x'$ under $x = k x'$ so $x^{400} \le (x')^{401}$. |
-| $\lambda = 3/2$ | `WinPairs.lean:7,40`, `SupplyChi.lean:9` | Window exponent $[Z, Z^{3/2}]$ after rescaling $Z = kW$ inside a quadratic `VWin` window $[W, W^2]$ ($k^3 \le W \implies (kW)^{3/2} \le W^2$). |
+| $401$ | `ExistsPageN.lean:49`, `src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:78` | Upstream Tate–Shafarevich twist cutoff $\lfloor (x')^{401} \rfloor$; absorbs $k^{400} \le x'$ under $x = k x'$ so $x^{400} \le (x')^{401}$. |
+| $\lambda = 3/2$ | `src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:7,40`, `SupplyChi.lean:9` | Window exponent $[Z, Z^{3/2}]$ after rescaling $Z = kW$ inside a quadratic `VWin` window $[W, W^2]$ ($k^3 \le W \implies (kW)^{3/2} \le W^2$). |
 | $\varepsilon/5$ | `ExistsPageN.lean:29–34`, `pairEx.lean:119` | Log-scale $\log q \asymp Y^{\varepsilon/5}$, $\log d \asymp Y^{\varepsilon/5}(\log Y)^2$: large enough that $q > Y^{800A}$, small enough that $1000\log\log d \approx 200\varepsilon \log Y$. |
 | $\varepsilon < 1/52$ | `Kappa4Loglog.lean:126`, `EventuallyRankLeRpowOfLtOneDivFiftytwo.lean:5` | Ensures $200\varepsilon < 50/13 < 4$ (giving $\lvert L'/L(1,\chi) \rvert \le 4\log Y$, hence $C = 4$ in `EAtH`) and $R.t \le \lfloor x^{400} \rfloor$. |
 

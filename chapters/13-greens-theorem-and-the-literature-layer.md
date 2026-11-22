@@ -1,11 +1,11 @@
 # Chapter 13. Green's theorem and the literature layer
 
 > **Status tags used in this chapter:** `[Lean, read]` for declarations and `sorry`-free proof
-> bodies read line by line in `LabelDatum.lean`, `GreenRegularCharacters.lean`,
+> bodies read line by line in `LabelDatum.lean`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean`,
 > `SumRangeEqRoots.lean`, `DiscreteSpectrumResidualClassification.lean`,
 > `StandardTheoremStatements/GlobalArtinReciprocity.lean`,
 > `EveryCharacterOfLiteratureOfVWin.lean` (`OpenLiteratureStatements` and top assembly), and
-> `TemperedProductOfSquareIntegrable.lean` (`OpenImageCondition`) (`R3`); `[Lean]` for the existence
+> `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean` (`OpenImageCondition`) (`R3`); `[Lean]` for the existence
 > and proved status of individual `UpperTheory.LiteratureTheorems.*` and `GlobalTheory.Published.*`
 > declarations (`R1` / `R2`); `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft;
 > `[Community]` for public statement-fidelity reviews (notably LUMI's four-batch review of 105
@@ -24,7 +24,7 @@ two remaining nodes of our proof map (`notes/proof-map.md`):
    have exact degree $\prod_{i=1}^{d-1}(g^i - 1)$, and take the Galois-orbit trace value
    $(-1)^{d-1}\sum_{i=0}^{d-1}\theta_x(z^{g^i})$ on elliptic elements of irreducible characteristic
    polynomial!
-2. **Node P18 (`OpenLiteratureStatements` and `OpenImageCondition`, `EveryCharacterOfLiteratureOfVWin.lean:215–813`, `TemperedProductOfSquareIntegrable.lean:207–344`):**
+2. **Node P18 (`OpenLiteratureStatements` and `OpenImageCondition`, `EveryCharacterOfLiteratureOfVWin.lean:215–813`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`):**
    The **literature layer** of the archive: **257 `theorem` declarations** in the namespace
    `UpperTheory.LiteratureTheorems.*` (176 named `*_of_literature` and 60 named `*_of_open`) that
    prove ~182 distinct named propositions (chiefly in `GlobalTheory.Published.*`, spanning Poitou–Tate
@@ -41,7 +41,7 @@ line by line (`R3` / `[Lean, read]`). Because `green_of_regular` sits directly a
 prime fields $\mathbb F_g = \mathbb Z/g\mathbb Z$** (`Fact g.Prime`) rather than arbitrary prime
 powers $q = p^f$ — it serves as a crystal-clear worked specimen of the entire literature layer! From
 there we prove why misnamed, narrowed, or even `True`-valued internal `Prop`s (`UnusedSlot72`) **cannot
-compromise the logical soundness of `Main.lean`**, lay out a rigorous four-step **statement-fidelity
+compromise the logical soundness of `src/Main.lean`**, lay out a rigorous four-step **statement-fidelity
 audit methodology**, and synthesize the current community review verdicts across 105 audited
 statements (`[Community]`).
 
@@ -55,7 +55,7 @@ Why does a proof of the Riemann Hypothesis need the character table of the finit
 $\mathrm{GL}_d(\mathbb F_g)$ `[Green1955]` [Expository]? We have already met **both** places where
 node **P16** bears weight:
 
-1. **Shaping depth-zero level projectors along the theta-lift chain (Chapter 7, `TopShape.lean:33,54`):**
+1. **Shaping depth-zero level projectors along the theta-lift chain (Chapter 7, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33,54`):**
    On a totally definite unitary group $U(X_j)$ split at an auxiliary prime $g$ (`D.host.g 0`, `D.host.g 1`,
    where $U(r_j)(\mathbb Q_g) \cong \mathrm{GL}_{r_j}(\mathbb Q_g)$ and reduction modulo $g$ maps
    $\mathrm{GL}_{r_j}(\mathbb Z_g) \twoheadrightarrow \mathrm{GL}_{r_j}(\mathbb F_g)$!), cutting out
@@ -67,9 +67,9 @@ node **P16** bears weight:
    - that *every* cuspidal character arises this way, so Harish-Chandra parabolic induction (`hcL`, `:55`)
      partitions the entire irreducible dual of $\mathrm{GL}_n(\mathbb F_g)$ by polynomial labels (`HasLabel`, `:98`), and
    - that the dimension $\tau_P(1) = \prod_{i=1}^{d-1}(g^i - 1)$ is known explicitly (`closed_linkIRR_of_join_count hGreen`,
-     `TopShape.lean:54` [Lean, read])!
-2. **Pinning down depth-zero supercuspidal inertia in partial local Langlands (Chapter 12, `IsRecTOfIsRec.lean:35–53`):**
-   In `TypeLaw` (Definition 12.1(2)) and `RecTExists.lean:58–66` [Lean, read], inflating a cuspidal
+     `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:54` [Lean, read])!
+2. **Pinning down depth-zero supercuspidal inertia in partial local Langlands (Chapter 12, `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:35–53`):**
+   In `TypeLaw` (Definition 12.1(2)) and `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:58–66` [Lean, read], inflating a cuspidal
    representation $\tau_\theta$ of $\mathrm{GL}_n(\mathbb F_g)$ to $\mathrm{GL}_n(\mathbb Q_g)$
    produces a depth-zero supercuspidal representation `[BushnellKutzko1993]` whose Weil–Deligne
    parameter on inertia has characteristic polynomial $\prod_{j=0}^{n-1}(X - \theta(z^{g^j}))$ —
@@ -78,7 +78,7 @@ node **P16** bears weight:
 ### 13.1.2 Why an axiom-free archive still has a "literature layer" — and what an audit actually checks
 
 In a human paper, an author writes *"By Green `[Green1955]`, Theorem 12…"* or *"By Poitou–Tate duality…"*
-and moves on. In Lean 4, if you want `Main.lean` to depend **only** on Lean's three foundational axioms
+and moves on. In Lean 4, if you want `src/Main.lean` to depend **only** on Lean's three foundational axioms
 (`propext`, `Classical.choice`, `Quot.sound`) — as Alpöge announced (`remark.pdf` p. 1: *"formalized the
 arguments without assumptions"* [Paper; remark p. 1]) and half a dozen independent kernel checkers have
 verified (Chapter 1; `CONTRIBUTIONS.md` [Community]) — **you cannot write `axiom PoitouTateDuality`**!
@@ -86,7 +86,7 @@ Every single classical theorem used anywhere in the argument must be **stated as
 proved from Mathlib**!
 
 To manage a 175,187-file codebase, the archive organizes those classical theorems through an explicit
-internal interface (`EveryCharacterOfLiteratureOfVWin.lean` and `TemperedProductOfSquareIntegrable.lean`):
+internal interface (`EveryCharacterOfLiteratureOfVWin.lean` and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean`):
 
 - Lower-level folders (`PublishedTheorems/`, `StandardTheoremStatements/`, etc.) define named
   propositions such as `GlobalTheory.Published.GreenRegularCharacters : Prop`,
@@ -100,7 +100,7 @@ internal interface (`EveryCharacterOfLiteratureOfVWin.lean` and `TemperedProduct
 Here is the crucial distinction that every reader of this book must grasp [Expository]:
 
 - **Machine kernel checking (`con-leche --compare`, `nanoda`, `lean4lean`, `leanchecker`) ALREADY guarantees
-  that no unproved assumption leaks into `Main.lean`**, *regardless* of what the intermediate `Prop`s in
+  that no unproved assumption leaks into `src/Main.lean`**, *regardless* of what the intermediate `Prop`s in
   `GlobalTheory.Published.*` are named or how weak they are!
 - **Human statement-fidelity auditing** asks a *different*, equally vital mathematical question:
   *Does the Lean `Prop` named `GlobalTheory.Published.Foo` actually state the textbook theorem "Foo",
@@ -160,7 +160,7 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
 
 3. **Green's formula for $\tau_\theta$, Jacquet vanishing (`IsCusp`), and Schur unit norm:**
    Let $\theta : \mathbb F_{q^2}^\times \to \mathbb C^\times$ be any **regular** character (`IsRegularChar`,
-   `GreenRegularCharacters.lean:10`: $\theta^q \neq \theta$, i.e. $\theta$ does not factor through
+   `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:10`: $\theta^q \neq \theta$, i.e. $\theta$ does not factor through
    $\operatorname{Nm}_{\mathbb F_{q^2}/\mathbb F_q} : \mathbb F_{q^2}^\times \twoheadrightarrow \mathbb F_q^\times$;
    there are $(q^2 - 1) - (q - 1) = q(q - 1)$ such characters, forming $\frac{q(q-1)}{2}$ Frobenius pairs
    $\{\theta, \theta^q\}$!). Green's class function $\tau_\theta : \mathrm{GL}_2(\mathbb F_q) \to \mathbb C$ is:
@@ -170,7 +170,7 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
    \tau_\theta\bigl(y_{\{z, z^q\}}\bigr) = -\bigl(\theta(z) + \theta(z^q)\bigr)$$
    (notice that on $c_1 = I_2$ this matches `τ θ 1 = ∏_{i ∈ [1,2)} (q^i - 1) = q - 1`, and on elliptic
    $y_{\{z, z^q\}}$ it matches `(-1)^(2-1) * ∑_{i<2} θ(z^(q^i)) = -(θ(z) + θ(z^q))` in
-   `GreenRegularCharacters.lean:16–18`!). Check **both** cuspidality and unit norm by hand:
+   `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:16–18`!). Check **both** cuspidality and unit norm by hand:
    - **Jacquet restriction (`res 1 1 τ_θ`, `LabelDatum.lean:47–49, 64–65`) vanishes identically:**
      For any $h_1, h_2 \in \mathbb F_q^\times$, `res 1 1 τ_θ h₁ h₂` averages $\tau_\theta\begin{pmatrix} h_1 & b \\ 0 & h_2 \end{pmatrix}$
      over the $q$ unipotent entries $b \in \mathbb F_q$:
@@ -221,21 +221,26 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
 ### 13.2.2 Three concrete specimens from `GlobalTheory.Published.*`: faithful, special-case, and `True`
 
 Before stating the general definitions of node **P18**, inspect three actual declarations in the
-archive (`GreenRegularCharacters.lean:13`, `GlobalArtinReciprocity.lean:8`, and
+archive (`PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`,
+`PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` alongside its proof wrapper
+`StandardTheoremStatements/GlobalArtinReciprocity.lean:8`, and
 `DiscreteSpectrumResidualClassification.lean:6–7`) [Lean, read]:
 
-1. **A faithful special case (`GlobalTheory.Published.GreenRegularCharacters`, `GreenRegularCharacters.lean:13–20`):**
+1. **A faithful special case (`GlobalTheory.Published.GreenRegularCharacters`, `PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13–20`):**
    Quantifies over `∀ (g : ℕ) [Fact g.Prime] (d : ℕ), 0 < d → ∀ K [Field K] [Algebra (ZMod g) K], finrank (ZMod g) K = d → ...`.
    Every mathematical clause (cuspidality, degree $\prod_{i=1}^{d-1}(g^i - 1)$, elliptic trace
    $(-1)^{d-1}\sum_{i=0}^{d-1}\theta(z^{g^i})$, Frobenius orbit equivalence $\theta' = \theta^{g^i}$,
    and exhaustion of `IsCusp`) matches Green `[Green1955]`, specialized to **prime base fields
    $\mathbb F_g = \mathrm{ZMod}\,g$** (because the archive only reduces $\mathbb Z_g$-lattices at split
    degree-$1$ places $E_w \cong \mathbb Q_g$!).
-2. **A full classical statement (`GlobalTheory.Published.GlobalArtinReciprocity`, `GlobalArtinReciprocity.lean:8`):**
-   Proved unconditionally inside the archive (`CompanionTheory.FamInh.globalArtin`, `:9` `[Lean]`) and
-   used both in Chapter 10 (`CutCoreUnit.main`) and to derive `RayClassFieldSt` and `HeckeLAdicCharacter`
-   (`:11–15` `[Lean, read]`); audited in LUMI batch R1 #4 `[Community]` as the strong idelic statement
-   of global Artin reciprocity!
+2. **A full classical statement (`GlobalTheory.Published.GlobalArtinReciprocity`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`):**
+   States `IsGlobalArtin E Ω art` (`:25–40`: open quotient map $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$
+   with kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia image $\overline{\mathrm{art}(\mathcal O_v^\times)}$,
+   and geometric Frobenius on uniformizers) over **every** number field $E$, proved unconditionally via
+   the wrapper `PositivityTheory.Stage1.PM.globalArtinReciprocity`
+   (`src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8–15`,
+   invoking `CompanionTheory.FamInh.globalArtin` `[Lean]`), used in Chapter 10 (`CutCoreUnit.main`),
+   and audited line by line at `R3` in **Chapter 18** (`Section 18.2`) [Lean, read]!
 3. **A `True` placeholder fossil (`GlobalTheory.Published.UnusedSlot72`, `DiscreteSpectrumResidualClassification.lean:7`):**
    Literally defined as:
    ```lean
@@ -303,21 +308,21 @@ Fix a prime $g$ (`[Fact g.Prime]`) and write `Gn g n := GL (Fin n) (ZMod g)` and
 
 ### 13.3.2 The literature layer (`OpenLiteratureStatements`, `OpenImageCondition`, and `GlobalTheory.Published.*`)
 
-**Definition 13.2 (Architecture of the literature layer, `EveryCharacterOfLiteratureOfVWin.lean:215–813` and `TemperedProductOfSquareIntegrable.lean:207–344`).** [Lean, read]
+**Definition 13.2 (Architecture of the literature layer, `EveryCharacterOfLiteratureOfVWin.lean:215–813` and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`).** [Lean, read]
 
 1. **The two root `Prop` structures (`:215` and `:207`):**
    - On the main `EveryCharacter` branch (`EveryCharacterOfLiteratureOfVWin.lean:215–218`),
      `UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop` is a **3-field structure**
      `(caraianiLocalGlobalDual : Row, localLanglandsExists : RecTExists, galoisRepOfPolarizedPairLit : Row)`
      whose first and third fields both have type `UpperTheory.One.M.Row` (`Row0b recT`, Chapter 12);
-   - On the `VWin` branch (`TemperedProductOfSquareIntegrable.lean:207–208`),
+   - On the `VWin` branch (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–208`),
      `UpperTheory.LiteratureTheorems.OpenImageCondition : Prop` is a **1-field structure**
      `(galoisRepOfPolarizedPairLit : RowT)`, where `RowT` is definitionally identical to `Row`.
 2. **Exact inventory of `UpperTheory.LiteratureTheorems.*` and `PublishedTheorems` directories:**
    Across the entire 175,187-file archive (`notes/proof-map.md`, node `P18`), the namespace
    `UpperTheory.LiteratureTheorems.*` contains **257 `theorem` declarations** in total (**195** in
    `EveryCharacterOfLiteratureOfVWin.lean`, import cone **151,285**, and **62** in
-   `TemperedProductOfSquareIntegrable.lean`, import cone **146,662**), comprising:
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean`, import cone **146,662**), comprising:
    - **176** individual theorems named `*_of_literature : OpenLiteratureStatements → <Prop>`,
    - **60** individual theorems named `*_of_open : OpenImageCondition → <Prop>`,
    - **20** named-theorem aliases and intermediate bundle constructors (`literature_local`,
@@ -325,7 +330,7 @@ Fix a prime $g$ (`[Fact g.Prime]`) and write `Gn g n := GL (Fin n) (ZMod g)` and
      `published_results_local`, `published_results_eigen`, `published_results_first`, `published_results_arithmetic`, …), and
    - the master theorem `every_character_of_literature_of_vWin : OpenLiteratureStatements → VWin → EveryCharacter` (`:810`).
 
-   The target propositions live across seven `PublishedTheorems` / `PublishedInputs` directory trees
+   The target propositions live across eight `PublishedTheorems` / `PublishedInputs` directory trees
    (`AbelianVarietyTheory/PublishedTheorems`, `AutomorphicVarieties/PublishedTheorems`,
    `AutomorphicSpectrum/PublishedTheorems`, `WeilBound/CoreStatements/PublishedTheorems`,
    `WeilBound/CoreStatements/StandardPublishedResults`, `PositivityTheory/PublishedTheorems`,
@@ -344,7 +349,7 @@ We read all 306 lines of `src/Development/AbelianVarietyTheory/Proofs/InertiaEig
 (import cone **232** modules) line by line (`R3` / `[Lean, read]`). Let us give its complete human proof!
 
 **Proposition 13.1 (Galois-orbit bridge from `GreenRegularCharacters` to `Green`: `green_of_regular`).**
-*If `GlobalTheory.Published.GreenRegularCharacters` holds (`GreenRegularCharacters.lean:13`), then
+*If `GlobalTheory.Published.GreenRegularCharacters` holds (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`), then
 `GlobalTheory.GLq.Green` (`LabelDatum.lean:108`) holds.*
 *(Lean: `exists_unit_gen`, `th_inj`, `th_surj`, `pow_inj`, `regular_iff`, `sum_range_eq_roots`,
 `thetaOf_pow`, and `GlobalTheory.GreenBridge.green_of_regular`,
@@ -423,13 +428,13 @@ $t_T$ uses no `axiom` declarations beyond `{propext, Classical.choice, Quot.soun
    kernel!*
 
 *Proof.* Immediate from subject reduction / typing of function application $\frac{\Gamma \vdash f : P \to T \quad \Gamma \vdash p : P}{\Gamma \vdash f\,p : T}$
-in Lean's kernel, verified independently on `Main.lean` by `con-leche --compare` and `nanoda` against the
+in Lean's kernel, verified independently on `src/Main.lean` by `con-leche --compare` and `nanoda` against the
 Mathlib-only `Challenge.lean` export (Chapter 1, Section 1.6) [Community]. $\square$
 
 ### 13.4.3 Statement-fidelity audit methodology and current community verdicts (`[Community]` / `[Open]`)
 
 If Proposition 13.2 guarantees that internal `Prop` names cannot smuggle unproved assumptions into
-`Main.lean`, why did community teams immediately launch statement-fidelity reviews of
+`src/Main.lean`, why did community teams immediately launch statement-fidelity reviews of
 `GlobalTheory.Published.*` (`LUMI doc 07`, `aapolipponen/rh-lean-check-lumi/docs/07-named-theorems.md`
 [Community])? Because for **human mathematical understanding** (and for extracting standalone theorems
 into Mathlib), we need to know *what mathematics is actually inside the 151,285-module cone*!
@@ -498,8 +503,8 @@ Because `OpenLiteratureStatements` was assembled during rapid AI-assisted iterat
 internal `True` predicates outside `Published`), discarded hypotheses (`BlochKatoLocal` and `GreenbergWiles`
 introduced as `_` in two closing lemmas), and thin wrapper files (`[Community]`, `LUMI doc 07`). Look at
 the community repository `leanprover-community/riemann-hypothesis` (`CONTRIBUTIONS.md` [Community]):
-recall James Shore's kernel-term walk showing that `Main.lean` uses **146,287 of 175,187 files (83.5%)**
-and **61.8% of source lines**, and active pull requests (through PR #59 as of 2026-11-22 00:02 UTC) are
+recall James Shore's kernel-term walk showing that `src/Main.lean` uses **146,287 of 175,187 files (83.5%)**
+and **61.8% of source lines**, and active pull requests (through issue/PR #59 as of 2026-11-22 00:02 UTC, and PR #65 by 03:30 UTC) are
 already pruning unreferenced declarations and collapsing 24,000+ single-declaration re-export wrappers
 without changing a single kernel axiom!
 
@@ -545,22 +550,22 @@ what it proved!
 | `OpenLiteratureStatements`, `global_artin_reciprocity_of_literature`, `siegel_eisenstein_simple_pole`, `literature_local`, `literature_automorphy`, `literature_cohomology`, `published_results_eigen`, `green_regular_characters_of_literature`, `published_results_first`, `published_results_arithmetic`, `every_character_of_literature_of_vWin` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215,243,505,589,609,626,666,694,727,781,810` | Definition 13.2 & Proposition 13.2: 3-field root `OpenLiteratureStatements` (`Row`, `RecTExists`, `Row`), 195 literature theorems, bundle assemblers, and master bridge to `EveryCharacter` (top definitions `R3`; 151,285-module proof cone `[Lean]` / `[Open]`). | [Lean, read] |
 | `OpenImageCondition`, `global_artin_reciprocity_of_open`, `green_regular_characters_of_open` | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207,225,285` | Definition 13.2(1–2): 1-field `VWin`-side root `OpenImageCondition` (`RowT`) and 62 `*_of_open` literature theorems (cone 146,662; internal proofs `[Lean]` / `[Open]`). | [Lean, read] |
 | `DoublingMethodLocalZetaIntegrals`, `GlobalTheory.Published.UnusedSlot72`, `BaseChangeIsobaricTransfer`, `BaseChangeDefiniteUnitaryGroup` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:6,7,8,9` | Section 13.2.2(3): exhibits `UnusedSlot72 : Prop := True` alongside genuine `ResidueKilled.DM` and base-change abbreviations. | [Lean, read] |
-| `globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter` | `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8,11,14` | Section 13.2.2(2): derives `GlobalArtinReciprocity`, `RayClassFieldSt`, and `HeckeLAdicCharacter` from `CompanionTheory.FamInh.globalArtin` (`[Lean]` / `[Open]`). | [Lean, read] |
+| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop`); `globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter` (wrappers) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`; `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8,11,14` | Section 13.2.2(2) & **Chapter 18**: states `IsGlobalArtin` (`:25–40`) and wraps `CompanionTheory.FamInh.globalArtin` (`[Lean]` / `[Open]`) into `GlobalArtinReciprocity`, `RayClassFieldSt`, and `HeckeLAdicCharacter`. | [Lean, read] |
 
-**Summary of the chapter (and of Part III).** Over a finite field $\mathbb F_q$, Harish-Chandra
+**Summary of the chapter.** Over a finite field $\mathbb F_q$, Harish-Chandra
 parabolic induction from proper Levi subgroups misses the cuspidal characters, which Green `[Green1955]`
 constructed from Frobenius orbits of regular characters $\theta : \mathbb F_{q^d}^\times \to \mathbb C^\times$
 (worked out explicitly on $\mathrm{GL}_2(\mathbb F_q)$ and $\mathrm{GL}_2(\mathbb F_3)$ in Section 13.2.1).
 In node **P16**, `SumRangeEqRoots.lean` (Proposition 13.1) proves `GlobalTheory.GLq.Green` in 306 lines
 of clean Galois theory from `GlobalTheory.Published.GreenRegularCharacters` [Lean, read], supplying
-finite-level irreducibility to Part II (`TopShape.lean:33`) and depth-zero supercuspidal inertia to
+finite-level irreducibility to Part II (`ThirdPlaceSeries/TopShape.lean:33`) and depth-zero supercuspidal inertia to
 Chapter 12 (`TypeLaw`). More broadly, node **P18** (`EveryCharacterOfLiteratureOfVWin.lean` and
-`TemperedProductOfSquareIntegrable.lean`) derives 257 named literature theorems inside a 151,285-module
+`DenseThresholdCases/TemperedProductOfSquareIntegrable.lean`) derives 257 named literature theorems inside a 151,285-module
 cone from `Row0b` and `RecTExists` alone `[Lean]`. Because every `GlobalTheory.Published.*` proposition
 is proved inside the archive without axioms, narrowed or even `True`-valued slots (`UnusedSlot72`)
-cannot undermine the logical soundness of `Main.lean` (Proposition 13.2); meanwhile, statement-fidelity
-audits (`LUMI doc 07`, 105 statements reviewed with 65 faithful, 29 special cases, 7 safe weakenings,
-and 0 vacuous `[Community]`) chart what has been formalized and what remains `[Open]`. With **Parts 0, I,
-II, and III** complete, we have traced the entire Lean skeleton from `Main.lean` down to its foundations —
-and are ready in **Part IV (Chapters 14–16)** to examine Masullo's trace-formula draft on its own terms,
-compare the two proofs side by side, and assemble the master checklist of open verification problems!
+cannot undermine the logical soundness of `src/Main.lean` (Proposition 13.2); meanwhile, statement-fidelity
+audits (`LUMI doc 07` `[Community]` and our 14 `R3` worked case studies in **Chapter 18** `[Lean, read]`)
+chart what has been formalized and what remains `[Open]`. Next, in **Chapter 17**, we close Part III by
+opening the additive-combinatorial Behrend sphere engine inside `HostOfField`, before turning in **Part IV
+(Chapters 14–16 and 18)** to examine Masullo's trace-formula draft on its own terms, compare the two
+proofs side by side, and assemble the master verification ledgers and `Published`-layer case studies!

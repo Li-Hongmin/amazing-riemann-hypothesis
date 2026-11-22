@@ -1,7 +1,7 @@
 # Chapter 8. Divisibility at inert primes
 
 > **Status tags used in this chapter:** `[Lean, read]` for definitions and `sorry`-free proofs
-> verified line by line in `WeilJacquetShalikaLaw.lean`, `DataDIVDefs.lean`, `DataParams₂.lean`,
+> verified line by line in `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, `DataDIVDefs.lean`, `DataParams₂.lean`,
 > `DataExtra.lean`, `DefsInst.lean`, `DataG.lean`, `JointServices.lean`, `GServT.lean`, and
 > `DIVRecBridgeSel.lean` (`R3`); `[Lean]` for upstream formal-group and row-bound theorems whose
 > statement headers were inspected while their deep proof cones remain unread (`R2`); `[Paper]` for
@@ -32,9 +32,9 @@ $K = \mathbb Q(\sqrt{-d})$?** That phenomenon is governed in the archive by node
 Over a function field $\mathbb F_q(t)$, the Frobenius endomorphism $u \mapsto u^q$ is an honest ring
 homomorphism, and Hasse–Schmidt derivations satisfy $D^{(k)}(u^q) = 0$ for every $1 \le k < q$. Over
 $\mathbb Z$, there is no global Frobenius endomorphism and no derivation of $\mathbb Z$. Yet as
-Alpöge's note records at the very start of its timeline ("10/9/26: $D^p \equiv 0$ on a CM curve
-with $p$ inert in $K$, giving $p^{a/p + a/p^3 + \dots - O(\log a)}$-divisibility of
-$D^a \vartheta(0)/\Omega^a$", `remark.pdf` p. 3, item 2) [Paper; remark p. 3], classical arithmetic
+Alpöge's note records at the very start of its timeline (*"10/9/26: $D^p \equiv 0$ on a CM curve
+for $p$ inert in $K$, $D$ the invariant derivation, and $D^a \Omega \cdot \vartheta(0)$ is divisible by
+$p^{a/p + a/p^3 + \dots - O(\log a)}$."*, `remark.pdf` p. 3, item 2) [Paper; remark p. 3], classical arithmetic
 geometry already possesses an exact **local** substitute whenever a CM elliptic curve or abelian
 variety is reduced modulo a prime **inert** in its CM field `[Katz1976]` [Expository]!
 
@@ -101,7 +101,7 @@ Let us see the mechanism in three transparent steps [Expository]:
 
 Before entering the Lean declarations, let us verify both halves of this phenomenon by hand: first on
 Gauss's lemniscate curve over $\mathbb Z[i]$, and then on a finite $3$-adic column-divisibility model
-matching `WeilJacquetShalikaLaw.lean` [Expository].
+matching `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` [Expository].
 
 ### 8.2.1 Hand calculation on the lemniscate sine: split $p = 5$ versus inert $p = 3, 7$
 
@@ -150,13 +150,13 @@ Every feature of Section 8.1 is visible at a glance:
 
 ### 8.2.2 Toy two-step column divisibility and the odd-power ramp
 
-Now let us see how `WeilJacquetShalikaLaw.lean` packages local $p$-adic divisibility across a chain
+Now let us see how `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` packages local $p$-adic divisibility across a chain
 of $m$ steps and pairs the resulting $m$-step column against an automorphic period functional
 [Expository]. Take the coefficient number field $L = \mathbb Q(i)$ (`D.what₂.LL`) with ring of
 integers $\mathcal O_L = \mathbb Z[i]$ at the unramified inert prime $p = 3$ (ramification index
 $e_w = 1$, uniformizer $\varpi_w = 3$, additive valuation $v_w = v_3 : L^\times \to \mathbb Z$), and
 let $\Lambda = \mathbb Z[i]^2 \subset L^2$ with $\mathcal O_{(w)}$-localization
-$\Lambda_w = \mathbb Z_{(3)}[i]^2$ (`locW`). In `WeilJacquetShalikaLaw.lean:19–22`, an element
+$\Lambda_w = \mathbb Z_{(3)}[i]^2$ (`locW`). In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:19–22`, an element
 $y \in L^2$ satisfies `VGe D w Λ y s` (note the parameter order `(y, s)` for $s \in \mathbb R$) if
 $y = a \cdot z$ for some field scalar $a \in L$ and localized lattice vector $z \in \Lambda_w$ with
 either $a = 0$ or $e_w s \le v_w(a)$. Allowing $a \in L$ (rather than restricting $a$ to $\mathcal O_L$)
@@ -175,7 +175,7 @@ gains $g_1 = 4$ and $g_2 = 3$ with zero error slack, plus a base denominator sca
 - Next, pairing $z \in \Lambda_w$ against a test form $F$ via the period map produces a scalar
   $y_0 \in L$ that can lose at most $3^{-v_{\mathrm{DG}}} = 3^{-1}$ (`PairInt`, `:383–393`:
   $-1 \le v_3(y_0)$). Multiplying $a = 3^8$ by $y_0$ via `val_step` (`:401`) and `period_ge`
-  (`:419–438`) cancels the $-v_{\mathrm{DG}}$ pairing denominator against the $+v_{\mathrm{DG}}$ in
+  (`:419–437`) cancels the $-v_{\mathrm{DG}}$ pairing denominator against the $+v_{\mathrm{DG}}$ in
   $\mathrm{totS}$, yielding period value $a y_0 \in L$ of valuation $v_3(a y_0) \ge 8 - 1 = 7 = g_1 + g_2$!
 
 And what numerical gain does the archive assign to an inert prime $p = 3$ at top scale $a_T = 100$
@@ -221,7 +221,7 @@ valuation (`vAdd (D.plEq w) a`).
    the rescaled source lattice `(D.div.Nu u).L` with the fractional-ideal twist $I_u \cdot \mathrm{NuLat}(u)$.
    Saying that a period pairing maps $\mathrm{NuLat}(u)$ into elements of valuation $\ge \lfloor e_w\,\mathrm{sg}(u,w) \rfloor$
    means precisely that multiplying by $I_u$ preserves $\mathcal O_L$-integrality at every $w \in \mathrm{supp}$!
-2. **Scalar-lattice divisibility (`VGe`, `WeilJacquetShalikaLaw.lean:19`).** Given an $\mathcal O_L$-submodule
+2. **Scalar-lattice divisibility (`VGe`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:19`).** Given an $\mathcal O_L$-submodule
    $\Lambda \subseteq V$ of an $L$-vector space $V$, a place $w$ with localization
    $\mathrm{locW}_w(\Lambda) \subseteq V$, an element $y \in V$, and $s \in \mathbb R$, the predicate
    `VGe D w Λ y s` holds if there exist a field scalar $a \in L$ and $z \in \mathrm{locW}_w(\Lambda)$
@@ -229,7 +229,7 @@ valuation (`vAdd (D.plEq w) a`).
    $$y = a \cdot z \qquad\text{and}\qquad \bigl(a = 0 \ \lor\ e_w \cdot s \le v_w(a)\bigr).$$
    Because $a$ ranges over the field $L$ (not merely $\mathcal O_L$), `VGe D w Λ y s` uniformly
    handles both positive divisibility ($s \ge 0$) and bounded $\mathfrak p_w$-adic denominators ($s < 0$).
-3. **Untwisted and tuple-twisted $m$-step composite column divisibility (`ColGe0`, `ColGeTw`, `ColGe`, `WeilJacquetShalikaLaw.lean:24, 28, 33`).**
+3. **Untwisted and tuple-twisted $m$-step composite column divisibility (`ColGe0`, `ColGeTw`, `ColGe`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:24, 28, 33`).**
    Notice that `ColGe T u μ w x s` carries **no step index $j$**: it constrains the **entire $m$-step
    composite column** from step $0$ (`lat 0`) to step $m = D.R.m$ (`lat D.R.m`) at word $u$ and
    twisting tuple $\mu \in D.\mathrm{what}_2.\mathrm{Tup}$! Specifically, for $x \in ((D.\mathrm{fm}\,u).\mathrm{lat}\,0).V$:
@@ -240,16 +240,16 @@ valuation (`vAdd (D.plEq w) a`).
      for the twisted $m$-step composite column `(D.chTw u μ).col` in `((T.fm u μ).lat D.R.m).L`;
    - `ColGe T u μ w x s` (`:33`) conjoins `(μ = μ₀ → ColGe0 D u w x s)` and
      `(μ ≠ μ₀ → ColGeTw T u μ w x s)` [Lean, read].
-4. **Exceptional primes (`Exc`, `WeilJacquetShalikaLaw.lean:37`).** A rational prime $p$ is
+4. **Exceptional primes (`Exc`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:37`).** A rational prime $p$ is
    **exceptional** (`Exc D p`) if $p$ divides $\mathrm{condN} \cdot g_0 \cdot g_1$, where
    $\mathrm{condN}$ is the host field conductor and $g_0, g_1$ are the auxiliary finite-field
    Green primes of Chapter 7 (`LabelDatum`) [Lean, read].
 
 ### 8.3.2 Stepwise gains, `InNP`, `Ties9`, and `WeilJacquetShalikaLaw.Conclusion1`
 
-Next we read lines 49–102 of `WeilJacquetShalikaLaw.lean` verbatim (`R3`). Pay close attention to the
+Next we read lines 49–102 of `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` verbatim (`R3`). Pay close attention to the
 logical type and role of `Conclusion1`: **it is a `def ... : Prop` stating the $m$-step composite
-column implication, and inside `WeilJacquetShalikaLaw.lean` it enters `off_level_bound` as an explicit
+column implication, and inside `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` it enters `off_level_bound` as an explicit
 hypothesis supplied from upstream** [Lean, read]!
 
 **Definition 8.2 (Accumulated gain `totS`, input predicate `InNP`, compatibility `Ties9`, and `Conclusion1`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:49,57,60,67,73,76,79,92,97`).**
@@ -281,13 +281,13 @@ Let `D` be a chain datum of length $m = D.R.m$ (`lifts = Icc 1 m`) with `L : Siz
 
 ### 8.3.3 Single-step non-loss (`IntegralKernelValuation`), served growth (`Serv`, `ServF`), and `vonMangoldtClassSum`
 
-How do single-step theta kernels feed `Conclusion1` upstream of `WeilJacquetShalikaLaw.lean`, and how
+How do single-step theta kernels feed `Conclusion1` upstream of `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, and how
 does `gainS` connect to `ASK`?
 
-**Definition 8.3 (Kernel valuation, Kudla family service, Weyl divided powers, and the odd-power ramp, `WeilJacquetShalikaLaw.lean:113,137,146,234,241,245,252`, `DataG.lean:11,163`, `FormalGroupSystem.lean:51,66`, and `DataParams₂.lean:208,240`).**
+**Definition 8.3 (Kernel valuation, Kudla family service, Weyl divided powers, and the odd-power ramp, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113,137,146,234,241,245,252`, `DataG.lean:11,163`, `FormalGroupSystem.lean:51,66`, and `DataParams₂.lean:208,240`).**
 
-1. **Single-step denominator control versus served-orbit growth (`IntegralKernelValuation`, `LatticeGrowthAtPlace`, `Stmt`, `Serv`, `ServF`, `WeilJacquetShalikaLaw.lean:113, 137, 146, 234, 241, 245, 252`).**
-   In `WeilJacquetShalikaLaw.lean`, single-step denominator control and positive inert-prime growth
+1. **Single-step denominator control versus served-orbit growth (`IntegralKernelValuation`, `LatticeGrowthAtPlace`, `Stmt`, `Serv`, `ServF`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113, 137, 146, 234, 241, 245, 252`).**
+   In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, single-step denominator control and positive inert-prime growth
    are cleanly separated [Lean, read]:
    - `IntegralKernelValuation D Dx T sp` (`:113–121`) states only the **single-step non-loss bound**
      away from $\{d, g_0, g_1, T_u\}$: for each step $i < m$ and each integral vector $x \in (\mathrm{lat}\,i).L$,
@@ -312,7 +312,7 @@ does `gainS` connect to `ASK`?
    [Lean, read]:
    $$\mathrm{vonMangoldtClassSum}(p, N, a_T, t, w_{\mathrm{Part}})
    := \sum_{\substack{1 \le i \le N \\ i\text{ odd}}} \max\Bigl(\frac{a_T(t)}{p^i} - w_{\mathrm{Part}}(i),\ 0\Bigr).$$
-   Lemma `gainD_le_gainS` (`WeilJacquetShalikaLaw.lean:552`) proves that the arithmetic chain gain
+   Lemma `gainD_le_gainS` (`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:552`) proves that the arithmetic chain gain
    `gainD` is bounded above by the analytic formal-group gain `gainS` [Lean, read]!
 
 ---
@@ -320,7 +320,7 @@ does `gainS` connect to `ASK`?
 ## 8.4 Lemmas and proofs
 
 We now give complete, hand-checkable proofs of the `R3`-verified deduction chain inside
-`WeilJacquetShalikaLaw.lean` — showing how `val_step` (`:401`) and `period_ge` (`:419–438`) pair a
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` — showing how `val_step` (`:401`) and `period_ge` (`:419–437`) pair a
 composite column bound `ColGe` against period functionals (`PairInt`), and how `off_level_bound`
 (`:504`) and `off_level_bound_family` (`:614`) deduce period valuation lower bounds at order
 `L.sg u w` **assuming `(h : Conclusion1 ... 1)` as an explicit input hypothesis** — followed by the
@@ -332,15 +332,15 @@ upstream bridge supplying `Conclusion1` and `LinkDIVt` in `DIVRecBridgeSel.lean`
 place of $L = D.\mathrm{what}_2.\mathrm{LL}$ with ramification index $e_w \ge 1$ and additive
 valuation $v_w : L^\times \to \mathbb Z$.*
 
-1. **Monotonicity (`VGe_mono` and `ColGe_mono`, `WeilJacquetShalikaLaw.lean:325, 332`).** *If
+1. **Monotonicity (`VGe_mono` and `ColGe_mono`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:325, 332`).** *If
    $s_1 \le s_2$ and `VGe D w Λ y s₂` holds, then `VGe D w Λ y s₁` holds; the same monotonicity holds
    for `ColGe T u μ w x s`.* [Lean, read]
-2. **Field-product valuation with denominator offset (`vAdd_mul'` and `val_step`, `WeilJacquetShalikaLaw.lean:395, 401`).**
+2. **Field-product valuation with denominator offset (`vAdd_mul'` and `val_step`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:395, 401`).**
    *Let $a, y_0 \in L$ and $s, v \in \mathbb R$. If $(a = 0 \lor \mathrm{ur}(D, w, s) \le v_w(a))$ and
    $(y_0 = 0 \lor -\mathrm{ur}(D, w, v) \le v_w(y_0))$, then*
    $$a y_0 = 0 \ \lor\ \mathrm{ur}(D, w, s - v) \le v_w(a y_0).$$
    [Lean, read]
-3. **Pairing a composite column against a period functional (`period_ge`, `WeilJacquetShalikaLaw.lean:419–438`).**
+3. **Pairing a composite column against a period functional (`period_ge`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:419–437`).**
    *Assume period-pairing integrality `PairInt D Dx T` (`:383–393`) and `DGamDef D`, so pairing any
    localized step-$m$ lattice vector $z \in \mathrm{locW}_w((\mathrm{lat}\,m).L)$ with an admissible
    form $F \in \widetilde M(\mu) \cap V_0(\mu)$ yields a scalar $y_0 \in L$ with
@@ -360,7 +360,7 @@ valuation $v_w : L^\times \to \mathbb Z$.*
    $a \neq 0$ and $y_0 \neq 0$; by additivity of $v_w$ on $L^\times$ (`vAdd_mul'`, `:395–399`),
    $$v_w(a y_0) = v_w(a) + v_w(y_0) \ge e_w s + (-e_w v) = e_w(s - v) = \mathrm{ur}(D, w, s - v),$$
    proving `val_step` (`:401–417`).
-3. Notice that `period_ge` (`:419–438`) performs **no induction on $m$** — the $m$-step composition is
+3. Notice that `period_ge` (`:419–437`) performs **no induction on $m$** — the $m$-step composition is
    already inside `ColGe`! Splitting by cases on $\mu = \mu_0$ versus $\mu \neq \mu_0$ (`:426`),
    unpacking `ColGe T u μ w (D.nuIn u φ) s` produces $y_{\mathrm{col}} = a \cdot z$ on `lat D.R.m`
    with $a \in L$, $z \in \mathrm{locW}_w((\mathrm{lat}\,m).L)$, and
@@ -373,7 +373,7 @@ valuation $v_w : L^\times \to \mathbb Z$.*
 
 ### 8.4.2 Deducing period bounds from `Conclusion1` (`off_level_bound` and `off_level_bound_family`)
 
-Now look closely at lines 504–630 of `WeilJacquetShalikaLaw.lean` (`R3`). **`WeilJacquetShalikaLaw.lean`
+Now look closely at lines 504–630 of `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` (`R3`). **`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`
 does not prove `Conclusion1` itself!** Instead, both `off_level_bound` (`:504`) and
 `off_level_bound_family` (`:614`) take `(h : Conclusion1 ... 1)` (at sparsity weight $\mathrm{sp} = 1$)
 **as an explicit input hypothesis**, verify the antecedent `InNP` on $\varphi \in \mathrm{NuLat}(u)$
@@ -393,7 +393,7 @@ bound at order `L.sg u w` [Lean, read]!
    representing `perCol u μ_w (D.jN u φ) F` such that*
    $$y = 0 \ \lor\ \mathrm{ur}\bigl(D, w, L.\mathrm{sg}(u, w)\bigr) \le v_w(y).$$
    [Lean, read]
-2. **Gain comparison and family lift (`gainD_le_gainS`, `isCs_drop`, and `off_level_bound_family`, `WeilJacquetShalikaLaw.lean:552, 606, 614`).**
+2. **Gain comparison and family lift (`gainD_le_gainS`, `isCs_drop`, and `off_level_bound_family`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:552, 606, 614`).**
    *Whenever `(hF : ∀ w, ParametersFill X K w)` holds and `IsCs` primes lie in `L.drop` (`isCs_drop`,
    `:606`), the chain gain satisfies $L.\mathrm{gainD}(j, w) \le \mathrm{gainS}(X, K, \mathrm{resChar}(w), j)$
    (`gainD_le_gainS`, `:552–575`). Consequently, along a family `Fm : FamP eps`, `PairInt` and the
@@ -467,20 +467,20 @@ that `4,699`-module cone have not yet been read line by line by us (`[Open]`).
 
 ## 8.5 Remarks, formalization notes, and Masullo's counterpart
 
-### 8.5.1 Why `Conclusion1` is an input `Prop` to `off_level_bound` — and what `WeilJacquetShalikaLaw.lean` actually proves
+### 8.5.1 Why `Conclusion1` is an input `Prop` to `off_level_bound` — and what `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` actually proves
 
 In early community summaries (including LUMI's `docs/02-proof-map.md`, which cited line 101, the
 closing line of `def Conclusion1` whose header sits at line 97) [Community],
-`WeilJacquetShalikaLaw.Conclusion1` was sometimes referred to as if `WeilJacquetShalikaLaw.lean`
+`WeilJacquetShalikaLaw.Conclusion1` was sometimes referred to as if `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`
 itself proved $p$-adic theta-kernel divisibility. Reading all 633 lines of
-`WeilJacquetShalikaLaw.lean` (`R3`, leaf-inclusive import cone **321** modules) clarifies the exact
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` (`R3`, leaf-inclusive import cone **321** modules) clarifies the exact
 division of labor [Lean, read]:
 
 - `Conclusion1` (`:97–101`) is a **`def ... : Prop`** specifying the $m$-step composite column bound
   `InNP ... → ColGe ... (totS ...)` under `Ties9` and `ErrDefs`;
 - `off_level_bound` (`:504`) and `off_level_bound_family` (`:614`) **take `(h : Conclusion1 ... 1)` as
   an explicit input hypothesis**, check `InNP` on `NuLat`, pair the composite column against test
-  forms via `val_step` (`:401`) and `period_ge` (`:419–438`) so the $\pm v_{\mathrm{DG}}$ denominator
+  forms via `val_step` (`:401`) and `period_ge` (`:419–437`) so the $\pm v_{\mathrm{DG}}$ denominator
   offsets cancel, and apply `gainD_le_gainS` (`:552`) to deduce period divisibility at order `L.sg u w`;
 - **proving `Conclusion1` itself** (combining single-step Lubin–Tate / formal-group height-$2$
   divided-power estimates on supersingular unitary/CM reductions at inert primes `[Katz1976]`,
@@ -530,7 +530,7 @@ supersingular CM reductions, Lubin–Tate formal groups, or `Conclusion1` [Expos
 |---|---|---|---|
 | `VGe`, `ColGe0`, `ColGeTw`, `ColGe`, `Exc`, `gainS`, `g0S`, `GainZero`, `InNP`, `vDG`, `lowS`, `totS`, `TwLoc`, `Ties9`, `Conclusion1` | `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:19,24,28,33,37,49,54,57,60,67,73,76,79,92,97` | Definitions 8.1–8.2: field-scalar localized valuation `VGe D w Λ y s`, $m$-step composite column divisibility `ColGe`, exceptional primes `Exc`, initial-vector predicate `InNP`, three-field `Ties9`, and `Conclusion1` (import cone 321). | [Lean, read] |
 | `IntegralKernelValuation`, `TupleLatticeValuation`, `LatticeGrowthAtPlace`, `admitted`, `Stmt`, `Serv`, `KudlaFamilyStatement`, `ServF`, `PairInt` | `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113,137,146,224,234,241,245,252,383` | Definition 8.3(1): single-step denominator bound `IntegralKernelValuation`, served-orbit growth `LatticeGrowthAtPlace`, period integrality `PairInt`, and family service `ServF`. | [Lean, read] |
-| `VGe_mono`, `ColGe_mono`, `kernel_valuation_served`, `serv_of`, `vAdd_mul'`, `val_step`, `period_ge`, `nuIn_mem_Sram_of_locLe`, `stable_lattice_of_no_served_orbit`, `off_level_bound`, `gainD_le_gainS`, `isCs_drop`, `off_level_bound_family` | `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:325,332,348,376,395,401,419,463,486,504,552,606,614` | Lemma 8.1 and Theorem 8.2: monotonicity, denominator cancellation `val_step`, period pairing `period_ge` (`:419–438`), comparison `gainD ≤ gainS` from `ParametersFill`, and deduction of `sg` period bounds from input `Conclusion1`. | [Lean, read] |
+| `VGe_mono`, `ColGe_mono`, `kernel_valuation_served`, `serv_of`, `vAdd_mul'`, `val_step`, `period_ge`, `nuIn_mem_Sram_of_locLe`, `stable_lattice_of_no_served_orbit`, `off_level_bound`, `gainD_le_gainS`, `isCs_drop`, `off_level_bound_family` | `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:325,332,348,376,395,401,419,463,486,504,552,606,614` | Lemma 8.1 and Theorem 8.2: monotonicity, denominator cancellation `val_step`, period pairing `period_ge` (`:419–437`), comparison `gainD ≤ gainS` from `ParametersFill`, and deduction of `sg` period bounds from input `Conclusion1`. | [Lean, read] |
 | `MramL`, `ur`, `Iu`, `NprimeDef`, `LocLe`, `NuDef`, `hExpl` | `src/Formalism/LocalRingCardinality/DataDIVDefs.lean:12,15,17,22,31,48,89` | Definition 8.1(1): ramification-scaled threshold `ur D w s = ramIdx w * s`, fractional ideal $I_u = \prod_w \mathfrak p_w^{-\lfloor e_w \mathrm{sg}(u,w)\rfloor}$, and fractional-ideal span equality `NprimeDef`. | [Lean, read] |
 | `Scale`, `lpFeasible`, `lpF`, `SizeData₂`, `sz`, `lifts`, `gainD`, `sg`, `Fo`, `Ga`, `MAIN`, `vonMangoldtClassSum` | `src/Formalism/LocalRingCardinality/DataParams₂.lean:9,51,58,76,205,208,212,215,218,220,232,240` | Definition 8.3(3): chain step gains `gainD`, total place gain `sg`, and odd-power prime ramp `vonMangoldtClassSum` matching Chapter 5's `ASK`. | [Lean, read] |
 | `Extra` | `src/Formalism/LocalRingCardinality/DataExtra.lean:40` | Auxiliary slack record accompanying `DataParams₂`. | [Lean, read] |
@@ -546,7 +546,7 @@ supersingular height-$2$ formal groups have $D^p \equiv 0 \pmod p$ and Newton-po
 $\frac{1}{p^2 - 1}$, whose difference from Legendre's factorial slope $\frac{1}{p - 1}$ equals
 $\frac{p}{p^2 - 1} = \frac{1}{p} + \frac{1}{p^3} + \frac{1}{p^5} + \dots$ `[Katz1976]`, generating
 the odd-power Riesz ramp `vonMangoldtClassSum` / `ASK` while split primes contribute zero [Expository].
-In `WeilJacquetShalikaLaw.lean`, `Conclusion1` (`:97`) states the $m$-step composite column bound
+In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, `Conclusion1` (`:97`) states the $m$-step composite column bound
 `InNP ... → ColGe ... (totS ...)` (supplied upstream via `FormalGroupSystem.lean` and
 `DIVRecBridgeSel.lean`), and `off_level_bound` (`:504`) plus `off_level_bound_family` (`:614`) combine
 that `Conclusion1` input with `PairInt`, `val_step`, `period_ge`, and `gainD_le_gainS` to deduce period

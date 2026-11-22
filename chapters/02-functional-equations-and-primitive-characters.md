@@ -306,7 +306,7 @@ We record in mathematical notation the exact propositions linked in this chapter
 ## 2.4 Lemmas and proofs
 
 We now prove every implication in the chain from `ZeroFreeAll` to the five theorems of
-`Main.lean`. Each proof is self-contained and follows the exact mathematical reasoning checked by
+`src/Main.lean`. Each proof is self-contained and follows the exact mathematical reasoning checked by
 Lean.
 
 ### 2.4.1 Bad Euler factors and passage from primitive to all characters
@@ -436,7 +436,7 @@ $$0 = L(s,\chi) = L(s,\chi^*) \prod_{p \mid N} \bigl(1 - \chi^*(p)\,p^{-s}\bigr)
 Because $\Re s > 0$, Lemma 2.1 implies that $1 - \chi^*(p) p^{-s} \neq 0$ for every prime $p \mid N$.
 Dividing by the nonzero finite product yields $L(s,\chi^*) = 0$. $\square$
 
-Combining Lemmas 2.4 and 2.5 immediately yields both critical-strip theorems of `Main.lean`.
+Combining Lemmas 2.4 and 2.5 immediately yields both critical-strip theorems of `src/Main.lean`.
 
 **Theorem 2.6 (Critical-line theorems for primitive and general Dirichlet $L$-functions).** *Assume
 `EveryCharacter`. Let $N \ge 1$, let $\chi \bmod N$ be a Dirichlet character, and let $s \in \mathbb C$
@@ -552,16 +552,16 @@ since $\zeta(0) = -1/2$. Split into three regions according to $\Re s$:
 
 A reader browsing the archive will notice redundancy in this layer [Lean, read]:
 
-- `CritLine.lean` and `RhOfRight.lean` supply `rhOfAll` (`Main.lean:4,6`) and `critAll`
-  (`Main.lean:12`), while `ClaimStrip.lean` supplies `Claim.strip` (`Main.lean:10`) as well as a
+- `CritLine.lean` and `RhOfRight.lean` supply `rhOfAll` (`src/Main.lean:4,6`) and `critAll`
+  (`src/Main.lean:12`), while `ClaimStrip.lean` supplies `Claim.strip` (`src/Main.lean:10`) as well as a
   second proof `Claim.zeta` of RH inside `claimAll` (`MainTheorems.lean:15`).
 - As noted in `notes/proof-map.md` (P2), there is even a third derivation of RH from
   `EveryCharacter`, `UpperTheory.riemannHypothesis_of_everyCharacter`
   (`src/Development/AutomorphicArithmetic/CharacterBoxes/RiemannHypothesisOfEveryCharacter.lean:215`),
-  which `Main.lean` never imports [Lean].
+  which `src/Main.lean` never imports [Lean].
 
 In an AI-assisted codebase of 175,187 modules, small glue files were evidently written more than
-once as target statements were tidied up into `Statements.lean` [Expository]. From a verification
+once as target statements were tidied up into `src/Statements.lean` [Expository]. From a verification
 standpoint the duplication is benign — and in fact helpful: `RhOfRight.lean` (`62` lines) and
 `ClaimStrip.lean` (`104` lines, via `HalfPlane.lean`) import **only Mathlib**, with zero archive
 dependencies, so one can read and type-check the passage from `Claim.HalfPlane` to all five
@@ -604,7 +604,7 @@ non-abelian Galois groups [Expository]:
    zero of one factor could in principle cancel against another unless Artin's holomorphy
    conjecture or zero-freeness of *all* factors on $\Re s > 1/2$ is known first. Thus the
    Extended Riemann Hypothesis (ERH) genuinely lies outside the scope of the five theorems of
-   `Main.lean`, matching Alpöge's remark that he expects ERH only "with more time"
+   `src/Main.lean`, matching Alpöge's remark that he expects ERH only "with more time"
    [Paper; remark p. 1].
 
 ### 2.5.3 Masullo's counterpart
@@ -656,7 +656,7 @@ Mathlib declarations are cited at the pinned commit `0df444a360eaa60ab8c11dca51a
 | Declaration | File:line | Mathematical content / role in Section 2.4 | Tag |
 |---|---|---|---|
 | `UpperTheory.EveryCharacter` | `src/Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:13` | $L(s,\chi) \neq 0$ for all $N \ge 1$, all $\chi \bmod N$, and all $\Re s > 1/2$ with $(\chi \neq 1 \lor s \neq 1)$. | [Lean, read] |
-| `UpperTheory.Top.plugWin`, `UpperTheory.Top.plugAll` | `src/Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:8,16` | Side assembly route (not imported by `Main.lean`) pairing `zeroFreeAll_of_topG` with `imprimitive`. | [Lean, read] |
+| `UpperTheory.Top.plugWin`, `UpperTheory.Top.plugAll` | `src/Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:8,16` | Side assembly route (not imported by `src/Main.lean`) pairing `zeroFreeAll_of_topG` with `imprimitive`. | [Lean, read] |
 | `Formalism.HC.PChar`, `PChar.one`, `PChar.inv`, `PChar.of` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean:7,19,21,32` | Bundled primitive Dirichlet characters $(N, \chi, \text{prim})$, trivial bundle, inverse, and extraction of $( \operatorname{cond}\chi, \chi^* )$. | [Lean, read] |
 | `Formalism.HC.PChar.ZeroFreeAbove`, `ZeroFreeOn`, `ZeroFreeAll` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:11,14,18` | Zero-freeness of $L(s,\psi.\chi)$ on $\Re s > \theta$ and on $\Re s > 1/2$ for all primitive $\psi$. | [Lean, read] |
 | `UpperTheory.Top.imprimitive` | `src/Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean:5` | Proposition 2.2: `ZeroFreeAll` $\implies$ `EveryCharacter` via `LFunction_changeLevel` and Euler-factor bounds. | [Lean, read] |
@@ -688,5 +688,5 @@ only by finitely many Euler factors $1 - \chi^*(p) p^{-s}$, none of which vanish
 (`ZeroFreeAll`) implies non-vanishing of all Dirichlet $L$-functions on $\Re s > 1/2$
 (`EveryCharacter`, Proposition 2.2) [Lean, read], and reflecting across $\Re s = 1/2$ via the
 functional equations of $\Lambda(s,\chi^*)$ and of $\zeta(s)$ immediately yields all five theorems
-of `Main.lean` (Theorems 2.6 and 2.7) [Lean, read]. The entire remainder of the book is therefore
+of `src/Main.lean` (Theorems 2.6 and 2.7) [Lean, read]. The entire remainder of the book is therefore
 devoted to proving `ZeroFreeAll`.

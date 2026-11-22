@@ -179,9 +179,10 @@ PDF's four pages.
 
 The PDF is byte-identical to our copy of 2026-11-21T03:01Z. Printed page numbers coincide with
 PDF page numbers (checked on pp. 6, 13, 519, 521, 522). The blog page is dynamic; we cite only
-the text of the post. At our 2026-11-22T03:29Z recheck (`fetches/mccorvie_README.md`, 13,030 bytes,
-sha256 `f121f834…`), `mccorvie/riemann-masullo` had ~4,700 theorems stated, ~3,950 proved across
-~1,360 merged PRs, and ~200 entries in `ERRATA.md`.
+the text of the post. At our 2026-11-22T04:35Z recheck (`fetches/mccorvie_README.md`, 14,590 bytes,
+sha256 `9072dc8b625f3b07e02b5e60be1edef38816c975aee2f5c03f2b05a1a4be5c2e`), `mccorvie/riemann-masullo`
+had ~4,700 theorems stated, ~3,950 proved across ~1,360 merged PRs, Wave 3 (Chapters 10–13) seeded
+as section issues, a `lake comparator` setup on Lean `v4.36.0`, and ~200 entries in `ERRATA.md`.
 
 ## 4. Mathlib at the pinned commit
 
@@ -198,12 +199,13 @@ All from
 | `Mathlib/NumberTheory/LSeries/Nonvanishing.lean` | 2026-11-21T04:10:43Z | 21780 | `945a2fd23ca9ebd2d48f101d771ef9117dd9847d48fd77ea2623d8c345f4f5a9` |
 | `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean` | 2026-11-21T04:13:24Z | 32972 | `3eb3f0864a28c7085e7f37917e50e024e5dfa2073821e3324b3873f050dfed89` |
 | `Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean` | 2026-11-21T04:30:15Z | 39471 | `db0a44702615c879abb084e3d950085f0f9b3fd71fddbf57105ad4d9cfea92e8` |
+| `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` | 2026-11-22T09:15:00Z | 21422 | `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5` |
 
 ## 5. Verification reports and community guides
 
 | Item | URL | Retrieved | Bytes | sha256 | Version read |
 |---|---|---|---:|---|---|
-| A. Sutherland, "Verification files for the Lean proof of the Riemann Hypothesis" | `https://math.mit.edu/~drew/grh/` | 2026-11-21T04:02:13Z; rechecked 2026-11-22T03:29Z | 24564 | `17661672e3dcc7cc83f170b11027cf55e75d808530f1dff1e74a0a221c808010` | "Page last updated 2026-11-22 03:10 UTC" (adds sandboxed `lake build Main` byte-identical export `5ea74b91…244e` and `con-ron --compare` pass; earlier 2026-11-20 22:05 UTC snapshot was 12,782 bytes, `de7153ec…`) |
+| A. Sutherland, "Verification files for the Lean proof of the Riemann Hypothesis" | `https://math.mit.edu/~drew/grh/` | 2026-11-21T04:02:13Z; rechecked 2026-11-22T09:15Z | 27222 | `01a43fc8defab818d878bfa8fd900d7563073db3dbc6f150ad73baec0fe388a7` | "Page last updated 2026-11-22 04:35 UTC" (adds standalone `Robin1984` `lake comparator` `v4.36.0` pass at `04:16:52 UTC` and elaborated `lagariasStmt`; main and combined 62 GB `lake comparator` kernel stages still `running`; earlier `03:10 UTC` copy was 24,564 B, `17661672…`) |
 | LUMI independent check (A. Lipponen), README | `https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/main/README.md` | 2026-11-21T04:02:26Z | 9064 | `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c` | repository head `82d91dbbd04d` (2026-11-20T23:56:59Z), unchanged at 04:42:16Z |
 | LUMI reader's guide, `docs/README.md` | `…/rh-lean-check-lumi/main/docs/README.md` | 2026-11-21T04:02:57Z | 14124 | `b34663b4fa5484c87bd3b0be4a08308a114fe84fdc0661fd787ac252bda9495f` | docs added in `40e1ae43477a` (2026-11-20T22:40:20Z) |
 | LUMI `docs/01-what-is-proved.md` | `…/docs/01-what-is-proved.md` | 2026-11-21T04:03:00Z | 13830 | `37eaf1cc6340053aa2edfa283d400361035b243f96f324e60d79a441660e603c` | |
@@ -242,10 +244,22 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Mathematischen Seminar der Universität Hamburg* 3 (1924), 89–108, doi:10.1007/BF02954618 (cited
   in Chapter 16).
   Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF02954618`), *Abh. Math. Sem. Univ. Hamburg* vol. 3 (1924), pp. 89–108.
+- **[Artin1927]** E. Artin, "Beweis des allgemeinen Reziprozitätsgesetzes", *Abhandlungen aus dem
+  Mathematischen Seminar der Universität Hamburg* 5 (1927), 353–363, doi:10.1007/BF02952531 (cited
+  in Chapter 18).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF02952531`), *Abh. Math. Sem. Univ. Hamburg* vol. 5 (1927), pp. 353–363.
+- **[Behrend1946]** F. A. Behrend, "On sets of integers which contain no three terms in
+  arithmetical progression", *Proceedings of the National Academy of Sciences of the United States
+  of America* 32 (1946), no. 12, 331–332, doi:10.1073/pnas.32.12.331 (cited in Chapter 17).
+  Verified: 2026-11-22 via Crossref / PNAS (`doi:10.1073/pnas.32.12.331`), vol. 32, no. 12 (1946), pp. 331–332.
 - **[BellaicheChenevier2009]** J. Bellaïche and G. Chenevier, *Families of Galois Representations and
   Selmer Groups*, Astérisque 324, Société Mathématique de France, Paris, 2009, xii+314 pp.,
   ISBN 978-2-85629-264-8 (cited in Chapters 10 and 12).
   Verified: 2026-11-21 via SMF / Numdam Astérisque vol. 324 (2009), xii+314 pp.
+- **[Berger2002]** L. Berger, "Représentations $p$-adiques et équations différentielles",
+  *Inventiones Mathematicae* 148 (2002), no. 2, 219–284, doi:10.1007/s002220100202 (cited in
+  Chapter 18).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/s002220100202`), *Invent. Math.* vol. 148, no. 2 (2002), pp. 219–284.
 - **[BlochKato1990]** S. Bloch and K. Kato, "$L$-functions and Tamagawa numbers of motives", in
   P. Cartier et al. (eds.), *The Grothendieck Festschrift*, Vol. I, Progress in Mathematics 86,
   Birkhäuser, Boston, 1990, pp. 333–400, doi:10.1007/978-0-8176-4574-8_9 (cited in Chapter 10).
@@ -291,6 +305,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   reine und angewandte Mathematik* 227 (1967), 86–110, doi:10.1515/crll.1967.227.86 (cited in
   Chapter 9).
   Verified: 2026-11-21 via EuDML / De Gruyter, *J. Reine Angew. Math.* vol. 227 (1967), pp. 86–110.
+- **[Clozel1990]** L. Clozel, "Motifs et formes automorphes: applications du principe de
+  fonctorialité", in L. Clozel and J. S. Milne (eds.), *Automorphic Forms, Shimura Varieties, and
+  $L$-Functions*, Vol. I, Perspectives in Mathematics 10, Academic Press, Boston, MA, 1990,
+  pp. 77–159 (cited in Chapter 18).
+  Verified: 2026-11-22 via Perspectives in Mathematics vol. 10 (Academic Press, 1990), Vol. I, pp. 77–159.
 - **[ClozelHarrisTaylor2008]** L. Clozel, M. Harris, and R. Taylor, "Automorphy for some $l$-adic
   lifts of automorphic mod $l$ Galois representations", *Publications Mathématiques de l'IHÉS* 108
   (2008), 1–181, doi:10.1007/s10240-008-0016-1 (cited in Chapters 11 and 12).
@@ -303,13 +322,17 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
   ISBN 978-0-387-95097-6 (cited in Chapters 0, 2, 4, 7, and 16).
   Verified: 2026-11-21 via Springer GTM 74 catalogue (`ISBN 978-0-387-95097-6`).
+- **[DeligneRibet1980]** P. Deligne and K. A. Ribet, "Values of abelian $L$-functions at negative
+  integers over totally real fields", *Inventiones Mathematicae* 59 (1980), no. 3, 227–286,
+  doi:10.1007/BF01453237 (cited in Chapter 18).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF01453237`), *Invent. Math.* vol. 59, no. 3 (1980), pp. 227–286.
 - **[Deninger1993]** C. Deninger, "Lefschetz trace formulas and explicit formulas in analytic number
   theory", *Journal für die reine und angewandte Mathematik* 441 (1993), 1–15,
   doi:10.1515/crll.1993.441.1 (cited in Chapters 14 and 15).
   Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1515/crll.1993.441.1`), *J. Reine Angew. Math.* vol. 441 (1993), pp. 1–15.
 - **[FerreroWashington1979]** B. Ferrero and L. C. Washington, "The Iwasawa invariant $\mu_p$
   vanishes for abelian number fields", *Annals of Mathematics* (2) 109 (1979), no. 2, 377–395,
-  doi:10.2307/1971116 (cited in Chapter 11).
+  doi:10.2307/1971116 (cited in Chapters 11, 16, and 18).
   Verified: 2026-11-22 via *Annals of Mathematics* / JSTOR (`doi:10.2307/1971116`), vol. 109, no. 2 (1979), pp. 377–395.
 - **[GanTakeda2016]** W. T. Gan and S. Takeda, "A proof of the Howe duality conjecture",
   *Journal of the American Mathematical Society* 29 (2016), no. 2, 473–493,
@@ -382,14 +405,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via bibliographic records for Borntraeger (Königsberg, 1829) and *Gesammelte Werke* Bd. 1, pp. 49–239.
 - **[Kato2004]** K. Kato, "$p$-adic Hodge theory and values of zeta functions of modular forms", in
   *Cohomologies $p$-adiques et applications arithmétiques, III*, Astérisque 295, Société
-  Mathématique de France, Paris, 2004, pp. 117–290 (cited in Chapter 11).
+  Mathématique de France, Paris, 2004, pp. 117–290 (cited in Chapters 11, 16, and 18).
   Verified: 2026-11-22 via SMF / Numdam Astérisque vol. 295 (2004), pp. 117–290.
 - **[Katz1976]** N. M. Katz, "$p$-adic interpolation of real analytic Eisenstein series", *Annals of
   Mathematics* (2) 104 (1976), no. 3, 459–571, doi:10.2307/1970966 (cited in Chapter 8).
   Verified: 2026-11-21 via JSTOR / *Annals of Mathematics* (`doi:10.2307/1970966`), vol. 104, no. 3 (1976), pp. 459–571.
 - **[KudlaRallis1994]** S. S. Kudla and S. Rallis, "A regularized Siegel–Weil formula: the first
   term identity", *Annals of Mathematics* (2) 140 (1994), no. 1, 1–80, doi:10.2307/2118540
-  (cited in Chapters 7, 8, 9, and 12).
+  (cited in Chapters 7, 8, 9, 12, 16, and 18).
   Verified: 2026-11-21 via *Annals of Mathematics* / JSTOR (`doi:10.2307/2118540`), vol. 140, no. 1, pp. 1–80.
 - **[Lagarias2002]** J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis",
   *The American Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in
@@ -414,6 +437,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Classical Theory*, Cambridge Studies in Advanced Mathematics 97, Cambridge University Press,
   2007, ISBN 978-0-521-84903-6 (Theorem 1.7 and §15.1, cited in Chapter 3).
   Verified: 2026-11-21 via Cambridge University Press CSAM vol. 97 (`ISBN 978-0-521-84903-6`).
+- **[Neukirch1999]** J. Neukirch, *Algebraic Number Theory*, transl. N. Schappacher, Grundlehren
+  der mathematischen Wissenschaften 322, Springer, Berlin–Heidelberg, 1999, ISBN 978-3-540-65399-8,
+  doi:10.1007/978-3-662-03983-0 (cited in Chapter 18).
+  Verified: 2026-11-22 via Crossref / Springer Grundlehren vol. 322 (`doi:10.1007/978-3-662-03983-0`).
+- **[NeukirchSchmidtWingberg2008]** J. Neukirch, A. Schmidt, and K. Wingberg, *Cohomology of Number
+  Fields*, 2nd ed., Grundlehren der mathematischen Wissenschaften 323, Springer, Berlin–Heidelberg,
+  2008, ISBN 978-3-540-37888-4, doi:10.1007/978-3-540-37889-1 (cited in Chapter 18).
+  Verified: 2026-11-22 via Crossref / Springer Grundlehren vol. 323 (`doi:10.1007/978-3-540-37889-1`).
 - **[Page1935]** A. Page, "On the number of primes in an arithmetic progression", *Proceedings of
   the London Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in
   Chapter 4).
@@ -432,7 +463,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via Numdam (`CM_1984__52_2_139_0`), *Compositio Math.* vol. 52, no. 2 (1984), pp. 139–169.
 - **[Rallis1987]** S. Rallis, *$L$-Functions and the Oscillator Representation*, Lecture Notes in
   Mathematics 1245, Springer, Berlin–Heidelberg, 1987, xvi+239 pp., ISBN 978-3-540-17694-7,
-  doi:10.1007/BFb0077894 (cited in Chapters 9 and 15).
+  doi:10.1007/BFb0077894 (cited in Chapter 9).
   Verified: 2026-11-22 via Crossref / Springer LNM vol. 1245 (`doi:10.1007/BFb0077894`, `ISBN 978-3-540-17694-7`), xvi+239 pp.
 - **[RamakrishnanValenza1999]** D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number
   Fields*, Graduate Texts in Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0
@@ -446,8 +477,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Monatsberichte der Königlich Preußischen Akademie der Wissenschaften zu Berlin* (November 1859),
   671–680 (cited in Chapter 7).
   Verified: 2026-11-21 via Berlin Academy *Monatsberichte* (Nov. 1859, pp. 671–680).
+- **[Roth1953]** K. F. Roth, "On certain sets of integers", *Journal of the London Mathematical
+  Society* (1) 28 (1953), no. 1, 104–109, doi:10.1112/jlms/s1-28.1.104 (cited in Chapter 17).
+  Verified: 2026-11-22 via Crossref / LMS (`doi:10.1112/jlms/s1-28.1.104`), *J. London Math. Soc.* vol. s1-28, no. 1 (1953), pp. 104–109.
 - **[Rubin2000]** K. Rubin, *Euler Systems*, Annals of Mathematics Studies 147, Princeton University
-  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10 and 11).
+  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10, 11, and 18).
   Verified: 2026-11-21 via Princeton University Press AMS vol. 147 (`ISBN 978-0-691-05076-8`), xii+224 pp.
 - **[Schmidt1976]** W. M. Schmidt, *Equations over Finite Fields: An Elementary Approach*, Lecture
   Notes in Mathematics 536, Springer, Berlin–Heidelberg, 1976, ISBN 978-3-540-07855-5,
@@ -483,7 +517,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via Math-Net.Ru (*Izv. AN SSSR Ser. Mat.* 33:5 (1969), 1171–1181) and *Math. USSR-Izv.* 3:5 (1969), 1103–1114.
 - **[Tate1967]** J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950
   thesis), in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press,
-  London, 1967, pp. 305–347 (cited in Chapters 2, 7, 8, and 12).
+  London, 1967, pp. 305–347 (cited in Chapters 2, 7, 8, 12, 14, 15, and 18).
   Verified: 2026-11-21 via Cassels–Fröhlich *Algebraic Number Theory* (Academic Press, 1967, Ch. XV, pp. 305–347).
 - **[TaylorWiles1995]** R. Taylor and A. Wiles, "Ring-theoretic properties of certain Hecke
   algebras", *Annals of Mathematics* (2) 141 (1995), no. 3, 553–572, doi:10.2307/2118560 (cited
@@ -491,8 +525,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via *Annals of Mathematics* / JSTOR (`doi:10.2307/2118560`), vol. 141, no. 3 (1995), pp. 553–572.
 - **[Thorne2015]** J. A. Thorne, "Automorphy lifting for residually reducible $l$-adic Galois
   representations", *Journal of the American Mathematical Society* 28 (2015), no. 3, 785–870,
-  doi:10.1090/S0894-0347-2014-00812-2 (cited in Chapter 11).
+  doi:10.1090/S0894-0347-2014-00812-2 (cited in Chapters 11 and 16).
   Verified: 2026-11-22 via AMS (`doi:10.1090/S0894-0347-2014-00812-2`), *J. Amer. Math. Soc.* vol. 28, no. 3 (2015), pp. 785–870.
+- **[Tschebotareff1926]** N. Tschebotareff, "Die Bestimmung der Dichtigkeit einer Menge von
+  Primzahlen, welche zu einer gegebenen Substitutionsklasse gehören", *Mathematische Annalen* 95
+  (1926), no. 1, 191–228, doi:10.1007/BF01206606 (cited in Chapter 18).
+  Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1007/BF01206606`), *Math. Ann.* vol. 95, no. 1 (1926), pp. 191–228.
 - **[Washington1997]** L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate
   Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in
   Chapters 2 and 11).
@@ -510,8 +548,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   (1964), 143–211, doi:10.1007/BF02391012 (cited in Chapters 7 and 14).
   Verified: 2026-11-21 via Project Euclid / Springer (`doi:10.1007/BF02391012`), vol. 111, pp. 143–211.
 - **[Weil1965]** A. Weil, "Sur la formule de Siegel dans la théorie des groupes classiques", *Acta
-  Mathematica* 113 (1965), 1–87, doi:10.1007/BF02391774 (cited in Chapters 7 and 15).
+  Mathematica* 113 (1965), 1–87, doi:10.1007/BF02391774 (cited in Chapters 15 and 18).
   Verified: 2026-11-22 via Crossref / Project Euclid (`doi:10.1007/BF02391774`), *Acta Math.* vol. 113 (1965), pp. 1–87.
+- **[Wiles1995]** A. Wiles, "Modular elliptic curves and Fermat's Last Theorem", *Annals of
+  Mathematics* (2) 141 (1995), no. 3, 443–551, doi:10.2307/2118559 (cited in Chapter 18).
+  Verified: 2026-11-22 via Crossref / JSTOR (`doi:10.2307/2118559`), *Annals of Mathematics* vol. 141, no. 3 (1995), pp. 443–551.
 
 ## 7. Our own derived data (not in the repository)
 
@@ -659,7 +700,7 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - Author: Aapo Lipponen; docs edited from AI review reports.
 - Version / date: README "Status: compile complete (updated 2026-11-20 22:30 UTC)" at HEAD `82d91dbbd04d` (2026-11-20 23:56:59 UTC); updated to "Status: compile and dependency audit complete (updated 2026-11-21 12:40 UTC)" at HEAD `d6881c9066` (2026-11-21 12:37:16 UTC), walking all 1,478,243 constants in the compiled proof terms (`146,437 / 175,187` project modules and `5,081` Mathlib modules used).
 - Retrieved: README 2026-11-21 05:24:35 UTC, HTTP 200, 9,064 bytes, sha256 `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c`; re-retrieved 2026-11-21 12:42:27 UTC, HTTP 200, 9,779 bytes, sha256 `72da7b8d8e8ad0b3c6822fbc7151a198e8234516093b9a2ad11fb6a54c01ec7a`; `results/build-summary.json` 2026-11-21 05:24:36 UTC, HTTP 200, 453 bytes, sha256 `a2763844491a03287ecdbfe5868d71146a7d8ed22a70695b95bf7c12091fe072`; earlier copies identical to Part I's (§5)
-- Contribution and reliability: A second full compile, each `lean` process in a no-network sandbox on 8 LUMI-C nodes: 175,187 of 175,187 modules, 0 failures, `Main.lean` finished 22:21 UTC; `Main.olean` and `Statements.olean` hashes equal to Sutherland's. That match is the strongest public evidence that V1's unsandboxed build was not tampered with. The README is explicit about what it did not run (kernel replay, second kernel) and credits V1 and Teżewski for those. High reliability for what it reports.
+- Contribution and reliability: A second full compile, each `lean` process in a no-network sandbox on 8 LUMI-C nodes: 175,187 of 175,187 modules, 0 failures, `src/Main.lean` finished 22:21 UTC; `Main.olean` and `Statements.olean` hashes equal to Sutherland's. That match is the strongest public evidence that V1's unsandboxed build was not tampered with. The README is explicit about what it did not run (kernel replay, second kernel) and credits V1 and Teżewski for those. High reliability for what it reports.
 
 <a id="v7"></a>
 **V7. Infatoshi, "Independent Verification Receipts" (`Infatoshi/rh-verification-receipts`).**
@@ -1381,4 +1422,6 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Re-check during Part II opening (Chapters 6–7), 2026-11-21 16:10–16:13 UTC** (run `rhbook-ch6-7-1121e-11220006/fetches/`): the Lean and Mathlib communities published an official joint verification statement (`https://leanprover-community.github.io/blog/posts/riemann-hypothesis/`, dated `2026-11-21 13:55 UTC`, `8,501` B, sha256 `f1bc87e6bf7aa9285fc0507377b850cfa166c9035c8fbc6394a182655f0a9a35`, announced by Johan Commelin on Zulip `#642485818`), endorsed by the Lean FRO and the Mathlib Initiative, certifying that both the statement and the Lean proof of `RiemannHypothesis` are correct; Sutherland's page (V1) updated at `12:55 UTC` (`20,460` B, sha256 `e46488825acc7e4f…`, main and combined `lake comparator` and single-threaded export Lean kernels still listed as `running`); LUMI `README.md` (V6) updated (`11,570` B, sha256 `28c0a13c24d5642a…`), cross-checking its `1,478,243`-constant walk against James Shore's newly published kernel-term dependency dataset (`https://github.com/james-shore/rh-proof-dependencies`, `README.md` `22,828` B, sha256 `394093e4cd4e8a78…`, reporting `804,912 / 1,061,400` project declarations and `146,287 / 175,187` source files used, or `1,484,729` constants including `6,486` unreferenced recursors); `leanprover-community/riemann-hypothesis` reached issue/PR `#40`, including merged PR `#34` (`gh-dv-openclaw`, machine-checked equivalence of `PrimitiveDirichletLZerosOnLine` with `formal-conjectures`'s GRH) and open issue `#39` (`aapolipponen`, table of named classical theorems); and this book's own repository (`Li-Hongmin/amazing-riemann-hypothesis`) had open community PR `#1` (`leecrossley`, `2026-11-21 09:43:46 UTC`, proposing a three-term delayed-difference note on Theorem 3.6 backed by `leecrossley/dirichlet-window-transfer` and `doi:10.5281/zenodo.24410863`).
 - **Re-check during Part II continuation (Chapters 8–10), 2026-11-21 19:04:53 UTC** (run `rhbook-ch8-10-1122a-11220300/fetches/`): Sutherland's verification page (V1) unchanged at `12:55 UTC` (`20,460` B, sha256 `e46488825acc7e4fdcc2576af4c887d8f754cbbaeb270c74031c90c97e99870b`, single-threaded export Lean kernels and `lake comparator` still listed as `running`); LUMI `README.md` (V6) unchanged (`11,570` B, sha256 `28c0a13c24d5642a40687d43de71d2925884a7070b79d6c0196e7121c56d8202`); `leanprover-community/riemann-hypothesis` reached issue/PR `#45` (adding PRs `#40`, `#44`, and `#45` removing unused modules and dead code); `Li-Hongmin/amazing-riemann-hypothesis` had open community PR `#1` (`leecrossley`) and zero other issues/PRs; and 14 additional classical references (`[BellaicheChenevier2009]` through `[Siegel1935b]`) were verified online and added to Part I, §6 above.
 - **Re-check during Part II closing & Part III completion (Chapters 11–13), 2026-11-22 00:02:53 UTC** (run `rhbook-ch11-13-1122b-11220724/fetches/`): Sutherland's verification page (V1) unchanged at `12:55 UTC` (`20,460` B, sha256 `e46488825acc7e4fbf3c0c744edcfaa5219f773571a9267b06df26b11f18a1a3`, single-threaded export Lean kernels and `lake comparator` still listed as `running`); LUMI `README.md` (V6) unchanged in length (`11,570` B, sha256 `28c0a13c24d5642a2fed464cf2cfd148ab1880367ea5a6c167ae2850b9d69b68`); `leanprover-community/riemann-hypothesis` reached issue/PR `#59` (continuing dead-code, unused-import, and wrapper-collapsing PRs); `Li-Hongmin/amazing-riemann-hypothesis` had open community PR `#1` (`leecrossley`) and zero other issues/PRs; and 17 additional classical references (`[BushnellKutzko1993]` through `[Thorne2015]`) were verified online and added to Part I, §6 above.
+- **Re-check during Part IV completion (Chapters 14–16), 2026-11-22 03:29–03:30 UTC** (run `rhbook-ch14-16-1122c-11221118/fetches/`): Sutherland's verification page (V1) updated at `2026-11-22 03:10 UTC` (`24,564` B, sha256 `17661672e3dcc7cc83f170b11027cf55e75d808530f1dff1e74a0a221c808010`, adding sandboxed `lake build Main` byte-identical export `5ea74b91…244e` and `con-ron --compare` pass); `mccorvie/riemann-masullo` `README.md` at `13,030` B (`f121f834…`, ~4,700 stated / ~3,950 proved across ~1,360 PRs, ~200 `ERRATA.md` entries); `leanprover-community/riemann-hypothesis` reached PR `#65` (pruning 10,724 unused files); and 12 additional classical references (`[Artin1924]` through `[Weil1965]`) were verified online and added to Part I, §6 above.
+- **Re-check during Chapters 17–18 expansion & full-book audit closure, 2026-11-22 09:15 UTC** (run `rhbook-ch17-18-1122d-11221700/fetches/`): pinned Mathlib `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` (`21,422` B, sha256 `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5`) retrieved and added to Part I, §4 above; Sutherland's verification page (V1) updated at `2026-11-22 04:35 UTC` (`27,222` B, sha256 `01a43fc8defab818d878bfa8fd900d7563073db3dbc6f150ad73baec0fe388a7`, reporting standalone `kimihiro64/Robin1984` passing both Comparator `v4.33.0` at `03:31:06 UTC` and `lake comparator` `v4.36.0` at `04:16:52 UTC` alongside elaborated `lagariasStmt`, while main and combined 62 GB `lake comparator` kernel stages remain `running`); `mccorvie/riemann-masullo` `README.md` updated (`14,590` B, sha256 `9072dc8b625f3b07e02b5e60be1edef38816c975aee2f5c03f2b05a1a4be5c2e`, Wave 3 seeded as section issues and `lake comparator` harness added); `rStation` `riemann_hypothesis_189` updated to `v3` (`2026-11-22 05:23 UTC`, `142,166` B, sha256 `15bbcef5a144e33264be7de5f0e7291ebd9a89546e3d9d0de10f3b03cc96e863`); and 10 classical references (`[Artin1927]`, `[Behrend1946]`, `[Berger2002]`, `[Clozel1990]`, `[DeligneRibet1980]`, `[Neukirch1999]`, `[NeukirchSchmidtWingberg2008]`, `[Roth1953]`, `[Tschebotareff1926]`, `[Wiles1995]`) were verified online via Crossref and added in strict alphabetical order to Part I, §6 above.
 

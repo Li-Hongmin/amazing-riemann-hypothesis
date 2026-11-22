@@ -3,7 +3,7 @@
 > **Status tags used in this chapter:** `[Lean, read]` for definitions and `sorry`-free proofs read
 > line by line in `DivinNOfHypV.lean`, `IdempotentChoiceDepthZero.lean`,
 > `LengthHeckeValueIdealLeDeterminantBound.lean`, `LengthHeckeValueIdealLeDeterminantBoundStatement.lean`,
-> `GlobalCongruenceCountOfRootDifferenceUnit.lean`, `IntegralHeckeForms.lean`,
+> `GlobalCongruenceCountOfRootDifferenceUnit.lean`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean`,
 > `ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`,
 > `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`); `[Lean]` for
 > statement-level inspections of imported DVR determinant, cyclotomic-cocycle, class-group, and
@@ -35,7 +35,7 @@ Node **P11** of the Lean archive solves this congruence-loss problem in three de
    $\pi$ is bounded by the $\mathcal O$-length of $1$-cocycles on the off-diagonal blocks of a GMA
    Galois representation: one cuspidal $\rho$-block plus $t = R.t$ scalar cyclotomic blocks!
 2. **Galois cohomology + character twisting (`CutCoreUnit.main` & `TwistingCharacterExistence`):**
-   Twisting the lift by a well-chosen character (`TwistingCharacterExistence`, `IntegralHeckeForms.lean:166`;
+   Twisting the lift by a well-chosen character (`TwistingCharacterExistence`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:166`;
    `twist_kills_selmer`, `ChosenTwistAnnihilatesSelmerGroups.lean:8`) **annihilates the cuspidal
    $\rho$-Selmer piece**, while global Artin reciprocity and Poitou–Tate / Bloch–Kato Selmer theory
    `[BlochKato1990]`, `[Rubin2000]` bound the $t$ cyclotomic blocks by the **host class number
@@ -189,7 +189,7 @@ idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t
    slot to extract the off-diagonal pairing values feeding the congruence ideal `ccOff(π)`
    (`LengthHeckeValueIdealLeDeterminantBound.lean:15`).
 
-### 10.3.2 Integral Hecke lattices and `TwistingCharacterExistence` (`IntegralHeckeForms.lean`)
+### 10.3.2 Integral Hecke lattices and `TwistingCharacterExistence` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean`)
 
 **Definition 10.2 (Ramification-normalized length, signed lattice index, and character-twisting existence, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,166,219,233`).**
 
@@ -270,7 +270,7 @@ and wrapper `…/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8`.)* [Le
 *Proof.* First (`value_mem_ccOff` at `:15` and `exists_ne_zero` at `:37`), using the rank-$1$ projector
 `Eel` and unit $\delta_{51}$ of `IsOrthogonalIdempotentDecomposition` (`IdempotentChoiceDepthZero.lean:18`)
 together with `NoChiOff` away from `Z i` produces $\eta$ and $\gamma$ with nonzero off-diagonal
-action `(yg ... γ x').mulVec η ≠ 0`. Next (`LengthHeckeValueIdealLeDeterminantBound.lean:59–165`),
+action `(yg ... γ x').mulVec η ≠ 0`. Next (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59–140`),
 the proof constructs the GMA relation module `Rel` pairing the off-diagonal column module $B$ against
 the off-diagonal row module $C$ into $\mathcal O$. By the block determinant polynomial identity
 `BlockDetPoly.main` (`[Lean]`), the Fitting/determinant ideal of the GMA presentation is contained in
@@ -332,10 +332,13 @@ $\operatorname{len}_{\mathcal O}(\mathcal O / \mathrm{ccOff}(\pi))$ before divid
 book's tagging rules (`notes/proof-map.md`, node `P18`): `CutCoreUnit.main` takes
 `hA : GlobalTheory.Published.GlobalArtinReciprocity` as an explicit `Prop` hypothesis (discharged
 upstream in `EveryCharacterOfLiteratureOfVWin.lean` `[Lean]`). That `CutCoreUnit.main` proves
-Theorem 10.2 from `hA` is `[Lean, read]`; whether the archive's definition of
-`GlobalTheory.Published.GlobalArtinReciprocity` matches the textbook statement of global Artin
-reciprocity in full generality (as opposed to the abelian/unramified specialization actually needed
-here!) belongs to the literature-fidelity audit of Chapter 13 and is tagged `[Open]`.
+Theorem 10.2 from `hA` is `[Lean, read]`; in **Chapter 18** (`Section 18.2`), we also read the
+`Prop` definition `GlobalTheory.Published.GlobalArtinReciprocity`
+(`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`)
+line by line (`R3` / `[Lean, read]`), confirming that it states full idèlic global Artin reciprocity
+over every number field $E$, while its `1,015`-module upstream proof cone
+(`src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8`)
+remains `[Open]`.
 
 ### 10.4.3 Killing the $\rho$-Selmer term by twisting (`twist_kills_selmer` & `LinkFam.main`)
 
@@ -348,7 +351,7 @@ could depend on the $j$-th automorphic packet and accumulate uncontrollably!
 
 1. **Selmer annihilation (`twist_kills_selmer`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`).**
    *Choosing the admissible character twist supplied by `TwistingCharacterExistence`
-   (`IntegralHeckeForms.lean:166`) annihilates the residual/torsion cuspidal Selmer classes in
+   (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:166`) annihilates the residual/torsion cuspidal Selmer classes in
    $\mathrm{sPi}(i, \pi_{\mathrm{tw}})$ outside the controlled auxiliary prime set $Q_i$.* [Lean, read]
 2. **Summing $\log \ell \cdot \mathrm{vcc}$ across all primes $\ell$ and closing `LinkEta` (`GlobalTheory.LinkFam.main`, `…/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`, and `closed_linkEta_of_duty`, `…/ThirdPlaceSeries/LinkEta.lean:13`).**
    *Multiplying Theorem 10.2 (at the chosen Selmer-killing twist) by $\log \ell$ and summing over all
@@ -357,12 +360,12 @@ could depend on the $j$-th automorphic packet and accumulate uncontrollably!
      tame ramification)*;
    - $\sum_\ell \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) = \sum'_\ell \mathrm{vvTerm}(D, \ell)$; *and*
    - *the finite tame cyclotomic-unit sum over $q \in Q_i$, establishing `LinkN` (`LinkFam.main`,
-     `LinkNAlongFamilyOfLocalBounds.lean:11`), while `closed_linkEta_of_duty` (`LinkEta.lean:13`)
+     `LinkNAlongFamilyOfLocalBounds.lean:11`), while `closed_linkEta_of_duty` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13`)
      closes the companion local twisting-cover predicate `LinkEta` (`LocsCoverTw`,
      `GlobalTheoremInputs.lean:49`).* [Lean, read]
 
-*(Reading boundary `[Lean]`.)* We read `IntegralHeckeForms.lean` (207-module cone),
-`ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`, and `LinkEta.lean`
+*(Reading boundary `[Lean]`.)* We read `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean` (207-module cone),
+`ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`, and `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean`
 in full (`R3` / `[Lean, read]`); the upstream construction proving `TwistingCharacterExistence`
 (using Chebotarev density / cyclic prime splitting to pick twists whose local Frobenius eigenvalues
 break residual Selmer cocycles, `remark.pdf` p. 4, items 14–15, 17) sits inside the deeper automorphic
@@ -370,7 +373,7 @@ cone (`R2` / `[Lean]`, proof body unread `[Open]`).
 
 ### 10.4.4 Complete proof of `divinN_of_hypV`: how $\sqrt{b} = \exp(x^\varepsilon/2)$ closes `DIVinN`
 
-To finish Chapter 10, let us prove `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:1–134`,
+To finish Chapter 10, let us prove `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:1–130`,
 leaf-inclusive import cone **311** modules, read 100% line by line at `R3`) — the exact bridge from
 `HypV`, `LinkN`, and `SmallLevelRankEq` to `DIVinN` [Lean, read]!
 
@@ -437,9 +440,9 @@ node **P11**:
 
 | File | Import cone | Reading level & tag | Role |
 |---|---|---|---|
-| `IntegralHeckeForms.lean` | **207** | `R3` (`[Lean, read]`) | Defines ramification-normalized lengths `lenR`, signed lattice indices `sIdx`, and states `TwistingCharacterExistence`. |
-| `DivinNOfHypV.lean` | **311** | `R3` (`[Lean, read]`) | Proves `vvRecord` and `divinN_of_hypV`, converting `HypV` + `LinkN` + `SmallLevelRankEq` into `DIVinN`. |
-| `GlobalCongruenceCountOfRootDifferenceUnit.lean` | **3,287** | `R3` (`[Lean, read]` for this file and `CutDetOrd.main`; `R2` `[Lean]` for imported cocycle/DVR sub-lemmas; `[Open]` for `GlobalArtinReciprocity` literature match) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
+| `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean` | **207** | `R3` (`[Lean, read]`) | Defines ramification-normalized lengths `lenR`, signed lattice indices `sIdx`, and states `TwistingCharacterExistence`. |
+| `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean` | **311** | `R3` (`[Lean, read]`) | Proves `vvRecord` and `divinN_of_hypV`, converting `HypV` + `LinkN` + `SmallLevelRankEq` into `DIVinN`. |
+| `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean` | **3,287** | `R3` (`[Lean, read]` for this file, `CutDetOrd.main`, and `GlobalArtinReciprocity`'s `Prop` in Ch. 18; `R2` `[Lean]` for imported cocycle/DVR sub-lemmas; `[Open]` for `globalArtinReciprocity`'s 1,015-module proof cone) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
 
 ### 10.5.2 Why cyclotomic twists $\mathbb Q_\ell / \mathbb Z_\ell(-e)$ appear up to $e < R.t \le \lfloor x^{400} \rfloor$
 
@@ -478,7 +481,7 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 | `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ (`LinkFam.main` proving `LinkN`) and closes local twisting cover `LinkEta` (`closed_linkEta_of_duty`). | [Lean, read] |
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
 | `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |
-| `GlobalTheory.Published.GlobalArtinReciprocity` (hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45` | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`[Lean]` proved in archive; literature-statement match `[Open]`). | [Open] |
+| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop` & hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` (used at `…/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`) | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`Prop` verified faithful in **Chapter 18** `[Lean, read]`; upstream 1,015-module proof cone `[Open]`). | [Lean, read] |
 
 **Summary of the chapter.** Projecting integral theta lifts onto cuspidal eigenspaces loses
 denominators governed by Hecke congruence ideals `[Ribet1976]`, `[Hida1981]`, `[Hida1988]`. Using an

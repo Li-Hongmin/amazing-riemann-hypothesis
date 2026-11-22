@@ -4,11 +4,12 @@
 > proofs verified line by line by us (`R3`); `[Lean]` for compiled archive declarations inspected at
 > statement level (`R1`/`R2`); `[Paper; remark p. …]` and `[Paper; Masullo p. …]` for primary
 > documents; `[Community]` for public machine-check logs, repository audits, and community reports
-> checked online through `2026-11-22 03:30 UTC`; `[Expository]` for classical number-theoretic proofs
+> checked online through `2026-11-22 04:35 UTC`; `[Expository]` for classical number-theoretic proofs
 > and worked examples on scope boundaries; `[Open]` for pending kernel replays, unaudited statement
 > matches, unread deep proof cones, and unresolved gaps in Masullo's draft.
 
-We have reached the closing chapter of *Amazing Riemann Hypothesis*. Across Chapters 1 through 15, our
+Across Chapters 1 through 15 (alongside **Chapter 17** on host-field Behrend geometry and **Chapter 18**
+on `GlobalTheory.Published.*` statement-fidelity case studies), our
 governing rule (`README.md`) has been to keep four questions strictly separate whenever someone asks
 *"Has the Riemann Hypothesis been proved?"*:
 
@@ -29,7 +30,7 @@ governing rule (`README.md`) has been to keep four questions strictly separate w
    Dirichlet GRH at all**?
 
 This chapter answers all four questions in consolidated, citation-pinned ledgers as of
-`2026-11-22 03:30 UTC`, preceded by two concrete worked examples — one in algebraic number theory and
+`2026-11-22 04:35 UTC`, preceded by two concrete worked examples — one in algebraic number theory and
 one in Lean build mechanics — that clear up the two most widespread misconceptions in public discussion
 of the announcements, and followed by an actionable checklist for readers who want to contribute to the
 next stage of verification and digestion.
@@ -49,7 +50,7 @@ abolishing it [Expository]:
   multiple independently implemented kernels (`leanchecker`, `nanoda`, `con-leche --compare`,
   `con-ron --compare`, `lean4lean`) accept a sandbox-reproduced export depending only on the three
   standard axioms, **the risk of a subtle hidden gap, unstated assumption, sign slip, or missing boundary
-  case in proving `Main.lean` drops essentially to zero** (modulo simultaneous soundness bugs across
+  case in proving `src/Main.lean` drops essentially to zero** (modulo simultaneous soundness bugs across
   independent kernels in Lean, Rust, and C++, or a definition bug in Mathlib's eight `LSeries` files).
 - **What kernels do NOT supply on their own:**
   1. A kernel checks that `UpperTheory.FinalTheorems.everyCharacter` has type `EveryCharacter`, **not**
@@ -58,7 +59,7 @@ abolishing it [Expository]:
      an unaudited internal module as a black-box library theorem without reading its `def`! Chapter 13).
   2. A kernel gives zero mathematical insight into **why** the proof works or how to simplify 17.37
      million lines into a human-checkable monograph and reusable Mathlib theorems.
-  3. Above all, a kernel proves **only the exact `Prop`s in `Main.lean`** — namely `EveryCharacter`
+  3. Above all, a kernel proves **only the exact `Prop`s in `src/Main.lean`** — namely `EveryCharacter`
      (Dirichlet $L$-functions over $\mathbb Q$). In the press and on social media, dozens of commentators
      have conflated "GRH for Dirichlet $L$-functions" with the **Extended Riemann Hypothesis (ERH)** for
      Dedekind zeta functions $\zeta_K(s)$ of **arbitrary** number fields $K$ and Artin $L$-functions
@@ -72,7 +73,7 @@ abolishing it [Expository]:
 ### 16.2.1 Non-abelian Dedekind and Artin $L$-functions: $K = \mathbb Q(\sqrt[3]{2})$, $S_3$, and negative Brauer exponents
 
 Let us test what `EveryCharacter` (`∀ N χ s, 1/2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → L(s, χ) ≠ 0`,
-`Main.lean:8`) [Lean, read] tells us — and **fails** to tell us! — about Dedekind zeta functions
+`src/Main.lean:8`) [Lean, read] tells us — and **fails** to tell us! — about Dedekind zeta functions
 $\zeta_K(s) = \sum_{\mathfrak a \subseteq \mathcal O_K} (N_{K/\mathbb Q}\mathfrak a)^{-s}$ of number
 fields $K$ `[Artin1924]`, `[Brauer1947]` [Expository].
 
@@ -133,9 +134,10 @@ $$\rho \;=\; \sum_{i = 1}^r n_i \operatorname{Ind}_{H_i}^G(\psi_i) \qquad (n_i \
 \qquad\text{so}\qquad
 L(s, \rho) \;=\; \prod_{i = 1}^r L_{L^{H_i}}(s, \psi_i)^{n_i}!$$
 Look closely at the signs of the integers $n_i \in \mathbb Z$! For non-monomial groups like $A_5$
-(for instance, the $4$-dimensional irreducible character $\rho_4$ of $A_5$, which cannot be induced
-from any proper subgroup because $4 \nmid 60$ fails only for index $15$ where $\operatorname{Ind}_{V_4}^{A_5}$
-has degree $15$ and $\operatorname{Ind}_{A_4}^{A_5}$ has degree $5$!), **at least one integer $n_i$ MUST
+(for instance, the $4$-dimensional irreducible character $\rho_4$ of $A_5$: although $4 \mid 60$,
+inducing a degree-$4$ character from a $1$-dimensional character requires a subgroup of **index $4$,
+order $15$**, and the simple group $A_5$ has **no subgroup of index $4$** — its maximal proper subgroups
+$A_4$, $D_{10}$, and $S_3$ have orders $12, 10, 6$, i.e. indices $5, 6, 10$!), **at least one integer $n_i$ MUST
 be strictly negative ($n_i < 0$)!**
 
 Now watch what happens even if someone proved GRH for **every** abelian character $\psi_i$ of **every**
@@ -182,34 +184,44 @@ declarations (`sources/SOURCES.md` §5 and `fetches/sutherland_grh.html`, update
 Finally, let us illustrate in four concrete steps what it means to audit one of the 257 internal
 "literature" declarations (`P18`, Chapter 13) [Lean, read] [Expository]:
 
-1. **Locate both the `Prop` declaration, its proof wrapper, and its consumer:** Compare
-   `GlobalTheory.Published.FerreroWashington`
-   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:10`)
-   against `PositivityTheory.Stage1.PM.globalArtinReciprocity : GlobalTheory.Published.GlobalArtinReciprocity`
-   (`src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8`)
-   [Lean, read].
-2. **Check quantifiers against the published theorem:** In `FerreroWashington.lean:10`, the `Prop`
-   asserts that for every prime $p$, every number field $K$ abelian over $\mathbb Q$, and the
-   cyclotomic $\mathbb Z_p$-extension $K_\infty / K$, the Iwasawa $\mu$-invariant vanishes — matching
-   the full unconditional statement of `[FerreroWashington1979]` (*Faithful* `[Lean, read]`)! By
-   contrast, for `GlobalTheory.Published.GlobalArtinReciprocity` (`GlobalArtinReciprocity.lean:8`,
-   consumed at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`
-   in Chapter 10), one checks whether the `Prop` bundles the full idelic Artin reciprocity package
-   (`rayClassFieldSt` at `:11`, `heckeLAdicCharacter` at `:14`) or a domain-restricted avatar
-   supplying the unramified Hilbert-class-field bound invoked by `UnramHom.length_le_classNumber`!
-3. **Verify non-vacuity of hypotheses:** Check that no hypothesis in the `Prop` is unsatisfiable or
-   circularly strong (for example, in `KatoTwoW`, Ishaan Dixit asked on Zulip `#642435200` whether a
-   missing $L(1, f) \neq 0$ hypothesis made the statement stronger than `[Kato2004]`; David Loeffler
-   showed at `#642442900` that in the archive's analytic normalization $s = 1$ lies right of the
-   critical center $s = \frac{1}{2}$, where $L(1, f) \neq 0$ holds automatically `[Community]`!).
+1. **Locate the `Prop` declaration itself (not merely its proof wrapper!) and its consumer:** Compare
+   `UpperTheory.V.Published.FerreroWashington`
+   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`)
+   against `GlobalTheory.Published.GlobalArtinReciprocity`
+   (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`),
+   carefully distinguishing that `Prop` definition (`∃ art : Idele E →* GalAb E Ω, IsGlobalArtin E Ω art`,
+   `:25–40`) from the 17-line proof-term wrapper file
+   `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8–15`
+   (`globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter`) [Lean, read]!
+2. **Check quantifiers against the published theorem:** In `PublishedTheorems/FerreroWashington.lean:7`,
+   the `Prop` quantifies over every abelian number field $K / \mathbb Q$ and prime $\ell$, adding the
+   harmless base-layer root-of-unity hypothesis `∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)`
+   and finite $J$-localization (`IsLocalizedAt 𝔮 c`, bounding $\ell$-torsion of $\mathrm{Cl}_J(K_n)[\ell^\infty]$
+   by $\ell^C$, equivalent to `[FerreroWashington1979]` via finite base change $K(\mu_{2\ell})/K$!).
+   Meanwhile, in `ExistsUniqueHcharOfFiniteOrder.lean:70–72` (consumed at
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`
+   in Chapter 10), `IsGlobalArtin` states the full idèlic Artin reciprocity theorem over **every**
+   number field $E$ (*Faithful* `[Lean, read]`), while `RayClassFieldSt` and `HeckeLAdicCharacter` are
+   separate companion `Prop`s (`NonemptyAlgHomOfIsRayOfDvd.lean:17` and `ExistsUniqueHcharOfFiniteOrder.lean:74`;
+   all three audited in full in **Chapter 18**, Section 18.2)!
+3. **Verify non-vacuity and off-center guards:** Check that no hypothesis in the `Prop` is unsatisfiable or
+   silently omits a required condition (for example, in `UpperTheory.V.Published.Kato`,
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65`,
+   Ishaan Dixit asked on Zulip `#642435200` whether omitting $L(f, \chi, r) \neq 0$ made the statement
+   stronger than `[Kato2004]`; David Loeffler pointed out at `#642442900` `[Community]`, and we verify
+   line by line in **Chapter 18**, Lemma 18.2(1) `[Lean, read]`, that the guard `2 * r ≠ k` keeps every
+   integer $1 \le r \le k - 1$ at distance $\ge \frac{1}{2}$ from $\frac{k}{2}$, where Euler-product
+   non-vanishing and the functional equation force $L(f, \chi, r) \neq 0$ automatically!).
 4. **Assign two separate tags:** Even when an internal `Prop` turns out to be a domain-restricted
-   special case (as LUMI `docs/07-named-theorems.md` found for 29 of 105 audited items `[Community]`),
-   the implication inside `Main.lean` remains 100% kernel-valid (`[Lean]`), while only *Faithful*
+   special case (as LUMI `docs/07-named-theorems.md` found for 29 of 105 audited items `[Community]`,
+   and as Chapter 18 verifies for `BaseChangeDefiniteUnitary`, `PoitouTateNormalised`, and `ClozelPurity`
+   `[Lean, read]`),
+   the implication inside `src/Main.lean` remains 100% kernel-valid (`[Lean]`), while only *Faithful*
    statements qualify for standalone reuse as Mathlib theorems under their classical names!
 
 ---
 
-## 16.3 Consolidated verification ledgers (`2026-11-22 03:30 UTC`)
+## 16.3 Consolidated verification ledgers (`2026-11-22 04:35 UTC`)
 
 We now assemble four master ledgers recording exactly what has been verified and what remains `[Open]`.
 
@@ -218,7 +230,7 @@ We now assemble four master ledgers recording exactly what has been verified and
 | Verification item | Tool / runner | Status (`2026-11-22 03:30 UTC`) | Exact scope & evidence |
 |---|---|---|---|
 | Archive byte integrity | Sutherland, LUMI, `leanprover-community`, this book | **Passed** `[Lean, read]` / `[Community]` | 14 parts join to `239,275,554` bytes, sha256 `9631b4f0…49c7fc`; 175,187 `.lean` files, `17,374,215` lines. |
-| Statement & Mathlib pin | `Statements.lean`, `Challenge.lean`, Chapter 1 | **Passed** `[Lean, read]` / `[Community]` | All 5 theorems in `Main.lean` use unmodified Mathlib `v4.33.1` (`0df444a3`); PR #34 proved machine equivalence with `formal-conjectures` Dirichlet GRH. |
+| Statement & Mathlib pin | `src/Statements.lean`, `Challenge.lean`, Chapter 1 | **Passed** `[Lean, read]` / `[Community]` | All 5 theorems in `src/Main.lean` use unmodified Mathlib `v4.33.1` (`0df444a3`); PR #34 proved machine equivalence with `formal-conjectures` Dirichlet GRH. |
 | Axiom & static metaprogramming audit | `#print axioms`, `NOTES.md`, LUMI, our `rhaudit` (`186,200` `.olean` stream) | **Passed** `[Lean, read]` / `[Community]` | Only `propext`, `Classical.choice`, `Quot.sound`; zero `sorryAx`, zero `Lean.ofReduceBool`/`native_decide`, zero CShorcuts; 4 custom tactics elaborate to standard kernel terms. |
 | No-network sandboxed `lake build` + export match | LUMI (8 nodes), Sonoda (RIKYU), Sutherland (bubblewrap) | **Passed** `[Community]` | Sutherland's sandboxed `lake build Main` (`18:07 UTC` 21 Nov) produced a **byte-identical** `61,570,595,788`-byte export (`5ea74b91…244e`, `19:32 UTC` 21 Nov; also matched by Dixit). |
 | Module-by-module native & Lean-in-Lean replay | `leanchecker` (`v4.33.1`) & `lean4lean` (`67f63b0c`) | **Passed** `[Community]` | `175,187 / 175,187` `.olean` modules accepted (`lean4lean` passed 175,182 at default fuel + 5 `decide +kernel` modules with raised fuel). |
@@ -239,7 +251,7 @@ human mathematical digestion)** ordered by leaf-inclusive import-cone size (`not
 
 | Node | Block (`chapters/`) | What we verified at `R3` (`[Lean, read]`) | Deepest unread sub-cone (`[Open]` for human reading) | Cone size |
 |---|---|---|---|---|
-| `P0`–`P1`, `P3` | Statements & reductions (Chs. 1–2) | **100% read (`R3`)**: `Main.lean`, `Statements.lean`, `ClaimStrip.lean`, `RhOfRight.lean`, `CritLine.lean`, `Imprimitive.lean`. | **None** (`0`–`10` modules; unused `EveryCharacter` import in `CritLine` bypassed). | `0`–`10` |
+| `P0`–`P1`, `P3` | Statements & reductions (Chs. 1–2) | **100% read (`R3`)**: `src/Main.lean`, `src/Statements.lean`, `ClaimStrip.lean`, `RhOfRight.lean`, `CritLine.lean`, `Imprimitive.lean`. | **None** (`0`–`10` modules; unused `EveryCharacter` import in `CritLine` bypassed). | `0`–`10` |
 | `P4`–`P6` | Landau windows & `core_gm` (Chs. 3, 5) | **100% of analytic/chain algebra read (`R3`)**: `LandauTheorems/`, `PrimitiveCosets/`, `LipschitzWeightAndMinimum.lean`, `TopWin.lean`, `ZeroFreeAllOfTopG.lean`. | Upstream proof of `TopG` / `ChainTied` (accounted for in `P7`–`P17` below). | `9`–`753` |
 | `P9` | Arakelov slopes & heights (Ch. 9) | **Core library read in full (`R3`)**: `LatticeSlopes/`, `HarderNarasimhan/` (`SlopeIneq`, `ShiftInvariance`), `DivisionHeightBoundStatement`, `GlobalBoundRefinements`. | Minor helper lemmas in `HermitianLatticesTheory` within the `763`-module cone. | `1`–`763` |
 | `P13` | Auxiliary prime pairs (Ch. 4) | `PairGood`, `pairEx`, `StagePow`, `twistK`, `meanSqK`, `BadShare`, `WinPairs`, `SupplyChi`, `IsChiField` (`R3`). | Internal proofs of classical `zero_density_box`, `pnt_progressions_relative_weak_holds`, Siegel `excBound` (`[Lean]`, `[Open]`). | `260`–`1,329` |
@@ -257,30 +269,38 @@ human mathematical digestion)** ordered by leaf-inclusive import-cone size (`not
 
 Recall from Chapter 13 (`Section 13.5`) why `GlobalTheory.Published.*` requires careful book-keeping:
 100% of these `Prop`s are **proved without axioms inside the archive** (`[Lean]`), so a specialized or
-weakened `Prop` **cannot invalidate `Main.lean`** (because both its producer and its consumer sit
+weakened `Prop` **cannot invalidate `src/Main.lean`** (because both its producer and its consumer sit
 inside the kernel-checked graph!), **but** it *does* determine whether an internal file actually
 formalizes the named classical theorem!
 
 - **Exact declaration inventory (`rheval-lean-fidelity` & Chapter 13 `[Lean, read]`):** `257` theorems
   under `UpperTheory.LiteratureTheorems.*` (`176` `*_of_literature` + `60` `*_of_open` + `20` intermediate
-  bundles + `1` master theorem `openLiteratureStatements` in `EveryCharacterOfLiteratureOfVWin.lean`),
-  referencing **~182–188 distinct statement constants** in `GlobalTheory.Published.*` (plus `72` dead
-  `UnusedSlot72` declarations never referenced by `Main.lean`).
-- **Audited so far (`LUMI docs/07-named-theorems.md` `[Community]` + Chapter 13 `[Lean, read]`):**
+  bundles + `1` master theorem `every_character_of_literature_of_vWin` at `:810`, discharging the
+  `structure OpenLiteratureStatements : Prop` at `:215` in `EveryCharacterOfLiteratureOfVWin.lean`),
+  referencing **~182–188 distinct statement constants** in `GlobalTheory.Published.*` and
+  `UpperTheory.V.Published.*` (including the `True` fossil `GlobalTheory.Published.UnusedSlot72` at
+  `DiscreteSpectrumResidualClassification.lean:7`, alongside unreferenced fossil declarations outside
+  `src/Main.lean`'s closure).
+- **Audited so far (`LUMI docs/07-named-theorems.md` `[Community]` + Chapters 11, 13, and 18 `[Lean, read]`):**
   `105` statements audited at AI-assisted community level (`65` faithful, `29` domain-restricted special
   cases such as rank-$2$ `MorelSuh` or curve/surface `KawamataViehweg`, `7` safe weakenings, `4`
-  undetermined), plus our direct `R3` audits in Chapters 11–13 (`FerreroWashington`,
-  `GlobalArtinReciprocity`, `OpenImageCondition`, `DiscreteSpectrumResidualClassification`, `KatoTwoW`
-  clarified by Loeffler on Zulip `#642442900`).
-- **Remaining `[Open]`:** Roughly **77 to 83 `GlobalTheory.Published.*` constants** have not yet been
-  compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`.
+  undetermined), **plus 15 propositions audited directly line by line (`R3`) in Chapters 13 and 18**
+  (`GreenRegularCharacters`, `GlobalArtinReciprocity`, `HeckeLAdicCharacter`,
+  `RayClassFieldSt`/`RayClassFieldMaximalSt`, `ChebotarevDegreeOne`, `FerreroWashington`,
+  `SiegelKlingen`/`DeligneRibet`/`SiegelKlingenDeligneRibet`, `Kato`/`KatoUse`,
+  `PoitouTateNormalised`/`PoitouTateDuality`, `ClozelPurity`/`RegularAlgebraicPurity`,
+  `BaseChangeDefiniteUnitary`/`BaseChangeIsobaric`, `WeilSiegelFormula`/`WeilSiegelFormulaUnitary`/`SiegelWeilUnitaryConvergent`,
+  and `DeRhamPotSemistable`).
+- **Remaining `[Open]`:** Roughly **70 `GlobalTheory.Published.*` constants** have not yet been
+  compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`
+  (see **Chapter 18**, Section 18.5.1, for the standard five-step audit rubric).
 
 ### 16.3.4 Ledger 4: Open problems in Masullo's *The Music of the Primes* (Chapter 14)
 
 | Item | Location in Masullo's PDF | Current status (`2026-11-22`) |
 |---|---|---|
 | **M1. Positive-width strip spectral nuclearity ($I = [-\alpha, \alpha]$, $\alpha > 0$)** | `Terminology 10.2.1.2(2)` (`p. 444`), `(10.3.1.18)` (`p. 451`), `(10.4.2.24)` (`p. 463`, fn. 8 `p. 464`) | **Unrepaired `[Open]`** (individual biorthogonal bound is false due to close zeros; Pei's `doi:10.5281/zenodo.24409811` addresses only $I = \{0\}$ and is unreviewed `[Community]`; `leecrossley`'s strip proposal in `#1169` does not yet match `§12.5` `[Open]`). |
-| **M2. Topology of adelic $\theta$-spaces (Structure Theorem I)** | `Theorem 5.2.1.1` (`p. 229`) | **Printed proof broken `[Community]` / `[Open]`** (`mccorvie/riemann-masullo` Wave 2 reports the printed proof does not work; truth of the statement is currently being tested in Lean). |
+| **M2. Topology of adelic $\theta$-spaces (Structure Theorem I)** | `Theorem 5.2.1.1` (`p. 230`) | **Printed proof broken `[Community]` / `[Open]`** (`mccorvie/riemann-masullo` Wave 2 reports the printed proof does not work; truth of the statement is currently being tested in Lean). |
 | **M3. Shell-cutoff discontinuities & omitted global-to-$S$-local section** | `Theorem 11.3.2.1` (`pp. 495–496`, issue `#1358`) and **empty `§12.3` (`p. 514`, fn. 1 *"Include section"*)** | **Incomplete / unverified `[Open]`** (`§12.3` is the exact bridge deconstructing the global geometric kernel into $S$-local + vanishing unramified shells!). |
 | **M4. Explicit-formula measure factor & strip-invariance of `Theorem 12.5.1.1`** | `§B.4` (`pp. 606–625`) and `Theorem 12.5.1.1` (`pp. 519–520`, issue `#587`) | **Disputed / under recomputation `[Open]`** (`mccorvie/riemann-masullo` Wave 2 is recomputing `§B.4` local normalizations; `#587` reports a $\mu_1(C_F^1)$ discrepancy on $\mathbb Q(i), \mathbb Q(\sqrt{-3})$). |
 | **M5. Unwritten Chapter 13 (deducing GRH and central-zero behavior)** | `Chapter 13` (`pp. 521–522`, `Thm. 13.3.1.2` fn. 2 *"Insert statement"*) | **Unwritten in manuscript `[Paper]` / `[Open]`** (Loeffler formalized RH $\Leftarrow$ `Thm. 12.5.1.1` `[Community]`, so all substantive weight sits in M1–M4!). |
@@ -301,7 +321,7 @@ character $\chi \bmod N$, $L(s, \chi) \neq 0$ on $\Re s > \frac{1}{2}$ (except $
 Then:*
 
 1. **Statements that DO follow unconditionally (`[Expository]` / `[Community]`):**
-   - **Classical Riemann Hypothesis (`Main.lean:4, 6`) and elementary equivalences:** $\psi(x) = x + O(x^{1/2}(\log x)^2)$
+   - **Classical Riemann Hypothesis (`src/Main.lean:4, 6`) and elementary equivalences:** $\psi(x) = x + O(x^{1/2}(\log x)^2)$
      `[Davenport2000]`, $\pi(x) = \operatorname{li}(x) + O(x^{1/2}\log x)$, Merten's sum $M(x) = \sum_{n \le x}\mu(n) = O_\varepsilon(x^{1/2+\varepsilon})$,
      and Robin's and Lagarias's divisor-sum inequalities `[Lagarias2002]` (already machine-checked in
      `ArithSolution.lean` via `kimihiro64/Robin1984` `[Community]`)!
@@ -335,7 +355,7 @@ Then:*
      GRH for Ramanujan's $\Delta$-function $L(s, \Delta)$, holomorphic newforms $L(s, f)$, Maass forms,
      and elliptic curves $L(E, s)$ over $\mathbb Q$ (nor the Birch and Swinnerton-Dyer conjecture!).
    - **Simplicity of zeros, Montgomery's Pair Correlation Conjecture, and the Grand Simplicity Hypothesis (GSH):**
-     None of the five theorems in `Main.lean` says anything about the **multiplicity** $N(\rho)$ of
+     None of the five theorems in `src/Main.lean` says anything about the **multiplicity** $N(\rho)$ of
      critical-line zeros or linear independence of $\gamma > 0$ over $\mathbb Q$! Whether $\zeta(s)$ has
      only simple zeros (`N(\rho) = 1`) remains **completely `[Open]`**!
 
@@ -354,12 +374,13 @@ high-leverage ways to help advance the verification and human digestion of both 
      library** (`src/Formalism/LatticeSlopes/` and `src/Formalism/HarderNarasimhan/`), which imports
      only Mathlib and is ready for clean upstreaming!
    - *Wave 2 testing on Masullo's draft:* In `mccorvie/riemann-masullo`, help test whether a repaired
-     statement of `Theorem 5.2.1.1` (`p. 229`) holds in Lean `v4.36.0` and help recompute the exact
+     statement of `Theorem 5.2.1.1` (`p. 230`) holds in Lean `v4.36.0` and help recompute the exact
      measure normalizations of `Theorem B.4.4.7` (`p. 623`, issue `#587`).
 2. **For algebraic number theorists, Iwasawa theorists, and arithmetic geometers:**
-   - *Audit the ~80 remaining `GlobalTheory.Published.*` declarations (`P18`, Chapter 13):* Pick one
+   - *Audit the ~70 remaining `GlobalTheory.Published.*` declarations (`P18`, Chapters 13 and 18):* Following
+     the five-step protocol and 14 worked exemplars of **Chapter 18**, pick one
      unaudited file under `src/Development/AbelianVarietyTheory/PublishedTheorems/` or
-     `src/Formalism/.../StandardTheoremStatements/`, read its Lean `def` (typically 20–60 lines!), and
+     `src/Development/AutomorphicSpectrum/PublishedTheorems/`, read its Lean `def` (typically 20–60 lines!), and
      compare every hypothesis against the published paper (`[HarrisTaylor2001]`, `[Shin2011]`,
      `[Kato2004]`, `[Thorne2015]`, `[KudlaRallis1994]`), classifying it as *Faithful*, *Domain-restricted
      special case*, or *Weakened*.
@@ -381,27 +402,30 @@ high-leverage ways to help advance the verification and human digestion of both 
      positive-width strips $I = [-\alpha, \alpha]$ can be proved and matched to `§12.5` without circularly
      assuming zero-freeness outside $\frac{1}{2} + I$!
 5. **For readers of this book (`Li-Hongmin/amazing-riemann-hypothesis`):**
-   - Every `src/…:line` citation, status tag, and mathematical proof in Chapters 0–16 is maintained in
+   - Every `src/…:line` citation, status tag, and mathematical proof in Chapters 0–18 is maintained in
      the public repository. If you read a deeper sub-cone at level `R3`, spot an imprecision, or resolve
      an `[Open]` item in Ledgers 1–4 above, open an issue or pull request with the exact `file:line` or
      page number so the public record stays sharp, honest, and reproducible.
 
 ---
 
-**Summary of the chapter — and of the book.** As of `2026-11-22 03:30 UTC`, Alpöge and Claude's five
-`Main.lean` theorems (`RiemannHypothesis` and Dirichlet GRH over $\mathbb Q$) have been reproduced
+**Summary of the chapter.** As of `2026-11-22 04:35 UTC`, Alpöge and Claude's five
+`src/Main.lean` theorems (`RiemannHypothesis` and Dirichlet GRH over $\mathbb Q$) have been reproduced
 byte-for-byte in an isolated sandbox (`61,570,595,788` bytes, sha256 `5ea74b91…244e`) and accepted by
 `leanchecker`, `lean4lean`, `nanoda`, `con-leche --compare`, and `con-ron --compare` using only Lean's
-three standard axioms `[Community]`, with single-threaded export-level `lake comparator` C++ kernel runs
-still in progress `[Open]`. Across Chapters 1–13 of this textbook, we have translated the entire
-top-to-bottom architecture (`P0`–`P18`) into human graduate mathematics — reading the statement layer,
-analytic endgame, Arakelov Bost-slope library, formal chain brackets, inert-prime valuation algebra,
-GMA congruence-to-$\mathrm{Ш}^1$ reductions, Iwasawa squeeze, and top-level Langlands/Galois/Green
-interfaces line by line (`[Lean, read]`) while demarcating the ~146,000-module deep proof cones and ~80
-unaudited `GlobalTheory.Published.*` names that await human specialists (`[Open]`). In parallel
-(Chapters 14–15), we analyzed Masullo's 940-page adelic trace-formula draft `[Paper]`, pinpointing why
-its strip-weighted Hardy–Sobolev strategy stalls at the Chapter 10 biorthogonal-bound failure (`pp. 444,
-451, 463`), omitted `§12.3` (`p. 514`), and unwritten Chapter 13 (`pp. 521–522`) `[Open]`, and showed
-by explicit Artin/Brauer examples why Dirichlet GRH (`EveryCharacter`), even if completely confirmed,
-leaves non-abelian ERH, Artin's primitive root conjecture, $\mathrm{GL}_2$ automorphic GRH, and
-simplicity of zeros open for the next generation of mathematicians to conquer.
+three standard axioms `[Community]`, while standalone `Robin1984` has passed full `lake comparator`
+(`v4.36.0`) and the single-threaded `lake comparator` Lean kernel stages on the 62 GB main and combined
+exports remain in progress `[Open]`. Across Chapters 1–13 and 17–18 of this textbook, we have translated
+the top-to-bottom architecture (`P0`–`P18`) into human graduate mathematics — reading the statement layer,
+analytic endgame, Behrend sphere and `HostOfField` thick-frame engine (Chapter 17), Arakelov Bost-slope
+library, formal chain brackets, inert-prime valuation algebra, GMA congruence-to-$\mathrm{Ш}^1$ reductions,
+Iwasawa squeeze, top-level Langlands/Galois/Green interfaces, and 14 representative `Published` theorem
+statements (Chapter 18) line by line (`[Lean, read]`) while demarcating the ~146,000-module deep proof
+cones and ~70 unaudited `GlobalTheory.Published.*` names that await human specialists (`[Open]`). In
+parallel (Chapters 14–15), we analyzed Masullo's 940-page adelic trace-formula draft `[Paper]`,
+pinpointing why its strip-weighted Hardy–Sobolev strategy stalls at the Chapter 10 biorthogonal-bound
+failure (`pp. 444, 451, 463`), omitted `§12.3` (`p. 514`), and unwritten Chapter 13 (`pp. 521–522`)
+`[Open]`, and showed by explicit Artin/Brauer examples why Dirichlet GRH (`EveryCharacter`), even if
+completely confirmed, leaves non-abelian ERH, Artin's primitive root conjecture, $\mathrm{GL}_2$
+automorphic GRH, and simplicity of zeros open. Turn next to **Chapter 18** for our worked `R3`
+statement-fidelity casebook on `GlobalTheory.Published.*`.

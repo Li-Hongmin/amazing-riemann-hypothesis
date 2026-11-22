@@ -48,21 +48,24 @@ Lengths are estimates in words of prose, excluding quoted Lean and tables
 | **Part III** | **Foundations built inside the archive** | | | | | |
 | 12 | Galois representations and partial local Langlands | `Row0b`: Galois representations for polarized cuspidal $\pi$ on $\mathrm{GL}_a$ over CM fields with weak local–global compatibility; their construction (Shimura-variety cohomology, congruences, theta lifts for even rank) as reported; `RecTExists` and how weak it is compared with local Langlands. | 11 | P14, P15 | Ch. 3 is the $\mathrm{GL}_1$ case (local class field theory) | 8,000 |
 | 13 | Green's theorem and the literature layer | Cuspidal characters of $\mathrm{GL}_d(\mathbb F_g)$ (`Green`); the ~250 named theorems stated as `GlobalTheory.Published.*` Props and proved in the archive; how to audit a name against the literature; current verdicts (with sources). | 12 | P16, P18 | Apps. A–E (cited background) | 6,000 |
+| 17 | Host-field geometry and Behrend's sphere lemma: inside `P5` and `HostOfField` | Why Frobenius orbit windows along the unitary chain require bounded-ratio relation-freeness `NoRel T2 Lw` while coset averaging requires $\lvert T_2 \rvert \ge x^{-\varepsilon}\,\varphi.\mathrm{ord}$; strict Euclidean sphere convexity `sphere_rel`, signed base-$4Ld$ carry-free encoding, `hostThickExists` ($C=32$), the $\le 2$-hit orbit cap `hostThickOrbit`, AM–GM scale balancing `thickFrame2` ($C_T=64$), `hostOfField`, and `log_conductor_mul_height_le_of_pageN`. | 4, 5, 11 | P13 (`HostOfField`), P5/P6 (`Host`/`T2`), P12 (`LogConductor…`) | none ($\mathbb Q$-linear independence of $\{\log p\}$, p. 324, replaces finite-group additive combinatorics) | 5,500 |
 | **Part IV** | **Comparison and assessment** | | | | | |
 | 14 | Masullo's trace-formula route | Tate's thesis → Schauder bases → Hardy–Sobolev completions → spectral side (Ch. 10) = geometric side (Ch. 12) → Theorem 12.5.1.1 → the unwritten Ch. 13; why the content of GRH sits in the independence of the geometric side from the strip parameter; the public gap in Ch. 10 (with Pei's unreviewed $I=\{0\}$ partial repair and the unrepaired strip case $I=[-\alpha,\alpha]$ `[Open]`); the formalization effort. | 1, 3 | none | Chs. 1–13, App. B | 9,000 |
 | 15 | Two proofs side by side | Scope (Dirichlet vs. all Hecke characters), method (Stepanov/theta chain vs. trace formula), verification state (kernel-checked but unread vs. readable but unfinished), shared classical frame, what each would teach the other. | 5, 11, 14 | P0–P18 summary | whole draft | 6,000 |
 | 16 | Open problems and what remains to be checked | Pending machine checks; statement-fidelity items; unread proof bodies by block; fidelity of literature Props; Masullo's open items; consequences that do and do not follow (ERH not covered); a checklist for readers who want to help. | all | all | all | 5,000 |
+| 18 | Auditing `GlobalTheory.Published`: worked statement-fidelity case studies (`P18`) | Logical polarity of internal `Prop` interfaces; 14 worked `R3` statement-fidelity case studies across class field theory (`GlobalArtinReciprocity`, `HeckeLAdicCharacter`, `RayClassFieldSt`, `ChebotarevDegreeOne`), Iwasawa/Euler-system/cohomology (`FerreroWashington`, `SiegelKlingenDeligneRibet`, `Kato`, `PoitouTateNormalised`), and automorphic/$p$-adic Hodge (`ClozelPurity`, `BaseChangeDefiniteUnitary`, `SiegelWeilUnitaryConvergent`, `DeRhamPotSemistable`); reusable five-step community audit rubric. | 11, 12, 13, 16 | P18 | Apps. A–E (pp. 537–932) & `mccorvie/riemann-masullo` `ERRATA.md` | 6,000 |
 
-Total ≈ 129,000 words.
+Total ≈ 140,500 words.
 
 ## Dependencies between chapters
 
 ```
-0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13
-                3 ──────────────────────────────────────────→ 14 → 15 → 16
+0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13 → 17
+                3 ──────────────────────────────────────────→ 14 → 15 → 16 → 18
 ```
-Chapters 12–13 can be read after Chapter 7 by readers interested only in the foundations;
-Chapter 14 needs only Chapters 1 and 3.
+Chapters 12–13 can be read after Chapter 7 by readers interested only in the foundations, and Chapter 17
+can be read right after Chapters 4–5 (with Section 17.4.4(3) after Chapter 11); Chapter 14 needs only
+Chapters 1 and 3, while Chapter 18 builds on Chapters 11–13 and 16.
 
 ## What each chapter needs from the archive before it can be written
 
@@ -82,15 +85,18 @@ Chapter 14 needs only Chapters 1 and 3.
 | 13 | done (R3 reading of `LabelDatum`, `GreenRegularCharacters`, `SumRangeEqRoots`, `DiscreteSpectrumResidualClassification`, `StandardTheoremStatements/GlobalArtinReciprocity`, and top assembly of `EveryCharacterOfLiteratureOfVWin` and `TemperedProductOfSquareIntegrable`; R1/R2 `[Open]` for unreviewed named literature `Prop`s and 151,285-module proof cone; written in `chapters/13-greens-theorem-and-the-literature-layer.md`) |
 | 14 | done (primary reading of Masullo *The Music of the Primes* Chs. 1–14 and Appendix B, Yan Ru Pei `doi:10.5281/zenodo.24409811`, and `mccorvie/riemann-masullo` Wave 1–3 status; written in `chapters/14-masullos-trace-formula-route.md`) |
 | 15 | done (re-verification of `P0`–`P18` top-level Lean declarations alongside Masullo Chs. 1–14 and running $\chi_{-4} \bmod 4$ comparison across five structural axes; written in `chapters/15-two-proofs-side-by-side.md`) |
-| 16 | done (consolidated machine-kernel, `P0`–`P18` import-cone, 257-theorem literature-fidelity, and Masullo open-item ledgers through `2026-11-22 03:30 UTC`, plus non-abelian ERH/Artin scope boundaries and reader checklist; written in `chapters/16-open-problems-and-what-remains.md`) |
+| 16 | done (consolidated machine-kernel, `P0`–`P18` import-cone, 257-theorem literature-fidelity, and Masullo open-item ledgers through `2026-11-22 04:35 UTC`, plus non-abelian ERH/Artin scope boundaries and reader checklist; written in `chapters/16-open-problems-and-what-remains.md`) |
+| 17 | done (R3 reading of Mathlib `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean`, `GeneralBFactSecondLast/Imports`, `HostThickExists`, `ThickExists`, `ThickOrbit`, `ZsmulGeneratorEqZeroOfProjection`, `FrameFacts`, `Params`, `DataHost`, `MarkedLow`, `ThickFrame2Large`, `topsChoiceH`, `ThinScalesIffHostBound`, `SecondSetNoRelation`, `hostOfFieldOf`, `HostOfField`, `LogConductorMulHeightLeOfPageN`, `NoThreeConsecutiveThickPlaces`, `AtMostTwoThickInWindowLongOrbit`, `ThickSetDensityLeInvFourLw`, `BehrendSets/FinalE`; R2 for `shortNorm`/`smallOne`/`topsBase`; written in `chapters/17-behrends-sphere-lemma-and-host-geometry.md`) |
+| 18 | done (R3 reading of 14 `Published` propositions and local deduction bridges across `ExistsUniqueHcharOfFiniteOrder`, `StandardTheoremStatements/GlobalArtinReciprocity`, `NonemptyAlgHomOfIsRayOfDvd`, `ChebotarevDegreeOneIffCheb`, `Proofs/InertiaEigenvalues/ChebotarevDegreeOne`, `PublishedTheorems/FerreroWashington`, `FerreroWashingtonIndex/FerreroWashington`, `SiegelKlingenDeligneRibet`, `QuotRepMk`, `KatoUse`, `PoitouTateNormalised`, `ExistsPrimitiveRootPow`, `GreenbergWilesOfPoitouTate`, `ClozelPurity`, `RegularAlgebraicPurity`, `BaseChangeDefiniteUnitary`, `BaseChangeIsobaric`, `BaseChangeIdentities/Narrow`, `DiscreteSpectrumResidualClassification`, `WeilSiegelFormula`, `WeilSiegelFormulaUnitary`, `SiegelWeilUnitaryConvergent`, and `DeRhamPotSemistable`; R2 for `ExistsLocalPrimeAinf`; written in `chapters/18-auditing-the-published-layer-case-studies.md`) |
 
 ## Next batch
 
-First complete edition (Chapters 0–16, Parts 0–IV, plus "The story so far", `sources/SOURCES.md`, and
-`CONTRIBUTIONS.md`) is now written and live (`2026-11-22`). Ongoing maintenance tracks:
-(1) fold in post-audit precision fixes as independent audits of Chapters 11–16 complete;
-(2) update Chapter 16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md` when the single-threaded
-`lake comparator` export kernel runs finish and as human specialists audit the remaining ~80
+Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
+across Chapters 6–16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md`) is now written and live
+(`2026-11-22`). Ongoing maintenance tracks:
+(1) update Chapter 16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md` when the single-threaded main-proof
+`lake comparator` (`v4.36.0`) and export Lean kernel runs finish;
+(2) extend Chapter 18's five-step audit rubric as human specialists audit the remaining ~70 unreviewed
 `GlobalTheory.Published.*` statements and deep import cones (`P12`, `P18`, `P17`, `P14`).
 
 ## Numbering note (2026-11-21)
