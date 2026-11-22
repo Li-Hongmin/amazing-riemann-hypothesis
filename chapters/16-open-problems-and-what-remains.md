@@ -124,6 +124,10 @@ Indeed, $\rho_2 = \operatorname{Ind}_{C_3}^{S_3}(\psi_3)$ is induced from a cubi
 $\psi_3$ of the imaginary quadratic field $F = \mathbb Q(\zeta_3)$** (so $L(s, \rho_2) = L_F(s, \psi_3)$
 lies in Masullo's target class, **not** in `EveryCharacter`!).
 
+The primes $31$ and $367$ both equal $31\bmod 48$. Their cubic traces are $2$ and $-1$ respectively, since $2^{122}\equiv283\pmod{367}$. In Lee Crossley’s abelian example, three finite prime-race scores recover traces $-8$ and $8$ at these same primes. The eight Dirichlet characters make that trace periodic modulo $16\cdot547\cdot727$. [Crossley’s theorem and proof](https://doi.org/10.5281/zenodo.24413208).
+
+For the cubic example both traces occur even among primes $p\equiv1\pmod M$, for every $M\ge1$. The intersection $L\cap\mathbb Q(\zeta_M)$ is abelian over $\mathbb Q$, so a $3$-cycle acts trivially on it. Both the identity and the $3$-cycle can therefore be paired with the identity on $\mathbb Q(\zeta_M)$ in the compositum. Chebotarev gives primes of each type.
+
 **Step 3: Why Brauer's induction theorem (`[Brauer1947]`) CANNOT propagate zero-freeness to general non-abelian $\zeta_K(s)$!**
 Now ask what happens if we pass to general finite Galois groups $G = \operatorname{Gal}(L/\mathbb Q)$, such as
 an **icosahedral $A_5$ extension** ($G \cong A_5$, order $60$)? By **Brauer's induction theorem**
