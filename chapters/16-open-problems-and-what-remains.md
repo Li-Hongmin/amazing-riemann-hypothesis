@@ -71,87 +71,52 @@ abolishing it [Expository]:
 
 ### 16.2.1 Non-abelian Dedekind and Artin $L$-functions: $K = \mathbb Q(\sqrt[3]{2})$, $S_3$, and negative Brauer exponents
 
-Let us test what `EveryCharacter` (`∀ N χ s, 1/2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → L(s, χ) ≠ 0`,
-`Main.lean:8`) [Lean, read] tells us — and **fails** to tell us! — about Dedekind zeta functions
-$\zeta_K(s) = \sum_{\mathfrak a \subseteq \mathcal O_K} (N_{K/\mathbb Q}\mathfrak a)^{-s}$ of number
-fields $K$ `[Artin1924]`, `[Brauer1947]` [Expository].
+In `Main.lean:8`, `EveryCharacter` rules out zeros of Dirichlet $L$-functions over $\mathbb Q$ to the right of the critical line, with the stated exception at the pole. To see its scope for a number field $K$, start with the Dedekind series $\zeta_K(s)=\sum_{0\ne\mathfrak a\subseteq\mathcal O_K}(N\mathfrak a)^{-s}$ for $\Re(s)>1$. The sum runs over nonzero integral ideals and uses their absolute norms. `[Artin1924]` `[Brauer1947]` [Expository].
 
-**Step 1: Abelian $K / \mathbb Q$ IS covered (e.g. $K = \mathbb Q(\zeta_8)$ or $\mathbb Q(\sqrt{5})$).**
-If $K / \mathbb Q$ is Galois with **abelian** Galois group $G = \operatorname{Gal}(K/\mathbb Q)$, then
-by the **Kronecker–Weber theorem** $K \subseteq \mathbb Q(\zeta_N)$ for some integer $N \ge 1$. Every
-irreducible character of the finite abelian group $G$ is $1$-dimensional and factors through
-$(\mathbb Z / N\mathbb Z)^\times \twoheadrightarrow G$, defining a primitive Dirichlet character
-$\chi^\ast$ of conductor $f_\chi \mid N$ such that
-$$\zeta_K(s) \;=\; \prod_{\chi \in \widehat{G}} L(s, \chi^\ast)!$$
-Since every factor $L(s, \chi^\ast)$ is literally a `DirichletCharacter.LFunction` over $\mathbb Q$,
-**`EveryCharacter` immediately proves RH for $\zeta_K(s)$ for every abelian extension $K / \mathbb Q$!**
+**Step 1. Abelian extensions.** Suppose $K/\mathbb Q$ is Galois with finite abelian group $G$. Examples include $\mathbb Q(\zeta_8)$ and $\mathbb Q(\sqrt{5})$. By the Kronecker–Weber theorem there is an integer $N\ge1$ such that $K\subseteq\mathbb Q(\zeta_N)$. Each character of $G$ lifts through the quotient map from $(\mathbb Z/N\mathbb Z)^\times$ to $G$ and determines a primitive Dirichlet character $\chi^\ast$ of conductor dividing $N$. Artin factorisation gives
 
-**Step 2: Non-abelian cubic $K = \mathbb Q(\sqrt[3]{2})$ already exits `EveryCharacter`!**
-Now take the simplest non-abelian number field in algebraic number theory:
-$$K := \mathbb Q(\sqrt[3]{2}) \qquad ([K : \mathbb Q] = 3),$$
-whose Galois closure over $\mathbb Q$ is $L = \mathbb Q(\zeta_3, \sqrt[3]{2})$ with non-abelian Galois
-group $G = \operatorname{Gal}(L/\mathbb Q) \cong S_3$ of order $6$ (`\operatorname{Gal}(L/K) \cong C_2`,
-quadratic resolvent $F = \mathbb Q(\zeta_3) = \mathbb Q(\sqrt{-3})$)!
+$$
+\zeta_K(s)=\prod_{\chi\in\widehat{G}}L(s,\chi^\ast).
+$$
 
-Factor the permutation representation $\operatorname{Ind}_{C_2}^{S_3}(\mathbf{1})$ of $S_3$ on the three
-roots of $X^3 - 2$: it splits into the trivial character $\mathbf{1}$ plus the unique **$2$-dimensional
-irreducible character $\rho_2$** of $S_3$ ($\chi_{\rho_2}(1) = 2$, $\chi_{\rho_2}((12)) = 0$,
-$\chi_{\rho_2}((123)) = -1$). By Artin's formalism `[Artin1924]`,
-$$\zeta_{\mathbb Q(\sqrt[3]{2})}(s) \;=\; \zeta(s)\,L(s, \rho_2),
+The Dirichlet statement `EveryCharacter` therefore gives RH for the Dedekind zeta function of each such field.
+
+**Step 2. Cubic splitting.** The cubic field $K=\mathbb Q(\sqrt[3]{2})$ is not Galois over $\mathbb Q$. Its Galois closure $L=\mathbb Q(\zeta_3,\sqrt[3]{2})$ has group $S_3$. The subgroup fixing $K$ has order two, and the quadratic resolvent is $F=\mathbb Q(\zeta_3)=\mathbb Q(\sqrt{-3})$.
+
+The permutation character of $S_3$ on the roots of $X^3-2$ splits into the trivial character and the irreducible character $\rho_2$ of degree two. The trace of $\rho_2$ is the number of fixed roots minus one. It takes the values $2,0,-1$ on the identity, the transpositions and the three-cycles respectively. With $\chi_{-3}$ the quadratic character of $F$, Artin factorisation gives `[Artin1924]`
+
+$$
+\zeta_K(s)=\zeta(s)L(s,\rho_2),
 \qquad
-\zeta_{\mathbb Q(\zeta_3, \sqrt[3]{2})}(s) \;=\; \zeta(s)\,L(s, \chi_{-3})\,L(s, \rho_2)^2!$$
-Check the Euler factors of $L(s, \rho_2)$ at unramified primes $p \nmid 6$ by hand from the splitting
-of $X^3 - 2 \pmod p$:
+\zeta_L(s)=\zeta(s)L(s,\chi_{-3})L(s,\rho_2)^2.
+$$
 
-- **Primes $p \equiv 2 \pmod 3$ ($p = 5, 11, 17, 23, 29, \dots$):** Raising to the $3$-rd power is a
-  bijection on $\mathbb F_p^\times$ ($\gcd(3, p-1) = 1$), so $X^3 - 2 \equiv (X - a)(X^2 + aX + a^2) \pmod p$
-  always has **one linear and one quadratic factor**! Frobenius is a transposition $(12) \in S_3$, so
-  $\det(I - p^{-s}\rho_2(\mathrm{Frob}_p)) = 1 - p^{-2s}$, matching
-  $(1 - p^{-s})(1 - p^{-2s}) = (1 - p^{-s})\cdot L_p(s, \rho_2)^{-1}$!
-- **Primes $p \equiv 1 \pmod 3$ where $2$ IS a cube mod $p$ ($p = 31, 43, \dots$; indeed $4^3 = 64 \equiv 2 \pmod{31}$!):**
-  $X^3 - 2$ splits into **three linear factors**, Frobenius is $1 \in S_3$, and
-  $L_p(s, \rho_2)^{-1} = (1 - p^{-s})^2$.
-- **Primes $p \equiv 1 \pmod 3$ where $2$ is NOT a cube mod $p$ ($p = 7, 13, 19, \dots$):** $X^3 - 2$
-  is **irreducible mod $p$**, Frobenius is a $3$-cycle $(123) \in S_3$, and
-  $L_p(s, \rho_2)^{-1} = 1 + p^{-s} + p^{-2s}$.
+The Euler factors at unramified primes $p\nmid6$ follow from the factorisation of the cubic modulo $p$.
 
-Can $L(s, \rho_2)$ be written as a product of Dirichlet $L$-functions over $\mathbb Q$? **No!** A
-product $L(s, \psi_1) L(s, \psi_2)$ of two Dirichlet characters over $\mathbb Q$ would have trace
-$\psi_1(p) + \psi_2(p)$ periodic in $p$ modulo some integer $M$, whereas whether $2$ is a cube mod $p$
-for $p \equiv 1 \pmod 3$ is governed by cubic reciprocity in $\mathbb Z[\zeta_3]$ ($p = a^2 + 27b^2$,
-a weight-$1$ CM modular form $\sum q^{a^2+27b^2} - \dots$!), **not** by any congruence on $p \pmod M$!
-Indeed, $\rho_2 = \operatorname{Ind}_{C_3}^{S_3}(\psi_3)$ is induced from a cubic **Hecke character
-$\psi_3$ of the imaginary quadratic field $F = \mathbb Q(\zeta_3)$** (so $L(s, \rho_2) = L_F(s, \psi_3)$
-lies in Masullo's target class, **not** in `EveryCharacter`!).
+- If $p\equiv2\pmod3$, cubing permutes the nonzero elements of the residue field. The polynomial has one linear factor and an irreducible quadratic factor, as at $p=5,11,17,23,29$. Frobenius is a transposition, and $L_p(s,\rho_2)^{-1}=1-p^{-2s}$.
+- If $p\equiv1\pmod3$ and 2 is a cube modulo $p$, the polynomial has three linear factors, as at $p=31,43$. Frobenius is the identity, and $L_p(s,\rho_2)^{-1}=(1-p^{-s})^2$.
+- If $p\equiv1\pmod3$ and 2 is a noncube modulo $p$, the polynomial is irreducible, as at $p=7,13,19$. Frobenius is a three-cycle, and $L_p(s,\rho_2)^{-1}=1+p^{-s}+p^{-2s}$.
 
-**Step 3: Why Brauer's induction theorem (`[Brauer1947]`) CANNOT propagate zero-freeness to general non-abelian $\zeta_K(s)$!**
-Now ask what happens if we pass to general finite Galois groups $G = \operatorname{Gal}(L/\mathbb Q)$, such as
-an **icosahedral $A_5$ extension** ($G \cong A_5$, order $60$)? By **Brauer's induction theorem**
-`[Brauer1947]`, every irreducible character $\rho$ of $G$ is a **virtual $\mathbb Z$-linear combination**
-of $1$-dimensional characters $\psi_i$ induced from elementary subgroups $H_i \le G$:
-$$\rho \;=\; \sum_{i = 1}^r n_i \operatorname{Ind}_{H_i}^G(\psi_i) \qquad (n_i \in \mathbb Z),
-\qquad\text{so}\qquad
-L(s, \rho) \;=\; \prod_{i = 1}^r L_{L^{H_i}}(s, \psi_i)^{n_i}!$$
-Look closely at the signs of the integers $n_i \in \mathbb Z$! For non-monomial groups like $A_5$
-(for instance, the $4$-dimensional irreducible character $\rho_4$ of $A_5$, which cannot be induced
-from any proper subgroup because $4 \nmid 60$ fails only for index $15$ where $\operatorname{Ind}_{V_4}^{A_5}$
-has degree $15$ and $\operatorname{Ind}_{A_4}^{A_5}$ has degree $5$!), **at least one integer $n_i$ MUST
-be strictly negative ($n_i < 0$)!**
+The representation $\rho_2$ is induced from a nontrivial character of the cyclic subgroup of order three in $S_3$. Class field theory gives a cubic Hecke character $\psi_3$ over $F$ with $L(s,\rho_2)=L_F(s,\psi_3)$. A product of two Dirichlet functions over $\mathbb Q$ would have a Frobenius trace periodic in the prime modulo a fixed conductor, away from its prime divisors.
 
-Now watch what happens even if someone proved GRH for **every** abelian character $\psi_i$ of **every**
-intermediate subfield $L^{H_i}$ (i.e. **all of Masullo's unitary Hecke GRH**!):
-- Because $L_{L^{H_i}}(s, \psi_i) \neq 0$ on $\Re s > \frac{1}{2}$ for every $i$, **neither the
-  numerator factors ($n_i > 0$) nor the denominator factors ($n_i < 0$) vanish on $\Re s > \frac{1}{2}$**,
-  so **Masullo's full Hecke GRH across all number fields WOULD imply ERH for $\zeta_L(s)$ and nonvanishing
-  of $L(s, \rho)$ on $\Re s > \frac{1}{2}$** (though **not** holomorphy — Artin's conjecture — at a
-  critical-line point $\frac{1}{2} + i\gamma$ if a denominator zero had higher multiplicity than the
-  numerator!).
-- By contrast, **Alpöge's `EveryCharacter` proves GRH ONLY over the base field $\mathbb Q$** ($H_i = G$),
-  knowing **nothing at all** about $L_{L^{H_i}}(s, \psi_i)$ when $[L^{H_i} : \mathbb Q] > 1$! Thus
-  `EveryCharacter` **does not** prove RH for $\zeta_{\mathbb Q(\sqrt[3]{2})}(s)$, **does not** prove RH
-  for general Dedekind $\zeta_K(s)$ (ERH), and **does not** unconditionalize theorems such as Hooley's
-  proof of Artin's primitive root conjecture `[Hooley1967]`, which explicitly require ERH for non-abelian
-  Kummer towers $\mathbb Q(\zeta_q, a^{1/q})$!
+The primes $31$ and $367$ are congruent modulo $48$. The cubic polynomial has roots $4,7,20$ modulo $31$ and no root modulo $367$, since $2^{122}\equiv283\pmod{367}$. Its two-dimensional traces are therefore $2$ and $-1$. In Crossley’s 547/727 example the eight Dirichlet characters give traces $-8$ and $8$ at the same primes. Three finite prime-race scores recover each of those traces unconditionally. This abelian trace is periodic modulo $16\cdot547\cdot727$. [Three-score theorem](https://doi.org/10.5281/zenodo.24413208)
+
+For each $M\ge1$, both cubic traces occur among primes $p\equiv1\pmod M$. The intersection $L\cap\mathbb Q(\zeta_M)$ is abelian over $\mathbb Q$. Every $3$-cycle belongs to the commutator subgroup $A_3$ of $S_3$, so it fixes the intersection. The identity and a $3$-cycle therefore each extend to the compositum while fixing $\mathbb Q(\zeta_M)$. Chebotarev gives primes of each type. Rosen, Takeyama, Tasaka and Yamamoto discuss this classical cubic example in their introduction. [Splitting of primes, section 1.1](https://arxiv.org/html/2208.11381v4#S1.SS1)
+
+**Step 3. Brauer induction.** Let $L/\mathbb Q$ be any finite Galois extension with group $G$. Brauer’s theorem expresses each irreducible character $\rho$ as an integral sum of characters induced from linear characters $\psi_i$ of elementary subgroups $H_i$. The characters on the right give Hecke functions over the corresponding fixed fields `[Brauer1947]`.
+
+$$
+\rho=\sum_{i=1}^r n_i \mathrm{Ind}_{H_i}^G(\psi_i),
+\qquad
+L(s,\rho)=\prod_{i=1}^r L_{L^{H_i}}(s,\psi_i)^{n_i},
+\qquad n_i\in\mathbb Z.
+$$
+
+The action of $A_5$ on five letters gives its irreducible character of degree four as $\rho_4=\mathrm{Ind}_{A_4}^{A_5}\mathbf{1}-\mathbf{1}$. A proper subgroup of index $d\le4$ would give a nontrivial action of the simple group $A_5$ on $d$ cosets. Simplicity makes the action faithful, which would embed the group of order 60 in a group of order at most 24. Thus a character induced from a proper subgroup has degree at least five. The only linear character of $A_5$ itself is trivial. Any expression for $\rho_4$ as an integral sum of characters induced from linear characters therefore needs a negative coefficient. [Character table and subgroup indices](https://www.math.rwth-aachen.de/homes/sam/ctbllib/ctbltoc/data/A5.html)
+
+Assume GRH for the finite-order Hecke characters $\psi_i$ over their respective fields $L^{H_i}$. On $\Re(s)>1/2$ with $s\ne1$, all factors in the Brauer product are holomorphic and nonzero. At $s=1$ each trivial $\psi_i$ gives a simple pole, and each nontrivial $\psi_i$ has a finite nonzero value. Frobenius reciprocity gives $\sum_{i:\psi_i=\mathbf{1}}n_i=\langle\rho,\mathbf{1}\rangle_G$. Thus $L(s,\rho)$ is regular and nonzero at $1$ for a nontrivial irreducible $\rho$, while the trivial representation gives the simple pole of $\zeta(s)$. These Hecke hypotheses imply RH for $\zeta_L$ by Artin factorisation. On the critical line, holomorphy of the quotient still requires control of the multiplicities of denominator zeros.
+
+The statement `EveryCharacter` concerns Dirichlet characters over $\mathbb Q$. The cubic example requires a Hecke character over $\mathbb Q(\zeta_3)$. Hooley’s conditional proof of Artin’s primitive root conjecture uses the Dedekind zeta functions of $\mathbb Q(\zeta_m,a^{1/m})$ for squarefree positive integers $m$ `[Hooley1967]`.
 
 ### 16.2.2 Build determinism versus kernel soundness: Sutherland's 175,186 / 175,187 `.olean` experiment
 
@@ -266,12 +231,7 @@ formalizes the named classical theorem!
   bundles + `1` master theorem `openLiteratureStatements` in `EveryCharacterOfLiteratureOfVWin.lean`),
   referencing **~182–188 distinct statement constants** in `GlobalTheory.Published.*` (plus `72` dead
   `UnusedSlot72` declarations never referenced by `Main.lean`).
-- **Audited so far (`LUMI docs/07-named-theorems.md` `[Community]` + Chapter 13 `[Lean, read]`):**
-  `105` statements audited at AI-assisted community level (`65` faithful, `29` domain-restricted special
-  cases such as rank-$2$ `MorelSuh` or curve/surface `KawamataViehweg`, `7` safe weakenings, `4`
-  undetermined), plus our direct `R3` audits in Chapters 11–13 (`FerreroWashington`,
-  `GlobalArtinReciprocity`, `OpenImageCondition`, `DiscreteSpectrumResidualClassification`, `KatoTwoW`
-  clarified by Loeffler on Zulip `#642442900`).
+- **Audited statements.** LUMI `docs/07-named-theorems.md` reports 105 AI-assisted comparisons, including 65 faithful statements, 29 special cases with a restricted domain (such as the rank-two `MorelSuh` and the curve and surface cases of `KawamataViehweg`), seven weakenings and four undetermined cases `[Community]`. Chapters 11–13 record the separate `R3` readings of `FerreroWashington`, `GlobalArtinReciprocity`, `OpenImageCondition`, `DiscreteSpectrumResidualClassification` and `KatoTwoW`. Loeffler clarified the last statement on Zulip (`#642442900`).
 - **Remaining `[Open]`:** Roughly **77 to 83 `GlobalTheory.Published.*` constants** have not yet been
   compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`.
 
@@ -279,58 +239,33 @@ formalizes the named classical theorem!
 
 | Item | Location in Masullo's PDF | Current status (`2026-11-22`) |
 |---|---|---|
-| **M1. Positive-width strip spectral nuclearity ($I = [-\alpha, \alpha]$, $\alpha > 0$)** | `Terminology 10.2.1.2(2)` (`p. 444`), `(10.3.1.18)` (`p. 451`), `(10.4.2.24)` (`p. 463`, fn. 8 `p. 464`) | **Unrepaired `[Open]`** (individual biorthogonal bound is false due to close zeros; Pei's `doi:10.5281/zenodo.24409811` addresses only $I = \{0\}$ and is unreviewed `[Community]`; `leecrossley`'s strip proposal in `#1169` does not yet match `§12.5` `[Open]`). |
+| **M1. Positive-width strip spectral nuclearity ($I = [-\alpha, \alpha]$, $\alpha > 0$)** | `Terminology 10.2.1.2(2)` (`p. 444`), `(10.3.1.18)` (`p. 451`), `(10.4.2.24)` (`p. 463`, fn. 8 `p. 464`) | **Open.** Close zeros contradict the individual biorthogonal bound. Pei (`doi:10.5281/zenodo.24409811`) treats the singleton $I=\lbrace 0\rbrace$ `[Community]`. Crossley’s strip proposal in `#1169` still needs comparison with `§12.5` `[Open]`. |
 | **M2. Topology of adelic $\theta$-spaces (Structure Theorem I)** | `Theorem 5.2.1.1` (`p. 229`) | **Printed proof broken `[Community]` / `[Open]`** (`mccorvie/riemann-masullo` Wave 2 reports the printed proof does not work; truth of the statement is currently being tested in Lean). |
-| **M3. Shell-cutoff discontinuities & omitted global-to-$S$-local section** | `Theorem 11.3.2.1` (`pp. 495–496`, issue `#1358`) and **empty `§12.3` (`p. 514`, fn. 1 *"Include section"*)** | **Incomplete / unverified `[Open]`** (`§12.3` is the exact bridge deconstructing the global geometric kernel into $S$-local + vanishing unramified shells!). |
-| **M4. Explicit-formula measure factor & strip-invariance of `Theorem 12.5.1.1`** | `§B.4` (`pp. 606–625`) and `Theorem 12.5.1.1` (`pp. 519–520`, issue `#587`) | **Disputed / under recomputation `[Open]`** (`mccorvie/riemann-masullo` Wave 2 is recomputing `§B.4` local normalizations; `#587` reports a $\mu_1(C_F^1)$ discrepancy on $\mathbb Q(i), \mathbb Q(\sqrt{-3})$). |
+| **M3. Shell discontinuities and the local terms at $S$** | `Theorem 11.3.2.1` (`pp. 495–496`, issue `#1358`) and **empty `§12.3` (`p. 514`, fn. 1 *"Include section"*)** | **Incomplete.** Section 12.3 is needed to decompose the global geometric kernel into its local terms at $S$ and account for the vanishing unramified shells. `[Open]` |
+| **M4. Explicit-formula measure factor & strip-invariance of `Theorem 12.5.1.1`** | `§B.4` (`pp. 606–625`) and `Theorem 12.5.1.1` (`pp. 519–520`, issue `#587`) | **Disputed.** The Wave 2 group in `mccorvie/riemann-masullo` is checking the local normalisations in §B.4. Issue `#587` reports a discrepancy in $\mu_1(C_F^1)$ for $\mathbb Q(i)$ and $\mathbb Q(\sqrt{-3})$. `[Open]` |
 | **M5. Unwritten Chapter 13 (deducing GRH and central-zero behavior)** | `Chapter 13` (`pp. 521–522`, `Thm. 13.3.1.2` fn. 2 *"Insert statement"*) | **Unwritten in manuscript `[Paper]` / `[Open]`** (Loeffler formalized RH $\Leftarrow$ `Thm. 12.5.1.1` `[Community]`, so all substantive weight sits in M1–M4!). |
 
 ---
 
 ## 16.4 Conditional consequences: what DOES and DOES NOT follow if `EveryCharacter` stands
 
-Suppose the remaining single-threaded `lake comparator` runs finish with zero surprises and
-`EveryCharacter` (`src/Main.lean:8`) stands as a theorem of mathematics. Because mathematical accuracy
-requires knowing **exact logical boundaries**, Proposition 16.1 separates classical conditional results
-that **become unconditional immediately** from famous conjectures and conditional theorems that **remain
-open**!
+**Proposition 16.1.** Assume `UpperTheory.EveryCharacter` (`src/Main.lean:8`). For each positive modulus $N$ and each Dirichlet character $\chi$ modulo $N$, its $L$-function has no zero in $\Re(s)>1/2$. The principal character has a pole at $s=1$.
 
-**Proposition 16.1 (Logical boundary of `EveryCharacter`: Dirichlet GRH versus ERH, Artin GRH, automorphic GRH, and GSH).**
-*Assume `UpperTheory.EveryCharacter` (`src/Main.lean:8`): for every $N \ge 1$ and every Dirichlet
-character $\chi \bmod N$, $L(s, \chi) \neq 0$ on $\Re s > \frac{1}{2}$ (except $\chi = 1, s = 1$).
-Then:*
-
-1. **Statements that DO follow unconditionally (`[Expository]` / `[Community]`):**
-   - **Classical Riemann Hypothesis (`Main.lean:4, 6`) and elementary equivalences:** $\psi(x) = x + O(x^{1/2}(\log x)^2)$
-     `[Davenport2000]`, $\pi(x) = \operatorname{li}(x) + O(x^{1/2}\log x)$, Merten's sum $M(x) = \sum_{n \le x}\mu(n) = O_\varepsilon(x^{1/2+\varepsilon})$,
-     and Robin's and Lagarias's divisor-sum inequalities `[Lagarias2002]` (already machine-checked in
-     `ArithSolution.lean` via `kimihiro64/Robin1984` `[Community]`)!
+1. **Consequences under this hypothesis** `[Expository]` `[Community]`
+   - **Classical RH.** The statements at `Main.lean:4, 6` imply $\psi(x)=x+O(x^{1/2}(\log x)^2)$ and $\pi(x)=\mathrm{li}(x)+O(x^{1/2}\log x)$ `[Davenport2000]`. For every $\varepsilon>0$ the Mertens function satisfies $M(x)=\sum_{n\le x}\mu(n)=O_\varepsilon(x^{1/2+\varepsilon})$. Robin’s and Lagarias’s divisor-sum inequalities also follow `[Lagarias2002]`. The two arithmetic statements in `ArithSolution.lean` combine the formalisation in `kimihiro64/Robin1984` with Alpöge’s theorem `[Community]`.
    - **Primes in arithmetic progressions (`[Davenport2000]`, Ch. 20):** For every modulus $q \ge 1$ and
      $\gcd(a, q) = 1$, $\psi(x; q, a) = \frac{x}{\varphi(q)} + O\bigl(x^{1/2}(\log(qx))^2\bigr)$,
      eliminating **Siegel zeros** (`[Siegel1935]`) for all Dirichlet characters over $\mathbb Q$ and
      improving Linnik's least-prime bound to $p_{\min}(q, a) \ll (\varphi(q)\log q)^2$!
-   - **Goldbach-type and sieve consequences depending only on Dirichlet GRH:** Deshouillers–Effinger–te
-     Riele–Zinoviev's 1997 theorem that every odd integer $n > 5$ is a sum of three primes (already
-     proved unconditionally by Helfgott in 2013, now given an independent short proof via Dirichlet GRH!),
-     sharp Bombieri–Vinogradov-range error bounds on individual moduli $q \le x^{1-\varepsilon}$, and
-     deterministic polynomial-time primality/factoring-adjacent algorithms that test quadratic/power
-     nonresidues over $\mathbb Q$ via **Dirichlet** characters (e.g., Miller's deterministic primality
-     bound $O((\log n)^4)$ for testing witnesses against quadratic/Dirichlet characters mod $n$).
-   - **Abelian Dedekind zeta functions:** RH holds for $\zeta_K(s)$ whenever $\operatorname{Gal}(K/\mathbb Q)$
-     is **abelian** (Section 16.2.1, Step 1, via Kronecker–Weber).
-2. **Statements that DO NOT follow from `EveryCharacter` and remain `[Open]` (`[Expository]`):**
-   - **Extended Riemann Hypothesis (ERH) for non-abelian number fields $K / \mathbb Q$:** RH for
-     $\zeta_K(s)$ when $K$ is not contained in any cyclotomic field $\mathbb Q(\zeta_N)$ (e.g.
-     $K = \mathbb Q(\sqrt[3]{2})$ or degree-$5$ non-solvable fields; Section 16.2.1, Steps 2–3), along
-     with Bach's general $O((\log \lvert \Delta_K \rvert)^2)$ class-group generator bound for arbitrary
-     number fields $K$!
+   - **Ternary Goldbach and primality testing.** Deshouillers, Effinger, te Riele and Zinoviev proved under GRH in 1997 that every odd integer greater than five is a sum of three primes. Helfgott later proved this unconditionally. Miller’s 1976 deterministic primality test takes $O((\log n)^4)$ steps under its Dirichlet hypothesis. Agrawal, Kayal and Saxena subsequently gave an unconditional polynomial-time primality test. [Conditional three-prime theorem](https://doi.org/10.1090/S1079-6762-97-00031-0) [Helfgott](https://arxiv.org/abs/1312.7748) [Miller](https://www.cs.cmu.edu/~glmiller/Publications/Papers/Mi76.pdf) [Agrawal, Kayal and Saxena](https://doi.org/10.4007/annals.2004.160.781)
+   - **Abelian extensions.** Suppose $K/\mathbb Q$ is a finite Galois extension with abelian Galois group. Its Dedekind zeta function satisfies RH by the Dirichlet factorisation in section 16.2.1. For comparison, the field generated by the real cube root of two has only the identity automorphism, since it contains only one root of $X^3-2$. Its Galois closure has group $S_3$.
+
+2. **Results requiring further hypotheses** `[Expository]`
+
+   - **Other number fields.** Section 16.2.1 exhibits the extra Hecke factor for $K=\mathbb Q(\sqrt[3]{2})$. For a number field with nonabelian Galois closure, such as a nonsolvable quintic field, the permutation action on its embeddings is faithful. A direct sum of linear characters has abelian image, so it cannot give this permutation action. Bach’s conditional bound $O((\log\lvert\Delta_K\rvert)^2)$ for the norms of prime ideals generating the ideal class group uses hypotheses over the number field.
    - **Unitary Hecke $L$-functions $L_F(s, \chi)$ over number fields $[F : \mathbb Q] > 1$** (`[Hecke1920]`),
      including CM Grossencharacters over imaginary quadratic fields.
-   - **Non-abelian Artin $L$-functions $L(s, \rho)$ (`[Artin1924]`, `[Brauer1947]`) and Artin's primitive
-     root conjecture (`[Hooley1967]`):** Hooley's theorem that every non-square integer $a \neq -1$ is a
-     primitive root modulo infinitely many primes requires ERH for the **non-abelian Kummer fields
-     $\mathbb Q(\zeta_q, a^{1/q})$** ($q$ prime), which are **not** abelian over $\mathbb Q$ and
-     therefore **remain conditional**!
+   - **Artin functions and primitive roots.** Brauer induction for nonabelian Artin functions involves Hecke characters over number fields `[Artin1924]` `[Brauer1947]`. In Hooley’s proof, a nonsquare integer $a\ne-1$ is a primitive root modulo infinitely many primes under RH for the Dedekind zeta functions of $K_m=\mathbb Q(\zeta_m,a^{1/m})$ for squarefree positive integers $m$. For $a=2$, the field $K_2=\mathbb Q(\sqrt2)$ is quadratic and $K_3$ has nonabelian group $S_3$, as in section 16.2.1. At the squarefree index six, $K_6$ is the compositum of those two fields. [Hooley](https://doi.org/10.1515/crll.1967.225.209) [Squarefree indices](https://www.cs.uleth.ca/~akbary/2211.13913.pdf)
    - **Automorphic / elliptic-curve / modular-form GRH ($\mathrm{GL}_2$ and $\mathrm{GL}_n$, $n \ge 2$):**
      GRH for Ramanujan's $\Delta$-function $L(s, \Delta)$, holomorphic newforms $L(s, f)$, Maass forms,
      and elliptic curves $L(E, s)$ over $\mathbb Q$ (nor the Birch and Swinnerton-Dyer conjecture!).
@@ -374,12 +309,7 @@ high-leverage ways to help advance the verification and human digestion of both 
      across amplified theta-lift words without full Arthur endoscopic classification, and how `LawsT`
      suffices in place of full Henniart–Harris–Taylor local $\varepsilon$-factor matching!
 4. **For functional analysts and spectral theorists:**
-   - *Settle Question M1/M4 on Masullo's strip spaces $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$:* Either
-     construct an explicit rigorous counterexample showing that the geometric kernel trace on
-     $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$ changes by off-strip zero residues when $\alpha$ varies
-     (for a Beurling / off-line model $L$-function), or determine whether a nuclear trace formula on
-     positive-width strips $I = [-\alpha, \alpha]$ can be proved and matched to `§12.5` without circularly
-     assuming zero-freeness outside $\frac{1}{2} + I$!
+   - For M1 and M4, consider Masullo’s spaces $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$. One question is whether, for a Beurling model with zeros off the line, residues of zeros outside the strip change the geometric kernel trace as $\alpha$ varies. Another is whether a nuclear trace formula on $I=[-\alpha,\alpha]$ of positive width can be matched to section 12.5 without assuming zero-freeness outside $\frac{1}{2}+I$ first.
 5. **For readers of this book (`Li-Hongmin/amazing-riemann-hypothesis`):**
    - Every `src/…:line` citation, status tag, and mathematical proof in Chapters 0–16 is maintained in
      the public repository. If you read a deeper sub-cone at level `R3`, spot an imprecision, or resolve
@@ -388,20 +318,8 @@ high-leverage ways to help advance the verification and human digestion of both 
 
 ---
 
-**Summary of the chapter — and of the book.** As of `2026-11-22 03:30 UTC`, Alpöge and Claude's five
-`Main.lean` theorems (`RiemannHypothesis` and Dirichlet GRH over $\mathbb Q$) have been reproduced
-byte-for-byte in an isolated sandbox (`61,570,595,788` bytes, sha256 `5ea74b91…244e`) and accepted by
-`leanchecker`, `lean4lean`, `nanoda`, `con-leche --compare`, and `con-ron --compare` using only Lean's
-three standard axioms `[Community]`, with single-threaded export-level `lake comparator` C++ kernel runs
-still in progress `[Open]`. Across Chapters 1–13 of this textbook, we have translated the entire
-top-to-bottom architecture (`P0`–`P18`) into human graduate mathematics — reading the statement layer,
-analytic endgame, Arakelov Bost-slope library, formal chain brackets, inert-prime valuation algebra,
-GMA congruence-to-$\mathrm{Ш}^1$ reductions, Iwasawa squeeze, and top-level Langlands/Galois/Green
-interfaces line by line (`[Lean, read]`) while demarcating the ~146,000-module deep proof cones and ~80
-unaudited `GlobalTheory.Published.*` names that await human specialists (`[Open]`). In parallel
-(Chapters 14–15), we analyzed Masullo's 940-page adelic trace-formula draft `[Paper]`, pinpointing why
-its strip-weighted Hardy–Sobolev strategy stalls at the Chapter 10 biorthogonal-bound failure (`pp. 444,
-451, 463`), omitted `§12.3` (`p. 514`), and unwritten Chapter 13 (`pp. 521–522`) `[Open]`, and showed
-by explicit Artin/Brauer examples why Dirichlet GRH (`EveryCharacter`), even if completely confirmed,
-leaves non-abelian ERH, Artin's primitive root conjecture, $\mathrm{GL}_2$ automorphic GRH, and
-simplicity of zeros open for the next generation of mathematicians to conquer.
+**Summary.** As of 03:30 UTC on 22 November 2026, a sandboxed build of Alpöge’s archive had reproduced the 61,570,595,788-byte export. Its SHA-256 digest begins with `5ea74b91` and ends with `244e`. Leanchecker and lean4lean checked the compiled modules. Nanoda and con-leche accepted the export. Con-leche and con-ron also matched all five challenge statements. The checks identified three standard Lean axioms. The full export-level comparator runs were in progress at that update `[Community]` `[Open]`. [Verification logs](https://math.mit.edu/~drew/grh/)
+
+Chapters 1–13 describe the proof’s structure from `P0` to `P18`. We read the statements, the analytic endgame, the Arakelov slope library, the chain-bracket calculations, the inert-prime valuation algebra, the GMA congruence reductions leading to $\mathrm{Ш}^1$, and the Langlands, Galois and Green interfaces `[Lean, read]`. The deeper proof dependencies include about 146,000 modules, and about 80 named statements in `GlobalTheory.Published.*` remain to be compared with the literature `[Open]`.
+
+Chapters 14–15 examine Masullo’s 940-page *The Music of the Primes*. The positive-width Hardy–Sobolev argument includes a failed biorthogonal bound on pages 444, 451 and 463, an omitted section 12.3 on page 514, and an unwritten chapter 13 beginning on page 521 `[Paper]` `[Open]`. The Artin and Brauer examples in section 16.2.1 explain the scope of Dirichlet GRH. The extended hypothesis for general number fields, Artin’s primitive root conjecture, automorphic GRH for $\mathrm{GL}_2$ and simplicity of zeta zeros each require further arguments.
