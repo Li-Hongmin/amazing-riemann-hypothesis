@@ -80,13 +80,18 @@ Chapter 14 needs only Chapters 1 and 3.
 | 11 | done (R3 reading of `ExistsPageN`, `IsChiField`, `StmtFields`, `LengthEqAddEigen`, `PrimeSetBoundDataOfPrimitiveChar`, `IsCMFieldOfIsChiField`, `ConductorBoundsOfIsChiField`, `minusle`, `ErrorTermsLeSqrtExpRpow`, `AdmissibleOfPageN`, `PointArith`, `ThmHV`, `CountVs`, `SumOut`, `FinalLe`, `JointWinOfCounts`, `PublishedTheorems/FerreroWashington`, `FerreroWashingtonIndex/FerreroWashington`, `ExistsIwasawaRankBoundOfFerreroWashington`, `LemmaK`, `KatoUse`, `TaylorWilesObstructionBound`, `WindowBoundOfLiteratureLevel`, `TopMainZj`, `VwinOfRow`; R2/R1 `[Open]` for deep 157,603-module proof cone; written in `chapters/11-the-window-bound-vwin.md`) |
 | 12 | done (R3 reading of `MainConclusion`, `WeightsConjBis`, `RecT`, `WeakOfAtt`, `RowSrc`, `GaloisRepresentationsOfThetaLift`, `IntegralStructures/Development`, `WeightOneGeometricRealization`, `TLiftK`, `IsRecTOfIsRec`, `LocalCentralUnits/RecTExists`; R2 `[Open]` for deep 66,167-module and 26,672-module proof cones; written in `chapters/12-galois-representations-and-local-langlands.md`) |
 | 13 | done (R3 reading of `LabelDatum`, `GreenRegularCharacters`, `SumRangeEqRoots`, `DiscreteSpectrumResidualClassification`, `StandardTheoremStatements/GlobalArtinReciprocity`, and top assembly of `EveryCharacterOfLiteratureOfVWin` and `TemperedProductOfSquareIntegrable`; R1/R2 `[Open]` for unreviewed named literature `Prop`s and 151,285-module proof cone; written in `chapters/13-greens-theorem-and-the-literature-layer.md`) |
+| 14 | done (primary reading of Masullo *The Music of the Primes* Chs. 1–14 and Appendix B, Yan Ru Pei `doi:10.5281/zenodo.24409811`, and `mccorvie/riemann-masullo` Wave 1–3 status; written in `chapters/14-masullos-trace-formula-route.md`) |
+| 15 | done (re-verification of `P0`–`P18` top-level Lean declarations alongside Masullo Chs. 1–14 and running $\chi_{-4} \bmod 4$ comparison across five structural axes; written in `chapters/15-two-proofs-side-by-side.md`) |
+| 16 | done (consolidated machine-kernel, `P0`–`P18` import-cone, 257-theorem literature-fidelity, and Masullo open-item ledgers through `2026-11-22 03:30 UTC`, plus non-abelian ERH/Artin scope boundaries and reader checklist; written in `chapters/16-open-problems-and-what-remains.md`) |
 
 ## Next batch
 
-Part IV Chapters 14–16 (completing the book: Masullo's adelic trace-formula route and its Chapter 10
-spectral-nuclearity gap in `chapters/14-masullos-trace-formula-route.md`, the side-by-side structural
-comparison of the two claimed proofs in `chapters/15-two-proofs-side-by-side.md`, and the consolidated
-open-problems and verification checklist in `chapters/16-open-problems-and-what-remains.md`).
+First complete edition (Chapters 0–16, Parts 0–IV, plus "The story so far", `sources/SOURCES.md`, and
+`CONTRIBUTIONS.md`) is now written and live (`2026-11-22`). Ongoing maintenance tracks:
+(1) fold in post-audit precision fixes as independent audits of Chapters 11–16 complete;
+(2) update Chapter 16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md` when the single-threaded
+`lake comparator` export kernel runs finish and as human specialists audit the remaining ~80
+`GlobalTheory.Published.*` statements and deep import cones (`P12`, `P18`, `P17`, `P14`).
 
 ## Numbering note (2026-11-21)
 

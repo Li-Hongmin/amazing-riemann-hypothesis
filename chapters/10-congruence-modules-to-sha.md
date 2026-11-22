@@ -45,9 +45,10 @@ Node **P11** of the Lean archive solves this congruence-loss problem in three de
    `GlobalCongruenceCountOfRootDifferenceUnit.lean:44`) [Lean, read]!
 3. **Bridging `HypV` to the linear-in-$m$ chain budget `DIVinN` (`divinN_of_hypV`):** Once `HypV`
    (supplied by Chapter 11's `VWin`) bounds that $\log \ell$-weighted $Ш^1$ sum across all primes
-   $\ell$ by $\sqrt{b} = \exp(x^\varepsilon / 2)$, `divinN_of_hypV` (`DivinNOfHypV.lean:117`, read
-   100% line by line) proves `DIVinN` with per-lift budget $B_0 = f m b x^\varepsilon$ — avoiding the
-   $x^{2/3}$ trap and hitting $x^{1/2 + O(\varepsilon)}$ in Chapter 5's `SZ.T3` [Lean, read]!
+   $\ell$ by $\sqrt{b} = \exp(x^\varepsilon / 2)$ and `SmallLevelRankEq` equates per-step kernel
+   ranks `dZ0 j` to the base rank `D0`, `divinN_of_hypV` (`DivinNOfHypV.lean:117`, read 100% line by
+   line) proves `DIVinN` with per-lift budget $B_0 = f m b x^\varepsilon$ — avoiding the $x^{2/3}$
+   trap and hitting $x^{1/2 + O(\varepsilon)}$ in Chapter 5's `SZ.T3` [Lean, read]!
 
 ---
 
@@ -172,25 +173,33 @@ We now record the exact Lean declarations of node **P11**.
 ### 10.3.1 Orthogonal idempotent decompositions of GMAs (`IdempotentChoiceDepthZero.lean`)
 
 **Definition 10.1 (`IsOrthogonalIdempotentDecomposition`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:18`).**
-Over a discrete valuation ring $\mathcal O$ above $\ell$ (with uniformizer $\varpi$ and finite length
-$L = \operatorname{len}_{\mathcal O}(\mathcal O / (\ell))$), an orthogonal idempotent decomposition of
-depth zero for rank tuple `R` (`t := R.t`) equips the Hecke/Galois algebra with [Lean, read]:
+Over a discrete valuation ring $\mathcal O = N.\mathcal O(i)$ above $\ell = N.\ell(i)$, an orthogonal
+idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t`, ambient dimension
+`R.nV`) equips the Hecke/Galois algebra with [Lean, read]:
 
-1. mutually orthogonal idempotents separating an $r \times r$ cuspidal block $e_B$ from $t = R.t$
-   rank-$1$ cyclotomic character blocks $e_{1, c}$ ($c \in \mathrm{Fin}\,t$, corresponding to powers
-   $1, 2, \dots, t$ of the cyclotomic character $\chi_{\mathrm{cyc}}$!); and
-2. a distinguished rank-$1$ off-diagonal projector element `Eel` satisfying $\mathrm{Eel}^2 = \delta_{51}\cdot\mathrm{Eel}$
-   with $\delta_{51} \in \mathcal O^\times$ (`IsUnit del51`), which extracts the off-diagonal pairing
-   ideals feeding the congruence ideal `ccOff(π)` (`LengthHeckeValueIdealLeDeterminantBound.lean:15`).
+1. mutually orthogonal idempotents `S.eB` of **rank $t = R.t$** (`((S.eB x).map (toK N i)).rank = R.t`,
+   `:22`) — the **cyclotomic block idempotent**, diagonalized by `S.X0` (`:36–38`) at a distinguished
+   inertia element `S.g0` into the $t = R.t$ cyclotomic powers $\chi_{\mathrm{cyc}}^{c+1}$
+   ($c \in \mathrm{Fin}\,R.t$, i.e. powers $1, 2, \dots, t$!) — and `S.e1` of **rank $1$** (`:22`),
+   together with the splitting `S.e` (`:24–29`) decomposing the `R.nV`-dimensional representation into
+   the $r \times r$ cuspidal representation block `rhoO` (`Fin R.r`) and the $t$ scalar cyclotomic
+   coordinates (`Fin R.t`); and
+2. a distinguished rank-$1$ projector element `Eel` (`:56–60`) satisfying $\mathrm{Eel}^2 = \delta_{51}\cdot\mathrm{Eel}$
+   with $\delta_{51} \in \mathcal O^\times$ (`IsUnit del51`), projecting onto the $c = 0$ cyclotomic
+   slot to extract the off-diagonal pairing values feeding the congruence ideal `ccOff(π)`
+   (`LengthHeckeValueIdealLeDeterminantBound.lean:15`).
 
 ### 10.3.2 Integral Hecke lattices and `TwistingCharacterExistence` (`IntegralHeckeForms.lean`)
 
-**Definition 10.2 (Signed lattice index and character-twisting existence, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,166,219,233`).**
+**Definition 10.2 (Ramification-normalized length, signed lattice index, and character-twisting existence, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,166,219,233`).**
 
-1. **Module length and signed lattice index (`lenR` and `sIdx`, `:64, 68`).** Over a DVR $R$, `lenR`
-   records finite $R$-module length, and for two commensurable $R$-lattices $\Lambda_1, \Lambda_2$,
-   `sIdx Λ₁ Λ₂ := lenR(Λ₁ / (Λ₁ ∩ Λ₂)) - lenR(Λ₂ / (Λ₁ ∩ Λ₂))` (`:68`) is the additive signed index
-   measuring exact denominator loss when passing from one integral structure to another [Lean, read].
+1. **Ramification-normalized module length and signed lattice index (`lenR` and `sIdx`, `:64, 68`).**
+   Over a DVR $R$ above a prime $\ell$, `lenR R l M` (`:64`) divides the $R$-module length
+   `(Module.length R M).toNat` by the $\ell$-ramification index `(IsDiscreteValuationRing.addVal R l).toNat`
+   (normalizing $\mathcal O$-lengths back to $\mathbb Z_\ell$-scale!), and for two commensurable
+   $R$-lattices $\Lambda_1, \Lambda_2$, `sIdx Λ₁ Λ₂ := lenR(Λ₁ / (Λ₁ ∩ Λ₂)) - lenR(Λ₂ / (Λ₁ ∩ Λ₂))`
+   (`:68`) is the additive signed index measuring denominator loss when passing from one integral
+   structure to another [Lean, read].
 2. **Admissible twisting characters and Selmer annihilation (`TwOK`, `TwistingCharacterExistence`, `GoodTw`, `TwistTheoremAtIndex`, `:81, 166, 219, 233`).**
    `TwistingCharacterExistence : Prop` (`:166`) asserts that at each chain step index $i$, there exists
    an admissible finite-order character $\eta$ (`TwOK` at `:81`, unramified outside controlled auxiliary
@@ -200,7 +209,7 @@ depth zero for rank tuple `R` (`t := R.t`) equips the Hecke/Galois algebra with 
 
 ### 10.3.3 Galois cohomology `Sha`, `LinkN`, `DIVinN`, and `HypV`
 
-**Definition 10.3 (`Sha`, `shaLen`, `LinkN`, `DIVinN`, and `HypV`, `src/Formalism/GaloisCohomology/Statement.lean:67,75,78`, `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:40,45,59,62`, and `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10`).**
+**Definition 10.3 (`Sha`, `shaLen`, `vvTerm`, `LinkN`, `SmallLevelRankEq`, `DIVinN`, and `HypV`, `src/Formalism/GaloisCohomology/Statement.lean:67,75,78`, `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`, and `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10`).**
 
 1. **Cyclotomic Tate–Shafarevich group and length (`qzTw`, `Sha`, `shaLen`, `GaloisCohomology/Statement.lean:67, 75, 78`).**
    For a number field $E$, a prime $\ell$, and an integer twist $e \in \mathbb N$, let
@@ -210,18 +219,24 @@ depth zero for rank tuple `R` (`t := R.t`) equips the Hecke/Galois algebra with 
    := \ker\Bigl(H^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell / \mathbb Z_\ell(-e)\bigr)
    \longrightarrow \prod_{v \in S_\ell} H^1\bigl(G_{E_v}, \mathbb Q_\ell / \mathbb Z_\ell(-e)\bigr)\Bigr)$$
    (`Sha`, `:75`), with $\mathbb Z_\ell$-corank/length $\mathrm{shaLen}(E, \ell, e)$ (`:78`) [Lean, read].
-2. **Congruence-to-$Ш^1$ link (`LinkN_at`, `LinkN`, `GlobalTheoremInputs.lean:40, 45`) and chain budget (`DIVinN_at`, `DIVinN`, `:59, 62`).**
-   At chain datum $D$ (with host $E = D.\mathrm{host}$, $f = 2\lvert \varphi.A \rvert$, $m$ steps,
-   rank cutoff $R.t$, and $b = \exp(x^\varepsilon)$), define for each prime $\ell$ (`vvTerm`,
-   `DivinNOfHypV.lean:14`) [Lean, read]
-   $$\mathrm{vvTerm}(D, \ell) := \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e).$$
-   - `LinkN_at C D` (`GlobalTheoremInputs.lean:40`) asserts that if odd `Sha` groups are finite and
-     $\sum'_\ell \mathrm{vvTerm}(D, \ell) \le B$, then the total congruence loss across the $m$ lifts
-     is bounded by a constant $C$ times $(B + \log h_E + \text{tame/twist terms})$ bounded within
-     $f m b (\log x)^2$ plus $m B$!
-   - `DIVinN_at C₁ D` (`:59`) asserts that **unconditionally on $B$** (once $B$ has been supplied!),
-     there exist chain loss parameters $B_0 \le C_1\,f m b x^\varepsilon$ (feeding Chapter 5's `SZ.T3`!)
-     and $2$-adic level parameter $L = x^\varepsilon$ satisfying all congruence-loss clauses of `SizeData₂`!
+2. **Single-step congruence-to-$Ш^1$ link (`vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `SmallLevelRankEq`, `GlobalTheoremInputs.lean:31, 36, 40, 45, 52`) and chain budget (`DIVinN_at`, `DIVinN`, `:59, 62`).**
+   At chain datum $D$ (with host $E = D.\mathrm{host}.E$, $f = D.R.f = 2\lvert \varphi.A \rvert$,
+   $m = D.R.m$ steps, rank cutoff $R.t$, $b = \exp(x^\varepsilon)$, $L = x^\varepsilon$, and
+   $B_0 = f m b x^\varepsilon$), define for each $l \in \mathbb N$ (`vvTerm`,
+   `GlobalTheoremInputs.lean:31`) [Lean, read]
+   $$\mathrm{vvTerm}(D, l) := \begin{cases} (\log l)\sum_{1 \le e < R.t} \mathrm{shaLen}(l, e) & \text{if } l\text{ is prime}, \\ 0 & \text{otherwise,}\end{cases}$$
+   and let `etaSum L j` (`:36`) be the weighted sum of step-$j$ congruence losses across active places $w$:
+   - `LinkN_at L j C` (`:40–43`) is the **single-step** implication at lift $j \in \{1, \dots, m\}$:
+     $$\mathrm{Summable}\bigl(\mathrm{vvTerm}(D)\bigr) \implies
+     \mathrm{etaSum}(L, j) \le d_{Z_0}(j)\,\Bigl(C\,\bigl(f m b L^2 + (\log x)^2 N_c\bigr) + \sum'_l \mathrm{vvTerm}(D, l)\Bigr),$$
+     and `LinkN Fm` (`:45`) asserts that `LinkN_at (Fm.L x i) j C` holds eventually for all $j \in \{1, \dots, m\}$
+     whenever `ShaFinOdd` (`:25`) holds.
+   - `SmallLevelRankEq Fm` (`:52–53`) asserts that eventually $(Fm.L\,x\,i).d_{Z_0}(j) = (Fm.D\,x\,i).\mathrm{what}_2.D_0$
+     for every $j \in \{1, \dots, m\}$ (proved in `ThirdPlaceSeries/Link.lean:20` as `link_alt_alt_alt`).
+   - `DIVinN_at L j C` (`:59–60`) is the deterministic single-step inequality
+     $$\mathrm{etaSum}(L, j) \le D_0 \cdot C\,x^\varepsilon\,(B_0 + N_c)$$
+     (where $B_0 = f m b x^\varepsilon$ is the fixed field of `SizeData₂` feeding Chapter 5's `SZ.T3`!),
+     and `DIVinN Fm` (`:62`) asserts `DIVinN_at` eventually across all lifts $j \in \{1, \dots, m\}$!
 3. **The global $Ш^1$ hypothesis (`UpperTheory.Top.HypV`, `DivinNOfHypV.lean:10`).** `HypV Fm : Prop`
    asserts that eventually for large window scales $x$ along the family `Fm`, every datum $D = \mathrm{Fm}.D(x, i)$
    satisfies `VVle D.host D.R.t (Real.sqrt D.b)` (`ExistsPageN.lean:12`, where $\sqrt{b} = \exp(x^\varepsilon / 2)$)
@@ -239,8 +254,10 @@ annihilation `twist_kills_selmer`, and finally the 100%-read proof of `divinN_of
 
 **Proposition 10.1 (Bounding the congruence ideal by cuspidal + cyclotomic cocycle lengths: `CutDetOrd.main`).**
 *Let $\mathcal O$ be the discrete valuation ring above $\ell$ attached to a lift $\pi$ at step $i$,
-with off-diagonal congruence ideal $\mathrm{ccOff}(\pi) \subseteq \mathcal O$. Then $\mathrm{ccOff}(\pi) \neq 0$
-(`exists_ne_zero`, `:37`), and its quotient $\mathcal O$-length satisfies*
+with off-diagonal congruence ideal $\mathrm{ccOff}(\pi) \subseteq \mathcal O$. Away from the
+exceptional locus `Z i`, there exists a vector $\eta$ and group element $\gamma$ whose off-diagonal
+matrix action `(yg ... γ x').mulVec η` is nonzero (`exists_ne_zero`, `:37`), feeding `value_mem_ccOff`
+(`:15`) and the GMA determinant inequality*
 $$\operatorname{len}_{\mathcal O}\bigl(\mathcal O / \mathrm{ccOff}(\pi)\bigr)
 \le \operatorname{len}_{\mathcal O}\bigl(\mathrm{cocRho}(\pi)\bigr)
 + \sum_{c \in \mathrm{Fin}\,t} \operatorname{len}_{\mathcal O}\bigl(\mathrm{cocChi}(\pi, c)\bigr),$$
@@ -250,10 +267,10 @@ cyclotomic blocks.*
 *(Lean: `GlobalTheory.CutDetOrd.main`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59`,
 and wrapper `…/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8`.)* [Lean, read]
 
-*Proof.* First (`value_mem_ccOff` at `:15` and `exists_ne_zero` at `:37`), evaluating the off-diagonal
-pairing against the unit $\delta_{51}$ of `IsOrthogonalIdempotentDecomposition` (`IdempotentChoiceDepthZero.lean:18`)
-over the generic fiber shows that $\mathrm{ccOff}(\pi)$ is a nonzero ideal of the DVR $\mathcal O$, so
-$\mathcal O / \mathrm{ccOff}(\pi)$ has finite $\mathcal O$-length. Next (`LengthHeckeValueIdealLeDeterminantBound.lean:59–165`),
+*Proof.* First (`value_mem_ccOff` at `:15` and `exists_ne_zero` at `:37`), using the rank-$1$ projector
+`Eel` and unit $\delta_{51}$ of `IsOrthogonalIdempotentDecomposition` (`IdempotentChoiceDepthZero.lean:18`)
+together with `NoChiOff` away from `Z i` produces $\eta$ and $\gamma$ with nonzero off-diagonal
+action `(yg ... γ x').mulVec η ≠ 0`. Next (`LengthHeckeValueIdealLeDeterminantBound.lean:59–165`),
 the proof constructs the GMA relation module `Rel` pairing the off-diagonal column module $B$ against
 the off-diagonal row module $C$ into $\mathcal O$. By the block determinant polynomial identity
 `BlockDetPoly.main` (`[Lean]`), the Fitting/determinant ideal of the GMA presentation is contained in
@@ -333,57 +350,70 @@ could depend on the $j$-th automorphic packet and accumulate uncontrollably!
    *Choosing the admissible character twist supplied by `TwistingCharacterExistence`
    (`IntegralHeckeForms.lean:166`) annihilates the residual/torsion cuspidal Selmer classes in
    $\mathrm{sPi}(i, \pi_{\mathrm{tw}})$ outside the controlled auxiliary prime set $Q_i$.* [Lean, read]
-2. **Summing $\log \ell \cdot \mathrm{vcc}$ across all primes $\ell$ (`GlobalTheory.LinkFam.main`, `…/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`, and `closed_linkEta_of_duty`, `…/ThirdPlaceSeries/LinkEta.lean:13`).**
+2. **Summing $\log \ell \cdot \mathrm{vcc}$ across all primes $\ell$ and closing `LinkEta` (`GlobalTheory.LinkFam.main`, `…/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`, and `closed_linkEta_of_duty`, `…/ThirdPlaceSeries/LinkEta.lean:13`).**
    *Multiplying Theorem 10.2 (at the chosen Selmer-killing twist) by $\log \ell$ and summing over all
    rational primes $\ell$ converts:*
-   - $\sum_\ell (\log \ell)\,v_\ell(h_E) = \log h_E$ *(which by Brauer–Siegel / elementary Minkowski
-     bounds on the degree-$O(x^{2+8\varepsilon})$ host field $E$ satisfies $\log h_E \ll [E : \mathbb Q]\log\lvert d_E \rvert^{1/[E:\mathbb Q]} \ll f\,x^\varepsilon (\log x)^2$!)*;
-   - $\sum_\ell \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) = \sum'_\ell \mathrm{vvTerm}(D, \ell) \le B$; *and*
-   - *the finite tame cyclotomic-unit sum over $q \in Q_i$, establishing `LinkN` (`LinkEta.lean:13`).* [Lean, read]
+   - $\sum_\ell (\log \ell)\,v_\ell(h_E) = \log h_E$ *(controlled within $(\log x)^2 N_c$ alongside
+     tame ramification)*;
+   - $\sum_\ell \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) = \sum'_\ell \mathrm{vvTerm}(D, \ell)$; *and*
+   - *the finite tame cyclotomic-unit sum over $q \in Q_i$, establishing `LinkN` (`LinkFam.main`,
+     `LinkNAlongFamilyOfLocalBounds.lean:11`), while `closed_linkEta_of_duty` (`LinkEta.lean:13`)
+     closes the companion local twisting-cover predicate `LinkEta` (`LocsCoverTw`,
+     `GlobalTheoremInputs.lean:49`).* [Lean, read]
 
-*(Reading boundary `[Lean]`.)* We read `IntegralHeckeForms.lean` (195-module cone),
+*(Reading boundary `[Lean]`.)* We read `IntegralHeckeForms.lean` (207-module cone),
 `ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`, and `LinkEta.lean`
 in full (`R3` / `[Lean, read]`); the upstream construction proving `TwistingCharacterExistence`
 (using Chebotarev density / cyclic prime splitting to pick twists whose local Frobenius eigenvalues
-break residual Selmer cocycles, `remark.pdf` p. 4, items 14–16) sits inside the deeper automorphic
+break residual Selmer cocycles, `remark.pdf` p. 4, items 14–15, 17) sits inside the deeper automorphic
 cone (`R2` / `[Lean]`, proof body unread `[Open]`).
 
 ### 10.4.4 Complete proof of `divinN_of_hypV`: how $\sqrt{b} = \exp(x^\varepsilon/2)$ closes `DIVinN`
 
 To finish Chapter 10, let us prove `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:1–134`,
-import cone **301** modules, read 100% line by line at `R3`) — the exact bridge from `LinkN` and
-`HypV` to `DIVinN` [Lean, read]!
+leaf-inclusive import cone **311** modules, read 100% line by line at `R3`) — the exact bridge from
+`HypV`, `LinkN`, and `SmallLevelRankEq` to `DIVinN` [Lean, read]!
 
-**Theorem 10.4 (From `LinkN` and `HypV` to `DIVinN`: `divinN_of_hypV`).** *Let `Fm : FamP eps`
-($\varepsilon > 0$). If `LinkN Fm` (`∃ C, LinkN_at C` eventually along `Fm`) and `HypV Fm`
-(`VVle D.host D.R.t (sqrt D.b)` eventually along `Fm`) hold, then `DIVinN Fm` holds with constant
-$\lvert C \rvert + 1$: eventually for all $x \ge x_0$ and all family indices $i$, `DIVinN_at (|C| + 1) (Fm.D x i)`
-holds with per-lift loss budget $B_0 := f\,m\,b\,x^\varepsilon$ and level factor $L := x^\varepsilon$.*
+**Theorem 10.4 (From `HypV`, `LinkN`, and `SmallLevelRankEq` to `DIVinN`: `divinN_of_hypV`).**
+*Let `Fm : FamP eps` ($\varepsilon > 0$). Assume the three family hypotheses:*
+
+1. `(hV : HypV Fm.toFamCore)` *(`VVle D.host.E D.R.t (sqrt L.sc.b)` eventually along `Fm`);*
+2. `(hN : LinkN Fm)` *(`∃ C, LinkN_at (Fm.L x i) j C` eventually along `Fm` whenever `ShaFinOdd` holds); and*
+3. `(hR : SmallLevelRankEq Fm)` *(`(Fm.L x i).dZ0 j = (Fm.D x i).what₂.D0` eventually for all $j \in \{1, \dots, m\}$, supplied by `ThirdPlaceSeries/Link.lean:20`).*
+
+*Then `DIVinN Fm` holds with constant $\lvert C \rvert + 1$: eventually for all $x \ge x_0$, all family
+indices $i$, and all lifts $j \in \{1, \dots, m\}$, `DIVinN_at (Fm.L x i) j (|C| + 1)` holds at the
+chain parameters $B_0 = f\,m\,b\,x^\varepsilon$ and $L = x^\varepsilon$.*
 *(Lean: `vvRecord`, `log_sq_le_rpow`, `divinN_at`, and `UpperTheory.Top.divinN_of_hypV`,
 `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:17,59,76,117`.)* [Lean, read]
 
-*Proof.* Fix $\varepsilon > 0$ and choose $x$ large enough that $(\log x)^2 \le x^\varepsilon$
-(`log_sq_le_rpow`, `:59`, since $\log x = o(x^{\varepsilon/2})$) and both `LinkN_at C D` and
-`VVle E R.t (sqrt b)` hold for $D = \mathrm{Fm}.D(x, i)$ ($E = D.\mathrm{host}$, $b = D.b = \exp(x^\varepsilon) \ge 1$).
+*Proof.* Fix $\varepsilon > 0$ and choose $x \ge \max(\max(x_1, \max(x_3, x_4)), \max(x_6, \mathrm{Fm}.x_1 + 1))$
+(`:123`) large enough that $(\log x)^2 \le x^\varepsilon$ (`log_sq_le_rpow`, `:59`, since $\log x = o(x^{\varepsilon/2})$)
+and `HypV`, `LinkN`, and `SmallLevelRankEq` all hold for $D = \mathrm{Fm}.D(x, i)$ and
+$L_{\mathrm{sz}} = \mathrm{Fm}.L(x, i)$ ($b = L_{\mathrm{sz}}.\mathrm{sc}.b = \exp(x^\varepsilon) \ge 1$).
 
-1. **Deduce finiteness, summability, and $\sum'_\ell \mathrm{vvTerm}(D, \ell) \le \sqrt{b}$ (`vvRecord`, `:17–57`):**
-   Recall from Chapter 4 (Definition 4.4(4)) that `VVle E R.t B` (`B = \sqrt{b} \ge 0`) states that
-   for **every** finite set $S$ of primes $\ell$,
+1. **Deduce `ShaFinOdd`, summability, and $\sum'_l \mathrm{vvTerm}(D, l) \le \sqrt{b}$ (`vvRecord`, `:17–57`):**
+   Recall from Chapter 4 (Definition 4.4(4)) that `VVle E R.t B` ($B = \sqrt{b} \ge 0$) states that
+   odd-twist `Sha` is finite and for **every** finite set $S$ of primes $\ell$,
    $$\sum_{\ell \in S} \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) \le \sqrt{b}.$$
-   - First, `VVle` explicitly carries finiteness of odd-twist `Sha` at every prime $\ell$ on singleton
-     sets $S = \{\ell\}$, directly supplying `ShaFinOdd D` (`DivinNOfHypV.lean:22–38`).
-   - Second, since every term $\mathrm{vvTerm}(D, \ell) \ge 0$ and every finite partial sum
-     $\sum_{\ell \in S} \mathrm{vvTerm}(D, \ell)$ is bounded above by $\sqrt{b}$, Mathlib's
-     `summable_of_sum_le` immediately gives `Summable (vvTerm D)` and `hasSum_le` gives
-     $$\sum'_\ell \mathrm{vvTerm}(D, \ell) \le \sqrt{b}!$$
-2. **Feed $B = \sqrt{b}$ into `LinkN_at C D` (`divinN_at`, `:76–115`):**
-   Since $b = \exp(x^\varepsilon) \ge 1$, we have $\sqrt{b} \le b$, and since $(\log x)^2 \le x^\varepsilon$,
-   the class-number/tame term $f m b (\log x)^2$ and the $Ш^1$ term $m \sqrt{b} \le f m b x^\varepsilon$
-   from `LinkN_at C D` are both absorbed into
-   $$B_0 := f\,m\,b\,x^\varepsilon, \qquad L := x^\varepsilon,$$
-   with constant $(\lvert C \rvert + 1)$ (`(|C| + 1) * f * m * b * x^ε`), setting the per-step divisor
-   bound $d_{Z_0}(j) := D_0$ across $1 \le j \le m$ (`:95–114`). That inhabits `DIVinN_at (|C| + 1) D`
-   for every $(x, i)$, proving `DIVinN Fm` (`:117–133`)! $\square$
+   - First, `VVle` explicitly carries finiteness of odd-twist `Sha` at every prime $\ell$, directly
+     supplying `hf : ShaFinOdd D` (`DivinNOfHypV.lean:22–30, 54–57`).
+   - Second, since every term $\mathrm{vvTerm}(D, l) \ge 0$ and every finite partial sum
+     $\sum_{l \in S} \mathrm{vvTerm}(D, l)$ is bounded above by $\sqrt{b}$, Mathlib's
+     `summable_of_sum_le` gives `hs : Summable (vvTerm D)` and `Real.tsum_le_of_sum_le` gives
+     $$\sum'_l \mathrm{vvTerm}(D, l) \le \sqrt{b} \le b$$
+     (using $b = \exp(x^\varepsilon) \ge 1$ so $\sqrt{b} \le b$, `:127–128`)!
+2. **Rewrite $d_{Z_0}(j) = D_0$ via `SmallLevelRankEq` and close `DIVinN_at` (`divinN_at`, `:76–115`):**
+   Feed `hf : ShaFinOdd D` and `hs : Summable (vvTerm D)` into `hN` at step $j \in \{1, \dots, m\}$,
+   and apply the third hypothesis `hR : SmallLevelRankEq Fm` (`hd : L.dZ0 j = D.what₂.D0` at `:78, 95`)
+   together with the definitional identities `L.B0 = f * m * b * x^eps` (`:92`) and `L.sc.L = x^eps`
+   (`:93`). Setting $y := x^\varepsilon \ge 1$, we have $f m b y^2 = y B_0$ (`:105`),
+   $(\log x)^2 N_c \le y N_c$ (`:106`), and $\sum'_l \mathrm{vvTerm}(D, l) \le b \le B_0 \le y(B_0 + N_c)$
+   (`:100, 112`). Hence
+   $$\mathrm{etaSum}(L_{\mathrm{sz}}, j)
+   \le D_0\,\Bigl(\lvert C \rvert\,y(B_0 + N_c) + y(B_0 + N_c)\Bigr)
+   = D_0 \cdot (\lvert C \rvert + 1)\,x^\varepsilon\,(B_0 + N_c),$$
+   which is literally `DIVinN_at L_sz j (|C| + 1)` (`:96–115`), proving `DIVinN Fm` (`:117–131`)! $\square$
 
 Pause and look at what Theorem 10.4 just accomplished! Remember Chapter 5's `SZ.T3`
 (`LipschitzWeightAndMinimum.lean:53`): to prevent the congruence error from stopping at $x^{2/3}$, the
@@ -407,9 +437,9 @@ node **P11**:
 
 | File | Import cone | Reading level & tag | Role |
 |---|---|---|---|
-| `IntegralHeckeForms.lean` | **195** | `R3` (`[Lean, read]`) | Defines DVR lattice indices `sIdx` and states `TwistingCharacterExistence`. |
-| `DivinNOfHypV.lean` | **301** | `R3` (`[Lean, read]`) | Proves `vvRecord` and `divinN_of_hypV`, converting `HypV` + `LinkN` into `DIVinN`. |
-| `GlobalCongruenceCountOfRootDifferenceUnit.lean` | **2,958** | `R3` (`[Lean, read]` for this file and `CutDetOrd.main`; `R2` `[Lean]` for imported cocycle/DVR sub-lemmas; `[Open]` for `GlobalArtinReciprocity` literature match) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
+| `IntegralHeckeForms.lean` | **207** | `R3` (`[Lean, read]`) | Defines ramification-normalized lengths `lenR`, signed lattice indices `sIdx`, and states `TwistingCharacterExistence`. |
+| `DivinNOfHypV.lean` | **311** | `R3` (`[Lean, read]`) | Proves `vvRecord` and `divinN_of_hypV`, converting `HypV` + `LinkN` + `SmallLevelRankEq` into `DIVinN`. |
+| `GlobalCongruenceCountOfRootDifferenceUnit.lean` | **3,287** | `R3` (`[Lean, read]` for this file and `CutDetOrd.main`; `R2` `[Lean]` for imported cocycle/DVR sub-lemmas; `[Open]` for `GlobalArtinReciprocity` literature match) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
 
 ### 10.5.2 Why cyclotomic twists $\mathbb Q_\ell / \mathbb Z_\ell(-e)$ appear up to $e < R.t \le \lfloor x^{400} \rfloor$
 
@@ -440,14 +470,14 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 
 | Declaration | File:line | Mathematical content / role in Sections 10.3–10.4 | Tag |
 |---|---|---|---|
-| `IsOrthogonalIdempotentDecomposition` | `src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:18` | Definition 10.1: orthogonal idempotent decomposition of GMA into cuspidal $\rho$-block and $t = R.t$ cyclotomic blocks with unit `del51`. | [Lean, read] |
-| `value_mem_ccOff`, `exists_ne_zero`, `GlobalTheory.CutDetOrd.main`; statement wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15,37,59`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8` | Proposition 10.1: proves $\mathrm{ccOff}(\pi) \neq 0$ and bounds $\operatorname{len}_{\mathcal O}(\mathcal O/\mathrm{ccOff}(\pi))$ by cuspidal + cyclotomic $1$-cocycle lengths via GMA `Rel`. | [Lean, read] |
-| `ccOff_univ`, `GlobalTheory.CutCoreUnit.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:24,44` | Theorem 10.2: bounds congruence valuation `vcc` by $\mathrm{sPi} + \sum_{1 \le e < R.t} \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$ (assuming `GlobalArtinReciprocity`; import cone 2,958). | [Lean, read] |
-| `lenR`, `sIdx`, `TwOK`, `RFam`, `ABHyp`, `partAB`, `TwistingCharacterExistence`, `GoodTw`, `TwistTheoremAtIndex`, `admitted`, `Stmt` | `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,125,150,166,219,233,324,329` | Definition 10.2: DVR module lengths, signed lattice index `sIdx`, and `TwistingCharacterExistence` (import cone 195). | [Lean, read] |
+| `IsOrthogonalIdempotentDecomposition` | `src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:18` | Definition 10.1: orthogonal idempotents `S.eB` (cyclotomic block of rank $t = R.t$) and `S.e1` (rank $1$), splitting `S.e` into cuspidal `rhoO` (`Fin R.r`) + $t$ cyclotomic slots, and rank-$1$ projector `Eel` with unit `del51`. | [Lean, read] |
+| `value_mem_ccOff`, `exists_ne_zero`, `GlobalTheory.CutDetOrd.main`; statement wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15,37,59`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8` | Proposition 10.1: produces a nonzero off-diagonal matrix evaluation away from `Z i` (`exists_ne_zero`) and bounds $\operatorname{len}_{\mathcal O}(\mathcal O/\mathrm{ccOff}(\pi))$ by cuspidal + cyclotomic $1$-cocycle lengths via GMA `Rel`. | [Lean, read] |
+| `ccOff_univ`, `GlobalTheory.CutCoreUnit.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:24,44` | Theorem 10.2: bounds congruence valuation `vcc` by $\mathrm{sPi} + \sum_{1 \le e < R.t} \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$ (assuming `GlobalArtinReciprocity`; import cone 3,287). | [Lean, read] |
+| `lenR`, `sIdx`, `TwOK`, `RFam`, `ABHyp`, `partAB`, `TwistingCharacterExistence`, `GoodTw`, `TwistTheoremAtIndex`, `admitted`, `Stmt` | `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,125,150,166,219,233,324,329` | Definition 10.2: ramification-normalized DVR lengths `lenR`, signed lattice index `sIdx`, and `TwistingCharacterExistence` (import cone 207). | [Lean, read] |
 | `twist_kills_selmer` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8` | Proposition 10.3(1): chosen admissible twist annihilates residual cuspidal Selmer classes. | [Lean, read] |
-| `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ across the family to establish `LinkN`. | [Lean, read] |
+| `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ (`LinkFam.main` proving `LinkN`) and closes local twisting cover `LinkEta` (`closed_linkEta_of_duty`). | [Lean, read] |
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
-| `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(3) and Theorem 10.4: proves `Summable (vvTerm D)` and $\sum'_\ell \mathrm{vvTerm} \le \sqrt{b}$ from `VVle`, and deduces `DIVinN` with $B_0 = f m b x^\varepsilon$ (import cone 301). | [Lean, read] |
+| `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |
 | `GlobalTheory.Published.GlobalArtinReciprocity` (hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45` | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`[Lean]` proved in archive; literature-statement match `[Open]`). | [Open] |
 
 **Summary of the chapter.** Projecting integral theta lifts onto cuspidal eigenspaces loses
@@ -458,7 +488,7 @@ orthogonal idempotent GMA decomposition (`IdempotentChoiceDepthZero.lean:18`), `
 cuspidal Selmer length $\mathrm{sPi}$ (killed by twisting via `TwistingCharacterExistence` and
 `twist_kills_selmer`, Proposition 10.3), the class-number valuation $v_\ell(h_E)$ ($c = 0$), tame
 cyclotomic units, and the cyclotomic Tate–Shafarevich lengths $\sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e)$
-($1 \le e < R.t$) [Lean, read]. Finally, `divinN_of_hypV` (Theorem 10.4) proves that bounding the
-$\log \ell$-weighted $Ш^1$ sum by $\sqrt{b} = \exp(x^\varepsilon / 2)$ (`HypV`) yields the linear-in-$m$
-chain budget $B_0 = f m b x^\varepsilon$ (`DIVinN`) [Lean, read] — leaving only the global window
-theorem `VWin` (`P12`, Chapter 11) to complete Part II!
+($1 \le e < R.t$) [Lean, read]. Finally, `divinN_of_hypV` (Theorem 10.4) proves that combining `HypV`
+($\sum'_\ell \mathrm{vvTerm} \le \sqrt{b} = \exp(x^\varepsilon / 2)$), `LinkN`, and `SmallLevelRankEq`
+($d_{Z_0}(j) = D_0$) yields `DIVinN` at the linear-in-$m$ chain budget $B_0 = f m b x^\varepsilon$
+[Lean, read] — leaving only the global window theorem `VWin` (`P12`, Chapter 11) to complete Part II!

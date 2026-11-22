@@ -50,16 +50,20 @@ is being incorporated and that it looks good to him so far, and that the work in
 formalization of the draft's statements, proceeding in waves through the appendices and
 chapters, with an errata log. Its README records that Chapter 13 does not yet state the main
 theorem, that doubts about the trace formula raised on the Lean Zulip did not come from the
-formalization, and that its own last two target statements are reconstructions not yet
-reviewed. [Community] (Section 3).
+formalization, that its own last two target statements are reconstructions not yet reviewed, and
+(at our 2026-11-22 03:30 UTC recheck, ~3,950 of ~4,700 stated theorems proved) that the printed
+proof of Structure Theorem I (`Theorem 5.2.1.1`) in Wave 2 does not work as written. [Community]
+(Section 3).
 
 **Sutherland's verification page.** Andrew Sutherland's (MIT) log of machine checks, run with
 Claude Code: compilation of every module, the axiom audit, `leanchecker` replay, the independent
-kernels nanoda and con-leche (including con-leche's statement comparison), lean4lean, the status
-of the Lean kernels on the export and of `lake comparator`, hashes of every artifact, and an
-explicit list of caveats (unsandboxed build; only a 77-module sample compared with `lake build`;
-sandboxed-export comparison pending). The most detailed public record of what has been checked.
-[Community] (Section 5).
+kernels nanoda, con-leche (including `--compare`), and con-ron (`--compare`), lean4lean, an
+independent bubblewrap-sandboxed `lake build Main` whose exported 61.57 GB proof stream matches
+the published export byte-for-byte (`5ea74b91…244e`, added in the 2026-11-22 03:10 UTC update,
+with 175,186 of 175,187 `.olean` files identical and the single 38-byte bound-variable race in
+`LocModel.olean` isolated), and the status of the single-threaded Lean kernels on the export and
+of `lake comparator` (still running as of 2026-11-22 03:10 UTC). The most detailed public record
+of what has been checked. [Community] (Section 5).
 
 **The LUMI check (`aapolipponen/rh-lean-check-lumi`).** Aapo Lipponen's independent sandboxed
 build on the LUMI supercomputer: all modules compile, the hashes of `Main.olean` and
@@ -101,9 +105,12 @@ Chowla–Selberg's and Siegel's papers on period/mass formulas, Ribet's and Hida
 Bellaïche–Chenevier's monograph on Hecke congruence ideals and generalized matrix algebras, and the
 papers and monographs of Iwasawa, Ferrero–Washington, Sinnott, Mazur–Wiles, Soulé, Rubin, Kato,
 Taylor–Wiles, Clozel–Harris–Taylor, and Thorne are our references for the arithmetic engine of
-Chapters 8–11; and Harris–Taylor, Henniart, Bushnell–Kutzko, Shin, Caraiani, and Green are our
+Chapters 8–11; Harris–Taylor, Henniart, Bushnell–Kutzko, Shin, Caraiani, and Green are our
 references for Galois representations, local Langlands, and finite general linear characters in
-Chapters 12–13 (Section 6).
+Chapters 12–13; and Hecke, Artin, Brauer, Tate, Weil, Grothendieck, Selberg, Hooley, Deninger,
+Connes, Bombieri's Millennium Problem report, and Meyer are our references for Hecke/Artin
+$L$-functions, explicit formulas, nuclear spaces, and idele-class spectral realizations in Part IV
+Chapters 14–16 (Section 6).
 
 **Our derived data.** Declaration index, import graph, text scan and citation check, all
 reproducible from the archive (Section 7).
@@ -172,7 +179,9 @@ PDF's four pages.
 
 The PDF is byte-identical to our copy of 2026-11-21T03:01Z. Printed page numbers coincide with
 PDF page numbers (checked on pp. 6, 13, 519, 521, 522). The blog page is dynamic; we cite only
-the text of the post.
+the text of the post. At our 2026-11-22T03:29Z recheck (`fetches/mccorvie_README.md`, 13,030 bytes,
+sha256 `f121f834…`), `mccorvie/riemann-masullo` had ~4,700 theorems stated, ~3,950 proved across
+~1,360 merged PRs, and ~200 entries in `ERRATA.md`.
 
 ## 4. Mathlib at the pinned commit
 
@@ -194,7 +203,7 @@ All from
 
 | Item | URL | Retrieved | Bytes | sha256 | Version read |
 |---|---|---|---:|---|---|
-| A. Sutherland, "Verification files for the Lean proof of the Riemann Hypothesis" | `https://math.mit.edu/~drew/grh/` | 2026-11-21T04:02:13Z; rechecked 04:42:14Z (identical) | 12782 | `de7153ec1b22acab193a99824d427d41050e2c0d2c4374ec518d52fc0de62307` | "Page last updated 2026-11-20 22:05 UTC"; identical to our copy of 02:51Z |
+| A. Sutherland, "Verification files for the Lean proof of the Riemann Hypothesis" | `https://math.mit.edu/~drew/grh/` | 2026-11-21T04:02:13Z; rechecked 2026-11-22T03:29Z | 24564 | `17661672e3dcc7cc83f170b11027cf55e75d808530f1dff1e74a0a221c808010` | "Page last updated 2026-11-22 03:10 UTC" (adds sandboxed `lake build Main` byte-identical export `5ea74b91…244e` and `con-ron --compare` pass; earlier 2026-11-20 22:05 UTC snapshot was 12,782 bytes, `de7153ec…`) |
 | LUMI independent check (A. Lipponen), README | `https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/main/README.md` | 2026-11-21T04:02:26Z | 9064 | `4a51000fb1a6d43a22f8a4e26a160ffe6ef22e50646a18ac92ff9cc8e237789c` | repository head `82d91dbbd04d` (2026-11-20T23:56:59Z), unchanged at 04:42:16Z |
 | LUMI reader's guide, `docs/README.md` | `…/rh-lean-check-lumi/main/docs/README.md` | 2026-11-21T04:02:57Z | 14124 | `b34663b4fa5484c87bd3b0be4a08308a114fe84fdc0661fd787ac252bda9495f` | docs added in `40e1ae43477a` (2026-11-20T22:40:20Z) |
 | LUMI `docs/01-what-is-proved.md` | `…/docs/01-what-is-proved.md` | 2026-11-21T04:03:00Z | 13830 | `37eaf1cc6340053aa2edfa283d400361035b243f96f324e60d79a441660e603c` | |
@@ -229,6 +238,10 @@ cited only through the reports above).
 Bibliographic data checked online on 2026-11-21 and 2026-11-22. Entries cited by `[AuthorYear]` key in the
 textbook chapters carry their key in bold and an explicit `Verified:` record below.
 
+- **[Artin1924]** E. Artin, "Über eine neue Art von $L$-Reihen", *Abhandlungen aus dem
+  Mathematischen Seminar der Universität Hamburg* 3 (1924), 89–108, doi:10.1007/BF02954618 (cited
+  in Chapter 16).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF02954618`), *Abh. Math. Sem. Univ. Hamburg* vol. 3 (1924), pp. 89–108.
 - **[BellaicheChenevier2009]** J. Bellaïche and G. Chenevier, *Families of Galois Representations and
   Selmer Groups*, Astérisque 324, Société Mathématique de France, Paris, 2009, xii+314 pp.,
   ISBN 978-2-85629-264-8 (cited in Chapters 10 and 12).
@@ -246,6 +259,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Bombieri1974]** E. Bombieri, *Le grand crible dans la théorie analytique des nombres*,
   Astérisque 18, Société Mathématique de France, Paris, 1974 (cited in Chapter 4).
   Verified: 2026-11-21 via SMF Astérisque catalogue (vol. 18, 1974).
+- **[Bombieri2000]** E. Bombieri, "Problems of the Millennium: The Riemann Hypothesis", Clay
+  Mathematics Institute, Cambridge, MA, 2000; reprinted in J. Carlson, A. Jaffe, and A. Wiles
+  (eds.), *The Millennium Prize Problems*, Clay Mathematics Institute / American Mathematical
+  Society, Providence, RI, 2006, pp. 107–124 (cited in Chapters 14 and 15).
+  Verified: 2026-11-22 via Clay Mathematics Institute Millennium Problems official problem description (2000) and AMS/CMI volume (2006).
 - **[Bost1996]** J.-B. Bost, "Périodes et isogénies des variétés abéliennes sur les corps de nombres
   (d'après D. Masser et G. Wüstholz)", *Séminaire Bourbaki*, Vol. 1994/95, exp. no. 795,
   Astérisque 237 (1996), 115–161; open copy at `http://www.numdam.org/item/SB_1994-1995__37__115_0/`
@@ -255,6 +273,9 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Publications Mathématiques de l'IHÉS* 93 (2001), 161–221, doi:10.1007/s10240-001-8191-3
   (cited in Chapter 9).
   Verified: 2026-11-21 via Numdam / EuDML, *Publ. Math. IHÉS* vol. 93 (2001), pp. 161–221.
+- **[Brauer1947]** R. Brauer, "On Artin's $L$-series with general group characters", *Annals of
+  Mathematics* (2) 48 (1947), no. 2, 502–514, doi:10.2307/1969183 (cited in Chapter 16).
+  Verified: 2026-11-22 via Crossref / JSTOR (`doi:10.2307/1969183`), *Annals of Mathematics* vol. 48, no. 2 (1947), pp. 502–514.
 - **[BushnellKutzko1993]** C. J. Bushnell and P. C. Kutzko, *The Admissible Dual of $GL(N)$ via
   Compact Open Subgroups*, Annals of Mathematics Studies 129, Princeton University Press, Princeton,
   NJ, 1993, ISBN 978-0-691-02114-0 (cited in Chapters 12 and 13).
@@ -274,10 +295,18 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   lifts of automorphic mod $l$ Galois representations", *Publications Mathématiques de l'IHÉS* 108
   (2008), 1–181, doi:10.1007/s10240-008-0016-1 (cited in Chapters 11 and 12).
   Verified: 2026-11-22 via Numdam / Springer (`doi:10.1007/s10240-008-0016-1`), *Publ. Math. IHÉS* vol. 108 (2008), pp. 1–181.
+- **[Connes1999]** A. Connes, "Trace formula in noncommutative geometry and the zeros of the Riemann
+  zeta function", *Selecta Mathematica (N.S.)* 5 (1999), no. 1, 29–106, doi:10.1007/s000290050042
+  (cited in Chapters 14 and 15).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/s000290050042`), *Selecta Math. (N.S.)* vol. 5, no. 1 (1999), pp. 29–106.
 - **[Davenport2000]** H. Davenport, *Multiplicative Number Theory*, 3rd ed., revised by
   H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
-  ISBN 978-0-387-95097-6 (cited in Chapters 0, 2, 4, and 7).
+  ISBN 978-0-387-95097-6 (cited in Chapters 0, 2, 4, 7, and 16).
   Verified: 2026-11-21 via Springer GTM 74 catalogue (`ISBN 978-0-387-95097-6`).
+- **[Deninger1993]** C. Deninger, "Lefschetz trace formulas and explicit formulas in analytic number
+  theory", *Journal für die reine und angewandte Mathematik* 441 (1993), 1–15,
+  doi:10.1515/crll.1993.441.1 (cited in Chapters 14 and 15).
+  Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1515/crll.1993.441.1`), *J. Reine Angew. Math.* vol. 441 (1993), pp. 1–15.
 - **[FerreroWashington1979]** B. Ferrero and L. C. Washington, "The Iwasawa invariant $\mu_p$
   vanishes for abelian number fields", *Annals of Mathematics* (2) 109 (1979), no. 2, 377–395,
   doi:10.2307/1971116 (cited in Chapter 11).
@@ -294,9 +323,13 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   of the American Mathematical Society* 80 (1955), no. 2, 402–447,
   doi:10.1090/S0002-9947-1955-0072878-2 (cited in Chapter 13).
   Verified: 2026-11-22 via AMS (`doi:10.1090/S0002-9947-1955-0072878-2`), *Trans. Amer. Math. Soc.* vol. 80, no. 2 (1955), pp. 402–447.
+- **[Grothendieck1955]** A. Grothendieck, *Produits tensoriels topologiques et espaces nucléaires*,
+  Memoirs of the American Mathematical Society 16, American Mathematical Society, Providence, RI,
+  1955, doi:10.1090/memo/0016 (cited in Chapter 14).
+  Verified: 2026-11-22 via Crossref / AMS (`doi:10.1090/memo/0016`), *Mem. Amer. Math. Soc.* no. 16 (1955).
 - **[HarrisTaylor2001]** M. Harris and R. Taylor, *The Geometry and Cohomology of Some Simple Shimura
   Varieties*, Annals of Mathematics Studies 151, Princeton University Press, Princeton, NJ, 2001,
-  ISBN 978-0-691-09092-4 (cited in Chapter 12).
+  ISBN 978-0-691-09092-4 (cited in Chapters 12 and 16).
   Verified: 2026-11-22 via Princeton University Press Annals of Mathematics Studies vol. 151 (`ISBN 978-0-691-09092-4`).
 - **[Hasse1936]** H. Hasse, "Zur Theorie der abstrakten elliptischen Funktionenkörper. I, II, III",
   *Journal für die reine und angewandte Mathematik* 175 (1936), 55–62, 69–88, 193–208,
@@ -306,8 +339,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[HasseSchmidt1937]** H. Hasse and F. K. Schmidt, "Noch eine Begründung der Theorie der höheren
   Differentialquotienten in einem algebraischen Funktionenkörper einer Unbestimmten", *Journal für
   die reine und angewandte Mathematik* 177 (1937), 215–237, doi:10.1515/crll.1937.177.215
-  (cited in Chapters 6 and 8).
+  (cited in Chapters 6, 8, and 15).
   Verified: 2026-11-21 via De Gruyter (`doi:10.1515/crll.1937.177.215`), vol. 177, pp. 215–237.
+- **[Hecke1920]** E. Hecke, "Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der
+  Primzahlen. Zweite Mitteilung", *Mathematische Zeitschrift* 6 (1920), 11–51,
+  doi:10.1007/BF01202991 (cited in Chapters 14, 15, and 16).
+  Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF01202991`), *Math. Z.* vol. 6 (1920), pp. 11–51.
 - **[Henniart2000]** G. Henniart, "Une preuve simple des conjectures de Langlands pour $\mathrm{GL}(n)$
   sur un corps $p$-adique", *Inventiones Mathematicae* 139 (2000), no. 2, 439–455,
   doi:10.1007/s002220050012 (cited in Chapter 12).
@@ -320,6 +357,9 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   cusp forms", *American Journal of Mathematics* 110 (1988), no. 2, 323–382, doi:10.2307/2374505
   (cited in Chapter 10).
   Verified: 2026-11-21 via JSTOR / Johns Hopkins University Press (`doi:10.2307/2374505`), *Amer. J. Math.* vol. 110, no. 2 (1988), pp. 323–382.
+- **[Hooley1967]** C. Hooley, "On Artin's conjecture", *Journal für die reine und angewandte
+  Mathematik* 225 (1967), 209–220, doi:10.1515/crll.1967.225.209 (cited in Chapter 16).
+  Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1515/crll.1967.225.209`), *J. Reine Angew. Math.* vol. 225 (1967), pp. 209–220.
 - **[Howe1979]** R. Howe, "$\theta$-series and invariant theory", in A. Borel and W. Casselman
   (eds.), *Automorphic Forms, Representations and $L$-Functions* (Proc. Sympos. Pure Math., Oregon
   State Univ., Corvallis, 1977), Proceedings of Symposia in Pure Mathematics 33, Part 1, American
@@ -362,6 +402,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapter 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388599`), *Invent. Math.* vol. 76, no. 2 (1984), pp. 179–330.
+- **[Meyer2005]** R. Meyer, "On a representation of the idele class group related to primes and zeros
+  of $L$-functions", *Duke Mathematical Journal* 127 (2005), no. 3, 519–595,
+  doi:10.1215/S0012-7094-04-12734-4 (cited in Chapters 14 and 15).
+  Verified: 2026-11-22 via Crossref / Project Euclid (`doi:10.1215/S0012-7094-04-12734-4`), *Duke Math. J.* vol. 127, no. 3 (2005), pp. 519–595.
 - **[Montgomery1971]** H. L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in
   Mathematics 227, Springer, Berlin–Heidelberg, 1971, ISBN 978-3-540-05641-6,
   doi:10.1007/BFb0060851 (Chapter 12, cited in Chapter 4).
@@ -388,8 +432,8 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via Numdam (`CM_1984__52_2_139_0`), *Compositio Math.* vol. 52, no. 2 (1984), pp. 139–169.
 - **[Rallis1987]** S. Rallis, *$L$-Functions and the Oscillator Representation*, Lecture Notes in
   Mathematics 1245, Springer, Berlin–Heidelberg, 1987, xvi+239 pp., ISBN 978-3-540-17694-7,
-  doi:10.1007/BFb0078125 (cited in Chapter 9).
-  Verified: 2026-11-21 via Springer LNM vol. 1245 (`doi:10.1007/BFb0078125`), xvi+239 pp.
+  doi:10.1007/BFb0077894 (cited in Chapters 9 and 15).
+  Verified: 2026-11-22 via Crossref / Springer LNM vol. 1245 (`doi:10.1007/BFb0077894`, `ISBN 978-3-540-17694-7`), xvi+239 pp.
 - **[RamakrishnanValenza1999]** D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number
   Fields*, Graduate Texts in Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0
   (cited in Chapter 2).
@@ -409,6 +453,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Notes in Mathematics 536, Springer, Berlin–Heidelberg, 1976, ISBN 978-3-540-07855-5,
   doi:10.1007/BFb0080437 (cited in Chapter 6).
   Verified: 2026-11-21 via Springer LNM vol. 536 (`ISBN 978-3-540-07855-5`, `doi:10.1007/BFb0080437`).
+- **[Selberg1956]** A. Selberg, "Harmonic analysis and discontinuous groups in weakly symmetric
+  Riemannian spaces with applications to Dirichlet series", *Journal of the Indian Mathematical
+  Society (N.S.)* 20 (1956), 47–87 (cited in Chapter 14).
+  Verified: 2026-11-22 via bibliographic records for *J. Indian Math. Soc. (N.S.)* vol. 20 (1956), pp. 47–87 (reprinted in *Atle Selberg: Collected Papers*, Vol. I, Springer, 1989, pp. 423–463).
 - **[Shin2011]** S. W. Shin, "Galois representations arising from some compact Shimura varieties",
   *Annals of Mathematics* (2) 173 (2011), no. 3, 1645–1741, doi:10.4007/annals.2011.173.3.9
   (cited in Chapter 12).
@@ -453,9 +501,17 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Actualités Scientifiques et Industrielles 1041 (Publications de l'Institut de Mathématique de
   l'Université de Strasbourg VII), Hermann, Paris, 1948 (cited in Chapter 6).
   Verified: 2026-11-21 via Hermann ASI no. 1041 (1948) bibliographic records.
+- **[Weil1952]** A. Weil, "Sur les «formules explicites» de la théorie des nombres premiers",
+  *Communications du Séminaire Mathématique de l'Université de Lund* [Meddelanden från Lunds
+  Universitets Matematiska Seminarium], Tome Supplémentaire dédié à Marcel Riesz (1952), 252–265
+  (cited in Chapters 14 and 15).
+  Verified: 2026-11-22 via Lund Riesz Festschrift bibliographic records (1952, pp. 252–265; reprinted in *André Weil: Œuvres Scientifiques*, Vol. II, Springer, 1979, pp. 48–61).
 - **[Weil1964]** A. Weil, "Sur certains groupes d'opérateurs unitaires", *Acta Mathematica* 111
-  (1964), 143–211, doi:10.1007/BF02391012 (cited in Chapter 7).
+  (1964), 143–211, doi:10.1007/BF02391012 (cited in Chapters 7 and 14).
   Verified: 2026-11-21 via Project Euclid / Springer (`doi:10.1007/BF02391012`), vol. 111, pp. 143–211.
+- **[Weil1965]** A. Weil, "Sur la formule de Siegel dans la théorie des groupes classiques", *Acta
+  Mathematica* 113 (1965), 1–87, doi:10.1007/BF02391774 (cited in Chapters 7 and 15).
+  Verified: 2026-11-22 via Crossref / Project Euclid (`doi:10.1007/BF02391774`), *Acta Math.* vol. 113 (1965), pp. 1–87.
 
 ## 7. Our own derived data (not in the repository)
 
