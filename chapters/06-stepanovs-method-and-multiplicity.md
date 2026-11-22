@@ -121,8 +121,11 @@ from a curve $C / \mathbb F_q$ [Expository]:
 2. **Product formula vs. Riemann–Roch:** Over $\mathbb Z$ (or a number field $E$), the analogue of
    "$\#\text{zeros} = \#\text{poles}$" is the **Arakelov product formula** $\sum_v \log\lvert \alpha \rvert_v = 0$
    for $\alpha \in E^\times$, upgraded on higher-rank Hermitian vector bundles over $\mathrm{Spec}\,\mathcal O_E$
-   to **Bost's slope inequality** (`SlopeIneq`, `MeanBoundSecondForm.lean:151` and
-   `src/Formalism/HarderNarasimhan/Statement.lean:91`) [Lean, read]: if a nonzero $\mathcal O_E$-linear
+   to **Bost's slope inequality** (`Data.SlopeIneq`, `MeanBoundSecondForm.lean:151` [Lean, read],
+   instantiating the abstract `Prop` `Formalism.HN.SlopeIneq` at
+   `src/Formalism/HarderNarasimhan/Statement.lean:91` whose full proof at
+   `src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/SlopeIneq.lean:507` is read in Chapter 9
+   [Lean, read]): if a nonzero $\mathcal O_E$-linear
    evaluation map between Hermitian lattices is highly divisible by prime ideals $\mathfrak p \mid p$
    at finite places while having bounded archimedean operator norm at infinite places, then the sum
    of its $\mathfrak p$-adic valuation orders is bounded above by the archimedean height plus slope
@@ -131,8 +134,8 @@ from a curve $C / \mathbb F_q$ [Expository]:
    valuation $\operatorname{ord}_{\mathfrak p}(\det \text{ or period}) \ge m \cdot (\text{signal})$
    at primes $p$ inert in $K = \mathbb Q(\sqrt{-d})$ replaces $m$-fold vanishing $D^{(k)}\Phi(P) = 0$,
    how do we create $m$ independent layers of $p$-adic divisibility without squaring the archimedean
-   height? According to Alpöge's note (`remark.pdf` p. 1 and p. 4, items 2, 8–10, 13–14) [Paper;
-   remark pp. 1, 4], the archive replaces $m$ derivatives on one curve by **$m$ iterated theta lifts
+   height? According to Alpöge's note (`remark.pdf` p. 1, p. 3 item 2, and p. 4 items 8–10, 13–14)
+   [Paper; remark pp. 1, 3–4], the archive replaces $m$ derivatives on one curve by **$m$ iterated theta lifts
    $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ between totally definite unitary groups** over the CM
    host $E/F$ (Chapter 7), where each step twists by a carefully spaced Hecke character $\mu_j$ so
    that at primes $p$ inert in $K = \mathbb Q(\sqrt{-d})$, local supersingular/theta-kernel vanishing
@@ -260,10 +263,10 @@ Look at concrete numbers when $x = 10^4$ and $\varepsilon = 1/64 < 1/52$ (`Scale
   which Alpöge compares (`remark.pdf` p. 4, item 11: *"Iwasawa tower via analogy to pigeonhole on
   $\mathbb F_{q^n}/\mathbb F_q$"* [Paper; remark p. 4]) to passing to a controlled field tower to
   create linear-algebra room!
-- `kAt` $\approx 2\lceil (10^4)^{9/2 + 10/64}/2 \rceil \approx 1.80 \times 10^{18}$ — the auxiliary
-  Hermitian rank parameter (`Ranks.k_even`, `:50`) chosen large enough that the word-ratio error
-  $x m / k$ (`SZ.T2`) is negligible while $k / n^2 \le x^{1/2 - \varepsilon}$ (`SZ.T4`) stays below
-  the square-root barrier!
+- `kAt` $= 2\lceil (10^4)^{9/2 + 10/64}/2 \rceil = 4{,}216{,}965{,}034{,}285{,}822{,}464 \approx 4.22 \times 10^{18}$
+  (`10^{18.625}`) — the auxiliary Hermitian rank parameter (`Ranks.k_even`, `:50`) chosen large enough
+  that the word-ratio error $x m / k$ (`SZ.T2`) is negligible while $k / n^2 \approx 14.63 \le x^{1/2 - \varepsilon} \approx 86.60$
+  (`SZ.T4`) stays well below the square-root barrier!
 
 ---
 
@@ -320,19 +323,21 @@ Now compare Definition 6.1 with how the Lean archive packages "multiplicity $m$ 
 node `P7`. Note carefully a naming detail in the archive that can confuse first-time readers: the
 identifier `SizeData₂` appears in **two** namespaces [Lean, read]:
 
-- `Formalism.BasicNotions.SizeData₂ (D : D7)` (`src/Formalism/LocalRingCardinality/DataParams₂.lean:76`)
+- `Formalism.BasicNotions.SizeData₂ (D : D7)` (`src/Formalism/LocalRingCardinality/DataParams₂.lean:76–183`)
   is a concrete **data `structure`** attached to a global unitary-chain datum `D : D7`, storing the
   scale `sc : Scale`, integer top/bottom cutoffs `aT, bT`, finite place support `supp`, per-lift
   inert-prime divisibility gains `gain j w`, Fourier/period terms `F j w`, congruence error exponents
-  `E u j w`, Harish-Chandra window bounds `win_thick`, `win_top`, `win_thin`, and the $Ш^1$ sum
-  `VV l` (`:238`);
+  `E u j w`, and Harish-Chandra window bounds `win_thick`, `win_top`, `win_thin` (through `lenMN` at `:182`),
+  while `namespace SizeData₂` (`:184–245`) defines the derived totals `Fo` (`:218`), `Ga` (`:220`),
+  `Ee` (`:222`), `MAIN` (`:232`), and the `D`-level $Ш^1$ sum `VV l` (`:238`, depending on `D` and `l`
+  without taking a `SizeData₂ D` term);
 - `Formalism.LFunctionChainParameters.LChain.SizeData₂ (Dd : Data U0 W Top m f) (C : Consts) (Xpp : ℝ) : Prop`
   (`src/Formalism/SizeWindowBrackets/SChain.lean:17`) is the **11-clause `Prop` conjunction** on the
   abstract numerical record `Data U0 W Top m f` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:37`),
   bridged to `D7` by `TieGlobal`, `TieLocal`, `TieArith`, and `ChainTied`
   (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:50,63,84,97`)!
 
-**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `MeanBoundSecondForm.lean:37`, `QuotientSlopeBoundsWith.lean:19–36`, `SChain.lean:17`).**
+**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `MeanBoundSecondForm.lean:37`, `QuotientSlopeBoundsWith.lean:19–35`, `SChain.lean:17`).**
 Fix a finite index set $U_0$ (shift cosets in $H = \varphi.A$), nonempty finite word sets $W(u_0)$
 ($u_0 \in U_0$), a finite set `Top` of cardinality $n_T = \lvert TT \rvert$, chain length $m \in \mathbb N$,
 and CM-type place count $f = 2\lvert H \rvert$. A record `Dd : Data U0 W Top m f` packages scalar
@@ -615,19 +620,23 @@ square-root cancellation for complete character and exponential sums along curve
    $$\Bigl\lvert \sum_{x \in \mathbb F_q} \psi(f(x)) \Bigr\rvert \le (d - 1)\sqrt{q}.$$
 
 *Proof.*
-(1) Write $f(x) = c\,g(x)^2 h(x)$ with $h$ monic squarefree of degree $d_0 \ge 1$ (since $f$ is not
-a constant times a square in $\overline{\mathbb F}_q[x]$) and $\deg g = (d - d_0)/2$. For every
-$x \in \mathbb F_q$ with $g(x) \neq 0$ we have $\chi_2(f(x)) = \chi_2(c)\,\chi_2(h(x))$, whereas at
-each distinct root of $g$ in $\mathbb F_q$ (at most $(d - d_0)/2$ points, or at most $d - d_0$ in
-absolute discrepancy) $\chi_2(f(x)) = 0$ replaces $\chi_2(c)\chi_2(h(x)) \in \{-1, 0, +1\}$. For
-$h$ monic squarefree of degree $d_0 \ge 1$, the smooth projective hyperelliptic model $C_h$ of
-$y^2 = c\,h(x)$ has genus $g_h = \lfloor (d_0 - 1)/2 \rfloor$ and $1$ point at infinity when $d_0$
-is odd ($2g_h = d_0 - 1$) or $1 + \chi_2(c) \in \{0, 2\}$ rational points at infinity when $d_0$ is
-even ($2g_h = d_0 - 2$). In both parities, $\#C_h(\mathbb F_q) = q + 1 + \chi_2(c)\sum_{x \in \mathbb F_q} \chi_2(h(x)) + \delta_\infty$
-with $\lvert \delta_\infty \rvert \le (d_0 - 1) - 2g_h \in \{0, 1\}$, so Theorem 6.3 yields
-$\lvert \sum_{x \in \mathbb F_q} \chi_2(h(x)) \rvert \le 2g_h\sqrt{q} + \lvert \delta_\infty \rvert \le (d_0 - 1)\sqrt{q}$
-when $f = h$ is squarefree, and adding at most $\deg(\operatorname{rad} g) \le (\deg f - d_0)$ for
-roots of $g$ gives $\lvert \sum_{x \in \mathbb F_q} \chi_2(f(x)) \rvert \le (\deg f - 1)\sqrt{q}$.
+(1) Write $f(x) = c\,g(x)^2 h(x)$ in $\mathbb F_q[x]$ with $c \in \mathbb F_q^\times$ and $h$ monic
+squarefree of degree $d_1 := \deg h \ge 1$ (since $f$ is not a constant times a square in
+$\overline{\mathbb F}_q[x]$). Because every root of $h$ in $\overline{\mathbb F}_q$ is a root of $f$
+and any root of $g$ in $\mathbb F_q$ with $h(x) \neq 0$ is an additional distinct root of $f$, the set
+$Z_1 := \{x \in \mathbb F_q : g(x) = 0,\ h(x) \neq 0\}$ has cardinality $m_1 := \lvert Z_1 \rvert \le d_0 - d_1$.
+For $x \in \mathbb F_q \setminus Z_1$ we have $\chi_2(f(x)) = \chi_2(c)\,\chi_2(h(x))$ (both sides
+vanish when $h(x) = 0$), whereas on $Z_1$ we have $\chi_2(f(x)) = 0$ and $\lvert \chi_2(c)\chi_2(h(x)) \rvert = 1$,
+so $\lvert \sum_{x \in \mathbb F_q} \chi_2(f(x)) \rvert \le \lvert \sum_{x \in \mathbb F_q} \chi_2(h(x)) \rvert + m_1$.
+Now let $C_h$ be the smooth projective model of $y^2 = c\,h(x)$: it has genus $g_h = \lfloor (d_1 - 1)/2 \rfloor$
+and $1$ point at infinity when $d_1$ is odd ($2g_h = d_1 - 1$, $\delta_\infty = 0$) or
+$1 + \chi_2(c) \in \{0, 2\}$ rational points at infinity when $d_1 \ge 2$ is even ($2g_h = d_1 - 2$,
+$\lvert \delta_\infty \rvert = 1$). In both parities,
+$\#C_h(\mathbb F_q) = q + 1 + \chi_2(c)\sum_{x \in \mathbb F_q} \chi_2(h(x)) + \delta_\infty$, so
+Theorem 6.3 gives $\lvert \sum_{x \in \mathbb F_q} \chi_2(h(x)) \rvert \le 2g_h\sqrt{q} + \lvert \delta_\infty \rvert \le (d_1 - 1)\sqrt{q}$
+(using $1 \le \sqrt{q}$ when $d_1$ is even). Adding $m_1 \le d_0 - d_1 \le (d_0 - d_1)\sqrt{q}$ yields
+$$\Bigl\lvert \sum_{x \in \mathbb F_q} \chi_2(f(x)) \Bigr\rvert
+\le (d_1 - 1)\sqrt{q} + (d_0 - d_1) \le (d_0 - 1)\sqrt{q} \le (\deg f - 1)\sqrt{q}.$$
 
 (2) Consider the Artin–Schreier curve $C / \mathbb F_q$ with affine model $y^p - y = f(x)$ (`[Schmidt1976]`,
 Ch. II, §2). Because $p \nmid d = \deg f$, $C$ is geometrically irreducible with a single totally
@@ -685,12 +694,12 @@ $\frac{X b}{1 + X} \le b\log(1 + X)$, completing (1)!
 (2) Expand $\log(w v / \pi) = \log w + \log v - \log\pi$ across all $m$ lifts and $f$ places:
 $$\sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log\Bigl(\frac{w_{u_0,j,\rho} v}{\pi}\Bigr)
 = \sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log w_{u_0,j,\rho} + m\,(\log v - \log\pi).$$
-On the other hand, by definition of $\mathrm{SDiv}$ (`WeightedMeanData.lean:129`), $\mathrm{ph}(a_t) = a_t\log a_t - a_t$,
-and $\log\Omega = \gamma + \log(\pi / v) - \mathrm{LpL}$ (`:88`),
+On the other hand, by definition of $\mathrm{SDiv}$ (`WeightedMeanData.lean:129`), $\mathrm{ph}(a_t) = a_t\log a_t - a_t$
+(`MeanBoundSecondForm.lean:9`), and $\log\Omega = \gamma + \log(\pi / v) - \mathrm{LpL}$ (`MeanBoundSecondForm.lean:88`),
 $$\mathrm{SDiv} = m \sum_t a_t\bigl(\log a_t - 1 - \gamma + \mathrm{LpL}\bigr) - m\,(\log\pi - \log v)\,\mathrm{sum}_A.$$
 When we compute $\mathrm{SDiv} - \mathrm{sum}_A\cdot\mathrm{Lam}_5(u_0) + m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$,
 **both** archimedean covolume/period constants $m\,(\log v - \log\pi)\,\mathrm{sum}_A$ and
-$m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$ cancel identically (`linear_combination`, `:216`), leaving
+$m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$ cancel identically (`linear_combination`, `WeightedMeanData.lean:216`), leaving
 $D.\mathrm{Main}(u_0) + \mathrm{sum}_A\cdot C.c_{\mathrm{Count}}(D.L_a + m^2 D.L_a / D.k)$! $\square$
 
 **Theorem 6.6 (Pointwise Arakelov–Stepanov chain bound: `each_unit_bound_statement`).** *Let
@@ -698,8 +707,10 @@ $D.\mathrm{Main}(u_0) + \mathrm{sum}_A\cdot C.c_{\mathrm{Count}}(D.L_a + m^2 D.L
 `SizeData₂ D C Xpp` (`SChain.lean:17`). Then for every coset shift $u_0 \in U_0$,*
 $$D.\mathrm{ASK}(u_0) \le D.\mathrm{Main}(u_0) + \mathrm{ErrX5at}(D, C, X'', u_0),$$
 *where $\mathrm{ErrX5at}(D, C, X'', u_0)$ (`QuotientSlopeBoundsWith.lean:45`) is bounded under
-`ErrWindows`, `BNBounds`, and `LargeX` by $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathcal E_{\mathrm{win}}$
-(`errX5at_le`, `PChain.lean:613`, feeding Chapter 5's `ch_top`).*
+`ErrWindows` and `LargeX` by $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathrm{ErrText}(D)$ (`errX5at_le`,
+`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:613`), and together with `BNBounds`
+yields the window bound in terms of $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathcal E_{\mathrm{win}}$
+(`top_each_bound_sized`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:674`, feeding Chapter 5's `ch_top`).*
 *(Lean: `each_unit_bound_statement`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`.)* [Lean, read]
 
 *Proof.* Fix $u_0 \in U_0$. Watch how the proof in `LevelOfCongruence.lean:50–198` mirrors Stepanov's
@@ -828,7 +839,8 @@ derivations, or an Arakelov chain of length $\sqrt{x}$ [Expository]. Nevertheles
      explicit formula with no zero-location constraint (p. 535, citing R. Meyer).
    - Moreover, **maximal curves over $\mathbb F_{q^2}$** (such as Hermitian curves, p. 535) have
      Frobenius characteristic polynomial $P_1(X) = (X + q)^{2g}$, where the eigenvalue multiplicity
-     $2g$ strictly exceeds the gonality $g + 1 = [F : \mathbb F_{q^2}(t)]$ when $g \ge 2$, violating
+     $2g$ strictly exceeds the gonality $\le g + 1$ (written "$g + 1$" on p. 535; e.g. gonality
+     $q \le g + 1$ on the Hermitian curve $y^q + y = x^{q+1}$ of genus $g = q(q-1)/2$) when $g \ge 2$, violating
      the function-field analogue of his $[F : \mathbb Q]$ multiplicity bound (and over $\mathbb F_{p^2}(t)$,
      a supersingular elliptic double cover already gives a quadratic $L(s, \chi_f)$ with a double zero,
      p. 536) [Paper; Masullo pp. 535–536].
@@ -848,7 +860,7 @@ that *inhabit* `FamP` and `ChainTied` belong to Chapters 7–12 (`P17`, `P8`–`
 
 | Declaration | File:line | Mathematical content / role in Sections 6.3–6.4 | Tag |
 |---|---|---|---|
-| `Scale`, `Scale.L`, `b`, `a`, `X'`, `b'`, `w''`, `X''`, `delta1`, `Formalism.BasicNotions.SizeData₂`, `SizeData₂.AdmT`, `lifts`, `Fo`, `Ga`, `Ee`, `MAIN`, `VV` | `src/Formalism/LocalRingCardinality/DataParams₂.lean:9,27,29,31,33,35,37,39,45,76,186,208,218,220,222,232,238` | Concrete scale record (`L = x^ε`, `b = exp(x^ε)`, `delta1 = x^{-ε/8}`) and concrete `D7`-attached `SizeData₂` structure storing per-lift gains, Fourier shifts, congruence losses, and $Ш^1$ sums. | [Lean, read] |
+| `Scale`, `Scale.L`, `b`, `a`, `X'`, `b'`, `w''`, `X''`, `delta1`, `Formalism.BasicNotions.SizeData₂`, `SizeData₂.AdmT`, `lifts`, `Fo`, `Ga`, `Ee`, `MAIN`, `VV` | `src/Formalism/LocalRingCardinality/DataParams₂.lean:9,27,29,31,33,35,37,39,45,76,186,208,218,220,222,232,238` | Concrete scale record (`L = x^ε`, `b = exp(x^ε)`, `delta1 = x^{-ε/8}`), concrete `D7`-attached `SizeData₂` structure (`:76–183`), and derived definitions `Fo`, `Ga`, `Ee`, `MAIN`, `VV` in `namespace SizeData₂`. | [Lean, read] |
 | `GlobalTheory.Mem.Num.evenCeil`, `eAt`, `nAt`, `fAt`, `mAt`, `kAt`, `rAt`, `tAt`, `NAt`, `RanksOK`, `ranksOf`, `HCIn`, `HCIn.OK`, `HCIn.hc` | `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:11,15,17,19,21,23,25,33,35,41,45,92,100,109` | Section 6.2.2 & 6.5.2: even ceiling `2 * ⌈y / 2⌉₊`, chain length `mAt` $\approx \sqrt{x\delta_1}$, $2$-power tower `nAt = 2^(eAt)`, rank admissibility `RanksOK`, and verified rational Harish-Chandra parameters `HCIn.hc`. | [Lean, read] |
 | `ph`, `wmean`, `umean`, `Consts`, `Data`, `Data.s`, `uF`, `Main`, `HidaSetting`, `DIV`, `HComp`, `Slopes`, `SlopeIneq`, `HHBound`, `FParams` | `src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:9,11,13,15,37,92,94,107,111,118,126,139,151,158,161` | Definition 6.2: abstract numerical chain record `Data U0 W Top m f`, weighted mean slope `s`, slope spread `uF`, global divisibility clause `DIV`, and Bost slope inequality clause `SlopeIneq`. | [Lean, read] |
 | `wmean_le_const`, `sub_wmean_le`, `phi_bound`, `Data.SDiv`, `EDiv`, `K3`, `Data.key_identity` | `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:34,40,81,129,131,138,170` | Lemma 6.5: weighted-mean inequalities, logarithmic concavity bound $u\log(1+H/u) \le \log(1+X)(U+b)$, and exact cancellation of $\log(\pi/v)$ and $\mathrm{lg}$ into `Main`. | [Lean, read] |

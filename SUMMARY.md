@@ -23,6 +23,12 @@
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
 - [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
+- [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)
+
+# Part III. Foundations built inside the archive
+
+- [12. Galois representations and partial local Langlands](chapters/12-galois-representations-and-local-langlands.md)
+- [13. Green's theorem and the literature layer](chapters/13-greens-theorem-and-the-literature-layer.md)
 
 # Records
 

@@ -112,8 +112,9 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
      $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ never diverges at cusps on the definite chain itself!
    - **Integral / $\mathcal O_E$-lattice structure:** Spaces of algebraic modular forms on definite
      unitary groups carry natural $\mathcal O_E$-lattices (`NuLat`, `DataParams₂.lean:134` [Lean, read])
-     and positive-definite Petersson/Hermitian metrics (`IsMet`, `ThetaChainUpwardInductionFixedMetric.lean:25`
-     [Lean, read]), making them ready-made inputs for Bost's Arakelov slope inequality!
+     and positive-definite Petersson/Hermitian metrics (`IsMet`, whose Schur uniqueness `ip_unique` is
+     proved at `ThetaChainUpwardInductionFixedMetric.lean:25` [Lean, read]), making them ready-made
+     inputs for Bost's Arakelov slope inequality!
 2. **Rank growth $r_{j+1} = r_j + t$ and spectral splicing $\pi \mapsto \pi \boxplus \mu_j[t]$:**
    In `EvenCeil.lean:25,33,35` and `ThetaChainUpwardLiftHeckeParamTransferred.lean:42` [Lean, read],
    the base space $X_0$ has rank $r_0 = r := k + m - 1$, each step adds a fixed odd rank increment
@@ -223,14 +224,17 @@ $L = \mathbb Z[i]$:
    Look at two phenomena here that echo throughout Part II:
    - **Siegel–Weil identity (`[Weil1964]`, `[KudlaRallis1994]`):** Integrating the theta kernel against
      the constant function $1$ on $[U(1)]$ produces an **Eisenstein series** whose Fourier coefficients
-     encode $L(s, \chi_{-4})$ (compare `dlogL D 1` for $L'/L(1, \chi_{-d})$ in `DataParams₂.lean:70` [Lean, read]!);
+     encode $L(s, \chi_{-4})$ (compare `dlogL` and `logDerivative_at_one_eq` for $L'/L(1, \chi_{-d})$ in
+     `DataParams₂.lean:69,127` [Lean, read]!);
    - **Inert-prime vanishing:** At every prime $p \equiv 3 \pmod 4$ **inert** in $\mathbb Q(i)$, the
      $p$-th Fourier coefficient $r_2(p) = 4(1 + (-1)) = 0$ vanishes identically!
 2. **Nontrivial Hecke input $\chi_k$ on $[U(1)]$ (cuspidal lift and spectral-parameter transfer):**
    Replace $\Phi_\infty(z)$ by the harmonic polynomial Schwartz function $\Phi_{\infty,k}(z) = z^k e^{-2\pi\lvert z \rvert^2}$
-   ($k \ge 1$ a multiple of $4$, say $k = 4$) and integrate against the algebraic Hecke character on
-   $\mathbb Z[i] \setminus \{0\}$ given on principal ideals $(\lambda)$ ($\lambda \equiv 1 \pmod{2+2i}$)
-   by $\chi(\lambda) = (\lambda / \lvert \lambda \rvert)^k$. The constant term at $\lambda = 0$ vanishes
+   ($k \ge 4$ a multiple of $4$, say $k = 4$) and integrate against the unitary Hecke character on
+   $\mathbb Q(i)$ (associated to the algebraic Hecke character $\psi_k((\lambda)) = \lambda^k$) given on
+   nonzero principal ideals $(\lambda)$ ($\lambda \in \mathbb Z[i] \setminus \{0\}$; since $4 \mid k$,
+   $u^k = 1$ on $\mathbb Z[i]^\times = \{\pm 1, \pm i\}$, so $\chi$ is everywhere unramified!)
+   by $\chi((\lambda)) = (\lambda / \lvert \lambda \rvert)^k$. The constant term at $\lambda = 0$ vanishes
    ($0^k = 0$), and the theta lift
    $$\Theta_{\Phi_k}(\chi)(\tau) = \frac{1}{4}\sum_{\lambda \in \mathbb Z[i] \setminus \{0\}} \lambda^k\,e^{2\pi i (\lambda\bar\lambda)\tau}
    \in S_{k+1}\bigl(\Gamma_0(4), \chi_{-4}^{k+1}\bigr)$$
@@ -257,11 +261,12 @@ a $(\mathcal M_X \otimes \mathcal M_Y)$-measurable function [Expository]:
 1. For any measurable function $f : X \to \mathbb C$, the **domain of absolute convergence** of the
    integral transform $T_K f$ is the measurable set
    $$\Omega_{K, f} := \Bigl\{y \in Y : \int_X \lvert K(x, y)\,f(x) \rvert\,d\mu(x) < \infty\Bigr\},$$
-   and whenever $\nu(Y \setminus \Omega_{K,f}) = 0$, we define $(T_K f)(y) := \int_X K(x, y)\,f(x)\,d\mu(x)$
-   for $y \in \Omega_{K,f}$ (and $0$ off $\Omega_{K,f}$).
-2. The **dual (seesaw / adjoint) kernel** is $K^\ast(y, x) := \overline{K(x, y)}$ on $Y \times X$, with
-   integral operator $(T_K^\ast g)(x) := \int_Y \overline{K(x, y)}\,g(y)\,d\nu(y)$ whenever
-   $x \mapsto K(x, y) g(y)$ lies in $L^1(Y, \nu)$ for $\mu$-almost every $x$.
+   and we define the measurable function $T_K f : Y \to \mathbb C$ unconditionally by zero-extension off
+   $\Omega_{K, f}$ (matching Mathlib's Bochner integral convention):
+   $$(T_K f)(y) := \begin{cases} \displaystyle\int_X K(x, y)\,f(x)\,d\mu(x) & \text{if } y \in \Omega_{K, f},\\[6pt] 0 & \text{if } y \notin \Omega_{K, f}.\end{cases}$$
+2. The **dual (seesaw / adjoint) kernel** is $K^{\ast}(y, x) := \overline{K(x, y)}$ on $Y \times X$, with
+   integral operator $T_K^{\ast} := T_{K^{\ast}}$ given by $(T_K^{\ast} g)(x) = \int_Y \overline{K(x, y)}\,g(y)\,d\nu(y)$
+   for $x \in \Omega_{K^{\ast}, g}$ and $0$ for $x \notin \Omega_{K^{\ast}, g}$.
 
 **Definition 7.2 (Unitary reductive dual pairs, Weil representation, and global/local theta lifts).**
 Let $F$ be a totally real number field, $E / F$ a quadratic CM extension with nontrivial Galois
@@ -323,7 +328,8 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
    splitting off a hyperbolic plane `H.x, H.y` ($\langle x, x\rangle = \langle y, y\rangle = 0$,
    $\langle x, y\rangle = 1$) at both lattice and Cartan levels! On top of this, `LocalMatching` (`:581`)
    asserts local test-vector matching for admissible triples, and `ThetaIntegralsAgree` (`:585`)
-   conjoins decay, constant-term / coinvariant uniqueness (`OneConst`, `Coinv`), and the inductive
+   conjoins decay, nonzero proportionality-constant uniqueness and coinvariant vanishing (`OneConst` at
+   `:503`, `Coinv` at `:508`), and the inductive
    rank-$+2$ $L$-factor recursion clauses `StepBeta` (`:559`) and `StepAlpha` (`:571`) involving
    `charL` and local Gauss/epsilon factors `stepFac` (`:552`, built from `gauss`, `:125`, and `eps`, `:131`) [Lean, read].
 2. **Named-literature bundle (`UnitaryGroupThirdPlaceHypotheses`, `BernsteinUnitaryProductIrreducible.lean:22–82`):**
@@ -336,8 +342,9 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
    `localEulerChar`, `:80–82`) [Lean, read].
 3. **Definite-chain hypothesis bundle (`GlobalTheory.Fc.HypsAlt`, `Hyps.lean:22–90`):**
    A `Type 1` `structure` parameterized by a residual class condition `N : FamClass → Prop` (instantiated
-   as `Closed 𝒞 fun Fm _ => LinkN Fm`!) and `DefiniteSideCondition`. It packages a family class
-   `𝒜 : FamClass` of `FamP eps` families, a raw level/row selector `σ`, and **31 operational properties**
+   as `Closed 𝒞 fun Fm _ => LinkN Fm`!) and `DefiniteSideCondition`. It packages **46 fields**: a family
+   class `𝒜 : FamClass` of `FamP eps` families, a raw level/row selector `σ`, constants `cT, c30, cIc`,
+   and **41 operational/structural clauses**
    connecting indefinite/definite realizations (`hRB`, `selJ`, `rRows`), twist compatibility (`hTw`),
    inert-prime row divisibility (`hDivG`, `hDcPtG`), class-number / Siegel–Minkowski mass formulas
    (`hn4`, `hInstR`, `hU`, `hG`), spectral decay (`hWu`), Weyl period bounds (`aPer0`, `aPerTw`),
@@ -558,7 +565,8 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
    $r_{k+1} = r_k + t$ whenever the upward theta integral `Step.up` is nonzero (`upPar_of_transfer`,
    `ThetaChainUpwardLiftHeckeParamTransferred.lean:42,46–68`).*
 3. *($m$-step inductive adjointness and parameter propagation: `thetaChain_upward_induction_fixed_metric`,
-   `ThetaChainUpwardInductionFixedMetric.lean:41–78`)* *Suppose $s_0$ is a stage-$0$ localization with
+   `ThetaChainUpwardInductionFixedMetric.lean:41–78`)* *Assume stage metric existence `hMet : MetEx D`
+   and node gap `hgap : NodeGap D` (`ParBoundW.lean:24`). Suppose $s_0$ is a stage-$0$ localization with
    Hermitian metric `(ipD₀, ip₀)`, $u \in s_0.\mathrm{CC}(c)$ is nonzero with initial spectral parameter
    `IsPar u B`, every step $0 \le k < m$ has non-vanishing $L$-value `LNe c (c.chT (k + 1)) (chainPar c B k)`
    (ensuring non-vanishing of the single-step lift `StepUp D`), and `Reach c s₀ k s Θ` ($k \le m$)
@@ -638,8 +646,8 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `TopShape.lean`, `De
      imply separation of functionals (`hS`, `:48`).
    - Combining `hS` with real Howe duality (`F.howeDualityReal`), cuspidal Green characters (`P.greenCuspidal`),
      the Hecke–Tate functional equation (`C.fe`), `ThetaIntegralsAgree` (`hA`), and `LocalMatching` (`hM`)
-     assembles rational row test vectors (`hRat : S0.RowRat`, `:49`), fits constant-term Fourier
-     coefficients (`hFit`, `:51`), and produces an evaluation-grid threshold `CF1` (`evaluation_grid_of_join`, `:52`).
+     assembles rational row test vectors (`hRat : S0.RowRat`, `:49`), fits the constant function
+     (`hFit : S0.ConstantFunctionFits`, `:51`), and produces an evaluation-grid threshold `CF1` (`evaluation_grid_of_join`, `:52`).
    - Discrete-series covers, Harish-Chandra modules, cusp rapid decay, Casselman–Wallach, and ray
      class fields (`P.*`) produce a second threshold `CF0` (`rowFun_at_gridA_alt`, `:55`).
    - Taking `max CF0 CF1`, applying partial local Langlands `hL : RecTExists` and `hX : CovolumeBoundOfX`
@@ -688,7 +696,7 @@ Reading the actual Lean source of node `P17` brings two essential realities into
    `StepUp`) appear **as `structure` fields or explicit theorem hypotheses**! Where are those `Prop`
    fields actually *proved* in the archive? One layer higher up the assembly chain, in
    `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215,810`
-   (`P2` / `P18`, import cone **151,285 modules**) [Lean], which proves `every_character_of_literature_of_v_win`
+   (`P2` / `P18`, import cone **151,285 modules**) [Lean], which proves `every_character_of_literature_of_vWin`
    from `OpenLiteratureStatements` and passes the proved `Prop` terms into
    `every_character_of_theta_integrals_local_matching`!
    - Thus every `GlobalTheory.Published.*` field of `UnitaryGroupThirdPlaceHypotheses` *is* formally
@@ -714,7 +722,7 @@ Reading the actual Lean source of node `P17` brings two essential realities into
 
 ### 7.5.2 Structural map of the rest of Part II (Chapters 8–11)
 
-Look back at line 28 of `topDesWin` (`DesWin.lean:11–32`, Step 3 of Theorem 7.4 above):
+Look back at lines 29–31 of `topDesWin` (`DesWin.lean:11–32`, Step 3 of Theorem 7.4 above):
 ```lean
 have hD := aD hT hDG aE (divinN_of_hypV Fm h0 (hV Fm (h2 Fm hc.1.1)) aN aZ)
 exact ⟨Fm, h2 Fm hc.1.1, aGL hT hDG hCh ⟨aG, aS hT, aI, hD, ...⟩⟩
@@ -787,8 +795,8 @@ level (`R2` / `[Lean]`) and opened in Chapters 8–13.
 | `PiLocalization₂.val_autCusp`, `rankY_succ`, `GlobalTheory.ChainOnto.upPar_of_transfer` | `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardLiftHeckeParamTransferred.lean:26,42,46` | Proposition 7.3(2): rank recursion $r_{k+1} = r_k + t$ and global off-$S$ spherical Hecke parameter transfer across upward theta integral `Step.up`. | [Lean, read] |
 | `exists_tprod_ne_zero_of_cc`, `ip_unique`, `thetaChain_upward_induction_fixed_metric`, `chainUp_of` | `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardInductionFixedMetric.lean:14,25,41,71` | Proposition 7.3(3): Schur uniqueness of metrics on pure tensors and $m$-step chain induction proving $\mathrm{ip}(y, x_k) = \mathrm{ip}_0(\Theta y, u)$ and `IsPar x_k (chainPar c B k)`. | [Lean, read] |
 | `NonEndoscopicHypothesesAlt`, `GlobalTheory.Fc.S0.UnitaryGroupThirdPlaceHypotheses`, `geometricLemma` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean:12,22,83` | Definition 7.3(2) & Section 7.5.1: 60-field `Prop` bundle of named literature inputs (including `UnusedSlot72` at `:74`). | [Lean, read] |
-| `GlobalTheory.CovTop.EventuallyAtAllPoints`, `LiftsCondition`, `CoversCondition`, `LiftLambdaBound`, `CovolumeBoundOfX` | `src/Development/AbelianVarietyTheory/Definitions/Divisors/CovolXOfCovol.lean:1` (imported); `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LiftLambdaBound.lean:18,26,29,37,60` | Definition 7.3: lift/cover predicates along $i < m$ and covolume bound `CovolumeBoundOfX`. | [Lean, read] |
-| `GlobalTheory.Fc.HypsAlt` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Hyps.lean:22` | Definition 7.3(3): 33-field `Type 1` bundle of definite/indefinite theta-lift families and row/period/mass clauses. | [Lean, read] |
+| `EventuallyAtAllPoints`, `LiftsCondition`, `CoversCondition`, `LiftLambdaBound`, `CovolumeBoundOfX` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LiftLambdaBound.lean:18,26,29,37,60` | Definition 7.3: lift/cover predicates along $i < m$ and covolume bound `CovolumeBoundOfX`. | [Lean, read] |
+| `GlobalTheory.Fc.HypsAlt` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Hyps.lean:22` | Definition 7.3(3): 46-field `Type 1` bundle (`𝒜`, `σ`, `cT`, `c30`, `cIc`, plus 41 clauses) of definite/indefinite theta-lift families and row/period/mass properties. | [Lean, read] |
 | `UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound`, `every_character_of_theta_integrals_local_matching` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44,69` | Theorem 7.4 (Step 1): constructs `Nonempty (HypsAlt ...)` from Howe/Siegel–Weil, local matching, covolume bounds, and `RecTExists`, and deduces `EveryCharacter` given `VWin`. | [Lean, read] |
 | `UpperTheory.Top.shape_closed_link_n_of_green`, `UpperTheory.Top.shapeWin` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33`; `src/Development/AutomorphicArithmetic/CharacterBoxes/ShapeWin.lean:27` | Theorem 7.4 (Step 2): wires `Green` and `HypsAlt` into `DesignExists` and the nine `Closed` chain links (`LinkDIVt`, `LinkEta`, `LinkIRR`, `LinkG`, `LinkS`, `LinkGLOBAL`, …). | [Lean, read] |
 | `UpperTheory.Top.topDesWin` | `src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:11` | Theorem 7.4 (Step 3) & Section 7.5.2: combines `DesignExists`, the nine `Closed` links, and `divinN_of_hypV` (`VWin`) to prove `FamilyClassConnected`. | [Lean, read] |
