@@ -71,10 +71,7 @@ abolishing it [Expository]:
 
 ### 16.2.1 Non-abelian Dedekind and Artin $L$-functions: $K = \mathbb Q(\sqrt[3]{2})$, $S_3$, and negative Brauer exponents
 
-Let us test what `EveryCharacter` (`∀ N χ s, 1/2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → L(s, χ) ≠ 0`,
-`Main.lean:8`) [Lean, read] tells us — and **fails** to tell us! — about Dedekind zeta functions
-$\zeta_K(s) = \sum_{\mathfrak a \subseteq \mathcal O_K} (N_{K/\mathbb Q}\mathfrak a)^{-s}$ of number
-fields $K$ `[Artin1924]`, `[Brauer1947]` [Expository].
+In `Main.lean:8`, `EveryCharacter` rules out zeros of Dirichlet $L$-functions over $\mathbb Q$ to the right of the critical line, with the stated exception at the pole. To see its scope for a number field $K$, start with the Dedekind series $\zeta_K(s)=\sum_{0\ne\mathfrak a\subseteq\mathcal O_K}(N\mathfrak a)^{-s}$ for $\Re(s)>1$. The sum runs over nonzero integral ideals and uses their absolute norms. `[Artin1924]` `[Brauer1947]` [Expository].
 
 **Step 1: Abelian $K / \mathbb Q$ IS covered (e.g. $K = \mathbb Q(\zeta_8)$ or $\mathbb Q(\sqrt{5})$).**
 If $K / \mathbb Q$ is Galois with **abelian** Galois group $G = \operatorname{Gal}(K/\mathbb Q)$, then
@@ -82,16 +79,11 @@ by the **Kronecker–Weber theorem** $K \subseteq \mathbb Q(\zeta_N)$ for some i
 irreducible character of the finite abelian group $G$ is $1$-dimensional and factors through
 $(\mathbb Z / N\mathbb Z)^\times \twoheadrightarrow G$, defining a primitive Dirichlet character
 $\chi^\ast$ of conductor $f_\chi \mid N$ such that
-$$\zeta_K(s) \;=\; \prod_{\chi \in \widehat{G}} L(s, \chi^\ast)!$$
+$$\zeta_K(s) \;=\; \prod_{\chi \in \widehat{G}} L(s, \chi^\ast)$$
 Since every factor $L(s, \chi^\ast)$ is literally a `DirichletCharacter.LFunction` over $\mathbb Q$,
 **`EveryCharacter` immediately proves RH for $\zeta_K(s)$ for every abelian extension $K / \mathbb Q$!**
 
-**Step 2: Non-abelian cubic $K = \mathbb Q(\sqrt[3]{2})$ already exits `EveryCharacter`!**
-Now take the simplest non-abelian number field in algebraic number theory:
-$$K := \mathbb Q(\sqrt[3]{2}) \qquad ([K : \mathbb Q] = 3),$$
-whose Galois closure over $\mathbb Q$ is $L = \mathbb Q(\zeta_3, \sqrt[3]{2})$ with non-abelian Galois
-group $G = \operatorname{Gal}(L/\mathbb Q) \cong S_3$ of order $6$ (`\operatorname{Gal}(L/K) \cong C_2`,
-quadratic resolvent $F = \mathbb Q(\zeta_3) = \mathbb Q(\sqrt{-3})$)!
+**Step 2. Cubic splitting.** The cubic field $K=\mathbb Q(\sqrt[3]{2})$ is not Galois over $\mathbb Q$. Its Galois closure $L=\mathbb Q(\zeta_3,\sqrt[3]{2})$ has group $S_3$. The subgroup fixing $K$ has order two, and the quadratic resolvent is $F=\mathbb Q(\zeta_3)=\mathbb Q(\sqrt{-3})$.
 
 Factor the permutation representation $\operatorname{Ind}_{C_2}^{S_3}(\mathbf{1})$ of $S_3$ on the three
 roots of $X^3 - 2$: it splits into the trivial character $\mathbf{1}$ plus the unique **$2$-dimensional
@@ -99,7 +91,7 @@ irreducible character $\rho_2$** of $S_3$ ($\chi_{\rho_2}(1) = 2$, $\chi_{\rho_2
 $\chi_{\rho_2}((123)) = -1$). By Artin's formalism `[Artin1924]`,
 $$\zeta_{\mathbb Q(\sqrt[3]{2})}(s) \;=\; \zeta(s)\,L(s, \rho_2),
 \qquad
-\zeta_{\mathbb Q(\zeta_3, \sqrt[3]{2})}(s) \;=\; \zeta(s)\,L(s, \chi_{-3})\,L(s, \rho_2)^2!$$
+\zeta_{\mathbb Q(\zeta_3, \sqrt[3]{2})}(s) \;=\; \zeta(s)\,L(s, \chi_{-3})\,L(s, \rho_2)^2$$
 Check the Euler factors of $L(s, \rho_2)$ at unramified primes $p \nmid 6$ by hand from the splitting
 of $X^3 - 2 \pmod p$:
 
@@ -124,9 +116,9 @@ Indeed, $\rho_2 = \operatorname{Ind}_{C_3}^{S_3}(\psi_3)$ is induced from a cubi
 $\psi_3$ of the imaginary quadratic field $F = \mathbb Q(\zeta_3)$** (so $L(s, \rho_2) = L_F(s, \psi_3)$
 lies in Masullo's target class, **not** in `EveryCharacter`!).
 
-The primes $31$ and $367$ both equal $31\bmod 48$. Their cubic traces are $2$ and $-1$ respectively, since $2^{122}\equiv283\pmod{367}$. In Lee Crossley’s abelian example, three finite prime-race scores recover traces $-8$ and $8$ at these same primes. The eight Dirichlet characters make that trace periodic modulo $16\cdot547\cdot727$. [Crossley’s theorem and proof](https://doi.org/10.5281/zenodo.24413208).
+The primes $31$ and $367$ are congruent modulo $48$. The cubic polynomial has roots $4,7,20$ modulo $31$ and no root modulo $367$, since $2^{122}\equiv283\pmod{367}$. Its two-dimensional traces are therefore $2$ and $-1$. In Crossley’s 547/727 example the eight Dirichlet characters give traces $-8$ and $8$ at the same primes. Three finite prime-race scores recover each of those traces unconditionally. This abelian trace is periodic modulo $16\cdot547\cdot727$. [Three-score theorem](https://doi.org/10.5281/zenodo.24413208)
 
-For the cubic example both traces occur even among primes $p\equiv1\pmod M$, for every $M\ge1$. The intersection $L\cap\mathbb Q(\zeta_M)$ is abelian over $\mathbb Q$, so a $3$-cycle acts trivially on it. Both the identity and the $3$-cycle can therefore be paired with the identity on $\mathbb Q(\zeta_M)$ in the compositum. Chebotarev gives primes of each type.
+For each $M\ge1$, both cubic traces occur among primes $p\equiv1\pmod M$. The intersection $L\cap\mathbb Q(\zeta_M)$ is abelian over $\mathbb Q$. Every $3$-cycle belongs to the commutator subgroup $A_3$ of $S_3$, so it fixes the intersection. The identity and a $3$-cycle therefore each extend to the compositum while fixing $\mathbb Q(\zeta_M)$. Chebotarev gives primes of each type. Rosen, Takeyama, Tasaka and Yamamoto discuss this classical cubic example in their introduction. [Splitting of primes, section 1.1](https://arxiv.org/html/2208.11381v4#S1.SS1)
 
 **Step 3: Why Brauer's induction theorem (`[Brauer1947]`) CANNOT propagate zero-freeness to general non-abelian $\zeta_K(s)$!**
 Now ask what happens if we pass to general finite Galois groups $G = \operatorname{Gal}(L/\mathbb Q)$, such as
@@ -135,27 +127,12 @@ an **icosahedral $A_5$ extension** ($G \cong A_5$, order $60$)? By **Brauer's in
 of $1$-dimensional characters $\psi_i$ induced from elementary subgroups $H_i \le G$:
 $$\rho \;=\; \sum_{i = 1}^r n_i \operatorname{Ind}_{H_i}^G(\psi_i) \qquad (n_i \in \mathbb Z),
 \qquad\text{so}\qquad
-L(s, \rho) \;=\; \prod_{i = 1}^r L_{L^{H_i}}(s, \psi_i)^{n_i}!$$
-Look closely at the signs of the integers $n_i \in \mathbb Z$! For non-monomial groups like $A_5$
-(for instance, the $4$-dimensional irreducible character $\rho_4$ of $A_5$, which cannot be induced
-from any proper subgroup because $4 \nmid 60$ fails only for index $15$ where $\operatorname{Ind}_{V_4}^{A_5}$
-has degree $15$ and $\operatorname{Ind}_{A_4}^{A_5}$ has degree $5$!), **at least one integer $n_i$ MUST
-be strictly negative ($n_i < 0$)!**
+L(s, \rho) \;=\; \prod_{i = 1}^r L_{L^{H_i}}(s, \psi_i)^{n_i}$$
+The action of $A_5$ on five letters gives its irreducible character of degree four as $\rho_4=\operatorname{Ind}_{A_4}^{A_5}\mathbf{1}-\mathbf{1}$. A proper subgroup of index $d\le4$ would give a nontrivial action of the simple group $A_5$ on $d$ cosets. Simplicity makes the action faithful, which would embed the group of order 60 in a group of order at most 24. Thus a character induced from a proper subgroup has degree at least five. The only linear character of $A_5$ itself is trivial. Any expression for $\rho_4$ as an integral sum of characters induced from linear characters therefore needs a negative coefficient. [Character table and subgroup indices](https://www.math.rwth-aachen.de/homes/sam/ctbllib/ctbltoc/data/A5.html)
 
-Now watch what happens even if someone proved GRH for **every** abelian character $\psi_i$ of **every**
-intermediate subfield $L^{H_i}$ (i.e. **all of Masullo's unitary Hecke GRH**!):
-- Because $L_{L^{H_i}}(s, \psi_i) \neq 0$ on $\Re s > \frac{1}{2}$ for every $i$, **neither the
-  numerator factors ($n_i > 0$) nor the denominator factors ($n_i < 0$) vanish on $\Re s > \frac{1}{2}$**,
-  so **Masullo's full Hecke GRH across all number fields WOULD imply ERH for $\zeta_L(s)$ and nonvanishing
-  of $L(s, \rho)$ on $\Re s > \frac{1}{2}$** (though **not** holomorphy — Artin's conjecture — at a
-  critical-line point $\frac{1}{2} + i\gamma$ if a denominator zero had higher multiplicity than the
-  numerator!).
-- By contrast, **Alpöge's `EveryCharacter` proves GRH ONLY over the base field $\mathbb Q$** ($H_i = G$),
-  knowing **nothing at all** about $L_{L^{H_i}}(s, \psi_i)$ when $[L^{H_i} : \mathbb Q] > 1$! Thus
-  `EveryCharacter` **does not** prove RH for $\zeta_{\mathbb Q(\sqrt[3]{2})}(s)$, **does not** prove RH
-  for general Dedekind $\zeta_K(s)$ (ERH), and **does not** unconditionalize theorems such as Hooley's
-  proof of Artin's primitive root conjecture `[Hooley1967]`, which explicitly require ERH for non-abelian
-  Kummer towers $\mathbb Q(\zeta_q, a^{1/q})$!
+Assume GRH for the finite-order Hecke characters $\psi_i$ over their respective fields $L^{H_i}$. On $\Re(s)>1/2$ with $s\ne1$, all factors in the Brauer product are holomorphic and nonzero. At $s=1$ each trivial $\psi_i$ gives a simple pole, and each nontrivial $\psi_i$ has a finite nonzero value. Frobenius reciprocity gives $\sum_{i:\,\psi_i=\mathbf{1}}n_i=\langle\rho,\mathbf{1}\rangle_G$. Thus $L(s,\rho)$ is regular and nonzero at $1$ for a nontrivial irreducible $\rho$, while the trivial representation gives the simple pole of $\zeta(s)$. These Hecke hypotheses imply RH for $\zeta_L$ by Artin factorisation. On the critical line, holomorphy of the quotient still requires control of the multiplicities of denominator zeros.
+
+The statement `EveryCharacter` concerns Dirichlet characters over $\mathbb Q$. The cubic example requires a Hecke character over $\mathbb Q(\zeta_3)$. Hooley’s conditional proof of Artin’s primitive root conjecture uses the Dedekind zeta functions of Kummer fields $\mathbb Q(\zeta_q,a^{1/q})$ `[Hooley1967]`.
 
 ### 16.2.2 Build determinism versus kernel soundness: Sutherland's 175,186 / 175,187 `.olean` experiment
 
