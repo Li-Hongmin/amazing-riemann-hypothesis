@@ -116,7 +116,7 @@ The action of $A_5$ on five letters gives its irreducible character of degree fo
 
 Assume GRH for the finite-order Hecke characters $\psi_i$ over their respective fields $L^{H_i}$. On $\Re(s)>1/2$ with $s\ne1$, all factors in the Brauer product are holomorphic and nonzero. At $s=1$ each trivial $\psi_i$ gives a simple pole, and each nontrivial $\psi_i$ has a finite nonzero value. Frobenius reciprocity gives $\sum_{i:\psi_i=\mathbf{1}}n_i=\langle\rho,\mathbf{1}\rangle_G$. Thus $L(s,\rho)$ is regular and nonzero at $1$ for a nontrivial irreducible $\rho$, while the trivial representation gives the simple pole of $\zeta(s)$. These Hecke hypotheses imply RH for $\zeta_L$ by Artin factorisation. On the critical line, holomorphy of the quotient still requires control of the multiplicities of denominator zeros.
 
-The statement `EveryCharacter` concerns Dirichlet characters over $\mathbb Q$. The cubic example requires a Hecke character over $\mathbb Q(\zeta_3)$. Hooley’s conditional proof of Artin’s primitive root conjecture uses the Dedekind zeta functions of Kummer fields $\mathbb Q(\zeta_q,a^{1/q})$ `[Hooley1967]`.
+The statement `EveryCharacter` concerns Dirichlet characters over $\mathbb Q$. The cubic example requires a Hecke character over $\mathbb Q(\zeta_3)$. Hooley’s conditional proof of Artin’s primitive root conjecture uses the Dedekind zeta functions of $\mathbb Q(\zeta_m,a^{1/m})$ for squarefree positive integers $m$ `[Hooley1967]`.
 
 ### 16.2.2 Build determinism versus kernel soundness: Sutherland's 175,186 / 175,187 `.olean` experiment
 
@@ -231,12 +231,7 @@ formalizes the named classical theorem!
   bundles + `1` master theorem `openLiteratureStatements` in `EveryCharacterOfLiteratureOfVWin.lean`),
   referencing **~182–188 distinct statement constants** in `GlobalTheory.Published.*` (plus `72` dead
   `UnusedSlot72` declarations never referenced by `Main.lean`).
-- **Audited so far (`LUMI docs/07-named-theorems.md` `[Community]` + Chapter 13 `[Lean, read]`):**
-  `105` statements audited at AI-assisted community level (`65` faithful, `29` domain-restricted special
-  cases such as rank-$2$ `MorelSuh` or curve/surface `KawamataViehweg`, `7` safe weakenings, `4`
-  undetermined), plus our direct `R3` audits in Chapters 11–13 (`FerreroWashington`,
-  `GlobalArtinReciprocity`, `OpenImageCondition`, `DiscreteSpectrumResidualClassification`, `KatoTwoW`
-  clarified by Loeffler on Zulip `#642442900`).
+- **Audited statements.** LUMI `docs/07-named-theorems.md` reports 105 AI-assisted comparisons, including 65 faithful statements, 29 special cases with a restricted domain (such as the rank-two `MorelSuh` and the curve and surface cases of `KawamataViehweg`), seven weakenings and four undetermined cases `[Community]`. Chapters 11–13 record the separate `R3` readings of `FerreroWashington`, `GlobalArtinReciprocity`, `OpenImageCondition`, `DiscreteSpectrumResidualClassification` and `KatoTwoW`. Loeffler clarified the last statement on Zulip (`#642442900`).
 - **Remaining `[Open]`:** Roughly **77 to 83 `GlobalTheory.Published.*` constants** have not yet been
   compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`.
 
@@ -244,58 +239,33 @@ formalizes the named classical theorem!
 
 | Item | Location in Masullo's PDF | Current status (`2026-11-22`) |
 |---|---|---|
-| **M1. Positive-width strip spectral nuclearity ($I = [-\alpha, \alpha]$, $\alpha > 0$)** | `Terminology 10.2.1.2(2)` (`p. 444`), `(10.3.1.18)` (`p. 451`), `(10.4.2.24)` (`p. 463`, fn. 8 `p. 464`) | **Unrepaired `[Open]`** (individual biorthogonal bound is false due to close zeros; Pei's `doi:10.5281/zenodo.24409811` addresses only $I = \{0\}$ and is unreviewed `[Community]`; `leecrossley`'s strip proposal in `#1169` does not yet match `§12.5` `[Open]`). |
+| **M1. Positive-width strip spectral nuclearity ($I = [-\alpha, \alpha]$, $\alpha > 0$)** | `Terminology 10.2.1.2(2)` (`p. 444`), `(10.3.1.18)` (`p. 451`), `(10.4.2.24)` (`p. 463`, fn. 8 `p. 464`) | **Open.** Close zeros contradict the individual biorthogonal bound. Pei (`doi:10.5281/zenodo.24409811`) treats the singleton $I=\lbrace 0\rbrace$ `[Community]`. Crossley’s strip proposal in `#1169` still needs comparison with `§12.5` `[Open]`. |
 | **M2. Topology of adelic $\theta$-spaces (Structure Theorem I)** | `Theorem 5.2.1.1` (`p. 229`) | **Printed proof broken `[Community]` / `[Open]`** (`mccorvie/riemann-masullo` Wave 2 reports the printed proof does not work; truth of the statement is currently being tested in Lean). |
-| **M3. Shell-cutoff discontinuities & omitted global-to-$S$-local section** | `Theorem 11.3.2.1` (`pp. 495–496`, issue `#1358`) and **empty `§12.3` (`p. 514`, fn. 1 *"Include section"*)** | **Incomplete / unverified `[Open]`** (`§12.3` is the exact bridge deconstructing the global geometric kernel into $S$-local + vanishing unramified shells!). |
-| **M4. Explicit-formula measure factor & strip-invariance of `Theorem 12.5.1.1`** | `§B.4` (`pp. 606–625`) and `Theorem 12.5.1.1` (`pp. 519–520`, issue `#587`) | **Disputed / under recomputation `[Open]`** (`mccorvie/riemann-masullo` Wave 2 is recomputing `§B.4` local normalizations; `#587` reports a $\mu_1(C_F^1)$ discrepancy on $\mathbb Q(i), \mathbb Q(\sqrt{-3})$). |
+| **M3. Shell discontinuities and the local terms at $S$** | `Theorem 11.3.2.1` (`pp. 495–496`, issue `#1358`) and **empty `§12.3` (`p. 514`, fn. 1 *"Include section"*)** | **Incomplete.** Section 12.3 is needed to decompose the global geometric kernel into its local terms at $S$ and account for the vanishing unramified shells. `[Open]` |
+| **M4. Explicit-formula measure factor & strip-invariance of `Theorem 12.5.1.1`** | `§B.4` (`pp. 606–625`) and `Theorem 12.5.1.1` (`pp. 519–520`, issue `#587`) | **Disputed.** The Wave 2 group in `mccorvie/riemann-masullo` is checking the local normalisations in §B.4. Issue `#587` reports a discrepancy in $\mu_1(C_F^1)$ for $\mathbb Q(i)$ and $\mathbb Q(\sqrt{-3})$. `[Open]` |
 | **M5. Unwritten Chapter 13 (deducing GRH and central-zero behavior)** | `Chapter 13` (`pp. 521–522`, `Thm. 13.3.1.2` fn. 2 *"Insert statement"*) | **Unwritten in manuscript `[Paper]` / `[Open]`** (Loeffler formalized RH $\Leftarrow$ `Thm. 12.5.1.1` `[Community]`, so all substantive weight sits in M1–M4!). |
 
 ---
 
 ## 16.4 Conditional consequences: what DOES and DOES NOT follow if `EveryCharacter` stands
 
-Suppose the remaining single-threaded `lake comparator` runs finish with zero surprises and
-`EveryCharacter` (`src/Main.lean:8`) stands as a theorem of mathematics. Because mathematical accuracy
-requires knowing **exact logical boundaries**, Proposition 16.1 separates classical conditional results
-that **become unconditional immediately** from famous conjectures and conditional theorems that **remain
-open**!
+**Proposition 16.1.** Assume `UpperTheory.EveryCharacter` (`src/Main.lean:8`). For each positive modulus $N$ and each Dirichlet character $\chi$ modulo $N$, its $L$-function has no zero in $\Re(s)>1/2$. The principal character has a pole at $s=1$.
 
-**Proposition 16.1 (Logical boundary of `EveryCharacter`: Dirichlet GRH versus ERH, Artin GRH, automorphic GRH, and GSH).**
-*Assume `UpperTheory.EveryCharacter` (`src/Main.lean:8`): for every $N \ge 1$ and every Dirichlet
-character $\chi \bmod N$, $L(s, \chi) \neq 0$ on $\Re s > \frac{1}{2}$ (except $\chi = 1, s = 1$).
-Then:*
-
-1. **Statements that DO follow unconditionally (`[Expository]` / `[Community]`):**
-   - **Classical Riemann Hypothesis (`Main.lean:4, 6`) and elementary equivalences:** $\psi(x) = x + O(x^{1/2}(\log x)^2)$
-     `[Davenport2000]`, $\pi(x) = \operatorname{li}(x) + O(x^{1/2}\log x)$, Merten's sum $M(x) = \sum_{n \le x}\mu(n) = O_\varepsilon(x^{1/2+\varepsilon})$,
-     and Robin's and Lagarias's divisor-sum inequalities `[Lagarias2002]` (already machine-checked in
-     `ArithSolution.lean` via `kimihiro64/Robin1984` `[Community]`)!
+1. **Consequences under this hypothesis** `[Expository]` `[Community]`
+   - **Classical RH.** The statements at `Main.lean:4, 6` imply $\psi(x)=x+O(x^{1/2}(\log x)^2)$ and $\pi(x)=\mathrm{li}(x)+O(x^{1/2}\log x)$ `[Davenport2000]`. For every $\varepsilon>0$ the Mertens function satisfies $M(x)=\sum_{n\le x}\mu(n)=O_\varepsilon(x^{1/2+\varepsilon})$. Robin’s and Lagarias’s divisor-sum inequalities also follow `[Lagarias2002]`. The two arithmetic statements in `ArithSolution.lean` combine the formalisation in `kimihiro64/Robin1984` with Alpöge’s theorem `[Community]`.
    - **Primes in arithmetic progressions (`[Davenport2000]`, Ch. 20):** For every modulus $q \ge 1$ and
      $\gcd(a, q) = 1$, $\psi(x; q, a) = \frac{x}{\varphi(q)} + O\bigl(x^{1/2}(\log(qx))^2\bigr)$,
      eliminating **Siegel zeros** (`[Siegel1935]`) for all Dirichlet characters over $\mathbb Q$ and
      improving Linnik's least-prime bound to $p_{\min}(q, a) \ll (\varphi(q)\log q)^2$!
-   - **Goldbach-type and sieve consequences depending only on Dirichlet GRH:** Deshouillers–Effinger–te
-     Riele–Zinoviev's 1997 theorem that every odd integer $n > 5$ is a sum of three primes (already
-     proved unconditionally by Helfgott in 2013, now given an independent short proof via Dirichlet GRH!),
-     sharp Bombieri–Vinogradov-range error bounds on individual moduli $q \le x^{1-\varepsilon}$, and
-     deterministic polynomial-time primality/factoring-adjacent algorithms that test quadratic/power
-     nonresidues over $\mathbb Q$ via **Dirichlet** characters (e.g., Miller's deterministic primality
-     bound $O((\log n)^4)$ for testing witnesses against quadratic/Dirichlet characters mod $n$).
-   - **Abelian Dedekind zeta functions:** RH holds for $\zeta_K(s)$ whenever $\operatorname{Gal}(K/\mathbb Q)$
-     is **abelian** (Section 16.2.1, Step 1, via Kronecker–Weber).
-2. **Statements that DO NOT follow from `EveryCharacter` and remain `[Open]` (`[Expository]`):**
-   - **Extended Riemann Hypothesis (ERH) for non-abelian number fields $K / \mathbb Q$:** RH for
-     $\zeta_K(s)$ when $K$ is not contained in any cyclotomic field $\mathbb Q(\zeta_N)$ (e.g.
-     $K = \mathbb Q(\sqrt[3]{2})$ or degree-$5$ non-solvable fields; Section 16.2.1, Steps 2–3), along
-     with Bach's general $O((\log \lvert \Delta_K \rvert)^2)$ class-group generator bound for arbitrary
-     number fields $K$!
+   - **Ternary Goldbach and primality testing.** Deshouillers, Effinger, te Riele and Zinoviev proved under GRH in 1997 that every odd integer greater than five is a sum of three primes. Helfgott later proved this unconditionally. Miller’s 1976 deterministic primality test takes $O((\log n)^4)$ steps under its Dirichlet hypothesis. Agrawal, Kayal and Saxena subsequently gave an unconditional polynomial-time primality test. [Conditional three-prime theorem](https://doi.org/10.1090/S1079-6762-97-00031-0) [Helfgott](https://arxiv.org/abs/1312.7748) [Miller](https://www.cs.cmu.edu/~glmiller/Publications/Papers/Mi76.pdf) [Agrawal, Kayal and Saxena](https://doi.org/10.4007/annals.2004.160.781)
+   - **Abelian extensions.** Suppose $K/\mathbb Q$ is a finite Galois extension with abelian Galois group. Its Dedekind zeta function satisfies RH by the Dirichlet factorisation in section 16.2.1. For comparison, the field generated by the real cube root of two has only the identity automorphism, since it contains only one root of $X^3-2$. Its Galois closure has group $S_3$.
+
+2. **Results requiring further hypotheses** `[Expository]`
+
+   - **Other number fields.** Section 16.2.1 exhibits the extra Hecke factor for $K=\mathbb Q(\sqrt[3]{2})$. For a number field with nonabelian Galois closure, such as a nonsolvable quintic field, the permutation action on its embeddings is faithful. A direct sum of linear characters has abelian image, so it cannot give this permutation action. Bach’s conditional bound $O((\log\lvert\Delta_K\rvert)^2)$ for the norms of prime ideals generating the ideal class group uses hypotheses over the number field.
    - **Unitary Hecke $L$-functions $L_F(s, \chi)$ over number fields $[F : \mathbb Q] > 1$** (`[Hecke1920]`),
      including CM Grossencharacters over imaginary quadratic fields.
-   - **Non-abelian Artin $L$-functions $L(s, \rho)$ (`[Artin1924]`, `[Brauer1947]`) and Artin's primitive
-     root conjecture (`[Hooley1967]`):** Hooley's theorem that every non-square integer $a \neq -1$ is a
-     primitive root modulo infinitely many primes requires ERH for the **non-abelian Kummer fields
-     $\mathbb Q(\zeta_q, a^{1/q})$** ($q$ prime), which are **not** abelian over $\mathbb Q$ and
-     therefore **remain conditional**!
+   - **Artin functions and primitive roots.** Brauer induction for nonabelian Artin functions involves Hecke characters over number fields `[Artin1924]` `[Brauer1947]`. In Hooley’s proof, a nonsquare integer $a\ne-1$ is a primitive root modulo infinitely many primes under RH for the Dedekind zeta functions of $K_m=\mathbb Q(\zeta_m,a^{1/m})$ for squarefree positive integers $m$. For $a=2$, the field $K_2=\mathbb Q(\sqrt2)$ is quadratic and $K_3$ has nonabelian group $S_3$, as in section 16.2.1. At the squarefree index six, $K_6$ is the compositum of those two fields. [Hooley](https://doi.org/10.1515/crll.1967.225.209) [Squarefree indices](https://www.cs.uleth.ca/~akbary/2211.13913.pdf)
    - **Automorphic / elliptic-curve / modular-form GRH ($\mathrm{GL}_2$ and $\mathrm{GL}_n$, $n \ge 2$):**
      GRH for Ramanujan's $\Delta$-function $L(s, \Delta)$, holomorphic newforms $L(s, f)$, Maass forms,
      and elliptic curves $L(E, s)$ over $\mathbb Q$ (nor the Birch and Swinnerton-Dyer conjecture!).
@@ -339,12 +309,7 @@ high-leverage ways to help advance the verification and human digestion of both 
      across amplified theta-lift words without full Arthur endoscopic classification, and how `LawsT`
      suffices in place of full Henniart–Harris–Taylor local $\varepsilon$-factor matching!
 4. **For functional analysts and spectral theorists:**
-   - *Settle Question M1/M4 on Masullo's strip spaces $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$:* Either
-     construct an explicit rigorous counterexample showing that the geometric kernel trace on
-     $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$ changes by off-strip zero residues when $\alpha$ varies
-     (for a Beurling / off-line model $L$-function), or determine whether a nuclear trace formula on
-     positive-width strips $I = [-\alpha, \alpha]$ can be proved and matched to `§12.5` without circularly
-     assuming zero-freeness outside $\frac{1}{2} + I$!
+   - For M1 and M4, consider Masullo’s spaces $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$. One question is whether, for a Beurling model with zeros off the line, residues of zeros outside the strip change the geometric kernel trace as $\alpha$ varies. Another is whether a nuclear trace formula on $I=[-\alpha,\alpha]$ of positive width can be matched to section 12.5 without assuming zero-freeness outside $\frac{1}{2}+I$ first.
 5. **For readers of this book (`Li-Hongmin/amazing-riemann-hypothesis`):**
    - Every `src/…:line` citation, status tag, and mathematical proof in Chapters 0–16 is maintained in
      the public repository. If you read a deeper sub-cone at level `R3`, spot an imprecision, or resolve
@@ -353,20 +318,8 @@ high-leverage ways to help advance the verification and human digestion of both 
 
 ---
 
-**Summary of the chapter — and of the book.** As of `2026-11-22 03:30 UTC`, Alpöge and Claude's five
-`Main.lean` theorems (`RiemannHypothesis` and Dirichlet GRH over $\mathbb Q$) have been reproduced
-byte-for-byte in an isolated sandbox (`61,570,595,788` bytes, sha256 `5ea74b91…244e`) and accepted by
-`leanchecker`, `lean4lean`, `nanoda`, `con-leche --compare`, and `con-ron --compare` using only Lean's
-three standard axioms `[Community]`, with single-threaded export-level `lake comparator` C++ kernel runs
-still in progress `[Open]`. Across Chapters 1–13 of this textbook, we have translated the entire
-top-to-bottom architecture (`P0`–`P18`) into human graduate mathematics — reading the statement layer,
-analytic endgame, Arakelov Bost-slope library, formal chain brackets, inert-prime valuation algebra,
-GMA congruence-to-$\mathrm{Ш}^1$ reductions, Iwasawa squeeze, and top-level Langlands/Galois/Green
-interfaces line by line (`[Lean, read]`) while demarcating the ~146,000-module deep proof cones and ~80
-unaudited `GlobalTheory.Published.*` names that await human specialists (`[Open]`). In parallel
-(Chapters 14–15), we analyzed Masullo's 940-page adelic trace-formula draft `[Paper]`, pinpointing why
-its strip-weighted Hardy–Sobolev strategy stalls at the Chapter 10 biorthogonal-bound failure (`pp. 444,
-451, 463`), omitted `§12.3` (`p. 514`), and unwritten Chapter 13 (`pp. 521–522`) `[Open]`, and showed
-by explicit Artin/Brauer examples why Dirichlet GRH (`EveryCharacter`), even if completely confirmed,
-leaves non-abelian ERH, Artin's primitive root conjecture, $\mathrm{GL}_2$ automorphic GRH, and
-simplicity of zeros open for the next generation of mathematicians to conquer.
+**Summary.** As of 03:30 UTC on 22 November 2026, a sandboxed build of Alpöge’s archive had reproduced the 61,570,595,788-byte export. Its SHA-256 digest begins with `5ea74b91` and ends with `244e`. Leanchecker and lean4lean checked the compiled modules. Nanoda and con-leche accepted the export. Con-leche and con-ron also matched all five challenge statements. The checks identified three standard Lean axioms. The full export-level comparator runs were in progress at that update `[Community]` `[Open]`. [Verification logs](https://math.mit.edu/~drew/grh/)
+
+Chapters 1–13 describe the proof’s structure from `P0` to `P18`. We read the statements, the analytic endgame, the Arakelov slope library, the chain-bracket calculations, the inert-prime valuation algebra, the GMA congruence reductions leading to $\mathrm{Ш}^1$, and the Langlands, Galois and Green interfaces `[Lean, read]`. The deeper proof dependencies include about 146,000 modules, and about 80 named statements in `GlobalTheory.Published.*` remain to be compared with the literature `[Open]`.
+
+Chapters 14–15 examine Masullo’s 940-page *The Music of the Primes*. The positive-width Hardy–Sobolev argument includes a failed biorthogonal bound on pages 444, 451 and 463, an omitted section 12.3 on page 514, and an unwritten chapter 13 beginning on page 521 `[Paper]` `[Open]`. The Artin and Brauer examples in section 16.2.1 explain the scope of Dirichlet GRH. The extended hypothesis for general number fields, Artin’s primitive root conjecture, automorphic GRH for $\mathrm{GL}_2$ and simplicity of zeta zeros each require further arguments.
