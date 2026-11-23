@@ -413,7 +413,8 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   667,816 bytes, sha256 `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`.
   Theorems 1.2–1.3 (pp. 6–7) and §11.6 (p. 54, the unramified local zeta integral
   $L(s+1/2,\pi_v\times\chi_{V,v})/d_v(s,\chi_V)$ with $d_v$ referred to [LapidRallis2005]) were
-  read in this version; page numbers are those of the preprint.
+  read in this version; page numbers are those of the preprint. On 2026-11-23 the Chapter 19
+  follow-up retrieved the same PDF by SHA-256 and reread Theorems 1.2(ii) and 1.3 and §11.6.
 - **[Grothendieck1955]** A. Grothendieck, *Produits tensoriels topologiques et espaces nucléaires*,
   Memoirs of the American Mathematical Society 16, American Mathematical Society, Providence, RI,
   1955, doi:10.1090/memo/0016 (cited in Chapters 14 and 18).
@@ -507,6 +508,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Gan–Qiu–Takeda (§11.6, p. 54) cite its
   p. 334, Remark 3 for the explicit normalizing factor $d_v$. We have not read that page, so the
   split-place comparison of Section 19.5 remains [Open].
+  Follow-up, 2026-11-23: the DOI landing page and publisher PDF endpoint both returned HTTP 202
+  with empty bodies. OpenAlex listed no repository full text. A title search found a ResearchGate
+  listing offering full text on request and a third-party viewer whose authorization could not
+  be established. No authorized copy of p. 334 was obtained. The Satake, parameter and Haar
+  comparisons remain [Open].
 - **[MazurWiles1984]** B. Mazur and A. Wiles, "Class fields of abelian extensions of $\mathbf Q$",
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapters 10 and 11).
@@ -826,6 +832,19 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - Main-theorem export (compressed SHA-256 `d5fad83247dd024e1a77d283aa766ac745432b7159dfffc11bb05996c46a89fb`,
   as listed by DeDeo). [Direct download](https://photos.proofsandreasons.io/alp-oleans-357309b5dd12/alp-export-main-theorems.ndjson.gz)
 - Contribution and reliability: Hosts the `.olean` files of all 175,187 modules (31.9 GiB in 14 archives) and two `lean4export` files so that others can run kernels without about 530 CPU-hours of compiling. Reports `#print axioms` and a kernel replay with Lean itself, and says plainly that no second kernel was run there and that "Sharing them is not a statement about whether the proof is correct." A resource, honestly labelled.
+
+- Chapter 19 follow-up, 2026-11-23: retrieved the 9,360,239,746-byte
+  [main-theorem export](https://photos.proofsandreasons.io/alp-oleans-357309b5dd12/alp-export-main-theorems.ndjson.gz)
+  and verified the compressed SHA-256 `d5fad83247dd024e1a77d283aa766ac745432b7159dfffc11bb05996c46a89fb`
+  against the publisher's manifest. Its decompressed SHA-256 is
+  `4301ce4828d397c728e87f3e6a1251aa42abe5e12809bb9e0b73cc3d33072e7e`.
+  The `5ea74b91…244e` in Chapter 16 identifies the separately published Sutherland stream (V1).
+  The DeDeo file has five roots. The §19.4 computation parsed all 1,080,769,494 NDJSON records and
+  traversed declaration types and values, projections, and inductive data from `riemannHypothesis`
+  alone. The traversal reached 1,478,219 declarations. Its positive checks include
+  `ResidueKilled.DM` and `ResidueKilled.dm_of_two`. The full `DoublingMethod` and
+  `SiegelEisensteinSimplePole` are absent from the export. The computation establishes
+  named dependency membership for this export.
 
 <a id="v9"></a>
 **V9. Szymon Teżewski, independent-checker runs, and the Gruszka kernel (`jasisz/gruszka`).**

@@ -234,7 +234,7 @@ archive (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomolog
    $\mathbb F_g = \mathrm{ZMod}\,g$** (because the archive only reduces $\mathbb Z_g$-lattices at split
    degree-$1$ places $E_w \cong \mathbb Q_g$!).
 2. **A full classical statement (`GlobalTheory.Published.GlobalArtinReciprocity`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`):**
-   States `IsGlobalArtin E Ω art` (`:25–39`: open quotient map $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$
+   States `IsGlobalArtin art` (`:25–39`: open quotient map $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$
    with kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia image $\overline{\mathrm{art}(\mathcal O_v^\times)}$,
    and geometric Frobenius on uniformizers) over **every** number field $E$, proved unconditionally via
    the wrapper `PositivityTheory.Stage1.PM.globalArtinReciprocity`

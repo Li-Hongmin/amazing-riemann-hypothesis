@@ -248,49 +248,67 @@ content behind them is [Open].
 
 ## 19.4 Global doubling
 
-**Motivation.** An integral identity on a right half-plane can be used at another
-parameter after analytic continuation. Controlling the pole order is a separate assertion, and
-the literature bundles traced here do not supply it.
+**Motivation.** Unfolding identifies an Eisenstein period with a doubling zeta integral
+in a right half-plane. The flat section family allows the integrals to be studied as functions
+of the parameter. The domain of the unfolding identity and the pole bound for the Eisenstein
+family answer different questions.
 
-**Definition 19.2 (`DoublingMethod` and its main-path variant).** `DoublingMethod` uses a
-positive-rank Hermitian space, majorant and Iwasawa data, a Hecke character with restriction
-`ResEta`, and a degenerate principal-series section. Its outputs form three conjuncts:
+**Example.** At rank $2$, the right half-plane is $\Re s>1$. A section based at
+$s_1=3/2$ passes the numerical guard, while sections based at $s_1=1$ or $s_1=1/2$
+fall outside it. With $b=4$ the separate pole bound applies at $(4-2)/2=1$,
+exactly on the boundary of the unfolding region. With $b=2$ the pole clause's
+guard $2<b$ fails. These are checks of the numerical premises for otherwise eligible data.
+[Expository]
 
-1. continuation and local regularity of the Eisenstein family, where `EisRegularAt` includes a
-   local uniform polynomial height bound after multiplying by the indicated power of $s-s_0$;
-2. the pole clause: if $b>\operatorname{rank} V$, a pole of order at most one at
-   $(b-\operatorname{rank} V)/2$;
-3. for the prescribed cusp-form data, the basic identity on $\Re s>\operatorname{rank}(V)/2$ and
-   continuation of the zeta integral.
+**Definition 19.2 (two doubling interfaces).** Both `GlobalTheory.Published.DoublingMethod`
+and `ResidueKilled.DM` take a positive-rank Hermitian space $V$ over the archive datum $D$,
+majorant and Iwasawa data for the doubled group, a Hecke character $\mu$ with restriction
+`ResEta D μ b`, and a section $\varphi$ in `degPS V a μ s₁`. For this input they give
+three conjuncts.
+
+1. The flat family has Eisenstein continuation and, at each $s_0$, satisfies `EisRegularAt`
+   for some order $k$. This gives a holomorphic extension of the family multiplied
+   by $(s-s_0)^k$, with joint continuity and a local uniform polynomial height bound.
+2. In `DoublingMethod`, if $\operatorname{rank}(V)<b$, the Eisenstein family has a pole
+   of order at most one at $(b-\operatorname{rank}(V))/2$. In `DM` this conjunct is `True`.
+3. For each eligible infinity family, signature, Cartan frame, Haar measure and pair of
+   cusp forms, the first component gives `BasicIdentity` at every
+   $\Re s>\operatorname{rank}(V)/2$. The second gives meromorphic continuation of the
+   zeta integral. The identity itself includes convergence on both sides and equality.
 
 See `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/EisRegularAtOfEisPoleLE.lean:17–28`
-and `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/EisRegularAtOfEisPoleLE.lean:36–46`. [Lean]
-
-The proposition that the literature bundles of Lemma 19.1(4) carry is
-`DoublingMethodLocalZetaIntegrals`, an abbreviation for
-`ResidueKilled.DM`
+and `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/EisRegularAtOfEisPoleLE.lean:36–46`,
+and `src/Development/WeilBound/RepresentationTheoryGL/EisensteinResidues/AnisotropicGlobalForms/DmOfHyp.lean:13–22`.
+The literature bundles carry `DoublingMethodLocalZetaIntegrals`, an abbreviation for `DM`
 (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:6`).
-`DM` has the same binders and the same conjuncts 1 and 3. Conjunct 2 is replaced by `True`.
-See `src/Development/WeilBound/RepresentationTheoryGL/EisensteinResidues/AnisotropicGlobalForms/DmOfHyp.lean:13–22`. [Lean, read]
+[Lean, read]
 
-| Polarity | Clause |
-|---|---|
-| Input | Section and cusp-form data, right half-plane for `BasicIdentity` |
-| Output (both) | Analytic continuation, local regularity, period identity, zeta continuation |
-| Output (`DoublingMethod` only) | Pole of order at most one at $(b-\operatorname{rank}V)/2$ |
-| Output within `BasicIdentity` | Convergence of both expressions and equality |
+**Lemma (the archive's base-point identity).** `GlobalTheory.Eis.basicIdentity_of_mem`
+explicitly includes `hP : Published.DoublingMethod`, positive rank, the majorant and Iwasawa
+hypotheses, the Hecke and `ResEta` conditions, and section membership at $s_1$. It further
+requires $\operatorname{rank}(V)/2<\Re s_1$, an eligible infinity family and signature,
+a cusp Cartan frame, a measure with a Haar instance, and membership of both forms in
+`Cusp.A0 θ V A`. Its conclusion is `BasicIdentity V μ m φ f₁ f₂`.
+See `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/EisRegularAtOfEisPoleLE.lean:159–167`.
+[Lean, read]
 
-**Example.** With rank $2$ and $b=4$, the pole clause of `DoublingMethod` applies at $s=1$. At
-$b=2$ the rank guard of the clause fails. The basic identity is guaranteed only on $\Re s>1$, so
-$s=1$ is outside the region of that identity. In `DM` the clause is `True`. At $s=1$, `DM` still
-gives `EisRegularAt` with some order $k$ (conjunct 1), but nothing bounds $k$ by $1$.
-`EisRegularAt.of_poleLE` (`:125–129`) is the step that would lower $k$ to a proved pole bound,
-and `DM` comes with no pole bound to feed it. [Expository]
+**Proof and DM version.** The same conclusion follows from `hDM : ResidueKilled.DM` with all
+the other premises above. Here is the deduction alongside the operations in the archive proof
+at line 167.
 
-**Lemma (basic identity at the base point).** `basicIdentity_of_mem` applies the identity of
-conjunct 3 at the section's base parameter $s_1$ and rewrites with `flatH_self` to recover the
-original section. The proof reads only conjunct 3, which `DM` shares.
-See `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/EisRegularAtOfEisPoleLE.lean:164–167`. [Lean, read]
+| Operation | Archive proof | Deduction with `DM` |
+|---|---|---|
+| Instantiate at the section | Apply `hP D V h0 a ha hI μ b hμ hb s₁ φ hφ` | Apply `hDM` to the same arguments |
+| Take conjunct 3 | Project `.2.2` and supply `θ hθ hV A hA m hm f₁ h₁ f₂ h₂` | Take the same projection and give the same cusp-form data |
+| Evaluate the identity | Apply `.1` at `s₁` with the strict inequality `hs` | Do the same, obtaining the identity for `flat V a φ s₁ s₁` |
+| Return to the original section | Rewrite with `flatH_self` | Use the same rewrite to replace the flat section at its base point by `φ` |
+
+The archive's proof reads conjunct 3. The right column is the textbook deduction obtained
+by reading the matching conjunct of `DM`. The flat section abbreviations and the rewrite
+are in `src/Development/AbelianVarietyTheory/Definitions/Foundations/T2SpaceAdeleRing.lean:25–42`,
+`src/Development/AbelianVarietyTheory/Definitions/Foundations/T2SpaceAdeleRing.lean:161–165`
+and `src/Development/AbelianVarietyTheory/Definitions/Foundations/T2SpaceAdeleRing.lean:306–310`.
+[Expository]
 
 **Lemma 19.5 (main-path doubling input).**
 
@@ -307,12 +325,30 @@ See `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/
    `ontoX_and_lamLow_of_unitaryGroupHypotheses'` and by `open_orbit_of_unramified_exponents_alt`.
 
 *Proof.* (1) In `src/Development/WeilBound/RepresentationTheoryGL/EisensteinResidues/AnisotropicGlobalForms/DmOfHyp.lean:24–34`,
-conjunct 1 is the value of `SiegelEisensteinContinuation` at the given data (`:26`), and the
-middle conjunct is `trivial` (`:27`). For conjunct 3, rapid decay of the two cusp forms comes from
-`rapidDec_of_cuspForm` (`:28–29`). The basic identity on $\Re s>\operatorname{rank}(V)/2$ comes from
+conjunct 1 is the value of `SiegelEisensteinContinuation` at the given data (`:26`). The continuation
+statement is in
+`src/Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelEisensteinContinuationOfDoublingMethod.lean:14–19`.
+The middle conjunct is `trivial` (`:27`). For conjunct 3, rapid decay of the two cusp forms comes from
+`rapidDec_of_cuspForm` (`:28–29`), which uses smooth automorphy and cuspidality extracted from
+`Cusp.A0` membership. See
+`src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/UnifModGrowthOfIsUnifModerate.lean:99–112`
+and `src/Development/AbelianVarietyTheory/Definitions/Foundations/MemL2OfBoundedContinuousInvariant.lean:306–319`.
+The basic identity on $\Re s>\operatorname{rank}(V)/2$ comes from
 `doubling_basicIdentity_unfolding` with the moderate-growth estimate
 `siegelEisenstein_spherical_moderateGrowth_real_point` (`:30–32`). Zeta continuation comes from
-`zetaContinues_of_eisRegularAt` (`:33–34`). These three lemmas are used at statement level. [Lean]
+`zetaContinues_of_eisRegularAt` (`:33–34`). The two unfolding inputs are assembled in
+`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/DoublingBasicIdentityUnfoldingStatement.lean:15–16`
+and `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/SiegelEisensteinSphericalModerateGrowthRealPointStatement.lean:17–18`.
+The unfolding splits off the open orbit, makes the negligible orbits vanish by cuspidality,
+and identifies the open-orbit integral with `zetaH`
+(`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/DoublingBasicIdentityUnfolding.lean:38–155`).
+The moderate-growth proof applies local regularity to the spherical section at the real point
+(`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/SiegelEisensteinSphericalModerateGrowthRealPoint.lean:22–30`).
+The zeta continuation integrates the locally regularized family against the two rapidly decreasing
+forms, using a common integrable majorant, then divides by the regularizing power and checks
+agreement on the original half-plane
+(`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/SiegelEisensteinContinuationAndPoles.lean:24–96`).
+[Lean, read]
 (2) is `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:371–372`,
 with the assignments at `:654`, `:678` and `:740`.
 (3) is `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean:74`,
@@ -336,22 +372,41 @@ integral.” The Lean basic identity concerns the period integral and `zetaH`, a
 first in a right half-plane, while that theorem evaluates an $L$-factor times
 $Z^*$ at the Rallis point. [GanQiuTakeda2014]
 
-**Remark (status).** The earlier [Open] item asked for the upstream proof of this particular
-`Prop`. The bundles that the literature layer hands to the main assembly do not contain it: they
-contain `DM`, whose producer is read above, and the pole clause that distinguishes
-`DoublingMethod` appears there only as `UnusedSlot72`. The archive also states a route to the full
-proposition, `doublingMethod_of_three` from `CuspRapidDecay`, `SiegelEisensteinContinuation`
-and `SiegelEisensteinSimplePole`
-(`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/DoublingMethodOfEisensteinFacts.lean:8–11`),
-and many lemmas take `DoublingMethod` as a hypothesis, for instance the variant of the Rallis
-bridge at
-`src/Development/AutomorphicArithmetic/ThetaCorrespondence/RallisInnerProduct/GraphRelationExtendsFromFockVectorsToKFinite.lean:809–811`.
-Four hypothesis bundles have a field of type `SiegelEisensteinSimplePole`, for example
-`src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/GeneralHyps.lean:168`, and a name
-search found no theorem with that conclusion. Still [Open]: whether a lemma deeper on the main
-path consumes the full `DoublingMethod` (one of these fields would then have to be filled), the
-upstream proof of `SiegelEisensteinContinuation`, what the two readers of item (5) extract from
-`DM`, and the equivalence of the Lean normalization with $Z^*$.
+**Remark (the full construction).** `doublingMethod_of_three` takes proofs of
+`CuspRapidDecay`, `SiegelEisensteinContinuation` and `SiegelEisensteinSimplePole` as direct
+arguments. At fixed section data it pairs the continuation with the guarded pole bound and
+passes the pair to `siegel_eisenstein_continuation_and_poles`, which forwards to
+`doublingMethod_of_eisenstein`. The latter uses the same rapid decay, unfolding and zeta
+continuation as `dm_of_two` and carries the supplied pole proof into the middle conjunct.
+See `src/Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelEisensteinSimplePoleOfDoublingMethod.lean:14–19`,
+`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/DoublingMethodOfEisensteinFacts.lean:8–11`,
+`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/SiegelEisensteinContinuationAndPolesStatement.lean:16–17`
+and `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/SiegelEisensteinContinuationAndPoles.lean:98–110`.
+[Lean, read]
+
+**Remark (the dependency closure).** We checked the declarations exported from
+`riemannHypothesis` by following references in declaration types, proof and definition
+bodies, and inductive declarations in DeDeo's verified main-theorem export. This closes
+the question of whether the exported RH proof consumes the full named interface.
+[DeDeo, V8](../sources/SOURCES.md#v8) [Checked]
+
+| Reachability from `riemannHypothesis` | Archive declarations |
+|---|---|
+| Absent from the closure and from the five-root export | `GlobalTheory.Published.DoublingMethod`, `GlobalTheory.Published.SiegelEisensteinSimplePole`, `basicIdentity_of_mem`, `doublingMethod_of_three`, `siegel_eisenstein_continuation_and_poles`, `doublingMethod_of_eisenstein`, `siegelEisensteinContinuation_of_doublingMethod`, and the full-interface Rallis bridge `UpperTheory.Lit.rallisInnerProductConvergent` |
+| Reachable from the RH root | `ResidueKilled.DM`, `dm_of_two`, `doubling_method`, `SiegelEisensteinContinuation`, `rallis_of_dm`, and both bundle readers in Lemma 19.5(5) |
+
+This is a result about named declarations in the exported proof. Other pole-order reasoning
+can occur in the closure, which contains `EisRegularAt.of_poleLE`. The literature wrapper
+for `SiegelEisensteinContinuation` supplies `PositivityTheory.RgEis.Sp.Hd.siegelEisensteinContinuation`
+(`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:369–370`).
+The upstream proof of that input and the eventual extraction of data by the two bundle readers
+remain [Open].
+
+**Remark (normalization).** The step from the archive's `zetaH` to the normalized
+$Z^*$ of Gan–Qiu–Takeda (arXiv:1207.4709v3, Theorems 1.2(ii) and 1.3, §11.6)
+is [Open]. The comparison requires matching the Satake, spectral parameter and Haar
+measure conventions, including the local factor $d_v$ referred to in Lapid–Rallis,
+p. 334, Remark 3. See Section 19.5. [GanQiuTakeda2014] [LapidRallis2005]
 
 ## 19.5 Unramified split doubling
 
@@ -486,11 +541,11 @@ so the comparison with Gan–Qiu–Takeda Theorem 1.2(ii) has no Lean counterpar
 | 19.1 | Proof of `ShinGaloisRep` and a direct `Row0b` consumer | Closed by Lemmas 19.1–19.2: no proof, no consumer. The normalization against `wdOf` stays [Open], off the main path |
 | 19.2 | Proof of `ChenevierHarris` and its use by `Row0b` | Closed by Lemmas 19.1–19.2 |
 | 19.3 | Source proof of the Siegel-set input | Producer located (Lemma 19.4); `siegel_of_core` and `siegelCore_holds` unread |
-| 19.4 | Upstream proof of `DoublingMethod`; normalization | The literature bundles carry `DM`, without the pole clause (Lemma 19.5). Deeper consumers of the full `DoublingMethod`, upstream `SiegelEisensteinContinuation`, the two readers, and the $Z^*$ normalization stay [Open] |
+| 19.4 | Does the RH proof consume the full `DoublingMethod`? How does the normalization compare? | Closed for the named full interface and `SiegelEisensteinSimplePole`: both are absent from the `riemannHypothesis` closure. Upstream `SiegelEisensteinContinuation`, the use of `DM` beyond the two bundle readers, and the $Z^*$ normalization remain [Open] |
 | 19.5 | Split-place comparison with the published normalization | [Open]: needs $d_v$ from [LapidRallis2005, p. 334] |
 | 19.6 | Second-term identity | [Open]: not stated by the inputs traced here; reader of the Rallis field not found |
 
-Two of the six items are closed and two more are reduced to named proof terms. The pattern in
+The two Galois dependency questions and the full doubling dependency question are closed. The pattern in
 Sections 19.4 and 19.6 adds a case to the polarity table of Section 18.1.2: a literature slot
 whose name evokes a full theorem can be filled by a weaker proposition (`DM`), by `True`
 (`UnusedSlot72`), or by a proposition whose reader has not been found.
