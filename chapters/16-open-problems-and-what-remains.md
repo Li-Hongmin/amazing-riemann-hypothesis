@@ -513,17 +513,29 @@ the same object", the squeeze $\|\text{pairing}\| \le h$, $\mu + h - F_o \le \te
 "compares a quantity with itself", and the kernel has certified only "`RiemannHypothesis =
 RiemannHypothesis`".
 
-The three definitional facts are consistent with our reading (§16.6.1). The conclusion does not follow,
-for two reasons. First, a closed term of type `RiemannHypothesis` built from the three standard axioms
-is a proof of `RiemannHypothesis`; there is no reading under which it certifies only the tautology
-`RiemannHypothesis = RiemannHypothesis`, which would need no 61 GB term. Second, if $h$ is the explicit
-formula on both sides, the two inequalities become $\|\text{pairing}\| \le h_{\text{expl}}$ and
-$\mu + h_{\text{expl}} - F_o \le \text{MAIN} + \text{error}$. These are not reflexive: each is a
-statement about explicit quantities that has to be proved, and the archive proves them (through the
-matrix-norm, covolume and valuation estimates of §16.6.3). The paper's §9 argument ("a geometric
-argument cannot be both essential and trivially discharged") shows that the geometric layer is not
-essential; it does not show that the remaining inequalities fail. Whether those inequalities, read as
-mathematics, give a human-intelligible proof is the open question of §16.6.3.
+The three definitional facts are consistent with our reading (§16.6.1). What follows from them must be
+stated with care.
+
+*What is established, and on what it rests.* `RiemannHypothesis` is a proposition; a closed term has
+that type only if it is a proof of it. So if (a) Mathlib's `RiemannHypothesis` expresses RH (Chapter 1),
+(b) the term uses only `propext`, `Classical.choice`, `Quot.sound`, and (c) the kernels that accepted it
+are sound, then RH is proved, whatever the internal definitions are called. Definitional unfolding cannot
+turn a term of type `RiemannHypothesis` into a proof of something weaker: the kernel checks the type up to
+definitional equality, and that type is `RiemannHypothesis`. The phrase "certifies only
+`RiemannHypothesis = RiemannHypothesis`" therefore has no precise meaning. Points (b) and (c) rest on
+community checks (§16.3.1) that we have not rerun; (a) we have read.
+
+*What the paper would need.* An invalidity claim must locate a failure of (a), (b) or (c). The paper
+locates none. Its §9 argument ("a geometric argument cannot be both essential and trivially discharged")
+is an argument about the intended strategy: it shows that, on the live route, the geometric layer does
+no work. That is compatible with a valid proof whose work is done elsewhere.
+
+*What we have not shown.* We have not identified, line by line, where the content that the paper's
+squeeze would need actually enters; in particular we have not checked that, after `setDiv`, the two
+inequalities $\|\text{pairing}\| \le h_{\text{expl}}$ and
+$\mu + h_{\text{expl}} - F_o \le \text{MAIN} + \text{error}$ are proved from independent estimates rather
+than being degenerate in some other way. This does not affect validity under (a)–(c), but it is required
+for any claim about *how* the proof works, and it remains `[Open]` (§16.6.3).
 
 **Verdict on this point.** The code observations in Nielsen's paper are largely correct. The inference
 in her title does not follow from them: the observations concern the explanatory meaning of internal
