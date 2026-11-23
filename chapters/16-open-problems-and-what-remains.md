@@ -458,11 +458,19 @@ Checked by us against the pinned archive (`lean.tar.gz`, sha256 `9631b4f0…7fc`
 - `Formalism/LocalToGlobal/LatticeGeometry/Inhabited.lean` defines models named `geoDegenerateNoTau`
   (l. 14), `mdlJunk` (l. 147), `geoDegenerate` (l. 241) and `algDegenerate` (l. 390).
 
-A third-party compiled-dependency audit reported that `anyGeometry`, the degenerate models, the zero map
-`divXFl` and the constructed height lie in the dependency closures of all five `Main.lean` theorems, while
-the four extraction lemmas named by Nielsen do not, and that the live route runs through
-`nonempty_hyps_definite_side_of_closed_bound` rather than through `hypsE₂`/`plugAll` as Nielsen first
-described [Community · E14]. Our own reading agrees on the route; we have not rerun the closure walk.
+- The extraction lemmas `geoOf_surf` (`NotLamAreShift.lean:30`), `GeoTiedP.geoTied` and
+  `GeoTiedP.formsTieX` (`GeoTiedP.lean:136, 140`) and `degree_value_of_determinant`
+  (`PlaceRankTwoOne.lean:349`) each occur exactly once in the source tree, at their own declaration:
+  no file applies them. The zero-map divisor datum `divXFl` (`Inhabited.lean:829`) is used in 3 files,
+  and the height formula `hExpl6` in 16.
+
+Harry Tong compiled the pinned release (source commit `753431bf…`) and walked the stored dependency
+closures of all five `Main.lean` theorems [Community · E14]. He reports that `anyGeometry`,
+`geoDegenerate`, `algDegenerate`, `padDegenerate`, `mdlJunk` and `divXFl` lie in all five closures, that
+the four extraction lemmas lie in none, and that the live route runs through
+`nonempty_hyps_definite_side_of_closed_bound`, not through `hypsE₂`/`plugAll` as Nielsen first described;
+his own conclusion is that reachability of a trivial predicate does not establish that no proof was
+supplied. Our source reading agrees on each of these points; we have not rerun his closure walk.
 
 ### 16.6.2 Why this does not make the proof invalid `[Expository]`
 
