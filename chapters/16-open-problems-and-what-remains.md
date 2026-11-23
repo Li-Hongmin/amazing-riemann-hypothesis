@@ -502,6 +502,29 @@ type `RiemannHypothesis` fail to prove it.
    predicates defined as `True`, data defined as copies of other data, and maps defined as zero, and then
    record which conclusions remain non-trivial once they are removed.
 
+### 16.6.4 The "tautology" argument of the final version `[Paper; Nielsen §§8–9]`
+
+The 17-page version of 2026-11-22 (PDF timestamp 18:08 UTC) corrects the route to
+`nonempty_hyps_definite_side_of_closed_bound` (§1) and adds a stronger claim (§8, pp. 11–12): with the
+geometry `True`, the lattice seed defined as a copy of the row-side data (so `MjAre`, `LamAre` and the
+constant match close by `rfl`/`HEq.rfl`), and `setDiv` installing `hExpl6` as the height (so
+`div.h u = hExpl6 …` is `rfl`), "the divisor/geometric side and the row/analytic side are definitionally
+the same object", the squeeze $\|\text{pairing}\| \le h$, $\mu + h - F_o \le \text{MAIN} + \text{error}$
+"compares a quantity with itself", and the kernel has certified only "`RiemannHypothesis =
+RiemannHypothesis`".
+
+The three definitional facts are consistent with our reading (§16.6.1). The conclusion does not follow,
+for two reasons. First, a closed term of type `RiemannHypothesis` built from the three standard axioms
+is a proof of `RiemannHypothesis`; there is no reading under which it certifies only the tautology
+`RiemannHypothesis = RiemannHypothesis`, which would need no 61 GB term. Second, if $h$ is the explicit
+formula on both sides, the two inequalities become $\|\text{pairing}\| \le h_{\text{expl}}$ and
+$\mu + h_{\text{expl}} - F_o \le \text{MAIN} + \text{error}$. These are not reflexive: each is a
+statement about explicit quantities that has to be proved, and the archive proves them (through the
+matrix-norm, covolume and valuation estimates of §16.6.3). The paper's §9 argument ("a geometric
+argument cannot be both essential and trivially discharged") shows that the geometric layer is not
+essential; it does not show that the remaining inequalities fail. Whether those inequalities, read as
+mathematics, give a human-intelligible proof is the open question of §16.6.3.
+
 **Verdict on this point.** The code observations in Nielsen's paper are largely correct. The inference
 in her title does not follow from them: the observations concern the explanatory meaning of internal
 definitions, which the kernel checks do not claim to certify, and not the validity of the formal proof
