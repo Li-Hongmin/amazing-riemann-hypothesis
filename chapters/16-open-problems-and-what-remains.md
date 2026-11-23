@@ -530,12 +530,31 @@ locates none. Its §9 argument ("a geometric argument cannot be both essential a
 is an argument about the intended strategy: it shows that, on the live route, the geometric layer does
 no work. That is compatible with a valid proof whose work is done elsewhere.
 
-*What we have not shown.* We have not identified, line by line, where the content that the paper's
-squeeze would need actually enters; in particular we have not checked that, after `setDiv`, the two
-inequalities $\|\text{pairing}\| \le h_{\text{expl}}$ and
-$\mu + h_{\text{expl}} - F_o \le \text{MAIN} + \text{error}$ are proved from independent estimates rather
-than being degenerate in some other way. This does not affect validity under (a)–(c), but it is required
-for any claim about *how* the proof works, and it remains `[Open]` (§16.6.3).
+*What a first trace shows* `[Lean, read; partial]` (details: `notes/squeeze-trace.md`). After `setDiv`,
+both inequalities are fields of `WordFacts` (`Formalism/LocalToGlobal/Divisibility/RecBridge.lean:127–133`):
+
+```lean
+(D.div.Bk u ≠ 0 → htMap … (D.div.Bk u) ≤ D.div.h u) ∧
+D.div.RR.muDual + D.div.h u - L.Fo ≤ L.MAIN u + C * … + C * … * L.sc.x ^ (Cabs * L.sc.eps)
+```
+
+Neither is closed by `rfl` or `le_rfl` on identical sides; both are proved in `divClausesR_of`
+(`…/ConstantGeTwentyEight.lean:184–245`) and both are consumed downstream (`frameRealF_of`, `linkCore`).
+So "compares a quantity with itself" is not literally correct. Two qualifications:
+
+1. **The lower bound is conditional on `Bk u ≠ 0`.** `exists_divStage`
+   (`…/AutomorphicMembership/ExistsDivStage.lean:334`) builds a divisor stage with `Bk := fun _ => 0` and
+   `h := fun _ => 0` (l. 347–348); `setDiv` overwrites `h` but not `Bk`. If the live divisor datum descends
+   from this construction, the lower bound is vacuous. Whether it does is not yet determined.
+2. **The upper bound is non-trivial but one-sided.** Its two sides (`R.hu` and `R.rhs`) are distinct
+   expressions, proved from a valuation bound, `L3main` and about 35 record facts; but both are built from
+   row-side data, so it relates row-side quantities to each other and does not compare an independent
+   geometric height with the main term.
+
+Open: whether `Bk = 0` on the live route; how `geoCl anyGeometry` reaches `DivInputs0R`; the proofs (not
+only statements) of `height_chain_atR`, `boundsMu`, `divIneqRecord`; and whether
+`zeroFreeOn_of_tiedWin_cyc` uses these inequalities essentially. None of this bears on validity under
+(a)–(c); it bears on what the proof actually proves along the way.
 
 **Verdict on this point.** The code observations in Nielsen's paper are largely correct. The inference
 in her title does not follow from them: the observations concern the explanatory meaning of internal
