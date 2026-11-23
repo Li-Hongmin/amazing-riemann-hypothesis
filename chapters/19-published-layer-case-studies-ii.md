@@ -297,7 +297,9 @@ See `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/
 1. `dm_of_two` proves `DM` from `CuspRapidDecay`, `SiegelEisensteinContinuation` and `True`.
 2. The literature layer defines `doubling_method O` as `dm_of_two` applied to its proofs of the
    first two inputs and `trivial`, and assigns it to the `dbl` and `doublingMethod` fields of the
-   bundles `published_results_analytic`, `published_results_eigen` and `published_results_first`.
+   bundles `published_results_analytic : GeometricGaloisRepCompatibility` (`:645–657`),
+   `published_results_eigen : UnitaryGroupThirdPlaceHypotheses` (`:666–726`) and
+   `published_results_first : ThetaLocalInputs` (`:727–780`).
 3. The companion slot `siegelEisensteinSimplePole` of the bundle `UnitaryGroupThirdPlaceHypotheses`
    has type `UnusedSlot72`, which is `True`, and the literature layer fills it with `trivial`.
 4. `rallis_of_dm` destructs `DM` as $\langle h_1,-,h_3\rangle$ and never reads the middle conjunct.
@@ -388,8 +390,8 @@ and `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/
 
 **Lemma 19.6 (main-path producer and readers).** The literature layer supplies the closed theorem
 `GlobalTheory.UnramDoublingProof.unramifiedDoublingGL` as `unramified_doubling_gl_of_literature O`
-and assigns it to the fields `udbl`, `unramifiedDoublingGL` and `unramifiedDoublingGL` of the three
-bundles of Lemma 19.5(2). The two readers of Lemma 19.5(5) pass `P.unramifiedDoublingGL` on
+and assigns it to the fields `GeometricGaloisRepCompatibility.udbl`, `unramifiedDoublingGL` and
+`unramifiedDoublingGL` of the three bundles of Lemma 19.5(2). The two readers of Lemma 19.5(5) pass `P.unramifiedDoublingGL` on
 together with `P.doublingMethod`.
 
 *Proof.* See `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:529–530`,
