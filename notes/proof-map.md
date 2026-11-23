@@ -121,6 +121,15 @@ not an analytic statement; it is proved from Green's classification and the thet
 hypotheses (P16, P17) in `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:12`. This is the point where the arithmetic engine
 enters the analytic endgame.
 
+**P6 (primitive values, §5.3.1.1).** `prim_read` consumes `primitive_value_primitive`
+at `src/Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean:56–61`.
+The coefficient theorem at
+`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:233`
+uses `cosetMean_eq_primitive` (:209), with the conductor and subgroup orthogonality
+steps at :129,145,155,167. These bodies were read for the
+[Chapter 5 teaching section](../chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character).
+Host-field inertia and Frobenius congruence inputs retain [Lean].
+
 **P6 → P7 (where the weight is).** `core_gm` has a small import cone (114 modules) because its
 content is in its hypotheses: `EAtH` and `CoreAtH` are Props. Their proofs come from the
 families built in P17 and the clauses of P7–P11; they are attached in

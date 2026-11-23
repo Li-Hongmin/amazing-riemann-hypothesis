@@ -218,7 +218,8 @@ CM-type places of $E$) evaluates at $\mathrm{partner}_t(g) \in \Phi$ for every $
    Given $\ell : \widehat{E_0 \times H} \to \mathbb C$ with $\ell(\psi) = \frac{L'}{L}(1, \chi_\psi^\ast)$
    for $\psi \neq 0$ (`HostAddCharCompatible`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreAtH.lean:18`), `GPsi D ell ψ y` (`:68`) equals
    `Gz y` when $\psi = 0$ and $\sum_{1 \le n \le \lfloor y \rfloor} \Lambda(n)\,\mathrm{primVal}(D,\psi,n)(y/n - 1) + y\,\ell(\psi) = \mathrm{An.gChi}\,\chi_\psi^\ast\,y$
-   when $\psi \neq 0$ (`prim_read`, `:51`) [Lean, read].
+   when $\psi \neq 0$ (`prim_read`, `:51`) [Lean, read]. Section 5.3.1.1 proves the coefficient identity
+   and the finite-sum substitution.
 3. **Inert prime sum, main term, and character-side discrepancy (`ASK`, `MAIN`, `De`, `:72–96`).**
    A prime $p \neq 2, q_1, d$ is **inert** (`IsInert D p`, `:72`) if $\mathrm{frob}(p) \notin \Phi$.
    For truncation $N \in \mathbb N$, top parameter $a > 0$, shift $t \in H$, and place weights
@@ -237,6 +238,151 @@ CM-type places of $E$) evaluates at $\mathrm{partner}_t(g) \in \Phi$ for every $
    $$\mathrm{De}(D, \ell, a, t, w) := \frac{1}{\lvert\Phi\rvert}\sum_{g \in \Phi^c}
    \sum_{\psi \in \widehat{E_0 \times H}} \overline{\psi(g)}\,w(\mathrm{partner}_t(g))\,
    \mathrm{GPsi}\Bigl(D, \ell, \psi, \frac{a}{w(\mathrm{partner}_t(g))}\Bigr).$$
+
+### 5.3.1.1 Why inertia averaging recovers the primitive character
+
+**Motivation.** A character pulled back from the host group to units modulo $N$ is
+extended by zero at the nonunits. A prime dividing $N$ can be coprime to the conductor,
+so the primitive character may have a nonzero value there. Inertia averaging
+recovers that value and also accounts for the zero when the prime divides the conductor.
+
+**Example [Expository].** At cyclotomic level $20$, write a unit by its residues
+$((-1)^\epsilon,2^j)$ modulo $4$ and $5$. Send it to $g^{j+2\epsilon}$ in the
+cyclic group $G=\langle g\rangle$ of order four. This is the Galois group of the
+subfield of $\mathbb Q(\zeta_{20})$ fixed by the kernel of the map. At $p=2$,
+the units equal to $1$ modulo $5$ have image $I_2=\{1,g^2\}$. The unit $17$,
+equal to $1$ modulo $4$ and $2$ modulo $5$, gives the Frobenius lift $g$.
+The other lift is $g^3$.
+
+Put $\psi_j(g)=i^j$ for $j=0,1,2,3$, where $i^2=-1$. The two summands
+at $2^a$ come from $g^a$ and $g^{a+2}$. The last column gives the primitive
+values for the first four positive exponents.
+
+| $j$ | $\psi_j(g^2)$ | Two summands at $2^a$ | Average | Values at $2,4,8,16$ |
+|---|---|---|---|---|
+| 0 | $1$ | $1,\ 1$ | $1$ | $1,1,1,1$ |
+| 1 | $-1$ | $i^a,\ -i^a$ | $0$ | $0,0,0,0$ |
+| 2 | $1$ | $(-1)^a,\ (-1)^a$ | $(-1)^a$ | $-1,1,-1,1$ |
+| 3 | $-1$ | $(-i)^a,\ -(-i)^a$ | $0$ | $0,0,0,0$ |
+
+For $j=2$, the pullback ignores the component modulo $4$ and sends $2$ modulo
+$5$ to $-1$. Its conductor is $5$, so its value at $2$ modulo $20$ is zero
+while the primitive value at $2$ modulo $5$ is $-1$. For odd $j$, the pullback
+is nontrivial on both components. The component modulo $4$ requires the full
+modulus $4$ since the units modulo $2$ are trivial, and the component modulo
+$5$ requires $5$. Hence the conductor is $20$, and the primitive values at
+all positive powers of $2$ are zero. For $j=0$ the conductor is $1$.
+
+**Definitions.** In a finite abelian Galois extension $E/K$ of number fields,
+fix a prime $\mathfrak P$ over a finite prime $\mathfrak p$. Its decomposition
+group $D_{\mathfrak P}$ is the stabilizer of $\mathfrak P$. Reduction gives a
+surjection from $D_{\mathfrak P}$ onto the residue-field Galois group, with
+kernel the inertia group $I_{\mathfrak P}$. Arithmetic Frobenius is the
+$\lvert k(\mathfrak p)\rvert$-power map on the residue field above
+$\mathfrak p$. Its lifts form one coset of $I_{\mathfrak P}$. Changing the
+prime above $\mathfrak p$ conjugates these data, which leaves them identical
+in an abelian group. Write $I_p$ and $F_p$ for the inertia group and a lift
+over a rational prime $p$ when $K=\mathbb Q$. Lean writes the host group
+additively, so $F_p^a I_p$ becomes $a\,\mathrm{frob}(p)+I_p$.
+
+**Orthogonality lemma [Lean, read].** For a one-dimensional complex character $\psi$ of a finite
+abelian group $G$, a subgroup $I$, and $h\in G$, put
+$$A_I(h)=\frac{1}{\lvert I\rvert}\sum_{u\in I}\psi(hu).$$
+Then $A_I(h)=\psi(h)$ if $\psi$ is trivial on $I$, and $A_I(h)=0$ otherwise.
+In particular $A_I(F^a)$ depends only on the coset $FI$ for $a\ge1$.
+
+**Proof.** In the trivial case every term equals $\psi(h)$ and the denominator
+is positive since $1\in I$. Otherwise choose $v\in I$ with $\psi(v)\ne1$.
+The map $u\mapsto vu$ permutes $I$, with inverse multiplication by $v^{-1}$.
+Thus $S=\sum_{u\in I}\psi(hu)$ also equals $\sum_{u\in I}\psi(hvu)=\psi(v)S$.
+Since $1-\psi(v)\ne0$ in $\mathbb C$, we get $S=0$. For independence, if
+$F'=Fv$ with $v\in I$, then $(F')^a=F^av^a$ by commutativity and $v^a\in I$.
+Multiplication by $v^a$ permutes the summands in either branch.
+
+**Primitive-value identity [Lean, read].** In the archive's cyclotomic model
+let $U_N=(\mathbb Z/N\mathbb Z)^\times$ and $r:U_N\to G$ be the map to the
+host group, with $N\ge1$. Define $\chi(u)=\psi(r(u))$ on units and extend by
+zero modulo $N$. Write $c=\operatorname{cond}(\chi)$ and let $\chi^\ast$
+be the inducing primitive character modulo $c$. For $n\ge1$,
+$$\mathrm{primVal}(n)=\prod_{p^a\parallel n} A_{I_p}(F_p^a)=\chi^\ast(n).$$
+
+**Proof.** Fix $p$, write $N=p^b M$ with $p\nmid M$, and set
+$K_p=\ker(U_N\to U_M)$. The model defines $I_p=r(K_p)$ and $F_p=r(w_p)$,
+where $w_p$ is congruent to $1$ modulo $p^b$ and to $p$ modulo $M$.
+Both residues are units, so the Chinese remainder theorem gives a unique
+$w_p$. Any unit congruent to $p$ modulo $M$ differs from $w_p$ by a factor
+in $K_p$. The archive's host congruence theorems identify these images
+with inertia and the arithmetic Frobenius coset [Lean].
+
+Triviality on $I_p$ is equivalent to triviality of $\chi$ on $K_p$.
+Reduction to $U_M$ is surjective by the Chinese remainder theorem. If $\chi$
+is trivial on the kernel, it descends by assigning to each residue the value
+at any lift. Conversely a descended character takes value $1$ on the kernel.
+The conductor criterion for divisors of $N$ says that descent through $U_M$
+is equivalent to $c\mid M$. Since $c\mid N$, this is equivalent to $p\nmid c$.
+
+In the trivial-on-inertia branch, $c\mid M$ gives $w_p\equiv p\pmod c$.
+On units modulo $N$, $\chi$ is the pullback of $\chi^\ast$ from modulo $c$.
+By orthogonality,
+$$A_{I_p}(F_p^a)=\psi(F_p)^a=\chi(w_p)^a=\chi^\ast(p)^a=\chi^\ast(p^a).$$
+In the other branch, $p\mid c$. Then $p$ is a nonunit modulo $c$, so
+$\chi^\ast(p)=0$ and $\chi^\ast(p^a)=0$ for $a\ge1$. The average also
+vanishes by orthogonality. This proves equality factor by factor. The
+factorization of $n>0$ and complete multiplicativity of $\chi^\ast$,
+including at nonunits, give the product identity. At $n=1$ the empty
+product is $1$.
+
+**The finite sum [Lean, read].** In the host, take $N$ to be its cyclotomic level.
+Then $r$ is `recH`, the Artin
+map followed by the change of group coordinates `toE`. The host Dirichlet
+character agrees with $\chi$ on units, which determines it everywhere.
+The host record uses the inertia and Frobenius data of this same map $r$.
+For $\psi\ne0$, applying `HostAddCharCompatible` to the primitive character
+and the product identity gives
+$\ell(\psi)=\mathrm{An.logDerivativeAtOne}(\chi^\ast)$, the logarithmic
+derivative at $1$. Here $\psi=0$ denotes the trivial additive character
+with constant value $1$. The host axioms supply surjectivity of the Artin map. Both sign coordinates
+of `toE` are attained independently using $1,-1$, while the remaining
+coordinate ranges over the whole cyclic factor, so $r$ is surjective. By induction
+from the conductor, $\chi^\ast$ is trivial exactly when $\chi$ is trivial
+on units, hence exactly when $\psi=0$.
+
+Let $J_y=\{1,\ldots,\max(0,\lfloor y\rfloor)\}$, empty for $y<1$.
+For $n\in J_y$, we have $0<n\le y$, so $\max(y/n-1,0)=y/n-1$.
+When $\psi\ne0$, substitution gives
+$$
+\begin{aligned}
+\mathrm{GPsi}(\psi,y)
+ &=\sum_{n\in J_y}\Lambda(n)\,\mathrm{primVal}(n)(y/n-1)+y\ell(\psi)\\
+ &=\sum_{n\in J_y}\Lambda(n)\,\chi^\ast(n)\max(y/n-1,0)
+      +y\,\mathrm{An.logDerivativeAtOne}(\chi^\ast)\\
+ &=\mathrm{An.gChi}(\chi^\ast,y).
+\end{aligned}
+$$
+When $\psi=0$, both definitions choose the zeta branch. The same weight
+equality identifies the finite sums, and both subtract
+$y(\log y-1-\gamma)$, where $\gamma$ is Euler's constant.
+
+**Reading note.** A prime can ramify in $E$ while the character is trivial on
+its inertia subgroup, as the $j=2$ row illustrates. The zero criterion
+involves the conductor of the individual character. The exponent $a$ acts on
+the Frobenius lift before averaging over the full inertia group. In the
+odd-$j$ rows, even $g^4=1$ leaves the two summands at $a=4$ equal to $1,-1$.
+
+Locations below refer to the Alpöge–Claude archive, joined SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+[Archive record](../sources/SOURCES.md)
+
+| Step in the text | Archive declaration and location | Tag |
+|---|---|---|
+| Average, product and finite sum | `cosetMean`, `primVal`, `GPsi`, `src/Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:61,65,68` | [Lean, read] |
+| Cyclotomic model and CRT lift | `localUnits`, `IsFrobUnit`, `frobUnit`, `cftData`, `dirChar`, `PrimValPrimitive`, `src/Formalism/SizeWindowBrackets/GaloisToProductIsIso.lean:12,14,18,25,31,95` and `frobenius_unit_spec`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:64` | [Lean, read] |
+| Host inertia and Frobenius congruences | `inertia`, `frob_any`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RootEqOfSubMem.lean:191,261` | [Lean] |
+| Orthogonality and conductor criterion | `cosetMean_of_trivial`, `cosetMean_of_nontrivial`, `trivial_on_inertia_iff`, `inertia_conductor`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:155,167,129,145` | [Lean, read] |
+| Two prime-power branches and the product identity | `cosetMean_eq_primitive`, `primitive_value_primitive`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:209,233` | [Lean, read] |
+| Host pullback, compatibility and finite sum | `recH`, `arith`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/RecH.lean:21,23` and `HostAddCharCompatible`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreAtH.lean:18` and `prim_read`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean:48` (value supplier at :56–61, finite sum at :84–97) | [Lean, read] |
+| Host Artin surjectivity input | `HostDer.art_surj`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean:87` | [Lean] |
+| Riesz and zeta branches | `G`, `sumLamChi`, `gChi`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean:14,18,23` and `Sz`, `Gz`, `src/Formalism/StatementOC.lean:11,13` | [Lean, read] |
 
 ### 5.3.2 Subgroup projection (`PsiA`, `GmA`, `SigA`) and the two hypothesis packages (`EAtH`, `CoreAtH`)
 

@@ -108,6 +108,12 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Steven Strogatz, James McKee and Alex Kontorovich** (quoted in press) — Offered early reactions in the press noting conditional consequences of GRH (McKee in *New Scientist*), context alongside recent PDE claims (Kontorovich in AP), and caution that independent human verification remained ahead (Strogatz in *Business Insider*). — `commentary` — [Community] Quoted statements in press — [New Scientist](https://www.newscientist.com/article/2600134-anthropic-mathematician-claims-ai-assisted-proof-of-the-riemann-hypothesis/), [Business Insider](https://www.businessinsider.com/reimann-hypothesis-anthropic-claude-solved-biggest-problem-in-math-2026-11), [AP / The Independent](https://www.the-independent.com/news/claude-anthropic-san-francisco-rutgers-university-wall-street-b3089058.html) (2026-11-20 to 2026-11-21)
 
 ## Our contributions
+- **Hongmin Li (with AI assistance)** — Read and explained the archive's
+  `primitive_value_primitive` proof consumed by `prim_read`, including the conductor
+  criterion, inertia orthogonality, and the two prime-power branches. Added the mod-$20$
+  cyclic quotient example and the termwise identity for `GPsi`. The formal proof is
+  Alpöge–Claude's. Lipponen's community guide is credited in the source record.
+  [Chapter 5, §5.3.1.1](chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character)
 - **Hongmin Li (with AI assistance)** — Explained how the archive passes from the single
   formal-group kernel to the low-term lattice bound `LowTermBound` [Lean, read]: the one-place
   class expansion `ea_restSU_of`, its transfer to column-test valuations `ea_lowN`, the three

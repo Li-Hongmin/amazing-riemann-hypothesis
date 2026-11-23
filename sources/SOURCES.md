@@ -170,6 +170,14 @@ archive for proofs; Katz1976 is background to the chapter, and LUMI's `docs/04-c
 (re-fetched 2026-11-23; see Updates to Part I) is the community outline we compare against. The
 finite-jet calculation and the explanation of these Lean declarations are the book's exposition.
 
+**Chapter 5, §5.3.1.1.** The archive supplies the inertia orthogonality and the two
+prime-power branches in `GaloisMapComplexConjugation.lean`:129,145,155,167,209,233.
+The actual coefficient call is `PrimitiveCosets/PrimRead.lean`:56–61. The
+[section's declaration map](../chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character) gives the full paths and the joined SHA-256.
+The mod-$20$ example and proof exposition are the book's. Lipponen's
+[LUMI guide to the chain and the exponent one-half](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06/docs/04-chain-and-one-half.md)
+supplies community context for the larger character-sum argument (§5 below).
+
 Author's original parts, `https://alpo.ge/lean.tar.gz.partNN`, NN = 01…14, as linked in
 footnote 1 of the announcement. Downloaded 2026-11-21 04:01:46–04:05:21 with `curl`; every part
 answered `HTTP/2 200`; the server sent no `Last-Modified` header. (The server also answers 200
