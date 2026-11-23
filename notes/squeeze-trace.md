@@ -30,11 +30,11 @@ The only definitional identification is `div.h u = hExpl6 …` (setDiv / `Fm.h_e
       (hh : D.div.h u = hExpl6 D L Z Csz u) : hu - Formalism.DivisionValues.meanLog κ = D.div.h u := by
     rw [hh, hExpl6, meanE, meanEmb_eq_meanLog κ (fun e => Real.log (Z.kapR e)) (fun σ => by rw [hk σ]), hnum]
   ```
-  The record height `R.hu` (`src/Formalism/LocalToGlobal/Divisibility/Inputs.lean:186-198`) is `hA + Σ_j (hB j − hX j)`. These terms are explicit sums of `ph(ν)`, `logHook`, `aT·logT`, and constants·`La`. `hExpl6` is that same formula, transported through `hnum_of_numRecTieH`. So **h is a formula in row/record sizes, not an independent geometric height.** This confirms Nielsen's premise.
+  The record height `R.hu` (`src/Formalism/LocalToGlobal/Divisibility/Inputs.lean:188-198`) is `hA + Σ_j (hB j − hX j)`. These terms are explicit sums of `ph(ν)`, `logHook`, `aT·logT`, and constants·`La`. `hExpl6` is that same formula, transported through `hnum_of_numRecTieH`. So **h is a formula in row/record sizes, not an independent geometric height.** This confirms Nielsen's premise.
 
 ## 2. The statements [read]
 
-`src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:126-133`:
+`src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:128-133`:
 ```lean
 def WordFacts {D : D7} (L : SizeData₂ D) (C Cabs : ℝ) (u : D.what₂.Word) : Prop :=
   (D.div.Nu u).L.map ((D.div.Bk u).restrictScalars (𝓞 D.what₂.LL)) ≤ D.div.cc ∧
@@ -104,7 +104,7 @@ def rhs : ℝ :=
 ## 4. Is either inequality fed by a degenerate hypothesis?
 
 - `anyGeometry` (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean:19`) enters at `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44-52` as the `geoCl anyGeometry` argument to `open_and_linked_of_stronger_extension_alt`, `rowFun_at_gridA_alt` (`hCF0`), and `linked_bundles_l3_of_open_alt` [read]. **I did not trace** how `geoCl anyGeometry` reaches `DivInputs0R` / `DivisionPackageColumns` (`inp`, `brTied`, `hNu`, `hBk`) [open]. If the column data `Pk.core.cols` (which supplies `B`, `XE`, `κ`, `muCC`) is built from the geometry argument, then the inputs to (L) and (U) could inherit the degeneracy.
-- `BridgeRowsT/F.pkg` (`src/Formalism/LocalToGlobal/Divisibility/RecBridgeTied.lean:168-`, `src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:641`) is itself conditional: `DIVinN Fm → ∃ … Nonempty (DivisionPackage…)`. It is supplied on the live route by `DivisionKernelConstantBounds → BridgeRowsT` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:180`) and by `src/Formalism/LocalToGlobal/ClassOfRecordOfChoice.lean:200`. I did not read either [open].
+- `BridgeRowsT/F.pkg` (`src/Formalism/LocalToGlobal/Divisibility/RecBridgeTied.lean:168-`, `src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:643`) is itself conditional: `DIVinN Fm → ∃ … Nonempty (DivisionPackage…)`. It is supplied on the live route by `DivisionKernelConstantBounds → BridgeRowsT` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:180`) and by `src/Formalism/LocalToGlobal/ClassOfRecordOfChoice.lean:200`. I did not read either [open].
 - `LinkDIVt := LinkEta → DIVinN → LinkDIV` (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:94-95`). In `topDesWin` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:28`), `DIVinN` is supplied by `divinN_of_hypV Fm h0 (hV …) aN aZ` [read call site, not proof].
 - I found no instance of `True`, an empty type, or a zero map inside the `divClausesR_of` / `wordFacts_of*` / `rhs_le_record` proofs themselves [read]. The only vacuity mechanism I identified locally is the `Bk u ≠ 0` guard on (L).
 

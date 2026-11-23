@@ -20,7 +20,8 @@
 > `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean`,
 > `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ThickSetDensityLeInvFourLw.lean`, and
 > `src/Formalism/BehrendSets/FinalE.lean` (`R3`); `[Lean]` for statement-level inspections of
-> imported Bernoulli-sampling and norm-one sub-lemmas (`topsBase`, `shortNorm`, `smallOne`, `R2`);
+> imported Bernoulli-sampling and prime-supply sub-lemmas (`topsBase`; `shortNorm`, which counts primes
+> represented by the norm form `NormOne`; `smallOne`, which supplies small primes $\equiv 1 \pmod M$; `R2`);
 > `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public
 > audit reports; `[Expository]` for classical additive-combinatorial background and worked
 > lattice-sphere calculations; `[Open]` only where explicitly noted for external side cones.
@@ -525,7 +526,8 @@ to the exact same divisibility argument modulo $n_0$.
 
 (2) `LongWindow.main` (`src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:27–54`) applies `Frame.hostThickOrbit`
 directly to `letter τ φ (i + k)` (whose `A`-coordinate is $\iota^{-1}(\tau_2) + (i + k)\cdot\iota^{-1}(\varphi_2)$
-by `letter_snd`, using `placeOf_snd`, `:16,20`), while `no_three` (`src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean:28–115`) handles
+by `letter_snd`, `:20–24`; the place-coordinate identity `placeOf_snd` is used separately, inside
+`thick_inTranslate`, `:10–18`, at `:16`), while `no_three` (`src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean:28–115`) handles
 consecutive steps $i, i+1, i+2$ for *arbitrary* $\varphi \notin \Psi, \varphi \neq \mathrm{cc}$
 (even without assuming $4 L_w < \operatorname{ord}(\varphi_2)$!) because $x := \iota^{-1}(\varphi_2) \neq 0$
 forces $(s_3 - s_2) a_0 = x = (s_2 - s_1) a_0 \implies n_0 \mid (s_1 + s_3 - 2 s_2)$ with
@@ -553,7 +555,8 @@ since $\{0, 1, 2\} \not\subseteq T_2$ (as $2(1 - 0) = 1(2 - 0)$ violates `NoRel`
 2. *(Assembling `Host R` and `supplyOfAdm`: `hostOfFieldOf`, `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:71,159`, and `hostOfField` / `supplyOfAdm`, `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17`)*
    *Combining `thickFrame2` at $L_w = \mathrm{Lwv}(s) = \lceil 405\log x \rceil + \lceil 30/\varepsilon \rceil$
    with `topsChoiceH` (`src/Development/AutomorphicArithmetic/ThickFrames/topsChoiceH.lean:30`), `exists_host` (`src/Development/AutomorphicArithmetic/CoprimeRanks/SecondSetNoRelation.lean:100`),
-   norm-one witnesses from `ShortNorm`, and level primes `smallOne` constructs a complete `Host R`
+   level primes $g_0,g_1$ represented by the norm form `NormOne` (supplied through `ShortNorm`) and
+   small primes $\equiv 1$ modulo the level from `smallOne`, constructs a complete `Host R`
    satisfying `HostGood` and `Shares`, feeding `supplyOfAdm` (`src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:17`) and `supplyChi` (`src/Development/AutomorphicArithmetic/CharacterBoxes/SupplyChi.lean:8`).*
 3. *(Conductor-times-height bound: `log_conductor_mul_height_le_of_pageN`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6–56`)*
    *For all $0 < \varepsilon < \frac{1}{52}$, $C_t \in \mathbb R$, and $m \in \mathbb N$, there exists
@@ -595,9 +598,16 @@ Feeding $C_L := 4084 + 60/\varepsilon$ into `thickFrame2` yields `hof_thick` (`:
 `hostOfFieldOf` (`:159–254`) assembles five distinct level primes
 $g_0,g_1,p_{\mathrm{de}},p'_{\mathrm{de}},q_0$ (`:104,194`).
 Writing $M=Q_Sqd$, the two distinguished primes satisfy $1$ modulo $\operatorname{lcm}(15,M)$
-(`:200–203`), and $g_0,g_1,q_0$ satisfy $1$ modulo $M$ (`:208,215`).
-The ideal $\mathfrak c_K$ is the unit ideal (`:104,109`). The witnesses from `ShortNorm`
-are bounded-height norm-one elements for $g_0,g_1$ (`:167,209`). The proof takes
+(`:205–206`), and $g_0,g_1,q_0$ satisfy $1$ modulo $M$ (`:208,215`).
+The ideal $\mathfrak c_K$ is the unit ideal (`:104,109`). The primes $g_0,g_1$ come from
+`levelData` (`:167`, built on `ShortNorm` and `SmallOne`) with
+$(kb)^8\le g_i\le 2(kb)^8$, where $k$ is `R.k` and $b$ is `s.b`, and `NormOne d M g_i`. This is not a norm-one condition:
+`NormOne d M p` says $A^2+dB^2=4p$ with $M\mid B$ and $2M\mid A-2-B$
+(`src/Development/AbelianVarietyTheory/Definitions/Foundations/RayPrimes.lean:40–41`), and
+`normOne_iff_host` (`src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/NormOneIffOfSqrt.lean:128`)
+turns it into a witness $\pi\in\mathcal O_E$ lying in the subfield `H.K` of the host with
+$\pi\bar\pi=g_i$ and $\pi\equiv1 \pmod M$ (`:219`, `:229–230`). The norm of $\pi$ is $g_i$, not $1$;
+`hgm` derives $g_i\equiv1 \pmod M$ from the same condition (`:208–209`). The proof takes
 $T_2$ from `hof_thick` and the top set from `topsChoiceH`, then verifies `HostGood`
 (`:225–254`). Specializing in `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17`
 gives `hostOfField` and `supplyOfAdm`.

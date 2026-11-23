@@ -189,16 +189,20 @@ Finally, let us illustrate in four concrete steps what it means to audit one of 
    (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`)
    against `GlobalTheory.Published.GlobalArtinReciprocity`
    (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`),
-   carefully distinguishing that `Prop` definition (`∃ art : Idele E →* GalAb E Ω, IsGlobalArtin E Ω art`,
-   `:25–39`) from the 17-line proof-term wrapper file
+   carefully distinguishing that `Prop` definition (`∃ art : Ideles E →* Gab E Ω, IsGlobalArtin art`,
+   `:72`, with the structure `IsGlobalArtin` at `:25–39`) from the 17-line proof-term wrapper file
    `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8–15`
    (`globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter`) [Lean, read]!
 2. **Check quantifiers against the published theorem.** In
    `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7–11`,
-   every prime $\ell$ and abelian number field $K/\mathbb Q$ admit a uniform bound
+   every prime $\ell$ and abelian number field $K/\mathbb Q$ containing a primitive root of unity
+   of order $4$ if $\ell=2$ and of order $\ell$ otherwise
+   (`(∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)) →`, `:9`) admit a uniform bound
    $\ell^r$ on $|\mathrm{Cl}(\mathcal O_{K'})/\mathrm{Cl}(\mathcal O_{K'})^\ell|$
    at all $\ell$-power cyclotomic levels $K'$. This is the bounded $\ell$-rank consequence
-   of [FerreroWashington1979]. [Lean]
+   of [FerreroWashington1979]. The premise is part of the statement; the archive's proof
+   introduces it with `intro l _ K _ _ _ _` and does not use it
+   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104–106`). [Lean]
    Meanwhile, in `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72` (consumed at
    `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`
    in Chapter 10), `IsGlobalArtin` states the full idèlic Artin reciprocity theorem over **every**
@@ -293,7 +297,8 @@ formalizes the named classical theorem!
   `BaseChangeDefiniteUnitary`/`BaseChangeIsobaric`, `WeilSiegelFormula`/`WeilSiegelFormulaUnitary`/`SiegelWeilUnitaryConvergent`,
   and `DeRhamPotSemistable`).
 - **Errata to the first case studies.** The same-source review `ssaudit-rhbook-ch17-18-1122d-11221700-11222118` (partial acceptance) identified incorrect signatures, host conditions and page references. Chapters 14, 17 and 18 record the corrections. The corrected Ferrero–Washington, Deligne–Ribet and Kato interfaces carry [Lean].
-- **Second batch.** Chapter 19 compares six named interfaces. Its [Lean, read] tags apply to the specific local deductions cited there. Full upstream proofs or exact literature normalizations remain [Open] where marked.
+- **Second round of errata.** The audit `audit-rhbook-errata-ch16-18-and-p18-batch2-1123a-11231148-11231224` (partial acceptance) found that the first round had dropped the root-of-unity premise of `FerreroWashington`, left non-existent identifiers and a wrong quantifier order in the class-field definitions of Chapter 18, described the `NormOne` level primes of Chapter 17 as norm-one elements, and shifted several page and line references. Chapters 15–18 and `notes/squeeze-trace.md` now follow the Lean source and Masullo's PDF at those places.
+- **Second batch.** Chapter 19 compares six named interfaces and traces where the main path uses them. `ShinGaloisRep` and `ChenevierHarris` are defined but never used by a proof term, and the literature bundles carry `DoublingMethod` only as `ResidueKilled.DM`, without its pole clause. Its [Lean, read] tags apply to the specific producer, consumer and local-deduction lines cited there. Full upstream proofs and exact literature normalizations remain [Open] where marked.
 - **Remaining `[Open]`:** Roughly **70 `GlobalTheory.Published.*` constants** have not yet been
   compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`
   (see **Chapter 18**, Section 18.5.1, for the standard five-step audit rubric).
@@ -534,7 +539,7 @@ is an argument about the intended strategy: it shows that, on the live route, th
 no work. That is compatible with a valid proof whose work is done elsewhere.
 
 *What a first trace shows* `[Lean, read; partial]` (details: `notes/squeeze-trace.md`). After `setDiv`,
-both inequalities are fields of `WordFacts` (`src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:126–133`):
+both inequalities are fields of `WordFacts` (`src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:128–133`):
 
 ```lean
 (D.div.Bk u ≠ 0 → htMap … (D.div.Bk u) ≤ D.div.h u) ∧

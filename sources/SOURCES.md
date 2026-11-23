@@ -355,6 +355,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Chapter 9).
   Verified: 2026-11-21 via EuDML / De Gruyter, *J. Reine Angew. Math.* vol. 227 (1967), pp. 86–110.
 - **[ChenevierHarris2013]** G. Chenevier and M. Harris, “Construction of automorphic Galois representations, II,” *Cambridge Journal of Mathematics* 1 (2013), doi:10.4310/CJM.2013.v1.n1.a2. Introduction and Theorem 3.2.3 (cited in Chapter 19). [Publisher PDF](https://intlpress.com/site/pub/files/_fulltext/journals/cjm/2013/0001/0001/CJM-2013-0001-0001-a002.pdf)
+  Retrieved: 2026-11-23 07:04 UTC, publisher PDF, HTTP 200, 217,654 bytes, sha256
+  `f77c7fef0640b3d6d7295b92b5af07b03a9b2cffacb0dc62acb9dfae024268a6`; the two quotations of
+  Section 19.2 checked against the introduction. Chapter 19 records that the archive's
+  `ChenevierHarris` proposition is defined but neither proved nor used.
 - **[Clozel1990]** L. Clozel, "Motifs et formes automorphes: applications du principe de
   fonctorialité", in L. Clozel and J. S. Milne (eds.), *Automorphic Forms, Shimura Varieties, and
   $L$-Functions*, Vol. I, Perspectives in Mathematics 10, Academic Press, Boston, MA, 1990,
@@ -397,6 +401,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   doi:10.1090/S0002-9947-1955-0072878-2 (cited in Chapter 13).
   Verified: 2026-11-22 via AMS (`doi:10.1090/S0002-9947-1955-0072878-2`), *Trans. Amer. Math. Soc.* vol. 80, no. 2 (1955), pp. 402–447.
 - **[GanQiuTakeda2014]** W. T. Gan, Y. Qiu and S. Takeda, “The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula,” *Inventiones Mathematicae* 198 (2014), 739–831. Theorems 1.2–1.3 (cited in Chapter 19). [Author preprint](https://arxiv.org/abs/1207.4709)
+  Version used: arXiv:1207.4709v3 (21 Jan 2014), PDF retrieved 2026-11-23 07:04 UTC, HTTP 200,
+  667,816 bytes, sha256 `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`.
+  Theorems 1.2–1.3 (pp. 6–7) and §11.6 (p. 54, the unramified local zeta integral
+  $L(s+1/2,\pi_v\times\chi_{V,v})/d_v(s,\chi_V)$ with $d_v$ referred to [LapidRallis2005]) were
+  read in this version; page numbers are those of the preprint.
 - **[Grothendieck1955]** A. Grothendieck, *Produits tensoriels topologiques et espaces nucléaires*,
   Memoirs of the American Mathematical Society 16, American Mathematical Society, Providence, RI,
   1955, doi:10.1090/memo/0016 (cited in Chapters 14 and 18).
@@ -478,6 +487,18 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Landau1905]** E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61
   (1905), 527–550, doi:10.1007/BF01449495 (cited in Chapter 15).
   Verified: 2026-11-21 via Springer (`doi:10.1007/BF01449495`), vol. 61, pp. 527–550.
+- **[LapidRallis2005]** E. M. Lapid and S. Rallis, "On the local factors of representations of
+  classical groups", in J. W. Cogdell, D. Jiang, S. S. Kudla, D. Soudry and R. J. Stanton (eds.),
+  *Automorphic Representations, L-Functions and Applications: Progress and Prospects*, Ohio State
+  Univ. Math. Res. Inst. Publ. 11, de Gruyter, Berlin, 2005, 309–359,
+  doi:10.1515/9783110892703.309 (cited in Chapter 19).
+  Checked: 2026-11-23 07:05 UTC. The DOI resolves to the de Gruyter Brill chapter page, which served
+  no content to our client (HTTP 202). The OpenAlex record
+  (`api.openalex.org/works/doi:10.1515/9783110892703.309`) confirms the title and first page 309
+  and lists the chapter as closed access (it gives last page 360; citing works give 309–359).
+  Gan–Qiu–Takeda (§11.6, p. 54) cite its
+  p. 334, Remark 3 for the explicit normalizing factor $d_v$. We have not read that page, so the
+  split-place comparison of Section 19.5 remains [Open].
 - **[MazurWiles1984]** B. Mazur and A. Wiles, "Class fields of abelian extensions of $\mathbf Q$",
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapters 10 and 11).
@@ -558,6 +579,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Annals of Mathematics* (2) 173 (2011), no. 3, 1645–1741, doi:10.4007/annals.2011.173.3.9
   (cited in Chapters 12, 16, and 19).
   Verified: 2026-11-22 via *Annals of Mathematics* (`doi:10.4007/annals.2011.173.3.9`), vol. 173, no. 3 (2011), pp. 1645–1741.
+  Retrieved: 2026-11-23 07:04 UTC, journal PDF
+  <https://annals.math.princeton.edu/wp-content/uploads/annals-v173-n3-p09-p.pdf>, HTTP 200,
+  1,192,295 bytes, sha256 `8a0aca35f1817d60967c48a7e0070d20973b5b057d2dde945780e70ca4a09678`;
+  Theorem 1.2 (pp. 1647–1648) and the definition of slight regularity in §7.1 checked. Chapter 19
+  records that the archive's `ShinGaloisRep` proposition is defined but neither proved nor used.
 - **[Siegel1935]** C. L. Siegel, "Über die Classenzahl quadratischer Zahlkörper", *Acta Arithmetica*
   1 (1935), no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapters 4 and 16).
   Verified: 2026-11-21 via IMPAN (`doi:10.4064/AA-1-1-83-86`), vol. 1, no. 1, pp. 83–86.

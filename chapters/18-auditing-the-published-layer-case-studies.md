@@ -148,10 +148,12 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
    by $\{\pm 1, \pm i\}$ of order $2$) cuts out the quadratic ray class field
    $L_{(4)} = \mathbb Q(i, \sqrt{2}) = \mathbb Q(\zeta_8)$!
 3. **Uniformizer Frobenius sign convention (`IsGlobalArtin.frob`):** In `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:34–36`,
-   for an unramified place $v$ and local uniformizer $\varpi_v \in E_v^\times$, the Artin map
+   for a finite place $v$, a valuation subring $A$ of $\Omega$ over $v$ (`IsPlaceOver A v`) and a local
+   uniformizer $\varpi_v \in E_v^\times$ (`IsUnifAt v x`), the Artin map
    $\mathrm{art}_E : \mathbb A_E^\times \to G_E^{\mathrm{ab}}$ sends the single-place idèle
-   $\iota_v(\varpi_v)$ to `toAb E Ω σ⁻¹`, where `σ ∈ DecompGrp E Ω v` induces $x \mapsto x^{N(v)}$ on
-   the residue field (`IsArithFrobAt`). Thus **uniformizers map to geometric Frobenius $\mathrm{Frob}_v^{\mathrm{geom}} = (\mathrm{Frob}_v^{\mathrm{arith}})^{-1}$**
+   `localIdele E v x` to `toAb E Ω σ⁻¹`, where `IsFrob A (normV v) σ` says that $\sigma$ lies in the
+   decomposition group of $A$ and induces $x \mapsto x^{N(v)}$ on its residue field
+   (`src/Formalism/ConjugateSelfDual/Statement.lean:23,28–29`). Thus **uniformizers map to geometric Frobenius $\mathrm{Frob}_v^{\mathrm{geom}} = (\mathrm{Frob}_v^{\mathrm{arith}})^{-1}$**
    — matching Deligne's convention `[Tate1967]` and the algebraic Hecke character package `HeckeLAdicCharacter`!
 
 ### 18.2.3 Exact Lean definitions and verbatim literature comparison (Cluster I)
@@ -160,22 +162,36 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
 
 1. **`GlobalTheory.Published.GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`, cone `9`):**
    $$\forall (E : \mathrm{Type})\,[\mathrm{Field}\,E]\,[\mathrm{NumberField}\,E]\,(\Omega : \mathrm{Type})\,[\mathrm{Field}\,\Omega]\,[\mathrm{Algebra}\,E\,\Omega]\,[\mathrm{IsAlgClosure}\,E\,\Omega],\;
-   \exists\,\mathrm{art} : \mathrm{Idele}\,E \to_* \mathrm{GalAb}\,E\,\Omega,\; \mathrm{IsGlobalArtin}\,E\,\Omega\,\mathrm{art},$$
-   where `IsGlobalArtin E Ω art` (`:25–39`) bundles five fields:
+   \exists\,\mathrm{art} : \mathrm{Ideles}\,E \to_* \mathrm{Gab}\,E\,\Omega,\; \mathrm{IsGlobalArtin}\,\mathrm{art},$$
+   where `Gab E Ω` is the topological abelianization of $G_E=\mathrm{Gal}(\Omega/E)$ (`:15`) and
+   `IsGlobalArtin art` (`:25–39`) bundles five fields. In the last three, $v$ is a finite place and
+   $A$ is a valuation subring of $\Omega$ lying over $v$ (`IsPlaceOver A v`):
    - `quot : IsOpenQuotientMap art` (continuous open surjection $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, where $G_E^{\mathrm{ab}} = G_E / \overline{[G_E, G_E]}$ carries the quotient Krull topology);
    - `ker : art.ker = ((diagUnits E).range ⊔ infConn E).topologicalClosure` (kernel equals the closure of $E^\times \cdot (E_\infty^\times)^\circ$ inside $\mathbb A_E^\times$);
-   - `ine` (at every finite place $v$, the image of $\mathcal O_v^\times$ has topological closure equal to the image of the inertia subgroup $I_v \le G_E$ in $G_E^{\mathrm{ab}}$);
-   - `frob` (for every $v$ and uniformizer $\varpi_v$ with $v(\varpi_v) = \mathrm{ Multiplicative.ofAdd}(-1)$, there is an arithmetic Frobenius $\sigma \in D_v$ with $\mathrm{art}(\iota_v(\varpi_v)) = \mathrm{toAb}(\sigma^{-1})$);
-   - `dec` (the image of $E_v^\times$ lies inside the topological closure of the image of $D_v$).
+   - `ine` (the image of the local units $\mathcal O_v^\times$ under $\mathrm{art}\circ\iota_v$ **equals** the image of the inertia group of $A$ in $G_E^{\mathrm{ab}}$; no closure is taken);
+   - `frob` (the images of the local uniformizers $\varpi_v$ are **exactly** the elements $\mathrm{toAb}(\sigma^{-1})$ with $\sigma$ an arithmetic Frobenius at $A$; this is an `↔` for each $g$);
+   - `dec` (the topological closure of the image of $E_v^\times$ **equals** the image of the decomposition group of $A$).
 2. **`GlobalTheory.Published.HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74–78`, cone `9`):**
-   Given an Artin map satisfying `IsGlobalArtin`, the comparison isomorphism $\iota$, and a Hecke
-   character satisfying `IsAlgPos χ n` (`:41–42`), there exists a **unique** continuous
+   For every $E$ and algebraic closure $\Omega$ **there exists** an Artin map `art` with
+   `IsGlobalArtin art` such that for every prime $\ell$, comparison isomorphism
+   $\iota : \overline{\mathbb Q}_\ell \simeq \mathbb C$, Hecke character $\chi$ and infinity type $n$
+   with `IsAlgPos χ n` (`:41–42`), there exists a **unique** continuous
    $r : G_E \to (\overline{\mathbb Q}_\ell)^\times$ satisfying `IsLAdicOf art ι χ n r` (`:57–60`).
-   This relation prescribes the full idèlic twist on `Idele₁ E` via $\operatorname{art}$ and the
-   abelianization of $G_E$. The Frobenius relation is a consequence.
+   The quantifier order is $\forall E\,\Omega,\ \exists\,\mathrm{art},\ \ldots$; the statement does
+   not apply to an arbitrary Artin map. `IsLAdicOf` is a relation on all of `Ideles E`: whenever
+   $\mathrm{art}(x)=\mathrm{toAb}(\sigma)$, the value $r(\sigma)$ is $\iota^{-1}$ of $\chi(x)$ corrected
+   by the archimedean and $\ell$-adic power factors `infPow n x` and `lPow ι n x`. Frobenius values at
+   unramified places prime to $\ell$ are a consequence (`IsLAdicOf.frob_unr`, `:296–301`, which also
+   uses the `frob` field of `IsGlobalArtin`).
 3. **`GlobalTheory.Published.RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`, cone `686`):**
-   `RayClassFieldSt` asserts `∀ (K) [Field K] [NumberField K] (𝔪 : Ideal (𝓞 K)) [NeZero 𝔪], ∃ (L) [Field L] [NumberField L] [Algebra K L], Nonempty (IsRayClassField K L 𝔪)`.
-   The Artin-isomorphism formulation is at `:19–25`. In `RayClassFieldMaximalSt` (`:32–36`),
+   `RayClassFieldSt` is defined as `GlobalTheory.NT.RayField`
+   (`src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/LFunctionPositiveConductorFourEight.lean:84–92`):
+   for every number field $K$ and nonzero ideal $\mathfrak m$ there is a finite abelian $L/K$,
+   unramified at every prime not dividing $\mathfrak m$, whose Frobenius elements at those primes
+   generate $\mathrm{Gal}(L/K)$, and such that a nonzero ideal $I$ prime to $\mathfrak m$ has trivial
+   value under every character of $\mathrm{Gal}(L/K)$ exactly when $I$ lies in the ray modulo
+   $\mathfrak m$. The Artin-isomorphism formulation is the proved equivalent form at `:19–25`.
+   In `RayClassFieldMaximalSt` (`:32–36`), $L$ is a field with `IsRay L 𝔪` and
    every candidate finite abelian $L'/K$ must satisfy
    `∀ χ : (L' ≃ₐ[K] L') →* ℂˣ, IsModulus L' χ 𝔪`. Under this character-by-character conductor
    hypothesis, the conclusion is `Nonempty (L' →ₐ[K] L)`.
@@ -188,29 +204,38 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
 
 | Lean `Prop` | Classical source | Word-for-word comparison (hypotheses & conclusion) | Verdict |
 |---|---|---|---|
-| `GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | Artin `[Artin1927]`; Tate `[Tate1967]`; Neukirch `[Neukirch1999, Thm. VI.6.1]` | Matches idèlic Artin reciprocity over **every** number field $E$: open quotient $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, exact kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia = $\overline{\mathrm{art}(\mathcal O_v^\times)}$, uniformizer $\mapsto \mathrm{Frob}_v^{\mathrm{geom}}$. (Tate's fuller isomorphism $\pi_0(C_E) \xrightarrow{\sim} G_E^{\mathrm{ab}}$ is equivalent because $C_E^\circ = \overline{E^\times (E_\infty^\times)^\circ} / E^\times$.) | **Faithful** (`[Lean, read]` for `Prop`; `1,015`-module proof cone `[Open]`) |
-| `HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`) | Weil (1956) $A_0$-type algebraic Hecke characters; Serre (1968) | Hypothesis `χ.IsAlgPos n` requires algebraic infinity-type only on **totally positive** $k \in E_+^\times$ (`IsTotallyPositive k`), which is *weaker* in hypothesis (hence **slightly stronger** as a theorem!) than requiring all $k \in E^\times$ (`isAlgPos_of_isAlg`, `:86`). Matches unramified geometric Frobenius values outside $\mathrm{cond}(\chi) \cup \{v \mid \ell\}$. | **Faithful** (`[Lean, read]` for `Prop` & finite-order bridge) |
-| `RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | Takagi (1920); Neukirch `[Neukirch1999, Thm. VI.6.2]` | Uses narrow ray class group `RayClassGroup 𝔪` (totally positive principal generators at all real places, `:149`). `RayClassFieldMaximalSt` is **proved inside the same file** (`:204–225`) from `RayClassFieldSt` + `ChebotarevDegreeOne`! | **Faithful** (narrow real-place convention; `[Lean, read]`) |
+| `GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | Artin `[Artin1927]`; Tate `[Tate1967]`; Neukirch `[Neukirch1999, Thm. VI.6.1]` | Matches idèlic Artin reciprocity over **every** number field $E$: open quotient $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, exact kernel $\overline{E^\times (E_\infty^\times)^\circ}$, image of inertia $= \mathrm{art}(\mathcal O_v^\times)$, uniformizer $\mapsto \mathrm{Frob}_v^{\mathrm{geom}}$, image of decomposition $= \overline{\mathrm{art}(E_v^\times)}$. (Tate's fuller isomorphism $\pi_0(C_E) \xrightarrow{\sim} G_E^{\mathrm{ab}}$ is equivalent because $C_E^\circ = \overline{E^\times (E_\infty^\times)^\circ} / E^\times$.) | **Faithful** (`[Lean, read]` for `Prop`; `1,015`-module proof cone `[Open]`) |
+| `HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`) | Weil (1956) $A_0$-type algebraic Hecke characters; Serre (1968) | Hypothesis `χ.IsAlgPos n` requires algebraic infinity-type only on **totally positive** $k \in E_+^\times$ (`IsTotallyPositive k`), which is *weaker* in hypothesis (hence **slightly stronger** as a theorem!) than requiring all $k \in E^\times$ (`isAlgPos_of_isAlg`, `:86`). The Artin map is existentially quantified together with the statement, and the compatibility is the idèlic relation `IsLAdicOf`; unramified Frobenius values away from $\ell$ follow from it (`IsLAdicOf.frob_unr`, `:296–301`). | **Faithful** (`[Lean]` for the `Prop`, as in Def. 18.1; `[Lean, read]` for the finite-order bridge, Lemma 18.1(1)) |
+| `RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | Takagi (1920); Neukirch `[Neukirch1999, Thm. VI.6.2]` | Uses narrow ray class group `RayClassGroup 𝔪` (totally positive principal generators at all real places, `:149`). `RayClassFieldMaximalSt` is **proved outright in the same file**: `rayClassFieldMaximalSt_holds : RayClassFieldMaximalSt` (`:204–225`) has no hypotheses, and its Frobenius-closure input `closure_isFrob_eq_top` (`:118–139`) comes from a zeta-pole argument on pairs of primes, not from `RayClassFieldSt` or `ChebotarevDegreeOne`. | **Faithful** (narrow real-place convention; `[Lean, read]`) |
 | `ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12`) | Chebotarev `[Tschebotareff1926]`; Neukirch `[Neukirch1999, Thm. VII.13.4]` | Asserts **existential infinitude** (avoiding any finite $S$) of unramified degree-one primes hitting the conjugacy class of $\sigma$, omitting natural/Dirichlet density $\lvert C \rvert / \lvert G \rvert$ (density 1 of degree-one primes makes the existential form true; proved in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64`!). | **Safe weakening** (existential, no density value; suffices for `dense` & `eq_of_frob` `[Lean, read]`) |
 
 ### 18.2.4 Fidelity lemma and line-by-line `R3` proofs (Cluster I)
 
 **Lemma 18.1 (Cluster I internal deductions verifying non-vacuity and strength).** [Lean, read]
 
-1. *(Exact finite-order Galois–Hecke bijection from `GlobalArtinReciprocity` alone: `exists_unique_hchar_of_finite_order`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:381–418`, and `HeckeLAdicCharacter.full`, `:466–491`)*
-   *`GlobalArtinReciprocity` alone (without `HeckeLAdicCharacter`!) implies that for every number field $E$, prime $\ell$, $\iota : \overline{\mathbb Q}_\ell \simeq_{\mathbb Q} \mathbb C$, and $m \ge 1$, the Frobenius compatibility relation sets up a **bijection** (`∃! χ : HChar E`) between continuous Galois characters $r : G_E \to_* (\overline{\mathbb Q}_\ell)^\times$ satisfying $r^m = 1$ and finite-order Hecke characters $\chi$ (`χ.OrderDvd m`).*
-2. *(Topological Frobenius density and ray class field maximality from `ChebotarevDegreeOne`: `ChebotarevDegreeOne.dense` and `eq_of_frob`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:51–68`, and `rayClassFieldMaximalSt_holds`, `src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`)*
-   *Existential `ChebotarevDegreeOne` implies that unramified Frobenius elements are topologically dense in $G_F = \operatorname{Gal}(\Omega/F)$, that two continuous representations $G_F \to_* M$ into any $T_2$ group agreeing on Frobenius outside $S$ are identical, and that `RayClassFieldSt` + `ChebotarevDegreeOne` imply `RayClassFieldMaximalSt`.*
+1. *(Finite-order Galois–Hecke correspondence: `exists_unique_hchar_of_finite_order`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:381–418`, and `HeckeLAdicCharacter.full`, `:466–491`)*
+   *(a) Let `art` satisfy `IsGlobalArtin art`. For every prime $\ell$, $\iota : \overline{\mathbb Q}_\ell \simeq \mathbb C$, $m \ge 1$ and continuous $r : G_E \to_* (\overline{\mathbb Q}_\ell)^\times$ with $r^m = 1$, there is a unique Hecke character $\chi$ with `χ.OrderDvd m` and `IsLAdicOf art ι χ 0 r`. This direction uses only `IsGlobalArtin`.*
+   *(b) Assume `H : HeckeLAdicCharacter` and let `art` be the Artin map that `H` supplies. Then every $\chi$ with `χ.OrderDvd m` has a unique continuous $r$ with $r^m = 1$ and `IsLAdicOf art ι χ 0 r`. This direction uses `H`.*
+   *For the Artin map of `H`, (a) and (b) together make `IsLAdicOf art ι · 0 ·` a bijection between continuous characters $r$ with $r^m=1$ and Hecke characters of order dividing $m$. The relation is the idèlic relation `IsLAdicOf … 0` at infinity type zero, which reads $r(\sigma)=\iota^{-1}(\chi(x))$ whenever $\mathrm{art}(x)=\mathrm{toAb}(\sigma)$; it is not a Frobenius relation.*
+2. *(Topological Frobenius density from `ChebotarevDegreeOne`, and unconditional ray class field maximality: `ChebotarevDegreeOne.dense` and `eq_of_frob`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:51–68`, and `rayClassFieldMaximalSt_holds`, `src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`)*
+   *Existential `ChebotarevDegreeOne` implies that unramified Frobenius elements are topologically dense in $G_F = \operatorname{Gal}(\Omega/F)$ and that two continuous representations $G_F \to_* M$ into any $T_2$ group agreeing on Frobenius outside $S$ are identical. Separately, `rayClassFieldMaximalSt_holds : RayClassFieldMaximalSt` holds with no hypotheses.*
 
 *Proof.*
-(1) In `existsUnique_hchar_of_finiteOrder`, the continuous $r$ factors through abelianization.
-The finite-order condition supplies an open kernel, and the proof constructs the Hecke character
-from the composite with the Artin map and $\iota$. For uniqueness, lift an arbitrary element of
-the abelianized Galois group via `toAb_surjective` and use the two idèlic compatibility equations.
-In the converse direction `HeckeLAdicCharacter.full` uses `IsLAdicOf.pow_eq_one` and surjectivity
-of the Artin map to deduce $r^m=1$ at infinity type zero. These are deductions from the interfaces.
-See `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:381–418`,
-`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:489–491`.
+(1)(a) In `exists_unique_hchar_of_finite_order` (`:381–418`), the continuous $r$ factors through
+the abelianization as `liftAb r hr` (`:319–323`), and $\psi := \mathrm{liftAb}(r)\circ\mathrm{art}$
+is continuous with $\psi^m=1$ (`:384–390`). By `isOpen_ker_of_pow` (`:363–372`) its kernel is
+open, so $\chi_0 := \iota\circ\psi$ has open kernel and is continuous (`continuous_of_isOpen_ker'`,
+`:374–379`). It is trivial on $E^\times$ because the diagonal units lie in $\ker\mathrm{art}$ by the
+`ker` field (`:396–401`). The relation `IsLAdicOf art ι χ₀ 0 r` holds because `infPow 0` and
+`lPow ι 0` are identically $1$ (`infPow_zero`, `lPow_zero`, `:191–195`) and
+`liftAb r (toAb σ) = r σ` (`:326–327`); see `:407–410`. For uniqueness, take $\chi$ with the same
+relation, write $\mathrm{art}(x)=\mathrm{toAb}(\tau)$ via `toAb_surjective` (`:236`), and compare the
+two values at $\tau$ (`:411–418`).
+(1)(b) In `HeckeLAdicCharacter.full` (`:466–491`), the converse branch obtains $r$ from `H` at
+infinity type $0$ (`:489`), using `isAlgPos_zero_of_orderDvd` (`:420–444`) to verify the
+algebraicity premise for a character of finite order. Then `IsLAdicOf.pow_eq_one` (`:446–454`)
+and surjectivity of `art` give $r^m=1$, and `IsLAdicOf.unique` (`:243–247`) gives uniqueness
+(`:490–491`). The other branch (`:484`) is exactly (a).
 
 (2) In `ChebotarevDegreeOne.dense` (`:51–61`), every open $U \subseteq G_F$ in the Krull topology
 contains a coset $\tau \cdot \ker(\mathrm{res}_{L/F})$ for some finite Galois $L/F$ (`isTopologicalBasis_krull`).
@@ -219,10 +244,15 @@ and $\rho \in D_v$ with $\mathrm{res}_{L/F}(\rho) = \mathrm{res}_{L/F}(\tau)$, s
 Two continuous maps into a Hausdorff group agreeing on a dense set are equal (`eq_of_frob`, `:63–68`).
 In `rayClassFieldMaximalSt_holds` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`), given a ray class
 field $L/K$ modulo $\mathfrak m$ and an abelian $L'/K$ satisfying the characterwise modulus
-hypothesis, the proof embeds both in a compositum and applies `range_le`.
-The latter compares restrictions of Frobenius using the ray class and modulus conditions and
-passes to the required inclusion of ranges. This gives the $K$-algebra embedding.
-See `src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:141–198`.
+hypothesis, the proof embeds both in a compositum $M$ inside an algebraic closure of $K$
+(`:206–222`) and applies `range_le` (`:141–198`) with the input
+`closure_isFrob_eq_top M hm` (`:223`). The latter (`:118–139`) shows that Frobenius elements at
+primes prime to $\mathfrak m$ generate $\mathrm{Gal}(M/K)$. It argues by contradiction: from a
+nontrivial $\sigma$ (`:123`), `exists_two_primes_of_isFrob_one` produces two distinct primes above
+each prime outside a finite set (`:124–126`), and the zeta-pole lemma
+`ZetaPole.not_injective_double_primes` rules this out (`:130–139`). These two lemmas are used at
+statement level here [Lean]. No `RayClassFieldSt` or `ChebotarevDegreeOne` hypothesis enters. `range_le` compares restrictions of Frobenius using the ray class and modulus conditions
+and passes to the required inclusion of ranges. This gives the $K$-algebra embedding.
 
 ---
 
@@ -259,12 +289,18 @@ even at $\ell=2$. [Expository]
 **Definition 18.2 (Cluster II interfaces).**
 
 1. **`UpperTheory.V.Published.FerreroWashington`.** For every prime $\ell$ and abelian number
-   field $K/\mathbb Q$ there exists $r\in\mathbb N$ such that for every $n\in\mathbb N$ and every
+   field $K/\mathbb Q$ that contains a primitive root of unity of order $4$ if $\ell=2$ and of
+   order $\ell$ otherwise (the premise `(∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)) →`,
+   `:9`), there exists $r\in\mathbb N$ such that for every $n\in\mathbb N$ and every
    cyclotomic extension $K'/K$ of order $\ell^n$ in the sense of `IsCyclotomicExtension {l ^ n} K K'`,
    the class group $A=\mathrm{Cl}(\mathcal O_{K'})$ satisfies $|A/A^\ell|\le\ell^r$.
-   The universal tower-level quantifier follows the existential bound. There is no root-of-unity
-   premise on $K$ or localization premise. This is a bounded mod-$\ell$ rank formulation of a
-   consequence of the classical $\mu=0$ theorem [FerreroWashington1979]. [Lean]
+   The universal tower-level quantifier follows the existential bound. There is no localization
+   premise. The root-of-unity premise is present in the statement, but the archive's proof
+   `UpperTheory.V.FW.ferreroWashington` introduces it anonymously in `intro l _ K _ _ _ _` and never
+   uses it, so the same argument bounds every abelian $K$
+   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104–106`).
+   This is a bounded mod-$\ell$ rank formulation of a consequence of the classical $\mu=0$ theorem
+   [FerreroWashington1979]. [Lean]
    See `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7–11`.
 2. **`GlobalTheory.Published.SiegelKlingen`, `DeligneRibet` and `SiegelKlingenDeligneRibet`.**
    Siegel–Klingen provides a continuation with rational values at $1-k$ for $k\ge1$,
@@ -482,7 +518,7 @@ and `LUMI doc 07` [Community]), our three clusters distill into a fast, foolproo
 How does Masullo's 940-page manuscript handle background literature compared with Alpöge's `P18` layer [Expository]?
 
 - **Appendices A–E (`pp. 537–932`) vs `GlobalTheory.Published.*` (`P18`):** Masullo devotes nearly
-  400 pages of appendices (`Appendix A` Algebraic Number Theory, `pp. 539–586`; `Appendix B` Analytic
+  400 pages of appendices (`Appendix A` Algebraic Number Theory, `pp. 537–586`; `Appendix B` Analytic
   Number Theory, `pp. 587–654`; `Appendix C` Locally Convex TVS, `pp. 655–742`; `Appendix D`
   Schwartz–Bruhat Functions, `pp. 743–822`; `Appendix E` Topological Stacks, `pp. 823–932`) to
   stating and proving or citing background results from classical monographs (`[Neukirch1999]`,
@@ -506,10 +542,10 @@ How does Masullo's 940-page manuscript handle background literature compared wit
 | # | Declaration (`file:line`) | Cone | Classical benchmark | Statement-fidelity verdict | Upstream proof status | Tag |
 |---:|---|---:|---|---|---|---|
 | 1 | `GlobalTheory.Published.GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | 9 | Artin `[Artin1927]`, Tate `[Tate1967]`, Neukirch `[Neukirch1999, Thm. VI.6.1]` | **Faithful** (full idèlic Artin map over all number fields; geometric Frobenius on uniformizers) | Wrapper `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8` (cone 1,015) `[Open]` | [Lean, read] |
-| 2 | `GlobalTheory.Published.HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`; finite-order bridge `:381, 466`) | 9 | Weil (1956), Serre (1968) | **Faithful (slightly stronger)** (`IsAlgPos` requires algebraicity only on $E_+^\times$; finite-order bijection proved in file!) | Wrapper `:14` (cone 1,015) `[Open]`; finite-order bridge `:381–491` `R3` | [Lean, read] |
-| 3 | `GlobalTheory.Published.RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | 686 | Takagi (1920), Neukirch `[Neukirch1999, Thm. VI.6.2]` | **Faithful** (narrow real-place sign condition built into `RayClassGroup 𝔪`) | `RayClassFieldMaximalSt` proved in file (`:204–225`, `R3`); `rayClassFieldSt` wrapper `[Open]` | [Lean, read] |
+| 2 | `GlobalTheory.Published.HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`; finite-order bridge `:381, 466`) | 9 | Weil (1956), Serre (1968) | **Faithful (slightly stronger)** (`IsAlgPos` requires algebraicity only on $E_+^\times$; the Artin map is existentially quantified; finite-order correspondence: $r\mapsto\chi$ from `IsGlobalArtin` alone, $\chi\mapsto r$ from the `Prop` itself) | Wrapper `:14` (cone 1,015) `[Open]`; finite-order bridge `:381–491` `R3` | [Lean] (`Prop`); [Lean, read] (bridge) |
+| 3 | `GlobalTheory.Published.RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | 686 | Takagi (1920), Neukirch `[Neukirch1999, Thm. VI.6.2]` | **Faithful** (narrow real-place sign condition built into `RayClassGroup 𝔪`) | `RayClassFieldMaximalSt` proved in file with no hypotheses (`rayClassFieldMaximalSt_holds`, `:204–225`, `R3`); `rayClassFieldSt` wrapper `[Open]` | [Lean, read] |
 | 4 | `GlobalTheory.Published.ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12`) | 211 | Chebotarev `[Tschebotareff1926]` | **Safe weakening** (existential infinitude of degree-1 Frobenius primes outside $S$, omitting natural density; implies `dense` `:51`) | Proved in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64` (cone 289, `R3`; cyclic base `[Open]`) | [Lean, read] |
-| 5 | `UpperTheory.V.Published.FerreroWashington` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`) | 0 | [FerreroWashington1979] | Uniform bound on the mod-$\ell$ class-group quotient | Archive theorem at `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104` | [Lean] |
+| 5 | `UpperTheory.V.Published.FerreroWashington` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`) | 0 | [FerreroWashington1979] | Uniform bound on the mod-$\ell$ class-group quotient, for $K$ containing $\mu_\ell$ ($\mu_4$ if $\ell=2$); the archive proof discards this premise | Archive theorem at `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104` | [Lean] |
 | 6 | `SiegelKlingenDeligneRibet` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:52`) | 283 | [DeligneRibet1980] | Smoothed integrality for modulus $(\ell^n)$, $n\ge1$, with $\ell$-integral values on coprime ideals | Example read in §18.3.2, analytic proof [Open] | [Lean] |
 | 7 | `UpperTheory.V.Published.Kato` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65`) | 1,669 | [Kato2004, Thm. 14.2] | All primes, off-center critical twists and stable lattices | Full comparison of local conditions [Open] | [Lean] |
 | 8 | `GlobalTheory.Published.PoitouTateNormalised` & `PoitouTateDuality` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNormalised.lean:12`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsPrimitiveRootPow.lean:13`) | 11 | Poitou–Tate `[NeukirchSchmidtWingberg2008, Thm. 8.6.10]`, `[Wiles1995, Prop. 1.6]` | **Special case (`l ≠ 2 ∨ IsTotallyComplex F`)** (avoids real Tate terms at $\ell = 2$; covers all $\ell$ on CM hosts; `Normalized9` pins restriction maps) | `cohDimTwoGlobal` (`:70`) & `greenbergWiles_of_poitouTate` (`src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GreenbergWilesOfPoitouTate.lean:45`, cone 718) `R3`; upstream proof `[Open]` | [Lean, read] |
