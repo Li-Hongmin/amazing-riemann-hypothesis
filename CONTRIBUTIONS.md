@@ -4,7 +4,7 @@ A ledger of who contributed what to the proof, its checking and its explanation.
 public record. Entries describe what the record shows; they are not endorsements or verdicts.
 Missing or misattributed contributions: please open an issue.
 
-Public records and links below were checked online through 2026-11-22 05:25 UTC (entries added on 2026-11-23 were checked at 07:13 UTC that day); exact download hashes and earlier snapshots are recorded in [`sources/SOURCES.md`](sources/SOURCES.md).
+Public records and links below were checked online through 2026-11-22 05:25 UTC (entries added on 2026-11-23 were checked at 07:13 UTC that day; the LUMI statement-review R2 entry at 09:23 UTC); exact download hashes and earlier snapshots are recorded in [`sources/SOURCES.md`](sources/SOURCES.md).
 
 ## Format
 
@@ -58,6 +58,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Aapo Lipponen (editor)** (`aapolipponen/rh-lean-check-lumi/docs`) — Published a ten-part reader's guide (`01-what-is-proved.md` through `10-open-frontier.md`), glossary, and seven AI-agent module reports mapping the analytic endgame, the $\sqrt{X}$ theta-lift chain, Galois representations, the `VWin` Tate–Shafarevich bound, and the ~250 named literature theorems, with explicit markers for unread lower layers. — `exposition` — [Community] AI-assisted module guide, publicly available — [rh-lean-check-lumi/docs](https://github.com/aapolipponen/rh-lean-check-lumi/tree/main/docs) (2026-11-20)
 - **LUMI review agents, `frontier-f-divisibility` report** (`aapolipponen/rh-lean-check-lumi/docs/04-chain-and-one-half.md`, section "How the divisibility `Conclusion1` is proved") — Located where the inert-prime divisibility is proved, outlined the Gauss jet bound `kernel_a_one_generic`, reported a full reading of the gain identity `ea_A1U`/`ea_BrNum`, and outlined the chain accumulation `lift_bound_of_integrality`/`main_ind`, with an explicit list of unread steps. — `exposition` — [Community] AI-generated read-only report, not human-checked; Chapter 8, §8.4.5 reads these declarations line by line against the pinned archive — [docs/04](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/04-chain-and-one-half.md) (commit `c6d0e2bc06`, 2026-11-21)
+- **LUMI review agents, representation-theory statement review R2** (`analysis/statements-review-2-reptheory.md`, consolidated in `aapolipponen/rh-lean-check-lumi/docs/07-named-theorems.md`) — Classified `GreenRegularCharacters` as a special case: "Green's cuspidal characters of GL_d(𝔽_q), only for q = p prime" (row R2 #14). — `review` — [Community] AI statement reading; the page marks its verdicts as not checked against the sources and no proof as examined; Chapter 13, §13.4.4 reads the proof and locates the prime-field restriction — [docs/07](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/07-named-theorems.md) (review dated 2026-11-20; copy of 2026-11-23, sha256 `e857b8c5…5809391`)
 - **Bartosz Naskręcki** (`nasqret/riemann-rev`) — Published a map, PDF proof guide, online book, blueprint, and status dashboard for Alpöge's archive, accompanied by Lean 4.33.1/4.35.0 skeleton replays of selected intermediate deductions and numerical prime-sum plots. — `exposition` · `compilation/kernel check` — [Community] Public guide, book and dashboard (AI-assisted reading project) — [nasqret/riemann-rev](https://github.com/nasqret/riemann-rev), [nasqret.github.io/riemann-rev](https://nasqret.github.io/riemann-rev/), [Zulip #642382893](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642382893) (2026-11-20 to 2026-11-21)
 - **Ishaan Dixit** (`ishaan2006/rh-lean-reproduction`) — Published a six-step top-down HTML and PDF exposition with 15 figures and a 26-section declaration-level `TRACE.md` (labelled Exact, Verified, Reading or Ours) tracing how `Data.DIV` balances $x/m + m$ at $m \approx \sqrt{x}$ and avoids an $x^{2/3}$ compounding loss, and raised the Zulip literature-matching question on `KatoTwoW` answered by Loeffler. — `exposition` · `review` — [Community] AI-assisted prose checked by its author against the exported declaration list — [ishaan2006.github.io/rh-lean-reproduction](https://ishaan2006.github.io/rh-lean-reproduction/), [ishaan2006/rh-lean-reproduction](https://github.com/ishaan2006/rh-lean-reproduction), [Zulip #642435200](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642435200) (2026-11-21)
 - **Sho Sonoda** (`shosonoda/lean-rh-alpoge`) — Published a bilingual (English/Japanese) interactive report mapping the 581-topic dependency network, dominator tree (`allChi` dominating 95.9% of the cone), distance layers, and Leiden community clusters of the compiled Lean archive. — `exposition` — [Community] Structural and statistical map of compiled declarations — [shosonoda.github.io/lean-rh-alpoge](https://shosonoda.github.io/lean-rh-alpoge/) (2026-11-21)
@@ -158,6 +159,20 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   the archive author's; this entry records exposition only.
   [Chapter 10, §10.4.5](chapters/10-congruence-modules-to-sha.md#1045-the-dvr-determinant-lemma-and-block-cocycle-lengths),
   [§10.4.6](chapters/10-congruence-modules-to-sha.md#1046-twist-existence-how-the-selmer-killing-character-is-chosen)
+- **Hongmin Li (with AI assistance)** — Explained where the archive's `GreenRegularCharacters` comes
+  from [Lean, read]: the existence supplier `exists_cusp_of_regular`, which takes
+  $\tau_\theta = (-1)^{d-1}\psi$ for the invariant-subspace Möbius inverse $\psi$ of a root power sum and
+  gets cuspidality, degree, elliptic values and the orbit criterion from `isCusp_psi` and
+  `isChar_psi_rootSum_of_regular`, and its direct consumer `greenRegularCharacters_holds`, which
+  proves exhaustion by counting cuspidal multisets against monic polynomials with nonzero constant
+  term. Worked $\mathrm{GL}_2(\mathbb F_3)$ with the characters of $\mathbb F_9^\times$, checked by an
+  exact script [Expository]; compared the normalization, the regularity condition and the prime-field
+  restriction with Green (1955); listed the inputs that stay at `R2`/`[Open]` (virtuality of root
+  power sums, the cuspidal-multiset count); traced the second main-path read site in
+  `TopCovolSlim2Use`; and corrected the line reference of `green_regular_characters_of_literature`
+  in the §13.6 table. LUMI's statement verdict is credited separately above. The formal proofs are
+  the archive author's; this entry records exposition only.
+  [Chapter 13, §13.4.4](chapters/13-greens-theorem-and-the-literature-layer.md#1344-where-greenregularcharacters-comes-from-regular-characters-produce-cuspidal-characters)
 
 
 - **Book editorial team (AI-assisted)** — Traced the all-coprime-powers twist used by the main proof,

@@ -259,6 +259,7 @@ All from
 | `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean` | 2026-11-21T04:13:24Z | 32972 | `3eb3f0864a28c7085e7f37917e50e024e5dfa2073821e3324b3873f050dfed89` |
 | `Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean` | 2026-11-21T04:30:15Z | 39471 | `db0a44702615c879abb084e3d950085f0f9b3fd71fddbf57105ad4d9cfea92e8` |
 | `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` | 2026-11-22T09:15:00Z | 21422 | `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5` |
+| `Mathlib/RepresentationTheory/FinGroupCharZero.lean` | 2026-11-23T09:12Z | 4915 | `a031d85058b58616a33fac9b7f0a812ec6452d95a8e0e330734636fd485753c9` |
 
 Chapter 2 §2.3.1 follows `DirichletCharacter/Basic.lean:66–158,173–196,233–319,333–360`
 for the transition from admissible levels to recovery and the divisibility minimum. The direct
@@ -422,6 +423,13 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   of the American Mathematical Society* 80 (1955), no. 2, 402–447,
   doi:10.1090/S0002-9947-1955-0072878-2 (cited in Chapter 13).
   Verified: 2026-11-22 via AMS (`doi:10.1090/S0002-9947-1955-0072878-2`), *Trans. Amer. Math. Soc.* vol. 80, no. 2 (1955), pp. 402–447.
+  Text read for Section 13.4.4 (2026-11-23): the AMS free PDF as archived by the Internet Archive,
+  `http://web.archive.org/web/20250730054741/https://www.ams.org/journals/tran/1955-080-02/S0002-9947-1955-0072878-2/S0002-9947-1955-0072878-2.pdf`
+  (retrieved 2026-11-23T08:51Z, 3,328,037 B, sha256 `ded2dbd2e6fa499b64fe4c857ddaa8daf4ee4f74eef135958e4a40a02e6cac3d`;
+  the AMS URL itself returned a Cloudflare challenge, HTTP 403, to our client). Pages read: 403–405
+  (Theorem 1, the $\mathrm{GL}_2$ formulas for uniform functions, §1), 409 (Definition 2.2), 413–415 (§3,
+  Brauer's characterisation, the fixed isomorphism $\theta$), 430–431 (Example (ii)), 437–438
+  (Definition 7.3, Lemmas 7.4–7.6). Printed page = PDF page + 401. Not redistributed.
 - **[GanQiuTakeda2014]** W. T. Gan, Y. Qiu and S. Takeda, “The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula,” *Inventiones Mathematicae* 198 (2014), 739–831. Theorems 1.2–1.3 (cited in Chapter 19). [Author preprint](https://arxiv.org/abs/1207.4709)
   Version used: arXiv:1207.4709v3 (21 Jan 2014), PDF retrieved 2026-11-23 07:04 UTC, HTTP 200,
   667,816 bytes, sha256 `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`.
@@ -687,6 +695,12 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 `citations_report.txt` (by `check_citations.py`, a machine check of every file:line citation in
 `chapters/` and `notes/` against the extracted archive and the Mathlib files above). See
 `notes/proof-map.md`, "Reproducibility".
+
+For Chapter 13, Section 13.4.4 (run `rhbook-ch13-green-existence-1123h-11231636`, 2026-11-23):
+`verify_green_gl2f3.py` (sha256 `b06b1112486a148471e9f5a747fd7ec64837b8c0931a4741f843866645a0de9f`;
+Python standard library only, no arguments, read-only) recomputes Example 13.4 in exact arithmetic in
+$\mathbb Q(\zeta_{24})$ and passes 2,431 assertions in 0.39 s CPU; `check_section_citations.py` resolves
+the 143 archive citations of the section against the pinned archive and prints each cited line.
 
 # Part II. Annotated bibliography by category
 
@@ -1577,6 +1591,8 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Nielsen critique, 2026-11-23 (CST)**: E14 added; code claims verified against the pinned archive; analysis in Chapter 16, §16.6.
 
 - **Chapter 8, Sections 8.4.4–8.4.5, 2026-11-23T06:54Z**: `[Katz1976]` re-verified via Crossref (`doi:10.2307/1970966`: Katz, *The Annals of Mathematics* 104, no. 3, first page 459, issue date 1976-11), unchanged. LUMI `docs/04-chain-and-one-half.md` re-fetched (`32,281` B, sha256 `5258df0f8b20609b38926ca1ef54b0ac45afc5b2f7749022dc7086d64573f9f9`, last commit `c6d0e2bc06` at 2026-11-21T13:02:26Z; §5 lists the earlier `31,832`-byte copy of 2026-11-21T04:03:05Z). Its section "How the divisibility `Conclusion1` is proved" outlines the jet bound `kernel_a_one_generic`, the gain identity `ea_A1U`/`ea_BrNum` and the accumulation `lift_bound_of_integrality`/`main_ind` [Community]; Section 8.4.5 reads these declarations against the pinned archive.
+
+- **Chapter 13, Section 13.4.4, 2026-11-23T09:23Z**: `[Green1955]` read in the Internet Archive copy recorded in Part I, §6 (pages listed there). LUMI `docs/07-named-theorems.md` re-fetched from `https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/main/docs/07-named-theorems.md` (`44,821` B, sha256 `e857b8c5f9b6d00f66f645c7bd1183564c7852ac03820c3552821c6895809391`; §5 lists the earlier `43,596`-byte copy); its row for `GreenRegularCharacters` reads "special case — Green's cuspidal characters of GL_d(𝔽_q), only for q = p prime" (review R2 #14) [Community]. Mathlib `FinGroupCharZero.lean` added to Part I, §4 for `FDRep.simple_iff_char_is_norm_one`.
 
 
 ### Internal review of Chapters 17–18
