@@ -52,6 +52,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Principia collaborative project (`antoshashakov`)** (`leanprover-community/riemann-hypothesis` PR #12) — Submitted two self-contained Lean 4 files under `verification/` formalizing a conductor-one specialization (`Principia.Ordinary.ConductorOneRH.rh`, deducing `RiemannHypothesis` from Weber's odd-class-number theorem and two conductor-one hypotheses) and a signal bound extracted from Alpöge's argument. — `formalization` · `exposition` — [Community] Closed pull request (PR #12); collaborative workspace live — [PR #12](https://github.com/leanprover-community/riemann-hypothesis/pull/12), [Principia project](https://principia-math.com/projects/d16ab288ed353bc5b10e292ace0ddbc1) (2026-11-21)
 - **Lee Crossley (`leecrossley`)** (`leecrossley/dirichlet-window-transfer` and `Li-Hongmin/amazing-riemann-hypothesis` PR #1) — Formalized in Lean 4 (`DelayedPole.lean`) that applying the three-term delayed-difference operator $-g(u) + 3g(u - \log 2) - 2g(u - 2\log 2)$ preserves the pole conditions of Theorem 3.6(1) (`ZeroFree F θ` from `WindowHypU`) via the Laplace multiplier $(1 - 2^{-s})(2\cdot 2^{-s} - 1)$, and opened pull request #1 on this book's repository proposing a short example note in Chapter 3. — `formalization` · `this book` — [Community] Archived formalization published; open pull request #1 on this book pending editorial review [Open] — [PR #1](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/1), [leecrossley/dirichlet-window-transfer](https://github.com/leecrossley/dirichlet-window-transfer), [doi:10.5281/zenodo.24410863](https://doi.org/10.5281/zenodo.24410863) (2026-11-21)
 
+- **Lee Crossley (`leecrossley`)** — Proposed a comparison of cubic and abelian Frobenius traces at 31 and 367 for Chapter 16. [Community] Open for editorial review. [Book PR #2](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/2), [Crossley v1.0.1](https://doi.org/10.5281/zenodo.24413208)
+
 ## Exposition and teaching material
 
 - **Aapo Lipponen (editor)** (`aapolipponen/rh-lean-check-lumi/docs`) — Published a ten-part reader's guide (`01-what-is-proved.md` through `10-open-frontier.md`), glossary, and seven AI-agent module reports mapping the analytic endgame, the $\sqrt{X}$ theta-lift chain, Galois representations, the `VWin` Tate–Shafarevich bound, and the ~250 named literature theorems, with explicit markers for unread lower layers. — `exposition` — [Community] AI-assisted module guide, publicly available — [rh-lean-check-lumi/docs](https://github.com/aapolipponen/rh-lean-check-lumi/tree/main/docs) (2026-11-20)
@@ -145,6 +147,11 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   [Chapter 10, §10.4.5](chapters/10-congruence-modules-to-sha.md#1045-the-dvr-determinant-lemma-and-block-cocycle-lengths),
   [§10.4.6](chapters/10-congruence-modules-to-sha.md#1046-twist-existence-how-the-selmer-killing-character-is-chosen)
 
+
+- **Book editorial team (AI-assisted)** — Traced the all-coprime-powers twist used by the main proof,
+  its specialization to the assertion of `adm2`, and the producers of the auxiliary-prime and Chebotarev
+  inputs. Checked a local order-nine example and corrected four editorial findings from the same-archive
+  review of §§10.4.5–10.4.6. [Chapter 10, §10.4.7](chapters/10-congruence-modules-to-sha.md#1047-where-does-adm2-come-from)
 
 Work by Hongmin Li (with AI assistance) related to the Riemann Hypothesis, including earlier work
 that preceded the November 2026 announcements. For earlier work, the entry states plainly how it relates

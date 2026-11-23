@@ -8,8 +8,9 @@
 > `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`), and, in §§10.4.5–10.4.6,
 > for the imported DVR determinant lemma, block-determinant lemmas, GMA Fitting step, peeling lemma,
 > cyclotomic-block $Ш^1$ bound, class-number bound, $\rho$-block Selmer comparison and
-> `twist_kills_selmer` (`R3`); `[Lean]` for the remaining statement-level sub-lemmas listed at the
-> end of §10.4.5 and for the producers of `TwistingCharacterExistence` (`R2`); `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
+> `twist_kills_selmer` (`R3`), and for the main-path twist construction and Chebotarev producer read in §10.4.7.
+> `[Lean]` marks the remaining statement-level sub-lemmas at the
+> end of §10.4.5 and for the deeper inputs listed in §10.4.7; `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
 > draft; `[Community]` for public community reports; `[Expository]` for classical Hida/Ribet/Bellaïche–Chenevier
 > background and worked examples; `[Open]` for unread proof cones and unverified fidelity of named
 > `GlobalTheory.Published.*` hypotheses (specifically `GlobalArtinReciprocity`).
@@ -290,8 +291,8 @@ written out in §10.4.5. $\square$
 ### 10.4.2 From cyclotomic cocycles to class numbers and $Ш^1$ (`CutCoreUnit.main`)
 
 Now open `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean`
-(`R3`, 160 lines read in full) and watch what happens to each of the $t$ cyclotomic indices
-$c \in \{0, 1, \dots, t - 1\}$ — representing the cyclotomic characters $\chi_{\mathrm{cyc}}^{c + 1}$
+(`R3`, 176 lines read in full) and watch what happens to each of the $t$ cyclotomic indices
+$c \in \{0, 1, \dots, t - 1\}$ — representing the characters $\chi_{c+1}=\chi_1\chi_{\mathrm{cyc}}^{-c}$
 for $c + 1 \in \{1, 2, \dots, t\}$ [Lean, read]!
 
 **Theorem 10.2 (Congruence valuation bounded by Selmer + $Ш^1$ + class number + tame ramification: `CutCoreUnit.main`).**
@@ -467,7 +468,7 @@ lies in an ideal $I$, then $I$ is no bigger than $(\det\Theta)$ for the best $\T
 $\operatorname{len}(\mathcal O/I) \le v(\det\Theta)$. The idea that a congruence ideal is bounded by a
 module of Galois cohomology classes goes back to Ribet's modular construction of unramified
 extensions `[Ribet1976]` and to Mazur–Wiles `[MazurWiles1984]`. The lattice-and-cocycle form closest to
-the archive is Skinner–Urban's "Constructing cocycles" (`[SkinnerUrban2014]`, §4). There each functional
+the archive is Skinner–Urban's "Constructing coycles" [sic] (`[SkinnerUrban2014]`, §4). There each functional
 $\varphi$ on a lattice gives a cocycle $c_\varphi(g) = \varphi(\chi^{-1}(g)\sigma(g)\bar\epsilon^* - \bar\epsilon^*)$
 (their map (4.4.3.a)). Lemma 10.8 below builds the cocycles $\gamma \mapsto \varphi(y_\gamma)$ in the same
 way. The archive cites none of these papers; the comparison is ours.
@@ -719,7 +720,8 @@ Lemma 10.9 is a bookkeeping lemma, not a local–global comparison. The output i
 and the cost $\sum_q \operatorname{len}(C|_{I_q})$ is bounded in `CutCoreUnit.main` by
 $\operatorname{len}(\mathcal O/(\zeta_q - 1))$ per block and per $q$
 (`inertiaCocycleBlock_length_le_of_quadraticRelation`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:87–88`) [Lean].
-The archive uses it only for the $t$ scalar blocks (`:73`). The **local–global Selmer comparison** for
+The two calls apply it to scalar blocks (`:73` and
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthQuotEqZeroIff.lean:109`). The **local–global Selmer comparison** for
 the $\rho$-block is a separate chain (`:56–66`), read in full.
 
 1. First, `CountL.main` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthGlobalCocyclesLeSumPlacesOver.lean:102`)
@@ -925,8 +927,7 @@ tame bound (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/Chos
 The remaining clauses of `GoodTw` are discarded there.
 
 Twist existence is therefore a Prop-valued hypothesis of `Stmt`, not a theorem of
-`IntegralHeckeForms.lean`. That file contains only definitions. Which proof term discharges `adm2` on
-the path from `src/Main.lean` we have not traced [Open].
+`IntegralHeckeForms.lean`. That file contains only definitions. Section 10.4.7 traces the all-powers witness used on the path from `src/Main.lean`.
 
 **How the archive constructs a twist when it does.** Three producers of `TwistingCharacterExistence`
 occur in the archive.
@@ -954,14 +955,13 @@ occur in the archive.
      group, $\psi' = \chi \circ \phi$ (`exists_factor`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:283`).
    - Check `PsiOk` and `partD` (`psiOk_partD`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:230`) and the remaining clauses.
 
-   A text search of the archive finds no caller of `admAB_of_toric_parts`. Its role on the main
-   path is therefore [Open].
+   Section 10.4.7 follows the main-path call to the all-powers construction.
 
 **The Chebotarev and class-group inputs, with their source levels.**
 
 | Input | Where it enters | Archive form | Level here |
 |---|---|---|---|
-| Chebotarev (degree-one primes with prescribed Frobenius, avoiding a finite set) | auxiliary twist primes; `PsiOk` asks for split degree-one primes outside $S_0 \cup A_0$ | `GlobalTheory.TwSys.Cheb` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11`), equivalent to the Published Prop `ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12,20`) and supplied to the literature layer by `cheb_of_literature` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:559`) | definition read here; statement fidelity "safe weakening" in Chapter 18; **not named** in `admAB_of_toric_parts`, where the primes come from the hypothesis `GaloisSideTwistedSelmerAuxiliaryPrimes`, whose producer we have not traced [Open] |
+| Chebotarev (degree-one primes with prescribed Frobenius, avoiding a finite set) | auxiliary twist primes; `PsiOk` asks for split degree-one primes outside $S_0 \cup A_0$ | `GlobalTheory.TwSys.Cheb` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11`), equivalent to the Published Prop `ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12,20`) and supplied to the literature layer by `cheb_of_literature` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:559`) | definition read here; statement fidelity "safe weakening" in Chapter 18; **not named** in `admAB_of_toric_parts`, where the primes come from the hypothesis `GaloisSideTwistedSelmerAuxiliaryPrimes`, whose main-path producer is traced in §10.4.7 |
 | Ray class groups and the Artin map | the twist $\psi'$ lives on $\mathrm{RCG}(Q)$ and is pulled back by `art` | data fields of the twist datum `NTw`; factorisation `exists_factor` | [Lean] |
 | Class number $h_E$ | trivial block $c = 0$ of Theorem 10.2 | `GlobalArtinReciprocity` hypothesis of `CutCoreUnit.main`, used by Lemma 10.11 | Lemma 10.11 [Lean, read]; Prop compared in Chapter 18; proof cone [Open] |
 
@@ -970,6 +970,181 @@ condition cuts down a Selmer group is the familiar device of Kolyvagin systems a
 primes. The archive's version is quantitative. Each choice must keep three costs below a prescribed
 $\varepsilon$: the twisted Selmer lengths, the tame price $\sum_q \operatorname{len}(\mathcal O/(\zeta_q - 1))$,
 and the lattice-index changes (`partAB`). All three costs are booked in `GoodTw`.
+
+### 10.4.7 Where does `adm2` come from?
+
+**Motivation [Expository].** Proposition 10.12 starts with a chosen twist. To use its bound, we
+need auxiliary places and a character for which the Selmer and theta estimates, the tame
+cost, and the lattice estimates hold simultaneously. The main proof constructs one choice
+that works for every integral power coprime to $\ell$. Keeping the same choice under these
+powers matters when the character is used with different embeddings of its coefficient field.
+
+**Example 10.6 [Expository].** Take $\ell=3$, and send the generator of $\mathbb Z/9\mathbb Z$
+to a primitive ninth root $\zeta$. For $3\nmid a$, raising this character to the power $a$
+permutes the six primitive roots. Their product of differences from $1$ is
+$\Phi_9(1)=1+1+1=3$, so each difference has normalized valuation $1/6$ for $v(3)=1$.
+Sending the generator to $\zeta^3$ instead gives a root of order $3$, with valuation
+$1/2$ by $\Phi_3(1)=3$. A local budget of $1/4$ allows the first choice for every coprime
+power and excludes the second. This models the factor $\ell^{e_q}/\varphi(\ell^k)$ in the
+tame estimate with $k=2$ and $e_q=0,1$. It checks one local ingredient of the construction.
+
+**Definitions [Lean, read].** The single-character quantifiers are those of
+`TwistingCharacterExistence` in §10.4.6. At the same inputs $i,\varepsilon',F,A_0$,
+`admissibleIndexBoundAllPowers` chooses $(Q,k',\psi')$ **before** quantifying over
+$a\in\mathbb Z$ with $\gcd(a,\ell)=1$. All five clauses must hold for $(\psi')^a$.
+`goodTwistExistsAllCoprimePowers` makes the same change to the conclusion of
+`TwistTheoremAtIndex`, with the full-rank and basis inputs fixed.
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/AdmissibleIndexBoundAllPowers.lean:14–30`.
+
+**Lemma 10.13 (the twist used by the main proof).** The term on the route from
+`riemannHypothesis` constructs the all-coprime-powers witness and passes it directly
+to the all-powers lattice export. At the constructed Bloch–Kato setting, its pre-export
+witness implies the single-character assertion of `adm2` by taking $a=1$.
+
+*Proof.*
+
+1. **Find the call that needs the twist.** `src/Main.lean:4` uses `rhOfAll`.
+   `src/Supplements/Kernels/MainTheorems.lean:7,9` passes `allChi` to `rh_of_every`.
+   The latter specializes `EveryCharacter` to the trivial character modulo $1$
+   (`src/Formalism/GammaFactorNonvanishing/CritLine.lean:29–32`). The proof of
+   `EveryCharacter` starts from the constructed row and passes the literature bundle
+   and `vwin_of_row h` together.
+   `src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7–11`.
+
+2. **Read the export actually passed to the member construction.** The literature assembly
+   calls `every_character_of_theta_integrals_local_matching`, whose last argument to
+   `every_character_of_green_v_win` is the definite-side existence theorem.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:810–813`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:68–73`.
+   In the latter proof the route runs through `hypotheses_nonempty_of_unramified_exponents_alt`,
+   which unpacks the large-exponent bundle as ⟨hP, hMem, hEx⟩ and hands on `hMem`.
+   Its producer obtains ⟨hE, –, –, hL', hN⟩ and passes `hE` to the base-lattice theorem.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/HypothesesNonemptyOfUnramifiedExponents.lean:41–61`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/MemberBundlesLargeUnramifiedExponents.lean:59–63,69–70`.
+   The base-lattice proof passes `hE.e1` as the first argument to
+   `automorphy_of_hypotheses_alt_alt` and supplies its result `exp` to member closing.
+   The export runs through `exportF_isBuiltE_alt_alt` and the two realization wrappers to
+   `exportAt_of_bundles_alt`.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExistsBaseLatticeOfPrime.lean:49–55,70–72,80–81`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/AutomorphyOfHyp.lean:27–32,44–45`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SExport.lean:20–32`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtBundlesStatement.lean:16–17`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtBundles.lean:16–23`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtOfBundlesStatement.lean:16–17`.
+
+3. **Supply Chebotarev and the Galois-side bound.** `hE.e1` is `hCheb`, the first
+   component obtained from `twist_front_inputs`.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ThetaLiftHypothesesOfNonvanishing.lean:34–44`.
+   The packet puts the closed theorem `GlobalTheory.Published.cheb_holds` in that slot.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistFrontInputs.lean:13–14`.
+   Its proof applies the forward direction of `chebotarevDegreeOne_iff_cheb` to the archive
+   theorem `chebotarevDegreeOne'`. That theorem lifts the prescribed automorphism,
+   chooses a cyclotomic crossing field, excludes the finite bad set and restricts a
+   prime-norm Frobenius back to the base field. The equivalence takes the fixed field
+   of the open normal subgroup, adds the finitely many base-ramified primes to the
+   excluded set and identifies the Frobenius congruence with a kernel condition.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–67`,
+   `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:20–47`.
+
+   At the twist call, `exportAt_of_bundles_alt` obtains ⟨N0, hI⟩ and fills the
+   all-powers component of `ExportAt` with
+   `twistAllPowers_of_galoisCohomology_classField`. Its lines 25–27 pass `hCh`
+   to the matrix presentation and both order-bound theorems. The presentation
+   discards that argument in its first `intro`. The residual branch forwards it to
+   `exists_auxiliary_primes_prescribed_frobenius`, and the positive branch calls
+   the same implementation, `ChosenPrimes.stepAB`, directly. There `exists_picks`
+   uses `exists_pick`, which applies `hC` to the open normal subgroup and the
+   finite set enlarged by conjugates.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerPresentationMatrixOfGaloisCohomology.lean:20–35`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerBoundOfAuxiliaryPrimesOdd.lean:21–31`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BoundModTwoUniformizerAtTwoOfChebotarev.lean:25–35`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobeniusStatement.lean:9–10`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobenius.lean:207–246,344,378`.
+   The call supplying these three inputs is recorded here.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtOfBundles.lean:17–35`,
+   `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/AmbientBaseHeq.lean:36–40`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistAllPowersOfGaloisCohomologyClassField.lean:20–30`.
+
+4. **Choose the primes and the character.** `twistTheorem_allPowers_of_selmer_supLattice`
+   constructs `hX : GaloisSideTwistedSelmerAuxiliaryPrimes` by calling
+   `galois_twisted_selmer_auxprimes_of_matrix_and_bounds` with those three inputs and
+   the determinant evaluation theorem. The producer splits on $\nu=0$ and $\nu>0$,
+   obtains ⟨R, Dd, M₀, hM₀⟩ and replaces $M_0$ by $\max(M_0,1)$. For each permitted
+   $M$ and finite avoided set, the bound gives a common family $P$ of $2R$ auxiliary
+   places. For each signature in the specified set and each $Q$ satisfying `IsQ P Q`,
+   the presentation gives ⟨a, Φ, hΦ, –⟩, and surjectivity of `toLam` lifts $\det\Phi$
+   to $F$. The determinant evaluation proves `SelPoly`; the selected-place bound
+   certifies one coefficient of degree at most $Dd$ and valuation at most
+   $v(\ell^{\nu})$.
+   `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:46–77`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GaloisTwistedSelmerAuxprimesOfMatrixAndBounds.lean:11–63`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistTheoremAllPowersOfSelmerSupLattice.lean:30–40`.
+
+   The next call constructs `hAB` by `admissibleIndexBoundAllPowers_of_conditions`.
+   It introduces $i,\varepsilon',F,A_0$, with their hypotheses, and takes $T$ to be
+   the good signatures when it unpacks `hX` as ⟨R, Dd, M₀, hM₀, hR⟩.
+   It intersects the finitely many open normal subgroups from the theta and lattice
+   bounds, and enlarges $A_0$ by the corresponding finite excluded sets.
+   It feeds the Selmer, theta, and lattice polynomials to `exists_level` with
+   $\varepsilon=\varepsilon'/C$. That call chooses $M,k,e$ before the primitive root
+   is specified. The witness $\psi_0$ is the product character factored through the
+   ray class group. Only then does the proof introduce $a$ and its coprimality
+   hypothesis, use the primitive root $\zeta^a$, and finish the five clauses.
+   The tame bound uses $\lvert Q\rvert\le 4R$ and the individual valuation bound
+   illustrated in Example 10.6.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:38–90,92–222`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–353`.
+
+5. **See which witness is read.** Line 40 of `TwistTheoremAllPowersOfSelmerSupLattice.lean`
+   supplies `hAB` directly to `exportAll_of_six_inputs`. The transport first chooses
+   the lattice family, then obtains ⟨Q, k, ψ₀, hall⟩ from `hAB` with
+   `levs Y i S ∪ A` as the excluded set. For every coprime $a$ it reads
+   `hall a ha`, unpacks the five clauses (including the existential data in
+   `partAB`), and uses the lattice inclusion and signed-index bound to return
+   `GoodTw` for $(\psi_0)^a$.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExportAllOfSixInputs.lean:9–14`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–53`.
+   The receiver actually uses the witness. In the second pass, the exported proposition
+   goes through `exists_pre_point_with_henselian_level` into `nonempty_seed_of_kept`.
+   There the proof obtains ⟨N0, S, hp, hs⟩, invokes `hp` at the transported place with
+   the full-rank, basis and avoidance inputs, then uses `hG0 a ha'` to transfer the
+   good twist for any coprime power into the new coefficient setting.
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/FiniteLevelAndSecond.lean:80–88`,
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExistsSeed.lean:26–35`,
+   `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/TwistDataAgreeAcrossCoefficientsSymm.lean:133–168`.
+
+   The single-power `export_of_inputs` unpacks `admitted` and
+   hands its second field to `export_at_setting`; the all-powers wrapper
+   `exportAll_of_inputs` even discards that second field and takes a separate
+   all-powers proof. The six-input export takes those inputs directly.
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456–489,493–496`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:59–64`.
+   The separate lemma `admissibleBounds_of_all` introduces the same inputs,
+   obtains ⟨Q, k', ψ', h1⟩ and returns the witness with `h1 1 isCoprime_one_left`.
+   `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TypePreservedOfAdmissibleIntegral.lean:25–28`. $\square$
+
+**Status.** On the traced route the archive proves the stronger twist existence statement
+and consumes it directly. The single-character `adm2` is a consequence at that setting.
+There is no `admitted` argument at this call site. Chebotarev comes from a proved
+theorem in the `Published` namespace. Both the matrix-and-bounds producer of the
+auxiliary primes and the application of its result to all good signatures were read
+line by line. [Lean, read]
+
+**Dependency evidence.** The SHA-256-verified DeDeo export of the five main theorems
+contains `admissibleIndexBoundAllPowers_of_conditions`, `exportAll_of_six_inputs`,
+`galois_twisted_selmer_auxprimes_of_matrix_and_bounds` and `GlobalTheory.Published.cheb_holds`.
+The full-name declaration scan finds no `IntegralHeckeForms.Stmt`,
+`IntegralHeckeForms.admitted`, `TwistingCharacterExistence`, `export_of_inputs` or
+`admissibleBounds_of_all` in that export. The scan is a closure check for the five
+roots together. Reachability alone does not establish consumption. The proof
+applications above identify where the witness is passed and read.
+[DeDeo export, SOURCES V8](../sources/SOURCES.md#v8)
+
+**Remark [Open].** The deeper cohomology and determinant arguments behind the Selmer presentation
+and the two order bounds, the cyclotomic prime-norm existence inputs to `chebotarevDegreeOne'`, and the
+full toric and lattice-specialization cones remain to be read. The applications above
+identify these inputs and their quantifiers.
+
 
 ---
 
@@ -1025,8 +1200,8 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 | `GlobalTheory.CutDet.length_sol_le`, `det_blocks`, `exists_conj`, `exists_homs`, `det_generic_blocks`, `det_generic_eq_zero`, `spanAlg`, `exists_gens`, `blockHom` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:77,144,167,196,254,295,321,346,369` | Proposition 10.7 (Fitting inclusion into $\mathrm{ccOff}$) and Lemma 10.8 (solutions inside cocycle modules). | [Lean, read] |
 | `GlobalTheory.Cut.Peel.main`; `GlobalTheory.Cut.CountL.main`; `GlobalTheory.Cut.SelClass.main`; `GlobalTheory.Proof.LocalGlobalSelmer.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:52`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthGlobalCocyclesLeSumPlacesOver.lean:102`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCocyclesLeCoboundariesAddSelmer.lean:81`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalGlobalSelmer.lean:7` | Lemma 10.9 (peeling $Q_i$) and the $\rho$-block local–global Selmer comparison. | [Lean, read] |
 | `GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha`; `GlobalTheory.Cut.ShaBound.main`; `GlobalTheory.UnramHom.length_le_classNumber` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeShaStatement.lean:6`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:372`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:172` | Lemma 10.10 (block $e = c - 1$ into $Ш^1$, factor $\operatorname{len}(\mathcal O/\ell)$) and Lemma 10.11 (trivial block bounded by $v_\ell(h_E)$). | [Lean, read] |
-| `TwGoodAt`; `SignatureChoiceCondition`, `KillAt`; `GlobalTheory.export_of_inputs`; `GlobalTheory.TwSys.Cheb`, `GaloisSideTwistedSelmerAuxiliaryPrimes` | `src/Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean:196`; `src/Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean:33,45`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11,70` | §10.4.6: the good-twist hypothesis, the Selmer-bound conclusion, `Stmt` from `admitted`, and the Chebotarev and auxiliary-prime `Prop`s. | [Lean, read] (definitions and top-level proofs) |
-| `admAB_of_toric_parts`; `abstract_form_of_lattice_run`; `export_at_setting` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456` | §10.4.6: producers and transport of `TwistingCharacterExistence` (top level read, helpers unread). | [Lean] |
+| `TwGoodAt`; `SignatureChoiceCondition`, `KillAt`; `GlobalTheory.TwSys.Cheb`, `GaloisSideTwistedSelmerAuxiliaryPrimes` | `src/Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean:196`; `src/Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean:33,45`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11,70` | §10.4.6: the good-twist hypothesis, the Selmer-bound conclusion, and the Chebotarev and auxiliary-prime `Prop`s. | [Lean, read] (definitions and top-level proofs) |
+| `GlobalTheory.export_of_inputs`; `admAB_of_toric_parts`; `abstract_form_of_lattice_run`; `export_at_setting` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456` | §10.4.6: producers and transport of `TwistingCharacterExistence` (top level read, helpers unread). | [Lean] |
 | `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ (`LinkFam.main` proving `LinkN`) and closes local twisting cover `LinkEta` (`closed_linkEta_of_duty`). | [Lean, read] |
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
 | `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |

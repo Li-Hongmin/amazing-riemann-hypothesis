@@ -138,6 +138,14 @@ Mathlib leaves cited there (`IsLocalRing.length_restrictScalars`, `Polynomial.co
 `Module.length_eq_add_of_exact`) were located at the pin in §4. The comparison uses Ribet1976,
 MazurWiles1984 and SkinnerUrban2014 (Section 6); the archive cites none of them.
 
+**Chapter 10, §10.4.7.** The pinned archive supplies the all-powers choice and transport,
+the matrix-and-bounds construction of the auxiliary-prime proposition, and the
+degree-one Chebotarev producer, with exact declaration locations in the chapter.
+The author-hosted Skinner–Urban PDF was fetched again on 2026-11-23, with the same
+SHA-256 as in Section 6. The contents and the section heading both print
+“Constructing coycles”. The book's open PR #2 proposes a separate Chapter 16 example
+comparing cubic and abelian Frobenius traces at 31 and 367. [Book PR #2](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/2)
+
 **Our derived data.** Declaration index, import graph, text scan and citation check, all
 reproducible from the archive (Section 7).
 
@@ -596,7 +604,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388565`), *Invent. Math.* vol. 75, no. 2 (1984), pp. 273–282.
 - **[SkinnerUrban2014]** C. Skinner and E. Urban, "The Iwasawa Main Conjectures for $\mathrm{GL}_2$",
   *Inventiones Mathematicae* 195 (2014), no. 1, 1–277, doi:10.1007/s00222-013-0448-1 (cited in
-  Chapter 10, §10.4.5: §4 "Constructing cocycles" and the map (4.4.3.a), compared with Lemma 10.8;
+  Chapter 10, §10.4.5: §4 "Constructing coycles" [sic] and the map (4.4.3.a), compared with Lemma 10.8;
   the archive does not cite it).
   Verified: 2026-11-23 via Crossref (`doi:10.1007/s00222-013-0448-1`), *Invent. Math.* vol. 195, no. 1 (2014),
   pp. 1–277; §4.3–§4.4 and (4.4.3.a) read in the author-hosted PDF
@@ -815,6 +823,8 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - Author: Simon DeDeo (Carnegie Mellon); the page credits a John Templeton Foundation grant.
 - Version / date: Build of 2026-11-20 (x86_64 Linux, Lean 4.33.1, Mathlib v4.33.1); link posted on V2 at 20:13:23 UTC.
 - Retrieved: 2026-11-21 05:32:05 UTC, HTTP 200, 25,330 bytes, sha256 `f31a6196e3ecb3426c45f52e5bfe3a3c680a3072b70ed2faab9c5379a76339f9`
+- Main-theorem export (compressed SHA-256 `d5fad83247dd024e1a77d283aa766ac745432b7159dfffc11bb05996c46a89fb`,
+  as listed by DeDeo). [Direct download](https://photos.proofsandreasons.io/alp-oleans-357309b5dd12/alp-export-main-theorems.ndjson.gz)
 - Contribution and reliability: Hosts the `.olean` files of all 175,187 modules (31.9 GiB in 14 archives) and two `lean4export` files so that others can run kernels without about 530 CPU-hours of compiling. Reports `#print axioms` and a kernel replay with Lean itself, and says plainly that no second kernel was run there and that "Sharing them is not a statement about whether the proof is correct." A resource, honestly labelled.
 
 <a id="v9"></a>
