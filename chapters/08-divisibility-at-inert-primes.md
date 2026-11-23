@@ -4,7 +4,9 @@
 > verified line by line in `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, `DataDIVDefs.lean`, `DataParams₂.lean`,
 > `DataExtra.lean`, `DefsInst.lean`, `DataG.lean`, `JointServices.lean`, `GServT.lean`, and
 > `DIVRecBridgeSel.lean` (`R3`); `[Lean]` for upstream formal-group and row-bound theorems whose
-> statement headers were inspected while their deep proof cones remain unread (`R2`); `[Paper]` for
+> statement headers were inspected while their deep proof cones remain unread (`R2`); Sections
+> 8.4.4–8.4.5 add `[Lean, read]` for the formal-group producers in `MultisetValuation/` and the
+> reader in `JointsTw.lean`, while their Gauss-bound and `admitted` inputs stay `[Lean]`/`[Open]`; `[Paper]` for
 > citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public community guides;
 > `[Expository]` for classical background and worked examples; `[Open]` for unread deep proof
 > obligations.
@@ -472,16 +474,20 @@ This example uses the exponential factor alone. [Lean] for the underlying defini
 `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:197,200,205,256`.
 
 **Definition [Lean, read].** For a multi-index $n$, write $[Z^n]F$ for its coefficient
-and $|n|$ for its total degree. Let $R' \subseteq K'$ be the chosen coefficient subring
-of the extension field. A series is coefficientwise integral if each
-coefficient belongs to $R'$ (`IntR`). The predicate `InClass` for $F,h$ requires
+and $|n|$ for its total degree. For a subring $R'$ of a field $K'$, a series is
+coefficientwise integral if each coefficient belongs to $R'$ (`IntR`).
+The predicate `InClass` for $F,h$ requires
 one sequence of integral series $g_i$ such that for every $n$,
 $[Z^n]F=\sum_{i=0}^{|n|}p^{-i}[Z^n](h^i g_i)$.
 In `SConcl`, $F$ is the kernel after scalar extension and the linear substitution
 `ThZ`, which uses the Frobenius basis and scales the coordinates by $\pi$.
-The proposition asks for integral $u$ such that `InClass` holds for every
-zero-constant-term $h=\mathrm{hhS}(u)+pG$ with integral $G$. This is the
-single-kernel property quantified in `FormalGroupSystem.Conclusion1`.
+`SConcl B K1 R1 Th` quantifies over every extension. Let $K'$ be any field over
+$K_0$ and $K_1$ forming a scalar tower, let $R'\subseteq K'$ be any subring, and let
+$\pi\in K'$ be any element with $\pi^{p^2-1}=p$. Assume $\mathrm{Rp}(K',\pi)\subseteq R'$
+and that $R_1$ maps into $R'$. Then there must be $u$ with entries in $R'$ such that
+`InClass` holds, relative to $R'$, for every zero-constant-term $h=\mathrm{hhS}(u)+pG$
+with $G$ integral in $R'$. So $u$ may depend on $(K',R',\pi)$ but not on $h$. This is
+the single-kernel property quantified in `FormalGroupSystem.Conclusion1`.
 `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:123,181,190,194,210,216,633`.
 
 **Lemma (Integral coefficients after extracting explicit denominators) [Lean, read].**
@@ -521,38 +527,58 @@ The exponential is formal and the lemma has no analytic convergence hypothesis.
 
 **Conditional passage to the kernel [Lean, read].** For $p\ge5$, with even Frobenius
 index count $n'\ge2$, `SConcl_of` starts from `ExtensionLocalCondition`, which writes the
-kernel as an exponential of a phase times a residual factor $U$. It uses the supplied
-Dwork lemma and `RestSExp` to put the exponential after `ThZ` in the form
-$\exp(-cH/p)V$ with $H=\mathrm{hhS}(u)$ and $V$ integral. It uses the supplied
-`RestSInt` to make the transformed $U$ integral. Multiplicativity of the substitution
-lets us absorb that factor into $V$, and the lemma supplies `SConcl`.
-`kernel_expansion_of_restrictions` applies this at each place and step, taking the
-local conditions and Dwork input from `admitted`. [Open] for our reading of the
-deeper restriction inputs and their geometric construction.
+kernel as an exponential of a phase times a residual factor $U$. It takes three
+arguments: the Dwork lemma `DworkLemma p` and the restriction statements `RestSExp p`
+and `RestSInt p`. `RestSExp` puts the exponential after `ThZ` in the form
+$\exp(-cH/p)V$ with $H=\mathrm{hhS}(u)$ and $V$ integral. `RestSInt` makes the
+transformed $U$ integral. Multiplicativity of the substitution lets us absorb that
+factor into $V$, and the lemma supplies `SConcl`.
+`kernel_expansion_of_restrictions` applies this at each place and step. It takes the
+Dwork lemma (`adm1`) and the local conditions (`adm2`) from `admitted`. The two
+restriction statements are not hypotheses. They are theorems of the archive:
+`restSExp_of` derives `RestSExp` from the statements `RestBeta` and `RestGc`, which the
+archive proves as `restBeta` and `restGc`, and `restSInt` proves `RestSInt`.
+`theta_kernel_expansion` passes these proofs through `baseChange_preserves_unitary_of`
+to `kernel_expansion_of_restrictions` [Lean]. [Open] for our reading of the proofs of
+`restBeta`, `restGc` and `restSInt`, and of the geometric construction behind `admitted`.
 `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:162,546,548,771`,
-`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:12,22,70,116,136`.
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:12,22,70,116,136`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/DworkExponentialRestrictions.lean:95,137`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InParamMap.lean:124`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/CommonEigenvectorThird.lean:21,32`.
 
 **Where this estimate stops.** If $h$ vanishes below degree $d\ge1$, then only
 $i\le\lfloor |n|/d\rfloor$ can enter the coefficient sum. This follows by adding total
 degrees in the coefficient convolution. For a valuation ring with $v_p(p)=1$, that
 alone allows a loss up to $\lfloor |n|/d\rfloor$ from the explicit $p^{-i}$.
-The zero-constant-term hypothesis matters: at arguments $1$ and $x$, the linear
-coefficient of $\mathrm{expK}(1+x)$ is $2$ by the two terms of the definition,
-while that of $\mathrm{expK}(1)\mathrm{expK}(x)$ is $1$. A denominator bound for one jet leaves the passage from
-`applyD` to the full lattice inequalities to be justified. [Expository]
+The zero-constant-term hypothesis matters. Since `expK` truncates its $k$-sum at
+$k\le|n|$, the arguments $1$ and $x$ do not show this: $\mathrm{expK}(1+x)$ and
+$\mathrm{expK}(1)\mathrm{expK}(x)$ are the same series $\sum_d x^d/d!$. The arguments
+$1$ and $x^2$ do. The $x^2$ coefficient of $\mathrm{expK}(1+x^2)$ is $1+2/2!=2$, from
+$k=1,2$. But $\mathrm{expK}(1)=1$, and the $x^2$ coefficient of $\mathrm{expK}(x^2)$ is
+$1$. So `expK_add` fails without the hypothesis; we checked this in exact rational
+arithmetic. A denominator bound for one jet leaves the passage from `applyD` to the
+full lattice inequalities to be justified. Section 8.4.5 follows that passage. [Expository]
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:52,67`,
 `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:256,613`.
 
 **Dependency diagram.** Dotted arrows mark where the textbook reading stops.
-The packet groups the single-kernel result with other estimates. The unit-bound bridge extracts
-`VolumeRatio₂` and `LowTermBound` from it. The twisted part of the true-column row
-theorem has $\mathrm{resChar}(w)=T_u$. The column bound in
-`WeilJacquetShalikaLaw.Conclusion1` has $\mathrm{resChar}(w)\ne T_u$.
+`Conclusion₂` packs eleven estimates. The packet has three read sites in the pinned
+archive: `SumOverPrimesHypotheses.lean:202` through `JointsTw.lean:269–270`, `:219`
+through `WeilJacquetShalikaLaw.lean:374`, and `PlaneCountTheoremWithConstants.lean:1649–1650`.
+They project only `VolumeRatio₂` and `LowTermBound`. Both fields are produced from
+`inClass_of_exp` through `ea_restSU_of` (Section 8.4.5). The single-kernel result
+`FormalGroupSystem.Conclusion1` is packed as the field `R.S1` but is never read.
+The twisted part of the true-column row theorem has $\mathrm{resChar}(w)=T_u$. The
+column bound in `WeilJacquetShalikaLaw.Conclusion1` has $\mathrm{resChar}(w)\ne T_u$.
 The true-column theorem also returns an own-chain `Conclusion5Sharp`.
-[Lean] for the downstream theorems, [Open] for a complete reading of the
-jet-to-lattice estimates and both routes' remaining geometric inputs.
+[Lean, read] for the packing and the three projections, [Lean] for the downstream
+theorems, and [Open] for the proofs listed in the remarks of Section 8.4.5 and for both
+routes' remaining geometric inputs.
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:80,94,97,107`,
-`src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:243,264`,
+`src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:243,264,269`,
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:371,374`,
+`src/Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean:1641,1649`,
 `src/Formalism/SharpRestriction/SmoothDesignExistence/SumOverPrimesHypotheses.lean:187,202,219`,
 `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBounds.lean:17,36`,
 `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8`,
@@ -560,14 +586,365 @@ jet-to-lattice estimates and both routes' remaining geometric inputs.
 
 ```text
 piFact + finite exponential truncation
-  -> inClass_of_exp -> SConcl_of (restriction inputs)
-  -> FormalGroupSystem.Conclusion1 (one kernel)
-  -> Conclusion₂ packet, alongside the separate lattice estimates
-       ⋯> unit and length bounds -> ServF (off-level column bound)
+  -> inClass_of_exp
+       -> SConcl_of -> FormalGroupSystem.Conclusion1 (one kernel)
+            -> packed as R.S1 in Conclusion₂; never read
+       -> ea_restSU_of (one place, exponential factor)
+            -> ea_lowN + Gauss bounds ⋯>
+                 -> first_theorem_place_bound -> VolumeRatio₂ ............ read
+                 -> second_lemma_place_bound, hecke_place_bound
+                      -> EntCondition -> LowTermBound ...................... read
+                           (with FormB from adm7 ⋯>, Conclusion4 ⋯>)
+  read sites -> unit and length bounds -> ServF (off-level column bound)
 
 realized point-kernel laws ⋯> true-column sharp bound
   -> own-chain sharp bound and twisted column bound at the level prime
 ```
+
+### 8.4.5 From the single-kernel expansion to the low-term lattice bound `LowTermBound`
+
+**Motivation [Expository].** Section 8.4.4 ends with a coefficient formula for one
+exponential factor. The places that read the formal-group packet need lattice
+statements instead. At a place $w$ of the coefficient field, the chain of Chapter 7
+gives $O$-lattices $\mathrm{Int}_0,\dots,\mathrm{Int}_m$ joined by kernel maps $K_j$.
+The bridge in `JointsTw.lean` must know which power of a uniformizer $\varpi$ divides
+the $m$-step image of a product of the operators $y_v$. Two passages are needed.
+First, a coefficient bound for one exponential factor must become a bound on the
+finitely many numbers that a column test reads. This bound must hold for every
+integral residual factor, and the archive calls it `LowAt`. Second, these numbers must
+be multiplied over places and composed over the $m$ steps. That composition is
+`LowTermBound`. The low term is the gain allowed at every place. A served place may
+instead receive the larger gain $G_n-\mathrm{PR}_n$.
+
+**Definitions [Lean, read].** Fix a prime $p$, a system $X$ with pending data $Y$
+(`Sys`, `Pend`), a place $v$ of $X$ and a step $j<m$.
+
+1. *Rescaling and column tests.* `atPi ϖ f` multiplies the coefficient of $Z^n$ by
+   $\varpi^{|n|}$. For a polynomial $P$ with polynomial coefficients, `applyD P f` sums
+   $\bigl(\prod_x n_x!\bigr)[Z^n]f$ times the $n$-th coefficient of $P$ over the support
+   of $P$. The factorials are the Hasse–Schmidt normalisation of Chapter 6. The column
+   tests $\mathrm{PIv}(j,I,v)$ are products of column determinants, and the tests
+   $\mathrm{PIvS}$ carry extra factors $p^{\mathrm{colExp}}$.
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:253,256,405,417,421`,
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:14`.
+2. *Integer encoding of a real bound.* Let $O_c$ be the valuation subring of the
+   coefficient field $K_c$. `geC x g` means that $x^bp^{-a}\in O_c$ for all $a\in\mathbb Z$
+   and all $b\in\mathbb N$ with $b>0$ and $a\le gb$. In a rank-one valuation ring with
+   $v(p)=1$, this says $v(x)\ge g$. Real levels are thus tested by integer pairs.
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:522`.
+3. *Low bound of one exponential factor.* Let $\mathrm{PhAt}_{j,v}$ be the phase of place
+   $v$ at step $j$. `LowAt j v g` says that `geC` holds at level $g$ for every coefficient
+   of $\mathrm{applyD}(\mathrm{PIv}(j,I,v))$ applied to
+   $\mathrm{ThZA}\bigl(\exp(-\mathrm{PhAt}_{j,v})\,U\bigr)$. This must hold for every column
+   choice $I$ and every $U$ with integral $\mathrm{inParamK}(U)$. `VolumeRatio₂` is
+   `LowAt j v (g0v v (j+1))` for all $v$ and $j<m$, where $\mathrm{g0v}$ is the odd-power
+   gain $\mathrm{gA}$ of Definition 8.3(2). The packet hypothesis `adm11` is the same
+   statement at level $0$.
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:325,506,529,627,658`.
+4. *Lattice valuation.* The system carries a uniformizer $\varpi$ of $O$ with $p$
+   associated to $\varpi^{e_O}$. It also carries integers $d_G(j)$ that bound the $p$-adic
+   valuation of the stabiliser orders at step $j$. Put
+   $\mathrm{vsc}(g)=\varpi^{\lceil ge_O\rceil}$, and let `vGe j F g` mean
+   $F\in\mathrm{vsc}(g)\,\mathrm{Int}_j$. `Iprod S VV` is the $O$-span of the vectors
+   $\prod_{v\in BB}y_v^{m}F_0$ with $BB\subseteq VV$ and
+   $F_0\in\varpi^{\sum_{v\in VV\setminus BB}\lceil S_ve_O\rceil}\mathrm{Int}_0$.
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:270,272,274,309,311,361`.
+5. *The low-term lattice bound.* `LowTermBound D X Y` quantifies over all functions
+   $G_n,G_{0n},\mathrm{PR}_n$, all slacks $S$ and all finite sets $VV$ of places. It has
+   four hypotheses. First, $G_n(v,j)\le\mathrm{gv}(v,j)$ on $VV$, where $\mathrm{gv}$ is the
+   served gain $\mathrm{gB}$. Second, `LowAt j v (G0n v (j+1))` holds for all $v$ and
+   $j<m$. Third, $\Pr(v,j)\le\mathrm{PR}_n(v,j)$ on $VV$; here $\Pr$ is the real number
+   `X.Conclusion₂ v j`, not the packet of the same name. Fourth,
+   $\sum_{j=1}^m\max(G_n-\mathrm{PR}_n-G_{0n},0)\le S_v$ on $VV$. The conclusion is
+   `vGe m (chainK m F) T` for every $F$ in `Iprod S VV`, where
+   $T=\sum_{j=1}^{m}\bigl(\sum_{v\in VV}\max(G_n(v,j)-\mathrm{PR}_n(v,j),G_{0n}(v,j))+\sum_{v\notin VV}G_{0n}(v,j)\bigr)-\sum_{j=0}^{m-1}d_G(j)$.
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:323,327,708`.
+6. *Whole-kernel bounds.* `EntB j i0 g` is `geC` at level $g$ for every coefficient of
+   $\mathrm{applyD}(\mathrm{PI}(j,I,i_0))$ applied to the whole kernel
+   $\mathrm{ThZA}(\mathrm{ThA})$. `PlaceB j v i g` holds in three cases: $i=0$ and
+   `LowAt j v g`; $i=0$ and $g\le\mathrm{gv}-\mathrm{alEven}$; or $1\le i\le r$ and
+   $g\le\mathrm{gv}$. `EntCondition` says that, for rational $g_P$, `PlaceB` at every
+   place implies `EntB` at level $\sum_vg_P(v)$. `FormB` makes `EntB` a one-step
+   lattice bound. Let $i_0\le r$ vanish off a duplicate-free list of places. If
+   `EntB j i0 g` holds and $G\in\mathrm{Int}_j$, then the operators $T_{v,i_0(v)}$
+   applied to $K_jG$ give a vector of valuation at least $g-d_G(j)$.
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PlaceB.lean:14,22,27`,
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RamifiedLatticeOfChainEstimates.lean:15`.
+
+**Example [Expository].** We continue the $p=5$ jet of Section 8.4.4, where $h=x^5y$
+agrees with $\mathrm{hhS}(1,0)=x^5y-x^5y^{25}-5x^{29}y+\cdots$ through degree $12$.
+
+- *Which series is tested.* `LowAt` tests the unscaled factor $F=\exp(-h/5)$. Through
+  degree $12$ it equals $1-\frac15x^5y+\frac1{50}x^{10}y^2$. The class expansion is a
+  statement about $\mathrm{atPi}(\pi,F)$ with $\pi^{24}=5$. That series multiplies the
+  degree-$6$ coefficient by $\pi^6$ and the degree-$12$ coefficient by $\pi^{12}$. It is
+  the series $\exp(-\pi^6h/5)$ of Section 8.4.4. So $c=\pi^{p+1}$ comes from rescaling the
+  leading monomial $x^py$, which has degree $p+1$.
+- *Valuations.* The two coefficients of $F$ have $v_5=-1$ and $-2$. After rescaling
+  they have $-3/4$ and $-3/2$. In the class identity only $i=|n|/6$ contributes, because
+  $h$ vanishes below degree $6$.
+- *Column tests.* The tests $X_0^5X_1$ and $X_0^{10}X_1^2$ have multipliers
+  $5!\,1!=120$ and $10!\,2!=7257600$, of valuations $1$ and $2$. On $F$ they read $-24$
+  and $145152$, both of valuation $0$. On the rescaled series they read $-24\pi^6$ and
+  $145152\pi^{12}$, of valuations $1/4$ and $1/2$. The difference is $|n|/(p^2-1)$.
+- *Integer encoding.* `geC` at level $1/4$ holds for $x=-24\pi^6$, because $b/4-a\ge0$
+  whenever $a\le b/4$. At level $25/96$ it fails at $(a,b)=(7,27)$, because $27/4-7<0$.
+- *Lattice exponent.* With $e_O=24$ we get $\mathrm{vsc}(1/4)=\varpi^6$. Take two steps
+  at one place with $G_{0n}=1/4$ at each step and $VV=\emptyset$. For $d_G=(0,0)$ the
+  bound is $T=1/2$, that is, $\varpi^{12}$. For $d_G=(0,1)$ it is $T=-1/2$, that is,
+  $\varpi^{-12}$, so the stabiliser term turns the gain into an allowed denominator.
+  For $e_O=1$ the level $T=1/2$ gives $\varpi^1$, since only the total is rounded.
+
+We checked these numbers in exact rational arithmetic. In this toy the unscaled tests
+have valuation $0$, which is the level-$0$ statement `adm11` for these two tests.
+The positive levels $\mathrm{g0v}$ come from the column determinants $\mathrm{PIv}$.
+They are estimated by the Gauss bounds used in Theorem 8.6.
+
+**Lemma 8.4 (one place: from the Dwork form to the class expansion, `ea_restSU_of`)
+[Lean, read].** *Assume `ea_RestSExpV X`, the Dwork lemma and `BeProp` for $Y.\mathrm{be}$.
+Fix $v$, $j$ and a series $U$ with integral $\mathrm{inParamK}(U)$. Let $K'$ be a field
+over $K_c$, let $R'\subseteq K'$ be a subring, and let $\pi\in K'$ satisfy
+$\pi^{p^2-1}=p$. Assume $\mathrm{Rp}(K',\pi)\subseteq R'$ and that $O_c$ maps into $R'$.
+Then there is $u$ with entries in $R'$ such that
+$\mathrm{atPi}\bigl(\pi,\mathrm{ThZA}(\exp(-\mathrm{PhAt}_{j,v})U)\bigr)$ has the class
+expansion relative to $\mathrm{hhA}(u)$. In the production proof, `ea_restSU` supplies
+the first hypothesis through `ea_restSExpV_of`.*
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaRestSExpV.lean:15,28`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EntryAOneParity.lean:101,106`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/FirstTheoremPlaceBound.lean:17`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AllPlacesOfRestrictions.lean:23,33`.
+
+*Proof.*
+
+1. The hypothesis at $K_1=K_c$ gives $u$ with entries in $\mathrm{Rp}$ and an integral
+   $V$ with $\mathrm{atPi}(\mathrm{ThZA}(\exp(-\mathrm{PhAt}_{j,v})))=
+   \mathrm{expK}\bigl(-(\pi^{p+1}/p)\,\mathrm{hhA}(u)\bigr)V$. This works because
+   `PhAt` is by definition the sum of the `sub2` terms in the hypothesis
+   (`EaRestSExpV.lean:30–33`; `FormalGroupSystem.lean:506–508`).
+2. Substitution and rescaling are multiplicative, so the series is
+   $\mathrm{expK}(\cdots)\,V\,W$ with $W=\mathrm{atPi}(\mathrm{ThZA}(U))$ (`EaRestSExpV.lean:35`;
+   `AllPlacesOfRestrictions.lean:33`; `KernelExpansionOfRestrictions.lean:82`).
+3. `restSIntA` makes $W$ integral in $R'$, and `IntR_mul` makes $VW$ integral. Moreover
+   $p\ne0$ in $K'$ (`EaRestSExpV.lean:36–41`; `AtPiEqRescale.lean:64`).
+4. Apply `inClass_of_exp` with $c=\pi^{p+1}$, $pp=p$ and $h=\mathrm{hhA}(u)$. `piFact`
+   gives $c^k/k!\in R'$, and `hhA_const` gives $h(0)=0$ (`EaRestSExpV.lean:42`;
+   `AllPlacesOfRestrictions.lean:23`). $\square$
+
+**Lemma 8.5 (from the class expansion to `LowAt`, `ea_lowN`) [Lean, read].** *Assume
+`admitted`, `ea_RestSU X Y` and `ea_RestNorm Y`. The last condition provides an
+ultrametric field $K'$ over $K_c$ with $\pi^{p^2-1}=p$ and $\lVert p\rVert=p^{-1}$,
+whose unit ball pulls back to $O_c$. Let $P_I$ be test polynomials and let
+$g\in\mathbb R$. Suppose the following bound (hK) holds for every such field, every
+$u$ in its unit ball and every $F$ such that $\mathrm{atPi}(\pi,F)$ has the class
+expansion relative to $\mathrm{hhA}(u)$: $\lVert[n]\,\mathrm{applyD}(P_I)F\rVert\le p^{-g}$
+for all $I$ and $n$. Then every coefficient of $\mathrm{applyD}(P_I)$ applied to
+$\mathrm{ThZA}(\exp(-\mathrm{PhAt}_{j,v})U)$ satisfies `geC` at level $g$, for every
+integral $U$.*
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaGeCOfNorm.lean:37,51,91`.
+
+*Proof.*
+
+1. Take the normed extension. Its unit ball contains $\mathrm{Rp}(K',\pi)$, because the
+   Witt vectors map into $O_c$ and $\lVert\pi\rVert^{p^2-1}=p^{-1}\le1$ (`:71–89`). Apply
+   Lemma 8.4 with $R'$ the ball. The Dwork lemma and `BeProp` come from `admitted`
+   (`:103–105`).
+2. (hK) quantifies over all $F$ in the class, so it applies to our kernel factor
+   (`:106`). The kernel enters only through Lemma 8.4.
+3. `applyD` commutes with field maps, since factorials and integer coefficients map to
+   themselves (`ea_applyD_map`, `EntryAOneParity.lean:88–99`; `EaGeCOfNorm.lean:107`).
+4. If $a\le gb$, then $\lVert x^bp^{-a}\rVert\le p^{-gb}p^{a}\le1$, so $x^bp^{-a}$ lies
+   in the ball and hence in $O_c$. Here $p^{-a}$ is an integer power, $p^{-gb}$ is a real
+   power, and the comparison is made in $\mathbb R$ (`ea_geC_of_norm`,
+   `EaGeCOfNorm.lean:53–69,108`). $\square$
+
+**Theorem 8.6 (the three place bounds) [Lean, read].** *Assume `admitted`. For every
+place $v$ and step $j<m$:*
+
+1. *`first_theorem_place_bound` gives `LowAt j v (g0v v (j+1))`, which is
+   `VolumeRatio₂` by `auxU_of_firstTheoremPlaceBound`;*
+2. *`second_lemma_place_bound` gives `LowAt j v (gv v (j+1) - alEven v)`;*
+3. *`hecke_place_bound` gives, for $1\le i\le r$, the same statement at level
+   $\mathrm{gv}(v,j+1)$ for the tests $\mathrm{PIvS}$ with index $i$ (`LowAtI`).*
+
+*The proof uses inputs whose statements we read but whose proofs we did not read
+[Lean]: `ea_restSExpV_of`, `restSIntA`, `nm_restNorm_of_place`, `eb_brJet`,
+`ea_brClass`, `ea_brNum`, `ea_brScale`, and the Gauss bounds `kernel_a_one_generic`,
+`kernel_a_two_generic` and `kernel_b_generic`.*
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/FirstTheoremPlaceBound.lean:17,20,24,28`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:32,50,53,56,64`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaGeCOfNorm.lean:156,163,169,177,198,211,224`,
+`src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:213,216,219`.
+
+*Proof.* Each part applies Lemma 8.5 to one family of tests
+(`EaGeCOfNorm.lean:200–201,213–214,226–227`). The bound (hK) is proved in three moves.
+
+1. *Jet.* `ea_BrJet` says that a coefficient of $\mathrm{applyD}(\mathrm{PIv})F$ is $0$ or
+   equals a coefficient of the frame jet of the restriction of $F$ to the variables of
+   place $v$. The first case is trivial (`:204–206`).
+2. *Numbers.* `ea_BrNum` identifies $\mathrm{g0v}(v,j+1)$, $\mathrm{gv}(v,j+1)$ and
+   $\mathrm{alEven}(v)$ with the excess gain, the gain and the even-position sum on the
+   frame side (`:177–192`). The proof rewrites the target level by these identities
+   (`:207,220`).
+3. *Gauss bound.* `ea_BrClass` moves the class expansion of $\mathrm{atPi}(\pi,F)$ to the
+   frame side, relative to $\mathrm{hhS}$ (`:169–175`). `kernel_a_one_generic` then gives
+   part 1, and `kernel_a_two_generic` gives part 2 (`:208,221`). For part 3, `ea_BrScale`
+   first factors out the power of $p$ carried by $\mathrm{PIvS}$, and
+   `kernel_b_generic` with $1\le i$ finishes (`:230–239`). $\square$
+
+**Corollary (`EntCondition`, `restEnt_of`) [Lean, read].** *Assume `admitted`. If
+`PlaceB j v (i0 v) (gP v)` holds at every place, with $g_P$ rational, then `EntB j i0`
+holds at level $\sum_vg_P(v)$.*
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RestEntOf.lean:20,62`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:58,66`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelProductForm.lean:111,118`.
+
+*Proof.*
+
+1. `kernel_product_form` writes the whole kernel as
+   $\mathrm{ThA}=\bigl(\prod_v\exp(-\mathrm{PhAt}_{j,v})\bigr)U_1$ with $U_1$ integral. It
+   uses `adm2b` and `expK_add`. `expK_add` needs the zero constant terms of the phases,
+   given by `en_PhAt_const`. The counterexample of Section 8.4.4 shows that this
+   hypothesis cannot be dropped (`RestEntOf.lean:15–58`).
+2. `restPlaces_of` adds the per-place bounds over this product
+   (`KernelProductForm.lean:118–124`). Its summation lemma `en_places_add` is [Lean].
+3. `restEnt_of_rest` checks each place (`AuxUOfFirstTheoremPlaceBound.lean:66–73`). If
+   $i_0(v)=0$ and `LowAt` holds, it uses `lowAtI_zero`. If $i_0(v)=0$ and
+   $g_P(v)\le\mathrm{gv}-\mathrm{alEven}$, it uses Theorem 8.6(2) with monotonicity. If
+   $1\le i_0(v)\le r$, it uses Theorem 8.6(3) with monotonicity. $\square$
+
+**Theorem 8.7 (`LowTermBound`) [Lean, read].** *Every `admitted` system satisfies
+`LowTermBound`. The proof has three inputs. `FormB` comes from `formB`, whose proof
+takes `adm7`, `ArchimedeanSignatureMatching` and `adm3b` out of `admitted`.
+`EntCondition` comes from the Corollary. The Hecke relations of `Conclusion4` come from
+`theorem_of_alternate_form` [Lean].*
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:89`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean:103`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/YEPEComm.lean:131`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AofUpdate.lean:172`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelSumOfClassData.lean:206,211,255`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/SmulUpdate.lean:99`.
+
+*Proof.* The production proof `p5D` splits on $e_O$
+(`PrvAndKernelCommutationUpToUnitsOfRests.lean:89–93`).
+
+1. *Case $e_O=0$.* A place forces $e_O>0$ (`eO_pos`,
+   `TheoremOfAlternateForm.lean:618`), so there are no places. Then
+   $\mathrm{vsc}(g)=1$ for every $g$, and each `vGe` statement is plain integrality.
+   `Iprod` reduces to $\mathrm{Int}_0$, and induction on the step with `Conclusion0`
+   keeps the chain image integral (`PrvAndKernelCommutationUpToUnitsOfRests.lean:45–68`).
+2. *Generators.* For $e_O>0$, `lift_bound_of_integrality` proceeds by induction on the
+   span `Iprod S VV`. A generator is $\prod_{v\in BB}y_v^mF_0$, taken along a
+   duplicate-free list $L$ of the places of $BB$. Here $F_0=\varpi^{\sigma}F_1$ with
+   $\sigma=\sum_{v\in VV\setminus BB}\lceil S_ve_O\rceil$ and $F_1\in\mathrm{Int}_0$
+   (`LiftBoundOfIntegrality.lean:112–114`). The Boolean $Q_j(v)$ records whether
+   $G_{0n}(v,j+1)\le G_n(v,j+1)-\mathrm{PR}_n(v,j+1)$ (`:115`).
+3. *Chain induction.* `main_ind` shows, for $m'\le m$, that
+   $\mathrm{chainK}_{m'}\bigl((\prod_{v\in L}y_v)^{m'}F_1\bigr)$ has valuation at least
+   $\sum_{j<m'}b_j$. Here $B_j=\{v\in L:Q_j(v)\}$, the value $\gamma_j(v)$ is
+   $G_n(v,j+1)$ on $B_j$ and $G_{0n}(v,j+1)$ elsewhere, and
+   $b_j=\sum_v\gamma_j(v)-d_G(j)-\mathrm{PrS}(j+1,B_j)$ (`YEPEComm.lean:127–143`).
+   - At step $m'$ the list splits into $B=B_{m'}$ and its complement $C$. The $y_v$
+     commute, and the $C$-part stays integral by `adm8` (`:153–164`).
+   - On $B$, the relation of `Conclusion4` trades $y_v$ for the operator $Z_v$ at the
+     cost $p^{\mathrm{PrZ}}$. This is `ZL_chain` (`:110–123,166–170`).
+   - The previous step gives $\mathrm{vsc}(\sum_{j<m'}b_j)\,G'$ with
+     $G'\in\mathrm{Int}_{m'}$ (`:171–174`).
+   - `ZL_bound` bounds one step. `Zop_gen` expands $Z_v$ into the operators $T_{v,i}$,
+     whose coefficients $\mathrm{cl}$ have valuation at least $0$, and at least
+     $\mathrm{alEven}$ for $i=0$. For each generator the shifted levels $g_Q$ satisfy
+     `PlaceB`, and `form_of_place` gives the step bound $\sum_vg_P(v)-d_G(j)$
+     (`AofUpdate.lean:91–217`).
+   - The valuations of the scalars $p^{-\mathrm{PrS}}$ and $\mathrm{vsc}$ add
+     (`YEPEComm.lean:176–185`).
+4. *Real arithmetic.* `basic₂` is a pure inequality in $\mathbb R$. It gives
+   $T\le\sum_{v\in VV\setminus BB}S_v+\sum_{j<m}b_j$
+   (`LiftBoundOfIntegrality.lean:24–87,122–135`). The index shift
+   $\sum_{j=1}^mf(j)=\sum_{j<m}f(j+1)$ is `sum_Icc_shift` (`:12–15`). The integer
+   $\mathrm{PrZ}$ equals the real $\Pr$ after casting. This holds because the number
+   $n'$ of Frobenius positions is even, so $n'/2$ is exact in $\mathbb N$ (`PrZ_cast`,
+   `:91–101`).
+5. *Ceilings and witness.* With $g=\sum_{j<m}b_j$ the proof gets
+   $\lceil Te_O\rceil\le\lceil ge_O\rceil+\sum_v\lceil S_ve_O\rceil$ (`:143–152`). It
+   takes $n\in\mathbb N$ to be the difference. The witness $\varpi^nI$ then places the
+   generator in $\mathrm{vsc}(T)\,\mathrm{Int}_m$ (`:153–162`). The span induction
+   handles zero, sums and $O$-multiples (`:163–174`). $\square$
+
+*Rational levels.* `EntCondition` is stated for rational $g_P$, while `form_of_place`
+uses real levels. `ent_strict` picks rationals $q_v$ with
+$g_P(v)-\varepsilon<q_v<g_P(v)$, where $\varepsilon=(\sum g_P-g')/(\#\mathrm{Pl}+1)$.
+This gives `EntB` at every $g'<\sum g_P$. `formB_lim` removes the strict inequality.
+The lattice is read only through $\lceil(g-d_G)e_O\rceil$, and a small $\delta$ with the
+same ceiling exists.
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RamifiedLatticeOfChainEstimates.lean:46,65,90`.
+
+**Proposition 8.8 (the reader, `unit_bound_of_local_system`) [Lean, read].**
+*`unit_bound_of_sum_over_primes` turns `Stmt D` and the local data into
+`unitBoundAtTwistedPlaces`. From the packet of an admitted system it takes the sixth
+field `VolumeRatio₂` and the eleventh field `LowTermBound`. From `admitted` it takes the
+thirteenth field `adm11`. It passes all three to `unit_bound_of_local_system`, which
+applies `UAt_of` at each place. `UAt_of` instantiates `LowTermBound` and compares
+exponents.*
+`src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:9,23,216,243`,
+`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:718`,
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:161,172`.
+
+*Proof.*
+
+1. The proof sets $h_P$ to `hS.1 _ _ Y5 hA` and projects `hP.2.2.2.2.2.1` and
+   `hP.2.2.2.2.2.2.2.2.2.2`, the sixth and eleventh conjuncts of `Conclusion₂`. It also
+   projects `hA.2.2.2.2.2.2.2.2.2.2.2.2`, the thirteenth conjunct of `admitted`
+   (`JointsTw.lean:265–270`). It never projects the second field,
+   `FormalGroupSystem.Conclusion1`.
+2. `UAt_of` unpacks `SysUAt` (`:34`). It sets $BB$ to the image of the chosen
+   representatives and builds $G_n$, $\mathrm{PR}_n$, $G_{0n}$ and $S$ from the place
+   data (`:39–48`).
+   - The conditions `c1` and `c3` compare $G_n$ with $\mathrm{gB}$ and $\Pr$ with
+     $\mathrm{PR}_n$. They use the small-residue comparison `hNum` when
+     $1\le\log_p(2a)$ and the definitions otherwise (`:82–89,106–113`).
+   - The condition `c2` is `LowAt` at level $G_{0n}$. At representatives it uses
+     `lowAt_max`, which combines `VolumeRatio₂` with `adm11`. Elsewhere it uses the
+     hypothesis `hFn` (`:90–105`).
+   - `yProd` lies in `Iprod S BB` through the duplicate-free list of images, with
+     $F_0=F$ at exponent $0$ (`:114–126`).
+3. `LowTermBound` is applied at `:127`. Its bound is read as membership in
+   $\varpi^{\lceil(\cdot)e_O\rceil}\mathrm{Int}_m$ (`:128–133`). The comparison `hTB` sums
+   the place inequalities `hj` and adds `low` (`:135–209`). Finally `eO_eq_vUnit`
+   identifies $e_O$ with the unit valuation `vUnit`, and `scale_pow_mono` lowers the
+   integer exponent (`:210–214`; `Joints.lean:1608–1627`). $\square$
+
+**Remarks [Open].**
+
+1. *Hypothesis inputs.* `adm7` is the passage in `FormB` from column tests to lattice
+   membership. Given `geC` bounds for every coefficient of
+   $\mathrm{applyD}(\mathrm{PI}(j,I,i_0))f$, it supplies a frame $\varphi$ that puts the
+   kernel image in `inLatC` (`FormalGroupSystem.lean:613–622`). It enters `entry_mem`
+   when `admitted` is destructured (`KernelSumOfClassData.lean:211,231`), together with
+   `ArchimedeanSignatureMatching`, the expansion of $K_j$ as a kernel sum. Both are
+   fields of `admitted`. At the read site `SumOverPrimesHypotheses.lean:202`, the system
+   and its `admitted` arrive in `hSys` from the field `twU` of the structure
+   `SumOverPrimesHypotheses` (`:116–136,201`). So the jet-to-lattice step that Section
+   8.4.4 left open is an assumption at this level. Where `SumOverPrimesHypotheses` is
+   proved lies outside this chapter.
+2. *Proofs not read.* The Gauss bounds reduce to `gauss_a_one_generic` and its
+   companions (`EGaussK.lean:186–220`). We have also not read the proofs of
+   `theorem_of_alternate_form`, `ea_restSExpV_of`, `eb_brJet`, `ea_brClass`, `ea_brNum`
+   and `ea_brScale`. LUMI's guide reports a full reading of `ea_A1U` and `ea_BrNum`
+   and outlines `kernel_a_one_generic` and `main_ind`
+   ([docs/04](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/04-chain-and-one-half.md))
+   [Community].
+3. *An unused interface.* `EntryAOneParity.lean` also derives the place bounds from
+   the hypotheses `SeriesGaussValuationFirst`, `SeriesGaussValuationSecond` and
+   `ea_RestKerB`, through `ea_low` and `ea_three` (`EntryAOneParity.lean:122–160`;
+   `EaRestSExpV.lean:44–47`). A search of the pinned archive finds no caller of
+   `ea_three`. The production proof uses `ea_lowN` with the Gauss bounds instead, so
+   these hypotheses are not inputs of the main path.
+4. *Two uniformizers.* The kernel side uses $\pi\in K'$ with $\pi^{p^2-1}=p$, supplied
+   by the normed extension of `nm_restNorm_of_place`. The lattice side uses the
+   uniformizer $\varpi$ of $O$, with $p$ associated to $\varpi^{e_O}$. Levels are
+   measured in units of $v_p$ on both sides. They become exponents of $\varpi$ only
+   through $\lceil ge_O\rceil$.
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NmRestNormOfPlace.lean:21`,
+   `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:270,309`.
 
 ---
 
@@ -588,10 +965,16 @@ division of labor [Lean, read]:
   an explicit input hypothesis**, check `InNP` on `NuLat`, pair the composite column against test
   forms via `val_step` (`:401`) and `period_ge` (`:419–437`) so the $\pm v_{\mathrm{DG}}$ denominator
   offsets cancel, and apply `gainD_le_gainS` (`:552`) to deduce period divisibility at order `L.sg u w`;
-- Section 8.4.4 proves a conditional single-kernel expansion. The service proof
-  also uses lattice estimates from the formal-group packet to obtain the off-level
-  composite bound. The two declarations named `Conclusion1` have different conclusions.
-  [Lean] `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:633,775`,
+- Sections 8.4.4–8.4.5 read the formal-group side. The two declarations named
+  `Conclusion1` have different conclusions. The single-kernel
+  `FormalGroupSystem.Conclusion1` is packed into `Conclusion₂` as the field `R.S1`, but
+  none of the three read sites projects it. They use only `VolumeRatio₂` and
+  `LowTermBound`, which reach the service proof through `unitBoundAtTwistedPlaces` and
+  `SmallInertPrimeSmallOrderLengthBound`. Both fields come from the same exponential
+  estimate `inClass_of_exp` through `ea_restSU_of`, not through `Conclusion1`.
+  [Lean, read] `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:633,775`,
+  `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:94,97`,
+  `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:172,185`,
   `src/Formalism/SharpRestriction/SmoothDesignExistence/SumOverPrimesHypotheses.lean:187,202,219`.
 
 ### 8.5.2 Why even powers of $p$ cancel and why ramified primes are harmless
@@ -646,7 +1029,12 @@ supersingular CM reductions, Lubin–Tate formal groups, or `Conclusion1` [Expos
 | `ColBr`, `NPc`, `JointAt`, `SecondLevelHypothesisAt`, `SecondLevelHypothesisFamily` | `src/Formalism/LocalToGlobal/GroupLattices/JointServices.lean:13,72,95,125,163` | Proposition 8.3(1): spans `InNP`-admissible vectors into the local $\mathcal O_L$-submodule `NPc` away from $T_u, g_0, g_1$ (`OffTG`) and merges it with `ColBr`. | [Lean, read] |
 | `SelectionServed`, `closed_servF_of_servT_of_dGamSize` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GServT.lean:13,31` | Proposition 8.3(2): discharges `ServF` (supplying `Conclusion1`) from served orbit selection and gamma-factor bounds. | [Lean, read] |
 | `DivisionKernelData`, `pkg_of_rowsK_alt`, `DivisionKernelConstantBounds`, `linkDIVt_of_bridge_kernel`, `closed_linkDIVt_of_closed_bridge_kernel` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:32,113,166,193,197` | Proposition 8.3(2): supplies `Conclusion1` to `off_level_bound_family` alongside `SecondLevelHypothesisFamily` to prove `LinkDIVt` (import cone 4,699). | [Lean, read] |
-| `gam`, `gB`, `gA`, `Conclusion1`, `Conclusion2`; `trueColumns_row_sharp_bounds` | `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,57,66,633,649`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8` | Definition 8.3(2) (`R2`): supersingular height-$2$ slope $\frac{p}{p^2-1} = \sum_{e \ge 0} p^{-(2e+1)}$, odd-power gain `gA`, and statement interfaces. Section 8.4.4 reads the conditional kernel expansion, with deeper estimates `[Open]`. | [Lean] |
+| `gam`, `gB`, `gA`, `Conclusion1`, `Conclusion2`; `trueColumns_row_sharp_bounds` | `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,57,66,633,649`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8` | Definition 8.3(2) (`R2`): supersingular height-$2$ slope $\frac{p}{p^2-1} = \sum_{e \ge 0} p^{-(2e+1)}$, odd-power gain `gA`, and statement interfaces. Sections 8.4.4–8.4.5 read the kernel expansion and the production of `VolumeRatio₂` and `LowTermBound`; the Gauss bounds and the `admitted` inputs stay `[Open]`. | [Lean] |
+| `atPi`, `applyD`, `Sys.vsc`, `Sys.vGe`, `Sys.Iprod`, `Pend.geC`, `Pend.LowAt`, `adm7`, `adm11`, `VolumeRatio₂`, `LowTermBound`, `lowAt_max`, `admitted`, `Conclusion₂`, `Stmt` | `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:253,256,309,311,361,522,529,613,627,658,708,718,771,775,779` | Section 8.4.5 definitions: rescaling, column tests, lattice valuation, integer encoding of a real bound, low bound of one exponential factor, the packet and its hypotheses. | [Lean, read] |
+| `ea_restSU_of`, `ea_InClassA`, `ea_RestSU`, `ea_applyD_map`, `ea_geC_of_norm`, `ea_Rp_le_ball`, `ea_lowN`, `ea_A1U`, `ea_A2U`, `ea_BU`, `first_theorem_place_bound`, `second_lemma_place_bound`, `hecke_place_bound`, `restEnt_of_rest`, `kernel_product_form`, `restEnt_of`, `restPlaces_of` | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaRestSExpV.lean:28`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EntryAOneParity.lean:88,101,106`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaGeCOfNorm.lean:53,71,91,198,211,224`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/FirstTheoremPlaceBound.lean:20,24,28`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:66`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RestEntOf.lean:20,62`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelProductForm.lean:118` | Lemmas 8.4–8.5, Theorem 8.6 and its corollary: one-place class expansion, transfer to `LowAt`, the three place bounds and `EntCondition`. | [Lean, read] |
+| `low_term_bound_of_eO_eq_zero_of_aux0`, `prv_and_kernel_commutation_up_to_units_of_rests`, `rests`, `stmt_proved`, `basic₂`, `PrZ_cast`, `lift_bound_of_integrality`, `ZL_chain`, `bbJ`, `main_ind`, `Zop_gen`, `ZL_mem`, `ZL_bound`, `ent_strict`, `formB_lim`, `form_of_place` | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:45,80,97,107`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean:24,91,103`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/YEPEComm.lean:110,127,131`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AofUpdate.lean:91,152,172`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RamifiedLatticeOfChainEstimates.lean:46,65,90` | Theorem 8.7: production proof of `LowTermBound` in both cases of $e_O$, the chain induction, the one-step bound, and the rational and ceiling bookkeeping. | [Lean, read] |
+| `SysUAt`, `UAt_of`, `unit_bound_of_local_system`, `unit_bound_of_sum_over_primes`, `UAt`, `unitBoundAtTwistedPlaces`, `eO_eq_vUnit`, `scale_pow_mono` | `src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:9,23,216,243`; `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:161,172`; `src/Formalism/SharpRestriction/GrowthBounds/Joints.lean:1608,1618` | Proposition 8.8: the reader of `VolumeRatio₂`, `adm11` and `LowTermBound`. | [Lean, read] |
+| `ea_restSExpV_of`, `restSIntA`, `nm_restNorm_of_place`, `eb_brJet`, `ea_brClass`, `ea_brNum`, `ea_brScale`, `kernel_a_one_generic`, `kernel_a_two_generic`, `kernel_b_generic`, `formB`, `entry_mem`, `theorem_of_alternate_form` | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaRestSExpVOf.lean:260`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AtPiEqRescale.lean:64`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NmRestNormOfPlace.lean:21`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EbBrJet.lean:41`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaDegreeMapDomain.lean:162`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/GainOfCapacityLoss.lean:252`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaApplyDScale.lean:98`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:213,216,219`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/SmulUpdate.lean:99`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelSumOfClassData.lean:206`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/TheoremOfAlternateForm.lean:561` | Inputs of Theorems 8.6–8.7 whose proofs we have not read; `entry_mem` takes `adm7` and `ArchimedeanSignatureMatching` from `admitted`. | [Lean] |
 
 **Summary of the chapter.** At primes $p$ inert in the imaginary quadratic core $K = \mathbb Q(\sqrt{-d})$,
 supersingular height-$2$ formal groups have $D^p \equiv 0 \pmod p$ and Newton-polygon slope
@@ -657,6 +1045,10 @@ In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, `Co
 `InNP ... → ColGe ... (totS ...)` (supplied upstream via `FormalGroupSystem.lean` and
 `DIVRecBridgeSel.lean`), and `off_level_bound` (`:504`) plus `off_level_bound_family` (`:614`) combine
 that `Conclusion1` input with `PairInt`, `val_step`, `period_ge`, and `gainD_le_gainS` to deduce period
-divisibility at order `L.sg u w`, feeding `LinkDIVt` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:197`) [Lean, read]. In
+divisibility at order `L.sg u w`, feeding `LinkDIVt` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:197`) [Lean, read].
+On the formal-group side, one exponential estimate (`inClass_of_exp`) yields, through
+`ea_restSU_of`, the place bound `VolumeRatio₂` and the chain bound `LowTermBound`. These are the only
+packet fields read downstream, and the passage from column tests to lattices is the `admitted` field
+`adm7` (Sections 8.4.4–8.4.5). In
 Chapter 9 we see how Bost's Arakelov slope inequality converts this local $\mathfrak p_w$-adic
 divisibility into a global numerical inequality!

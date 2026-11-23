@@ -151,7 +151,15 @@ at the joined archive hash below. Its proof uses
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NatCastInvMemRp.lean:52`
 for factorial integrality and
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:143`
-for the finite coefficient expansion. Katz1976 is background to the chapter. The
+for the finite coefficient expansion. Section 8.4.5 follows the production of the packet fields
+`VolumeRatio₂` and `LowTermBound` through
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaRestSExpV.lean:28`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaGeCOfNorm.lean:91`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean:103` and
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/YEPEComm.lean:131`, to the reader
+`src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:23,243`. Both sections depend only on the
+archive for proofs; Katz1976 is background to the chapter, and LUMI's `docs/04-chain-and-one-half.md`
+(re-fetched 2026-11-23; see Updates to Part I) is the community outline we compare against. The
 finite-jet calculation and the explanation of these Lean declarations are the book's exposition.
 
 Author's original parts, `https://alpo.ge/lean.tar.gz.partNN`, NN = 01…14, as linked in
@@ -1498,6 +1506,8 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Re-check during Chapters 17–18 expansion & full-book audit closure, 2026-11-22 09:15 UTC** (run `rhbook-ch17-18-1122d-11221700/fetches/`): pinned Mathlib `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` (`21,422` B, sha256 `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5`) retrieved and added to Part I, §4 above; Sutherland's verification page (V1) updated at `2026-11-22 04:35 UTC` (`27,222` B, sha256 `01a43fc8defab818d878bfa8fd900d7563073db3dbc6f150ad73baec0fe388a7`, reporting standalone `kimihiro64/Robin1984` passing both Comparator `v4.33.0` at `03:31:06 UTC` and `lake comparator` `v4.36.0` at `04:16:52 UTC` alongside elaborated `lagariasStmt`, while main and combined 62 GB `lake comparator` kernel stages remain `running`); `mccorvie/riemann-masullo` `README.md` updated (`14,590` B, sha256 `9072dc8b625f3b07e02b5e60be1edef38816c975aee2f5c03f2b05a1a4be5c2e`, Wave 3 seeded as section issues and `lake comparator` harness added); `rStation` `riemann_hypothesis_189` updated to `v3` (`2026-11-22 05:23 UTC`, `142,166` B, sha256 `15bbcef5a144e33264be7de5f0e7291ebd9a89546e3d9d0de10f3b03cc96e863`); and 10 classical references (`[Artin1927]`, `[Behrend1946]`, `[Berger2002]`, `[Clozel1990]`, `[DeligneRibet1980]`, `[Neukirch1999]`, `[NeukirchSchmidtWingberg2008]`, `[Roth1953]`, `[Tschebotareff1926]`, `[Wiles1995]`) were verified online via Crossref and added in strict alphabetical order to Part I, §6 above.
 
 - **Nielsen critique, 2026-11-23 (CST)**: E14 added; code claims verified against the pinned archive; analysis in Chapter 16, §16.6.
+
+- **Chapter 8, Sections 8.4.4–8.4.5, 2026-11-23T06:54Z**: `[Katz1976]` re-verified via Crossref (`doi:10.2307/1970966`: Katz, *The Annals of Mathematics* 104, no. 3, first page 459, issue date 1976-11), unchanged. LUMI `docs/04-chain-and-one-half.md` re-fetched (`32,281` B, sha256 `5258df0f8b20609b38926ca1ef54b0ac45afc5b2f7749022dc7086d64573f9f9`, last commit `c6d0e2bc06` at 2026-11-21T13:02:26Z; §5 lists the earlier `31,832`-byte copy of 2026-11-21T04:03:05Z). Its section "How the divisibility `Conclusion1` is proved" outlines the jet bound `kernel_a_one_generic`, the gain identity `ea_A1U`/`ea_BrNum` and the accumulation `lift_bound_of_integrality`/`main_ind` [Community]; Section 8.4.5 reads these declarations against the pinned archive.
 
 
 ### Internal review of Chapters 17–18
