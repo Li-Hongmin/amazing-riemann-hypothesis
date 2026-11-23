@@ -112,12 +112,47 @@ Connes, Bombieri's Millennium Problem report, and Meyer are our references for H
 $L$-functions, explicit formulas, nuclear spaces, and idele-class spectral realizations in Part IV
 Chapters 14–16 (Section 6).
 
+
+**Chapter 9, §9.4.5.** The joined Lean archive in §1 supplies the cone predicate
+`src/Formalism/HermitianCurvature/StatementPB.lean:89,125,133` and the two conditional
+proofs `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:384,602`
+[Lean, read]. The direct rank-one factorization dependency was checked online at the
+Mathlib pin in §4. [Mathlib, `Positive.lean`, lines 544–566](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/InnerProductSpace/Positive.lean#L544-L566)
+**Chapter 4, §4.7.** The joined Lean archive in §1 supplies the zero-density proof
+`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/CountZAll.lean:13` and its
+`CountZ*` files, read with their direct dependencies [Lean, read], and `page_across`
+(`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqPage.lean:37`). The classical
+comparison uses Bombieri1965, Bombieri1971, Montgomery1968, Montgomery1969, Montgomery1971, Huxley1972,
+Huxley1975, Page1935 and Siegel1935 (Section 6), and Masullo's Appendix B.4 and B.6 from the PDF in §3
+(sha256 rechecked 2026-11-23).
+
+**Chapter 10, §§10.4.5–10.4.6.** The joined Lean archive in §1 supplies the DVR determinant lemma
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:259`, the block-determinant lemmas
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetOneAddSmulBlkMem.lean:89` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CMemCoeffSub.lean:99`, the solution-module bound
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:77`, the peeling lemma
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:52`, the cyclotomic-block bound
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:372`, the class-number bound
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:172` and the twist lemma
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`, read with their direct dependencies [Lean, read]. The
+Mathlib leaves cited there (`IsLocalRing.length_restrictScalars`, `Polynomial.coeff_det_X_add_C_card`,
+`Module.length_eq_add_of_exact`) were located at the pin in §4. The comparison uses Ribet1976,
+MazurWiles1984 and SkinnerUrban2014 (Section 6); the archive cites none of them.
+
 **Our derived data.** Declaration index, import graph, text scan and citation check, all
 reproducible from the archive (Section 7).
 
 # Exact versions
 
 ## 1. The Lean archive (primary source)
+
+Chapter 8, Section 8.4.4 reads the local kernel expansion in
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:116,136`
+at the joined archive hash below. Its proof uses
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NatCastInvMemRp.lean:52`
+for factorial integrality and
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:143`
+for the finite coefficient expansion. Katz1976 is background to the chapter. The
+finite-jet calculation and the explanation of these Lean declarations are the book's exposition.
 
 Author's original parts, `https://alpo.ge/lean.tar.gz.partNN`, NN = 01…14, as linked in
 footnote 1 of the announcement. Downloaded 2026-11-21 04:01:46–04:05:21 with `curl`; every part
@@ -264,14 +299,20 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   P. Cartier et al. (eds.), *The Grothendieck Festschrift*, Vol. I, Progress in Mathematics 86,
   Birkhäuser, Boston, 1990, pp. 333–400, doi:10.1007/978-0-8176-4574-8_9 (cited in Chapter 10).
   Verified: 2026-11-21 via Birkhäuser Progress in Mathematics vol. 86 (1990), pp. 333–400.
+- **[Bombieri1965]** E. Bombieri, "On the large sieve", *Mathematika* 12 (1965), no. 2, 201–225,
+  doi:10.1112/S0025579300005313 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.1112/S0025579300005313`), *Mathematika* vol. 12, no. 2 (1965), pp. 201–225.
+- **[Bombieri1971]** E. Bombieri, "A note on the large sieve", *Acta Arithmetica* 18 (1971),
+  401–404, doi:10.4064/aa-18-1-401-404 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.4064/aa-18-1-401-404`) and EuDML (`doc/205002`), vol. 18 (1971), pp. 401–404. The generalized Bessel inequality attributed to it in Chapter 4 was checked against G. Harcos, "The Bombieri–Halász–Montgomery inequality" (note, `https://www.renyi.hu/~gharcos/bombieri-halasz-montgomery.pdf`) and S. S. Dragomir, arXiv:math/0307131, §1, (1.1).
 - **[Bombieri1973]** E. Bombieri, "Counting points on curves over finite fields (d'après
   S. A. Stepanov)", *Séminaire Bourbaki*, 25e année (1972/73), exp. no. 430 (June 1973), in
   *Lecture Notes in Mathematics* 383, Springer, Berlin–Heidelberg, 1974, pp. 234–241,
   doi:10.1007/BFb0057311; open copy at `https://www.numdam.org/item/SB_1972-1973__15__234_0/`
-  (cited in Chapters 0, 6, 7, and 8).
+  (cited in Chapters 6, 7, 8, and 15).
   Verified: 2026-11-21 via Numdam (`SB_1972-1973__15__234_0`) and Springer (`doi:10.1007/BFb0057311`), vol. 383, pp. 234–241.
 - **[Bombieri1974]** E. Bombieri, *Le grand crible dans la théorie analytique des nombres*,
-  Astérisque 18, Société Mathématique de France, Paris, 1974 (cited in Chapter 4).
+  Astérisque 18, Société Mathématique de France, Paris, 1974 (background reference).
   Verified: 2026-11-21 via SMF Astérisque catalogue (vol. 18, 1974).
 - **[Bombieri2000]** E. Bombieri, "Problems of the Millennium: The Riemann Hypothesis", Clay
   Mathematics Institute, Cambridge, MA, 2000; reprinted in J. Carlson, A. Jaffe, and A. Wiles
@@ -305,6 +346,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   reine und angewandte Mathematik* 227 (1967), 86–110, doi:10.1515/crll.1967.227.86 (cited in
   Chapter 9).
   Verified: 2026-11-21 via EuDML / De Gruyter, *J. Reine Angew. Math.* vol. 227 (1967), pp. 86–110.
+- **[ChenevierHarris2013]** G. Chenevier and M. Harris, “Construction of automorphic Galois representations, II,” *Cambridge Journal of Mathematics* 1 (2013), doi:10.4310/CJM.2013.v1.n1.a2. Introduction and Theorem 3.2.3 (cited in Chapter 19). [Publisher PDF](https://intlpress.com/site/pub/files/_fulltext/journals/cjm/2013/0001/0001/CJM-2013-0001-0001-a002.pdf)
 - **[Clozel1990]** L. Clozel, "Motifs et formes automorphes: applications du principe de
   fonctorialité", in L. Clozel and J. S. Milne (eds.), *Automorphic Forms, Shimura Varieties, and
   $L$-Functions*, Vol. I, Perspectives in Mathematics 10, Academic Press, Boston, MA, 1990,
@@ -320,7 +362,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/s000290050042`), *Selecta Math. (N.S.)* vol. 5, no. 1 (1999), pp. 29–106.
 - **[Davenport2000]** H. Davenport, *Multiplicative Number Theory*, 3rd ed., revised by
   H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
-  ISBN 978-0-387-95097-6 (cited in Chapters 0, 2, 4, 7, and 16).
+  ISBN 978-0-387-95097-6 (cited in Chapters 4, 7, and 16).
   Verified: 2026-11-21 via Springer GTM 74 catalogue (`ISBN 978-0-387-95097-6`).
 - **[DeligneRibet1980]** P. Deligne and K. A. Ribet, "Values of abelian $L$-functions at negative
   integers over totally real fields", *Inventiones Mathematicae* 59 (1980), no. 3, 227–286,
@@ -346,9 +388,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   of the American Mathematical Society* 80 (1955), no. 2, 402–447,
   doi:10.1090/S0002-9947-1955-0072878-2 (cited in Chapter 13).
   Verified: 2026-11-22 via AMS (`doi:10.1090/S0002-9947-1955-0072878-2`), *Trans. Amer. Math. Soc.* vol. 80, no. 2 (1955), pp. 402–447.
+- **[GanQiuTakeda2014]** W. T. Gan, Y. Qiu and S. Takeda, “The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula,” *Inventiones Mathematicae* 198 (2014), 739–831. Theorems 1.2–1.3 (cited in Chapter 19). [Author preprint](https://arxiv.org/abs/1207.4709)
 - **[Grothendieck1955]** A. Grothendieck, *Produits tensoriels topologiques et espaces nucléaires*,
   Memoirs of the American Mathematical Society 16, American Mathematical Society, Providence, RI,
-  1955, doi:10.1090/memo/0016 (cited in Chapter 14).
+  1955, doi:10.1090/memo/0016 (cited in Chapters 14 and 18).
   Verified: 2026-11-22 via Crossref / AMS (`doi:10.1090/memo/0016`), *Mem. Amer. Math. Soc.* no. 16 (1955).
 - **[HarrisTaylor2001]** M. Harris and R. Taylor, *The Geometry and Cohomology of Some Simple Shimura
   Varieties*, Annals of Mathematics Studies 151, Princeton University Press, Princeton, NJ, 2001,
@@ -386,11 +429,17 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Howe1979]** R. Howe, "$\theta$-series and invariant theory", in A. Borel and W. Casselman
   (eds.), *Automorphic Forms, Representations and $L$-Functions* (Proc. Sympos. Pure Math., Oregon
   State Univ., Corvallis, 1977), Proceedings of Symposia in Pure Mathematics 33, Part 1, American
-  Mathematical Society, Providence, RI, 1979, pp. 275–285 (cited in Chapter 7).
+  Mathematical Society, Providence, RI, 1979, pp. 275–285 (cited in Chapters 7 and 14).
   Verified: 2026-11-21 via AMS PSPM vol. 33, Part 1 (1979), pp. 275–285.
+- **[Huxley1972]** M. N. Huxley, "On the difference between consecutive primes", *Inventiones
+  Mathematicae* 15 (1972), no. 2, 164–170, doi:10.1007/BF01418933 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.1007/BF01418933`; Crossref issue date 1971-06), vol. 15, no. 2, pp. 164–170. The density exponent 12/5 was checked against arXiv:2607.04632, Theorem 4.2 and (18).
+- **[Huxley1975]** M. N. Huxley, "Large values of Dirichlet polynomials, III", *Acta Arithmetica*
+  26 (1975), no. 4, 435–444, doi:10.4064/aa-26-4-435-444 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.4064/aa-26-4-435-444`), vol. 26, no. 4 (1975), pp. 435–444. Its role for the hybrid exponent 12/5 over primitive characters was checked against M. Jutila, "Recent progress in the theory of $L$-functions", *Séminaire Delange–Pisot–Poitou* 17 (1975/76), no. 1, exp. 6, §2, (2.3) (Numdam `SDPP_1975-1976__17_1_A6_0`), which credits Huxley's papers [5] and [9], i.e. Huxley1972 and Huxley1975.
 - **[IwaniecKowalski2004]** H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium
   Publications 53, American Mathematical Society, Providence, RI, 2004, ISBN 978-0-8218-3633-0,
-  doi:10.1090/coll/053 (cited in Chapters 0, 4, 6, and 7).
+  doi:10.1090/coll/053 (cited in Chapters 6, 7, and 15).
   Verified: 2026-11-21 via AMS Colloquium Publications vol. 53 (`doi:10.1090/coll/053`).
 - **[Iwasawa1959]** K. Iwasawa, "On $\Gamma$-extensions of algebraic number fields", *Bulletin of
   the American Mathematical Society* 65 (1959), no. 4, 183–226,
@@ -412,23 +461,29 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via JSTOR / *Annals of Mathematics* (`doi:10.2307/1970966`), vol. 104, no. 3 (1976), pp. 459–571.
 - **[KudlaRallis1994]** S. S. Kudla and S. Rallis, "A regularized Siegel–Weil formula: the first
   term identity", *Annals of Mathematics* (2) 140 (1994), no. 1, 1–80, doi:10.2307/2118540
-  (cited in Chapters 7, 8, 9, 12, 16, and 18).
+  (cited in Chapters 7, 8, 9, 12, 15, 16, and 18).
   Verified: 2026-11-21 via *Annals of Mathematics* / JSTOR (`doi:10.2307/2118540`), vol. 140, no. 1, pp. 1–80.
 - **[Lagarias2002]** J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis",
   *The American Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in
   `CONTRIBUTIONS.md`).
   Verified: 2026-11-21 via MAA / JSTOR (`doi:10.2307/2695443`), vol. 109, no. 6, pp. 534–543.
 - **[Landau1905]** E. Landau, "Über einen Satz von Tschebyschef", *Mathematische Annalen* 61
-  (1905), 527–550, doi:10.1007/BF01449495 (cited in Chapter 3).
+  (1905), 527–550, doi:10.1007/BF01449495 (cited in Chapter 15).
   Verified: 2026-11-21 via Springer (`doi:10.1007/BF01449495`), vol. 61, pp. 527–550.
 - **[MazurWiles1984]** B. Mazur and A. Wiles, "Class fields of abelian extensions of $\mathbf Q$",
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
-  Chapter 11).
+  Chapters 10 and 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388599`), *Invent. Math.* vol. 76, no. 2 (1984), pp. 179–330.
 - **[Meyer2005]** R. Meyer, "On a representation of the idele class group related to primes and zeros
   of $L$-functions", *Duke Mathematical Journal* 127 (2005), no. 3, 519–595,
   doi:10.1215/S0012-7094-04-12734-4 (cited in Chapters 14 and 15).
   Verified: 2026-11-22 via Crossref / Project Euclid (`doi:10.1215/S0012-7094-04-12734-4`), *Duke Math. J.* vol. 127, no. 3 (2005), pp. 519–595.
+- **[Montgomery1968]** H. L. Montgomery, "A note on the large sieve", *Journal of the London
+  Mathematical Society* s1-43 (1968), no. 1, 93–98, doi:10.1112/jlms/s1-43.1.93 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.1112/jlms/s1-43.1.93`), vol. s1-43, no. 1 (1968), pp. 93–98.
+- **[Montgomery1969]** H. L. Montgomery, "Zeros of $L$-functions", *Inventiones Mathematicae* 8
+  (1969), no. 4, 346–354, doi:10.1007/BF01404638 (cited in Chapter 4).
+  Verified: 2026-11-23 via Crossref (`doi:10.1007/BF01404638`), vol. 8, no. 4 (1969), pp. 346–354. The hybrid density exponent 5/2 attributed to it was checked against R. J. Lemke Oliver and J. Thorner, arXiv:1505.03122, §1, (1.6), and C. An, arXiv:2004.14410, §2.1.
 - **[Montgomery1971]** H. L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in
   Mathematics 227, Springer, Berlin–Heidelberg, 1971, ISBN 978-3-540-05641-6,
   doi:10.1007/BFb0060851 (Chapter 12, cited in Chapter 4).
@@ -451,7 +506,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via LMS (`doi:10.1112/plms/s2-39.1.116`), ser. 2, vol. 39, pp. 116–141.
 - **[Polya1930]** G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von
   der Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930,
-  19–27 (cited in Chapter 3).
+  19–27 (cited in Chapter 15).
   Verified: 2026-11-21 via Göttingen Digitalisierungszentrum (*Nachr. Ges. Wiss. Göttingen* 1930, pp. 19–27).
 - **[Rallis1984]** S. Rallis, "On the Howe duality conjecture", *Compositio Mathematica* 51 (1984),
   no. 3, 333–399; open copy at `http://www.numdam.org/item/CM_1984__51_3_333_0/` (cited in
@@ -467,7 +522,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via Crossref / Springer LNM vol. 1245 (`doi:10.1007/BFb0077894`, `ISBN 978-3-540-17694-7`), xvi+239 pp.
 - **[RamakrishnanValenza1999]** D. Ramakrishnan and R. J. Valenza, *Fourier Analysis on Number
   Fields*, Graduate Texts in Mathematics 186, Springer, New York, 1999, ISBN 978-0-387-98436-0
-  (cited in Chapter 2).
+  (cited in Chapter 14).
   Verified: 2026-11-21 via Springer GTM vol. 186 (`ISBN 978-0-387-98436-0`).
 - **[Ribet1976]** K. A. Ribet, "A modular construction of unramified $p$-extensions of
   $\mathbb Q(\mu_p)$", *Inventiones Mathematicae* 34 (1976), no. 3, 151–162,
@@ -481,7 +536,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Society* (1) 28 (1953), no. 1, 104–109, doi:10.1112/jlms/s1-28.1.104 (cited in Chapter 17).
   Verified: 2026-11-22 via Crossref / LMS (`doi:10.1112/jlms/s1-28.1.104`), *J. London Math. Soc.* vol. s1-28, no. 1 (1953), pp. 104–109.
 - **[Rubin2000]** K. Rubin, *Euler Systems*, Annals of Mathematics Studies 147, Princeton University
-  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10, 11, and 18).
+  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10 and 11).
   Verified: 2026-11-21 via Princeton University Press AMS vol. 147 (`ISBN 978-0-691-05076-8`), xii+224 pp.
 - **[Schmidt1976]** W. M. Schmidt, *Equations over Finite Fields: An Elementary Approach*, Lecture
   Notes in Mathematics 536, Springer, Berlin–Heidelberg, 1976, ISBN 978-3-540-07855-5,
@@ -493,10 +548,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via bibliographic records for *J. Indian Math. Soc. (N.S.)* vol. 20 (1956), pp. 47–87 (reprinted in *Atle Selberg: Collected Papers*, Vol. I, Springer, 1989, pp. 423–463).
 - **[Shin2011]** S. W. Shin, "Galois representations arising from some compact Shimura varieties",
   *Annals of Mathematics* (2) 173 (2011), no. 3, 1645–1741, doi:10.4007/annals.2011.173.3.9
-  (cited in Chapter 12).
+  (cited in Chapters 12, 16, and 19).
   Verified: 2026-11-22 via *Annals of Mathematics* (`doi:10.4007/annals.2011.173.3.9`), vol. 173, no. 3 (2011), pp. 1645–1741.
 - **[Siegel1935]** C. L. Siegel, "Über die Classenzahl quadratischer Zahlkörper", *Acta Arithmetica*
-  1 (1935), no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapter 4).
+  1 (1935), no. 1, 83–86, doi:10.4064/AA-1-1-83-86 (cited in Chapters 4 and 16).
   Verified: 2026-11-21 via IMPAN (`doi:10.4064/AA-1-1-83-86`), vol. 1, no. 1, pp. 83–86.
 - **[Siegel1935b]** C. L. Siegel, "Über die analytische Theorie der quadratischen Formen", *Annals
   of Mathematics* (2) 36 (1935), no. 3, 527–606, doi:10.2307/1968644 (cited in Chapter 9).
@@ -505,6 +560,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   function", *Inventiones Mathematicae* 75 (1984), no. 2, 273–282, doi:10.1007/BF01388565 (cited
   in Chapter 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388565`), *Invent. Math.* vol. 75, no. 2 (1984), pp. 273–282.
+- **[SkinnerUrban2014]** C. Skinner and E. Urban, "The Iwasawa Main Conjectures for $\mathrm{GL}_2$",
+  *Inventiones Mathematicae* 195 (2014), no. 1, 1–277, doi:10.1007/s00222-013-0448-1 (cited in
+  Chapter 10, §10.4.5: §4 "Constructing cocycles" and the map (4.4.3.a), compared with Lemma 10.8;
+  the archive does not cite it).
+  Verified: 2026-11-23 via Crossref (`doi:10.1007/s00222-013-0448-1`), *Invent. Math.* vol. 195, no. 1 (2014),
+  pp. 1–277; §4.3–§4.4 and (4.4.3.a) read in the author-hosted PDF
+  <https://www.math.columbia.edu/~urban/eurp/MC.pdf> (1,544,674 bytes, sha256
+  `f9faa40aa5e30eba705da88e3d68c8aa43069b5be01c1cc6ece212dd57879748`).
 - **[Soule1979]** C. Soulé, "$K$-théorie des anneaux d'entiers de corps de nombres et cohomologie
   étale", *Inventiones Mathematicae* 55 (1979), no. 3, 251–295, doi:10.1007/BF01406843 (cited in
   Chapter 11).
@@ -517,7 +580,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via Math-Net.Ru (*Izv. AN SSSR Ser. Mat.* 33:5 (1969), 1171–1181) and *Math. USSR-Izv.* 3:5 (1969), 1103–1114.
 - **[Tate1967]** J. T. Tate, "Fourier analysis in number fields, and Hecke's zeta-functions" (1950
   thesis), in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press,
-  London, 1967, pp. 305–347 (cited in Chapters 2, 7, 8, 12, 14, 15, and 18).
+  London, 1967, pp. 305–347 (cited in Chapters 7, 8, 12, 14, 15, and 18).
   Verified: 2026-11-21 via Cassels–Fröhlich *Algebraic Number Theory* (Academic Press, 1967, Ch. XV, pp. 305–347).
 - **[TaylorWiles1995]** R. Taylor and A. Wiles, "Ring-theoretic properties of certain Hecke
   algebras", *Annals of Mathematics* (2) 141 (1995), no. 3, 553–572, doi:10.2307/2118560 (cited
@@ -985,7 +1048,7 @@ In the run directory: `index/decls.tsv.gz` (1,057,807 declaration headers with f
 - Author: Jenny Lorraine Nielsen (Center for Topological Physics, Lawrence, Kansas); commentary by Frank Chu (DEV), Carlos Toledo; compiled-dependency audit by Harry Tong (`harrytong/rh-verification`, posted in the DEV comments 2026-11-22 20:42 UTC); Nielsen's own reply in the DEV comments (2026-11-22 11:20 UTC).
 - Version / date: v1 2026-11-20 21:14 UTC to v16 2026-11-22 18:09 UTC (PhilArchive).
 - Retrieved: PDF (17 pp., created 2026-11-22 18:08 UTC, corresponding to v16) supplied by Hongmin Li on 2026-11-23, sha256 `15ac01d0bc60a4e98f4d50c7ef1eaa675108c84738974bda0ab5225f6601b5a6` (local copy, not redistributed); PhilArchive pages themselves blocked (HTTP 403, Cloudflare); DEV article and comments via the dev.to API. Tong's findings retrieved 2026-11-23, HTTP 200, 15,663 bytes, sha256 `7b150a82471ec5e038ae3fa748434eff2c62b0d508ca19d1c1e8fa3f75ddd98e`. Code claims checked by us against the pinned archive (A2, sha256 `9631b4f0…7fc`).
-- Contribution and reliability: [Checked] `anyGeometry : GeoP := fun _ _ _ => True` (`OverIx.lean:19`), its use as `geoCl anyGeometry` in `nonempty_hyps_definite_side_of_closed_bound` and `EveryCharacterE.lean`, 24 files, and the `geoDegenerate`/`mdlJunk`/`algDegenerate` models in `Inhabited.lean`. [Checked] the four extraction lemmas occur only at their declarations. [Community] Tong's dependency-closure walk (not rerun by us). The paper's conclusion that the proof is invalid does not follow from these observations; see Chapter 16, §16.6. Not peer reviewed.
+- Contribution and reliability: [Checked] `anyGeometry : GeoP := fun _ _ _ => True` (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean:19`), its use as `geoCl anyGeometry` in `nonempty_hyps_definite_side_of_closed_bound` and `EveryCharacterE.lean`, 24 files, and the `geoDegenerate`/`mdlJunk`/`algDegenerate` models in `Inhabited.lean`. [Checked] the four extraction lemmas occur only at their declarations. [Community] Tong's dependency-closure walk (not rerun by us). The paper's conclusion that the proof is invalid does not follow from these observations; see Chapter 16, §16.6. Not peer reviewed.
 
 ## Commentary (C)
 
@@ -1435,3 +1498,13 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Re-check during Chapters 17–18 expansion & full-book audit closure, 2026-11-22 09:15 UTC** (run `rhbook-ch17-18-1122d-11221700/fetches/`): pinned Mathlib `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` (`21,422` B, sha256 `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5`) retrieved and added to Part I, §4 above; Sutherland's verification page (V1) updated at `2026-11-22 04:35 UTC` (`27,222` B, sha256 `01a43fc8defab818d878bfa8fd900d7563073db3dbc6f150ad73baec0fe388a7`, reporting standalone `kimihiro64/Robin1984` passing both Comparator `v4.33.0` at `03:31:06 UTC` and `lake comparator` `v4.36.0` at `04:16:52 UTC` alongside elaborated `lagariasStmt`, while main and combined 62 GB `lake comparator` kernel stages remain `running`); `mccorvie/riemann-masullo` `README.md` updated (`14,590` B, sha256 `9072dc8b625f3b07e02b5e60be1edef38816c975aee2f5c03f2b05a1a4be5c2e`, Wave 3 seeded as section issues and `lake comparator` harness added); `rStation` `riemann_hypothesis_189` updated to `v3` (`2026-11-22 05:23 UTC`, `142,166` B, sha256 `15bbcef5a144e33264be7de5f0e7291ebd9a89546e3d9d0de10f3b03cc96e863`); and 10 classical references (`[Artin1927]`, `[Behrend1946]`, `[Berger2002]`, `[Clozel1990]`, `[DeligneRibet1980]`, `[Neukirch1999]`, `[NeukirchSchmidtWingberg2008]`, `[Roth1953]`, `[Tschebotareff1926]`, `[Wiles1995]`) were verified online via Crossref and added in strict alphabetical order to Part I, §6 above.
 
 - **Nielsen critique, 2026-11-23 (CST)**: E14 added; code claims verified against the pinned archive; analysis in Chapter 16, §16.6.
+
+
+### Internal review of Chapters 17–18
+
+The same-source preliminary audit `ssaudit-rhbook-ch17-18-1122d-11221700-11222118`
+recorded partial acceptance in `REPORT.md`, with itemized findings in
+`work/AUDIT_DETAILS.md`. These are internal review records. The book's corrections are
+based on the pinned Lean source and Masullo's PDF (A4). See Chapters 14 and 16–18.
+Masullo's Appendix A.4 is pp. 562–565, and Appendices B–E are pp. 587–654,
+655–742, 743–822 and 823–932 respectively.

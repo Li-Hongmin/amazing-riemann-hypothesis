@@ -73,7 +73,7 @@ $$\text{ZeroFreeAll (primitive }\chi,\ \Re s > \tfrac12\text{)}
 \;\xrightarrow{\text{Prop. 2.2}}\;
 \text{EveryCharacter (all }\chi,\ \Re s > \tfrac12\text{)}
 \;\xrightarrow{\text{Thms. 2.5, 2.6}}\;
-\text{all five theorems of }\texttt{Main.lean}.$$
+\text{all five theorems of }\texttt{src/Main.lean:4}.$$
 
 ---
 
@@ -316,7 +316,7 @@ $\psi$ be a Dirichlet character modulo $M$, let $p$ be a prime number, and let $
 satisfy $\Re s > 0$. Then*
 $$1 - \psi(p)\,p^{-s} \neq 0.$$
 *(Lean: `Claim.factor_ne_zero`, `src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:7`,
-and inline inside `UpperTheory.Top.imprimitive`, `…/Imprimitive.lean:21`.)* [Lean, read]
+and inline inside `UpperTheory.Top.imprimitive`, `src/Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean:21`.)* [Lean, read]
 
 *Proof.* Suppose for a contradiction that $1 - \psi(p) p^{-s} = 0$, so $\psi(p) p^{-s} = 1$. Since
 $p$ is prime, $p > 1$; since $-\Re s < 0$, we have
@@ -468,10 +468,10 @@ $\zeta(s) = 0$, if $s$ is not of the form $-2(n + 1)$ ($n \in \mathbb N$) and $s
 $\Re s = 1/2$ [Lean, read]. The archive contains *two* complete proofs of this global statement
 from `EveryCharacter`:
 
-1. `Formalism.VW.rh_of_every` (`CritLine.lean:29`) + `Formalism.VW.rh_of_right` (`RhOfRight.lean:5`),
+1. `Formalism.VW.rh_of_every` (`src/Formalism/GammaFactorNonvanishing/CritLine.lean:29`) + `Formalism.VW.rh_of_right` (`src/Formalism/GammaFactorNonvanishing/RhOfRight.lean:5`),
    which is the proof term `rhOfAll` actually used by the first two theorems of `src/Main.lean:4,6`
    [Lean, read];
-2. `Claim.zeta` (`ClaimStrip.lean:75`), which sits inside `claimAll` (`MainTheorems.lean:15`) and
+2. `Claim.zeta` (`src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:75`), which sits inside `claimAll` (`src/Supplements/Kernels/MainTheorems.lean:15`) and
    uses the symmetric completed zeta function instead of the cosine-Gamma functional equation
    [Lean, read].
 
@@ -554,7 +554,7 @@ A reader browsing the archive will notice redundancy in this layer [Lean, read]:
 
 - `CritLine.lean` and `RhOfRight.lean` supply `rhOfAll` (`src/Main.lean:4,6`) and `critAll`
   (`src/Main.lean:12`), while `ClaimStrip.lean` supplies `Claim.strip` (`src/Main.lean:10`) as well as a
-  second proof `Claim.zeta` of RH inside `claimAll` (`MainTheorems.lean:15`).
+  second proof `Claim.zeta` of RH inside `claimAll` (`src/Supplements/Kernels/MainTheorems.lean:15`).
 - As noted in `notes/proof-map.md` (P2), there is even a third derivation of RH from
   `EveryCharacter`, `UpperTheory.riemannHypothesis_of_everyCharacter`
   (`src/Development/AutomorphicArithmetic/CharacterBoxes/RiemannHypothesisOfEveryCharacter.lean:215`),

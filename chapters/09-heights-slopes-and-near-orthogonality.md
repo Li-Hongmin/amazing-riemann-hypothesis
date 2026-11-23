@@ -76,12 +76,12 @@ quotient slope** $\mu_{\min}(L) := \inf_{Q \neq 0} \mu(Q)$:
 1. For **any** nonzero map $T : L_1 \to L_2$ of operator norm $\lVert T \rVert_{\mathrm{op}} \le K$,
    its image $\operatorname{im}(T) \subseteq L_2$ satisfies
    $$\mu_{\min}(L_1) - \log K \le \mu_{\min}\bigl(\operatorname{im}(T)\bigr) \le \mu\bigl(\operatorname{im}(T)\bigr) \le \mu_{\max}(L_2)$$
-   (`SlopeIneq`, `HarderNarasimhan/Statement.lean:91`, and `imageStep`, `FinalCor.lean:9`) [Lean, read]!
+   (`SlopeIneq`, `src/Formalism/HarderNarasimhan/Statement.lean:91`, and `imageStep`, `src/Formalism/HarderNarasimhan/FinalCor.lean:9`) [Lean, read]!
 2. Better yet, if we construct $u$ **nearly orthogonal** vectors $v_1, \dots, v_u \in \operatorname{im}(T)$
    whose Gram matrix $\bigl(\langle v_i, v_j \rangle\bigr)_{1 \le i, j \le u}$ has positive diagonal
    and exponentially tiny off-diagonal defect (`LinkS`), then those $u$ vectors **cannot collapse into
    a low-rank subspace** — they force $\operatorname{im}(T)$ to carry $u$ independent directions of
-   controlled slope (`FrameHerm`, `StatementFrame.lean:11`), turning $u$ units of `ASK` divisibility
+   controlled slope (`FrameHerm`, `src/Formalism/HarderNarasimhan/StatementFrame.lean:11`), turning $u$ units of `ASK` divisibility
    into $u$ units of global height bound!
 
 ---
@@ -145,7 +145,7 @@ of Euclidean length $\le C$ [Expository]:
   yields **$2 \times 4\log 3 = 8\log 3 \le 2\log C$** — **both** columns pay their full $3$-adic
   divisibility into the global bound!
 
-*(Sanity check inside `DivisionHeightBoundStatement.lean:1425–1860`.)* At the bottom of
+*(Sanity check inside `src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:1425–1860`.)* At the bottom of
 `DivisionHeightBoundStatement.lean`, the archive includes four concrete `R3` sanity checks over a
 three-place model `K_3` [Lean, read]: `toyCoreOne_divClauses` (`:1425`) and `clauses_shift` (`:1589`)
 verify that `DivClauses` is inhabited on a concrete lattice chain; `height_three` (`:1647`) checks a
@@ -173,21 +173,21 @@ Let $(V, \langle \cdot, \cdot \rangle)$ be a finite-dimensional real (or complex
 product space, and let $L \subset V$ be a discrete $\mathbb Z$-submodule (`IsLat L`, `:17`, spanning
 $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \cdot L)$):
 
-1. **Covolume, Arakelov degree, and slope (`covol`, `rk`, `deg`, `slope`, `LatticeSlopes/Statement.lean:15, 21, 23, 25`).**
+1. **Covolume, Arakelov degree, and slope (`covol`, `rk`, `deg`, `slope`, `src/Formalism/LatticeSlopes/Statement.lean:15, 21, 23, 25`).**
    With respect to any $\mathbb Z$-basis $(b_1, \dots, b_r)$ of $L$, set
    $\operatorname{covol}(L) := \sqrt{\det(\langle b_i, b_j \rangle)_{1 \le i,j \le r}} > 0$
    (with $\operatorname{covol}(0) = 1$), and define [Lean, read]
    $$\widehat{\deg}(L) := -\log\operatorname{covol}(L),
    \qquad
    \mu(L) := \begin{cases} \dfrac{\widehat{\deg}(L)}{\operatorname{rk}(L)} & \text{if } \operatorname{rk}(L) > 0, \\ 0 & \text{if } \operatorname{rk}(L) = 0.\end{cases}$$
-2. **Maximum sublattice slope and minimum quotient slope (`muMax`, `muMin`, `HarderNarasimhan/Statement.lean:29, 32`).**
+2. **Maximum sublattice slope and minimum quotient slope (`muMax`, `muMin`, `src/Formalism/HarderNarasimhan/Statement.lean:29, 32`).**
    For a nonzero lattice $L \neq 0$, define [Lean, read]:
    - $\mu_{\max}(L) := \sup\bigl\{\mu(S) : S \subseteq L\text{ nonzero sublattice}\bigr\}$ (attained by
      a unique maximal destabilizing saturated sublattice `hnStep L`, `HNStep` at `:64`);
    - $\mu_{\min}(L) := \inf\bigl\{\mu(L / S) : S \subsetneq L\text{ saturated proper sublattice}\bigr\}$,
      where the quotient lattice $L / S$ is equipped with the induced metric on $S^\perp \cap (\mathbb R \cdot L)$
-     (`quot`, `LatticeSlopes/Statement.lean:35`; dual to $-\mu_{\max}(L^\vee)$ by `Duality`,
-     `HarderNarasimhan/Statement.lean:119`).
+     (`quot`, `src/Formalism/LatticeSlopes/Statement.lean:35`; dual to $-\mu_{\max}(L^\vee)$ by `Duality`,
+     `src/Formalism/HarderNarasimhan/Statement.lean:119`).
 3. **Bost's slope inequality (`Formalism.HN.SlopeIneq`, `src/Formalism/HarderNarasimhan/Statement.lean:91`, and number-field `SlopeIneqMean`, `src/Formalism/HarderNarasimhan/StatementPl.lean:148`).**
    `SlopeIneq : Prop` asserts that for every pair of nonzero lattices $L_1 \subset V_1$, $L_2 \subset V_2$,
    every $K > 0$, and every $\mathbb Z$-linear map $T : V_1 \to V_2$ with $T(L_1) \subseteq L_2$,
@@ -196,7 +196,7 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
    $$\mu_{\min}(L_1) \le \mu_{\max}(L_2) + \log K,
    \qquad\text{and in fact}\qquad
    \mu_{\min}(L_1) - \log K \le \mu_{\min}\bigl(T(L_1)\bigr)$$
-   (`imageStep`, `FinalCor.lean:9`). Over a totally complex number field $K$ with `nPl K` infinite
+   (`imageStep`, `src/Formalism/HarderNarasimhan/FinalCor.lean:9`). Over a totally complex number field $K$ with `nPl K` infinite
    places $v \in \mathrm{InfinitePlace}(K)$, `src/Formalism/HarderNarasimhan/StatementPl.lean` (`:29, 55, 60, 64, 67, 70, 133, 148`)
    equips finitely generated $\mathcal O_K$-submodules $L \subset V$ with Hermitian Gram matrices
    $X_v$ at the **archimedean** places $v \in \mathrm{InfinitePlace}(K)$, defines the mean
@@ -207,13 +207,13 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
    $v \in \mathrm{InfinitePlace}(K)$ shifts `slope` by $t = \frac{1}{\mathrm{nPl}(K)}\sum_v \log c_v$
    and `muDef` by $2t$), and states the normalized number-field Bost inequality `SlopeIneqMean`
    (`:148`) [Lean, read]. (Non-Archimedean fractional-ideal lattice shifting $I_u \cdot \Lambda$
-   enters separately as `shiftLat Nu sg` in `DivisionHeightBoundStatement.lean:555, 561`.)
+   enters separately as `shiftLat Nu sg` in `src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:555, 561`.)
 
 ### 9.3.2 Composite $m$-step chains (`KerChain`, `ChainTie`, `DivClauses`)
 
 **Definition 9.2 (Tied $m$-step operator chains and `DivClauses`, `src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:248,321,553,565,641` and `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:44,63`).**
 
-1. **Tied $m$-step chain (`KerChain` and `ChainTie`, `DivisionHeightBoundStatement.lean:248, 321`).**
+1. **Tied $m$-step chain (`KerChain` and `ChainTie`, `src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:248, 321`).**
    A `KerChain` specifies Hermitian $\mathcal O_K$-modules $\mathcal E_0, \mathcal E_1, \dots, \mathcal E_m$
    linked by $K$-linear step operators $T_j : \mathcal E_{j-1} \to \mathcal E_j$ ($1 \le j \le m$). A
    `ChainTie` (`:321–329`) records the algebraic and isometric step-compatibility identities (`hmm`,
@@ -231,7 +231,7 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
 
 **Definition 9.3 (`FrameHerm` and `LinkDIV`, `LinkG`, `LinkS`, `GlobalTheoremInputs`, `src/Formalism/HarderNarasimhan/StatementFrame.lean:11,49` and `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:65,77,91,94,122,138,145,152,158`).**
 
-1. **Almost-orthogonal frame slope inequality (`FrameHerm` and `FrameHermSharp`, `StatementFrame.lean:11, 49`).**
+1. **Almost-orthogonal frame slope inequality (`FrameHerm` and `FrameHermSharp`, `src/Formalism/HarderNarasimhan/StatementFrame.lean:11, 49`).**
    Let $I$ be a finite non-empty index set parametrizing block maps $B_i : V_i \to W$ ($i \in I$) sending
    source lattices $N_i \subset V_i$ into a full-rank target lattice $\mathrm{cc} \subset W$. Let
    $s \in \mathbb R$ be a weighted mean lower bound on $\mathrm{muDef}(N_i) - \mathrm{htMap}(B_i)$
@@ -245,7 +245,7 @@ $\mathbb R \cdot L$ of rank $\operatorname{rk}(L) = \dim_{\mathbb R}(\mathbb R \
    $$s - \log\lvert I \rvert - u\Bigl(1 + 4\log\Bigl(1 + \frac{HH}{u}\Bigr)\Bigr) - \bigl(2\eta + 4\sqrt{e}\bigr)\,HH \le \mathrm{muDef}(b', X', \mathrm{cc}),$$
    and `FrameHermSharp` (`:49–84`) establishes the sharpened form without $-\log\lvert I\rvert - u$:
    $$s - 4 u \log\Bigl(1 + \frac{HH}{u}\Bigr) - \bigl(2\eta + 4\sqrt{e}\bigr)\,HH \le \mathrm{muDef}(b', X', \mathrm{cc}).$$
-2. **Global gain, period, and near-orthogonality inputs (`LinkG`, `LinkDIV`, `LinkS`, and `GlobalTheoremInputs`, `GlobalTheoremInputs.lean:77, 91, 94, 122, 138, 145, 152, 158`).**
+2. **Global gain, period, and near-orthogonality inputs (`LinkG`, `LinkDIV`, `LinkS`, and `GlobalTheoremInputs`, `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:77, 91, 94, 122, 138, 145, 152, 158`).**
    `GlobalTheoremInputs Fm Cabs CH C0` (`:158–160`) conjoins the five family predicates
    `LinkG Fm ∧ LinkS Fm C0 ∧ LinkIRR Fm ∧ LinkDIV Fm Cabs CH ∧ LinkMu Fm` [Lean, read]:
    - **`LinkG` (`LinkG_at`, `:122–136, 138`):** supplies the **non-Archimedean inert-prime gain lower
@@ -301,7 +301,7 @@ Bost's slope inequality rests on two gems of elementary Euclidean geometry (`Gra
 
 1. Let $B_E(0, 1)$ and $\overline{B}_F(0, K)$ denote the unit ball in $E$ and closed radius-$K$ ball
    in $F$, which have positive finite $r$-dimensional Lebesgue/Haar measures $\operatorname{vol}(B_E(0, 1)) = \operatorname{vol}(B_F(0, 1)) = \omega_r > 0$
-   and $\operatorname{vol}(\overline{B}_F(0, K)) = K^r \omega_r$ (`GramDetLe.lean:25–78`). Since
+   and $\operatorname{vol}(\overline{B}_F(0, K)) = K^r \omega_r$ (`src/Formalism/LatticeSlopes/LatticeSlopesProofs/GramDetLe.lean:25–78`). Since
    $\lVert T(v) \rVert \le K \lVert v \rVert$, we have $T(B_E(0, 1)) \subseteq \overline{B}_F(0, K)$.
    By the change-of-variables formula for Haar measure under a linear map,
    $$\lvert \det T \rvert\,\omega_r = \operatorname{vol}\bigl(T(B_E(0, 1))\bigr)
@@ -311,8 +311,8 @@ Bost's slope inequality rests on two gems of elementary Euclidean geometry (`Gra
    and since $T(L_1) \subseteq L_2$ is a full-rank sublattice of finite index $[L_2 : T(L_1)] \ge 1$,
    $\operatorname{covol}(L_2) = [L_2 : T(L_1)]^{-1}\operatorname{covol}(T(L_1)) \le \operatorname{covol}(T(L_1))$.
    Taking $-\log$ gives the degree inequality (`:126`).
-2. Look at the clever rounding trick in `HarderNarasimhanProofs/SlopeIneq.lean:39–75` (or rational
-   density in `LatticeSlopesProofs/SlopeInequality.lean:73`): write any $v \in \mathbb R \cdot L$ as
+2. Look at the clever rounding trick in `src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/SlopeIneq.lean:39–75` (or rational
+   density in `src/Formalism/LatticeSlopes/LatticeSlopesProofs/SlopeInequality.lean:73`): write any $v \in \mathbb R \cdot L$ as
    $v = \sum_{i=1}^m c_i s_i$ with $c_i \in \mathbb R$. For any integer $k \ge 1$, let
    $n_i := \lfloor k c_i + 1/2 \rfloor \in \mathbb Z$ (`round (k * c_i)`), so $\lvert k c_i - n_i \rvert \le \frac{1}{2}$
    and $g_k := \sum_{i=1}^m n_i s_i \in L$ is an **actual lattice element**! Because $\lVert f(g_k) \rVert \le K \lVert g_k \rVert$
@@ -394,12 +394,12 @@ fractional ideal $I_u^{-1}$ immediately produces the global height-and-divisor t
    so its mean archimedean height is subadditive across the $m$ steps:*
    $$\mathrm{htMap}(T) \le \frac{1}{\mathrm{nPl}(K)} \sum_{j=1}^m \sum_{v \in \mathrm{InfinitePlace}(K)} B_{j, v}.$$
    [Lean, read]
-2. **From fractional-ideal lattice shifts and Bost's inequality to `DivClauses` and explicit constants (`shiftLat` and `divClauses_of`, `DivisionHeightBoundStatement.lean:555, 752`, and `divisor_inequality_explicit`, `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:91`).**
+2. **From fractional-ideal lattice shifts and Bost's inequality to `DivClauses` and explicit constants (`shiftLat` and `divClauses_of`, `src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:555, 752`, and `divisor_inequality_explicit`, `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:91`).**
    *Shifting the source lattice by the fractional ideal $I_u = \prod_{w \in \mathrm{supp}} \mathfrak p_w^{-\lfloor e_w \mathrm{sg}(u,w) \rfloor}$
    via `shiftLat Nu sg` (`:555, 561`) changes its $\mathbb Z$-index covolume by
    $N_{K/\mathbb Q}(I_u)$ and shifts its Arakelov degree in proportion to
    $\sum_{w \in \mathrm{supp}} f_w \lfloor e_w \mathrm{sg}(u, w) \rfloor \log p_w$ (tracked in
-   `LinkMu` / `NprimeMuR` at `GlobalTheoremInputs.lean:69, 74`, whereas archimedean metric rescaling
+   `LinkMu` / `NprimeMuR` at `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:69, 74`, whereas archimedean metric rescaling
    is `Twist` at `src/Formalism/HarderNarasimhan/StatementPl.lean:133`)! Combining Theorem 9.2 (`SlopeIneqMean`), part (1)
    (`height_chain`), and the constant refinement $(50 C_0 + 10)(c_e / C_0) \le 60 c_e$ for
    $C_0 \ge 1$ (`constant_factor_le_sixty`, `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:58`) establishes `DivClauses`
@@ -416,7 +416,7 @@ fractional ideal $I_u^{-1}$ immediately produces the global height-and-divisor t
    ($n_w = \lfloor e_w \mathrm{sg}(u,w) \rfloor \ge 0$, `shiftLat` at `:555, 561`, using the index
    multiplicativity of `HtGram` at `src/Formalism/HarderNarasimhan/StatementPl.lean:83–91`) shifts its normalized Arakelov slope by
    the exact finite-place contribution $\mathrm{sz}(w, \mathrm{sg}(u, w))$ up to the rounding error
-   bounded in `NprimeMuR` (`GlobalTheoremInputs.lean:69`), while any archimedean scalar adjustment of
+   bounded in `NprimeMuR` (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:69`), while any archimedean scalar adjustment of
    the Hermitian form shifts slopes additively by `Twist` (`src/Formalism/HarderNarasimhan/StatementPl.lean:133`). Up to the floor
    rounding error absorbed into `DataExtra`, summing $f_w e_w\,\mathrm{sg}(u, w)\log p_w$ over inert
    places recovers the logarithmic inert-prime gain `ASK`! Feeding this shifted lattice into Bost's
@@ -426,8 +426,8 @@ fractional ideal $I_u^{-1}$ immediately produces the global height-and-divisor t
 
 ### 9.4.4 Why near-orthogonality (`FrameHerm` & `LinkS`), inert gains (`LinkG`), and period bounds (`LinkDIV`) close the loop
 
-Finally, let us explain why `FrameHerm` / `FrameHermSharp` (`StatementFrame.lean:11, 49`) and
-`LinkG`, `LinkDIV`, `LinkS` (`GlobalTheoremInputs.lean:91, 138, 152`) take the exact algebraic shapes
+Finally, let us explain why `FrameHerm` / `FrameHermSharp` (`src/Formalism/HarderNarasimhan/StatementFrame.lean:11, 49`) and
+`LinkG`, `LinkDIV`, `LinkS` (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:91, 138, 152`) take the exact algebraic shapes
 we met in Chapter 5!
 
 **Proposition 9.4 (Hilbert–Schmidt frame bound and stretched-exponential `LinkS` decay).**
@@ -443,23 +443,23 @@ we met in Chapter 5!
    unsharpened form `FrameHerm` at `:46`, removed in `FrameHermSharp` at `:84`), while Cauchy–Schwarz
    bounds the off-diagonal and isometric trace defects by $(2\eta + 4\sqrt{e})\,HH$, yielding the lower
    bound on $\mathrm{muDef}(b', X', \mathrm{cc})$.* [Lean, read]
-2. **Why `LinkS` ($\eta_0, \eta_1, \sqrt{e_0} \le \exp(-x^{\varepsilon/8})$) kills $x^{c_{HH}} b$ (`GlobalTheoremInputs.lean:152` and `TieGlobal.lean:97, 116`).**
-   *Look back at Chapter 5, Section 5.5.3 (`ErrWindows`, `ErrorFormsWeakWindowsFalse.lean:43`): the
+2. **Why `LinkS` ($\eta_0, \eta_1, \sqrt{e_0} \le \exp(-x^{\varepsilon/8})$) kills $x^{c_{HH}} b$ (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:152` and `src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:97, 116`).**
+   *Look back at Chapter 5, Section 5.5.3 (`ErrWindows`, `src/Formalism/SizeWindowBrackets/ErrorFormsWeakWindowsFalse.lean:43`): the
    error bracket required*
    $$\bigl(\bar\eta + 4\sqrt{\bar e}\bigr)\,\bigl(x^{c_{HH}} b\bigr) \le K\,x^\varepsilon\,(n_T a).$$
    *Because the Harder–Narasimhan slope span $HH \le x^{c_{HH}} b$ (`LinkDIV_at` at `:78`) can grow as
    a **large polynomial power $x^{c_{HH}}$** of the window scale $x$, a bounded defect $\bar\eta \le 1$
    (`ErrWindowsWeak`) would blow up completely! Instead, `LinkS` proves
    $\bar\eta, \sqrt{\bar e} \le \exp(-x^{\varepsilon/8})$, and since $\exp(-x^{\varepsilon/8}) \cdot x^{c_{HH}} \to 0$
-   faster than every power of $x$, `GlobalTheory.Top.link_gl` (`GlobalInterpolation/LinkGl.lean:14`)
-   deduces `ChainTied` (`TieGlobal.lean:97`) from `GlobalTheoremInputs`, and `ChainTied.core_of`
-   (`TieGlobal.lean:116`) packages `ChainTied` with `HostFacts` into `ChainCore`!* [Lean, read]
+   faster than every power of $x$, `GlobalTheory.Top.link_gl` (`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean:14`)
+   deduces `ChainTied` (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:97`) from `GlobalTheoremInputs`, and `ChainTied.core_of`
+   (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:116`) packages `ChainTied` with `HostFacts` into `ChainCore`!* [Lean, read]
 
 *(Classical automorphic content of `LinkG`, `LinkDIV`, and `LinkS`, and our reading boundary `[Lean]` / `[Open]`.)*
-How does the archive discharge `GlobalTheoremInputs` across `ThirdPlaceSeries/LinkG.lean:13`
+How does the archive discharge `GlobalTheoremInputs` across `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkG.lean:13`
 (`GlobalTheory.Top.closed_linkG_of_duty`, leaf-inclusive import cone **12,612** modules),
-`ThirdPlaceSeries/LinkAltAltBis.lean:16` (`GlobalTheory.Top.link_alt_alt_bis`, import cone **15,578**
-modules), `DIVRecBridgeSel.lean:197` (`LinkDIVt`), and `ThirdPlaceSeries/Link.lean:20`
+`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkAltAltBis.lean:16` (`GlobalTheory.Top.link_alt_alt_bis`, import cone **15,578**
+modules), `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:197` (`LinkDIVt`), and `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Link.lean:20`
 (`GlobalTheory.Top.link_alt_alt_alt`, proving `SmallLevelRankEq`)?
 
 - **`LinkG` (inert-prime valuation gains) and `LinkDIV` (periods and `MAIN`):** `LinkG` (`:122, 138`)
@@ -475,7 +475,7 @@ modules), `DIVRecBridgeSel.lean:197` (`LinkDIVt`), and `ThirdPlaceSeries/Link.le
 - **`LinkS` (near-orthogonality of distinct chain words):** Distinct words $u \neq u'$ in the Hecke/lift
   alphabet differ at auxiliary primes or finite-field cuspidal Green labels (Chapter 13);
   self-adjointness / Hecke eigenvalue separation on definite unitary spaces
-  (`RelevantZeroGramTerms.lean:23, 37, 72`: `IsURepOn`, `IsFdeg`, `IsDS`) [Lean] plus amplified word
+  (`src/Formalism/SharpRestriction/CuspSpanNormBounds/RelevantZeroGramTerms.lean:23, 37, 72`: `IsURepOn`, `IsFdeg`, `IsDS`) [Lean] plus amplified word
   length $k \ge xm$ drives the off-diagonal inner products down to $\exp(-x^{\varepsilon/8})$.
 - **Reading status:** We read `GlobalTheoremInputs.lean` (import cone **306**), `TieGlobal.lean`,
   `ThirdPlaceSeries/LinkG.lean`, `ThirdPlaceSeries/LinkAltAltBis.lean`, `GlobalInterpolation/LinkGl.lean`,
@@ -483,6 +483,150 @@ modules), `DIVRecBridgeSel.lean:197` (`LinkDIVt`), and `ThirdPlaceSeries/Link.le
   of `linkG_concrete5`, `theoremS_transport_link_zero`, `famGLmin_of_realPlaceSecondLayer`, and
   `RelevantZeroGramTerms.lean` (`R2` / `[Lean]`), while the `12,612`–`15,578` internal proof modules of
   `LinkG` and `LinkAltAltBis` remain unread by humans (`[Open]`).
+
+### 9.4.5 A positive-semidefinite bound for the period rows
+
+**Motivation.** In the diagonal part of Theorem S, the squared norm of a sum of
+operators expands into a double sum over a finite index set. The terms with
+different indices can contribute positively, even if the individual squared
+norms are known exactly. The archive bounds their combined contribution by
+putting the coefficient matrix below a scalar multiple of the identity in
+the positive-semidefinite order. This is the matrix estimate used inside
+`LinkS`'s diagonal row bounds.
+
+**A two-step Gram calculation [Expository].** Use the convention that the inner
+product is conjugate-linear in the first variable. The vectors
+$g_1=(\sqrt{2},0)$ and $g_2=(\mathrm{i}/\sqrt{2},\sqrt{3/2})$ have Gram matrix
+$\Gamma=\begin{pmatrix}2&\mathrm{i}\\-\mathrm{i}&2\end{pmatrix}$.
+Take $a_1,a_2$ in a complex inner-product space.
+
+1. **Factor the slack.** With $c=3$ and $v=(1,\mathrm{i})$, the matrix
+   $3I-\Gamma=\begin{pmatrix}1&-\mathrm{i}\\\mathrm{i}&1\end{pmatrix}$
+   has entries $v_i\overline{v_j}$.
+2. **Contract with the row-vector inner products.** Write
+   $Q=\operatorname{Re}\sum_{i,j}\Gamma_{ij}\langle a_i,a_j\rangle$.
+   The same slack now gives
+   $3(\lVert a_1\rVert^2+\lVert a_2\rVert^2)-Q
+   =\lVert a_1-\mathrm{i}a_2\rVert^2$.
+   For $a_1=1$ and $a_2=-\mathrm{i}$ in $\mathbb C$, the diagonal terms
+   contribute $4$, the two cross terms contribute $1$ each, and the
+   slack is zero. The bound is attained at $Q=6$.
+
+**Definition [Lean, read].** In `Terms`, each term $t$ has an operator
+`op t`, an auxiliary vector `vec t`, and a row label `rowOf t`. The map
+`io` sends each row label to a finite index set $I$. For a subset $S$ of
+terms, `part S` is the sum of its operators and `vecPart S i` is the
+sum $a_i$ of its vectors with index $i$. The predicate `NormExpansionOn S`
+asserts $\lVert\mathrm{part}(S)\rVert^2=Q$ for $\Gamma=\mathrm{GG}$.
+The reference sum `PhiEq S` is $\mathrm{Gam1}\sum_i\lVert a_i\rVert^2$.
+The cone condition `GGBound Pg` is exactly
+$(\mathrm{Pg}\cdot\mathrm{Gam1})I-\Gamma\succeq0$.
+Here $M\succeq0$ means $M$ is Hermitian and every scalar quadratic form
+$\overline z^{\,T}Mz$ is nonnegative.
+Archive references use the joined SHA-256 pinned in [Sources §1](../sources/SOURCES.md#1-the-lean-archive-primary-source).
+`src/Formalism/HermitianCurvature/StatementPB.lean:15,55,57,63,86,89`.
+
+**Lemma [Lean, read].** For a finite $I$, any complex inner-product
+space, any vectors $a_i$, and any complex coefficient matrix $\Gamma$,
+if $cI-\Gamma\succeq0$, then
+$$\operatorname{Re}\sum_{i,j}\Gamma_{ij}\langle a_i,a_j\rangle
+\le c\sum_i\lVert a_i\rVert^2.$$
+The statement is `GramSumLeOfPosSemidef`. Its proof is `t_EqualIota`,
+exported as `equal_index`.
+`src/Formalism/HermitianCurvature/StatementPB.lean:125`;
+`src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:602,1279`.
+
+**Proof [Lean, read].**
+
+1. Lean names the matrix hypothesis `hM` and applies
+   `Matrix.posSemidef_iff_eq_sum_vecMulVec` to obtain finitely many vectors
+   $v_\ell$. The identity `hM'` is its entrywise form
+   $(cI-\Gamma)_{ij}=\sum_\ell v_{\ell i}\overline{v_{\ell j}}$.
+   The Mathlib factorization transports to a positive operator and uses
+   an orthonormal eigenbasis with each eigenvector scaled by the square
+   root of its nonnegative eigenvalue.
+   `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:604,605`.
+   [Pinned Mathlib factorization, lines 544–566](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/InnerProductSpace/Positive.lean#L544-L566)
+2. For each $\ell$, set $b_\ell=\sum_i\overline{v_{\ell i}}a_i$.
+   In `hw`, expanding $\langle b_\ell,b_\ell\rangle$ conjugates the
+   first scalar, giving the summand
+   $v_{\ell i}\overline{v_{\ell j}}\langle a_i,a_j\rangle$.
+   In `hsum`, Lean substitutes the factorization and switches the
+   finite sums to recover $\sum_\ell\langle b_\ell,b_\ell\rangle$.
+   The real part is nonnegative by `hnn`, which applies
+   `inner_self_nonneg` to each $b_\ell$.
+   `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:609,616,623`.
+3. The identity `hsplit` expands the same expression using
+   $cI-\Gamma$. The $cI$ contribution survives only on the diagonal.
+   In `hre`, its real part becomes $c\sum_i\lVert a_i\rVert^2$.
+   Taking real parts in `hsplit` therefore identifies the difference
+   $c\sum_i\lVert a_i\rVert^2-Q$ with the nonnegative sum
+   $\sum_\ell\lVert b_\ell\rVert^2$. The last `linarith` uses that
+   identity and `hnn` to finish.
+   `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:628,631,636,639`.
+
+The immediate norm consequence `t_PriceOfIota` rewrites the squared norm
+by `NormExpansionOn`, applies this lemma to `vecPart S` at
+$c=\mathrm{Pg}\cdot\mathrm{Gam1}$, then reassociates multiplication.
+It gives $\lVert\mathrm{part}(S)\rVert^2\le\mathrm{Pg}\cdot\mathrm{PhiEq}(S)$.
+[Lean, read]
+`src/Formalism/HermitianCurvature/StatementPB.lean:133`;
+`src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:384,388,390,1283`.
+
+**Boundary example [Expository].** Keep the same Gram matrix and vectors,
+and try $c=2$. Although $\Gamma$ is positive definite and its diagonal
+equals $c$, $2I-\Gamma$ has determinant $-1$. The proposed bound would
+give $6\le4$. The cross terms exhaust the extra diagonal allowance when
+$c=3$, so the semidefinite boundary suffices and the constant is sharp in
+this example.
+
+**From rows to heights.** The two diagonal row estimates consume the
+cone lemma in different ways. For the degenerate part,
+`kppDiag_of_pairs` bounds the norm by `Pg * PhiEq`, expands the latter
+over same-row pairs, then uses an absolute pair bound. For the other
+diagonal estimate, `diag_of_abstract` subtracts the identity term and
+applies `PairBoundAbstract`. Its proof uses the cone bound separately for
+the generic and nongeneric sums. The row estimates give coefficients
+$\mathrm{Pg}(A+2\epsilon)$ and $\mathrm{Pg}(\epsilon+\epsilon')$ for their
+squared norms relative to the common scale `dd`. The last triangle
+inequality is applied to the norms, then squared, so it includes the
+mixed term between those sums. The concrete `GGBound` is supplied to
+both consumers by `ggBound`. [Lean]
+`src/Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean:35,72`;
+`src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:464,500,505,514`;
+`src/Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/TermOpStmt.lean:135`;
+`src/Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean:186,202,210,242`.
+
+Those row estimates are transported as `ClKppDiag` and `ClDiag`.
+In the size window, `diag_unproj` adds the degenerate part back to the
+diagonal operator minus identity, charging both errors in `eF`.
+This supplies the diagonal clause of `LinkS_at`. The distinct-word bound
+and the count bound are separate inputs to `linkS_concl`. [Lean]
+`src/Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/LinkSPos.lean:21,57,126,158`;
+`src/Formalism/SharpRestriction/CuspSpanNormBounds/StandingHypothesesHoldFamily.lean:144,186,628`;
+`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:145,152`.
+
+At the global interface, `linkGLOBAL_of` feeds `LinkS`, `LinkIRR`
+and `LinkDIV`, with the chosen data, into the frame input. The resulting
+archimedean frame estimates enter the loss term $(2\eta+4\sqrt e)HH$ of
+`FrameHerm`. The height input has a separate source. In
+`frameReal_at_of` the nonzero column map already comes with
+$\mathrm{htMap}(B_k(u))\le \mathrm{div.h}(u)$. Section 9.4.3 explains how
+the composite operator bound in `height_chain` controls such heights and
+how the slope comparison uses height together with lattice inclusion and
+finite-place gains. The cone lemma supplies one part of the frame estimate
+in that comparison. [Lean]
+`src/Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean:853,858,871`;
+`src/Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean:679,682`;
+`src/Formalism/HarderNarasimhan/StatementFrame.lean:27,46`;
+`src/Formalism/HarderNarasimhan/StatementPl.lean:148`;
+`src/Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean:641,653`.
+
+**Reading scope.** The two conditional matrix-to-norm proofs above have
+been read in full. The concrete arithmetic supplying the matrix bound,
+the remaining estimates in the deep `LinkS` cone, and the deep gain
+cone of `LinkG` remain [Lean] at cited interfaces and [Open] as
+expository work.
 
 ---
 
@@ -541,7 +685,7 @@ slope inequality, Chowla–Selberg CM periods, or Rallis inner products on unita
 | `recAux`, `constant_factor_le_sixty`, `divIneqRecord_of`, `divisor_inequality_explicit`, `good_twisted_lattice` | `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean:44,58,63,91,186` | Theorem 9.3(2): explicit constant simplification $(50 C_0 + 10)(c_e/C_0) \le 60 c_e$ and twisted-lattice divisor inequality (import cone 133). | [Lean, read] |
 | `LinkV_at`, `LinkN_at`, `LinkN`, `DIVinN_at`, `DIVinN`, `BesselId`, `LinkDIV_at`, `LinkDIV`, `LinkDIVt`, `LinkG_at`, `LinkG`, `LinkS_at`, `LinkS`, `GlobalTheoremInputs`, `LinkGLOBAL` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:18,40,45,59,62,65,77,91,94,122,138,145,152,158,162` | Definition 9.3(2) and Proposition 9.4(2): inert-prime gain bound `LinkG`, period/dual-slope bound `LinkDIV` (`L.MAIN u`, `BesselId`), stretched-exponential near-orthogonality `LinkS`, and five-part `GlobalTheoremInputs` (import cone 306). | [Lean, read] |
 | `ChainTied`, `ChainTied.core_of` | `src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:97,116` | Proposition 9.4(2): defines `ChainTied` and combines `ChainTied` + `HostFacts` into `ChainCore` (`ChainTied.core_of`). | [Lean, read] |
-| `GlobalTheory.Top.closed_linkG_of_duty`; `GlobalTheory.Top.link_alt_alt_bis`; `GlobalTheory.Top.link_gl`; `GlobalTheory.Top.link_alt_alt_alt` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkG.lean:13`; `…/ThirdPlaceSeries/LinkAltAltBis.lean:16`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean:14`; `…/ThirdPlaceSeries/Link.lean:20` | Top wrapper proofs closing `LinkG` (`closed_linkG_of_duty`, cone 12,612), `LinkS` (`link_alt_alt_bis`, cone 15,578), `LinkGLOBAL` (`link_gl`), and `SmallLevelRankEq` (`link_alt_alt_alt`) (`R3` for wrappers; deep cones `R2` / `[Open]`). | [Lean, read] |
+| `GlobalTheory.Top.closed_linkG_of_duty`; `GlobalTheory.Top.link_alt_alt_bis`; `GlobalTheory.Top.link_gl`; `GlobalTheory.Top.link_alt_alt_alt` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkG.lean:13`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkAltAltBis.lean:16`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean:14`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Link.lean:20` | Top wrapper proofs closing `LinkG` (`closed_linkG_of_duty`, cone 12,612), `LinkS` (`link_alt_alt_bis`, cone 15,578), `LinkGLOBAL` (`link_gl`), and `SmallLevelRankEq` (`link_alt_alt_alt`) (`R3` for wrappers; deep cones `R2` / `[Open]`). | [Lean, read] |
 | `IsURepOn`, `IsFdeg`, `IsDS` | `src/Formalism/SharpRestriction/CuspSpanNormBounds/RelevantZeroGramTerms.lean:23,37,72` | Statement-level (`R2`) unitary representation, formal-degree, and discrete-series predicates underlying Gram-matrix off-diagonal bounds. | [Lean] |
 
 **Summary of the chapter.** Generalizing Liouville's rank-$1$ product-formula inequality to higher

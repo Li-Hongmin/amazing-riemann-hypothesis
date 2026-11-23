@@ -98,7 +98,7 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
 1. **Compact quotients on the definite side (`DefiniteSideCondition`):** Suppose $E / F$ is our CM
    host extension from Chapter 4 ($F = E^+$ totally real of degree $2n$, $E = F(\sqrt{-d})$) and
    $X_j$ is a **totally positive-definite** Hermitian space over $E$ of rank $r_j$ (`HasSig ... r_j 0`
-   at every infinite place $w$ of $F$, `WeilTensorModels.lean:172,184` [Lean, read]). Then at every
+   at every infinite place $w$ of $F$, `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:172,184` [Lean, read]). Then at every
    archimedean place $w \mid \infty$, the real Lie group $U(X_j)(F_w) \cong U(r_j)$ is **compact**!
    Consequently, the global automorphic quotient
    $$[U(X_j)] := U(X_j)(F) \setminus U(X_j)(\mathbb A_F)$$
@@ -111,20 +111,20 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
      bounded and $L^1$ with respect to finite Haar measure, so iterating $m$ theta integrals along
      $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ never diverges at cusps on the definite chain itself!
    - **Integral / $\mathcal O_E$-lattice structure:** Spaces of algebraic modular forms on definite
-     unitary groups carry natural $\mathcal O_E$-lattices (`NuLat`, `DataParams₂.lean:134` [Lean, read])
+     unitary groups carry natural $\mathcal O_E$-lattices (`NuLat`, `src/Formalism/LocalRingCardinality/DataParams₂.lean:134` [Lean, read])
      and positive-definite Petersson/Hermitian metrics (`IsMet`, whose Schur uniqueness `ip_unique` is
-     proved at `ThetaChainUpwardInductionFixedMetric.lean:25` [Lean, read]), making them ready-made
+     proved at `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardInductionFixedMetric.lean:25` [Lean, read]), making them ready-made
      inputs for Bost's Arakelov slope inequality!
 2. **Rank growth $r_{j+1} = r_j + t$ and spectral splicing $\pi \mapsto \pi \boxplus \mu_j[t]$:**
-   In `EvenCeil.lean:25,33,35` and `ThetaChainUpwardLiftHeckeParamTransferred.lean:42` [Lean, read],
+   In `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:25,33,35` and `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardLiftHeckeParamTransferred.lean:42` [Lean, read],
    the base space $X_0$ has rank $r_0 = r := k + m - 1$, each step adds a fixed odd rank increment
-   $t = \mathrm{tAt} > 3m$ (`Ranks.t_odd`, `three_m_lt_t`, `EvenCeil.lean:52,56`), so
+   $t = \mathrm{tAt} > 3m$ (`Ranks.t_odd`, `three_m_lt_t`, `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:52,56`), so
    $$\operatorname{rank}_E(X_j) = r + j\,t \qquad (0 \le j \le m),$$
    and step $j \to j + 1$ twists the Weil representation by an algebraic Hecke character $\mu_j$ of
    $E^\times \setminus \mathbb A_E^\times$ whose archimedean Harish-Chandra weights `(b_j, e_j)` sit
-   in pairwise non-interlacing windows (`HCIn.hc`, `EvenCeil.lean:109` [Lean, read]:
+   in pairwise non-interlacing windows (`HCIn.hc`, `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:109` [Lean, read]:
    $b_j = B + 2 j\,\mathrm{hh}$, $e_j = b_j + \mathrm{hh}$ with $2\,\mathrm{hh} \ge t + 3$!). Under
-   local Howe correspondence at split/unramified places (`PairLiftOfHoweDualityBernstein.lean:17`
+   local Howe correspondence at split/unramified places (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/PairLiftOfHoweDualityBernstein.lean:17`
    [Lean, read]), lifting from $U(r_j)$ to $U(r_j + t)$ sends a base-change Arthur/Langlands
    parameter $\Pi_j$ to $\Pi_j \boxplus \mu_j[t]$ (`speh`, `:57`), adjoining one fresh character-twisted
    block per lift!
@@ -133,7 +133,7 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
    is dual with respect to the Petersson inner products to the composite downward adjoint
    $\Theta = \Theta_1^\ast \circ \dots \circ \Theta_m^\ast$:
    $$\langle y, x_m \rangle_{U(X_m)} = \langle \Theta(y), u \rangle_{U(X_0)}$$
-   (`thetaChain_upward_induction_fixed_metric`, `ThetaChainUpwardInductionFixedMetric.lean:41–63`
+   (`thetaChain_upward_induction_fixed_metric`, `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardInductionFixedMetric.lean:41–63`
    [Lean, read]), while Rallis's inner-product formula `[Rallis1984]`, `[KudlaRallis1994]` relates the
    norm-squared of each step to shifted Hecke $L$-values at the right of the critical strip (non-zero
    by `LNe`, `:43`) and, at primes inert in $K = \mathbb Q(\sqrt{-d})$, produces one additive unit of
@@ -145,7 +145,7 @@ pp. 1, 4) [Paper; remark pp. 1, 4] [Expository]:
 
 We work out two completely explicit low-dimensional calculations before giving the general definitions:
 first, one-dimensional quadratic Gauss sums and the finite-field Weil transform over $\mathbb Z/3\mathbb Z$
-and $\mathbb Z/5\mathbb Z$ (matching `gauss` and `eps` in `WeilTensorModels.lean:125,131`); second,
+and $\mathbb Z/5\mathbb Z$ (matching `gauss` and `eps` in `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:125,131`); second,
 binary quadratic / rank-$1$ unitary theta lifts on $\mathbb Z[i] \subset \mathbb Q(i)$, illustrating
 both Siegel–Weil ($L$-value matching) and Hecke spectral-parameter transfer.
 
@@ -177,7 +177,7 @@ Check unitarity and two-step kernel composition by hand:
    = \frac{G(1; p)}{p}\,\psi_p\bigl(-4^{-1}(x + z)^2\bigr),$$
    where $G(a; p) := \sum_{u \in \mathbb F_p} \psi_p(a u^2)$ ($a \in \mathbb F_p^\times$) is the
    **quadratic Gauss sum**! Notice how completing the square factored out the scalar Weil constant
-   $\gamma_p := p^{-1/2} G(1; p)$ (`gauss` and `eps` in `WeilTensorModels.lean:125,131` [Lean, read]).
+   $\gamma_p := p^{-1/2} G(1; p)$ (`gauss` and `eps` in `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:125,131` [Lean, read]).
    Let us evaluate $G(1; p)$ explicitly at $p = 3$ and $p = 5$ (`[Davenport2000]`, Ch. 2):
    - **$p = 3$ ($p \equiv 3 \pmod 4$):** With $\omega = e^{2\pi i/3} = -\frac{1}{2} + i\frac{\sqrt{3}}{2}$,
      the squares mod $3$ are $0^2 = 0$, $1^2 = 1$, $2^2 \equiv 1$, so
@@ -199,7 +199,7 @@ Now step up to a rank-$1$ positive-definite Hermitian space $V = E$ over the ima
 field $E = \mathbb Q(i)$ ($F = \mathbb Q$, involution $\sigma(z) = \bar z$), with Hermitian form
 $\langle z, w \rangle = z\bar w$ and self-dual $\mathbb Z[i]$-lattice $L = \mathbb Z[i]$ (`Spc.IsHerm`
 at $n = 1$, proven in the archive's own sanity check `example : HasSig (1 : Matrix (Fin 1) (Fin 1) ℂ) 1 0 ∧ IsCartan 1 1`
-at `WeilTensorModels.lean:596–602` [Lean, read]!) [Expository].
+at `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:596–602` [Lean, read]!) [Expository].
 
 Here the definite unitary group at $\infty$ is the compact circle
 $$U(1)(\mathbb R) = \{u \in \mathbb C^\times : u\bar u = 1\} = S^1,$$
@@ -225,7 +225,7 @@ $L = \mathbb Z[i]$:
    - **Siegel–Weil identity (`[Weil1964]`, `[KudlaRallis1994]`):** Integrating the theta kernel against
      the constant function $1$ on $[U(1)]$ produces an **Eisenstein series** whose Fourier coefficients
      encode $L(s, \chi_{-4})$ (compare `dlogL` and `logDerivative_at_one_eq` for $L'/L(1, \chi_{-d})$ in
-     `DataParams₂.lean:69,127` [Lean, read]!);
+     `src/Formalism/LocalRingCardinality/DataParams₂.lean:69,127` [Lean, read]!);
    - **Inert-prime vanishing:** At every prime $p \equiv 3 \pmod 4$ **inert** in $\mathbb Q(i)$, the
      $p$-th Fourier coefficient $r_2(p) = 4(1 + (-1)) = 0$ vanishes identically!
 2. **Nontrivial Hecke input $\chi_k$ on $[U(1)]$ (cuspidal lift and spectral-parameter transfer):**
@@ -272,10 +272,10 @@ a $(\mathcal M_X \otimes \mathcal M_Y)$-measurable function [Expository]:
 Let $F$ be a totally real number field, $E / F$ a quadratic CM extension with nontrivial Galois
 involution $\sigma \in \operatorname{Gal}(E/F)$, $\mathbb A_F$ and $\mathbb A_E = \mathbb A_F \otimes_F E$
 their adele rings, and $\psi : F \setminus \mathbb A_F \to \mathbb C^1$ the standard nontrivial
-additive character (`IsStd`, `WeilTensorModels.lean:98` [Lean, read]) `[Weil1964]`, `[Howe1979]`,
+additive character (`IsStd`, `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:98` [Lean, read]) `[Weil1964]`, `[Howe1979]`,
 `[KudlaRallis1994]` [Expository]:
 
-1. **Hermitian / skew-Hermitian dual pair (`Spc.IsHerm`, `Spc.IsSkew`, `WeilTensorModels.lean:182,192`):**
+1. **Hermitian / skew-Hermitian dual pair (`Spc.IsHerm`, `Spc.IsSkew`, `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:182,192`):**
    Let $(V, \langle \cdot, \cdot \rangle_V)$ be an $a$-dimensional $\sigma$-Hermitian space over $E$
    ($\sigma\langle x, y \rangle_V = \langle y, x \rangle_V$) and $(V', \langle \cdot, \cdot \rangle_{V'})$
    an $a'$-dimensional $\sigma$-skew-Hermitian space over $E$ ($\sigma\langle x', y' \rangle_{V'} = -\langle y', x' \rangle_{V'}$;
@@ -291,7 +291,7 @@ additive character (`IsStd`, `WeilTensorModels.lean:98` [Lean, read]) `[Weil1964
    / conjugate-orthogonal Hecke characters $(\chi_V, \chi_{V'})$ of $\mathbb A_E^\times / E^\times$
    whose restrictions to $\mathbb A_F^\times$ are $\eta_{E/F}^{a'}$ and $\eta_{E/F}^a$ splits Weil's
    metaplectic $\mathbb C^1$-cover $\mathrm{Mp}(W)(\mathbb A_F) \to \mathrm{Sp}(W)(\mathbb A_F)$ over
-   $U(V)(\mathbb A_F) \times U(V')(\mathbb A_F)$ (`isUSplitting`, `ThetaKernelFundamentalProperties.lean:16`
+   $U(V)(\mathbb A_F) \times U(V')(\mathbb A_F)$ (`isUSplitting`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/ThetaKernelFundamentalProperties.lean:16`
    [Lean, read]), yielding a genuine **Weil representation** $\omega_{\psi, \chi}$ on the adelic
    Schwartz–Bruhat space $\mathcal S(\mathbb X(\mathbb A_F))$ for a Lagrangian polarization
    $W = \mathbb X \oplus \mathbb Y$. For any $\Phi \in \mathcal S(\mathbb X(\mathbb A_F))$, the
@@ -299,7 +299,7 @@ additive character (`IsStd`, `WeilTensorModels.lean:98` [Lean, read]) `[Weil1964
    $$\theta_\Phi(g, h) := \sum_{\xi \in \mathbb X(F)} \bigl(\omega_{\psi, \chi}(g, h)\Phi\bigr)(\xi),
    \qquad (g, h) \in U(V)(\mathbb A_F) \times U(V')(\mathbb A_F),$$
    which is continuous and left-invariant under $U(V)(F) \times U(V')(F)$ (`theta_kernel_basic_properties`,
-   `ThetaKernelFundamentalProperties.lean:14` [Lean, read]).
+   `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/ThetaKernelFundamentalProperties.lean:14` [Lean, read]).
 3. **Global theta lift and local Howe correspondence (`[Howe1979]`, `[Rallis1984]`, `[GanTakeda2016]`):**
    For a cusp form (or automorphic form on compact $[U(V)]$) $f$ on $[U(V)]$, whenever
    $g \mapsto \theta_\Phi(g, h)\,\overline{f(g)}$ is integrable on $[U(V)]$ with respect to Tamagawa /
@@ -319,7 +319,7 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
 
 **Definition 7.3 (The Lean archive's P17 theta-correspondence and chain-family structures).**
 
-1. **Adelic unitary groups, Witt towers, and Rallis/Siegel–Weil step relations (`WeilTensorModels.lean:48,160,182,532,559,571,581,585`):**
+1. **Adelic unitary groups, Witt towers, and Rallis/Siegel–Weil step relations (`src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:48,160,182,532,559,571,581,585`):**
    Over number fields `F, E` with involution `σ : E →ₐ[F] E`, `UA σ J` (`:48`) is the adelic unitary
    group of a matrix `J` over `AE F E = AF F ⊗[F] E`, with height `ht` and quotient height `qht` (`:57, 59`).
    `Spc F E n` (`:160`) packages `(J, L, θ, bas)` (form matrix, $\mathcal O_E$-lattice, archimedean
@@ -349,7 +349,7 @@ Let us inspect the exact declarations in `RH-lean-archive` that formalize node `
    inert-prime row divisibility (`hDivG`, `hDcPtG`), class-number / Siegel–Minkowski mass formulas
    (`hn4`, `hInstR`, `hU`, `hG`), spectral decay (`hWu`), Weyl period bounds (`aPer0`, `aPerTw`),
    level-projection surjectivity (`zL`), and `nRest : N (D3 3 𝒜)` [Lean, read].
-4. **Top-level connection predicate (`UpperTheory.Top.TopG`, `ZeroFreeAllOfTopG.lean:12`):**
+4. **Top-level connection predicate (`UpperTheory.Top.TopG`, `src/Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean:12`):**
    Asserts that for every window exponent $\lambda > 1$ (instantiated at $\lambda = 3/2$) and family
    requirement `G : FReq` (instantiated at `GChi ψ`), given host window supply `HostExW la G.req`
    (proved by `supplyChi` in Chapter 4!) and the $Ш^1$-hypothesis `HypV` on the class, the family
@@ -425,8 +425,8 @@ $\int_X \bigl(\int_Y K_1(x, y) K_2(y, z)\,d\nu(y)\bigr) f(x)\,d\mu(x)$ without a
 (as classic counterexamples on $[0, 1]^2$ or non-convergent Siegel–Weil ranges $r + s \le n$ show!).
 We state and prove the exact chain rule first for general sigma-finite spaces, and then verify the
 hypotheses both for **compact definite unitary quotients** and for **non-compact rapid-decay cusp
-forms** (matching `lift_conv_cont_growth`, `LiftConvContGrowth.lean:22`, and `integrable_core`,
-`IntegrableThetaKernelProduct.lean:131` [Lean, read]).
+forms** (matching `lift_conv_cont_growth`, `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/LiftConvContGrowth.lean:22`, and `integrable_core`,
+`src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IntegrableThetaKernelProduct.lean:131` [Lean, read]).
 
 **Theorem 7.2 (Two-step and $m$-step chain rule for bilinear kernel transforms, with explicit Fubini–Tonelli hypotheses).**
 *Let $(X_0, \mu_0), (X_1, \mu_1), \dots, (X_m, \mu_m)$ ($m \ge 2$) be sigma-finite measure spaces,
@@ -463,12 +463,12 @@ and for each $1 \le j \le m$ let $K_j : X_{j-1} \times X_j \to \mathbb C$ be $(\
    - *(Definite chain)* *If $[U(X_0)], \dots, [U(X_m)]$ are quotients of totally definite unitary
      groups over $E/F$, each $[U(X_j)]$ is compact with finite Haar measure $\mu_j([U(X_j)]) < \infty$,
      and for Schwartz test functions $\Phi_j$ the theta kernels $K_j(x_{j-1}, x_j) = \theta_{\Phi_j}(x_{j-1}, x_j)$
-     are continuous (`ThetaKernelFundamentalProperties.lean:14` `[Lean, read]`), hence bounded:
+     are continuous (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/ThetaKernelFundamentalProperties.lean:14` `[Lean, read]`), hence bounded:
      $\sup_{[U(X_{j-1})]\times[U(X_j)]} \lvert \theta_{\Phi_j} \rvert = M_j < \infty$. Thus for every
      $f \in L^1([U(X_0)])$ and $h \in L^1([U(X_m)])$,
      $\mathcal I_m(f, h) \le \lVert f \rVert_{L^1} \lVert h \rVert_{L^1} \bigl(\prod_{j=1}^m M_j\bigr)\bigl(\prod_{j=1}^{m-1} \mu_j([U(X_j)])\bigr) < \infty$
      holds unconditionally!*
-   - *(Non-compact moderate-growth $\times$ rapid-decay step, `LiftConvContGrowth.lean:22–76` `[Lean, read]`)*
+   - *(Non-compact moderate-growth $\times$ rapid-decay step, `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/LiftConvContGrowth.lean:22–76` `[Lean, read]`)*
      *On a general adelic unitary quotient $\mathcal F_T \subset U(T)(\mathbb A_F)$ of finite Haar
      volume $\mu_T(\mathcal F_T) < \infty$, if a kernel $\theta_\Phi(g, h)$ is continuous and satisfies
      uniform moderate growth $\lvert \theta_\Phi(g, h) \rvert \le C\,\mathrm{ht}_S(g)^A\,\mathrm{ht}_T(h)^A$
@@ -510,11 +510,11 @@ Equating all three Fubini slicings proves (2).
 
 (3) The compact definite case is immediate because continuous functions on compact Hausdorff spaces
 $[U(X_{j-1})] \times [U(X_j)]$ are bounded and measurable (`BorelSpace`, `SecondCountableTopology`).
-For the non-compact rapid-decay claim, follow `lift_conv_cont_growth` (`LiftConvContGrowth.lean:39–59`
+For the non-compact rapid-decay claim, follow `lift_conv_cont_growth` (`src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/LiftConvContGrowth.lean:39–59`
 [Lean, read]): because $\theta_\Phi(g, \gamma h) = \theta_\Phi(g, h)$ for all $\gamma \in U(T)(F)$
 (`hleft`), for every $h \in U(T)(\mathbb A_F)$ we may pick $\gamma \in U(T)(F)$ with
 $\mathrm{ht}_T(\gamma h) \le 2\,\mathrm{qht}_T(h)$ (by definition of the infimum quotient height
-`qht`, `WeilTensorModels.lean:59`, `norm_le_quotHeight_pow` at `LiftConvContGrowth.lean:40`), obtaining
+`qht`, `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:59`, `norm_le_quotHeight_pow` at `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/LiftConvContGrowth.lean:40`), obtaining
 $$\lvert \theta_\Phi(g, h) \rvert = \lvert \theta_\Phi(g, \gamma h) \rvert
 \le C\,\mathrm{ht}_S(g)^A\,(2\,\mathrm{qht}_T(h))^A = C \cdot 2^A\,\mathrm{ht}_S(g)^A\,\mathrm{qht}_T(h)^A.$$
 Multiplying by $\lvert G(h) \rvert$ and applying rapid decay $\mathrm{qht}_T(h)^A \lvert G(h) \rvert \le B_A$
@@ -525,7 +525,7 @@ is integrable on $(\mathcal F_T, \mu_T)$, giving both $L^1(\mathcal F_T, \mu_T)$
 continuity in $g$ by Lebesgue's dominated convergence theorem (`continuousAt_of_dominated`, `:56`),
 and the moderate-growth bound $C \cdot 2^A B_A \mu_T(\mathcal F_T)\,\mathrm{ht}_S(g)^A$ (`:75`). $\square$
 
-*(Remark on the 4-factor Fubini step in `IntegrableThetaKernelProduct.lean:131–198`: when the archive
+*(Remark on the 4-factor Fubini step in `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IntegrableThetaKernelProduct.lean:131–198`: when the archive
 unfolds a pair of theta kernels along a Witt/Jacobi block decomposition $n = \operatorname{rank} W + t$
 using upper-triangular unipotent matrices `bl hn 1 y 0 1` of determinant $1$, `lintegral_bl` (`:52–68`
 [Lean, read]) proves unimodular Haar invariance `addEquivAddHaarChar φ = 1` from $\det = 1$, and
@@ -544,7 +544,7 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
 **Proposition 7.3 (Non-interlacing Harish-Chandra schedule, local Hecke transfer, and $m$-step chain induction).**
 *Fix `D : D7` with chain length $m = D.R.m$ and rank step $t = D.R.t$* [Lean, read]:
 
-1. *(Verified non-interlacing archimedean schedule: `HCIn.hc`, `EvenCeil.lean:109–161`)* *Given
+1. *(Verified non-interlacing archimedean schedule: `HCIn.hc`, `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:109–161`)* *Given
    `I : HCIn` satisfying `I.OK R` (`1 ≤ Del`, `t + 3 ≤ 2 * hh`, `(k - 2) * (4 * Del) ≤ U1`, `Uk ≤ -1`,
    `-B ≤ Uk`, `:100`), the rational sequences
    $u_i = u_{\mathbb Z}(i) + \frac{1}{2}$ ($0 \le i < k$), $v_i = (k - 2 - i)(4\,\mathrm{Del})$
@@ -555,18 +555,18 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
    \qquad -b_0 < u_{k-1}.$$
    *Consequently, at every step $0 \le j < m$, the base parameters lie strictly "far from" the
    archimedean Rallis singular locus $(t + 1)/2$ (`FarFrom`, proved in `rulePar_of_pairPar` and
-   `rulePar_step`, `FirstOccurrenceRuleThetaChainStepBothDirections.lean:21,58`)!*
+   `rulePar_step`, `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/FirstOccurrenceRuleThetaChainStepBothDirections.lean:21,58`)!*
 2. *(Local Satake / Weil–Deligne parameter splicing: `pairLift_of_howeDuality_bernstein_alt` and
    `upPar_of_transfer`)* *At every finite place $w \notin S$ split in $E/F$ (where $U(r_j)(F_w) \cong \mathrm{GL}_{r_j}(E_w)$
    with $r_0 = r < t$, `:25`), local theta lifting from $\mathrm{GL}_{r_j}$ to $\mathrm{GL}_{r_j + t}$
    coupled with `RecLawsH` sends the Weil–Deligne parameter of a row representation $\sigma$ to the
    direct sum with the $t$-dimensional twisted Speh / determinant parameter $\mu_i[t]$
-   (`PairLiftOfHoweDualityBernstein.lean:17–58`), and globally transfers Hecke eigenvalues across
+   (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/PairLiftOfHoweDualityBernstein.lean:17–58`), and globally transfers Hecke eigenvalues across
    $r_{k+1} = r_k + t$ whenever the upward theta integral `Step.up` is nonzero (`upPar_of_transfer`,
-   `ThetaChainUpwardLiftHeckeParamTransferred.lean:42,46–67`).*
+   `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardLiftHeckeParamTransferred.lean:42,46–67`).*
 3. *($m$-step inductive adjointness and parameter propagation: `thetaChain_upward_induction_fixed_metric`,
-   `ThetaChainUpwardInductionFixedMetric.lean:41–77`)* *Assume stage metric existence `hMet : MetEx D`
-   and node gap `hgap : NodeGap D` (`ParBoundW.lean:24`). Suppose $s_0$ is a stage-$0$ localization with
+   `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardInductionFixedMetric.lean:41–77`)* *Assume stage metric existence `hMet : MetEx D`
+   and node gap `hgap : NodeGap D` (`src/Development/AbelianVarietyTheory/Definitions/LatticeFrames/ParBoundW.lean:24`). Suppose $s_0$ is a stage-$0$ localization with
    Hermitian metric `(ipD₀, ip₀)`, $u \in s_0.\mathrm{CC}(c)$ is nonzero with initial spectral parameter
    `IsPar u B`, every step $0 \le k < m$ has non-vanishing $L$-value `LNe c (c.chT (k + 1)) (chainPar c B k)`
    (ensuring non-vanishing of the single-step lift `StepUp D`), and `Reach c s₀ k s Θ` ($k \le m$)
@@ -576,29 +576,29 @@ parameters collide or collapse to zero? We read four files in `DecoratedLatticeP
    \qquad\text{and}\qquad \mathrm{IsPar}\,x_k\,(\mathrm{chainPar}\,c\,B\,k).$$
 
 *Proof.*
-(1) Every inequality in `HCIn.hc` (`EvenCeil.lean:114–161`) is immediate integer arithmetic: since
+(1) Every inequality in `HCIn.hc` (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:114–161`) is immediate integer arithmetic: since
 $\mathrm{Del} \ge 1$, for $i = 0$ we have $v_{\mathbb Z}(0) = (k - 2)(4\,\mathrm{Del}) \le U_1 = u_{\mathbb Z}(0)$,
 for $i = k - 1$ there is no $v_{k-1}$, and for $0 < i < k - 1$ we have
 $u_{\mathbb Z}(i) = (k - 1 - i)(4\,\mathrm{Del}) - 1 - \delta_{i-1}\mathrm{Del} \ge (k - 2 - i)(4\,\mathrm{Del}) + 3\,\mathrm{Del} - 1 \ge v_{\mathbb Z}(i)$,
 so $v_i < u_{\mathbb Z}(i) + \frac{1}{2} = u_i$. Similarly $u_{\mathbb Z}(i+1) + 1 \le (k - 2 - i)(4\,\mathrm{Del}) = v_{\mathbb Z}(i)$
 gives $u_{i+1} < v_i$, and $2\,\mathrm{hh} \ge t + 3$ gives $e_j - b_j = \mathrm{hh} \ge \frac{t+3}{2}$
-and $b_{j+1} - e_j = \mathrm{hh} \ge \frac{t+3}{2}$. In `FirstOccurrenceRuleThetaChainStepBothDirections.lean:23–35`,
+and $b_{j+1} - e_j = \mathrm{hh} \ge \frac{t+3}{2}$. In `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/FirstOccurrenceRuleThetaChainStepBothDirections.lean:23–35`,
 if any entry $y$ of the base parameter satisfied $y = \frac{t+1}{2}$, then $y + a_T$ would violate
 `FarFrom aT ((t+3)/2)` ($\lvert (y + a_T) - a_T \rvert \ge \frac{t+3}{2} > \frac{t+1}{2}$), a contradiction
 by `linarith`!
 
-(2) In `PairLiftOfHoweDualityBernstein.lean:19–58`, non-orthogonality `hpair` implies the $\sigma$-isotypic
+(2) In `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/PairLiftOfHoweDualityBernstein.lean:19–58`, non-orthogonality `hpair` implies the $\sigma$-isotypic
 space is nonzero (`hne`), `R.rank_add_five_le` gives $r < t$ (`hrt`), `theta_lift_general_linear`
 identifies the untwisted $\mathrm{GL}_{r + t}$ theta lift $\pi'$ with the parabolic induction
 $\mathrm{prod}_2(\sigma, \det_{\mu, t})$, and injectivity of `(T.e w)` equates the Weil–Deligne
-parameters `liftPar = (X.rc ...).lpSum (speh ... R.t)`. In `ThetaChainUpwardLiftHeckeParamTransferred.lean:46–67`,
+parameters `liftPar = (X.rc ...).lpSum (speh ... R.t)`. In `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardLiftHeckeParamTransferred.lean:46–67`,
 taking complex conjugates under the integral sign (`← integral_conj`, `:56`) expresses
 $\overline{(p.\mathrm{up}\,\varphi\,y)(x)} = \int_{s.\mathrm{fd}} \theta_{p.\omega}(g, x, p.\mathrm{pt}\,\varphi)\,\overline{y(g)}\,ds.\nu$,
 and for every finite place $w_0 \notin c.S$ where the Fock lattice vector is the unramified vacuum
 (`fock_vectors_lattice_vacua_off_finite_set`, `:67`), `thetaIntegral_conjCuspForm_parameterTransfer`
 transfers the spherical Hecke parameter!
 
-(3) Follow the induction in `ThetaChainUpwardInductionFixedMetric.lean:46–63`!
+(3) Follow the induction in `src/Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ThetaChainUpwardInductionFixedMetric.lean:46–63`!
 - **Base case $k = 0$ (`Reach.zero`, $\Theta = \mathrm{id}$, $s = s_0$):** First prove metric
   uniqueness `ip_unique` (`:25–39`): because pure tensors span $s.\mathrm{M}$ (`PiTensorProduct.span_tprod_eq_top`),
   any nonzero $z \in s.\mathrm{CC}(c)$ evaluates non-trivially on some pure tensor $v_\otimes = \bigotimes_\tau v_\tau \neq 0$
@@ -625,23 +625,23 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `src/Development/Aut
 *Assume the seven packages:*
 - *`P : UnitaryGroupThirdPlaceHypotheses` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/BernsteinUnitaryProductIrreducible.lean:22`),*
 - *`F : ThetaLocalInputs`,*
-- *`hA : ThetaIntegralsAgree` and `hM : LocalMatching` (`WeilTensorModels.lean:585,581`),*
-- *`hX : CovolumeBoundOfX` (`LiftLambdaBound.lean:60`),*
+- *`hA : ThetaIntegralsAgree` and `hM : LocalMatching` (`src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean:585,581`),*
+- *`hX : CovolumeBoundOfX` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LiftLambdaBound.lean:60`),*
 - *`hL : RecTExists` (partial local Langlands, node `P15`, `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:78`), and*
-- *`hV : VWin` (the Tate–Shafarevich window bound, node `P12`, `ExistsPageN.lean:49`).*
+- *`hV : VWin` (the Tate–Shafarevich window bound, node `P12`, `src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean:49`).*
 
 *Then `Nonempty (HypsAlt (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) DefiniteSideCondition)` holds,
 `TopG` holds, `ZeroFreeAll` holds, and `UpperTheory.EveryCharacter` holds!*
 *(Lean: `nonempty_hyps_definite_side_of_closed_bound` and
 `every_character_of_theta_integrals_local_matching`,
 `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44,69`;
-`shape_closed_link_n_of_green`, `…/ThirdPlaceSeries/TopShape.lean:33`;
+`shape_closed_link_n_of_green`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33`;
 `topDesWin`, `src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:11`;
-`zero_free_all_of_green_v_win` and `every_character_of_green_v_win`, `…/ThirdPlaceSeries/TopPlug.lean:12,16`.)* [Lean, read]
+`zero_free_all_of_green_v_win` and `every_character_of_green_v_win`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:12,16`.)* [Lean, read]
 
 *Proof.* Follow the four-stage wiring diagram in the Lean proof terms:
 
-1. **Building `HypsAlt` (`nonempty_hyps_definite_side_of_closed_bound`, `SiegelEisensteinSecondTermHypotheses.lean:44–68`):**
+1. **Building `HypsAlt` (`nonempty_hyps_definite_side_of_closed_bound`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44–68`):**
    - Unramified Howe duality (`howeUnram_holds`) + convergent unitary Siegel–Weil (`P.siegelWeilUnitaryConvergent`)
      imply separation of functionals (`hS`, `:48`).
    - Combining `hS` with real Howe duality (`F.howeDualityReal`), cuspidal Green characters (`P.greenCuspidal`),
@@ -657,7 +657,7 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `src/Development/Aut
 2. **Wiring `HypsAlt` + Green's classification into the nine chain links (`shape_closed_link_n_of_green`,
    `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33–55`):**
    Given `hGreen : GlobalTheory.GLq.Green` (obtained from `P.greenRegularCharacters` via
-   `green_of_regular`, `SumRangeEqRoots.lean:225`) and the fields of `HypsAlt`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`
+   `green_of_regular`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean:225`) and the fields of `HypsAlt`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`
    derives:
    - `hDIV`: the divisibility link `Closed (D3 3 𝒜) ... LinkDIVt` (`:47`, from `link_brest_alt`,
      `wire_sel_alt`, twisted admissibility `hA2`, and spectral decay `hC5`);
@@ -667,17 +667,17 @@ assembly files `SiegelEisensteinSecondTermHypotheses.lean`, `src/Development/Aut
      `link_alt_alt_alt` (`SmallLevelRankEq`), `hgl.1` (lattice rank `NuFullF ∧ J.MuRank`),
      `closed_linkG_of_duty` (`LinkG`), `link_alt_alt_bis` (`LinkS`), and `hgl.2` (`LinkGLOBAL`),
      feeding all nine into `topDesWin` (`:52–55`)!
-3. **Converting the nine links + `HypV` into `FamilyClassConnected` (`topDesWin`, `DesWin.lean:11–31`):**
+3. **Converting the nine links + `HypV` into `FamilyClassConnected` (`topDesWin`, `src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:11–31`):**
    Intersecting the eventual $\varepsilon$-thresholds `min ε1 ε3` of `DesignExists` and the nine
    `Closed` links produces, for every $0 < \varepsilon < \min(\varepsilon_1, \varepsilon_3)$, a family
    `Fm : FamP eps` in `G.cls la`; combining `HypV` (supplied by `VWin`!) with `LinkN` and
-   `SmallLevelRankEq` via `divinN_of_hypV` (`DivinNOfHypV.lean:117`, node `P11`, Chapter 10) discharges
+   `SmallLevelRankEq` via `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:117`, node `P11`, Chapter 10) discharges
    the congruence-to-$Ш^1$ hypothesis of `aD` (`LinkDIVt`), and `aGL` (`LinkGLOBAL`) outputs
    `ChainTied Fm eD eL ...` across `Fm.Win`, establishing `TopG`!
-4. **Closing to `EveryCharacter` (`TopPlug.lean:12–18`):**
+4. **Closing to `EveryCharacter` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:12–18`):**
    `zero_free_all_of_green_v_win` plugs `TopG` and `fun ψ => supplyChi ψ (hV ψ)` (Theorem 4.9, at
-   window exponent `la := 3 / 2`) into `zeroFreeAll_of_topG` (`ZeroFreeAllOfTopG.lean:26`, Theorem 3.7
-   + Corollary 5.6), yielding `ZeroFreeAll`, and `imprimitive` (`Imprimitive.lean:5`, Proposition 2.2)
+   window exponent `la := 3 / 2`) into `zeroFreeAll_of_topG` (`src/Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean:26`, Theorem 3.7
+   + Corollary 5.6), yielding `ZeroFreeAll`, and `imprimitive` (`src/Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean:5`, Proposition 2.2)
    extends zero-freeness on $\Re s > 1/2$ to every Dirichlet character (`UpperTheory.EveryCharacter`)! $\square$
 
 ---
@@ -722,7 +722,7 @@ Reading the actual Lean source of node `P17` brings two essential realities into
 
 ### 7.5.2 Structural map of the rest of Part II (Chapters 8–11)
 
-Look back at lines 29–31 of `topDesWin` (`DesWin.lean:11–31`, Step 3 of Theorem 7.4 above):
+Look back at lines 29–31 of `topDesWin` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:11–31`, Step 3 of Theorem 7.4 above):
 ```lean
 have hD := aD hT hDG aE (divinN_of_hypV Fm h0 (hV Fm (h2 Fm hc.1.1)) aN aZ)
 exact ⟨Fm, h2 Fm hc.1.1, aGL hT hDG hCh ⟨aG, aS hT, aI, hD, ...⟩⟩
@@ -741,7 +741,7 @@ That two-line proof term is the **table of contents for Chapters 8–11** [Lean,
   inner products make distinct chain words nearly orthogonal ($\text{defect} \le \exp(-x^{\varepsilon/8})$)
   and assemble `ChainTied`.
 - **Chapter 10 (`P11`, Congruence modules to Tate–Shafarevich groups):** Opens `aN : LinkN Fm`
-  (`GlobalTheoremInputs.lean:45` [Lean]), `CutCoreUnit.main`
+  (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:45` [Lean]), `CutCoreUnit.main`
   (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:44` [Lean]),
   and `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:117` [Lean]),
   bounding the excess congruence loss of each lift via Fitting ideals on generalized matrix algebras

@@ -43,16 +43,16 @@ expansion, the pigeonhole principle, and the arithmetic-geometric mean inequalit
 reading it line by line (`R3`) simultaneously:
 
 1. explains **why** the CM host group $\varphi.\Psi$ must be partitioned into *top*, *thick*, and
-   *thin* places (`DataHost.lean:129–136`) before the chain-slope and Schur bounds of Part II can
+   *thin* places (`src/Formalism/LocalRingCardinality/DataHost.lean:129–136`) before the chain-slope and Schur bounds of Part II can
    close;
 2. exhibits the exact mechanism by which strict sphere convexity caps every Frobenius progression
-   window of length $L_w$ at **at most two thick places** (`hostThickOrbit`, `ThickOrbit.lean:132`,
-   and `LongWindow.main`, `AtMostTwoThickInWindowLongOrbit.lean:27`) while keeping the thick-set
+   window of length $L_w$ at **at most two thick places** (`hostThickOrbit`, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickOrbit.lean:132`,
+   and `LongWindow.main`, `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:27`) while keeping the thick-set
    cardinality subexponentially close to the full group order ($\lvert T_2 \rvert \ge x^{-\varepsilon}\,\varphi.\mathrm{ord}$);
 3. resolves a subtle structural puzzle from `remark.pdf` (p. 4, item 19) [Paper; remark p. 4] and
    early community scans (`LUMI doc 06` [Community]): why Behrend sets were dropped from the
    Iwasawa window pigeonhole of node **P12** (`VWin`), yet remain **load-bearing on the main
-   `src/Main.lean` spine** inside host-field assembly (`HostOfField.lean:8`)!
+   `src/Main.lean` spine** inside host-field assembly (`src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8`)!
 
 ---
 
@@ -67,8 +67,8 @@ $q \equiv 3 \pmod 8$, $d \equiv 7 \pmod{16}$) is organized by its finite Galois 
 
 - The core abelian group `φ.A = Fin φ.ord` has order $\varphi.\mathrm{ord} = n \asymp x^{2 + 8\varepsilon}$,
   containing a distinguished cyclic $2$-power subgroup `φ.A0 = ⟨φ.a0⟩` of order
-  $n_0 := \operatorname{addOrderOf}(\varphi.a_0) \mid 2^e$ (`FrameFacts.lean:249`) and bounded index
-  $o := \varphi.\mathrm{ord} / n_0 \le C_o$ (`ZsmulGeneratorEqZeroOfProjection.lean:68–70`).
+  $n_0 := \operatorname{addOrderOf}(\varphi.a_0) \mid 2^e$ (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:249`) and bounded index
+  $o := \varphi.\mathrm{ord} / n_0 \le C_o$ (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:68–70`).
 - Multiplying `φ.MA` (the multiplicative copy of `φ.A`) by the four-element sign group
   $G_0 = \mathbb Z^\times \times \mathbb Z^\times = \{(\pm 1, \pm 1)\}$ tracking the quadratic
   subfields $\mathbb Q(\sqrt{-q})$ and $K = \mathbb Q(\sqrt{-d})$ forms the ambient host Galois
@@ -76,7 +76,7 @@ $q \equiv 3 \pmod 8$, $d \equiv 7 \pmod{16}$) is organized by its finite Galois 
 - Inside `φ.GG`, the index-$2$ subgroup `φ.Psi := ker φ.chD` (consisting of elements with second
   sign $+1$, cardinality $f = 2\,\varphi.\mathrm{ord}$, parametrizing the archimedean CM type of $E$!)
   decomposes into **two disjoint sheets** of size $\varphi.\mathrm{ord}$ (`mem_Psi_iff_tau`,
-  `FrameFacts.lean:136`):
+  `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:136`):
   $$\varphi.\Psi \;=\; \tau_1(\varphi.A) \;\sqcup\; \tau_2(\varphi.A),
   \qquad
   \tau_1(t) = \bigl((+1, +1),\, \iota(t)\bigr),
@@ -109,9 +109,9 @@ with delicate additive-combinatorial geometry [Expository]? Follow the two compe
   element $\varphi \in R.\mathrm{GG} \setminus R.\Psi$ ($\varphi \neq \mathrm{cc}$), the induced
   place orbit `placeOf (φ^i * τ)` marches along an **arithmetic progression**
   $$i \longmapsto t_0 + i \cdot h \qquad \bigl(t_0 = \iota^{-1}(\tau_2),\ h = \iota^{-1}(\varphi_2) \in R.A\bigr)$$
-  (`AtMostTwoThickInWindowLongOrbit.lean:20–24`). In the Harish-Chandra and Schur lattice bounds of
-  Part II (`win_thick` in `DataParams₂.lean:175`, `NoThreeConsecutiveThickPlaces.lean:222`, and
-  `LongWindow.main` in `AtMostTwoThickInWindowLongOrbit.lean:27`), whenever $\varphi$ generates a
+  (`src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:20–24`). In the Harish-Chandra and Schur lattice bounds of
+  Part II (`win_thick` in `src/Formalism/LocalRingCardinality/DataParams₂.lean:175`, `src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean:222`, and
+  `LongWindow.main` in `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:27`), whenever $\varphi$ generates a
   long orbit ($4 L_w < \operatorname{ord}(h)$, where the window length is
   $L_w = \mathrm{Lwv}(s) = \lceil 405\log x \rceil + \lceil 30/\varepsilon \rceil \asymp \log x$),
   **hitting three or more thick places inside a single window of length $L_w$ — or three consecutive
@@ -122,11 +122,11 @@ with delicate additive-combinatorial geometry [Expository]? Follow the two compe
   Cross-multiplying $(b - a)(s_c - s_a) = (c - a)(s_b - s_a)$ requires $T_2$ to avoid **all
   non-trivial affine integer relations**
   $$j\,(s_2 - s_1) \;=\; i\,(s_3 - s_1) \qquad \bigl(0 < \lvert i \rvert, \lvert j \rvert \le L_w,\ i \neq j\bigr),$$
-  formalized as `NoRel T2 Lw` (`HostThickExists.lean:13`)!
+  formalized as `NoRel T2 Lw` (`src/Formalism/FrobeniusOrbits/HostThickExists.lean:13`)!
 - **Pressure B — Keeping $\lvert T_2 \rvert$ nearly linear in $n_0$ (lower global-size pressure):**
   At the same time, averaging over coset shifts $u_0 \in R.A$ (`coverS_carry` in Chapter 6) divides
   total chain budgets by the thick-frame share $\lvert T_2 \rvert / \varphi.\mathrm{ord}$. For that
-  share loss to be absorbed into $x^{O(\varepsilon)}$, `thickFrame2` (`ThickFrame2Large.lean:34`)
+  share loss to be absorbed into $x^{O(\varepsilon)}$, `thickFrame2` (`src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:34`)
   demands the **near-full lower bound**
   $$\lvert T_2 \rvert \;\ge\; x^{-\varepsilon}\,\varphi.\mathrm{ord}!$$
 
@@ -149,7 +149,7 @@ could satisfy both `NoRel T2 Lw` and $\lvert T_2 \rvert \ge x^{-\varepsilon}\,\v
    - **Strict convexity kills ALL collinear triples at once — not just midpoints!** Any three
      distinct points on a Euclidean sphere cannot lie on a common straight line in $\mathbb R^S$.
      Hence **no** non-trivial affine relation $v_2 - v_1 = \frac{i}{j}(v_3 - v_1)$ ($j \neq 0$,
-     $i \neq j$, $v_r$ distinct) can ever hold on $\mathbb S_k$ (`sphere_rel`, `ThickExists.lean:36`)!
+     $i \neq j$, $v_r$ distinct) can ever hold on $\mathbb S_k$ (`sphere_rel`, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:36`)!
    - **Carry-free base-$B$ projection preserves linear relations when $B = 4 L_w d$:** Encoding each
      vector $v \in \{0, \dots, d-1\}^S$ as the base-$B$ integer $\sum_{m=0}^{S-1} v_m B^m$ with base
      $B := 4 L_w d$ leaves enough digit headroom ($\lvert j(v_{2,m}-v_{1,m}) - i(v_{3,m}-v_{1,m}) \rvert \le 2 L_w(d-1) < B$)
@@ -169,16 +169,16 @@ could satisfy both `NoRel T2 Lw` and $\lvert T_2 \rvert \ge x^{-\varepsilon}\,\v
    using Behrend sets to tune the Iwasawa tower in `VWin` (`P12`) and remarked that it looked
    unnecessary. Indeed, as we saw in Chapter 11 (Section 11.5.1), on the **P12 `VWin`** branch the
    Iwasawa root-avoidance window uses the elementary pigeonhole count `BConst.J`
-   (`PrimeSetBoundDataOfPrimitiveChar.lean:20`), while the 14-file folder `src/Formalism/BehrendSets/`
+   (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PrimeSetBoundDataOfPrimitiveChar.lean:20`), while the 14-file folder `src/Formalism/BehrendSets/`
    is an evolutionary remnant whose top export `Formalism.BehrendSets.FinalE.trivStab`
-   (`src/Formalism/BehrendSets/FinalE.lean:12`, proved in `TotientLeOfIsPrimitiveRoot.lean:65`) is
+   (`src/Formalism/BehrendSets/FinalE.lean:12`, proved in `src/Formalism/BehrendSets/BehrendVariance/TotientLeOfIsPrimitiveRoot.lean:65`) is
    actually a Minkowski cyclotomic matrix torsion-freeness lemma (still imported inside the
    congruence-subgroup cone!). **By contrast, Behrend's genuine sphere projection was never dropped
    from the proof of RH:** it lives in `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean`
    and `src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean`, called directly on
    the `src/Main.lean` spine via:
 
-   > `src/Main.lean` $\to \cdots \to$ `SupplyChi.lean:8` $\to$ `HostOfField.lean:8` $\to$ `hostOfFieldOf.lean:76` $\to$ `ThickFrame2Large.lean:37` $\to$ `ThickExists.lean:302` $\to$ `Behrend.exists_large_sphere`!
+   > `src/Main.lean` $\to \cdots \to$ `src/Development/AutomorphicArithmetic/CharacterBoxes/SupplyChi.lean:8` $\to$ `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8` $\to$ `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:76` $\to$ `src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:37` $\to$ `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:302` $\to$ `Behrend.exists_large_sphere`!
 
 ---
 
@@ -194,7 +194,7 @@ Inside the $6 \times 6$ integer grid $\mathrm{box}(2, 6) = \{0, 1, 2, 3, 4, 5\}^
 points, squared Euclidean norms $v_0^2 + v_1^2$ lie in $\{0, 1, \dots, 2 \cdot 5^2 = 50\}$. On the
 circle $v_0^2 + v_1^2 = 25$, there are **four** grid points:
 $$v^{(1)} = (5, 0),\qquad v^{(2)} = (4, 3),\qquad v^{(3)} = (3, 4),\qquad v^{(4)} = (0, 5).$$
-Set $L = 2$, so the archive's carry-free base (`noRel_image`, `ThickExists.lean:86`) is
+Set $L = 2$, so the archive's carry-free base (`noRel_image`, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:86`) is
 $$B \;:=\; 4 L d \;=\; 4 \times 2 \times 6 \;=\; 48.$$
 Applying `Behrend.map 48` ($v \mapsto v_0 + 48\,v_1$) maps the four circle points injectively to the
 four natural numbers:
@@ -240,20 +240,20 @@ encoding via $\mathrm{map}_{32}(v_0, v_1, v_2) = v_0 + 32\,v_1 + 1{,}024\,v_2$ p
 
 Now embed $T_2 = \{3, 96, 1{,}090, 2{,}082, 2{,}113, 3{,}072\}$ into the cyclic $2$-group
 $\mathbb Z / n_0 \mathbb Z$ at $n_0 = 2^{15} = 32{,}768$! Notice that every $s \in T_2$ satisfies
-**$4 L s \le 24{,}576 < 32{,}768 = n_0$** (`second_set_range`, `DataHost.lean:106`). Why is that
+**$4 L s \le 24{,}576 < 32{,}768 = n_0$** (`second_set_range`, `src/Formalism/LocalRingCardinality/DataHost.lean:106`). Why is that
 factor of $4 L$ in $4 L s < n_0$ so crucial? Because when we test three hits $t_0 + a h, t_0 + b h, t_0 + c h$
 ($0 \le a < b < c < L$) in $\mathbb Z / n_0 \mathbb Z$, cross-multiplying modulo $n_0$ only gives
 $$n_0 \;\big|\; X := (c - a)(s_b - s_a) - (b - a)(s_c - s_a) \qquad\text{in }\mathbb Z!$$
 Since $0 < c - a, b - a < L$ and $0 \le s < \frac{n_0}{4 L}$, both products $(c - a)(s_b - s_a)$
 and $(b - a)(s_c - s_a)$ have absolute value strictly below $L \cdot \frac{n_0}{4L} = \frac{n_0}{4}$,
 so **$\lvert X \rvert < \frac{n_0}{2} < n_0$**, upgrading modular divisibility $n_0 \mid X$ into the
-**exact integer equality $X = 0$** (`ThickOrbit.key`, `ThickOrbit.lean:60–63`)!
+**exact integer equality $X = 0$** (`ThickOrbit.key`, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickOrbit.lean:60–63`)!
 
 ### 17.2.2 Numerical check of the AM–GM bridge ($C = 32 \implies C_T = 64$) and conductor-height bound
 
 Let us also check how the archive's explicit constants behave at $\varepsilon = \frac{1}{60} < \frac{1}{52}$:
 
-1. **Turning $\exp(-32\sqrt{\log n_0 \cdot \log L_w})$ into $x^{-\varepsilon}$ (`ThickFrame2Large.lean:38–146`):**
+1. **Turning $\exp(-32\sqrt{\log n_0 \cdot \log L_w})$ into $x^{-\varepsilon}$ (`src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:38–146`):**
    Theorem 17.2 (`hostThickExists`) proves `HostThickExists` with constant **$C = 32$**, giving a
    `NoRel T Lw` set of size $\ge \frac{n_0}{L_w}\exp(-32 u)$ where $u := \sqrt{\log n_0 \cdot \log L_w}$.
    Setting $\delta := \frac{\varepsilon}{3 C} = \frac{1}{5{,}760}$, weighted AM–GM
@@ -267,7 +267,7 @@ Let us also check how the archive's explicit constants behave at $\varepsilon = 
    $\varepsilon\log x$ budget** — while $\log L_w = O(\log\log x)$ is $o(\log x)$, so the remaining
    $\frac{\varepsilon}{2}\log x$ absorbs $92{,}160\log L_w + \log(4 C_o L_w)$ for all large $x$, and
    erasing $0$ (`T.erase 0`) yields $C_T = 2 C = \mathbf{64}$!
-2. **Checking `log_conductor_mul_height_le_of_pageN` (`LogConductorMulHeightLeOfPageN.lean:6`):**
+2. **Checking `log_conductor_mul_height_le_of_pageN` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6`):**
    With $C_t = 401$, $2^e \le 2 x^{2 + 8\varepsilon}$ (`PageN`), $N \le 2^{e+2} m q d$, $t \le x^{401}$,
    and $\log(q d) \le x^{\varepsilon/4}$, taking logarithms gives
    $$\log(N t) \;\le\; 3\log 2 + \log m + (403 + 8\varepsilon)\log x + x^{\varepsilon/4}
@@ -304,13 +304,13 @@ We now record the exact Lean definitions from Mathlib (`Mathlib/Combinatorics/Ad
 
 **Definition 17.2 (`NoRel`, `InTranslate`, `HostThickOrbit`, `HostThickExists`, `src/Formalism/FrobeniusOrbits/HostThickExists.lean:13,18,22,30`, and `Frame`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:15,68,70,72,89,112,118,120,122`).** [Lean, read]
 
-1. **Bounded-ratio affine relation freeness (`NoRel`, `HostThickExists.lean:13–16`):** For a finite set
+1. **Bounded-ratio affine relation freeness (`NoRel`, `src/Formalism/FrobeniusOrbits/HostThickExists.lean:13–16`):** For a finite set
    $T \subset \mathbb N$ and window parameter $L \in \mathbb N$, `NoRel T L : Prop` asserts that for
    every three pairwise distinct elements $s_1, s_2, s_3 \in T$ ($s_1 \neq s_2$, $s_1 \neq s_3$,
    $s_2 \neq s_3$) and every pair of integers $i, j \in \mathbb Z$ satisfying
    $0 < \lvert i \rvert \le L$, $0 < \lvert j \rvert \le L$, and $i \neq j$,
    $$j \cdot \bigl((s_2 : \mathbb Z) - s_1\bigr) \;\neq\; i \cdot \bigl((s_3 : \mathbb Z) - s_1\bigr).$$
-2. **Orbit-window intersection predicate (`InTranslate` and `HostThickOrbit`, `:18–29`):** For
+2. **Orbit-window intersection predicate (`InTranslate` and `HostThickOrbit`, `:18–28`):** For
    $T \subset \mathbb N$ and $u_0, x \in \mathbb Z/n\mathbb Z$, write `InTranslate T u₀ x` if
    $x = (s : \mathbb Z/n\mathbb Z) + u_0$ for some $s \in T$. Then `HostThickOrbit : Prop` asserts
    that whenever $n > 0$, $L \ge 2$, $\forall s \in T,\ 4 L s < n$, and `NoRel T L`, for all
@@ -319,17 +319,17 @@ We now record the exact Lean definitions from Mathlib (`Mathlib/Combinatorics/Ad
      $\bigl\lvert \{i \in [i_0, i_0 + L) \cap \mathbb Z : \mathrm{InTranslate}(T, u_0, t + i \cdot h)\} \bigr\rvert \le 2$;
    - *(short orbits)* if $\operatorname{addOrderOf}(h) \le 4 L$, then
      $\bigl\lvert \{x \in \mathbb Z/n\mathbb Z : (\exists i \in \mathbb Z,\ x = t + i \cdot h) \wedge \mathrm{InTranslate}(T, u_0, x)\} \bigr\rvert \le 1$.
-3. **Subexponential `NoRel` existence (`HostThickExists`, `:30–33`):** Asserts the existence of an
+3. **Subexponential `NoRel` existence (`HostThickExists`, `:30–32`):** Asserts the existence of an
    absolute constant $C > 0$ such that for all $n, L \in \mathbb N$ with $L \ge 2$, there exists
    $T \subset \mathbb N$ satisfying $\forall s \in T,\ 4 L s < n$, `NoRel T L`, and
    $$\frac{n \cdot \exp\bigl(-C \sqrt{\log n \cdot \log L}\bigr)}{L} \;\le\; \lvert T \rvert.$$
-4. **Abelian host frame (`Formalism.HC.Frame`, `ZsmulGeneratorEqZeroOfProjection.lean:15–23, 61–124`):**
+4. **Abelian host frame (`Formalism.HC.Frame`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:15–23, 61–124`):**
    A `Frame` packages `(e, ord, grp, h0, gen0)` where `A := Fin ord` is a finite additive abelian
    group projecting surjectively via `h0 : A →+ Additive (HGrp e)` onto the $2$-adic cyclotomic
    quotient $(\mathbb Z/2^{e+2}\mathbb Z)^\times / \{\pm 1\} \cong \mathbb Z/2^e\mathbb Z$, and
    `a0 := gen0 ∈ A` satisfies `∀ k : ℤ, h0 (k • a0) = 0 → k • a0 = 0` (so `h0` is injective on the
    cyclic subgroup `A0 = ⟨a0⟩` of order `n0 := addOrderOf a0 ∣ 2^e` and index `o := ord / n0`, with
-   digit map `dig s := s • a0` injective on `[0, n0)`, `FrameFacts.lean:223–294`!). Its sign-extended
+   digit map `dig s := s • a0` injective on `[0, n0)`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:223–294`!). Its sign-extended
    group `GG := G0 × Multiplicative A` carries the CM subgroup `Psi := ker chD`, the place-folding
    map `placeOf g := if g.1.2 = 1 then g else cc * g` (`:118`), and the two sheet embeddings
    `tau1 t := ((1, 1), iota t)` and `tau2 t := ((-1, 1), iota t)` (`:120–122`).
@@ -341,12 +341,12 @@ We now record the exact Lean definitions from Mathlib (`Mathlib/Combinatorics/Ad
 1. **Chain rank extension (`Ranks extends Frame`, `src/Formalism/LocalRingCardinality/Params.lean:6–46`):** Extends `Frame` by the even
    word parameter $k$, even chain length $m$, and odd rank step $t > 3m$, setting $n := \mathrm{ord}$,
    $f := 2n$, base unitary rank $r := k + m - 1$ (odd), and step-$j$ rank $\mathrm{rankY}(j) = r + j t$.
-2. **Concrete host record (`Host R extends HostAx R.toFrame`, `DataHost.lean:39–109`):** Packages a
+2. **Concrete host record (`Host R extends HostAx R.toFrame`, `src/Formalism/LocalRingCardinality/DataHost.lean:39–109`):** Packages a
    CM number field $E = H.E$ with $\sqrt{-q}, \sqrt{-d} \in E$ (`sqq_sq`, `sqrtMinusD`), Galois
    isomorphism `gal : (E ≃ₐ[ℚ] E) ≃* R.GG`, conductor bound `QS ≤ R.n^2`, index bound `o^64 ≤ 2^R.e`,
    small-prime splitting bound `splitBound`, relative different factorization `𝔟 * conj(𝔟)`, auxiliary
    level primes `g 0, g 1, pde, pde' ∈ levelPrimes`, split ideal `ccK`, and the **two subset frames**
-   (`:100–110`):
+   (`:100–109`):
    - `TT : Finset R.A`, defining `topPlaces := TT.image R.tau1` (`:129`); and
    - `T2 : Finset ℕ`, shift `u0 : R.A`, window length `Lw : ℕ` (`2 ≤ Lw`), range bound
      `second_set_range : ∀ s ∈ T2, 4 * Lw * s < R.n0` (`:106`), affine-relation freeness
@@ -354,12 +354,13 @@ We now record the exact Lean definitions from Mathlib (`Mathlib/Combinatorics/Ad
      `thickPlaces := T2.image (fun s => R.tau2 (R.dig s + u0))` (`:133–134`), with
      `secondSet_card_lower_bound` (`:165–166`):
      $$\frac{R.n_0 \cdot \exp\bigl(-H.\mathrm{CT2}\,\sqrt{\log R.n_0 \cdot \log H.L_w}\bigr)}{H.L_w} \;\le\; \lvert H.T_2 \rvert.$$
-3. **Scale-admissible hosts (`HostGood`, `ThinScalesIffHostBound.lean:101–109`):** At scale $s : \mathrm{Scale}$,
-   `HostGood s C8 C5 c6 Cb H q0` conjoins top-place size $\frac{1}{2}\delta_1 n \le \lvert TT \rvert \le 2\delta_1 n$,
-   thick-place lower bounds `secondSet_card_lower_bound` **and** $x^{-\varepsilon} n \le \lvert T_2 \rvert$,
-   density bound $4 L_w \lvert T_2 \rvert \le n_0$, window parameter $L_w = \mathrm{Lwv}(s) = \lceil 405\log x \rceil + \lceil 30/\varepsilon \rceil$,
-   zero-free box `BoxW s H`, thin prime-sum bound `ThinOK s c6 H` (`thinScales_iff_hostBound`, `:65`),
-   and logarithmic derivative bound $\lvert \mathrm{dlogH}\,H \rvert \le x^{\varepsilon/2}$.
+3. **Scale-admissible hosts (`HostGood`, `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:101–109`):** At scale $s : \mathrm{Scale}$,
+   `HostGood s C8 C5 c6 Cb H q0` includes `HostVal`, `HostArith`, the second-set
+   lower bound and density bound $4L_w|T_2|\le n_0$, `QDq`, `BoxW`, `ThinOK`, `BadOK`,
+   and $|\mathrm{dlogH}\,H|\le x^\varepsilon$. Its remaining clauses prescribe disjointness,
+   norm witnesses, congruences and the five level primes. The bound $x^{-\varepsilon}n\le |T_2|$
+   and the window equality $L_w=\mathrm{Lwv}(s)$ enter the assembly through `hof_thick`
+   and the `HostVal` data.
 
 ---
 
@@ -379,11 +380,11 @@ bridge `thickFrame2` ($C_T = 64$), `hostOfField`, and `log_conductor_mul_height_
    *Let $B \in \mathbb Z$, $S \in \mathbb N$, and $c : \mathrm{Fin}\,S \to \mathbb Z$. If
    $\lvert c(m) \rvert < B$ for all $m \in \mathrm{Fin}\,S$ and $\sum_{m \in \mathrm{Fin}\,S} c(m) B^{m.\mathrm{val}} = 0$,
    then $c(m) = 0$ for every $m \in \mathrm{Fin}\,S$.*
-2. *(`map_lt`, `ThickExists.lean:15–34`)* *For $B \in \mathbb N$ and $v : \mathrm{Fin}\,S \to \mathbb N$,
+2. *(`map_lt`, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:15–34`)* *For $B \in \mathbb N$ and $v : \mathrm{Fin}\,S \to \mathbb N$,
    if $v(m) < B$ for all $m$, then $\mathrm{Behrend.map}(B)(v) < B^S$.*
 
 *Proof.*
-(1) Induct on $S \in \mathbb N$ (`GeneralBFactSecondLast/Imports.lean:12–32`). For $S = 0$, `Fin 0` is empty (`m.elim0`). For
+(1) Induct on $S \in \mathbb N$ (`src/Lemmata/GeneralBFactSecondLast/Imports.lean:12–32`). For $S = 0$, `Fin 0` is empty (`m.elim0`). For
 $S = n + 1$, evaluating $\lvert c(0) \rvert < B$ gives $0 \le \lvert c(0) \rvert < B$, hence $B > 0$
 (`hB`, `:16`). Splitting off the $m = 0$ term (`Fin.sum_univ_succ`, `:17–23`) writes the sum as
 $$c(0) + B \sum_{i \in \mathrm{Fin}\,n} c(i + 1)\,B^{i.\mathrm{val}} \;=\; 0.$$
@@ -392,7 +393,7 @@ multiple of $B$ in $(-B, B)$ is $0$ (`Int.eq_zero_of_abs_lt_dvd`, `:25`), so $c(
 $B \neq 0$ from $B \sum_{i \in \mathrm{Fin}\,n} c(i + 1) B^{i.\mathrm{val}} = 0$ (`hT`, `:27–30`) and
 applying the induction hypothesis to $i \mapsto c(i + 1)$ gives $c(i + 1) = 0$ for all $i \in \mathrm{Fin}\,n$.
 
-(2) Induct on $S$ (`ThickExists.lean:17–34`): for $S = 0$, $0 < B^0 = 1$; for $S + 1$,
+(2) Induct on $S$ (`src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:17–34`): for $S = 0$, $0 < B^0 = 1$; for $S + 1$,
 $\mathrm{map}_B(v) = v(0) + B\,\mathrm{map}_B(v \circ \mathrm{succ}) \le (B - 1) + B(B^S - 1) = B^{S+1} - 1 < B^{S+1}$. $\square$
 
 ### 17.4.2 Strict sphere convexity and `hostThickExists` with explicit constant $C = 32$ (`ThickExists.lean`)
@@ -403,7 +404,7 @@ $\mathrm{map}_B(v) = v(0) + B\,\mathrm{map}_B(v \circ \mathrm{succ}) \le (B - 1)
    *Let $v_1, v_2, v_3 : \mathrm{Fin}\,S \to \mathbb Z$ lie on the same sphere $\sum_m v_r(m)^2 = k$
    ($k \in \mathbb Z$), and suppose $i, j \in \mathbb Z$ satisfy $j \neq 0$, $i \neq j$, and
    $j\,(v_2(m) - v_1(m)) = i\,(v_3(m) - v_1(m))$ for all $m \in \mathrm{Fin}\,S$. Then $v_2 = v_1$.*
-2. *(Carry-free sphere encoding: `noRel_image` and `card_image`, `:85–174`)*
+2. *(Carry-free sphere encoding: `noRel_image` and `card_image`, `:85–173`)*
    *For all $L, S, d, k \in \mathbb N$ with $L \ge 1$ and base $B := 4 L d$, the image
    $T := (\mathrm{Behrend.sphere}(S, d, k)).\mathrm{image}(\mathrm{Behrend.map}(4 L d))$ satisfies
    `NoRel T L` and $\lvert T \rvert = \lvert \mathrm{Behrend.sphere}(S, d, k) \rvert$.*
@@ -438,7 +439,7 @@ Rearranging $j(s_2 - s_1) - i(s_3 - s_1) = 0$ gives $\sum_m \bigl(j(v_2(m) - v_1
 and part (1) gives $v_2 = v_1 \implies s_2 = s_1$, contradicting $s_1 \neq s_2$ (`:133–144`)! Similarly,
 if $\mathrm{map}_B(v) = \mathrm{map}_B(w)$ for $v, w \in \mathrm{sphere}(S, d, k)$, then
 $\lvert v(m) - w(m) \rvert < d \le 4 L d = B$, so Lemma 17.1(1) gives $v = w$, proving $\lvert T \rvert = \lvert \mathrm{sphere}(S, d, k) \rvert$
-(`card_image`, `:146–174`).
+(`card_image`, `:146–173`).
 
 (3) Fix $n, L \in \mathbb N$ with $L \ge 2$, and set $x := \log n$, $y := \log L > \frac{1}{2}$
 (since $\log 2 > 0.693 > \frac{1}{2}$, `:192–196`), and $s := \sqrt{x y}$ (`:187–190`).
@@ -518,18 +519,18 @@ any two intersection points $x = t + i h = s_1 + u_0$ and $y = t + i' h = s_2 + 
 multiplying $(s_1 - s_2 : \mathbb Z/n\mathbb Z) = (i - i') h$ by $m$ kills $m h = 0$ and gives
 $n \mid m(s_1 - s_2)$ in $\mathbb Z$. Since $0 < m \le 4 L$ and $4 L s_r < n$, both $m s_1$ and $m s_2$
 lie in $[0, n)$ (`int_mul_lt_of_le_four_mul`, `:15–19`), so $\lvert m(s_1 - s_2) \rvert < n \implies m(s_1 - s_2) = 0 \implies s_1 = s_2 \implies x = y$!
-In `FrameFacts.lean:714–821`, any equality $(q - p) \cdot h = (s_q - s_p) \cdot a_0$ in `φ.A` ensures
+In `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:714–821`, any equality $(q - p) \cdot h = (s_q - s_p) \cdot a_0$ in `φ.A` ensures
 $(q - p) \cdot h \in A_0 = \langle a_0 \rangle \cong \mathbb Z/n_0\mathbb Z$, reducing `Frame.hostThickOrbit`
 to the exact same divisibility argument modulo $n_0$.
 
-(2) `LongWindow.main` (`AtMostTwoThickInWindowLongOrbit.lean:27–54`) applies `Frame.hostThickOrbit`
+(2) `LongWindow.main` (`src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:27–54`) applies `Frame.hostThickOrbit`
 directly to `letter τ φ (i + k)` (whose `A`-coordinate is $\iota^{-1}(\tau_2) + (i + k)\cdot\iota^{-1}(\varphi_2)$
-by `placeOf_snd`, `:16–24`), while `no_three` (`NoThreeConsecutiveThickPlaces.lean:28–115`) handles
+by `letter_snd`, using `placeOf_snd`, `:16,20`), while `no_three` (`src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean:28–115`) handles
 consecutive steps $i, i+1, i+2$ for *arbitrary* $\varphi \notin \Psi, \varphi \neq \mathrm{cc}$
 (even without assuming $4 L_w < \operatorname{ord}(\varphi_2)$!) because $x := \iota^{-1}(\varphi_2) \neq 0$
 forces $(s_3 - s_2) a_0 = x = (s_2 - s_1) a_0 \implies n_0 \mid (s_1 + s_3 - 2 s_2)$ with
 $\lvert s_1 + s_3 - 2 s_2 \rvert < \frac{n_0}{2L} < n_0 \implies s_1 + s_3 = 2 s_2$, contradicting
-`NoRel` at $(i, j) = (1, 2)$! Finally, in `thick_density_le` (`ThickSetDensityLeInvFourLw.lean:7–55`),
+`NoRel` at $(i, j) = (1, 2)$! Finally, in `thick_density_le` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ThickSetDensityLeInvFourLw.lean:7–55`),
 $4 L_w s < n_0 \le n$ embeds $T_2 \subseteq \{0, 1, \dots, N - 1\}$ where $N := \lfloor (n - 1)/(4 L_w) \rfloor + 1 \ge 3$;
 since $\{0, 1, 2\} \not\subseteq T_2$ (as $2(1 - 0) = 1(2 - 0)$ violates `NoRel` at $i = 1, j = 2$,
 `:29–38`), $\lvert T_2 \rvert \le N - 1 = \lfloor (n - 1)/(4 L_w) \rfloor$, so $4 L_w \lvert T_2 \rvert < n$! $\square$
@@ -551,9 +552,9 @@ since $\{0, 1, 2\} \not\subseteq T_2$ (as $2(1 - 0) = 1(2 - 0)$ violates `NoRel`
    4 L_w \lvert T_2 \rvert \;\le\; \varphi.n_0.$$
 2. *(Assembling `Host R` and `supplyOfAdm`: `hostOfFieldOf`, `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:71,159`, and `hostOfField` / `supplyOfAdm`, `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17`)*
    *Combining `thickFrame2` at $L_w = \mathrm{Lwv}(s) = \lceil 405\log x \rceil + \lceil 30/\varepsilon \rceil$
-   with `topsChoiceH` (`topsChoiceH.lean:30`), `exists_host` (`SecondSetNoRelation.lean:100`),
-   short-norm split ideals `shortNorm`, and level primes `smallOne` constructs a complete `Host R`
-   satisfying `HostGood` and `Shares`, feeding `supplyOfAdm` (`HostOfField.lean:17`) and `supplyChi` (`SupplyChi.lean:8`).*
+   with `topsChoiceH` (`src/Development/AutomorphicArithmetic/ThickFrames/topsChoiceH.lean:30`), `exists_host` (`src/Development/AutomorphicArithmetic/CoprimeRanks/SecondSetNoRelation.lean:100`),
+   norm-one witnesses from `ShortNorm`, and level primes `smallOne` constructs a complete `Host R`
+   satisfying `HostGood` and `Shares`, feeding `supplyOfAdm` (`src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:17`) and `supplyChi` (`src/Development/AutomorphicArithmetic/CharacterBoxes/SupplyChi.lean:8`).*
 3. *(Conductor-times-height bound: `log_conductor_mul_height_le_of_pageN`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6–56`)*
    *For all $0 < \varepsilon < \frac{1}{52}$, $C_t \in \mathbb R$, and $m \in \mathbb N$, there exists
    $x_0$ such that for all $x \ge x_0$ and $N, t, e, q, d \in \mathbb N$ with $1 \le N \le 2^{e+2} m q d$,
@@ -563,7 +564,7 @@ since $\{0, 1, 2\} \not\subseteq T_2$ (as $2(1 - 0) = 1(2 - 0)$ violates `NoRel`
 
 *Proof.*
 (1) Let $C = 32$ be the constant of Theorem 17.2(3), and set $K := 1 + \frac{3 C^2}{2\varepsilon} > 0$,
-$t := \frac{\varepsilon}{2 K} > 0$, and $\delta := \frac{\varepsilon}{3 C} > 0$ (`ThickFrame2Large.lean:40–43, 102`).
+$t := \frac{\varepsilon}{2 K} > 0$, and $\delta := \frac{\varepsilon}{3 C} > 0$ (`src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:40–43, 102`).
 By `thickFrame2_large` (`:18–27`, using $\log(t y / 2) \le t y / 2 - 1$), choose $x_0 = e^{y_0}$ so
 that for $y = \log x \ge y_0$, both $\log(4 C_o) + \frac{\varepsilon}{6}\log C_o + K(\log C_L + \log y) \le K t y = \frac{\varepsilon}{2}\log x$
 and $\log n_0 \ge \frac{\log 2}{C^2}$ hold (`:44–100`). Writing $u := \sqrt{\log n_0 \cdot \log L_w}$,
@@ -580,7 +581,7 @@ Now invoke Theorem 17.2(3) (`hT φ.n0 Lw`) to get $T \subset \mathbb N$ with $\f
 $T_2 := T \setminus \{0\}$ (`T.erase 0`, `:181`)!
 - Removing $0$ preserves $\forall s \in T_2,\ 4 L_w s < n_0$ and `NoRel T2 Lw`, and since every
   $s \in T_2$ is $\ge 1$, $T_2 \subseteq [1, \max T_2]$ implies $4 L_w \lvert T_2 \rvert \le 4 L_w \max T_2 \le n_0$
-  (`thickFrame2_card`, `:7–17, 197`)!
+  (`thickFrame2_card`, `:7–16, 197`)!
 - Because $u \ge \frac{\log 2}{C}$ (`hu_low`, `:113`), we have $E := e^{Cu} \ge 2$, while
   $x^{-\varepsilon}\,\varphi.\mathrm{ord} \le \frac{C_o n_0}{4 C_o L_w E} = \frac{Q}{4}$ (`hX`, `:157–164`)
   and $x^{-\varepsilon}\,\varphi.\mathrm{ord} \ge \frac{1}{2} x^{2 + 7\varepsilon} \ge 1$ (`hX1`, `:165–170`),
@@ -588,16 +589,20 @@ $T_2 := T \setminus \{0\}$ (`T.erase 0`, `:181`)!
   $Q - 1 \ge \frac{Q}{2} \ge Q E^{-1} = \frac{n_0 e^{-2Cu}}{L_w}$ (giving $C_T = 2 C = 64$, `:186–195`)
   and $Q - 1 \ge \frac{Q}{4} \ge x^{-\varepsilon}\,\varphi.\mathrm{ord}$ (`:196`)!
 
-(2) In `hostOfFieldOf.lean:58–69`, for $\log s.x \ge 1$, `hof_Lwv_le` bounds
+(2) In `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:58–69`, for $\log s.x \ge 1$, `hof_Lwv_le` bounds
 $\mathrm{Lwv}(s) = \lceil 405\log s.x \rceil + \lceil 30/\varepsilon \rceil < (4084 + 60/\varepsilon)\log s.x$.
 Feeding $C_L := 4084 + 60/\varepsilon$ into `thickFrame2` yields `hof_thick` (`:71–95`). Then
-`hostOfFieldOf` (`:159–255`) picks four distinct level primes $g_0, g_1, p_{\mathrm{de}}, p_{\mathrm{de}}' \equiv 1 \pmod{15(Q_S q d)}$
-via `smallOne` (`:191–205`), a split ideal $\mathfrak c_K \subset \mathcal O_K$ of bounded norm via
-`shortNorm` (`:185`), the thick set $T_2$ via `hof_thick` (`:207`), and the Bernoulli-sampled top set
-$TT$ via `topsChoiceH` (`:222`), assembling `Host R` via `hof_exists_host` (`:97, 208`) and proving
-`HostGood` (`:225–254`). Specializing in `HostOfField.lean:8, 17` gives `hostOfField` and `supplyOfAdm`.
+`hostOfFieldOf` (`:159–254`) assembles five distinct level primes
+$g_0,g_1,p_{\mathrm{de}},p'_{\mathrm{de}},q_0$ (`:104,194`).
+Writing $M=Q_Sqd$, the two distinguished primes satisfy $1$ modulo $\operatorname{lcm}(15,M)$
+(`:200–203`), and $g_0,g_1,q_0$ satisfy $1$ modulo $M$ (`:208,215`).
+The ideal $\mathfrak c_K$ is the unit ideal (`:104,109`). The witnesses from `ShortNorm`
+are bounded-height norm-one elements for $g_0,g_1$ (`:167,209`). The proof takes
+$T_2$ from `hof_thick` and the top set from `topsChoiceH`, then verifies `HostGood`
+(`:225–254`). Specializing in `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17`
+gives `hostOfField` and `supplyOfAdm`.
 
-(3) Fix $0 < \varepsilon < \frac{1}{52}$ and $r := \frac{\varepsilon}{4} > 0$ (`LogConductorMulHeightLeOfPageN.lean:10`).
+(3) Fix $0 < \varepsilon < \frac{1}{52}$ and $r := \frac{\varepsilon}{4} > 0$ (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:10`).
 Since $\log x = o(x^r)$ and $x^r \to +\infty$ as $x \to +\infty$, choose $x_0 \ge 1$ (`:12–15`) such
 that for all $x \ge x_0$, $(3 + \lvert C_t \rvert)\log x \le \frac{1}{2} x^r$ (`hKl`, `:21`) and
 $3\log 2 + \log m \le \frac{1}{2} x^r$ (`hg`, `:13, 16`). From `PageN eps x e`, $2^e \le 2 x^{2 + 8\varepsilon}$,
@@ -623,7 +628,7 @@ generalization (`ThickExists.lean` and `ThickFrame2Large.lean`) [Lean, read]:
   (`:481`): $N \exp(-4\sqrt{\log N}) \le \mathrm{rothNumberNat}(N)$ for all $N \in \mathbb N$!
 - The archive does **not** use `roth_lower_bound` or `threeAPFree_image_sphere`, because `HostThickOrbit`
   needs to rule out **all** relations $j(s_2 - s_1) = i(s_3 - s_1)$ up to window width $L_w \asymp \log x$
-  and keep $4 L_w s < n_0$ for modular wrap-around! Instead, `ThickExists.lean:302` imports **only**
+  and keep $4 L_w s < n_0$ for modular wrap-around! Instead, `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:302` imports **only**
   the clean pigeonhole sphere lemma `Behrend.exists_large_sphere S d` (`Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean:245`), widens the
   radix from $2d - 1$ to **$B = 4 L_w d$**, proves general sphere relation-freeness `sphere_rel` in
   37 lines of `ring` / `linear_combination` (`:36–72`), gets $C = 32$, and doubles $32 \to 64$ when
@@ -634,13 +639,13 @@ generalization (`ThickExists.lean` and `ThickFrame2Large.lean`) [Lean, read]:
 Masullo's *The Music of the Primes* has **no counterpart** to Behrend spheres, progression-free sets
 in finite Galois groups, or a three-way top/thick/thin partition of CM places [Expository]:
 
-- **Where Masullo avoids orbit collisions (`Theorem 7.1.3.2`, p. 324, and `Appendix A.3`, pp. 560–572):**
+- **Where Masullo avoids orbit collisions (`Theorem 7.1.3.2`, p. 324, and `Appendix A.4`, pp. 562–565):**
   In Masullo's $\mathrm{GL}_1(\mathbb A_F)/F^\times$ framework, there is no auxiliary host tower;
   periodic Euler-pole orbits $\frac{2\pi i}{\log N(\mathfrak p)}\mathbb Z$ along $\mathbb R_{>0}$ avoid
   infinite collisions across distinct rational primes $p_1 \neq p_2$ by the **$\mathbb Q$-linear
   independence of $\{\log p\}$** (unique prime factorization in $\mathbb Z$, `p. 324`), while lattice
   point counting in $\mathbb R^d$ enters only in Appendix A's classical proof of Dirichlet's $S$-unit
-  theorem (`pp. 560–572`) [Paper; Masullo pp. 324, 560–572].
+  theorem (`pp. 562–565`) [Paper; Masullo pp. 324, 562–565].
 - **Where Alpöge needs Behrend's sphere:** Because Alpöge's Frobenius elements act inside a **finite
   abelian $2$-group** $A_0 \cong \mathbb Z/n_0\mathbb Z$ (where every element has finite order dividing
   $2^e$ and logarithms of primes play no role!), preventing multi-hit collisions along length-$L_w$
@@ -658,21 +663,21 @@ in finite Galois groups, or a three-way top/thick/thin partition of CM places [E
 | `NoRel`, `InTranslate`, `HostThickOrbit`, `HostThickExists`, `HostTops`, `HostOrdinary`, `HostConductor`, `HostEta` | `src/Formalism/FrobeniusOrbits/HostThickExists.lean:13,18,22,30,40,61,82,92` | Definition 17.2(1–3): bounded-ratio relation-freeness $j(s_2-s_1) \neq i(s_3-s_1)$, $\le 2$ orbit-window hit contract, and subexponential `NoRel` existence (cone 5). | [Lean, read] |
 | `coeff_zero`, `map_lt`, `sphere_rel`, `cast_map`, `noRel_image`, `card_image`, `hostThickExists` | `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean:11,15,36,74,85,146,181` | Lemma 17.1(2) & Theorem 17.2: proves strict sphere convexity `sphere_rel`, base-$4Ld$ `noRel_image`, and `HostThickExists` with explicit constant $C = 32$ (cone 7). | [Lean, read] |
 | `bound_aux`, `int_mul_lt_of_le_four_mul`, `ThickOrbit.key`, `part_one`, `part_two`, `hostThickOrbit` | `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickOrbit.lean:9,15,21,71,96,132` | Proposition 17.3(1): proves $\le 2$ hits per length-$L$ window when $\operatorname{ord}(h) > 4L$ and $\le 1$ hit on the entire coset when $\operatorname{ord}(h) \le 4L$ (cone 6). | [Lean, read] |
-| `Frame`, `Frame.A`, `a0`, `n0`, `o`, `dig`, `GG`, `Psi`, `placeOf`, `tau1`, `tau2`, `natCard_GG`; `Frame.thick_key`, `Frame.hostThickOrbit` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:15,29,61,68,70,72,89,112,118,120,122,137`; `…/TotientGaloisClasses/FrameFacts.lean:714,821` | Definition 17.2(4) & Proposition 17.3(1): host abelian frame `Frame`, cyclic subgroup `A0 = ⟨a0⟩` of order `n0`, two CM sheets `tau1`/`tau2`, and lift of `hostThickOrbit` to `Frame.A` (cones 3 and 32). | [Lean, read] |
+| `Frame`, `Frame.A`, `a0`, `n0`, `o`, `dig`, `GG`, `Psi`, `placeOf`, `tau1`, `tau2`, `natCard_GG`; `Frame.thick_key`, `Frame.hostThickOrbit` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:15,29,61,68,70,72,89,112,118,120,122,137`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:714,821` | Definition 17.2(4) & Proposition 17.3(1): host abelian frame `Frame`, cyclic subgroup `A0 = ⟨a0⟩` of order `n0`, two CM sheets `tau1`/`tau2`, and lift of `hostThickOrbit` to `Frame.A` (cones 3 and 32). | [Lean, read] |
 | `Ranks`; `PrimeClass`, `Host`, `topPlaces`, `thickPlaces`, `IsThin`, `secondSet_card_lower_bound`, `FactTopsThick` | `src/Formalism/LocalRingCardinality/Params.lean:6`; `src/Formalism/LocalRingCardinality/DataHost.lean:24,39,129,133,136,165,193` | Definition 17.3(1–2): chain rank tuple `Ranks` and concrete `Host R` partitioning `R.Psi` into `topPlaces`, `thickPlaces` (built from `T2`), and `IsThin` (cones 5 and 33). | [Lean, read] |
-| `hE`, `KE`, `dE`; `thickFrame2_card`, `thickFrame2_large`, `thickFrame2`; `topsChoiceH` | `src/Development/AutomorphicArithmetic/ThickFrames/MarkedLow.lean:23,25,29`; `…/ThickFrames/ThickFrame2Large.lean:7,18,29`; `…/ThickFrames/topsChoiceH.lean:30` | Theorem 17.4(1–2): weighted AM–GM with $\delta = \varepsilon/(3C)$ yielding $C_T = 64$, $x^{-\varepsilon}\,\varphi.\mathrm{ord} \le \lvert T_2 \rvert$, $4 L_w \lvert T_2 \rvert \le n_0$, and Bernoulli top-place selection (cones 5, 41, 385). | [Lean, read] |
+| `hE`, `KE`, `dE`; `thickFrame2_card`, `thickFrame2_large`, `thickFrame2`; `topsChoiceH` | `src/Development/AutomorphicArithmetic/ThickFrames/MarkedLow.lean:23,25,29`; `src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:7,18,29`; `src/Development/AutomorphicArithmetic/ThickFrames/topsChoiceH.lean:30` | Theorem 17.4(1–2): weighted AM–GM with $\delta = \varepsilon/(3C)$ yielding $C_T = 64$, $x^{-\varepsilon}\,\varphi.\mathrm{ord} \le \lvert T_2 \rvert$, $4 L_w \lvert T_2 \rvert \le n_0$, and Bernoulli top-place selection (cones 5, 41, 385). | [Lean, read] |
 | `ThinOK`, `thinScales_iff_hostBound`, `HostGood`, `HostExW`; `FieldRows`, `Choices`, `HostNF`, `exists_host`; `hof_Lwv_le`, `hof_thick`, `hostOfFieldOf`; `hostOfField`, `supplyOfAdm` | `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:61,65,101,120`; `src/Development/AutomorphicArithmetic/CoprimeRanks/SecondSetNoRelation.lean:13,23,55,100`; `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:58,71,159`; `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17` | Definition 17.3(3) & Theorem 17.4(2): assembles `T2`, `TT`, `ccK`, and `levelPrimes` into a scale-admissible `Host R` (`HostGood`) feeding `supplyChi` (`HostOfField` cone 1,314; `shortNorm`/`smallOne`/`topsBase` `R2` `[Lean]`). | [Lean, read] |
-| `log_conductor_mul_height_le_of_pageN` | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6` | Theorem 17.4(3): proves $\log(N \cdot t) \le 2 x^{\varepsilon/4}$ from $N \le 2^{e+2} m q d$, `PageN eps x e`, $t \le x^{C_t}$, and $\log(qd) \le x^{\varepsilon/4}$ (cone 21, called in `AdmissibleOfPageN.lean:49`). | [Lean, read] |
+| `log_conductor_mul_height_le_of_pageN` | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/LogConductorMulHeightLeOfPageN.lean:6` | Theorem 17.4(3): proves $\log(N \cdot t) \le 2 x^{\varepsilon/4}$ from $N \le 2^{e+2} m q d$, `PageN eps x e`, $t \le x^{C_t}$, and $\log(qd) \le x^{\varepsilon/4}$ (cone 21, called in `src/Development/AutomorphicArithmetic/AutomorphicVarieties/CMFieldExponentialBounds/AdmissibleOfPageN.lean:49`). | [Lean, read] |
 | `no_three`, `no_three_consecutive_thick_places`; `LongWindow.main`; `thick_density_le`; `FinalE.trivStab` | `src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean:28,222`; `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean:27`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ThickSetDensityLeInvFourLw.lean:7`; `src/Formalism/BehrendSets/FinalE.lean:12` | Proposition 17.3(2) & Section 17.1.2: downstream $\le 2$-hit window and $\le 1/(4L_w)$ density consumers of `Host.T2`, contrasted with the misfiled torsion-freeness export `BehrendSets.FinalE.trivStab` (cones 333, 480, 191, 12). | [Lean, read] |
 
 **Summary of the chapter.** To prevent local Frobenius orbits along the unitary chain from clustering
-while keeping coset-averaging losses subexponential, every CM host `H : Host R` (`DataHost.lean:39`)
+while keeping coset-averaging losses subexponential, every CM host `H : Host R` (`src/Formalism/LocalRingCardinality/DataHost.lean:39`)
 equips its $-1$ CM sheet $\tau_2(R.A)$ with a translated subset `thickPlaces` built from a finite set
 $T_2 \subset \mathbb N$ satisfying `NoRel T2 Lw` ($j(s_2 - s_1) \neq i(s_3 - s_1)$ for
 $0 < \lvert i \rvert, \lvert j \rvert \le L_w, i \neq j$) and $4 L_w s < n_0$ [Lean, read]. In
 `ThickExists.lean` (Theorem 17.2), the archive imports Mathlib's pigeonhole sphere lemma
 `Behrend.exists_large_sphere` `[Behrend1946]`, proves by strict Euclidean convexity (`sphere_rel`)
-and signed carry-free base-$4 L_w d$ uniqueness (`GeneralBFactSecondLast/Imports.lean:5`, Lemma 17.1) that sphere encodings
+and signed carry-free base-$4 L_w d$ uniqueness (`src/Lemmata/GeneralBFactSecondLast/Imports.lean:5`, Lemma 17.1) that sphere encodings
 satisfy `NoRel`, and achieves cardinality $\ge \frac{n_0}{L_w}\exp(-32\sqrt{\log n_0 \cdot \log L_w})$.
 `ThickOrbit.lean` and `FrameFacts.lean` (Proposition 17.3) turn `NoRel` and $4 L_w s < n_0$ into the
 hard cap of **at most $2$ thick places** in any length-$L_w$ long-orbit window (and **at most $1$**

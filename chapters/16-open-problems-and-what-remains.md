@@ -190,28 +190,29 @@ Finally, let us illustrate in four concrete steps what it means to audit one of 
    against `GlobalTheory.Published.GlobalArtinReciprocity`
    (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`),
    carefully distinguishing that `Prop` definition (`∃ art : Idele E →* GalAb E Ω, IsGlobalArtin E Ω art`,
-   `:25–40`) from the 17-line proof-term wrapper file
+   `:25–39`) from the 17-line proof-term wrapper file
    `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8–15`
    (`globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter`) [Lean, read]!
-2. **Check quantifiers against the published theorem:** In `PublishedTheorems/FerreroWashington.lean:7`,
-   the `Prop` quantifies over every abelian number field $K / \mathbb Q$ and prime $\ell$, adding the
-   harmless base-layer root-of-unity hypothesis `∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)`
-   and finite $J$-localization (`IsLocalizedAt 𝔮 c`, bounding $\ell$-torsion of $\mathrm{Cl}_J(K_n)[\ell^\infty]$
-   by $\ell^C$, equivalent to `[FerreroWashington1979]` via finite base change $K(\mu_{2\ell})/K$!).
-   Meanwhile, in `ExistsUniqueHcharOfFiniteOrder.lean:70–72` (consumed at
+2. **Check quantifiers against the published theorem.** In
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7–11`,
+   every prime $\ell$ and abelian number field $K/\mathbb Q$ admit a uniform bound
+   $\ell^r$ on $|\mathrm{Cl}(\mathcal O_{K'})/\mathrm{Cl}(\mathcal O_{K'})^\ell|$
+   at all $\ell$-power cyclotomic levels $K'$. This is the bounded $\ell$-rank consequence
+   of [FerreroWashington1979]. [Lean]
+   Meanwhile, in `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72` (consumed at
    `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`
    in Chapter 10), `IsGlobalArtin` states the full idèlic Artin reciprocity theorem over **every**
    number field $E$ (*Faithful* `[Lean, read]`), while `RayClassFieldSt` and `HeckeLAdicCharacter` are
-   separate companion `Prop`s (`NonemptyAlgHomOfIsRayOfDvd.lean:17` and `ExistsUniqueHcharOfFiniteOrder.lean:74`;
+   separate companion `Prop`s (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17` and `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`;
    all three audited in full in **Chapter 18**, Section 18.2)!
 3. **Verify non-vacuity and off-center guards:** Check that no hypothesis in the `Prop` is unsatisfiable or
    silently omits a required condition (for example, in `UpperTheory.V.Published.Kato`,
    `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65`,
    Ishaan Dixit asked on Zulip `#642435200` whether omitting $L(f, \chi, r) \neq 0$ made the statement
    stronger than `[Kato2004]`; David Loeffler pointed out at `#642442900` `[Community]`, and we verify
-   line by line in **Chapter 18**, Lemma 18.2(1) `[Lean, read]`, that the guard `2 * r ≠ k` keeps every
+   in **Chapter 18**, §18.3.4 [Expository], that the guard `2 * r ≠ k` keeps every
    integer $1 \le r \le k - 1$ at distance $\ge \frac{1}{2}$ from $\frac{k}{2}$, where Euler-product
-   non-vanishing and the functional equation force $L(f, \chi, r) \neq 0$ automatically!).
+   non-vanishing, boundary non-vanishing, and the functional equation force $L(f, \chi, r) \neq 0$ automatically!).
 4. **Assign two separate tags:** Even when an internal `Prop` turns out to be a domain-restricted
    special case (as LUMI `docs/07-named-theorems.md` found for 29 of 105 audited items `[Community]`,
    and as Chapter 18 verifies for `BaseChangeDefiniteUnitary`, `PoitouTateNormalised`, and `ClozelPurity`
@@ -279,18 +280,20 @@ formalizes the named classical theorem!
   `structure OpenLiteratureStatements : Prop` at `:215` in `EveryCharacterOfLiteratureOfVWin.lean`),
   referencing **~182–188 distinct statement constants** in `GlobalTheory.Published.*` and
   `UpperTheory.V.Published.*` (including the `True` fossil `GlobalTheory.Published.UnusedSlot72` at
-  `DiscreteSpectrumResidualClassification.lean:7`, alongside unreferenced fossil declarations outside
+  `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:7`, alongside unreferenced fossil declarations outside
   `src/Main.lean`'s closure).
 - **Audited so far (`LUMI docs/07-named-theorems.md` `[Community]` + Chapters 11, 13, and 18 `[Lean, read]`):**
   `105` statements audited at AI-assisted community level (`65` faithful, `29` domain-restricted special
   cases such as rank-$2$ `MorelSuh` or curve/surface `KawamataViehweg`, `7` safe weakenings, `4`
-  undetermined), **plus 15 propositions audited directly line by line (`R3`) in Chapters 13 and 18**
+  undetermined), **plus source comparisons in Chapters 13 and 18**
   (`GreenRegularCharacters`, `GlobalArtinReciprocity`, `HeckeLAdicCharacter`,
   `RayClassFieldSt`/`RayClassFieldMaximalSt`, `ChebotarevDegreeOne`, `FerreroWashington`,
   `SiegelKlingen`/`DeligneRibet`/`SiegelKlingenDeligneRibet`, `Kato`/`KatoUse`,
   `PoitouTateNormalised`/`PoitouTateDuality`, `ClozelPurity`/`RegularAlgebraicPurity`,
   `BaseChangeDefiniteUnitary`/`BaseChangeIsobaric`, `WeilSiegelFormula`/`WeilSiegelFormulaUnitary`/`SiegelWeilUnitaryConvergent`,
   and `DeRhamPotSemistable`).
+- **Errata to the first case studies.** The same-source review `ssaudit-rhbook-ch17-18-1122d-11221700-11222118` (partial acceptance) identified incorrect signatures, host conditions and page references. Chapters 14, 17 and 18 record the corrections. The corrected Ferrero–Washington, Deligne–Ribet and Kato interfaces carry [Lean].
+- **Second batch.** Chapter 19 compares six named interfaces. Its [Lean, read] tags apply to the specific local deductions cited there. Full upstream proofs or exact literature normalizations remain [Open] where marked.
 - **Remaining `[Open]`:** Roughly **70 `GlobalTheory.Published.*` constants** have not yet been
   compared side-by-side against the published mathematical literature by a human domain specialist `[Open]`
   (see **Chapter 18**, Section 18.5.1, for the standard five-step audit rubric).
@@ -385,9 +388,9 @@ high-leverage ways to help advance the verification and human digestion of both 
      `[Kato2004]`, `[Thorne2015]`, `[KudlaRallis1994]`), classifying it as *Faithful*, *Domain-restricted
      special case*, or *Weakened*.
    - *Excavate the deep cones of `P12` (`VwinOfRow`, 157,603 modules) and `P8` (`DIVRecBridgeSel`, 4,699 modules):*
-     Trace how `FormalGroupSystem.Conclusion1`/`Conclusion2` (`FormalGroupSystem.lean:633, 649`) proves
+     Trace how `FormalGroupSystem.Conclusion1`/`Conclusion2` (`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:633, 649`) proves
      single-step Lubin–Tate theta-kernel divisibility at inert primes, and how `U3` Picard modular
-     surface congruences feed `PropGK` (`KatoUse.lean:36`, Chapter 11).
+     surface congruences feed `PropGK` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean:36`, Chapter 11).
 3. **For automorphic representation theorists and harmonic analysts:**
    - *Read the `12,612`–`15,578`-module cones of `LinkG` and `LinkAltAltBis` (`P10`, Chapter 9) and the
      `26,672`-module cone of `RecTExists` (`P15`, Chapter 12):* Extract a clean 20-page human proof of
@@ -445,23 +448,23 @@ vacuous. We separate the claim into what can be checked in the archive and the i
 
 Checked by us against the pinned archive (`lean.tar.gz`, sha256 `9631b4f0…7fc`):
 
-- `Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean:19` defines
+- `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean:19` defines
   `def anyGeometry : GeoP := fun _ _ _ => True`, six lines below the contentful predicate `geoOf`
   (a positive `c` with `IsGeoOf` and `HasTrueSurf`). Both have type `GeoP`.
 - `GeoCl Γ` (`NotGeoClFalse.lean`) is an inductive closure whose `base` constructor accepts any proof of
   `Γ`; hence `geoCl anyGeometry` holds of every input, by `GeoCl.base trivial`.
 - `anyGeometry` occurs in 24 `.lean` files. In particular `geoCl anyGeometry` is supplied four times in
   the proof of `nonempty_hyps_definite_side_of_closed_bound`
-  (`…/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44`), which builds the hypothesis bundle
+  (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44`), which builds the hypothesis bundle
   consumed on the route to `every_character_of_theta_integrals_local_matching` in the same file, and in
-  `…/FockModels/EveryCharacterE.lean:57–64`.
+  `src/Development/AutomorphicArithmetic/ThetaCorrespondence/FockModels/EveryCharacterE.lean:57–64`.
 - `Formalism/LocalToGlobal/LatticeGeometry/Inhabited.lean` defines models named `geoDegenerateNoTau`
   (l. 14), `mdlJunk` (l. 147), `geoDegenerate` (l. 241) and `algDegenerate` (l. 390).
 
-- The extraction lemmas `geoOf_surf` (`NotLamAreShift.lean:30`), `GeoTiedP.geoTied` and
-  `GeoTiedP.formsTieX` (`GeoTiedP.lean:136, 140`) and `degree_value_of_determinant`
-  (`PlaceRankTwoOne.lean:349`) each occur exactly once in the source tree, at their own declaration:
-  no file applies them. The zero-map divisor datum `divXFl` (`Inhabited.lean:829`) is used in 3 files,
+- The extraction lemmas `geoOf_surf` (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NotLamAreShift.lean:30`), `GeoTiedP.geoTied` and
+  `GeoTiedP.formsTieX` (`src/Formalism/LocalToGlobal/LatticeGeometry/GeoTiedP.lean:136, 140`) and `degree_value_of_determinant`
+  (`src/Formalism/SharpRestriction/Divisibility/PlaceRankTwoOne.lean:349`) each occur exactly once in the source tree, at their own declaration:
+  no file applies them. The zero-map divisor datum `divXFl` (`src/Formalism/LocalToGlobal/LatticeGeometry/Inhabited.lean:829`) is used in 3 files,
   and the height formula `hExpl6` in 16.
 
 Harry Tong compiled the pinned release (source commit `753431bf…`) and walked the stored dependency
@@ -531,7 +534,7 @@ is an argument about the intended strategy: it shows that, on the live route, th
 no work. That is compatible with a valid proof whose work is done elsewhere.
 
 *What a first trace shows* `[Lean, read; partial]` (details: `notes/squeeze-trace.md`). After `setDiv`,
-both inequalities are fields of `WordFacts` (`Formalism/LocalToGlobal/Divisibility/RecBridge.lean:127–133`):
+both inequalities are fields of `WordFacts` (`src/Formalism/LocalToGlobal/Divisibility/RecBridge.lean:126–133`):
 
 ```lean
 (D.div.Bk u ≠ 0 → htMap … (D.div.Bk u) ≤ D.div.h u) ∧
@@ -539,13 +542,20 @@ D.div.RR.muDual + D.div.h u - L.Fo ≤ L.MAIN u + C * … + C * … * L.sc.x ^ (
 ```
 
 Neither is closed by `rfl` or `le_rfl` on identical sides; both are proved in `divClausesR_of`
-(`…/ConstantGeTwentyEight.lean:184–245`) and both are consumed downstream (`frameRealF_of`, `linkCore`).
+(`src/Formalism/LocalToGlobal/Divisibility/ConstantGeTwentyEight.lean:184–245`) and both are consumed downstream (`frameRealF_of`, `linkCore`).
 So "compares a quantity with itself" is not literally correct. Two qualifications:
 
 1. **The lower bound is conditional on `Bk u ≠ 0`.** `exists_divStage`
-   (`…/AutomorphicMembership/ExistsDivStage.lean:334`) builds a divisor stage with `Bk := fun _ => 0` and
+   (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ExistsDivStage.lean:334`) builds a divisor stage with `Bk := fun _ => 0` and
    `h := fun _ => 0` (l. 347–348); `setDiv` overwrites `h` but not `Bk`. If the live divisor datum descends
-   from this construction, the lower bound is vacuous. Whether it does is not yet determined.
+   from this construction, the lower bound is vacuous. `[Community-data, checked by us]` In DeDeo's
+   `lean4export` dump of the main theorems (`alp-export-main-theorems.ndjson.gz`, sha256-verified; the
+   dump ends with `riemannHypothesis`), the name `GlobalTheory.Mem.DivModel.exists_divStage` occurs, as do
+   `setDiv`, `hExpl6`, `WordFacts`, `divClausesR_of`, `anyGeometry`, `geoDegenerate` and `divXFl`. An
+   export contains only declarations reached from its roots, so `exists_divStage` lies in the
+   dependency closure of the headline theorems. Membership does not yet show that the `Bk = 0` datum is
+   the one fed to `WordFacts` on the live route; a path from `divClausesR_of` to `exists_divStage` is
+   still to be extracted.
 2. **The upper bound is non-trivial but one-sided.** Its two sides (`R.hu` and `R.rhs`) are distinct
    expressions, proved from a valuation bound, `L3main` and about 35 record facts; but both are built from
    row-side data, so it relates row-side quantities to each other and does not compare an independent

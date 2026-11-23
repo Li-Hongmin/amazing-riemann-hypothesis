@@ -5,9 +5,11 @@
 > `LengthHeckeValueIdealLeDeterminantBound.lean`, `LengthHeckeValueIdealLeDeterminantBoundStatement.lean`,
 > `GlobalCongruenceCountOfRootDifferenceUnit.lean`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean`,
 > `ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`,
-> `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`); `[Lean]` for
-> statement-level inspections of imported DVR determinant, cyclotomic-cocycle, class-group, and
-> twisting-existence lemmas (`R2`); `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
+> `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`), and, in §§10.4.5–10.4.6,
+> for the imported DVR determinant lemma, block-determinant lemmas, GMA Fitting step, peeling lemma,
+> cyclotomic-block $Ш^1$ bound, class-number bound, $\rho$-block Selmer comparison and
+> `twist_kills_selmer` (`R3`); `[Lean]` for the remaining statement-level sub-lemmas listed at the
+> end of §10.4.5 and for the producers of `TwistingCharacterExistence` (`R2`); `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
 > draft; `[Community]` for public community reports; `[Expository]` for classical Hida/Ribet/Bellaïche–Chenevier
 > background and worked examples; `[Open]` for unread proof cones and unverified fidelity of named
 > `GlobalTheory.Published.*` hypotheses (specifically `GlobalArtinReciprocity`).
@@ -36,17 +38,17 @@ Node **P11** of the Lean archive solves this congruence-loss problem in three de
    Galois representation: one cuspidal $\rho$-block plus $t = R.t$ scalar cyclotomic blocks!
 2. **Galois cohomology + character twisting (`CutCoreUnit.main` & `TwistingCharacterExistence`):**
    Twisting the lift by a well-chosen character (`TwistingCharacterExistence`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:166`;
-   `twist_kills_selmer`, `ChosenTwistAnnihilatesSelmerGroups.lean:8`) **annihilates the cuspidal
-   $\rho$-Selmer piece**, while global Artin reciprocity and Poitou–Tate / Bloch–Kato Selmer theory
-   `[BlochKato1990]`, `[Rubin2000]` bound the $t$ cyclotomic blocks by the **host class number
+   `twist_kills_selmer`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`) **bounds the cuspidal
+   $\rho$-Selmer piece**, while global Artin reciprocity and Bloch–Kato-type local conditions
+   `[BlochKato1990]`, `[Rubin2000]` (with inflation into $Ш^1$, without Poitou–Tate duality; §10.4.5) bound the $t$ cyclotomic blocks by the **host class number
    $v_\ell(h_E)$** ($c = 0$) plus the **cyclotomic Tate–Shafarevich lengths**
    $\sum_{1 \le e < R.t} \operatorname{len}_{\mathbb Z_\ell} Ш^1(G_{E, S_\ell}, \mathbb Q_\ell/\mathbb Z_\ell(-e))$
    ($1 \le c < t$) plus tame ramification (`CutCoreUnit.main`,
-   `GlobalCongruenceCountOfRootDifferenceUnit.lean:44`) [Lean, read]!
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:44`) [Lean, read]!
 3. **Bridging `HypV` to the linear-in-$m$ chain budget `DIVinN` (`divinN_of_hypV`):** Once `HypV`
    (supplied by Chapter 11's `VWin`) bounds that $\log \ell$-weighted $Ш^1$ sum across all primes
    $\ell$ by $\sqrt{b} = \exp(x^\varepsilon / 2)$ and `SmallLevelRankEq` equates per-step kernel
-   ranks `dZ0 j` to the base rank `D0`, `divinN_of_hypV` (`DivinNOfHypV.lean:117`, read 100% line by
+   ranks `dZ0 j` to the base rank `D0`, `divinN_of_hypV` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:117`, read 100% line by
    line) proves `DIVinN` with per-lift budget $B_0 = f m b x^\varepsilon$ — avoiding the $x^{2/3}$
    trap and hitting $x^{1/2 + O(\varepsilon)}$ in Chapter 5's `SZ.T3` [Lean, read]!
 
@@ -112,7 +114,7 @@ Compute the idempotent denominator and congruence ideal by hand:
 1. Over $\mathbb Q_\ell$, $R_k \otimes_{\mathbb Z_\ell} \mathbb Q_\ell = \mathbb Q_\ell \times \mathbb Q_\ell$
    has orthogonal idempotents $\varepsilon_\pi = (1, 0)$ and $\varepsilon_{\mathrm{comp}} = (0, 1)$.
 2. What is the **congruence ideal** $I_{\mathrm{cong}}(\pi) := \lambda_\pi\bigl(R_k \cap \ker\lambda_{\mathrm{comp}}\bigr) \subseteq \mathbb Z_\ell$
-   (`ccOff` in `LengthHeckeValueIdealLeDeterminantBound.lean:15`)? An element $(a, b) \in R_k$ lies in
+   (`ccOff` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15`)? An element $(a, b) \in R_k$ lies in
    $\ker\lambda_{\mathrm{comp}}$ if and only if $b = 0$; since $a \equiv b \pmod{\ell^k}$, that forces
    $\ell^k \mid a$, and $(\ell^k u, 0) \in R_k$ for all $u \in \mathbb Z_\ell$. Hence
    $$I_{\mathrm{cong}}(\pi) = \ell^k \mathbb Z_\ell,
@@ -127,7 +129,7 @@ Compute the idempotent denominator and congruence ideal by hand:
 ### 10.2.2 A $2 \times 2$ Generalized Matrix Algebra and why $BC = I_{\mathrm{cong}}$ bounds $k$ by cocycle lengths
 
 Now watch how a GMA representation forces $\operatorname{len}_{\mathcal O}(\mathcal O / I_{\mathrm{cong}}) \le \operatorname{len}_{\mathcal O}(Z^1 / B^1)$
-(`CutDetOrd.main`, `LengthHeckeValueIdealLeDeterminantBound.lean:59`)! Let $\mathcal O = \mathbb Z_\ell$,
+(`CutDetOrd.main`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59`)! Let $\mathcal O = \mathbb Z_\ell$,
 let $I = \ell^k \mathbb Z_\ell$ be a nonzero proper ideal, and consider the $2 \times 2$ GMA
 $$\mathcal A := \begin{pmatrix} \mathcal O & B \\ C & \mathcal O \end{pmatrix},
 \qquad\text{equipped with }\mathcal O\text{-bilinear multiplication } m : B \times C \longrightarrow I \subseteq \mathcal O.$$
@@ -179,15 +181,16 @@ idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t
 
 1. mutually orthogonal idempotents `S.eB` of **rank $t = R.t$** (`((S.eB x).map (toK N i)).rank = R.t`,
    `:22`) — the **cyclotomic block idempotent**, diagonalized by `S.X0` (`:36–38`) at a distinguished
-   inertia element `S.g0` into the $t = R.t$ cyclotomic powers $\chi_{\mathrm{cyc}}^{c+1}$
-   ($c \in \mathrm{Fin}\,R.t$, i.e. powers $1, 2, \dots, t$!) — and `S.e1` of **rank $1$** (`:22`),
+   inertia element `S.g0` into the $t = R.t$ scalar characters $\chi_{c+1}$ = `chiU N i (c + 1)`
+   ($c \in \mathrm{Fin}\,R.t$). After the twist by $\chi_1^{-1}$ built into the cocycles, the $c$-th
+   slot carries $\chi_{c+1}\chi_1^{-1} = \chi_{\mathrm{cyc}}^{-c}$ (Lemma 10.10 below) — and `S.e1` of **rank $1$** (`:22`),
    together with the splitting `S.e` (`:24–29`) decomposing the `R.nV`-dimensional representation into
    the $r \times r$ cuspidal representation block `rhoO` (`Fin R.r`) and the $t$ scalar cyclotomic
    coordinates (`Fin R.t`); and
 2. a distinguished rank-$1$ projector element `Eel` (`:56–60`) satisfying $\mathrm{Eel}^2 = \delta_{51}\cdot\mathrm{Eel}$
    with $\delta_{51} \in \mathcal O^\times$ (`IsUnit del51`), projecting onto the $c = 0$ cyclotomic
    slot to extract the off-diagonal pairing values feeding the congruence ideal `ccOff(π)`
-   (`LengthHeckeValueIdealLeDeterminantBound.lean:15`).
+   (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15`).
 
 ### 10.3.2 Integral Hecke lattices and `TwistingCharacterExistence` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean`)
 
@@ -201,17 +204,19 @@ idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t
    (`:68`) is the additive signed index measuring denominator loss when passing from one integral
    structure to another [Lean, read].
 2. **Admissible twisting characters and Selmer annihilation (`TwOK`, `TwistingCharacterExistence`, `GoodTw`, `TwistTheoremAtIndex`, `:81, 166, 219, 233`).**
-   `TwistingCharacterExistence : Prop` (`:166`) asserts that at each chain step index $i$, there exists
-   an admissible finite-order character $\eta$ (`TwOK` at `:81`, unramified outside controlled auxiliary
-   primes $Q_i$ of bounded root-of-unity cost) whose twist `GoodTw` (`:219`) simultaneously preserves
-   the local inert-prime kernel conditions of Chapter 8 and **reduces the cuspidal $\rho$-Selmer length
-   to the controlled bound required by `TwistTheoremAtIndex` (`:233`)** [Lean, read].
+   `TwistingCharacterExistence : Prop` (`:166`) asserts that at each nonzero-index place $i$
+   (under `SetHyp`), for every $\varepsilon' > 0$, every lattice family satisfying `ABHyp` and every
+   finite set $A_0$ of places, there is a character $\psi'$ of the ray class group $\mathrm{RCG}(Q)$
+   for an auxiliary set $Q$, satisfying `PsiOk` and the error clauses `partAT`, `partC`, `partD`, `partAB`
+   (`:170–173`). `GoodTw` (`:219`) bundles the same clauses with the lattice conditions, and
+   `TwistTheoremAtIndex` (`:233`) asserts that a `GoodTw` twist exists [Lean, read]. The twist is
+   used in §10.4.3; where its existence comes from is discussed in §10.4.6.
 
 ### 10.3.3 Galois cohomology `Sha`, `LinkN`, `DIVinN`, and `HypV`
 
 **Definition 10.3 (`Sha`, `shaLen`, `vvTerm`, `LinkN`, `SmallLevelRankEq`, `DIVinN`, and `HypV`, `src/Formalism/GaloisCohomology/Statement.lean:67,75,78`, `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`, and `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10`).**
 
-1. **Cyclotomic Tate–Shafarevich group and length (`qzTw`, `Sha`, `shaLen`, `GaloisCohomology/Statement.lean:67, 75, 78`).**
+1. **Cyclotomic Tate–Shafarevich group and length (`qzTw`, `Sha`, `shaLen`, `src/Formalism/GaloisCohomology/Statement.lean:67, 75, 78`).**
    For a number field $E$, a prime $\ell$, and an integer twist $e \in \mathbb N$, let
    $\mathbb Q_\ell / \mathbb Z_\ell(-e)$ (`qzTw`, `:67`) denote the discrete $G_{E, S_\ell}$-module on
    which $G_{E, S_\ell}$ acts via $\chi_{\mathrm{cyc}}^{-e}$, and let
@@ -219,11 +224,11 @@ idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t
    := \ker\Bigl(H^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell / \mathbb Z_\ell(-e)\bigr)
    \longrightarrow \prod_{v \in S_\ell} H^1\bigl(G_{E_v}, \mathbb Q_\ell / \mathbb Z_\ell(-e)\bigr)\Bigr)$$
    (`Sha`, `:75`), with $\mathbb Z_\ell$-corank/length $\mathrm{shaLen}(E, \ell, e)$ (`:78`) [Lean, read].
-2. **Single-step congruence-to-$Ш^1$ link (`vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `SmallLevelRankEq`, `GlobalTheoremInputs.lean:31, 36, 40, 45, 52`) and chain budget (`DIVinN_at`, `DIVinN`, `:59, 62`).**
+2. **Single-step congruence-to-$Ш^1$ link (`vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `SmallLevelRankEq`, `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31, 36, 40, 45, 52`) and chain budget (`DIVinN_at`, `DIVinN`, `:59, 62`).**
    At chain datum $D$ (with host $E = D.\mathrm{host}.E$, $f = D.R.f = 2\lvert \varphi.A \rvert$,
    $m = D.R.m$ steps, rank cutoff $R.t$, $b = \exp(x^\varepsilon)$, $L = x^\varepsilon$, and
    $B_0 = f m b x^\varepsilon$), define for each $l \in \mathbb N$ (`vvTerm`,
-   `GlobalTheoremInputs.lean:31`) [Lean, read]
+   `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31`) [Lean, read]
    $$\mathrm{vvTerm}(D, l) := \begin{cases} (\log l)\sum_{1 \le e < R.t} \mathrm{shaLen}(l, e) & \text{if } l\text{ is prime}, \\ 0 & \text{otherwise,}\end{cases}$$
    and let `etaSum L j` (`:36`) be the weighted sum of step-$j$ congruence losses across active places $w$:
    - `LinkN_at L j C` (`:40–43`) is the **single-step** implication at lift $j \in \{1, \dots, m\}$:
@@ -232,14 +237,14 @@ idempotent decomposition of depth zero for rank tuple `R` (`r := R.r`, `t := R.t
      and `LinkN Fm` (`:45`) asserts that `LinkN_at (Fm.L x i) j C` holds eventually for all $j \in \{1, \dots, m\}$
      whenever `ShaFinOdd` (`:25`) holds.
    - `SmallLevelRankEq Fm` (`:52–53`) asserts that eventually $(Fm.L\,x\,i).d_{Z_0}(j) = (Fm.D\,x\,i).\mathrm{what}_2.D_0$
-     for every $j \in \{1, \dots, m\}$ (proved in `ThirdPlaceSeries/Link.lean:20` as `link_alt_alt_alt`).
+     for every $j \in \{1, \dots, m\}$ (proved in `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Link.lean:20` as `link_alt_alt_alt`).
    - `DIVinN_at L j C` (`:59–60`) is the deterministic single-step inequality
      $$\mathrm{etaSum}(L, j) \le D_0 \cdot C\,x^\varepsilon\,(B_0 + N_c)$$
      (where $B_0 = f m b x^\varepsilon$ is the fixed field of `SizeData₂` feeding Chapter 5's `SZ.T3`!),
      and `DIVinN Fm` (`:62`) asserts `DIVinN_at` eventually across all lifts $j \in \{1, \dots, m\}$!
-3. **The global $Ш^1$ hypothesis (`UpperTheory.Top.HypV`, `DivinNOfHypV.lean:10`).** `HypV Fm : Prop`
+3. **The global $Ш^1$ hypothesis (`UpperTheory.Top.HypV`, `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10`).** `HypV Fm : Prop`
    asserts that eventually for large window scales $x$ along the family `Fm`, every datum $D = \mathrm{Fm}.D(x, i)$
-   satisfies `VVle D.host D.R.t (Real.sqrt D.b)` (`ExistsPageN.lean:12`, where $\sqrt{b} = \exp(x^\varepsilon / 2)$)
+   satisfies `VVle D.host D.R.t (Real.sqrt D.b)` (`src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean:12`, where $\sqrt{b} = \exp(x^\varepsilon / 2)$)
    [Lean, read]!
 
 ---
@@ -265,20 +270,22 @@ $$\operatorname{len}_{\mathcal O}\bigl(\mathcal O / \mathrm{ccOff}(\pi)\bigr)
 and $\mathrm{cocChi}(\pi, c)$ ($0 \le c < t$) are the $1$-cocycle quotients for the $t = R.t$
 cyclotomic blocks.*
 *(Lean: `GlobalTheory.CutDetOrd.main`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59`,
-and wrapper `…/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8`.)* [Lean, read]
+and wrapper `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8`.)* [Lean, read]
 
 *Proof.* First (`value_mem_ccOff` at `:15` and `exists_ne_zero` at `:37`), using the rank-$1$ projector
-`Eel` and unit $\delta_{51}$ of `IsOrthogonalIdempotentDecomposition` (`IdempotentChoiceDepthZero.lean:18`)
+`Eel` and unit $\delta_{51}$ of `IsOrthogonalIdempotentDecomposition` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:18`)
 together with `NoChiOff` away from `Z i` produces $\eta$ and $\gamma$ with nonzero off-diagonal
 action `(yg ... γ x').mulVec η ≠ 0`. Next (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59–140`),
 the proof constructs the GMA relation module `Rel` pairing the off-diagonal column module $B$ against
 the off-diagonal row module $C$ into $\mathcal O$. By the block determinant polynomial identity
-`BlockDetPoly.main` (`[Lean]`), the Fitting/determinant ideal of the GMA presentation is contained in
-$\mathrm{ccOff}(\pi)$ while the presentation quotients surject onto $\mathrm{cocRho}(\pi)$ and
-$\bigoplus_{c \in \mathrm{Fin}\,t} \mathrm{cocChi}(\pi, c)$. Applying the DVR determinant-length lemma
-`determinantLemma_discreteValuationRing_quotientLength_bound` (`[Lean]`) immediately bounds
+`BlockDetPoly.main` (Lemma 10.6, `[Lean, read]`), the coefficients of the block generic
+determinants of relations lie in $\mathrm{ccOff}(\pi)$ (the Fitting inclusion, Proposition 10.7),
+while each block solution module embeds into a restriction of $\mathrm{cocRho}(\pi)$ or
+$\mathrm{cocChi}(\pi, c)$ (Lemma 10.8). Applying the DVR determinant-length lemma
+`determinantLemma_discreteValuationRing_quotientLength_bound` (Lemma 10.5, `[Lean, read]`) bounds
 $\operatorname{len}_{\mathcal O}(\mathcal O / \mathrm{ccOff}(\pi))$ by the sum of lengths of
-$\mathrm{cocRho}(\pi)$ and the $t$ summands $\mathrm{cocChi}(\pi, c)$. $\square$
+$\mathrm{cocRho}(\pi)$ and the $t$ summands $\mathrm{cocChi}(\pi, c)$. The complete argument is
+written out in §10.4.5. $\square$
 
 ### 10.4.2 From cyclotomic cocycles to class numbers and $Ш^1$ (`CutCoreUnit.main`)
 
@@ -304,25 +311,30 @@ is the class number of $E$.*
 *Proof.* Start from Proposition 10.1 (`CutDetOrd.main`, via `ccOff_univ` at `:24`), which bounds
 $\operatorname{len}_{\mathcal O}(\mathcal O / \mathrm{ccOff}(\pi))$ before dividing by $L = \operatorname{len}_{\mathcal O}(\mathcal O / (\ell))$:
 
-1. **The cuspidal $\rho$-block (`cocRho`):** Local-global Selmer comparison (`Peel.main` `[Lean]`)
-   bounds $\frac{1}{L}\operatorname{len}_{\mathcal O}(\mathrm{cocRho}(\pi))$ by $\mathrm{sPi}(i, \pi)$
-   plus the tame inertia contribution at $Q_i$.
-2. **Why $c = 0$ gives the class number $v_\ell(h_E)$ (`GlobalCongruenceCountOfRootDifferenceUnit.lean:88–112`):**
-   Look at the first cyclotomic block $c = 0 \in \mathrm{Fin}\,t$, where the Hodge–Tate/cyclotomic
-   shift is $(c : \mathbb N) + 1 = 1$. By Kummer / Poitou–Tate duality between $\mathbb Q_\ell/\mathbb Z_\ell(1)$
-   and the **trivial** Galois module $\mathbb Q_\ell/\mathbb Z_\ell(0)$, everywhere-unramified
-   $1$-cocycles for the $c = 0$ block are simply continuous **unramified homomorphisms**
-   $\operatorname{Gal}(E^{\mathrm{ur}}/E) \to \mathcal O / \varpi^N$! Invoking the explicit hypothesis
-   `hA : GlobalTheory.Published.GlobalArtinReciprocity` (`:45`), `GlobalTheory.UnramHom.length_le_classNumber hA`
-   (`[Lean]`) identifies $\operatorname{Gal}(E^{\mathrm{ur},\mathrm{ab}}/E) \cong \mathrm{Cl}(\mathcal O_E)$
-   and bounds the unramified cocycle length (divided by $L$, plus tame inertia at $Q_i$) by
-   $$v_\ell(h_E) + \sum_{q \in Q_i} \mathrm{lenUnit}_\ell\bigl(\mathcal O / (\zeta_q - 1)\bigr)!$$
-3. **Why $1 \le c < t$ gives $\sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e)$ (`:113–148`):**
+1. **The cuspidal $\rho$-block (`cocRho`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:56–66`):** the local–global Selmer comparison
+   (`CountL.main`, `LocalGlobalSelmer.main`, `SelClass.main`; Lemma 10.9 and the discussion after
+   it, §10.4.5) bounds $\operatorname{len}_{\mathcal O}(\mathrm{cocRho}(\pi))$ by
+   $\operatorname{len}_{\mathcal O}\mathrm{selPi}$, that is, by $L \cdot \mathrm{sPi}(i, \pi)$. This
+   block has **no** tame term.
+2. **Why $c = 0$ gives the class number $v_\ell(h_E)$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:89–102`):**
+   For the first scalar block $c = 0 \in \mathrm{Fin}\,t$, the block character is
+   $\chi_1\chi_1^{-1} = 1$ (`chiRatO … 1`). Its $1$-cocycles are therefore continuous homomorphisms
+   $G_E \to K/\mathcal O$, and no duality is needed. First peel off ramification at $Q_i$
+   (`Peel.main`, Lemma 10.9), at a cost of $\operatorname{len}(\mathcal O/(\zeta_q - 1))$ per
+   $q \in Q_i$. The remaining homomorphisms are unramified at every place: at $w \mid \ell$ by
+   `CutTrivIne.main`, and elsewhere by `QuadAt`/`PolyAt` and `UnrOut`. Invoking the explicit
+   hypothesis `hA : GlobalTheory.Published.GlobalArtinReciprocity` (`:44–45`),
+   `GlobalTheory.UnramHom.length_le_classNumber hA` (Lemma 10.11, `[Lean, read]`) bounds their
+   length by $L \cdot v_\ell(h_E)$. After dividing by $L$, the block contributes
+   $v_\ell(h_E) + \sum_{q \in Q_i} \mathrm{lenUnit}_\ell\bigl(\mathcal O / (\zeta_q - 1)\bigr)$.
+3. **Why $1 \le c < t$ gives $\sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e)$ (`:103–114`):**
    For every $c \in \mathrm{Fin}\,t$ with $c \ge 1$, set $e := (c : \mathbb N) \in \{1, \dots, t - 1\} = \mathrm{Ioo}(0, R.t)$
-   (reindexed in Lean via `Nat.add_sub_cancel`, since $(c + 1) - 1 = c$!). Here Poitou–Tate duality
-   identifies the unramified/crystallina quotient of $\chi_{\mathrm{cyc}}^{c+1} = \chi_{\mathrm{cyc}}^{e+1}$
-   cocycles with Pontryagin dual classes in $Ш^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell/\mathbb Z_\ell(-e)\bigr)$,
-   so `length_cyclotomic_block_cocycles_le_sha` (`[Lean]`) bounds the $c$-th block (divided by $L$) by
+   (reindexed in Lean via `Nat.add_sub_cancel`, since $(c + 1) - 1 = c$). The block character is
+   $\chi_{c+1}\chi_1^{-1} = \chi_{\mathrm{cyc}}^{-e}$. After peeling $Q_i$, the cocycles are local
+   coboundaries above $\ell$ and unramified elsewhere. Inflation then maps them, coordinatewise,
+   into $Ш^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell/\mathbb Z_\ell(-e)\bigr)$ itself (no Poitou–Tate
+   duality). `length_cyclotomic_block_cocycles_le_sha` (Lemma 10.10, `[Lean, read]`) bounds the
+   $c$-th block, divided by $L$, by
    $$\mathrm{shaLen}(E, \ell, e) + \sum_{q \in Q_i} \mathrm{lenUnit}_\ell\bigl(\mathcal O / (\zeta_q - 1)\bigr).$$
 4. **Summing over $c \in \{0, 1, \dots, t - 1\}$:** Adding $c = 0$ and $1 \le e < R.t$ collects the
    $t$ copies of $\sum_{q \in Q_i} \mathrm{lenUnit}_\ell(\mathcal O / (\zeta_q - 1))$ into
@@ -349,27 +361,35 @@ could depend on the $j$-th automorphic packet and accumulate uncontrollably!
 
 **Proposition 10.3 (Killing $\mathrm{sPi}$ via character twisting and summing over $\ell$: `twist_kills_selmer` and `LinkFam.main`).**
 
-1. **Selmer annihilation (`twist_kills_selmer`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`).**
-   *Choosing the admissible character twist supplied by `TwistingCharacterExistence`
-   (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:166`) annihilates the residual/torsion cuspidal Selmer classes in
-   $\mathrm{sPi}(i, \pi_{\mathrm{tw}})$ outside the controlled auxiliary prime set $Q_i$.* [Lean, read]
-2. **Summing $\log \ell \cdot \mathrm{vcc}$ across all primes $\ell$ and closing `LinkEta` (`GlobalTheory.LinkFam.main`, `…/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`, and `closed_linkEta_of_duty`, `…/ThirdPlaceSeries/LinkEta.lean:13`).**
+1. **Selmer bound at a chosen good twist (`twist_kills_selmer`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`).**
+   *If the chosen twist is good at every twisted place (`TwGoodAt`, i.e. it satisfies `GoodTw`,
+   `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:219`), and the
+   Selmer length of each $\pi$ is bounded by that of its twist (`SignatureChoiceCondition`), then
+   `KillAt` holds: $\mathrm{sPi}(i, \pi) \le \nu_L(\ell) + \varepsilon_L(\ell)$, and the tame sum
+   over $Q_i$, multiplied by $t$, is at most $\varepsilon_L(\ell)$.* [Lean, read] "Killing" thus means
+   bounding by $\nu_L + \varepsilon_L$, not literal annihilation. The existence of a good twist is a
+   separate input: `TwistingCharacterExistence`
+   (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:166`), a `Prop`
+   inside the bundle `admitted` (Proposition 10.12 and §10.4.6).
+2. **Summing $\log \ell \cdot \mathrm{vcc}$ across all primes $\ell$ and closing `LinkEta` (`GlobalTheory.LinkFam.main`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`, and `closed_linkEta_of_duty`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13`).**
    *Multiplying Theorem 10.2 (at the chosen Selmer-killing twist) by $\log \ell$ and summing over all
    rational primes $\ell$ converts:*
    - $\sum_\ell (\log \ell)\,v_\ell(h_E) = \log h_E$ *(controlled within $(\log x)^2 N_c$ alongside
      tame ramification)*;
    - $\sum_\ell \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) = \sum'_\ell \mathrm{vvTerm}(D, \ell)$; *and*
    - *the finite tame cyclotomic-unit sum over $q \in Q_i$, establishing `LinkN` (`LinkFam.main`,
-     `LinkNAlongFamilyOfLocalBounds.lean:11`), while `closed_linkEta_of_duty` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13`)
+     `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`), while `closed_linkEta_of_duty` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13`)
      closes the companion local twisting-cover predicate `LinkEta` (`LocsCoverTw`,
-     `GlobalTheoremInputs.lean:49`).* [Lean, read]
+     `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:49`).* [Lean, read]
 
-*(Reading boundary `[Lean]`.)* We read `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean` (207-module cone),
+*(Reading boundary.)* We read `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean` (207-module cone; it contains definitions only),
 `ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`, and `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean`
-in full (`R3` / `[Lean, read]`); the upstream construction proving `TwistingCharacterExistence`
-(using Chebotarev density / cyclic prime splitting to pick twists whose local Frobenius eigenvalues
-break residual Selmer cocycles, `remark.pdf` p. 4, items 14–15, 17) sits inside the deeper automorphic
-cone (`R2` / `[Lean]`, proof body unread `[Open]`).
+in full (`R3` / `[Lean, read]`). §10.4.6 follows `TwistingCharacterExistence` one level further. It
+enters `Stmt` as the hypothesis `adm2`. Its producers in the archive (`admissibleBounds_of_all`,
+`abstract_form_of_lattice_run`, `admAB_of_toric_parts`) are read at the top level only (`R2` /
+`[Lean]`). The Chebotarev input `GlobalTheory.TwSys.Cheb` is located there. Which producer
+discharges `adm2` on the path from `src/Main.lean` is `[Open]`. The motivating notes are in
+`remark.pdf` p. 4, items 14–15, 17 [Paper].
 
 ### 10.4.4 Complete proof of `divinN_of_hypV`: how $\sqrt{b} = \exp(x^\varepsilon/2)$ closes `DIVinN`
 
@@ -382,7 +402,7 @@ leaf-inclusive import cone **311** modules, read 100% line by line at `R3`) — 
 
 1. `(hV : HypV Fm.toFamCore)` *(`VVle D.host.E D.R.t (sqrt L.sc.b)` eventually along `Fm`);*
 2. `(hN : LinkN Fm)` *(`∃ C, LinkN_at (Fm.L x i) j C` eventually along `Fm` whenever `ShaFinOdd` holds); and*
-3. `(hR : SmallLevelRankEq Fm)` *(`(Fm.L x i).dZ0 j = (Fm.D x i).what₂.D0` eventually for all $j \in \{1, \dots, m\}$, supplied by `ThirdPlaceSeries/Link.lean:20`).*
+3. `(hR : SmallLevelRankEq Fm)` *(`(Fm.L x i).dZ0 j = (Fm.D x i).what₂.D0` eventually for all $j \in \{1, \dots, m\}$, supplied by `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Link.lean:20`).*
 
 *Then `DIVinN Fm` holds with constant $\lvert C \rvert + 1$: eventually for all $x \ge x_0$, all family
 indices $i$, and all lifts $j \in \{1, \dots, m\}$, `DIVinN_at (Fm.L x i) j (|C| + 1)` holds at the
@@ -400,7 +420,7 @@ $L_{\mathrm{sz}} = \mathrm{Fm}.L(x, i)$ ($b = L_{\mathrm{sz}}.\mathrm{sc}.b = \e
    odd-twist `Sha` is finite and for **every** finite set $S$ of primes $\ell$,
    $$\sum_{\ell \in S} \log \ell \sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e) \le \sqrt{b}.$$
    - First, `VVle` explicitly carries finiteness of odd-twist `Sha` at every prime $\ell$, directly
-     supplying `hf : ShaFinOdd D` (`DivinNOfHypV.lean:22–30, 54–57`).
+     supplying `hf : ShaFinOdd D` (`src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:22–30, 54–57`).
    - Second, since every term $\mathrm{vvTerm}(D, l) \ge 0$ and every finite partial sum
      $\sum_{l \in S} \mathrm{vvTerm}(D, l)$ is bounded above by $\sqrt{b}$, Mathlib's
      `summable_of_sum_le` gives `hs : Summable (vvTerm D)` and `Real.tsum_le_of_sum_le` gives
@@ -419,7 +439,7 @@ $L_{\mathrm{sz}} = \mathrm{Fm}.L(x, i)$ ($b = L_{\mathrm{sz}}.\mathrm{sc}.b = \e
    which is literally `DIVinN_at L_sz j (|C| + 1)` (`:96–115`), proving `DIVinN Fm` (`:117–131`)! $\square$
 
 Pause and look at what Theorem 10.4 just accomplished! Remember Chapter 5's `SZ.T3`
-(`LipschitzWeightAndMinimum.lean:53`): to prevent the congruence error from stopping at $x^{2/3}$, the
+(`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean:53`): to prevent the congruence error from stopping at $x^{2/3}$, the
 chain needed $B_0 \ll n\,m\,b\,x^\varepsilon$ (remember $f = 2\lvert\varphi.A\rvert \asymp n$!).
 Because `divinN_of_hypV` achieves **$B_0 = f\,m\,b\,x^\varepsilon$** as soon as
 $$\sum_\ell \log \ell \sum_{1 \le e < R.t} \operatorname{len}_{\mathbb Z_\ell}\,Ш^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell/\mathbb Z_\ell(-e)\bigr)
@@ -428,6 +448,528 @@ $$\sum_\ell \log \ell \sum_{1 \le e < R.t} \operatorname{len}_{\mathbb Z_\ell}\,
 is already strong enough to beat $b = \exp(x^\varepsilon)$ and close `TopG`!** Proving that
 subexponential window bound `VWin` across our cyclotomic CM host fields $E$ is the sole remaining piece
 of Part II — and the subject of **Chapter 11**!
+
+### 10.4.5 The DVR determinant lemma and block cocycle lengths
+
+Sections 10.4.1–10.4.2 used four imported lemmas as black boxes: a determinant–length inequality over
+a discrete valuation ring, a block-determinant identity, a "peeling" lemma for auxiliary primes, and
+a bound of cyclotomic cocycles by $Ш^1$. This section opens all four, together with the Fitting-ideal
+step inside `CutDetOrd.main` that connects them. Everything below was read line by line in the
+pinned archive, down to Mathlib or to the definitions named in each proof, except where a
+declaration is explicitly tagged `[Lean]`.
+
+**Motivation [Expository].** The congruence ideal $\mathrm{ccOff}(\pi)$ is an ideal of a DVR
+$\mathcal O$, so its size is a single number $\operatorname{len}_{\mathcal O}(\mathcal O/\mathrm{ccOff}(\pi))$.
+The cocycle side is a module. The bridge between a number and a module is a determinant. If a square
+matrix $\Theta$ over $\mathcal O$ has all its "relations" inside a module $S$, then
+$v(\det\Theta) \le \operatorname{len}_{\mathcal O} S$. If every determinant one can form from relations
+lies in an ideal $I$, then $I$ is no bigger than $(\det\Theta)$ for the best $\Theta$, and
+$\operatorname{len}(\mathcal O/I) \le v(\det\Theta)$. The idea that a congruence ideal is bounded by a
+module of Galois cohomology classes goes back to Ribet's modular construction of unramified
+extensions `[Ribet1976]` and to Mazur–Wiles `[MazurWiles1984]`. The lattice-and-cocycle form closest to
+the archive is Skinner–Urban's "Constructing cocycles" (`[SkinnerUrban2014]`, §4). There each functional
+$\varphi$ on a lattice gives a cocycle $c_\varphi(g) = \varphi(\chi^{-1}(g)\sigma(g)\bar\epsilon^* - \bar\epsilon^*)$
+(their map (4.4.3.a)). Lemma 10.8 below builds the cocycles $\gamma \mapsto \varphi(y_\gamma)$ in the same
+way. The archive cites none of these papers; the comparison is ours.
+
+#### A worked example over $\mathbb Z_p$
+
+**Example 10.5 (one $2 \times 2$ block) [Expository].** Let $\mathcal O = \mathbb Z_p$,
+$K = \mathbb Q_p$, $A = M_2(\mathbb Z_p)$, and let $\psi = \mathrm{id} : A \to M_2(\mathbb Z_p)$ (one
+block, $d = 2$, one generator, $g = 1$). Let the relation module be the left ideal
+$\mathrm{Rel} = A\,M$ generated by
+$M = \begin{pmatrix} p & 1 \\ 0 & p^2 \end{pmatrix}$, $\det M = p^3$.
+
+1. *Solution module.* The solution module of Lemma 10.5 below is
+   $\mathrm{Sol} = \{y \in (\mathbb Q_p/\mathbb Z_p)^2 : \theta y = 0 \text{ for all } \theta \in \mathrm{Rel}\} = \ker\bigl(M : (\mathbb Q_p/\mathbb Z_p)^2 \to (\mathbb Q_p/\mathbb Z_p)^2\bigr)$.
+   The equations are $p y_1 + y_2 = 0$ and $p^2 y_2 = 0$. They give $y_2 = -p y_1$ and $p^3 y_1 = 0$,
+   so $\mathrm{Sol} \cong p^{-3}\mathbb Z_p/\mathbb Z_p \cong \mathbb Z/p^3$ is cyclic of length $3$.
+2. *Fitting-type coefficients.* Every element of $\mathrm{Rel}$ has the form $C M$ with
+   $C \in M_2(\mathbb Z_p)$. For $\theta_k = C_k M$ we get
+   $\det\bigl(\sum_k X_k \theta_k\bigr) = \det\bigl(\sum_k X_k C_k\bigr) \cdot p^3$, so every coefficient
+   lies in $I = p^3\mathbb Z_p$. Lemma 10.5 then gives
+   $3 = \operatorname{len}(\mathbb Z_p/p^3) \le \operatorname{len}\mathrm{Sol} = 3$, with equality.
+3. *What the proof does here.* The row vectors occurring as rows of elements of $\mathrm{Rel}$ form
+   $N = \mathbb Z_p^2 M$. The proof chooses generators of $N$ (here the rows $(p, 1)$, $(0, p^2)$ of
+   $M$), takes $\Theta = M$, and computes the content of the one-variable polynomial
+   $\det(X_1 M) = p^3 X_1^2$. The content is $p^3$ and the primitive part is $X_1^2$.
+4. *Only $v(\det)$ matters.* For $M' = \operatorname{diag}(p, p^2)$ one gets
+   $\mathrm{Sol} \cong \mathbb Z/p \oplus \mathbb Z/p^2$. The elementary divisors differ, but the length
+   is again $3 = v(\det M')$.
+5. *Degenerate case.* For $M_0 = \begin{pmatrix} p & 1 \\ 0 & 0 \end{pmatrix}$ ($\det M_0 = 0$), the
+   solution module contains $\{(y_1, -p y_1)\} \cong \mathbb Q_p/\mathbb Z_p$ and has infinite length.
+   The inequality holds trivially, which is the branch $\det = 0$ in the proof of Lemma 10.5.
+6. *Two scalar blocks.* Take $A = \mathbb Z_p \times \mathbb Z_p$ with the two projections as blocks
+   ($d_1 = d_2 = 1$) and $\mathrm{Rel} = p^a\mathbb Z_p \times p^b\mathbb Z_p$. Then
+   $\mathrm{Sol}_1 \cong \mathbb Z/p^a$ and $\mathrm{Sol}_2 \cong \mathbb Z/p^b$. The product of the two
+   generic $1 \times 1$ determinants has all coefficients in $p^{a+b}\mathbb Z_p$, and the bound reads
+   $\operatorname{len}(\mathbb Z_p/I) \le a + b$. Block lengths add. This is the shape of
+   Proposition 10.1: one $\rho$-block plus $t$ scalar blocks.
+
+For $p = 3$ we counted the $p^N$-torsion of the three solution modules by brute force ($N \le 5$). The
+counts stabilise at $3^3$ for $M$ and $M'$ and grow like $3^N$ for $M_0$. We also checked the
+divisibility claims in items 2 and 6 on 2,000 random integer instances each (script `check_example.py`
+in the run directory). This is a local consistency check, not part of the formal record.
+
+#### The determinant–length inequality
+
+**Lemma 10.5 (DVR determinant lemma).** *Let $\mathcal O$ be a DVR with fraction field $K$, let $A$ be
+an $\mathcal O$-algebra (not necessarily commutative), let $J$ be a finite set, and let
+$\psi_j : A \to M_{d_j}(\mathcal O)$ ($j \in J$) be surjective $\mathcal O$-algebra maps. Let
+$g \ge 0$, let $\mathrm{Rel} \subseteq A^g$ be a left $A$-submodule, and let $I \subseteq \mathcal O$ be
+an ideal. For $\theta \in M_g(A)$ write $\psi_j(\theta)$ for the $g d_j \times g d_j$ matrix with
+$((p, a), (q, b))$-entry $\psi_j(\theta_{pq})_{ab}$. Assume that for every $n$, every
+$\theta_1, \dots, \theta_n \in M_g(A)$ whose rows lie in $\mathrm{Rel}$, and every monomial, the
+corresponding coefficient of $\prod_{j \in J} \det\bigl(\sum_{k} X_k\, \psi_j(\theta_k)\bigr) \in \mathcal O[X_1, \dots, X_n]$
+lies in $I$. Then*
+$\operatorname{len}_{\mathcal O}(\mathcal O/I) \le \sum_{j \in J} \operatorname{len}_{\mathcal O} \mathrm{Sol}_j$,
+*where $\mathrm{Sol}_j = \{(y_q)_{q} \in ((K/\mathcal O)^{d_j})^g : \sum_q \psi_j(\theta_q)\, y_q = 0 \text{ for all } \theta \in \mathrm{Rel}\}$.*
+*(Lean: `GlobalTheory.T.determinantLemma_discreteValuationRing_quotientLength_bound`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLenStatement.lean:6`,
+a one-line wrapper around `GlobalTheory.DetGen.length_quot_le_sum_length`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:259`.)* [Lean, read]
+
+*Reading against Lean.* The hypothesis is universal: $\forall n\ \forall \theta\ \forall m$, over all
+families of relation matrices and all monomials. Lemma 10.5 is therefore strong on the hypothesis side
+and has no existential in its conclusion. Lengths are `Module.length`, valued in $\mathbb N_\infty$. If
+some $\mathrm{Sol}_j$ has infinite length, the inequality holds trivially. $\mathrm{Sol}_j$ is written
+in Lean as
+`⨅ θ ∈ Rel, LinearMap.ker (∑ q, (matKO (ψ j (θ q))).comp (LinearMap.proj q))` on
+$(\mathtt{KOG}\ \mathcal O\ d_j)^g$, where `KOG O d` is $K^d/\mathcal O^d$
+(`src/Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean:651`) and `matKO`
+is matrix multiplication on it
+(`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GlobalCore.lean:10`). All lengths
+are $\mathcal O$-lengths, so no ramification factor $L$ appears yet. In the solution module,
+$\mathrm{Sol}_j \cong \operatorname{Hom}_A(A^g/\mathrm{Rel}, (K/\mathcal O)^{d_j})$, with $A$ acting on
+$(K/\mathcal O)^{d_j}$ through $\psi_j$.
+
+*Proof.* Four steps, all in `DeterminantLemmaDiscreteValuationRingQuotientLen.lean`.
+
+1. *Gauss's lemma over a DVR (`exists_C_mul_primitive`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:20`; `length_quot_le_of_coeff_prod`, `:47`).*
+   Write each polynomial as $F_j = c_j G_j$, where $c_j$ is a coefficient of minimal valuation. Then
+   $G_j$ has a unit coefficient, and its reduction modulo the maximal ideal is nonzero. The residue
+   polynomial ring is a domain, so $\prod_j G_j$ has a unit coefficient. The matching coefficient of
+   $\prod_j F_j$ is $(\prod_j c_j) \cdot \text{unit} \in I$, hence $(\prod_j c_j) \subseteq I$. This
+   gives $\operatorname{len}(\mathcal O/I) \le v(\prod_j c_j) = \sum_j v(c_j) \le \sum_j v(F_j(x_j))$
+   for any evaluation points $x_j$, because $c_j \mid F_j(x_j)$.
+2. *A determinant is at most the length of its "integral preimages" (`addVal_det_le_length`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:76`).*
+   Let $M$ be a square matrix over $\mathcal O$, $\pi : K^\iota \to V$ a map whose kernel consists of
+   integral vectors, and $S \subseteq V$ a submodule containing $\pi(y)$ whenever $My$ is integral.
+   Then $v(\det M) \le \operatorname{len} S$. If $\det M \ne 0$, the map $u \mapsto \pi(M^{-1}u)$ sends
+   $\mathcal O^\iota$ into $S$ with kernel inside $M\mathcal O^\iota$. Since
+   $\operatorname{len}(\mathcal O^\iota/M\mathcal O^\iota) = v(\det M)$, the bound follows. If
+   $\det M = 0$, a kernel vector $v$ with $v_i \ne 0$ gives the elements
+   $\pi(v/(v_i\varpi^n)) \in S$, whose annihilators shrink to $(\varpi^n)$. Hence
+   $\operatorname{len} S = \infty = v(0)$.
+3. *One relation matrix realises the bound (`exists_family_span`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:165`; `exists_relations`, `:187`).*
+   Let $N \subseteq \mathcal O^{g \times d}$ be the module of row vectors $v$ such that, for every
+   row index $a$, some $\theta \in \mathrm{Rel}$ has $\psi(\theta)$ equal to $v$ in row $a$ and zero
+   elsewhere. Surjectivity of $\psi$ shows that every row of every $\psi(\theta)$, $\theta \in \mathrm{Rel}$,
+   lies in $N$: multiply $\theta$ on the left by a preimage of a matrix unit. By Smith normal form,
+   $N$ is spanned by $g d$ vectors. Assembling their realisers gives one $\Theta$ with rows in
+   $\mathrm{Rel}$ and $\psi(\Theta)$ equal to the matrix of these generators. Step 2, applied with
+   $\pi$ the projection $K^{g \times d} \to ((K/\mathcal O)^d)^g$, gives
+   $v(\det\psi(\Theta)) \le \operatorname{len}\mathrm{Sol}$.
+4. *Assembly (`length_quot_le_sum_length`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:259–271`).* Choose $\Theta_j$ by Step 3 for each block.
+   Apply the hypothesis with $n = |J|$ and $\theta_k = \Theta_{j(k)}$. Evaluate the $j$-th factor at
+   the indicator vector of $k = j$, which gives $\det \psi_j(\Theta_j)$, and apply Step 1. $\square$
+
+The two standard facts used in Steps 1–2 were also read:
+$\operatorname{len}(\mathcal O^\iota/M\mathcal O^\iota) = v(\det M)$
+(`length_quotient_range_mulVecLin_eq_addVal_det`,
+`src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthCommensurableSpanSpanOfDetNeZero.lean:89`,
+reducing via `:67` to Smith normal form in `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthQuotientSpanSingleton.lean:25`
+and to the infinite-length case in `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/ExistsDualNeZeroCompEqZero.lean:26`),
+and additivity of $v$ over finite products (`addVal_finset_prod`, `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthCommensurableSpanSpanOfDetNeZero.lean:32`,
+proved in `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/Imports.lean:7`). Below
+them is Mathlib (`Submodule.smithNormalForm`, `Mathlib/LinearAlgebra/FreeModule/PID.lean:538`;
+`IsDiscreteValuationRing.length_quotient_pow_maximalIdeal`, `Mathlib/RingTheory/DiscreteValuationRing/Basic.lean:555`),
+which we did not reread.
+
+#### Block determinants stay Hecke-valued
+
+**Lemma 10.6 (block determinants; `GlobalTheory.BlockDet.main` and `GlobalTheory.BlockDetPoly.main`).**
+*Let $T$ be an $\mathcal O$-subalgebra of functions $X \to \mathcal O$, and let $R$ be an
+$\mathcal O$-subalgebra of functions $X \to M_n(\mathcal O)$. Assume that for all
+$a_1, \dots, a_m \in R$, every coefficient function $x \mapsto \operatorname{coeff}_d \det\bigl(\sum_k X_k\, a_k(x)\bigr)$
+lies in $T$. Then for every $g \times g$ array $\Theta$ of elements of $R$, the function
+$x \mapsto \det\bigl(\text{the } gn \times gn \text{ block matrix } \Theta(x)\bigr)$ lies in $T$
+(`BlockDet.main`). More generally, the coefficient functions of
+$\det\bigl(\sum_k X_k\,\Theta_k(x)\bigr)$ for families $\Theta_1, \dots, \Theta_m$ lie in $T$
+(`BlockDetPoly.main`).*
+*(Lean: `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetOneAddSmulBlkMem.lean:89` and
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CMemCoeffSub.lean:99`; $\mathcal O$ is
+any commutative ring here.)* [Lean, read]
+
+The hypothesis says that the determinant is a $T$-valued polynomial law on $R$. This is the
+determinant point of view of Chenevier and the pseudo-character point of view of Bellaïche–Chenevier
+`[BellaicheChenevier2009]` [Expository].
+
+*Proof.* (`BlockDet.main`.) Work over $B = (X \to \mathcal O)[\varepsilon]/(\varepsilon^{N+1})$,
+where $N = gn$, and let $S \subseteq B$ be the image of $T[\varepsilon]$. The $S$-span of $R$ is an
+algebra all of whose determinants lie in $S$ (`det_sum_smul_mem`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetOneAddSmulBlkMem.lean:60`). Since $\varepsilon$ is
+nilpotent, $1 + \varepsilon\Theta_{00}$ is a unit of that algebra. The Schur complement turns
+$\det(1 + \varepsilon\,\mathrm{blk}\,\Theta)$ into
+$\det(1 + \varepsilon\Theta_{00}) \cdot \det\bigl(1 + \varepsilon\,\mathrm{blk}(\Theta_{pq} - \varepsilon\,\Theta_{p0}u\Theta_{0q})\bigr)$,
+where $u = (1 + \varepsilon\Theta_{00})^{-1}$. Induction on $g$ (`det_one_add_smul_blk_mem`, `:21`)
+gives $\det(1 + \varepsilon\,\mathrm{blk}\,\Theta) \in S$. Finally, the coefficient of $\varepsilon^N$
+in $\det(\varepsilon M + 1)$ is $\det M$ (Mathlib `coeff_det_X_add_C_card`,
+`Mathlib/LinearAlgebra/Matrix/Polynomial.lean:72`), so $\det M \in T$. (`BlockDetPoly.main`.) Apply
+`BlockDet.main` after extending scalars to $\mathcal O[X_1, \dots, X_m]$. The subalgebra `coeffSub`
+(`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CMemCoeffSub.lean:8`) of functions all of whose coefficients lie in $T$ inherits the hypothesis
+(`C_mem_coeffSub`, `:29`; `det_comb_mem`, `:42`). $\square$
+
+#### The Fitting-ideal step: relations force determinants into the congruence ideal
+
+Recall the objects of `CutDetOrd.main`
+(`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:59`).
+
+- $X'$ is a finite set of "points" mapping to eigensystems by $p$, and $T'$ is the Hecke algebra as
+  functions on $X'$.
+- $A = \mathtt{spanAlg}(T', r \circ p)$ is the $\mathcal O$-algebra of functions $X' \to M_{n_V}(\mathcal O)$
+  spanned by $T'$-multiples of the representation matrices
+  (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:321`).
+- $y_\gamma = (\chi_1(\gamma)^{-1} r(\gamma) - 1) \cdot E$ are the "cocycle generators". Here $E$ is
+  the rank-one element `Eel` (`src/Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean:467,551`).
+- By Noetherianity, finitely many $\gamma_1, \dots, \gamma_g$ generate all $A$-combinations of the
+  $y_\gamma$ (`exists_gens`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:346`).
+- $\mathrm{Rel} \subseteq A^g$ is the module of $\theta$ with $\sum_q \theta_q y_{\gamma_q}$ vanishing
+  on $p^{-1}(X_s)$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:75–83`).
+- At the distinguished point $\pi'$, conjugation by $P, Q$ (`exists_conj`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:167`) puts every
+  $a \in A$ into block-diagonal form $\operatorname{diag}(\psi_\rho(a), \psi_{\chi,1}(a), \dots, \psi_{\chi,t}(a))$
+  (component 3 of Definition 10.1, `src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:27–29`).
+  Block-diagonality makes the blocks $\mathcal O$-algebra maps (`exists_homs`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:196`). They are
+  surjective: the $\rho$-block by component 4 (`src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:30`), and the scalar
+  blocks trivially. They are packaged as `blockHom` over the index set $\{\rho\} \sqcup \{1, \dots, t\}$
+  (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:365,369`).
+
+**Proposition 10.7 (Fitting inclusion).** *For every $n$, every family $\theta_1, \dots, \theta_n$ of
+$g \times g$ matrices over $A$ with rows in $\mathrm{Rel}$, and every monomial, the coefficient of
+$\det\bigl(\sum_k X_k \psi_\rho(\theta_k)\bigr) \cdot \prod_{c=1}^{t} \det\bigl(\sum_k X_k \psi_{\chi,c}(\theta_k)\bigr)$
+lies in $\mathrm{ccOff}(i, X_s, \pi)$.* In other words, the product of the block Fitting ideals of
+$A^g/\mathrm{Rel}$ lies in the congruence ideal.
+*(Lean: the third argument of `determinantLemma…` inside `CutDetOrd.main`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:99–133`.)* [Lean, read]
+
+*Proof.*
+
+1. *Hecke-valuedness.* The first clause of component 12 of Definition 10.1
+   (`CharpolyCoeffsInSubalgebra`, `src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:62`;
+   `src/Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean:431`) is exactly the hypothesis of Lemma 10.6 for $R = A$ and
+   $T = T'$. By `BlockDetPoly.main` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:101`), the function
+   $f(x') = \operatorname{coeff}_m \det\bigl(\sum_k X_k \theta_k(x')\bigr)$ lies in $T'$.
+2. *Vanishing away from $Z$.* Take $x'$ with $p(x') \in X_s \setminus Z$. `exists_ne_zero` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:37`)
+   produces $\eta$ and $s$ with $y_s(x')\eta \ne 0$. Its proof uses that $E(x')$ has rank one and
+   that `NoChiOff` forbids nonzero fixed vectors of the twisted representation. The vectors
+   $v_q = y_{\gamma_q}(x')\eta$ are then not all zero, since $y_s$ is an $A$-combination of the
+   $y_{\gamma_q}$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:107–114`). The relation property gives $\sum_q \theta_{k,p,q}(x')\, v_q = 0$ for
+   every $k$ and $p$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:115–119`). The generic matrix $\sum_k X_k \theta_k(x')$ therefore has a nonzero
+   kernel vector over $K[X]$, and its determinant vanishes (`det_generic_eq_zero`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:295`). So $f(x') = 0$.
+3. *Into the congruence ideal.* An element of $T'$ that vanishes on $p^{-1}(X_s \setminus Z)$ takes
+   its value at $\pi'$ in $\mathrm{ccOff}(i, X_s, \pi)$ (`value_mem_ccOff`,
+   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15`). Here $\mathrm{ccOff}$ is the ideal generated by
+   the values at $\pi$ of Hecke operators vanishing on $X_s \setminus Z$
+   (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GlobalCore.lean:21`). The proof
+   writes $f$ in the unique $T$-basis of $T'$ supplied by component 8 of Definition 10.1 and checks
+   coordinatewise.
+4. *Block factorisation at $\pi'$.* Conjugating by $1 \otimes P$ (`det_blocks`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:144`;
+   `det_generic_blocks`, `:254`) turns $f(\pi')$ into the product of the $\rho$-block generic
+   determinant and the $t$ scalar ones (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:120–133`).
+   $\square$
+
+**Lemma 10.8 (solutions are restrictions of cocycles; `GlobalTheory.CutDet.length_sol_le`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:77`).** *Each solution module $\mathrm{Sol}_j$ of
+Lemma 10.5 for the data above has length at most that of the cocycle module
+$\mathtt{cocW}(\psi_j)$, that is, $\mathrm{cocRho}$ for $j = \rho$ and $\mathrm{cocChi}(c)$ for
+$j = c$ (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GlobalCore.lean:31,39,41`).* [Lean, read]
+
+*Proof.* $(K/\mathcal O)^d$ is injective over the PID $\mathcal O$ (Baer's criterion, `baer_KOG`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:20`). Given a solution $w$, the map $\theta \mapsto \sum_q \psi(\theta_q) w_q$ factors through
+$\theta \mapsto \sum_q \theta_q y_{\gamma_q}$, because its kernel lies in $\mathrm{Rel}$. It therefore
+extends to an $\mathcal O$-linear $\varphi$ on all of $X' \to M_{n_V}(\mathcal O)$ (`exists_ext`,
+`:40`). This $\varphi$ is $\psi$-semilinear on $A$-multiples and kills combinations vanishing on
+$p^{-1}(X_s)$, so $\gamma \mapsto \varphi(y_\gamma)$ is one of the spanning cocycles of
+$\mathtt{cocW}(\psi)$, with values $w_q$ at $\gamma_q$. Hence $\mathrm{Sol} \subseteq$ (restriction of
+$\mathtt{cocW}$ to $\{\gamma_q\}$), and restriction does not increase length. $\square$
+
+Proposition 10.1 is now completely proved. Lemma 10.5 is applied with $I = \mathrm{ccOff}$
+(`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:90`), its hypothesis is Proposition 10.7, and
+Lemma 10.8 bounds each block (`:134–140`).
+
+#### From block cocycles to Selmer, class group and $Ш^1$
+
+The proof of Theorem 10.2 (`CutCoreUnit.main`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:44`)
+bounds the $1 + t$ cocycle modules of Proposition 10.1 one at a time.
+
+**Lemma 10.9 (peeling ramification at auxiliary primes; `GlobalTheory.Cut.Peel.main`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:52`).**
+*For every $\mathcal O$-submodule $C$ of maps $G_E \to (K/\mathcal O)^k$ and every finite set $Q$ of
+places, there is $C' \le C$ whose restrictions to the inertia groups at all $q \in Q$ vanish, with
+$\operatorname{len} C \le \operatorname{len} C' + \sum_{q \in Q} \operatorname{len}(C|_{I_q})$.* [Lean, read]
+
+*Proof.* Use induction on $Q$ (`exists_le_map_eq_bot`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:23`). At each step, apply additivity of
+length on $0 \to C_0 \cap \ker f \to C_0 \to f(C_0) \to 0$ for the restriction $f$ to $I_q$
+(`length_eq_inf_ker_add_map`, `:8`, via Mathlib `Module.length_eq_add_of_exact`,
+`Mathlib/RingTheory/Length.lean:171`). Then use
+$f(C_0) \subseteq f(C)$. $\square$
+
+Lemma 10.9 is a bookkeeping lemma, not a local–global comparison. The output is existential ($\exists C'$),
+and the cost $\sum_q \operatorname{len}(C|_{I_q})$ is bounded in `CutCoreUnit.main` by
+$\operatorname{len}(\mathcal O/(\zeta_q - 1))$ per block and per $q$
+(`inertiaCocycleBlock_length_le_of_quadraticRelation`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:87–88`) [Lean].
+The archive uses it only for the $t$ scalar blocks (`:73`). The **local–global Selmer comparison** for
+the $\rho$-block is a separate chain (`:56–66`), read in full.
+
+1. First, `CountL.main` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthGlobalCocyclesLeSumPlacesOver.lean:102`)
+   is applied place by place over $w \mid \ell$ with local defect $e = 0$. It returns $C' \le \mathrm{cocRho}$
+   whose local classes all lie in the Bloch–Kato finite part, and costs
+   $\#\{w \mid \ell\} \cdot 0 \cdot \operatorname{len}(\mathcal O/\ell) = 0$.
+2. Next, `LocalGlobalSelmer.main` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalGlobalSelmer.lean:7`)
+   shows these cocycles are unramified outside $\ell$, $S$ and $Q$. Its proof writes
+   $y_\gamma = (\tilde r(\gamma) - 1)E$ and uses `UnrOut`.
+3. Then `SelClass.main` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCocyclesLeCoboundariesAddSelmer.lean:81`)
+   maps $C'$ to $H^1$. The kernel consists of coboundaries, and the image lies in the Selmer group
+   `selPi`, with the Bloch–Kato condition at $w \mid \ell$, no condition at $S \cup Q$, and the
+   unramified condition elsewhere (`mk_mem_selG`, `:48`).
+4. Finally, the coboundary part has length $0$ because $\delta_{51}$ is a unit (`:64–66`; the bound
+   `length_cutCoboundaryModule_le_unitDelta` is [Lean]).
+
+So $\operatorname{len}\mathrm{cocRho} \le \operatorname{len}\mathrm{selPi}$, and the $\rho$-block
+carries **no** tame term.
+
+**Lemma 10.10 (cyclotomic blocks are controlled by $Ш^1$;
+`GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeShaStatement.lean:6`,
+wrapper around `GlobalTheory.Cut.ShaBound.main`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:372`).**
+*Let $2 \le c \le t$, and let $C$ be an $\mathcal O$-module of continuous $1$-cocycles
+$G_E \to K/\mathcal O$ for the character $\chi_c\chi_1^{-1}$. Assume that at every place $w \mid \ell$
+the local restriction of every $f \in C$, transported through the local bridge, lies in `BD`, the
+module of coboundaries $g \mapsto g v - v$
+(`src/Formalism/WeaklyAdmissibleFiltrations/StatementTor.lean:119`); so $f$ is locally a
+coboundary at $w$. Assume also that every $f \in C$ vanishes on the inertia groups at
+all $v \nmid \ell$. Then*
+$\operatorname{len}_{\mathcal O} C \le \operatorname{len}_{\mathcal O}(C \cap B^1) + \operatorname{len}_{\mathcal O}(\mathcal O/\ell) \cdot \operatorname{len}_{\mathbb Z_\ell} Ш^1\bigl(G_{E,S_\ell}, \mathbb Q_\ell/\mathbb Z_\ell(-(c-1))\bigr)$.
+[Lean, read]
+
+*Proof.*
+
+1. *The block character is a negative cyclotomic power.* $\chi_c\chi_1^{-1} = \chi_{\mathrm{cyc}}^{-(c-1)}$
+   (`chiRatO_apply`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:360`).
+2. *Coordinates.* A $\mathbb Z_\ell$-basis of $\mathcal O$ gives a $\mathbb Z_\ell$-linear bijection
+   $K/\mathcal O \cong (\mathbb Q_\ell/\mathbb Z_\ell)^{f}$ with $f = \operatorname{rank}_{\mathbb Z_\ell}\mathcal O$
+   (`exists_coord`, `:100`). It intertwines the block action with the twist by
+   $\chi_{\mathrm{cyc}}^{-(c-1)}$ (`:375–379`).
+3. *Each coordinate is a Selmer-trivial cocycle.* Every coordinate $a_j(f)$ satisfies `LocTriv`
+   (`:206`; checked at `:386–404`, the local part via `cob_of_bridge`, `:333`). That is, it is a
+   cocycle for $\mathbb Q_\ell/\mathbb Z_\ell(-(c-1))$, unramified outside $\ell$, and a coboundary
+   on each decomposition group above $\ell$.
+4. *Inflation lands in $Ш^1$.* Such a cocycle vanishes on the closed normal subgroup generated by
+   inertia outside $S_\ell$ (`LocTriv.vanish`, `:212`). It is therefore inflated from $G_{E,S_\ell}$
+   (`LocTriv.mem_range`, `:262`), and its class lies in $Ш^1$ (`mk_mem_Sha`, `:273`). This yields
+   linear maps $\Psi_j : C \to Ш^1$ (`exists_toSha`, `:286`).
+5. *Joint kernel.* If $\Psi_j(f) = 0$ for all $j$, then $f$ is a global coboundary (`:406–412`).
+6. *Length count (`length_le`, `:71`).* We have
+   $\operatorname{len}_{\mathcal O} C = \operatorname{len}_{\mathcal O} B + \operatorname{len}_{\mathcal O}(C/B)$
+   and $\operatorname{len}_{\mathbb Z_\ell}(C/B) \le f \cdot \operatorname{len}_{\mathbb Z_\ell} Ш^1$.
+   Since $\operatorname{len}_{\mathbb Z_\ell} = \operatorname{len}_{\mathcal O} \cdot [k_{\mathcal O} : \mathbb F_\ell]$
+   (Mathlib `IsLocalRing.length_restrictScalars`, `Mathlib/RingTheory/LocalRing/Length.lean:54`) and
+   $f = \operatorname{len}_{\mathbb Z_\ell}(\mathcal O/\ell)$ (`length_quot`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:27`), the residue
+   degree cancels. $\square$
+
+*Reading against Lean, and corrections to §10.4.2.*
+
+- **Twist index.** The twist is $e = c - 1$. In `CutCoreUnit.main` the lemma is called with
+  $c = c' + 1$ for $c' \in \{1, \dots, t-1\}$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:106`).
+  This is why Theorem 10.2 sums $\mathrm{shaLen}(E, \ell, e)$ over $1 \le e < t$.
+- **No duality.** No Poitou–Tate duality is used. The cocycles map directly into $Ш^1$ of the same
+  module $\mathbb Q_\ell/\mathbb Z_\ell(-e)$.
+- **$L$ factor.** The factor $\operatorname{len}_{\mathcal O}(\mathcal O/\ell)$ is the ramification
+  index of $\mathcal O/\mathbb Z_\ell$. It is the $L$ of Theorem 10.2 and is divided out by `lenUnit`
+  (`src/Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean:32`).
+- **Coboundary term.** $\operatorname{len}_{\mathcal O}(C \cap B^1)$ is `lenCob`
+  (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LenCob.lean:15`). It vanishes in
+  the application because $\delta_{51}$ is a unit (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:111–113`).
+- **$\mathbb N_\infty$ lengths.** Products and lengths live in $\mathbb N_\infty$. If
+  $\mathrm{shaLen} = \infty$, the bound is empty.
+
+**Lemma 10.11 (the trivial block and the class number; `GlobalTheory.UnramHom.length_le_classNumber`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:172`).**
+*Assume `GlobalArtinReciprocity`. If $C$ is an $\mathcal O$-module of cocycles for the trivial block
+character $\chi_1\chi_1^{-1} = 1$ (so they are homomorphisms $G_E \to K/\mathcal O$) that vanish on
+every inertia group, then*
+$\operatorname{len}_{\mathcal O} C \le \operatorname{len}_{\mathcal O}(\mathcal O/\ell) \cdot v_\ell(h_E)$.
+[Lean, read]
+
+*Proof.* Artin reciprocity for the CM, hence totally complex, host field gives a global Artin map
+`art`. An everywhere-unramified homomorphism is trivial on the image under `art` of the kernel of
+"ideles $\to$ class group" (`eq_one_of_class`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:117`). That image has index dividing $h_E$
+(`index_dvd_classNumber`, `:152`). Then use strong induction on the index (`length_le`, `:18`). Peel
+off an element of prime order $p$. Its evaluation lands in the $p$-torsion of $K/\mathcal O$, which is
+$0$ for $p \ne \ell$ and has length at most $\operatorname{len}(\mathcal O/\ell)$ for $p = \ell$
+(`length_torsionBy_le`, `:82`). $\square$
+
+In `CutCoreUnit.main` the hypothesis "unramified everywhere" for the trivial block is assembled from
+`CutTrivIne.main` at $w \mid \ell$
+(`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ActDEqOfEqOne.lean:48`, read) and from
+the peeled module elsewhere (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:98–102`). Again no
+duality is involved. The class-field-theory input is the named Prop `GlobalArtinReciprocity`, whose
+statement Chapter 18 compares with the literature; its proof cone remains [Open].
+
+**Assembly of Theorem 10.2 (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:138–174`).**
+
+- Proposition 10.1 gives
+  $\operatorname{len}(\mathcal O/\mathrm{ccOff}) \le s + \sum_{c} \bigl(L \cdot (h \text{ or } \mathrm{shaLen}) + \sum_{q \in Q}\operatorname{len}(\mathcal O/(\zeta_q - 1))\bigr)$.
+  Here $s = \operatorname{len}\mathrm{selPi}$, $L = \operatorname{len}(\mathcal O/\ell)$, and
+  $h = v_\ell(h_E)$ occurs for $c = 0$.
+- Summing over $c$ collects $L(h + \sum_{1 \le e < t}\mathrm{shaLen})$ and $t$ copies of the tame sum
+  (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:142–146`).
+- Dividing by $L$ gives the rational inequality of Theorem 10.2. The tame term is
+  $t\sum_{q}\mathrm{lenUnit}$, and $\mathrm{sPi} = s/L$.
+- Because `lenUnit` uses `toNat` (and `toNat ⊤ = 0`), the proof needs the finiteness hypotheses
+  `Br.sFin` (finite Selmer length, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:44,54`) and $\mathrm{shaLen}(e) < \infty$ (`:121–123`) before
+  converting.
+
+#### What remains `[Lean]` or `[Open]` in this section
+
+These are cited at statement level only:
+
+- `inertiaCocycleBlock_length_le_of_quadraticRelation`;
+- `inertia_restriction_polynomial_condition_second_form`;
+- `localCocycles_aboveEll_inCut_unitDelta`;
+- `finiteQuotientCocycleSpans_le_continuousCocycles`;
+- `length_cutCoboundaryModule_le_unitDelta`;
+- `cutVal_coord_eq_zero` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CutValueMemHeckeValueIdealOffSupport.lean:27`);
+- the local bridge API `Br.*`;
+- the Galois-group facts `normal_NS`, `isClosed_NS` and `exists_smul_eq_of_isPlaceOver`
+  (used at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:233,237,242`).
+
+They remain [Lean]. The proof cone of `GlobalArtinReciprocity` remains [Open].
+
+### 10.4.6 Twist existence: how the Selmer-killing character is chosen
+
+**Motivation [Expository].** Lemmas 10.9–10.11 control every block except the cuspidal Selmer length
+$\mathrm{sPi}(i, \pi)$, which depends on the lift. Twisting the lift by a finite-order character
+$\psi$, ramified only at a set $Q$ of auxiliary split primes, changes the Selmer group. The price is
+paid at $Q$, through the tame terms $\operatorname{len}(\mathcal O/(\zeta_q - 1))$. The archive needs a
+twist for which the Selmer length, the tame price and several lattice indices are all small at once.
+The construction has two separate parts. A **bookkeeping lemma** uses a twist once chosen. An
+**existence statement** says that such a twist exists.
+
+**Proposition 10.12 (what `twist_kills_selmer` proves).** *Let $C$ be a choice of twists (`NChoice`)
+tied to the chain (`NChTie`), and suppose the chosen twist is good at every twisted place (`TwGoodAt`,
+`src/Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean:196`). That is, at every twisted
+place it satisfies `GoodTw` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:219`).
+Suppose also that the Selmer length of each $\pi$ is bounded by the Selmer length of its twist, and
+the tame sum by the twist's tame valuations (`SignatureChoiceCondition`,
+`src/Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean:33`).
+Then `KillAt` holds (`:45`): for every twisted local datum $i$ and every good $\pi$, the Selmer group
+is finite and $\mathrm{sPi}(i, \pi) \le \nu_L(\ell) + \varepsilon_L(\ell)$. Moreover,
+$t \cdot \sum_{q \in Q_i}\mathrm{lenUnit}(\mathcal O/(\zeta_q - 1)) \le \varepsilon_L(\ell)$.*
+*(Lean: `GlobalTheory.NLink.twist_kills_selmer`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8`;
+wrapper `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroupsStatement.lean:7`;
+consumed at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsHubDataFamily.lean:49`.)* [Lean, read]
+
+*Proof (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:10–32`).* `TwGoodAt` at the place $w(i)$ supplies
+nonnegative errors $\varepsilon_T(s)$. Their sum over signatures is at most the twist budget
+$\varepsilon_{\mathrm{tw}}$, and they bound the twisted Selmer lengths by
+$\nu + \varepsilon_T(s)$ (`:14`, `:20–22`). Combined with `SignatureChoiceCondition` and the
+identities $\varepsilon_{\mathrm{tw}} = \varepsilon_L(\ell)$ (`:16–17`) and
+$\nu = \nu_L(\ell)$ (`:29`), this gives the Selmer bound. The tame bound is the `partD` clause of
+`GoodTw` multiplied by $t$ (`:31–32`). $\square$
+
+So "kills" means "bounds by $\nu_L + \varepsilon_L$". The lemma constructs nothing; the twist and its
+goodness are inputs. This sharpens Proposition 10.3(1).
+
+**Where existence lives.**
+
+- `TwistTheoremAtIndex` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:233`) asserts that a `GoodTw` twist
+  $(Q, k', \psi')$ exists at a nonzero-index place.
+- It is the conclusion `aux₃` of `Stmt` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:329`), which `GlobalTheory.export_of_inputs` proves for
+  all data
+  (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`,
+  top-level proof read).
+- The proof takes the bundle `admitted` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:324`) as a hypothesis. Its second
+  component `adm2` (`:305`) is **`TwistingCharacterExistence`** (`:166`). It quantifies over every
+  nonzero-index place $i$ satisfying the Bloch–Kato set hypothesis `SetHyp`, every
+  $\varepsilon' > 0$, every lattice family $F$ satisfying `ABHyp` (`:125`) and every finite set $A_0$
+  of places. For these it provides $Q$, $k'$ and a ray-class character
+  $\psi' : \mathrm{RCG}(Q) \to \mathcal O_{k'}^\times$ (`:170`). That character satisfies `PsiOk`,
+  the three error clauses `partAT`, `partC`, `partD`, and the lattice-index bound
+  `partAB` (`:150`, `:171–173`).
+- `export_at_setting` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456`) transports such a character to a `GoodTw` twist.
+  We read its body, but not its helpers `export_at` and `abHyp_fam`, so it stays [Lean].
+
+**What a good character must satisfy.** The clauses are defined in
+`src/Formalism/SharpRestriction/LevelLetterCocycles/BlochKatoPhases.lean:289–330`; we read these
+definitions [Lean, read].
+
+- `PsiOk` (`:289`). Every $P \in Q$ is split (`IsSplitPl`), of residue degree $1$, with
+  ramification index `eWL` equal to $1$. $Q$ is disjoint from $S_0 \cup A_0$, and $k' \ge 1$. The
+  character $\psi' \circ \mathrm{art}$ has open kernel and satisfies the conjugation condition
+  `AntiHom`. It takes values in the cyclic group generated by `zk i k'`, is ramified exactly at $Q$
+  (`RamExactly`), and is trivial above $\ell$ (`TrivAbove`).
+- `partAT` (`:304`). There are errors $\varepsilon_T(s) \ge 0$ with $\sum_s \varepsilon_T(s) \le \varepsilon'$
+  such that every good signature $s$ has twisted Selmer length at most $\nu + \varepsilon_T(s)$.
+- `partC` (`:317`). Every theta evaluation at the twist is nonzero, with $\ell$-adic valuation in
+  $[-N_0, c_0 + \varepsilon']$.
+- `partD` (`:323`). The tame price satisfies $t \sum_{P \in Q} \mathrm{tameVal}(P) \le \varepsilon'$.
+- `SetHyp` (`:327`). The side conditions that do not depend on the twist: `SelfDual` and `NoJump`
+  for good signatures, nonvanishing theta sums, `SOk`, $100 \le r$, and $2r \le g_k$.
+
+Proposition 10.12 uses only `partAT`, which gives the Selmer bound, and `partD`, which gives the
+tame bound (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:14`).
+The remaining clauses of `GoodTw` are discarded there.
+
+Twist existence is therefore a Prop-valued hypothesis of `Stmt`, not a theorem of
+`IntegralHeckeForms.lean`. That file contains only definitions. Which proof term discharges `adm2` on
+the path from `src/Main.lean` we have not traced [Open].
+
+**How the archive constructs a twist when it does.** Three producers of `TwistingCharacterExistence`
+occur in the archive.
+
+1. `admissibleBounds_of_all`
+   (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TypePreservedOfAdmissibleIntegral.lean:25`,
+   read) only specialises the "all coprime powers" version to the power $1$.
+2. `abstract_form_of_lattice_run`
+   (`src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`)
+   derives it from `SelmerSeriesChoice` [Lean].
+3. `admAB_of_toric_parts`
+   (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`;
+   top-level proof read, dependencies not) shows the shape of an actual construction.
+   - Take a tame inertia element $z$.
+   - From `GaloisSideTwistedSelmerAuxiliaryPrimes`
+     (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:70`),
+     take $2R$ auxiliary places $P$ that avoid a prescribed finite set and satisfy Frobenius
+     conditions inside an open normal subgroup. This hypothesis also supplies Selmer polynomials, one
+     of whose low-degree coefficients has valuation at most $v(\ell^{\nu})$.
+   - Close $P$ under conjugation to get $Q$ (`exists_isQ`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:52`).
+   - Choose a level $M$ and exponents $e_q$ so that the Selmer polynomials, evaluated at
+     $\zeta^{\ell^{e_q}} - 1$, have small valuation (`exists_level`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:321`).
+   - Take $\chi(x) = \prod_q \zeta^{\ell^{e_q} x_q}$ on the $\ell$-power quotient of
+     $\prod_{q \in Q}(\mathcal O_E/q)^\times$ (`prodChar`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:178`). Factor it through the ray class
+     group, $\psi' = \chi \circ \phi$ (`exists_factor`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:283`).
+   - Check `PsiOk` and `partD` (`psiOk_partD`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:230`) and the remaining clauses.
+
+   A text search of the archive finds no caller of `admAB_of_toric_parts`. Its role on the main
+   path is therefore [Open].
+
+**The Chebotarev and class-group inputs, with their source levels.**
+
+| Input | Where it enters | Archive form | Level here |
+|---|---|---|---|
+| Chebotarev (degree-one primes with prescribed Frobenius, avoiding a finite set) | auxiliary twist primes; `PsiOk` asks for split degree-one primes outside $S_0 \cup A_0$ | `GlobalTheory.TwSys.Cheb` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11`), equivalent to the Published Prop `ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12,20`) and supplied to the literature layer by `cheb_of_literature` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:559`) | definition read here; statement fidelity "safe weakening" in Chapter 18; **not named** in `admAB_of_toric_parts`, where the primes come from the hypothesis `GaloisSideTwistedSelmerAuxiliaryPrimes`, whose producer we have not traced [Open] |
+| Ray class groups and the Artin map | the twist $\psi'$ lives on $\mathrm{RCG}(Q)$ and is pulled back by `art` | data fields of the twist datum `NTw`; factorisation `exists_factor` | [Lean] |
+| Class number $h_E$ | trivial block $c = 0$ of Theorem 10.2 | `GlobalArtinReciprocity` hypothesis of `CutCoreUnit.main`, used by Lemma 10.11 | Lemma 10.11 [Lean, read]; Prop compared in Chapter 18; proof cone [Open] |
+
+*Remark [Expository].* Choosing auxiliary primes by Chebotarev so that a twist or a deformation
+condition cuts down a Selmer group is the familiar device of Kolyvagin systems and Taylor–Wiles
+primes. The archive's version is quantitative. Each choice must keep three costs below a prescribed
+$\varepsilon$: the twisted Selmer lengths, the tame price $\sum_q \operatorname{len}(\mathcal O/(\zeta_q - 1))$,
+and the lattice-index changes (`partAB`). All three costs are booked in `GoodTw`.
 
 ---
 
@@ -442,7 +984,7 @@ node **P11**:
 |---|---|---|---|
 | `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean` | **207** | `R3` (`[Lean, read]`) | Defines ramification-normalized lengths `lenR`, signed lattice indices `sIdx`, and states `TwistingCharacterExistence`. |
 | `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean` | **311** | `R3` (`[Lean, read]`) | Proves `vvRecord` and `divinN_of_hypV`, converting `HypV` + `LinkN` + `SmallLevelRankEq` into `DIVinN`. |
-| `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean` | **3,287** | `R3` (`[Lean, read]` for this file, `CutDetOrd.main`, and `GlobalArtinReciprocity`'s `Prop` in Ch. 18; `R2` `[Lean]` for imported cocycle/DVR sub-lemmas; `[Open]` for `globalArtinReciprocity`'s 1,015-module proof cone) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
+| `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean` | **3,287** | `R3` (`[Lean, read]` for this file, `CutDetOrd.main`, and `GlobalArtinReciprocity`'s `Prop` in Ch. 18; `R3` for the imported DVR determinant, block-determinant, GMA Fitting, peeling, $\rho$-block Selmer, cyclotomic-$Ш^1$ and class-number lemmas of §10.4.5; `R2` `[Lean]` for the statement-level sub-lemmas listed at the end of §10.4.5; `[Open]` for `globalArtinReciprocity`'s 1,015-module proof cone) | Proves `CutCoreUnit.main`, reducing congruence valuation to $\mathrm{sPi} + \sum \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$. |
 
 ### 10.5.2 Why cyclotomic twists $\mathbb Q_\ell / \mathbb Z_\ell(-e)$ appear up to $e < R.t \le \lfloor x^{400} \rfloor$
 
@@ -452,7 +994,7 @@ now have the exact structural explanation [Expository]:
 - In the chain of $m \asymp x^{1/2}$ theta lifts over a host field of degree $[E : \mathbb Q] \asymp x^{2+8\varepsilon}$
   and word parameter $k \asymp x^{9/2 + 10\varepsilon}$, the Hodge–Tate / endoscopic cyclotomic block
   dimension $t = R.t$ grows polynomially in $x$ — bounded in
-  `EventuallyRankLeRpowOfLtOneDivFiftytwo.lean:5` (Chapter 4, Section 4.2.2) by $10{,}708\,x^{399.67} \le \lfloor x^{400} \rfloor$
+  `src/Development/AutomorphicArithmetic/CharacterBoxes/EventuallyRankLeRpowOfLtOneDivFiftytwo.lean:5` (Chapter 4, Section 4.2.2) by $10{,}708\,x^{399.67} \le \lfloor x^{400} \rfloor$
   whenever $\varepsilon < 1/52$ [Lean, read]!
 - Each of the $t - 1$ nontrivial cyclotomic blocks $1 \le e < R.t$ in `CutCoreUnit.main` contributes
   one summand $\mathrm{shaLen}(E, \ell, e)$, which is why `VWin` must control twists all the way up
@@ -477,19 +1019,26 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 | `value_mem_ccOff`, `exists_ne_zero`, `GlobalTheory.CutDetOrd.main`; statement wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBound.lean:15,37,59`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeValueIdealLeDeterminantBoundStatement.lean:8` | Proposition 10.1: produces a nonzero off-diagonal matrix evaluation away from `Z i` (`exists_ne_zero`) and bounds $\operatorname{len}_{\mathcal O}(\mathcal O/\mathrm{ccOff}(\pi))$ by cuspidal + cyclotomic $1$-cocycle lengths via GMA `Rel`. | [Lean, read] |
 | `ccOff_univ`, `GlobalTheory.CutCoreUnit.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:24,44` | Theorem 10.2: bounds congruence valuation `vcc` by $\mathrm{sPi} + \sum_{1 \le e < R.t} \mathrm{shaLen} + v_\ell(h_E) + \text{tame}$ (assuming `GlobalArtinReciprocity`; import cone 3,287). | [Lean, read] |
 | `lenR`, `sIdx`, `TwOK`, `RFam`, `ABHyp`, `partAB`, `TwistingCharacterExistence`, `GoodTw`, `TwistTheoremAtIndex`, `admitted`, `Stmt` | `src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64,68,81,98,125,150,166,219,233,324,329` | Definition 10.2: ramification-normalized DVR lengths `lenR`, signed lattice index `sIdx`, and `TwistingCharacterExistence` (import cone 207). | [Lean, read] |
-| `twist_kills_selmer` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8` | Proposition 10.3(1): chosen admissible twist annihilates residual cuspidal Selmer classes. | [Lean, read] |
+| `twist_kills_selmer` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean:8` | Proposition 10.3(1) and Proposition 10.12: at a chosen twist satisfying `TwGoodAt`, bounds $\mathrm{sPi}$ by $\nu_L + \varepsilon_L$ and the tame sum (`KillAt`). | [Lean, read] |
+| `GlobalTheory.T.determinantLemma_discreteValuationRing_quotientLength_bound`; `GlobalTheory.DetGen.exists_C_mul_primitive`, `length_quot_le_of_coeff_prod`, `addVal_det_le_length`, `exists_family_span`, `exists_relations`, `length_quot_le_sum_length` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLenStatement.lean:6`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DeterminantLemmaDiscreteValuationRingQuotientLen.lean:20,47,76,165,187,259` | Lemma 10.5: DVR determinant–length inequality (Gauss content, Smith normal form, solution modules). | [Lean, read] |
+| `det_one_add_smul_blk_mem`, `GlobalTheory.BlockDet.main`; `GlobalTheory.BlockDetPoly.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetOneAddSmulBlkMem.lean:21,89`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CMemCoeffSub.lean:99` | Lemma 10.6: Hecke-valued determinants pass to block matrices (nilpotent Schur-complement induction). | [Lean, read] |
+| `GlobalTheory.CutDet.length_sol_le`, `det_blocks`, `exists_conj`, `exists_homs`, `det_generic_blocks`, `det_generic_eq_zero`, `spanAlg`, `exists_gens`, `blockHom` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthHeckeQuotientLeCocycleSpanDeterminant.lean:77,144,167,196,254,295,321,346,369` | Proposition 10.7 (Fitting inclusion into $\mathrm{ccOff}$) and Lemma 10.8 (solutions inside cocycle modules). | [Lean, read] |
+| `GlobalTheory.Cut.Peel.main`; `GlobalTheory.Cut.CountL.main`; `GlobalTheory.Cut.SelClass.main`; `GlobalTheory.Proof.LocalGlobalSelmer.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:52`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthGlobalCocyclesLeSumPlacesOver.lean:102`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCocyclesLeCoboundariesAddSelmer.lean:81`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalGlobalSelmer.lean:7` | Lemma 10.9 (peeling $Q_i$) and the $\rho$-block local–global Selmer comparison. | [Lean, read] |
+| `GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha`; `GlobalTheory.Cut.ShaBound.main`; `GlobalTheory.UnramHom.length_le_classNumber` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeShaStatement.lean:6`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:372`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:172` | Lemma 10.10 (block $e = c - 1$ into $Ш^1$, factor $\operatorname{len}(\mathcal O/\ell)$) and Lemma 10.11 (trivial block bounded by $v_\ell(h_E)$). | [Lean, read] |
+| `TwGoodAt`; `SignatureChoiceCondition`, `KillAt`; `GlobalTheory.export_of_inputs`; `GlobalTheory.TwSys.Cheb`, `GaloisSideTwistedSelmerAuxiliaryPrimes` | `src/Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean:196`; `src/Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean:33,45`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11,70` | §10.4.6: the good-twist hypothesis, the Selmer-bound conclusion, `Stmt` from `admitted`, and the Chebotarev and auxiliary-prime `Prop`s. | [Lean, read] (definitions and top-level proofs) |
+| `admAB_of_toric_parts`; `abstract_form_of_lattice_run`; `export_at_setting` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456` | §10.4.6: producers and transport of `TwistingCharacterExistence` (top level read, helpers unread). | [Lean] |
 | `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ (`LinkFam.main` proving `LinkN`) and closes local twisting cover `LinkEta` (`closed_linkEta_of_duty`). | [Lean, read] |
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
 | `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |
-| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop` & hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` (used at `…/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`) | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`Prop` verified faithful in **Chapter 18** `[Lean, read]`; upstream 1,015-module proof cone `[Open]`). | [Lean, read] |
+| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop` & hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` (used at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`) | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`Prop` verified faithful in **Chapter 18** `[Lean, read]`; upstream 1,015-module proof cone `[Open]`). | [Lean, read] |
 
 **Summary of the chapter.** Projecting integral theta lifts onto cuspidal eigenspaces loses
 denominators governed by Hecke congruence ideals `[Ribet1976]`, `[Hida1981]`, `[Hida1988]`. Using an
-orthogonal idempotent GMA decomposition (`IdempotentChoiceDepthZero.lean:18`), `CutDetOrd.main`
+orthogonal idempotent GMA decomposition (`src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:18`), `CutDetOrd.main`
 (Proposition 10.1) bounds each congruence ideal by off-diagonal Galois $1$-cocycle lengths
 `[BellaicheChenevier2009]`, and `CutCoreUnit.main` (Theorem 10.2) reduces those cocycles to the
-cuspidal Selmer length $\mathrm{sPi}$ (killed by twisting via `TwistingCharacterExistence` and
-`twist_kills_selmer`, Proposition 10.3), the class-number valuation $v_\ell(h_E)$ ($c = 0$), tame
+cuspidal Selmer length $\mathrm{sPi}$ (bounded at a good twist by `twist_kills_selmer`, Proposition
+10.3; the existence of the twist is the `Prop` `TwistingCharacterExistence`, §10.4.6), the class-number valuation $v_\ell(h_E)$ ($c = 0$), tame
 cyclotomic units, and the cyclotomic Tate–Shafarevich lengths $\sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e)$
 ($1 \le e < R.t$) [Lean, read]. Finally, `divinN_of_hypV` (Theorem 10.4) proves that combining `HypV`
 ($\sum'_\ell \mathrm{vvTerm} \le \sqrt{b} = \exp(x^\varepsilon / 2)$), `LinkN`, and `SmallLevelRankEq`

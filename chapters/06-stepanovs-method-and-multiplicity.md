@@ -121,7 +121,7 @@ from a curve $C / \mathbb F_q$ [Expository]:
 2. **Product formula vs. Riemann–Roch:** Over $\mathbb Z$ (or a number field $E$), the analogue of
    "$\#\text{zeros} = \#\text{poles}$" is the **Arakelov product formula** $\sum_v \log\lvert \alpha \rvert_v = 0$
    for $\alpha \in E^\times$, upgraded on higher-rank Hermitian vector bundles over $\mathrm{Spec}\,\mathcal O_E$
-   to **Bost's slope inequality** (`Data.SlopeIneq`, `MeanBoundSecondForm.lean:151` [Lean, read],
+   to **Bost's slope inequality** (`Data.SlopeIneq`, `src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:151` [Lean, read],
    instantiating the abstract `Prop` `Formalism.HN.SlopeIneq` at
    `src/Formalism/HarderNarasimhan/Statement.lean:91` whose full proof at
    `src/Formalism/HarderNarasimhan/HarderNarasimhanProofs/SlopeIneq.lean:507` is read in Chapter 9
@@ -140,7 +140,7 @@ from a curve $C / \mathbb F_q$ [Expository]:
    host $E/F$ (Chapter 7), where each step twists by a carefully spaced Hecke character $\mu_j$ so
    that at primes $p$ inert in $K = \mathbb Q(\sqrt{-d})$, local supersingular/theta-kernel vanishing
    contributes one fresh unit of Riesz prime-sum divisibility (`SDiv = ∑ t, m * (...)`,
-   `WeightedMeanData.lean:129` [Lean, read]) while the congruence/Selmer cost per step stays linear
+   `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:129` [Lean, read]) while the congruence/Selmer cost per step stays linear
    in $m$ rather than quadratic!
 
 ---
@@ -253,11 +253,11 @@ def kAt : ℕ := evenCeil (s.x ^ (9 / 2 + 10 * s.eps))
 ```
 
 Look at concrete numbers when $x = 10^4$ and $\varepsilon = 1/64 < 1/52$ (`Scale.delta1 = x^{-ε/8}`,
-`DataParams₂.lean:45` [Lean, read]):
+`src/Formalism/LocalRingCardinality/DataParams₂.lean:45` [Lean, read]):
 
 - $\delta_1 = (10^4)^{-1/512} \approx 0.9822$, so $\sqrt{x\,\delta_1} \approx 99.10$, and
   `mAt = 2 * ⌈99.10 / 2⌉₊ = 100` — an **even** chain length $m = 100 = x^{1/2}$ (`Ranks.m_even`,
-  `EvenCeil.lean:51` [Lean, read]), playing the exact role of even vanishing multiplicity $m$!
+  `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:51` [Lean, read]), playing the exact role of even vanishing multiplicity $m$!
 - $x^{2 + 8\varepsilon} = (10^4)^{2 + 1/8} = 10^{8.5} \approx 3.16 \times 10^8$, so `eAt = 29` and
   `nAt = 2^29 = 536,870,912` — the size of the real $2$-cyclotomic host layer $\varphi.\mathrm{ord}$,
   which Alpöge compares (`remark.pdf` p. 4, item 11: *"Iwasawa tower via analogy to pigeonhole on
@@ -337,7 +337,7 @@ identifier `SizeData₂` appears in **two** namespaces [Lean, read]:
   bridged to `D7` by `TieGlobal`, `TieLocal`, `TieArith`, and `ChainTied`
   (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:50,63,84,97`)!
 
-**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `MeanBoundSecondForm.lean:37`, `QuotientSlopeBoundsWith.lean:19–35`, `src/Formalism/SizeWindowBrackets/SChain.lean:17`).**
+**Definition 6.2 (Abstract Arakelov–Stepanov record `Data` and the 11-clause proposition `SizeData₂`, `src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:37`, `src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:19–35`, `src/Formalism/SizeWindowBrackets/SChain.lean:17`).**
 Fix a finite index set $U_0$ (shift cosets in $H = \varphi.A$), nonempty finite word sets $W(u_0)$
 ($u_0 \in U_0$), a finite set `Top` of cardinality $n_T = \lvert TT \rvert$, chain length $m \in \mathbb N$,
 and CM-type place count $f = 2\lvert H \rvert$. A record `Dd : Data U0 W Top m f` packages scalar
@@ -350,10 +350,10 @@ $\mathrm{Ga}(u_0)$, Fourier shifts $\mathrm{Fo}(u_0)$, inert-prime sums $\mathrm
 in-out losses $\mathrm{IO}(u_0)$, and near-orthogonality defect parameters $(\mathrm{HH}, \delta, \eta, e)$
 [Lean, read].
 
-Given nonnegative constants `C : Consts` (`MeanBoundSecondForm.lean:15`) and $X'' \in \mathbb R$,
+Given nonnegative constants `C : Consts` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:15`) and $X'' \in \mathbb R$,
 `SizeData₂ Dd C Xpp` (`src/Formalism/SizeWindowBrackets/SChain.lean:17–19`) is the conjunction of **eleven clauses** [Lean, read]:
 
-1. `Dd.HidaSetting C` (`MeanBoundSecondForm.lean:111`): positivity/ordering of scales, weights
+1. `Dd.HidaSetting C` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:111`): positivity/ordering of scales, weights
    $w_{u_0,j,\rho} > 0$, lattice ranks $d(u_0, u) > 0$, $\mu_N \le \mu_{\max, N}$, $\bar\delta < 1$,
    and $0 \le \bar e \le 1/4$.
 2. `Dd.DIV C` (`:118`, **the global divisibility inequality**): for every $(u_0, u)$,
@@ -361,25 +361,25 @@ Given nonnegative constants `C : Consts` (`MeanBoundSecondForm.lean:15`) and $X'
    \le \sum_{t \in \mathrm{Top}} \Bigl[m\bigl(\mathrm{ph}(a_t) - a_t \log\Omega\bigr) - a_t \log T(u_0, u)\Bigr]
    + c_{\mathrm{Div}} n_T a L_a + c_{\mathrm{Div}} m (B_0 + N_c) x^{e_{\mathrm{Div}}\varepsilon},$$
    where $\mathrm{ph}(y) = y\log y - y$ and $\log\Omega = \gamma + \log(\pi / v) - \mathrm{LpL}$.
-3. `EComp5 Dd C` (`QuotientSlopeBoundsWith.lean:24`, **congruence-loss concentration**):
+3. `EComp5 Dd C` (`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:24`, **congruence-loss concentration**):
    $\bigl\lvert \mathrm{Ee}(u_0, u) - m\,\mathrm{sum}_A\cdot\mathrm{lg} \bigr\rvert \le c_E m B_0$,
    where $\mathrm{Ee}(u_0, u) = \sum_{j=0}^{m-1} \mathrm{Ee}_J(u_0, u, j)$ and $\mathrm{sum}_A = \sum_t a_t$.
-4. `Dd.HComp C` (`MeanBoundSecondForm.lean:126`, **word-to-word height variation**): for all $u, u' \in W(u_0)$,
+4. `Dd.HComp C` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:126`, **word-to-word height variation**): for all $u, u' \in W(u_0)$,
    $\bigl\lvert (h(u) + \mathrm{sum}_A\log T(u)) - (h(u') + \mathrm{sum}_A\log T(u')) \bigr\rvert \le c_H(n_T a L_a + m B_0)$.
-5. `Count5 Dd C` (`QuotientSlopeBoundsWith.lean:27`, **level-prime size bracket**):
+5. `Count5 Dd C` (`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:27`, **level-prime size bracket**):
    $\log T(u_0, u)$ is bounded below by
    $\sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log\bigl(w_{u_0,j,\rho} v / \pi\bigr) + m\,\mathrm{lg} - c_{\mathrm{Count}}(L_a + m^2 L_a / k)$,
    bounded above by $c_{\mathrm{Count}} m L$, and varies across $u, u' \in W(u_0)$ by at most $c_{\mathrm{Count}}\log k$.
-6. `Dd.Slopes C` (`MeanBoundSecondForm.lean:139`, **source lattice archimedean slopes**):
+6. `Dd.Slopes C` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:139`, **source lattice archimedean slopes**):
    $-c_{\mathrm{Slope}} n_T a L_a (1 + m/k) \le \mu_M(u_0, u)$ and $\mu_{\max, M}(u_0, u) \le c_{\mathrm{Slope}} n_T a L_a$.
-7. `QuotientSlopeBoundsWith Dd C Xpp` (`QuotientSlopeBoundsWith.lean:19`, **quotient slope transfer across $m$ lifts**):
+7. `QuotientSlopeBoundsWith Dd C Xpp` (`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:19`, **quotient slope transfer across $m$ lifts**):
    $$\mu_M + \mathrm{Ga} + \mathrm{Fo} - \mathrm{Ee} - \mathrm{Lo}_5 \le \mu_N,
    \qquad
    \mu_{\max, N} \le \mu_{\max, M} + \mathrm{Ga} + \mathrm{Fo} - \mathrm{Ee} + c_{\mathrm{Sl1}} m B_0.$$
 8. `LossBounds Dd C` (`:34`, **inert-prime vs. gain comparison**):
    $\mathrm{ASK}(u_0) - \mathrm{Ga}(u_0) \le \mathrm{Lo}_P$ and $\mathrm{IO}(u_0) \le \mathrm{Lo}_P$,
    where $\mathrm{Lo}_P = c_{\mathrm{Loss}} n_T m b\,x^{e_{\mathrm{Loss}}\varepsilon}$.
-9. `Dd.SlopeIneq` (`MeanBoundSecondForm.lean:151`, **Bost / Harder–Narasimhan near-orthogonal slope inequality**):
+9. `Dd.SlopeIneq` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:151`, **Bost / Harder–Narasimhan near-orthogonal slope inequality**):
    for the rank-weighted mean slope $s(u_0) := \frac{\sum_u d(u)(\mu_N(u) - h(u))}{\sum_u d(u)}$ and
    slope spread $u_F(u_0) := \max_u(\mu_{\max, N}(u) - h(u)) - s(u_0) \ge 0$,
    $$s(u_0) - \log\lvert W(u_0) \rvert
@@ -656,7 +656,7 @@ modulus $\sqrt{q}$, yielding $\lvert S(f) \rvert \le (d - 1)\sqrt{q}$. $\square$
 ### 6.4.4 The Lean archive's algebraic Arakelov–Stepanov deduction (`each_unit_bound_statement`)
 
 Now turn directly to node `P7` of the Lean archive and watch the **exact same logical skeleton** run
-in characteristic zero! In Chapter 5 (Theorem 5.5, Step 1, `ChTop.lean:37`), `core_gm` unpacked a
+in characteristic zero! In Chapter 5 (Theorem 5.5, Step 1, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean:37`), `core_gm` unpacked a
 single theorem from `P7` — `each_unit_bound_statement`
 (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:175`) [Lean, read]. We
 have read `MeanBoundSecondForm.lean`, `WeightedMeanData.lean`, `QuotientSlopeBoundsWith.lean`, and
@@ -668,11 +668,11 @@ First we isolate the two elementary analytic/algebraic lemmas inside `WeightedMe
 **Lemma 6.5 (Concave logarithm linearization `phi_bound` and cancellation identity `key_identity`).**
 *Let `D : Data U0 W Top m f` and `C : Consts`* [Lean, read]:
 
-1. *(`phi_bound`, `WeightedMeanData.lean:81`)* *For any reals $u \ge 0$, $H > 0$, $b > 0$, $X > 0$, and
+1. *(`phi_bound`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:81`)* *For any reals $u \ge 0$, $H > 0$, $b > 0$, $X > 0$, and
    $U$ satisfying $H \le X b$ and $u \le U$,*
    $$u\,\log\Bigl(1 + \frac{H}{u}\Bigr) \le \log(1 + X)\cdot (U + b)$$
    *(with $0 \cdot \log(1 + H/0) := 0$ at $u = 0$).*
-2. *(`key_identity5`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`, via `Data.key_identity`, `WeightedMeanData.lean:170`)*
+2. *(`key_identity5`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`, via `Data.key_identity`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:170`)*
    *Suppose $D.v > 0$, $f > 0$, and $D.w(u_0, j, \rho) > 0$ for all $(j, \rho)$. Put
    $\mathrm{Lam}_5(u_0) := \sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log\bigl(D.w(u_0,j,\rho) D.v / \pi\bigr) + m\cdot D.\mathrm{lg} - C.c_{\mathrm{Count}}(D.L_a + m^2 D.L_a / D.k)$. Then*
    $$D.\mathrm{SDiv} - D.\mathrm{sum}_A\cdot \mathrm{Lam}_5(u_0) + m\cdot D.\mathrm{sum}_A\cdot D.\mathrm{lg}
@@ -680,7 +680,7 @@ First we isolate the two elementary analytic/algebraic lemmas inside `WeightedMe
 
 *Proof.*
 (1) If $u = 0$, the left-hand side is $0 \le \log(1 + X)(U + b)$ since $X > 0$ and $U + b \ge u + b > 0$.
-Suppose $u > 0$. Applying $\log y \le y - 1$ (`Real.log_le_sub_one_of_pos`, `WeightedMeanData.lean:99`)
+Suppose $u > 0$. Applying $\log y \le y - 1$ (`Real.log_le_sub_one_of_pos`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:99`)
 to $y := \frac{1 + H/u}{1 + X} > 0$ gives
 $$\log\Bigl(1 + \frac{H}{u}\Bigr) \le \log(1 + X) + \frac{1 + H/u}{1 + X} - 1.$$
 Multiply by $u > 0$:
@@ -694,19 +694,19 @@ $\frac{X b}{1 + X} \le b\log(1 + X)$, completing (1)!
 (2) Expand $\log(w v / \pi) = \log w + \log v - \log\pi$ across all $m$ lifts and $f$ places:
 $$\sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log\Bigl(\frac{w_{u_0,j,\rho} v}{\pi}\Bigr)
 = \sum_{j=0}^{m-1} \frac{1}{f}\sum_{\rho=1}^f \log w_{u_0,j,\rho} + m\,(\log v - \log\pi).$$
-On the other hand, by definition of $\mathrm{SDiv}$ (`WeightedMeanData.lean:129`), $\mathrm{ph}(a_t) = a_t\log a_t - a_t$
-(`MeanBoundSecondForm.lean:9`), and $\log\Omega = \gamma + \log(\pi / v) - \mathrm{LpL}$ (`MeanBoundSecondForm.lean:88`),
+On the other hand, by definition of $\mathrm{SDiv}$ (`src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:129`), $\mathrm{ph}(a_t) = a_t\log a_t - a_t$
+(`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:9`), and $\log\Omega = \gamma + \log(\pi / v) - \mathrm{LpL}$ (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:88`),
 $$\mathrm{SDiv} = m \sum_t a_t\bigl(\log a_t - 1 - \gamma + \mathrm{LpL}\bigr) - m\,(\log\pi - \log v)\,\mathrm{sum}_A.$$
 When we compute $\mathrm{SDiv} - \mathrm{sum}_A\cdot\mathrm{Lam}_5(u_0) + m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$,
 **both** archimedean covolume/period constants $m\,(\log v - \log\pi)\,\mathrm{sum}_A$ and
-$m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$ cancel identically (`linear_combination`, `WeightedMeanData.lean:216`), leaving
+$m\cdot\mathrm{sum}_A\cdot\mathrm{lg}$ cancel identically (`linear_combination`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:216`), leaving
 $D.\mathrm{Main}(u_0) + \mathrm{sum}_A\cdot C.c_{\mathrm{Count}}(D.L_a + m^2 D.L_a / D.k)$! $\square$
 
 **Theorem 6.6 (Pointwise Arakelov–Stepanov chain bound: `each_unit_bound_statement`).** *Let
 `D : Data U0 W Top m f`, `C : Consts`, and $X'' \in \mathbb R$ satisfy the 11-clause conjunction
 `SizeData₂ D C Xpp` (`src/Formalism/SizeWindowBrackets/SChain.lean:17`). Then for every coset shift $u_0 \in U_0$,*
 $$D.\mathrm{ASK}(u_0) \le D.\mathrm{Main}(u_0) + \mathrm{ErrX5at}(D, C, X'', u_0),$$
-*where $\mathrm{ErrX5at}(D, C, X'', u_0)$ (`QuotientSlopeBoundsWith.lean:45`) is bounded under
+*where $\mathrm{ErrX5at}(D, C, X'', u_0)$ (`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:45`) is bounded under
 `ErrWindows` and `LargeX` by $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathrm{ErrText}(D)$ (`errX5at_le`,
 `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:613`), and together with `BNBounds`
 yields the window bound in terms of $D.x^{\mathrm{CErr}(C) D.\varepsilon}\,\mathcal E_{\mathrm{win}}$
@@ -727,7 +727,7 @@ argument step for step:
    Bound $\mu_M(u) \ge -c_{\mathrm{Slope}} n_T a L_a (1 + m/k)$ (Clause 6), $\log T(u) \ge \mathrm{Lam}_5(u_0)$
    (Clause 5, multiplied by $\mathrm{sum}_A \ge 0$), and $-\mathrm{Ee}(u) \ge -m(\mathrm{sum}_A\cdot\mathrm{lg} + c_E B_0)$
    (Clause 3, `exponent_le_upper`, `:32`). Taking the $d(u_0, u)$-weighted average over $u \in W(u_0)$
-   (`sub_wmean_le`, `WeightedMeanData.lean:40`) yields
+   (`sub_wmean_le`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:40`) yields
    $$D.s(u_0) \ge \mathrm{Ga}(u_0) + \mu_{CC}(u_0) - K_{5,\mathrm{v5}}(u_0) - \mathrm{wmean}_{d}(\mathrm{Lo}_5).$$
 2. **Bounding the slope spread across words (`u_function_le_mean`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:81–103`):**
    For any pair of words $u, u' \in W(u_0)$, comparing the upper quotient-slope bound on $\mu_{\max, N}(u) - h(u)$
@@ -764,13 +764,13 @@ the Lean archive's number-field engine side by side [Expository]:
 
 | Feature | Stepanov–Bombieri over $\mathbb F_q(C)$ (Theorem 6.3) | Lean archive over $\mathbb Z$ / CM host $E$ (Theorem 6.6, P7–P12) |
 |---|---|---|
-| **Scale parameter** | Field size $Q$ | Prime-sum cutoff $x \in [Z, Z^{3/2}]$ (`Scale.x`, `DataParams₂.lean:10`) [Lean, read] |
-| **Target sum** | Point count $\#C(\mathbb F_Q)$ or character sum $\sum_{x \in \mathbb F_Q} \chi(f(x))$ | Inert-prime Riesz sum `ASK` $\longleftrightarrow$ character sum `Level.Gm x` (`ChBalance.lean:200`) [Lean, read] |
-| **Multiplicity parameter $m$** | Vanishing order $m \asymp \sqrt{Q}$ at rational points | Chain length `mAt = evenCeil (sqrt (x * delta1))` $\asymp \sqrt{x}$ (`EvenCeil.lean:21`) [Lean, read] |
+| **Scale parameter** | Field size $Q$ | Prime-sum cutoff $x \in [Z, Z^{3/2}]$ (`Scale.x`, `src/Formalism/LocalRingCardinality/DataParams₂.lean:10`) [Lean, read] |
+| **Target sum** | Point count $\#C(\mathbb F_Q)$ or character sum $\sum_{x \in \mathbb F_Q} \chi(f(x))$ | Inert-prime Riesz sum `ASK` $\longleftrightarrow$ character sum `Level.Gm x` (`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChBalance.lean:200`) [Lean, read] |
+| **Multiplicity parameter $m$** | Vanishing order $m \asymp \sqrt{Q}$ at rational points | Chain length `mAt = evenCeil (sqrt (x * delta1))` $\asymp \sqrt{x}$ (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:21`) [Lean, read] |
 | **Operators creating $m$ layers** | Hasse–Schmidt derivations $D_t^{(0)}, \dots, D_t^{(m-1)}$ (`[HasseSchmidt1937]`) | $m$ iterated theta lifts $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ (`remark.pdf` p. 4, item 8 [Paper]; Chapter 7) |
-| **Linear-algebra ambient** | Extensions $\mathbb F_{q^n}$ and Riemann–Roch space $\mathcal L((r + Q\ell)P_\infty)$ | Real $2$-cyclotomic tower $n = 2^{e} \asymp x^{2+8\varepsilon}$ (`eAt`, `nAt`) and word set $W(u_0)$ (`EvenCeil.lean:15,17,86`) [Lean, read] |
-| **Local vanishing / divisibility** | $\operatorname{ord}_P(\Phi) \ge m$ at each $P \in C(\mathbb F_Q) \setminus \{P_\infty\}$ | Inert-prime $p$-adic divisibility `DIV` / `Conclusion1` (`MeanBoundSecondForm.lean:118` [Lean, read]; `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97` [Lean], Chapter 8) |
-| **Global conservation law** | $\sum_P \operatorname{ord}_P(\Phi) = 0$ ($\#\text{zeros} \le \deg(\Phi)_\infty$) | Bost's Hermitian slope inequality `SlopeIneq` + `s_lower5` (`MeanBoundSecondForm.lean:151`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50`) [Lean, read] |
+| **Linear-algebra ambient** | Extensions $\mathbb F_{q^n}$ and Riemann–Roch space $\mathcal L((r + Q\ell)P_\infty)$ | Real $2$-cyclotomic tower $n = 2^{e} \asymp x^{2+8\varepsilon}$ (`eAt`, `nAt`) and word set $W(u_0)$ (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:15,17,86`) [Lean, read] |
+| **Local vanishing / divisibility** | $\operatorname{ord}_P(\Phi) \ge m$ at each $P \in C(\mathbb F_Q) \setminus \{P_\infty\}$ | Inert-prime $p$-adic divisibility `DIV` / `Conclusion1` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:118` [Lean, read]; `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97` [Lean], Chapter 8) |
+| **Global conservation law** | $\sum_P \operatorname{ord}_P(\Phi) = 0$ ($\#\text{zeros} \le \deg(\Phi)_\infty$) | Bost's Hermitian slope inequality `SlopeIneq` + `s_lower5` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:151`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50`) [Lean, read] |
 | **Main-term extraction** | Leading pole term $Q\ell / m = Q + O(\sqrt{Q})$ | Exact cancellation `key_identity5`: $\mathrm{SDiv} - \mathrm{sum}_A\cdot\mathrm{Lam}_5 + m\,\mathrm{sum}_A\cdot\mathrm{lg} = \mathrm{Main}(u_0) + \dots$ (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`) [Lean, read] |
 | **Per-step "differentiation cost"** | Pole shift $c_C m$ from $R_1^k D_t^{(k)} s_b$ ($m^2/m = m$) | Non-compounding congruence/Selmer budget $m(B_0 + N_c)$ (`BNBounds`, `src/Formalism/SizeWindowBrackets/SChain.lean:33` [Lean, read]; bounded via $Ш^1$ in Chapters 10–11) |
 | **One-sided $\implies$ zeros on $\Re s = 1/2$** | Twisting + rationality of $Z(C, T)$ (Steps 2–3 of Theorem 6.3) | Positive cyclic weights $(4,3)/(3o+1)$ + Landau window criterion `formB` (Chapters 3 and 5) [Lean, read] |
@@ -785,25 +785,25 @@ It is essential not to overstate what node `P7` proves on its own [Expository]:
    remark pp. 1, 3–4], whereas the Lean code starts directly at the number-field data structures `D7`
    and `Data U0 W Top m f`.
 2. **What is genuinely proved without `sorry` in the P7 files we read (`R3` / `[Lean, read]`):**
-   - the real-analytic concavity inequality `phi_bound` (`WeightedMeanData.lean:81`) and exact main-term
-     cancellation `key_identity` / `key_identity5` (`WeightedMeanData.lean:170`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`);
+   - the real-analytic concavity inequality `phi_bound` (`src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:81`) and exact main-term
+     cancellation `key_identity` / `key_identity5` (`src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:170`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:105`);
    - the entire deduction `s_lower5` $\to$ `u_function_le_mean` $\to$ `Ga_bound5` $\to$ `each_unit_bound_statement`
      and `uniform_bound_statement` (`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:50–242`), proving unconditionally that
      *any* `Data` record satisfying the 11 inequalities of `SizeData₂` obeys `ASK u0 ≤ Main u0 + ErrX5at`;
    - the explicit integer/rational parameter constructors `evenCeil`, `eAt`, `mAt`, `kAt`, `tAt`,
-     `ranksOf`, and the rational Harish-Chandra interlacing verification `HCIn.hc` (`EvenCeil.lean:11–161`),
+     `ranksOf`, and the rational Harish-Chandra interlacing verification `HCIn.hc` (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:11–161`),
      whose order inequalities (`u_gt_v`, `v_gt_u`, `u_last_gt`, `gap_be`, `gap_eb`) are discharged
      purely by `omega` and `linarith`;
-   - the shift-covering lemmas `wt_self`, `coverS_of_cover`, `FamCore.coverS_carry` (`FamCore.lean:27,47,187`)
-     and the bundle projection `ChainTied.core_of` (`TieGlobal.lean:116`).
+   - the shift-covering lemmas `wt_self`, `coverS_of_cover`, `FamCore.coverS_carry` (`src/Formalism/SharpRestriction/FamCore.lean:27,47,187`)
+     and the bundle projection `ChainTied.core_of` (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:116`).
 3. **What is packaged as `structure` fields or `Prop` hypotheses (and proved only in the deep Part II–III
    engine):** Inside `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean` and `src/Formalism/SizeWindowBrackets/SChain.lean`, `DIV`, `QuotientSlopeBoundsWith`,
    `SlopeIneq`, `LossBounds`, and `BNBounds` are **hypotheses** (conjuncts of the `Prop` `SizeData₂`),
    and `src/Formalism/SizeWindowBrackets/SChain.lean` even contains toy `Unit`-word model propositions such as `DataCompletion` (`:126`),
    `SizesModelAt` (`:153`), and `SizesTextAt` (`:207`) used for sanity-checking the parameter inequalities
-   in isolation [Lean, read]! On the actual `src/Main.lean` proof path, `ChainTied` (`TieGlobal.lean:97`)
+   in isolation [Lean, read]! On the actual `src/Main.lean` proof path, `ChainTied` (`src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:97`)
    is inhabited not by a toy `Unit` model, but by the genuine automorphic chain family built in
-   nodes `P17` and `P8`–`P12` (`topDesWin`, `DesWin.lean:11`), which we begin opening in Chapter 7.
+   nodes `P17` and `P8`–`P12` (`topDesWin`, `src/Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean:11`), which we begin opening in Chapter 7.
 
 ### 6.5.3 Masullo's counterpart
 
@@ -880,7 +880,7 @@ Hasse–Weil bound $\lvert \#C(\mathbb F_q) - (q + 1) \rvert \le 2g\sqrt{q}$ (Th
 character-sum bounds (Corollary 6.4) `[Stepanov1969]`, `[Bombieri1973]`, `[Schmidt1976]` [Expository].
 Over $\mathbb Z$, node `P7` of the Lean archive mirrors this zero-versus-pole comparison in genuine
 `sorry`-free algebra (`each_unit_bound_statement`, Theorem 6.6) [Lean, read]: given the 11-clause
-package `SizeData₂` at even chain length `mAt` $\approx \sqrt{x\delta_1}$ (`EvenCeil.lean:21`),
+package `SizeData₂` at even chain length `mAt` $\approx \sqrt{x\delta_1}$ (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:21`),
 $m$-step inert-prime divisibility (`DIV`) bounds the weighted mean slope $s(u_0)$ from below while
 Bost's slope inequality (`SlopeIneq`) bounds $s(u_0)$ from above, cancelling $\mu_{CC}(u_0)$ and
 $\log(\pi/v)$ (`key_identity5`) to bound `ASK` by `Main + ErrX5at`. How the archive actually builds

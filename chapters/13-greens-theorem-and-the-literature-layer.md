@@ -13,18 +13,18 @@
 > worked $\mathrm{GL}_2(\mathbb F_q)$ / $\mathrm{GL}_2(\mathbb F_3)$ calculations, and audit
 > methodology; `[Open]` for unreviewed named literature `Prop` definitions and unread proof cones.
 
-In Chapter 12 (`MainConclusion.lean:7–11`) [Lean, read], we saw that once `Row0b recT` (`P14`) and
+In Chapter 12 (`src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7–11`) [Lean, read], we saw that once `Row0b recT` (`P14`) and
 `RecTExists` (`P15`) are supplied, the final bridge to `UpperTheory.EveryCharacter` passes through
 two remaining nodes of our proof map (`notes/proof-map.md`):
 
-1. **Node P16 (`GlobalTheory.GLq.Green`, `LabelDatum.lean:108`, proved from `GreenRegularCharacters` in `SumRangeEqRoots.lean:225`):**
+1. **Node P16 (`GlobalTheory.GLq.Green`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:108`, proved from `GreenRegularCharacters` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean:225`):**
    J. A. Green's 1955 classification `[Green1955]` of the complex cuspidal irreducible characters of
    the finite general linear group $\mathrm{GL}_d(\mathbb F_g)$ ($g$ prime): they are parametrized
    bijectively by degree-$d$ monic irreducible polynomials $P \in \mathbb F_g[X]$ ($P(0) \neq 0$),
    have exact degree $\prod_{i=1}^{d-1}(g^i - 1)$, and take the Galois-orbit trace value
    $(-1)^{d-1}\sum_{i=0}^{d-1}\theta_x(z^{g^i})$ on elliptic elements of irreducible characteristic
    polynomial!
-2. **Node P18 (`OpenLiteratureStatements` and `OpenImageCondition`, `EveryCharacterOfLiteratureOfVWin.lean:215–813`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`):**
+2. **Node P18 (`OpenLiteratureStatements` and `OpenImageCondition`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215–813`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`):**
    The **literature layer** of the archive: **257 `theorem` declarations** in the namespace
    `UpperTheory.LiteratureTheorems.*` (176 named `*_of_literature` and 60 named `*_of_open`) that
    prove ~182 distinct named propositions (chiefly in `GlobalTheory.Published.*`, spanning Poitou–Tate
@@ -60,7 +60,7 @@ node **P16** bears weight:
    where $U(r_j)(\mathbb Q_g) \cong \mathrm{GL}_{r_j}(\mathbb Q_g)$ and reduction modulo $g$ maps
    $\mathrm{GL}_{r_j}(\mathbb Z_g) \twoheadrightarrow \mathrm{GL}_{r_j}(\mathbb F_g)$!), cutting out
    irreducible depth-zero local types with controlled dimension and central idempotents (`zOf χ`,
-   `eSerC L n f`, `ESerTie D` in `LabelDatum.lean:27,102,114` [Lean, read]) requires knowing:
+   `eSerC L n f`, `ESerTie D` in `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:27,102,114` [Lean, read]) requires knowing:
    - that cuspidal irreducible characters $\tau_P$ of $\mathrm{GL}_d(\mathbb F_g)$ exist for every
      monic irreducible polynomial $P \in \mathbb F_g[X]$ of degree $d \ge 1$ with $P(0) \neq 0$,
    - that distinct polynomials $P \neq P'$ give **orthogonal** cuspidal characters $\tau_P \neq \tau_{P'}$,
@@ -143,9 +143,9 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
    and the total number of conjugacy classes (hence of irreducible complex characters!) is
    $(q - 1) + (q - 1) + \frac{(q-1)(q-2)}{2} + \frac{q(q-1)}{2} = q^2 - 1$!
 
-2. **What Harish-Chandra induction (`hc 1 1 α β 2`, `LabelDatum.lean:45`) produces — and what it misses:**
+2. **What Harish-Chandra induction (`hc 1 1 α β 2`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:45`) produces — and what it misses:**
    Let $B = \bigl\{\begin{pmatrix} h_1 & v \\ 0 & h_2 \end{pmatrix}\bigr\} = M U \subset G$ be the
-   upper-triangular Borel subgroup (`InPar 1`, `LabelDatum.lean:36`), of order $q(q - 1)^2$ and index
+   upper-triangular Borel subgroup (`InPar 1`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:36`), of order $q(q - 1)^2$ and index
    $[G : B] = q + 1$. Inflating $\alpha \otimes \beta : (\mathbb F_q^\times)^2 \to \mathbb C^\times$
    from $M$ across $U$ and inducing to $G$ (`hc 1 1 α β 2`) gives a representation of degree $q + 1$
    that **vanishes identically on every elliptic class $y_{\{z, z^q\}}$** (because an elliptic matrix has
@@ -171,7 +171,7 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
    (notice that on $c_1 = I_2$ this matches `τ θ 1 = ∏_{i ∈ [1,2)} (q^i - 1) = q - 1`, and on elliptic
    $y_{\{z, z^q\}}$ it matches `(-1)^(2-1) * ∑_{i<2} θ(z^(q^i)) = -(θ(z) + θ(z^q))` in
    `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:16–18`!). Check **both** cuspidality and unit norm by hand:
-   - **Jacquet restriction (`res 1 1 τ_θ`, `LabelDatum.lean:47–49, 64–65`) vanishes identically:**
+   - **Jacquet restriction (`res 1 1 τ_θ`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:47–49, 64–65`) vanishes identically:**
      For any $h_1, h_2 \in \mathbb F_q^\times$, `res 1 1 τ_θ h₁ h₂` averages $\tau_\theta\begin{pmatrix} h_1 & b \\ 0 & h_2 \end{pmatrix}$
      over the $q$ unipotent entries $b \in \mathbb F_q$:
      - if $h_1 \neq h_2$, every $\begin{pmatrix} h_1 & b \\ 0 & h_2 \end{pmatrix}$ has distinct eigenvalues
@@ -180,7 +180,7 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
        nonzero values $b \in \mathbb F_q^\times$ are all conjugate via $\operatorname{diag}(1, b)$ to $u_a$
        (each contributing $-\theta(a)$), so
        $$\mathrm{res}_{1, 1}(\tau_\theta)(a, a) = \frac{1}{q}\Bigl((q - 1)\theta(a) + (q - 1)\bigl(-\theta(a)\bigr)\Bigr) = 0!$$
-   - **Schur inner product (`ip τ_θ τ_θ`, `LabelDatum.lean:22–23`) equals $1$:**
+   - **Schur inner product (`ip τ_θ τ_θ`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:22–23`) equals $1$:**
      Since $\theta^{q-1} \neq 1$ on $\mathbb F_{q^2}^\times$, character orthogonality on $\mathbb F_{q^2}^\times$
      gives $\sum_{z \in \mathbb F_{q^2}^\times} \theta(z^{q-1}) = 0$, whence
      $$\sum_{z \in \mathbb F_{q^2}^\times \setminus \mathbb F_q^\times} \bigl\lvert \theta(z) + \theta(z^q) \bigr\rvert^2
@@ -221,12 +221,12 @@ restriction (`res`), cuspidality (`IsCusp`), and Schur orthonormality (`ip`) com
 ### 13.2.2 Three concrete specimens from `GlobalTheory.Published.*`: faithful, special-case, and `True`
 
 Before stating the general definitions of node **P18**, inspect three actual declarations in the
-archive (`PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`,
-`PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` alongside its proof wrapper
-`StandardTheoremStatements/GlobalArtinReciprocity.lean:8`, and
-`DiscreteSpectrumResidualClassification.lean:6–7`) [Lean, read]:
+archive (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`,
+`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` alongside its proof wrapper
+`src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8`, and
+`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:6–7`) [Lean, read]:
 
-1. **A faithful special case (`GlobalTheory.Published.GreenRegularCharacters`, `PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13–20`):**
+1. **A faithful special case (`GlobalTheory.Published.GreenRegularCharacters`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13–20`):**
    Quantifies over `∀ (g : ℕ) [Fact g.Prime] (d : ℕ), 0 < d → ∀ K [Field K] [Algebra (ZMod g) K], finrank (ZMod g) K = d → ...`.
    Every mathematical clause (cuspidality, degree $\prod_{i=1}^{d-1}(g^i - 1)$, elliptic trace
    $(-1)^{d-1}\sum_{i=0}^{d-1}\theta(z^{g^i})$, Frobenius orbit equivalence $\theta' = \theta^{g^i}$,
@@ -234,20 +234,20 @@ archive (`PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`,
    $\mathbb F_g = \mathrm{ZMod}\,g$** (because the archive only reduces $\mathbb Z_g$-lattices at split
    degree-$1$ places $E_w \cong \mathbb Q_g$!).
 2. **A full classical statement (`GlobalTheory.Published.GlobalArtinReciprocity`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`):**
-   States `IsGlobalArtin E Ω art` (`:25–40`: open quotient map $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$
+   States `IsGlobalArtin E Ω art` (`:25–39`: open quotient map $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$
    with kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia image $\overline{\mathrm{art}(\mathcal O_v^\times)}$,
    and geometric Frobenius on uniformizers) over **every** number field $E$, proved unconditionally via
    the wrapper `PositivityTheory.Stage1.PM.globalArtinReciprocity`
    (`src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8–15`,
    invoking `CompanionTheory.FamInh.globalArtin` `[Lean]`), used in Chapter 10 (`CutCoreUnit.main`),
    and audited line by line at `R3` in **Chapter 18** (`Section 18.2`) [Lean, read]!
-3. **A `True` placeholder fossil (`GlobalTheory.Published.UnusedSlot72`, `DiscreteSpectrumResidualClassification.lean:7`):**
+3. **A `True` placeholder fossil (`GlobalTheory.Published.UnusedSlot72`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:7`):**
    Literally defined as:
    ```lean
    abbrev GlobalTheory.Published.DoublingMethodLocalZetaIntegrals : Prop := ResidueKilled.DM
    abbrev GlobalTheory.Published.UnusedSlot72 : Prop := True
    ```
-   and "proved" in `EveryCharacterOfLiteratureOfVWin.lean:505–506` [Lean, read] by:
+   and "proved" in `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:505–506` [Lean, read] by:
    ```lean
    theorem UpperTheory.LiteratureTheorems.siegel_eisenstein_simple_pole
        (O : OpenLiteratureStatements) : GlobalTheory.Published.UnusedSlot72 :=
@@ -256,7 +256,7 @@ archive (`PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`,
    As we verified directly in Chapter 7 (Section 7.5.1), `siegelEisensteinSimplePole` is stored as field
    #52 of `UnitaryGroupThirdPlaceHypotheses` and **never projected anywhere downstream**! Meanwhile its
    neighbor `DoublingMethodLocalZetaIntegrals` (`:6`) is **not** `True` — it proves the global doubling
-   identity `ResidueKilled.DM` (`doubling_method`, `EveryCharacterOfLiteratureOfVWin.lean:371–372`) —
+   identity `ResidueKilled.DM` (`doubling_method`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:371–372`) —
    yet its name mentions "LocalZetaIntegrals" even though local zeta integrals were refactored out
    (`[Community]`, LUMI R2 #18)!
 
@@ -308,10 +308,10 @@ Fix a prime $g$ (`[Fact g.Prime]`) and write `Gn g n := GL (Fin n) (ZMod g)` and
 
 ### 13.3.2 The literature layer (`OpenLiteratureStatements`, `OpenImageCondition`, and `GlobalTheory.Published.*`)
 
-**Definition 13.2 (Architecture of the literature layer, `EveryCharacterOfLiteratureOfVWin.lean:215–813` and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`).** [Lean, read]
+**Definition 13.2 (Architecture of the literature layer, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215–813` and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207–343`).** [Lean, read]
 
 1. **The two root `Prop` structures (`:215` and `:207`):**
-   - On the main `EveryCharacter` branch (`EveryCharacterOfLiteratureOfVWin.lean:215–218`),
+   - On the main `EveryCharacter` branch (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215–218`),
      `UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop` is a **3-field structure**
      `(caraianiLocalGlobalDual : Row, localLanglandsExists : RecTExists, galoisRepOfPolarizedPairLit : Row)`
      whose first and third fields both have type `UpperTheory.One.M.Row` (`Row0b recT`, Chapter 12);
@@ -350,7 +350,7 @@ We read all 306 lines of `src/Development/AbelianVarietyTheory/Proofs/InertiaEig
 
 **Proposition 13.1 (Galois-orbit bridge from `GreenRegularCharacters` to `Green`: `green_of_regular`).**
 *If `GlobalTheory.Published.GreenRegularCharacters` holds (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:13`), then
-`GlobalTheory.GLq.Green` (`LabelDatum.lean:108`) holds.*
+`GlobalTheory.GLq.Green` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:108`) holds.*
 *(Lean: `exists_unit_gen`, `th_inj`, `th_surj`, `pow_inj`, `regular_iff`, `sum_range_eq_roots`,
 `thetaOf_pow`, and `GlobalTheory.GreenBridge.green_of_regular`,
 `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean:53,142,148,180,207,213,218,225`.)* [Lean, read]
@@ -479,7 +479,7 @@ Three headline takeaways emerge from this community audit (`[Community]`):
 
 1. **Zero vacuous statements found among the 105 audited rows:** Even where an early batch flagged
    period-ring quantification (`LocTied` in `BhattScholzeIntegral`, `BlochKatoLocal`, `DeRhamPotSemistable`),
-   a follow-up check located `exists_locPrime_tied` (`ExistsLocalPrimeAinf.lean:281`), confirming
+   a follow-up check located `exists_locPrime_tied` (`src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281`), confirming
    non-vacuity [Community].
 2. **Pragmatic specialization is the norm in automorphic forms:** Nearly 90% (14 of 16) of the audited
    automorphic-form statements restrict to totally complex / CM fields or unitary groups — the exact
@@ -550,7 +550,7 @@ what it proved!
 | `OpenLiteratureStatements`, `global_artin_reciprocity_of_literature`, `siegel_eisenstein_simple_pole`, `literature_local`, `literature_automorphy`, `literature_cohomology`, `published_results_eigen`, `green_regular_characters_of_literature`, `published_results_first`, `published_results_arithmetic`, `every_character_of_literature_of_vWin` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215,243,505,589,609,626,666,694,727,781,810` | Definition 13.2 & Proposition 13.2: 3-field root `OpenLiteratureStatements` (`Row`, `RecTExists`, `Row`), 195 literature theorems, bundle assemblers, and master bridge to `EveryCharacter` (top definitions `R3`; 151,285-module proof cone `[Lean]` / `[Open]`). | [Lean, read] |
 | `OpenImageCondition`, `global_artin_reciprocity_of_open`, `green_regular_characters_of_open` | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207,225,285` | Definition 13.2(1–2): 1-field `VWin`-side root `OpenImageCondition` (`RowT`) and 62 `*_of_open` literature theorems (cone 146,662; internal proofs `[Lean]` / `[Open]`). | [Lean, read] |
 | `DoublingMethodLocalZetaIntegrals`, `GlobalTheory.Published.UnusedSlot72`, `BaseChangeIsobaricTransfer`, `BaseChangeDefiniteUnitaryGroup` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:6,7,8,9` | Section 13.2.2(3): exhibits `UnusedSlot72 : Prop := True` alongside genuine `ResidueKilled.DM` and base-change abbreviations. | [Lean, read] |
-| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop`); `globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter` (wrappers) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`; `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8,11,14` | Section 13.2.2(2) & **Chapter 18**: states `IsGlobalArtin` (`:25–40`) and wraps `CompanionTheory.FamInh.globalArtin` (`[Lean]` / `[Open]`) into `GlobalArtinReciprocity`, `RayClassFieldSt`, and `HeckeLAdicCharacter`. | [Lean, read] |
+| `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop`); `globalArtinReciprocity`, `rayClassFieldSt`, `heckeLAdicCharacter` (wrappers) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`; `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8,11,14` | Section 13.2.2(2) & **Chapter 18**: states `IsGlobalArtin` (`:25–39`) and wraps `CompanionTheory.FamInh.globalArtin` (`[Lean]` / `[Open]`) into `GlobalArtinReciprocity`, `RayClassFieldSt`, and `HeckeLAdicCharacter`. | [Lean, read] |
 
 **Summary of the chapter.** Over a finite field $\mathbb F_q$, Harish-Chandra
 parabolic induction from proper Levi subgroups misses the cuspidal characters, which Green `[Green1955]`
@@ -558,7 +558,7 @@ constructed from Frobenius orbits of regular characters $\theta : \mathbb F_{q^d
 (worked out explicitly on $\mathrm{GL}_2(\mathbb F_q)$ and $\mathrm{GL}_2(\mathbb F_3)$ in Section 13.2.1).
 In node **P16**, `SumRangeEqRoots.lean` (Proposition 13.1) proves `GlobalTheory.GLq.Green` in 306 lines
 of clean Galois theory from `GlobalTheory.Published.GreenRegularCharacters` [Lean, read], supplying
-finite-level irreducibility to Part II (`ThirdPlaceSeries/TopShape.lean:33`) and depth-zero supercuspidal inertia to
+finite-level irreducibility to Part II (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean:33`) and depth-zero supercuspidal inertia to
 Chapter 12 (`TypeLaw`). More broadly, node **P18** (`EveryCharacterOfLiteratureOfVWin.lean` and
 `DenseThresholdCases/TemperedProductOfSquareIntegrable.lean`) derives 257 named literature theorems inside a 151,285-module
 cone from `Row0b` and `RecTExists` alone `[Lean]`. Because every `GlobalTheory.Published.*` proposition

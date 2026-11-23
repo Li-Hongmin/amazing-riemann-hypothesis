@@ -147,7 +147,7 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
    raising the modulus to $\mathfrak m' = (4)$ ($(\mathbb Z[i]/(4))^\times$ of order $8$, quotient
    by $\{\pm 1, \pm i\}$ of order $2$) cuts out the quadratic ray class field
    $L_{(4)} = \mathbb Q(i, \sqrt{2}) = \mathbb Q(\zeta_8)$!
-3. **Uniformizer Frobenius sign convention (`IsGlobalArtin.frob`):** In `ExistsUniqueHcharOfFiniteOrder.lean:34–36`,
+3. **Uniformizer Frobenius sign convention (`IsGlobalArtin.frob`):** In `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:34–36`,
    for an unramified place $v$ and local uniformizer $\varpi_v \in E_v^\times$, the Artin map
    $\mathrm{art}_E : \mathbb A_E^\times \to G_E^{\mathrm{ab}}$ sends the single-place idèle
    $\iota_v(\varpi_v)$ to `toAb E Ω σ⁻¹`, where `σ ∈ DecompGrp E Ω v` induces $x \mapsto x^{N(v)}$ on
@@ -156,33 +156,29 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
 
 ### 18.2.3 Exact Lean definitions and verbatim literature comparison (Cluster I)
 
-**Definition 18.1 (Cluster I `Published` propositions).** [Lean, read]
+**Definition 18.1 (Cluster I `Published` propositions).** [Lean]
 
 1. **`GlobalTheory.Published.GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70–72`, cone `9`):**
-   $$\forall (E : \mathrm{Type})\,[\mathrm{Field}\,E]\,[\mathrm{NumberField}\,E]\,(\Omega : \mathrm{Type})\,[\mathrm{Field}\,\Omega]\,[\mathrm{IsAlgClosed}\,\Omega]\,[\mathrm{Algebra}\,E\,\Omega],\;
+   $$\forall (E : \mathrm{Type})\,[\mathrm{Field}\,E]\,[\mathrm{NumberField}\,E]\,(\Omega : \mathrm{Type})\,[\mathrm{Field}\,\Omega]\,[\mathrm{Algebra}\,E\,\Omega]\,[\mathrm{IsAlgClosure}\,E\,\Omega],\;
    \exists\,\mathrm{art} : \mathrm{Idele}\,E \to_* \mathrm{GalAb}\,E\,\Omega,\; \mathrm{IsGlobalArtin}\,E\,\Omega\,\mathrm{art},$$
-   where `IsGlobalArtin E Ω art` (`:25–40`) bundles five fields:
+   where `IsGlobalArtin E Ω art` (`:25–39`) bundles five fields:
    - `quot : IsOpenQuotientMap art` (continuous open surjection $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, where $G_E^{\mathrm{ab}} = G_E / \overline{[G_E, G_E]}$ carries the quotient Krull topology);
    - `ker : art.ker = ((diagUnits E).range ⊔ infConn E).topologicalClosure` (kernel equals the closure of $E^\times \cdot (E_\infty^\times)^\circ$ inside $\mathbb A_E^\times$);
    - `ine` (at every finite place $v$, the image of $\mathcal O_v^\times$ has topological closure equal to the image of the inertia subgroup $I_v \le G_E$ in $G_E^{\mathrm{ab}}$);
    - `frob` (for every $v$ and uniformizer $\varpi_v$ with $v(\varpi_v) = \mathrm{ Multiplicative.ofAdd}(-1)$, there is an arithmetic Frobenius $\sigma \in D_v$ with $\mathrm{art}(\iota_v(\varpi_v)) = \mathrm{toAb}(\sigma^{-1})$);
    - `dec` (the image of $E_v^\times$ lies inside the topological closure of the image of $D_v$).
-2. **`GlobalTheory.Published.HeckeLAdicCharacter` (`…/ExistsUniqueHcharOfFiniteOrder.lean:74–78`, cone `9`):**
-   For every number field $E$, algebraic closure $\Omega$, prime $\ell$, algebraic Hecke character
-   $\chi : \mathrm{HChar}\,E$ satisfying `χ.IsAlgPos n` (`:65–67`, meaning on principal idèles of
-   **totally positive** elements $k \in E^\times$, $\chi(\mathrm{diag}(k)) = \iota_{\overline{\mathbb Q}}(\prod_\tau \tau(k)^{n(\tau)})$),
-   and isomorphism $\iota : \overline{\mathbb Q}_\ell \simeq_{\mathbb Q} \mathbb C$, there exists a
-   continuous character $r : (E \simeq_a \Omega) \to_* (\overline{\mathbb Q}_\ell)^\times$ unramified
-   away from $\mathrm{supp}(\mathrm{cond}(\chi)) \cup \{v \mid \ell\}$ such that at every unramified
-   place $v \nmid \ell$ and every arithmetic Frobenius $\sigma \in D_v$, $\iota(r(\sigma^{-1})) = \chi(\iota_v(\varpi_v))$.
+2. **`GlobalTheory.Published.HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74–78`, cone `9`):**
+   Given an Artin map satisfying `IsGlobalArtin`, the comparison isomorphism $\iota$, and a Hecke
+   character satisfying `IsAlgPos χ n` (`:41–42`), there exists a **unique** continuous
+   $r : G_E \to (\overline{\mathbb Q}_\ell)^\times$ satisfying `IsLAdicOf art ι χ n r` (`:57–60`).
+   This relation prescribes the full idèlic twist on `Idele₁ E` via $\operatorname{art}$ and the
+   abelianization of $G_E$. The Frobenius relation is a consequence.
 3. **`GlobalTheory.Published.RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`, cone `686`):**
    `RayClassFieldSt` asserts `∀ (K) [Field K] [NumberField K] (𝔪 : Ideal (𝓞 K)) [NeZero 𝔪], ∃ (L) [Field L] [NumberField L] [Algebra K L], Nonempty (IsRayClassField K L 𝔪)`.
-   By `rayClassFieldSt_iff_artinIso` (`:19–25`), `IsRayClassField K L 𝔪` means $L/K$ is finite Galois,
-   unramified outside $\mathfrak m$ (`IsUnramifiedOutside K L 𝔪`), and the global Artin map on
-   `RayClassGroup 𝔪` (narrow/totally-positive modulo $\mathfrak m$, built from `RayPair 𝔪`, `:149`)
-   is an isomorphism `RayClassGroup 𝔪 ≃* (L ≃ₐ[K] L)`. `RayClassFieldMaximalSt` (`:32–38`) adds
-   universal maximality: every finite abelian $K' / K$ unramified outside $\mathfrak m$ with trivial
-   Artin kernel on principal ray elements embeds into $L$ over $K$ (`Nonempty (K' →ₐ[K] L)`).
+   The Artin-isomorphism formulation is at `:19–25`. In `RayClassFieldMaximalSt` (`:32–36`),
+   every candidate finite abelian $L'/K$ must satisfy
+   `∀ χ : (L' ≃ₐ[K] L') →* ℂˣ, IsModulus L' χ 𝔪`. Under this character-by-character conductor
+   hypothesis, the conclusion is `Nonempty (L' →ₐ[K] L)`.
 4. **`GlobalTheory.Published.ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12–18`, cone `211`):**
    For every number field $F$, finite Galois extension $L/F$, element $\sigma \in \operatorname{Gal}(L/F)$,
    and finite set $S$ of maximal ideals of $\mathcal O_F$, there exists a maximal ideal $v \notin S$
@@ -192,10 +188,10 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
 
 | Lean `Prop` | Classical source | Word-for-word comparison (hypotheses & conclusion) | Verdict |
 |---|---|---|---|
-| `GlobalArtinReciprocity` (`ExistsUniqueHcharOfFiniteOrder.lean:70`) | Artin `[Artin1927]`; Tate `[Tate1967]`; Neukirch `[Neukirch1999, Thm. VI.6.1]` | Matches idèlic Artin reciprocity over **every** number field $E$: open quotient $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, exact kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia = $\overline{\mathrm{art}(\mathcal O_v^\times)}$, uniformizer $\mapsto \mathrm{Frob}_v^{\mathrm{geom}}$. (Tate's fuller isomorphism $\pi_0(C_E) \xrightarrow{\sim} G_E^{\mathrm{ab}}$ is equivalent because $C_E^\circ = \overline{E^\times (E_\infty^\times)^\circ} / E^\times$.) | **Faithful** (`[Lean, read]` for `Prop`; `1,015`-module proof cone `[Open]`) |
-| `HeckeLAdicCharacter` (`ExistsUniqueHcharOfFiniteOrder.lean:74`) | Weil (1956) $A_0$-type algebraic Hecke characters; Serre (1968) | Hypothesis `χ.IsAlgPos n` requires algebraic infinity-type only on **totally positive** $k \in E_+^\times$ (`IsTotallyPositive k`), which is *weaker* in hypothesis (hence **slightly stronger** as a theorem!) than requiring all $k \in E^\times$ (`isAlgPos_of_isAlg`, `:86`). Matches unramified geometric Frobenius values outside $\mathrm{cond}(\chi) \cup \{v \mid \ell\}$. | **Faithful** (`[Lean, read]` for `Prop` & finite-order bridge) |
-| `RayClassFieldSt` & `RayClassFieldMaximalSt` (`NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | Takagi (1920); Neukirch `[Neukirch1999, Thm. VI.6.2]` | Uses narrow ray class group `RayClassGroup 𝔪` (totally positive principal generators at all real places, `:149`). `RayClassFieldMaximalSt` is **proved inside the same file** (`:204–225`) from `RayClassFieldSt` + `ChebotarevDegreeOne`! | **Faithful** (narrow real-place convention; `[Lean, read]`) |
-| `ChebotarevDegreeOne` (`ChebotarevDegreeOneIffCheb.lean:12`) | Chebotarev `[Tschebotareff1926]`; Neukirch `[Neukirch1999, Thm. VII.13.4]` | Asserts **existential infinitude** (avoiding any finite $S$) of unramified degree-one primes hitting the conjugacy class of $\sigma$, omitting natural/Dirichlet density $\lvert C \rvert / \lvert G \rvert$ (density 1 of degree-one primes makes the existential form true; proved in `Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64`!). | **Safe weakening** (existential, no density value; suffices for `dense` & `eq_of_frob` `[Lean, read]`) |
+| `GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | Artin `[Artin1927]`; Tate `[Tate1967]`; Neukirch `[Neukirch1999, Thm. VI.6.1]` | Matches idèlic Artin reciprocity over **every** number field $E$: open quotient $\mathbb A_E^\times \twoheadrightarrow G_E^{\mathrm{ab}}$, exact kernel $\overline{E^\times (E_\infty^\times)^\circ}$, inertia = $\overline{\mathrm{art}(\mathcal O_v^\times)}$, uniformizer $\mapsto \mathrm{Frob}_v^{\mathrm{geom}}$. (Tate's fuller isomorphism $\pi_0(C_E) \xrightarrow{\sim} G_E^{\mathrm{ab}}$ is equivalent because $C_E^\circ = \overline{E^\times (E_\infty^\times)^\circ} / E^\times$.) | **Faithful** (`[Lean, read]` for `Prop`; `1,015`-module proof cone `[Open]`) |
+| `HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`) | Weil (1956) $A_0$-type algebraic Hecke characters; Serre (1968) | Hypothesis `χ.IsAlgPos n` requires algebraic infinity-type only on **totally positive** $k \in E_+^\times$ (`IsTotallyPositive k`), which is *weaker* in hypothesis (hence **slightly stronger** as a theorem!) than requiring all $k \in E^\times$ (`isAlgPos_of_isAlg`, `:86`). Matches unramified geometric Frobenius values outside $\mathrm{cond}(\chi) \cup \{v \mid \ell\}$. | **Faithful** (`[Lean, read]` for `Prop` & finite-order bridge) |
+| `RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | Takagi (1920); Neukirch `[Neukirch1999, Thm. VI.6.2]` | Uses narrow ray class group `RayClassGroup 𝔪` (totally positive principal generators at all real places, `:149`). `RayClassFieldMaximalSt` is **proved inside the same file** (`:204–225`) from `RayClassFieldSt` + `ChebotarevDegreeOne`! | **Faithful** (narrow real-place convention; `[Lean, read]`) |
+| `ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12`) | Chebotarev `[Tschebotareff1926]`; Neukirch `[Neukirch1999, Thm. VII.13.4]` | Asserts **existential infinitude** (avoiding any finite $S$) of unramified degree-one primes hitting the conjugacy class of $\sigma$, omitting natural/Dirichlet density $\lvert C \rvert / \lvert G \rvert$ (density 1 of degree-one primes makes the existential form true; proved in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64`!). | **Safe weakening** (existential, no density value; suffices for `dense` & `eq_of_frob` `[Lean, read]`) |
 
 ### 18.2.4 Fidelity lemma and line-by-line `R3` proofs (Cluster I)
 
@@ -203,42 +199,30 @@ $\mathfrak m = (2 + 2i)$ of norm $N(\mathfrak m) = (2+2i)(2-2i) = 8$ [Expository
 
 1. *(Exact finite-order Galois–Hecke bijection from `GlobalArtinReciprocity` alone: `exists_unique_hchar_of_finite_order`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:381–418`, and `HeckeLAdicCharacter.full`, `:466–491`)*
    *`GlobalArtinReciprocity` alone (without `HeckeLAdicCharacter`!) implies that for every number field $E$, prime $\ell$, $\iota : \overline{\mathbb Q}_\ell \simeq_{\mathbb Q} \mathbb C$, and $m \ge 1$, the Frobenius compatibility relation sets up a **bijection** (`∃! χ : HChar E`) between continuous Galois characters $r : G_E \to_* (\overline{\mathbb Q}_\ell)^\times$ satisfying $r^m = 1$ and finite-order Hecke characters $\chi$ (`χ.OrderDvd m`).*
-2. *(Topological Frobenius density and ray class field maximality from `ChebotarevDegreeOne`: `ChebotarevDegreeOne.dense` and `eq_of_frob`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:51–68`, and `rayClassFieldMaximalSt_holds`, `…/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`)*
+2. *(Topological Frobenius density and ray class field maximality from `ChebotarevDegreeOne`: `ChebotarevDegreeOne.dense` and `eq_of_frob`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:51–68`, and `rayClassFieldMaximalSt_holds`, `src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`)*
    *Existential `ChebotarevDegreeOne` implies that unramified Frobenius elements are topologically dense in $G_F = \operatorname{Gal}(\Omega/F)$, that two continuous representations $G_F \to_* M$ into any $T_2$ group agreeing on Frobenius outside $S$ are identical, and that `RayClassFieldSt` + `ChebotarevDegreeOne` imply `RayClassFieldMaximalSt`.*
 
 *Proof.*
-(1) Let `art : Idele E →* GalAb E Ω` satisfy `IsGlobalArtin E Ω art` (`:387`). Since $(\overline{\mathbb Q}_\ell)^\times$
-is commutative, any continuous $r : G_E \to_* (\overline{\mathbb Q}_\ell)^\times$ with $r^m = 1$
-factors through $G_E^{\mathrm{ab}}$ via a continuous homomorphism $\bar r : \mathrm{GalAb}\,E\,\Omega \to_* (\overline{\mathbb Q}_\ell)^\times$
-(`liftAb`, `:228, 388`). Crucially, because $r^m = 1$ and $\mu_m(\overline{\mathbb Q}_\ell)$ is
-**finite** in the discrete/$T_1$ topology used on roots of unity, $\ker(\bar r \circ \mathrm{art}) = (\bar r \circ \mathrm{art})^{-1}\bigl((\mu_m \setminus \{1\})^c\bigr)$
-is **open** in $\mathbb A_E^\times$ (`isOpen_ker_of_pow`, `:186–200`), and vanishes on $\mathrm{art}.\ker \supseteq E^\times \cdot (E_\infty^\times)^\circ$!
-Pushing $\bar r \circ \mathrm{art}$ through $\iota : \overline{\mathbb Q}_\ell \to \mathbb C$ therefore
-produces a genuine continuous finite-order Hecke character $\chi = \mathrm{mkOfGal}(\mathrm{art}, \iota, r)$
-(`:243, 391`) whose unramified Frobenius values equal $\iota(r(\sigma^{-1}))$ by `art.frob` (`:287–311`)!
-Uniqueness (`:404–418`) follows because any two Hecke characters $\chi_1, \chi_2$ with `OrderDvd m`
-matching $r$ at unramified primes have $\chi_1 \chi_2^{-1}$ trivial on unramified idèles, on
-$E^\times$, and on $(E_\infty^\times)^\circ$, hence trivial everywhere by dense unramified generation
-(`eq_of_frob_orderDvd`, `:351–379`). Conversely, in `HeckeLAdicCharacter.full` (`:466–491`), any
-$\chi$ with $\chi^m = 1$ satisfies $\chi(\mathrm{diag}(k)) = 1 = k^0$ (`isAlgPos_zero_of_orderDvd`,
-`:100`), so `HeckeLAdicCharacter` at weight $n = 0$ produces $r$, and $\iota(r(\sigma^{-1})^m) = \chi(\varpi_v)^m = 1$
-forces $r^m = 1$ by Chebotarev density!
+(1) In `existsUnique_hchar_of_finiteOrder`, the continuous $r$ factors through abelianization.
+The finite-order condition supplies an open kernel, and the proof constructs the Hecke character
+from the composite with the Artin map and $\iota$. For uniqueness, lift an arbitrary element of
+the abelianized Galois group via `toAb_surjective` and use the two idèlic compatibility equations.
+In the converse direction `HeckeLAdicCharacter.full` uses `IsLAdicOf.pow_eq_one` and surjectivity
+of the Artin map to deduce $r^m=1$ at infinity type zero. These are deductions from the interfaces.
+See `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:381–418`,
+`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:489–491`.
 
 (2) In `ChebotarevDegreeOne.dense` (`:51–61`), every open $U \subseteq G_F$ in the Krull topology
 contains a coset $\tau \cdot \ker(\mathrm{res}_{L/F})$ for some finite Galois $L/F$ (`isTopologicalBasis_krull`).
 Applying `ChebotarevDegreeOne` to $L/F$ and $\sigma = \mathrm{res}_{L/F}(\tau)$ produces $v \notin S$
 and $\rho \in D_v$ with $\mathrm{res}_{L/F}(\rho) = \mathrm{res}_{L/F}(\tau)$, so $\rho \in U$!
 Two continuous maps into a Hausdorff group agreeing on a dense set are equal (`eq_of_frob`, `:63–68`).
-In `rayClassFieldMaximalSt_holds` (`NonemptyAlgHomOfIsRayOfDvd.lean:204–225`), given a ray class
-field $L/K$ modulo $\mathfrak m$ and any abelian $L'/K$ unramified outside $\mathfrak m$ with ray-trivial
-Artin kernel, embed both into their compositum $M = i(L) \sqcup j(L')$ inside $\overline K$. For
-every $\sigma \in \operatorname{Gal}(M/L)$, its restriction to $L$ is $1$, so if $\sigma = \mathrm{Frob}_P$
-at an unramified prime $P \nmid \mathfrak m$, the class $[P] \in \mathrm{Cl}_{\mathfrak m}(K)$ lies in
-$\ker(\mathrm{art}_{L/K}) = \{1\}$ (since `IsRayClassField` makes $\mathrm{art}_{L/K}$ an isomorphism!),
-hence $\mathrm{art}_{L'/K}([P]) = 1$, forcing $\sigma\rvert_{j(L')} = 1$ (`frob_trivial_on_right`,
-`:192–202`). Since Frobenius elements generate $\operatorname{Gal}(M/K)$ (`closure_isFrob_eq_top`, `:118`),
-every $\sigma \in \operatorname{Gal}(M/L)$ fixes $j(L')$, so $j(L') \subseteq i(L)$ (`range_le`, `:141`),
-giving the desired $K$-embedding $L' \hookrightarrow L$! $\square$
+In `rayClassFieldMaximalSt_holds` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:204–225`), given a ray class
+field $L/K$ modulo $\mathfrak m$ and an abelian $L'/K$ satisfying the characterwise modulus
+hypothesis, the proof embeds both in a compositum and applies `range_le`.
+The latter compares restrictions of Frobenius using the ray class and modulus conditions and
+passes to the required inclusion of ranges. This gives the $K$-algebra embedding.
+See `src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:141–198`.
 
 ---
 
@@ -252,61 +236,63 @@ Cluster II audits five `Published` declarations powering Chapters 10 and 11 (`P1
 $\ell = 2$ vs odd $\ell$, real archimedean places where $H^2(\mathbb R, \mu_2) \neq 0$, the denominator
 $\frac{1}{12}$ of $\zeta(-1)$ before Deligne–Ribet smoothing, and central vs off-center critical points
 of modular $L$-functions! Reading the five files at `R3` shows that the archive navigated all four
-edge cases explicitly — and in `SiegelKlingenDeligneRibet.lean:223–245`, even included an internal
+edge cases explicitly — and in `src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:223–245`, even included an internal
 machine-checked `example` sanity-checking its own smoothing formula at $s = -1$!
 
 ### 18.3.2 Worked examples: Deligne–Ribet smoothing at $\zeta_{\{2\}}(-1) = \frac{1}{12}$ and the $\ell = 2$ real-place obstruction
 
-1. **Checking `SiegelKlingenDeligneRibet` at $F = \mathbb Q$, $r = 2$, $\ell = 2$, $c = 3$ (`SiegelKlingenDeligneRibet.lean:223–245`):**
-   Take $F = \mathbb Q$, $r = 2$ (evaluating at $s = 1 - r = -1$), $\ell = 2$, $n = 0$ (modulus
-   $2^0 = 1$, trivial ray function $\varphi \equiv 1$), and $S = \{(2)\}$ [Lean, read]. Removing the
-   $2$-adic Euler factor $(1 - 2^{-(-1)}) = (1 - 2) = -1$ from $\zeta(-1) = -\frac{1}{12}$ gives the
-   $S$-imprimitive partial zeta value
-   $$\zeta_{\{2\}}(1 - 2) \;=\; (1 - 2^1)\,\zeta(-1) \;=\; (-1)\Bigl(-\frac{1}{12}\Bigr) \;=\; +\frac{1}{12} \;\notin\; \mathbb Z_{(2)},$$
-   which has a $2$-adic pole of order $2$! Now introduce Deligne–Ribet's auxiliary prime ideal
-   $\mathfrak c = (3)$ (norm $N(\mathfrak c) = 3$, coprime to $2$). Applying the twisted difference
-   operator $\Delta_{\mathfrak c}\varphi(I) := \varphi(I) - N(\mathfrak c)^r \varphi(\mathfrak c^{-1} I) = 1 - 3^2 = -8$
-   multiplies $\frac{1}{12}$ by $1 - 9 = -8$:
-   $$L_S(1 - 2,\, \Delta_{(3)} 1) \;=\; \frac{1}{12} - 3^2 \cdot \frac{1}{12} \;=\; -\frac{8}{12} \;=\; -\frac{2}{3} \;\in\; \mathbb Z_{(2)}!$$
-   Lines `223–245` of `SiegelKlingenDeligneRibet.lean` prove both `¬ IsLocalized (2 : ℕ) (1 / 12 : ℚ)`
-   and `IsLocalized (2 : ℕ) ((1 / 12 : ℚ) - (3 : ℚ) ^ 2 * (1 / 12))` by `norm_num`, confirming that
-   the `Prop` `DeligneRibet` could never hold without `rayTwist` (`:30`) and holds with the exact sign
-   $1 - N(\mathfrak c)^r$!
-2. **Why `PoitouTateNormalised` excludes $(F = \mathbb Q, \ell = 2)$ via `l ≠ 2 ∨ IsTotallyComplex F`:**
-   For $F = \mathbb Q$, $\ell = 2$, $r = 1$, and $M = \mu_2 = \{\pm 1\}$, the real place
-   $v_\infty : \mathbb Q \hookrightarrow \mathbb R$ has decomposition group $\operatorname{Gal}(\mathbb C/\mathbb R) \cong \mathbb Z/2\mathbb Z$,
-   whose group cohomology $H^n(\mathbb R, \mu_2) \cong \mathbb Z/2\mathbb Z$ is **non-zero in every
-   degree $n \ge 1$**! Thus $H^3(G_{\mathbb Q, S}, \mu_2) \xrightarrow{\sim} H^3(\mathbb R, \mu_2) \neq 0$,
-   so global cohomological dimension $\le 2$ (`cohDimTwoGlobal`) and the pure finite-place $9$-term
-   Poitou–Tate sequence fail at $(F = \mathbb Q, \ell = 2)$ unless real Tate cohomology is added
-   `[NeukirchSchmidtWingberg2008, Thm. 8.6.10]`. By requiring `l ≠ 2 ∨ IsTotallyComplex F`
-   (`PoitouTateNormalised.lean:15`), the archive cleanly excludes real places at $\ell = 2$ — while
-   covering **every** prime $\ell$ (including $\ell = 2$!) on every CM host field $E$!
+For $F=\mathbb Q$, $\ell=2$, $n=1$, $k=2$, $\varepsilon=1$ and $\mathfrak c=(3)$,
+the modulus is $(2)$. The example computes the ray value
+$(1-2)\zeta(-1)=1/12$ at $1-k=-1$. Its $2$-adic norm is $4$, so the unsmoothed value fails
+`InZl`. Translation fixes the constant function and smoothing gives
+$1/12-3^2/12=-2/3$, of $2$-adic norm $1/2$. This is an explicit counterexample to
+unshifted integrality. [Lean, read] See
+`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:223–245`.
+
+For Poitou–Tate, $F=\mathbb Q$ and $\ell=2$ fail the guard `l ≠ 2 ∨ IsTotallyComplex F`.
+The real Galois group has order two, so its Tate cohomology with trivial $\mathbb F_2$
+coefficients is nonzero. A totally complex field such as $\mathbb Q(i)$ satisfies the guard
+even at $\ell=2$. [Expository]
 
 ### 18.3.3 Exact Lean definitions and verbatim literature comparison (Cluster II)
 
-**Definition 18.2 (Cluster II `Published` propositions).** [Lean, read]
+**Definition 18.2 (Cluster II interfaces).**
 
-1. **`UpperTheory.V.Published.FerreroWashington` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7–11`, cone `0`):**
-   For every number field $K$ with abelian Galois group (`∀ σ τ : K ≃ₐ[ℚ] K, σ * τ = τ * σ`) and
-   every rational prime $\ell$ (`Fact l.Prime`), **if** `∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)`,
-   then there exist $C \in \mathbb N$ and a finite set $J$ of prime ideals of $\mathcal O_K$ such that
-   for all $n \in \mathbb N$, every element of the $J$-capitulation kernel inside the $\ell$-primary
-   class group of the $n$-th cyclotomic $\mathbb Z_\ell$-layer `ZelLayer K l n` is killed by $\ell^C$
-   (`∀ c, (∀ 𝔮 ∈ J, IsLocalizedAt 𝔮 c) → (l ^ C) • c = 0`).
-2. **`GlobalTheory.Published.SiegelKlingen`, `DeligneRibet`, & `SiegelKlingenDeligneRibet` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:40,45,52`, cone `283`):**
-   Over any `[IsTotallyReal F]`, positive integer $r \ge 1$, modulus $\mathfrak f \neq 0$, and finite
-   place set $S \supseteq \mathrm{primeFactors}(\mathfrak f)$, `SiegelKlingen` (`:40–43`) gives a unique
-   $\mathbb Q$-linear functional $L_S(1-r, -) : \mathrm{RayFunc}(\mathfrak f) \to \mathbb Q$ evaluated
-   at `IsSpecValAt1MinusR F S r φ` (`:33–38`, analytic continuation of $\sum_{(I,S)=1} \varphi(I) N(I)^{-s}$
-   to $s = 1 - r$). Restricting to prime-power conductor $\mathfrak f = (\ell^n)$ and $S \supseteq \{v \mid \ell\}$,
-   `DeligneRibet` (`:45–50`) asserts that for every integral ideal $\mathfrak c$ coprime to $S$ and
-   every $\mathbb Z$-valued ray function $\varphi$ (`∀ I, ∃ m : ℤ, φ I = m`), the smoothed value
-   $L_S\bigl(1 - r,\, \varphi - N(\mathfrak c)^r (\mathfrak c_* \varphi)\bigr)$ is **$\ell$-integral**
-   (`IsLocalized l`, i.e., denominator coprime to $\ell$, `:9`)!
-3. **`UpperTheory.V.Published.Kato` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65–73`, cone `1,669`):**
-   `∀ {k N l : ℕ} [Fact l.Prime] (f : Newform k N) (χ : DirichletCharacter ℂ N) (r : ℕ), 2 ≤ k → 1 ≤ N → 5 ≤ l → 1 ≤ r → r ≤ k - 1 → 2 * r ≠ k → ∀ P : HeightOneSpectrum (𝓞 f.heckeField), (l : 𝓞 f.heckeField) ∈ P.asIdeal → (ModGalRep.ofNewform f P).IsIrreducibleResidual → Finite (BlochKatoSelmer (ModGalRep.twist (ModGalRep.ofNewform f P) χ r))`.
-4. **`GlobalTheory.Published.PoitouTateNormalised` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNormalised.lean:12–28`, cone `11`) & `PoitouTateDuality` (`…/ExistsPrimitiveRootPow.lean:13–27`, cone `10`):**
+1. **`UpperTheory.V.Published.FerreroWashington`.** For every prime $\ell$ and abelian number
+   field $K/\mathbb Q$ there exists $r\in\mathbb N$ such that for every $n\in\mathbb N$ and every
+   cyclotomic extension $K'/K$ of order $\ell^n$ in the sense of `IsCyclotomicExtension {l ^ n} K K'`,
+   the class group $A=\mathrm{Cl}(\mathcal O_{K'})$ satisfies $|A/A^\ell|\le\ell^r$.
+   The universal tower-level quantifier follows the existential bound. There is no root-of-unity
+   premise on $K$ or localization premise. This is a bounded mod-$\ell$ rank formulation of a
+   consequence of the classical $\mu=0$ theorem [FerreroWashington1979]. [Lean]
+   See `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7–11`.
+2. **`GlobalTheory.Published.SiegelKlingen`, `DeligneRibet` and `SiegelKlingenDeligneRibet`.**
+   Siegel–Klingen provides a continuation with rational values at $1-k$ for $k\ge1$,
+   over totally real fields and nonzero moduli, for rational-valued ray functions.
+   Deligne–Ribet uses $\mathfrak f=(\ell^n)$ with $n\ge1$. For every ray function $\varepsilon$
+   whose values on ideals coprime to $\mathfrak f$ are in $\mathbb Z_{(\ell)}$ and every
+   $\mathfrak c$ coprime to $\mathfrak f$, it takes two rational values as premises.
+   `IsRayValue` at $1-k$ specifies $a$ for $\varepsilon$ and $a'$ for
+   `translate` by $\mathfrak c$, the function $I\mapsto\varepsilon(\mathfrak c I)$.
+   The conclusion is `InZl` for $a-N(\mathfrak c)^k a'$. The combined declaration is a conjunction.
+   The integrality interface specializes the modulus and the smoothing test of [DeligneRibet1980].
+   [Lean] See `src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:14–32`
+   and `src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:40–52`.
+3. **`UpperTheory.V.Published.Kato`.** For every weight $k\ge2$, `Newform k`, prime $\ell$,
+   algebraic closure of $\mathbb Q$, and comparison isomorphism $\iota$, the declaration asserts
+   finite dimensionality of `coefField g ι` and existence of a continuous two-dimensional
+   representation $V$ over it satisfying `g.Att ι (toBar V)`. This same $V$ must give finite
+   `Sel` after cyclotomic twist by $r$ and restriction to every abelian $K/\mathbb Q$ in
+   the closure, for every $1\le r\le k-1$ with $2r\ne k$ and every `IsLat` lattice for the twist.
+   `IsLat` includes stability. `Sel` uses the quotient by this lattice and the away, above and
+   archimedean conditions in `IsSel`. The prime quantifier includes $2$, and residual irreducibility
+   is absent. Off-center critical twists restrict the conclusion's domain. A full comparison of
+   the attachment and local conditions with [Kato2004, Thm. 14.2] remains [Open]. [Lean]
+   See `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:27–38`,
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:44–59`
+   and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65–73`.
+
+4. **`GlobalTheory.Published.PoitouTateNormalised` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNormalised.lean:12–28`, cone `11`) & `PoitouTateDuality` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsPrimitiveRootPow.lean:13–27`, cone `10`):**
    For any number field $F$, prime $\ell$ with **`l ≠ 2 ∨ IsTotallyComplex F`**, finite set $S$
    containing all primes above $\ell$, $r \ge 1$, and finite continuous $G_{F,S}$-module $M$ killed by
    $\ell^r$ (`∀ m : M, (l ^ r) • m = 0`), with dual $M' := \operatorname{Hom}_{\mathbb Z/\ell^r\mathbb Z}(M, \mu_{\ell^r}(F_{S,\mathrm{max}}))$
@@ -315,19 +301,20 @@ machine-checked `example` sanity-checking its own smoothing formula at $s = -1$!
    whose three middle/boundary restriction maps (`f1`, `f4`, `f7`) coincide definitionally (`Normalized9`)
    with standard `resProd`!
 
-| Lean `Prop` | Classical source | Word-for-word comparison (hypotheses & conclusion) | Verdict |
-|---|---|---|---|
-| `Published.FerreroWashington` (`PublishedTheorems/FerreroWashington.lean:7`) | Ferrero–Washington `[FerreroWashington1979]` | Adds `∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l)` and allows finitely many primes $J$ to be localized away (`IsLocalizedAt 𝔮 c`, bounding $\ell$-torsion of the $S$-class group $\mathrm{Cl}_J(K_n)[\ell^\infty]$ by $\ell^C$). Adjoining $\zeta_\ell$ (or $\zeta_4$) is an abelian finite extension preserving $\mu_\ell = 0$, and proved unconditionally in `FerreroWashingtonIndex/FerreroWashington.lean:104`! | **Faithful** (harmless $\mu_{2\ell}$ base hypothesis; **both** `Prop` & 809-module Sinnott proof read at `R3` `[Lean, read]`!) |
-| `SiegelKlingenDeligneRibet` (`SiegelKlingenDeligneRibet.lean:52`) | Siegel (1937), Klingen (1962), Deligne–Ribet `[DeligneRibet1980]` | Rationality (`SiegelKlingen`) holds for arbitrary conductor $\mathfrak f$; $\ell$-integrality (`DeligneRibet`) specializes to $\ell$-power conductor $\mathfrak f = (\ell^n)$ and $\mathbb Z$-valued ray functions (sufficient for cyclotomic $\mathbb Z_\ell$-layers; `[DeligneRibet1980]` also treats prime-to-$\ell$ tame conductors and $p$-adic measures). | **Special case** ($\ell^n$ conductor & $\mathbb Z$-valued ray functions; `[Lean, read]` for `Prop`, `157`-line consequences, & `example`) |
-| `UpperTheory.V.Published.Kato` (`QuotRepMk.lean:65`) | Kato `[Kato2004, Thm. 14.2]`; Rubin `[Rubin2000]` | Assumes $\ell \ge 5$, residual irreducibility, and **`1 ≤ r ≤ k - 1` with `2 * r ≠ k`**, concluding `Finite (BlochKatoSelmer ...)` **without** writing $L(f, \chi, r) \neq 0$! Sound because $2r \neq k$ excludes the central point $k/2$: by functional equation + Euler-product non-vanishing on $\Re s \ge \frac{k+1}{2}$ (and in `KatoUse` at $k = 2e+1$, $r \in \{e, e+1\}$!), $L(f, \chi, r) \neq 0$ holds automatically! | **Special case (off-center critical points `2 * r ≠ k`)** (`[Lean, read]` for `Prop` & `KatoUse`; `1,669`-module proof cone `[Open]`) |
-| `PoitouTateNormalised` (`PoitouTateNormalised.lean:12`) | Poitou (1967), Tate (1963); `[NeukirchSchmidtWingberg2008, Thm. 8.6.10]`; `[Wiles1995, Prop. 1.6]` | Restricts to `l ≠ 2 ∨ IsTotallyComplex F` (avoiding real archimedean Tate terms at $\ell = 2$) and $S \supseteq \{v \mid \ell\}$. Includes `Normalized9` pinning `f1, f4, f7` to canonical restriction maps `resProd`. | **Special case (`l ≠ 2 ∨ IsTotallyComplex F`)** (`[Lean, read]` for `Prop` & Greenberg–Wiles deduction; upstream proof `[Open]`) |
-
 ### 18.3.4 Fidelity lemma and line-by-line `R3` proofs (Cluster II)
 
-**Lemma 18.2 (Cluster II consumer alignment and Greenberg–Wiles cancellation).** [Lean, read]
+**Lemma 18.2 (Cluster II consumer alignment and Greenberg–Wiles cancellation).**
 
-1. *(Off-center non-vanishing alignment in `KatoUse`: `UpperTheory.V.U3.KatoUse`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean:13–17`)*
-   *In `KatoUse`, `UpperTheory.V.Published.Kato` is invoked exclusively through `KatoUse := Published.Kato`: for the odd weights $k = 2e + 1 \ge 3$ arising from $U(3)$ base change to $\mathbb Q$, $2r \neq 2e + 1$ holds for **every** integer $r \in [1, 2e]$, and at the edge points $r = e + 1$ (analytic point $s = 1$) and $r = e$ (analytic point $s = 0$, paired with $s = 1$ by the functional equation), $L(f, \chi, r) \neq 0$ holds unconditionally.*
+1. **Off-center non-vanishing.** In the classical normalization, either $r$ or $k-r$ is at least
+   $(k+1)/2$ when $2r\ne k$. Absolute Euler-product convergence handles the strict inequality,
+   boundary non-vanishing handles equality, and the functional equation transfers the result
+   at $k-r$ to $r$. This addresses the non-vanishing premise raised in the community discussion.
+   `KatoUse` is a separate `Prop`. It assumes $\ell\ne2$, odd weight $2e+1$ with $e\ge1$,
+   continuity, an attachment for the inverse cyclotomic twist of $W$, and `KillsMu M φ`
+   with $M\ge1$. It concludes `BlochKatoSelmerVanishes` for the twist of $W$ by $\varphi$.
+   This records the consumer interface [Lean]. See
+   `src/Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean:13–17`.
+
 2. *(Global cohomological dimension $2$ and Greenberg–Wiles formula from `PoitouTateNormalised`: `cohDimTwoGlobal`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsPrimitiveRootPow.lean:70–85`, and `greenbergWiles_of_poitouTate`, `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GreenbergWilesOfPoitouTate.lean:45–106`)*
    *`PoitouTateNormalised` implies the Greenberg–Wiles Euler-characteristic identity `[Wiles1995, Prop. 1.6]` for every finite $G_{F,S}$-module $M$ (`l ≠ 2 ∨ IsTotallyComplex F`) and local Selmer conditions $\mathcal L_v \le H^1(G_v, M)$ with orthogonal complements $\mathcal L_v^\perp \le H^1(G_v, M')$ ($\lvert \mathcal L_v \rvert \cdot \lvert \mathcal L_v^\perp \rvert = \lvert H^1(G_v, M) \rvert$):*
    $$\lvert H^1_{\mathcal L}(G_{F,S}, M) \rvert \cdot \lvert H^0(G_{F,S}, M') \rvert \cdot \prod_{v \in S} \lvert \mathcal L_v \rvert
@@ -335,32 +322,7 @@ machine-checked `example` sanity-checking its own smoothing formula at $s = -1$!
    \lvert H^1_{\mathcal L^\perp}(G_{F,S}, M') \rvert \cdot \lvert H^0(G_{F,S}, M) \rvert \cdot \prod_{v \in S} \lvert H^0(G_v, M) \rvert.$$
 
 *Proof.*
-(1) Line `17` of `KatoUse.lean` is literally `abbrev KatoUse : Prop := Published.Kato`! Why did
-`Published.Kato` (`QuotRepMk.lean:68`) include the explicit arithmetic guard `2 * r ≠ k` when $1 \le r \le k - 1$?
-In classical normalization, a weight-$k$ newform $f \in S_k^{\mathrm{new}}(\Gamma_1(N))$ has critical
-strip $\frac{k-1}{2} < \Re s < \frac{k+1}{2}$ centered at $s = \frac{k}{2}$, and its Euler product
-converges and is non-zero on $\Re s \ge \frac{k+1}{2}$ (Jacquet–Shalika non-vanishing on the boundary
-$\Re s = \frac{k+1}{2}$!). Recall the
-Ramanujan–Petersson normalization of modular forms: for a holomorphic cusp form $f(z) = \sum_{n \ge 1} a_n q^n$
-of weight $k$, Deligne's bound is $\lvert a_p \rvert \le 2 p^{(k-1)/2}$, so the Dirichlet series
-$L(f, \chi, s) = \sum_{n \ge 1} a_n \chi(n) n^{-s}$ converges absolutely for **$\Re s > \frac{k+1}{2}$**,
-is non-vanishing on **$\Re s \ge \frac{k+1}{2}$** by Jacquet–Shalika / Rankin–Selberg, and satisfies a
-functional equation relating $s$ to **$k - s$**! Now check **every** integer $r \in \{1, \dots, k-1\}$
-with $2r \neq k$:
-- Either **$2r > k$**, which for integers $2r, k \in \mathbb Z$ means $2r \ge k + 1$, i.e.
-  **$r \ge \frac{k+1}{2}$** — so $s = r$ sits **on or to the right of the abscissa of convergence $\frac{k+1}{2}$**,
-  where $L(f, \chi, r) \neq 0$ ALWAYS holds for EVERY weight $k \ge 2$!
-- Or **$2r < k$**, which means $2(k - r) > k$, so the reflected integer $k - r \ge \frac{k+1}{2}$ has
-  $L(\bar f, \bar\chi, k - r) \neq 0$, and the non-zero $\Gamma$-factors at $s = r \ge 1$ force
-  $L(f, \chi, r) \neq 0$ by the functional equation!
-What a mathematical gem [Expository]: **among integers $r \in [1, k-1]$, the central point $r = k/2$ is
-the ONLY integer inside the open strip $(\frac{k-1}{2}, \frac{k+1}{2})$ of width $1$!** Every single
-integer $r \in [1, k-1]$ with $2r \neq k$ satisfies $\lvert r - \frac{k}{2} \rvert \ge \frac{1}{2}$,
-so $r \ge \frac{k+1}{2}$ or $k - r \ge \frac{k+1}{2}$, making $L(f, \chi, r) \neq 0$ **unconditionally
-true for all $k \ge 2$** (matching Loeffler's Zulip `#642442900` observation `[Community]` and proving
-that `Published.Kato` is 100% faithful to Kato's Theorem 14.2 `[Kato2004]` on its entire integer domain!).
-
-(2) Open `GreenbergWilesOfPoitouTate.lean:45–106` [Lean, read]. Let $Q := \prod_{v \in S} H^1(G_v, M)$
+(2) Open `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GreenbergWilesOfPoitouTate.lean:45–106` [Lean, read]. Let $Q := \prod_{v \in S} H^1(G_v, M)$
 and $L := \prod_{v \in S} \mathcal L_v \le Q$. Applying `PoitouTateNormalised` (`:65`) gives the
 normalized $9$-term exact sequence (`f1`..`f8`). Splitting the exact sequence at $H^1(G_{F,S}, M) \xrightarrow{f_4} Q \xrightarrow{f_5} H^1(G_{F,S}, M')^\vee$,
 the global Selmer group is $H^1_{\mathcal L}(G_{F,S}, M) = f_4^{-1}(L)$, while by local Tate duality
@@ -414,7 +376,7 @@ that every domain restriction holds on Alpöge's CM host fields!
    For a dual pair $(U(A), U(B))$ where $n = \operatorname{rank} A$, $m = \operatorname{rank} B$, and
    $r_B = \operatorname{wittIdx}(B)$ ($r_B = 0$ when $B$ is definite!), Weil's 1965 absolute-convergence
    criterion `[Weil1965]` for the theta-integral average is $m - r_B > n + 1$ for theta integrability
-   and **$m > 2n$** (`2 * A.rank < B.rank`, `WeilSiegelFormulaUnitary.lean:68`) for absolute convergence
+   and **$m > 2n$** (`2 * A.rank < B.rank`, `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean:68`) for absolute convergence
    of the Siegel Eisenstein series at $s_0 = \frac{m - n}{2} > \frac{n}{2}$. When $n < m \le 2n$ — for
    instance $U(2) \times U(3)$ ($n = 2, m = 3$: $2 < 3 \le 4$), or along Alpöge's step-$j$ unitary
    theta lifts where $\operatorname{rank} Y_j$ and $\operatorname{rank} X_{j+1}$ satisfy $n < m \le 2n$ —
@@ -432,14 +394,14 @@ that every domain restriction holds on Alpöge's CM host fields!
    representation $\pi$ of $\mathrm{GL}_n(\mathbb A_E)$, `π.IsRegularAlgebraic → ∃ w : ℤ, IsPureOfWeight π w`
    (every archimedean Langlands parameter of $\pi_v$ is pure of weight $w$). `RegularAlgebraicPurity`
    specializes $E$ to `[IsCMField E]` and adds `GKCoh.IsCohomological π`.
-2. **`GlobalTheory.Published.BaseChangeDefiniteUnitary` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235–241`, cone `783`) & `BaseChangeIsobaric` (`…/BaseChangeIsobaric.lean:40–48`, cone `784`):**
+2. **`GlobalTheory.Published.BaseChangeDefiniteUnitary` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235–241`, cone `783`) & `BaseChangeIsobaric` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeIsobaric.lean:40–48`, cone `784`):**
    For every CM field $E$, $n \ge 1$, everywhere-unramified CM extension `hunr : ∀ w : HeightOneSpectrum (𝓞 (maximalRealSubfield E)), Algebra.IsUnramifiedAt (𝓞 (maximalRealSubfield E)) w.asIdeal`,
    and discrete automorphic representation $\sigma$ of the standard definite unitary group `UA E n := UJ (conjAd E) 1`,
    `BaseChangeDefiniteUnitary` produces an `IsobaricDecomp E n` (`Π` on $\mathrm{GL}_n(\mathbb A_E)$)
    satisfying `IsWeakBaseChange E n σ Π` (conjugate self-duality $\Pi^\vee \cong \Pi^c$ of each summand
    plus unramified Satake parameter agreement off a finite place set $S$), while `BaseChangeIsobaric`
    upgrades unramified local compatibility to **every** prime $p \notin S$ (`SatakeCompatAtPrime`).
-3. **`GlobalTheory.Published.WeilSiegelFormula` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/WeilSiegelFormula.lean:18–28`, cone `1,599`), `WeilSiegelFormulaUnitary` (`…/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean:56–69`, cone `827`), & `SiegelWeilUnitaryConvergent` (`…/SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18–32`, cone `1,803`):**
+3. **`GlobalTheory.Published.WeilSiegelFormula` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/WeilSiegelFormula.lean:18–28`, cone `1,599`), `WeilSiegelFormulaUnitary` (`src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean:56–69`, cone `827`), & `SiegelWeilUnitaryConvergent` (`src/Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18–32`, cone `1,803`):**
    Over host datum `D : D7`, `WeilSiegelFormula` (`2 * n < m` and `n + wittIndex(B) < m` on `HermSpace`)
    and `WeilSiegelFormulaUnitary` (`2 * A.rank < B.rank`) equate $\int_{[U(B)]} \Theta_\Phi(g, h)\,dh = \kappa \cdot E(g, s_0, \operatorname{Four}(\Phi))$,
    while `SiegelWeilUnitaryConvergent` extends that exact identity (with holomorphic continuation of
@@ -452,32 +414,32 @@ that every domain restriction holds on Alpöge's CM host fields!
 
 | Lean `Prop` | Classical source | Word-for-word comparison (hypotheses & conclusion) | Verdict |
 |---|---|---|---|
-| `ClozelPurity` & `RegularAlgebraicPurity` (`ClozelPurity.lean:10`, `GaloisGeometry₂/RegularAlgebraicPurity.lean:14`) | Clozel `[Clozel1990, Lemme 4.9]` | Clozel proves purity of $\pi_\infty$ for regular algebraic cuspidal $\pi$ on $\mathrm{GL}_n(\mathbb A_F)$ over **any** number field $F$; the archive restricts to `[IsTotallyComplex E]` / `[IsCMField E]` (where archimedean places are complex, simplifying $\mathrm{GL}_n(\mathbb C)$ Adams–Johnson parameters). | **Special case** (totally complex / CM fields; `[Lean, read]` for `Prop`, upstream cones `878`–`1,538` `[Open]`) |
-| `BaseChangeDefiniteUnitary` & `BaseChangeIsobaric` (`GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235`, `BaseChangeIsobaric.lean:40`) | Rogawski (1990, $n \le 3$); Labesse (2011, general $n$) | Restricts to the standard identity definite form `UA E n` and **everywhere-unramified** $E/E^+$ (`hunr`), which avoids ramified fundamental-lemma / Kottwitz-sign obstructions at finite places of $E^+$! | **Domain-restricted special case** (consumer alignment verified at `BaseChangeIdentities/Narrow.lean:47` `[Lean, read]`; `15,289`-module proof cone `[Open]`) |
-| `WeilSiegelFormula`, `WeilSiegelFormulaUnitary`, & `SiegelWeilUnitaryConvergent` (`Divisors₂/WeilSiegelFormula.lean:18`, `WeilSiegelFormulaUnitary.lean:56`, `SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18`) | Weil `[Weil1965]`; Kudla–Rallis `[KudlaRallis1994]`; Ichino (2004) | Splits Weil's $m > 2n$ range from Kudla–Rallis's convergent $n < m \le 2n$ ($n + r_B < m$) range on unitary groups over `D : D7`, matching the exact convergence hypotheses of both papers. | **Special case** (unitary dual pairs over `D7` in convergent ranges; `[Lean, read]` for `Prop`s, upstream cones `[Open]`) |
-| `DeRhamPotSemistable` (`DeRhamPotSemistable.lean:13`) | Berger `[Berger2002, Thm. 0.7]`; André (2002), Kedlaya (2004), Mebkhout (2002) | Faithful statement of Fontaine's $p$-adic monodromy conjecture ($\mathrm{de\ Rham} \implies \text{potentially semistable}$) for $\mathrm{GL}_{\mathbb Q_\ell}(V)$, parameterized by `Nonempty (LocTied l P AI)` (verified non-empty via `exists_locPrime_tied` `[Lean]`). | **Faithful** (`[Lean, read]` for `Prop` & $L$-linear scalar-extension proof `:89–132`; upstream proof `[Open]`) |
+| `ClozelPurity` & `RegularAlgebraicPurity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/ClozelPurity.lean:10`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/RegularAlgebraicPurity.lean:14`) | Clozel `[Clozel1990, Lemme 4.9]` | Clozel proves purity of $\pi_\infty$ for regular algebraic cuspidal $\pi$ on $\mathrm{GL}_n(\mathbb A_F)$ over **any** number field $F$; the archive restricts to `[IsTotallyComplex E]` / `[IsCMField E]` (where archimedean places are complex, simplifying $\mathrm{GL}_n(\mathbb C)$ Adams–Johnson parameters). | **Special case** (totally complex / CM fields; `[Lean, read]` for `Prop`, upstream cones `878`–`1,538` `[Open]`) |
+| `BaseChangeDefiniteUnitary` & `BaseChangeIsobaric` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeIsobaric.lean:40`) | Rogawski (1990, $n \le 3$); Labesse (2011, general $n$) | Restricts to the standard identity definite form `UA E n` and **everywhere-unramified** $E/E^+$ (`hunr`), which avoids ramified fundamental-lemma / Kottwitz-sign obstructions at finite places of $E^+$! | **Domain-restricted special case** (consumer alignment verified at `src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47` `[Lean, read]`; `15,289`-module proof cone `[Open]`) |
+| `WeilSiegelFormula`, `WeilSiegelFormulaUnitary`, & `SiegelWeilUnitaryConvergent` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/WeilSiegelFormula.lean:18`, `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean:56`, `src/Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18`) | Weil `[Weil1965]`; Kudla–Rallis `[KudlaRallis1994]`; Ichino (2004) | Splits Weil's $m > 2n$ range from Kudla–Rallis's convergent $n < m \le 2n$ ($n + r_B < m$) range on unitary groups over `D : D7`, matching the exact convergence hypotheses of both papers. | **Special case** (unitary dual pairs over `D7` in convergent ranges; `[Lean, read]` for `Prop`s, upstream cones `[Open]`) |
+| `DeRhamPotSemistable` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/DeRhamPotSemistable.lean:13`) | Berger `[Berger2002, Thm. 0.7]`; André (2002), Kedlaya (2004), Mebkhout (2002) | Faithful statement of Fontaine's $p$-adic monodromy conjecture ($\mathrm{de\ Rham} \implies \text{potentially semistable}$) for $\mathrm{GL}_{\mathbb Q_\ell}(V)$, parameterized by `Nonempty (LocTied l P AI)` (verified non-empty via `exists_locPrime_tied` `[Lean]`). | **Faithful** (`[Lean, read]` for `Prop` & $L$-linear scalar-extension proof `:89–132`; upstream proof `[Open]`) |
 
 ### 18.4.4 Fidelity lemma and line-by-line `R3` proofs (Cluster III)
 
 **Lemma 18.3 (Consumer domain alignment for unitary base change and $L$-linear scalar extension for `DeRhamPotSemistable`).** [Lean, read]
 
-1. *(Consumer check on `BaseChangeDefiniteUnitary`: `definiteN_of`, `src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47–74`, contrasted with `UnusedSlot72`, `…/DiscreteSpectrumResidualClassification.lean:7`)*
+1. *(Consumer check on `BaseChangeDefiniteUnitary`: `definiteN_of`, `src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47–74`, contrasted with `UnusedSlot72`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:7`)*
    *At its downstream consumer `definiteN_of`, the everywhere-unramified hypothesis `hunr : ∀ w, Algebra.IsUnramifiedAt (𝓞 E⁺) w.asIdeal` is carried explicitly as part of the narrow host datum and passed directly to `BaseChangeDefiniteUnitary` and `BaseChangeIsobaric`; by contrast, `UnusedSlot72 : Prop := True` is never inspected downstream.*
 2. *(Non-vacuity and $L/\mathbb Q_\ell$-linear extension of `DeRhamPotSemistable`: `DeRhamPotSemistable.coeff` and `isPstAt`, `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/DeRhamPotSemistable.lean:89–132`, plus `exists_locPrime_tied`, `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281`)*
    *The period-ring witness `Nonempty (LocTied l P AI)` is unconditionally inhabited for every local place $v \mid \ell$ (`exists_locPrime_tied`), and `DeRhamPotSemistable` over $\mathbb Q_\ell$ implies potential semistability `isPstAt` for arbitrary finite-dimensional $L$-linear Galois representations $\rho : G_E \to_* \mathrm{GL}_L(V)$ (`[FiniteDimensional ℚ_[l] L]`).*
 
 *Proof.*
-(1) In `BaseChangeIdentities/Narrow.lean:47–74`, `definiteN_of` takes hypotheses `hbcd : Published.BaseChangeDefiniteUnitary`
+(1) In `src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47–74`, `definiteN_of` takes hypotheses `hbcd : Published.BaseChangeDefiniteUnitary`
 and `hbci : Published.BaseChangeIsobaric` and proves the narrow base-change package `DefiniteN`:
 lines `52–54` introduce `hunr : ∀ w : HeightOneSpectrum (𝓞 (maximalRealSubfield E)), Algebra.IsUnramifiedAt ...`
 from `DefiniteN`'s own signature and feed `hbcd E n hn hunr σ` (`:58`) and `hbci E n hn hunr σ` (`:59`)
 directly! Thus the unramified-CM restriction in `BaseChangeDefiniteUnitary` is **not** a hidden gap;
 it is an explicit architectural invariant propagated from the host CM tower!
 
-(2) First, `exists_locPrime_tied` (`ExistsLocalPrimeAinf.lean:281` `[Lean]`) constructs a concrete
+(2) First, `exists_locPrime_tied` (`src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281` `[Lean]`) constructs a concrete
 `(P, AI)` with `Nonempty (LocTied l P AI)` for every prime $\ell$, number field $E$, and prime ideal
 $v$ above $\ell$, certifying that `DeRhamPotSemistable` is never vacuously satisfied by an empty
-`LocTied` type! Second, in `DeRhamPotSemistable.lean:89–132` [Lean, read], suppose $L/\mathbb Q_\ell$
+`LocTied` type! Second, in `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/DeRhamPotSemistable.lean:89–132` [Lean, read], suppose $L/\mathbb Q_\ell$
 is a finite extension (`FiniteDimensional ℚ_[l] L`) and $\rho : G_K \to_* \mathrm{GL}_L(V)$ is de Rham
 with $L$-coefficients (`IsDeRhamL`). Restricting scalars from $L$ to $\mathbb Q_\ell$ (`restrictScalars ℚ_[l]`,
 `:90–94`) turns $V$ into a finite-dimensional $\mathbb Q_\ell$-vector space (`Module.Finite.trans L V`)
@@ -508,11 +470,11 @@ and `LUMI doc 07` [Community]), our three clusters distill into a fast, foolproo
    domain restriction (`IsTotallyComplex`, `IsUnramifiedAt`) is supplied honestly by the downstream
    consumer (`src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47`).
 4. **Test small boundary examples where textbook naive statements fail:** Plug in $\mathbb Q(i)/(2+2i)$,
-   $\zeta_{\{2\}}(-1) = \frac{1}{12}$ (`SiegelKlingenDeligneRibet.lean:223`), $(F = \mathbb Q, \ell = 2)$
+   $\zeta_{\{2\}}(-1) = \frac{1}{12}$ (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:223`), $(F = \mathbb Q, \ell = 2)$
    for Poitou–Tate, or $(F = \mathbb Q, E = \mathbb Q(i))$ for ramified CM base change!
 5. **Keep statement fidelity separate from proof-cone reading:** A **Faithful** verdict upgrades the
    *statement* match from `[Open]` to `[Lean, read]`; unless you have also read the upstream proof
-   cone (`*_of_literature`) to `R3` (as we did for `FerreroWashington` in Chapter 11!), keep the
+   cone (`*_of_literature`) to `R3` (as illustrated by the local bridges in Chapter 19), keep the
    upstream *proof body* honestly marked `[Open]`.
 
 ### 18.5.2 Masullo's counterpart
@@ -521,8 +483,8 @@ How does Masullo's 940-page manuscript handle background literature compared wit
 
 - **Appendices A–E (`pp. 537–932`) vs `GlobalTheory.Published.*` (`P18`):** Masullo devotes nearly
   400 pages of appendices (`Appendix A` Algebraic Number Theory, `pp. 539–586`; `Appendix B` Analytic
-  Number Theory, `pp. 587–656`; `Appendix C` Locally Convex TVS, `pp. 657–754`; `Appendix D`
-  Schwartz–Bruhat Functions, `pp. 755–866`; `Appendix E` Topological Stacks, `pp. 867–932`) to
+  Number Theory, `pp. 587–654`; `Appendix C` Locally Convex TVS, `pp. 655–742`; `Appendix D`
+  Schwartz–Bruhat Functions, `pp. 743–822`; `Appendix E` Topological Stacks, `pp. 823–932`) to
   stating and proving or citing background results from classical monographs (`[Neukirch1999]`,
   `[Tate1967]`, `[Grothendieck1955]`) [Paper; Masullo pp. 537–932]. Because Masullo works purely on
   $\mathrm{GL}_1(\mathbb A_F)/F^\times$, none of Cluster II or Cluster III (Iwasawa $\mu = 0$, Kato's
@@ -543,29 +505,19 @@ How does Masullo's 940-page manuscript handle background literature compared wit
 
 | # | Declaration (`file:line`) | Cone | Classical benchmark | Statement-fidelity verdict | Upstream proof status | Tag |
 |---:|---|---:|---|---|---|---|
-| 1 | `GlobalTheory.Published.GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | 9 | Artin `[Artin1927]`, Tate `[Tate1967]`, Neukirch `[Neukirch1999, Thm. VI.6.1]` | **Faithful** (full idèlic Artin map over all number fields; geometric Frobenius on uniformizers) | Wrapper `StandardTheoremStatements/GlobalArtinReciprocity.lean:8` (cone 1,015) `[Open]` | [Lean, read] |
-| 2 | `GlobalTheory.Published.HeckeLAdicCharacter` (`…/ExistsUniqueHcharOfFiniteOrder.lean:74`; finite-order bridge `:381, 466`) | 9 | Weil (1956), Serre (1968) | **Faithful (slightly stronger)** (`IsAlgPos` requires algebraicity only on $E_+^\times$; finite-order bijection proved in file!) | Wrapper `:14` (cone 1,015) `[Open]`; finite-order bridge `:381–491` `R3` | [Lean, read] |
+| 1 | `GlobalTheory.Published.GlobalArtinReciprocity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70`) | 9 | Artin `[Artin1927]`, Tate `[Tate1967]`, Neukirch `[Neukirch1999, Thm. VI.6.1]` | **Faithful** (full idèlic Artin map over all number fields; geometric Frobenius on uniformizers) | Wrapper `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:8` (cone 1,015) `[Open]` | [Lean, read] |
+| 2 | `GlobalTheory.Published.HeckeLAdicCharacter` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:74`; finite-order bridge `:381, 466`) | 9 | Weil (1956), Serre (1968) | **Faithful (slightly stronger)** (`IsAlgPos` requires algebraicity only on $E_+^\times$; finite-order bijection proved in file!) | Wrapper `:14` (cone 1,015) `[Open]`; finite-order bridge `:381–491` `R3` | [Lean, read] |
 | 3 | `GlobalTheory.Published.RayClassFieldSt` & `RayClassFieldMaximalSt` (`src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/NonemptyAlgHomOfIsRayOfDvd.lean:17,32`) | 686 | Takagi (1920), Neukirch `[Neukirch1999, Thm. VI.6.2]` | **Faithful** (narrow real-place sign condition built into `RayClassGroup 𝔪`) | `RayClassFieldMaximalSt` proved in file (`:204–225`, `R3`); `rayClassFieldSt` wrapper `[Open]` | [Lean, read] |
-| 4 | `GlobalTheory.Published.ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12`) | 211 | Chebotarev `[Tschebotareff1926]` | **Safe weakening** (existential infinitude of degree-1 Frobenius primes outside $S$, omitting natural density; implies `dense` `:51`) | Proved in `Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64` (cone 289, `R3`; cyclic base `[Open]`) | [Lean, read] |
-| 5 | `UpperTheory.V.Published.FerreroWashington` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`) | 0 | Ferrero–Washington `[FerreroWashington1979]` | **Faithful** (adds harmless $\zeta_\ell$ / $\zeta_4 \in K$ base-layer root of unity and finite $J$-localization) | Proved in `FerreroWashingtonIndex/FerreroWashington.lean:104` (cone 809, Sinnott route read in Ch. 11 `R3`!) | [Lean, read] |
-| 6 | `GlobalTheory.Published.SiegelKlingen`, `DeligneRibet`, `SiegelKlingenDeligneRibet` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:40,45,52`) | 283 | Deligne–Ribet `[DeligneRibet1980]` | **Special case** (rationality for all $\mathfrak f$; $\ell$-integrality for $\mathfrak f = (\ell^n)$ & $\mathbb Z$-valued ray functions; $\zeta_{\{2\}}(-1) = 1/12$ `example` at `:223`!) | Consequences `:157–245` `R3`; upstream analytic proof `[Open]` | [Lean, read] |
-| 7 | `UpperTheory.V.Published.Kato` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65`; `KatoUse` at `…/UnitaryThreeGroups/KatoUse.lean:13`) | 1,669 | Kato `[Kato2004, Thm. 14.2]`, Rubin `[Rubin2000]` | **Special case (off-center `2 * r ≠ k`)** ($L(f,\chi,r) \neq 0$ omitted because every integer $r \in [1,k-1]$ with $2r \neq k$ has $\lvert r - k/2 \rvert \ge 1/2$, forcing $L \neq 0$!) | `KatoUse` (`cone 1,713`) `R3`; upstream Beilinson–Kato Euler-system proof `[Open]` | [Lean, read] |
-| 8 | `GlobalTheory.Published.PoitouTateNormalised` & `PoitouTateDuality` (`…/GaloisCohomology₂/PoitouTateNormalised.lean:12`, `…/ExistsPrimitiveRootPow.lean:13`) | 11 | Poitou–Tate `[NeukirchSchmidtWingberg2008, Thm. 8.6.10]`, `[Wiles1995, Prop. 1.6]` | **Special case (`l ≠ 2 ∨ IsTotallyComplex F`)** (avoids real Tate terms at $\ell = 2$; covers all $\ell$ on CM hosts; `Normalized9` pins restriction maps) | `cohDimTwoGlobal` (`:70`) & `greenbergWiles_of_poitouTate` (`GreenbergWilesOfPoitouTate.lean:45`, cone 718) `R3`; upstream proof `[Open]` | [Lean, read] |
-| 9 | `GlobalTheory.Published.ClozelPurity` & `RegularAlgebraicPurity` (`…/GaloisGeometry₂/ClozelPurity.lean:10`, `…/GaloisGeometry₂/RegularAlgebraicPurity.lean:14`) | 878 / 1,538 | Clozel `[Clozel1990, Lemme 4.9]` | **Special case** (restricted from all number fields to `[IsTotallyComplex E]` / `[IsCMField E]`) | Upstream Shimura/archimedean proof cones `[Open]` | [Lean, read] |
-| 10 | `GlobalTheory.Published.BaseChangeDefiniteUnitary` & `BaseChangeIsobaric` (`…/GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235`, `…/BaseChangeIsobaric.lean:40`) | 783 / 784 | Rogawski (1990), Labesse (2011) | **Domain-restricted special case** (identity definite form `UA E n` + everywhere-unramified CM extension `hunr`, aligned with `BaseChangeIdentities/Narrow.lean:47`!) | Consumer `definiteN_of` `R3`; `15,289`-module trace-formula proof cone `[Open]` | [Lean, read] |
-| 11 | `GlobalTheory.Published.WeilSiegelFormula`, `WeilSiegelFormulaUnitary`, & `SiegelWeilUnitaryConvergent` (`…/Divisors₂/WeilSiegelFormula.lean:18`, `…/WeilSiegelFormulaUnitary.lean:56`, `…/SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18`) | 1,599 / 827 / 1,803 | Weil `[Weil1965]`, Kudla–Rallis `[KudlaRallis1994]` | **Special case** (unitary dual pairs over `D : D7` in Weil's $m > 2n$ and Kudla–Rallis's $n < m \le 2n$, $n + r_B < m$ convergent ranges) | Upstream Siegel–Weil proof cones `[Open]` | [Lean, read] |
-| 12 | `GlobalTheory.Published.DeRhamPotSemistable` (`…/AutomorphicForms₂/DeRhamPotSemistable.lean:13`; `UnusedSlot72` contrast at `…/DiscreteSpectrumResidualClassification.lean:7`) | 135 | Berger `[Berger2002, Thm. 0.7]` | **Faithful** (`LocTied` verified inhabited via `exists_locPrime_tied` `[Lean]`; contrasted with fossil `UnusedSlot72 : Prop := True`) | Scalar-extension `coeff`/`isPstAt` (`:89–132`) `R3`; upstream $p$-adic differential-equation proof `[Open]` | [Lean, read] |
+| 4 | `GlobalTheory.Published.ChebotarevDegreeOne` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ChebotarevDegreeOneIffCheb.lean:12`) | 211 | Chebotarev `[Tschebotareff1926]` | **Safe weakening** (existential infinitude of degree-1 Frobenius primes outside $S$, omitting natural density; implies `dense` `:51`) | Proved in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–64` (cone 289, `R3`; cyclic base `[Open]`) | [Lean, read] |
+| 5 | `UpperTheory.V.Published.FerreroWashington` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/FerreroWashington.lean:7`) | 0 | [FerreroWashington1979] | Uniform bound on the mod-$\ell$ class-group quotient | Archive theorem at `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:104` | [Lean] |
+| 6 | `SiegelKlingenDeligneRibet` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/SiegelKlingenDeligneRibet.lean:52`) | 283 | [DeligneRibet1980] | Smoothed integrality for modulus $(\ell^n)$, $n\ge1$, with $\ell$-integral values on coprime ideals | Example read in §18.3.2, analytic proof [Open] | [Lean] |
+| 7 | `UpperTheory.V.Published.Kato` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/QuotRepMk.lean:65`) | 1,669 | [Kato2004, Thm. 14.2] | All primes, off-center critical twists and stable lattices | Full comparison of local conditions [Open] | [Lean] |
+| 8 | `GlobalTheory.Published.PoitouTateNormalised` & `PoitouTateDuality` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNormalised.lean:12`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsPrimitiveRootPow.lean:13`) | 11 | Poitou–Tate `[NeukirchSchmidtWingberg2008, Thm. 8.6.10]`, `[Wiles1995, Prop. 1.6]` | **Special case (`l ≠ 2 ∨ IsTotallyComplex F`)** (avoids real Tate terms at $\ell = 2$; covers all $\ell$ on CM hosts; `Normalized9` pins restriction maps) | `cohDimTwoGlobal` (`:70`) & `greenbergWiles_of_poitouTate` (`src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GreenbergWilesOfPoitouTate.lean:45`, cone 718) `R3`; upstream proof `[Open]` | [Lean, read] |
+| 9 | `GlobalTheory.Published.ClozelPurity` & `RegularAlgebraicPurity` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/ClozelPurity.lean:10`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/RegularAlgebraicPurity.lean:14`) | 878 / 1,538 | Clozel `[Clozel1990, Lemme 4.9]` | **Special case** (restricted from all number fields to `[IsTotallyComplex E]` / `[IsCMField E]`) | Upstream Shimura/archimedean proof cones `[Open]` | [Lean, read] |
+| 10 | `GlobalTheory.Published.BaseChangeDefiniteUnitary` & `BaseChangeIsobaric` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeDefiniteUnitary.lean:235`, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BaseChangeIsobaric.lean:40`) | 783 / 784 | Rogawski (1990), Labesse (2011) | **Domain-restricted special case** (identity definite form `UA E n` + everywhere-unramified CM extension `hunr`, aligned with `src/Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/Narrow.lean:47`!) | Consumer `definiteN_of` `R3`; `15,289`-module trace-formula proof cone `[Open]` | [Lean, read] |
+| 11 | `GlobalTheory.Published.WeilSiegelFormula`, `WeilSiegelFormulaUnitary`, & `SiegelWeilUnitaryConvergent` (`src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/WeilSiegelFormula.lean:18`, `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean:56`, `src/Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelWeilUnitaryConvergent.lean:18`) | 1,599 / 827 / 1,803 | Weil `[Weil1965]`, Kudla–Rallis `[KudlaRallis1994]` | **Special case** (unitary dual pairs over `D : D7` in Weil's $m > 2n$ and Kudla–Rallis's $n < m \le 2n$, $n + r_B < m$ convergent ranges) | Upstream Siegel–Weil proof cones `[Open]` | [Lean, read] |
+| 12 | `GlobalTheory.Published.DeRhamPotSemistable` (`src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/DeRhamPotSemistable.lean:13`; `UnusedSlot72` contrast at `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/DiscreteSpectrumResidualClassification.lean:7`) | 135 | Berger `[Berger2002, Thm. 0.7]` | **Faithful** (`LocTied` verified inhabited via `exists_locPrime_tied` `[Lean]`; contrasted with fossil `UnusedSlot72 : Prop := True`) | Scalar-extension `coeff`/`isPstAt` (`:89–132`) `R3`; upstream $p$-adic differential-equation proof `[Open]` | [Lean, read] |
 
-**Summary of the chapter.** Auditing 14 load-bearing propositions across three sub-clusters of
-`P18` (`GlobalTheory.Published.*` and `UpperTheory.V.Published.*`) at reading level `R3` replaces
-speculation about theorem names with exact mathematical verdicts [Lean, read]: five entries
-(`GlobalArtinReciprocity`, `HeckeLAdicCharacter`, `RayClassFieldSt`/`RayClassFieldMaximalSt`,
-`FerreroWashington`, and `DeRhamPotSemistable`) are **faithful** formalizations of their classical
-counterparts (with `HeckeLAdicCharacter` slightly stronger via `IsAlgPos`, and `DeRhamPotSemistable`'s
-period-ring bundle `LocTied` verified non-vacuous); `ChebotarevDegreeOne` is a **safe existential
-weakening** whose 18-line companion lemma `dense` recovers full topological Frobenius density; and
-the remaining entries (`SiegelKlingenDeligneRibet`, `Kato`, `PoitouTateNormalised`, `ClozelPurity`,
-`BaseChangeDefiniteUnitary`, and `SiegelWeilUnitaryConvergent`) are **mathematically sound
-specializations** whose domain guards (`2 * r ≠ k` forcing off-center $L \neq 0$, `l ≠ 2 ∨ IsTotallyComplex F`,
-and everywhere-unramified CM extensions $E/E^+$) align cleanly with the CM host-field consumers on
-the spine of `src/Main.lean`.
+**Reading status.** Sections 18.2–18.4 distinguish the statements, their local deductions,
+and the upstream proofs. The three corrected Cluster II interfaces carry [Lean]. The
+Deligne–Ribet boundary example carries its own [Lean, read] tag.

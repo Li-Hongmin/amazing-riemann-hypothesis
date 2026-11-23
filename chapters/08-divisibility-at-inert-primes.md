@@ -90,7 +90,7 @@ Let us see the mechanism in three transparent steps [Expository]:
    step $j \in \{1, \dots, m\}$ of the chain, the local Siegel–Weil / Kudla–Rallis theta kernel has a
    prescribed archimedean weight parameter $\alpha_s$ (`aT`) and a level/place threshold `cap` (`wPart`).
    At each odd prime power $p^{2e+1}$, the local kernel contributes valuation gain
-   $\max(\alpha_s / p^{2e+1} - \mathrm{cap}, 0)$ (`gA` at `FormalGroupSystem.lean:66`, matching
+   $\max(\alpha_s / p^{2e+1} - \mathrm{cap}, 0)$ (`gA` at `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:66`, matching
    `vonMangoldtClassSum` at `src/Formalism/LocalRingCardinality/DataParams₂.lean:240`) [Lean, read].
    Multiplying by $\log p$ and summing over primes $p$ inert in $E/\Phi$ reproduces **term for term**
    the Riesz-weighted inert prime sum `ASK` of Chapter 5 (Definition 5.1(3))!
@@ -179,7 +179,7 @@ gains $g_1 = 4$ and $g_2 = 3$ with zero error slack, plus a base denominator sca
   $\mathrm{totS}$, yielding period value $a y_0 \in L$ of valuation $v_3(a y_0) \ge 8 - 1 = 7 = g_1 + g_2$!
 
 And what numerical gain does the archive assign to an inert prime $p = 3$ at top scale $a_T = 100$
-and place weight $w_{\mathrm{Part}} = 2$ (`vonMangoldtClassSum`, `DataParams₂.lean:240`)? Sum
+and place weight $w_{\mathrm{Part}} = 2$ (`vonMangoldtClassSum`, `src/Formalism/LocalRingCardinality/DataParams₂.lean:240`)? Sum
 $\max(a_T / 3^{2e+1} - w_{\mathrm{Part}}, 0)$ over $e = 0, 1, 2, \dots$:
 
 - $e = 0$ ($3^1 = 3$): $\max\bigl(\frac{100}{3} - 2,\ 0\bigr) = \frac{94}{3}$;
@@ -188,7 +188,7 @@ $\max(a_T / 3^{2e+1} - w_{\mathrm{Part}}, 0)$ over $e = 0, 1, 2, \dots$:
 
 Thus the finite odd-power sum terminates automatically at $3^{2e+1} \le a_T / w_{\mathrm{Part}} = 50$,
 producing total logarithmic gain $\log 3 \cdot \bigl(\frac{94}{3} + \frac{46}{27}\bigr) = \frac{892}{27}\log 3$.
-Compare that formula with Chapter 5's `askP` (`FirstPrimeNeSecondPrime.lean:75`): **they are the
+Compare that formula with Chapter 5's `askP` (`src/Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:75`): **they are the
 exact same function**!
 
 ---
@@ -210,7 +210,7 @@ valuation (`vAdd (D.plEq w) a`).
 
 **Definition 8.1 (Unramified-scaled valuation thresholds and fractional ideals, `src/Formalism/LocalRingCardinality/DataDIVDefs.lean:15,17,22,31,48` and `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:19,24,28,33,37`).**
 
-1. **Ramification scaling, fractional ideal `Iu`, and lattice span `NprimeDef` (`ur`, `Iu`, `NprimeDef`, `DataDIVDefs.lean:15, 17, 22`).**
+1. **Ramification scaling, fractional ideal `Iu`, and lattice span `NprimeDef` (`ur`, `Iu`, `NprimeDef`, `src/Formalism/LocalRingCardinality/DataDIVDefs.lean:15, 17, 22`).**
    For a place $w$ and $s \in \mathbb R$, set [Lean, read]
    $$\mathrm{ur}(D, w, s) := e_w \cdot s.$$
    Given a finitely supported place-gain function $g : w \mapsto \mathrm{sg}(u, w) \ge 0$ supported
@@ -284,7 +284,7 @@ Let `D` be a chain datum of length $m = D.R.m$ (`lifts = Icc 1 m`) with `L : Siz
 How do single-step theta kernels feed `Conclusion1` upstream of `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, and how
 does `gainS` connect to `ASK`?
 
-**Definition 8.3 (Kernel valuation, Kudla family service, Weyl divided powers, and the odd-power ramp, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113,137,146,234,241,245,252`, `DataG.lean:11,163`, `FormalGroupSystem.lean:51,66`, and `DataParams₂.lean:208,240`).**
+**Definition 8.3 (Kernel valuation, Kudla family service, Weyl divided powers, and the odd-power ramp, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113,137,146,234,241,245,252`, `src/Formalism/SharpRestriction/GrowthBounds/DataG.lean:11,163`, `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,66`, and `src/Formalism/LocalRingCardinality/DataParams₂.lean:208,240`).**
 
 1. **Single-step denominator control versus served-orbit growth (`IntegralKernelValuation`, `LatticeGrowthAtPlace`, `Stmt`, `Serv`, `ServF`, `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:113, 137, 146, 234, 241, 245, 252`).**
    In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, single-step denominator control and positive inert-prime growth
@@ -300,7 +300,7 @@ does `gainS` connect to `ASK`?
      `KudlaFamilyStatement` (`:245`), and `ServF` (`:252`) bundle `Conclusion1` (at $\mathrm{sp} = 1$)
      together with `ColumnValuationAwayFromTypePrimes` (`:108`, used when no served orbit occurs in
      `stable_lattice_of_no_served_orbit`, `:486`) across the family!
-2. **Weyl / divided-power polynomial data and formal-group gain (`DataG` and `FormalGroupSystem.gA`, `src/Formalism/SharpRestriction/GrowthBounds/DataG.lean:11,33,106,163` and `…/FormalGroupSystem.lean:51,57,66`).**
+2. **Weyl / divided-power polynomial data and formal-group gain (`DataG` and `FormalGroupSystem.gA`, `src/Formalism/SharpRestriction/GrowthBounds/DataG.lean:11,33,106,163` and `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,57,66`).**
    `DataG.lean` sets up the polynomial differential/divided-power modules (`deltaL` at `:11`, `Places`
    at `:33`, `Level` at `:106`, `GAtP` at `:163`) [Lean, read], while `FormalGroupSystem.lean` defines
    the supersingular slope $\mathrm{gam}(p) := \frac{p}{p^2 - 1}$ (`:51`) and the odd-power sum (`gA`,
@@ -425,7 +425,7 @@ bound at order `L.sg u w` [Lean, read]!
    $\mathrm{resChar}(w)$ is not inert/signal, `L.gainD j w = 0 ≤ gainS` by nonnegativity
    `served_gain_nonneg` (`:545`); on active inert places, `(hF w)` (`ParametersFill`) gives the exact
    equality `L.gain j w = gainP X K (aL L) (bL L) p j` (`:564`), exceptional primes have `L.gain j w = 0`
-   (`:567`), and `IsCs` primes are excluded via `isCs_drop` (`:575, 606`). (Meanwhile, in `DefsInst.lean:11`,
+   (`:567`), and `IsCs` primes are excluded via `isCs_drop` (`:575, 606`). (Meanwhile, in `src/Formalism/SharpRestriction/GrowthBounds/DefsInst.lean:11`,
    `GAtP.SandwichE` records the upstream module-inclusion sandwich $p^e M_{\mathrm{na}} \le M \le M_{\mathrm{na}}$
    used when instantiating the divided-power package `DataG`.) Substituting `local_compatibility_family`
    (`:588`), `gIdx_of_served` (`:577`), and `gainD_le_gainS` into part (1) yields
@@ -444,24 +444,130 @@ Finally, three short bridge files supply `Conclusion1` (via `Serv` / `ServF`) an
    the $\mathcal O_L$-submodule of `lat 0` spanned by `{x | InNP X Y K c u w x}`, and `JointAt` (`:95`)
    plus `SecondLevelHypothesisFamily` (`:163`) merge these `InNP`-spanned submodules with the branched
    column bounds `ColBr` (`:13`) across all places of $\mathcal O_L$.* [Lean, read]
-2. **Discharging `ServF` (including `Conclusion1`) and `LinkDIVt` (`closed_servF_of_servT_of_dGamSize`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GServT.lean:31`, and `closed_linkDIVt_of_closed_bridge_kernel`, `…/ThirdPlaceSeries/DIVRecBridgeSel.lean:197`).**
-   *Given `DivisionKernelData` (`DIVRecBridgeSel.lean:32`) and uniform constant bounds
+2. **Discharging `ServF` (including `Conclusion1`) and `LinkDIVt` (`closed_servF_of_servT_of_dGamSize`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GServT.lean:31`, and `closed_linkDIVt_of_closed_bridge_kernel`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:197`).**
+   *Given `DivisionKernelData` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:32`) and uniform constant bounds
    `DivisionKernelConstantBounds` (`:166`) produced from the theta-lift rows `pkg_of_rowsK_alt` (`:113`),
    `closed_servF_of_servT_of_dGamSize` discharges `ServF` (whose `Serv` payload carries `Conclusion1 ... 1`),
    and `linkDIVt_of_bridge_kernel` (`:193`) / `closed_linkDIVt_of_closed_bridge_kernel` (`:197`) feeds
    that `Conclusion1` witness into `off_level_bound_family` alongside `SecondLevelHypothesisFamily` to
-   inhabit the global divisibility link `LinkDIVt` (`GlobalTheoremInputs.lean:94`).* [Lean, read]
+   inhabit the global divisibility link `LinkDIVt` (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:94`).* [Lean, read]
 
-*(Statement-level boundary `[Lean]` / `[Open]`.)* Where is `Conclusion1` / `DivisionKernelData`
-itself proved from single-step formal-group kernels? Its proof passes through
-`FormalGroupSystem.Conclusion1` and `Conclusion2`
-(`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:633, 649`),
-`trueColumns_row_sharp_bounds`
-(`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8`), and
-`sum_over_primes_service` inside the `4,699`-module import cone of `DIVRecBridgeSel.lean`. We
-inspected those theorem headers (`R2` / `[Lean]`), verifying that they contain no `sorry` or custom
-axioms, while the internal formal-group and $p$-adic Whittaker/Siegel–Weil kernel calculations inside
-that `4,699`-module cone have not yet been read line by line by us (`[Open]`).
+### 8.4.4 Finite jets of the local formal-group kernel
+
+**Motivation [Expository].** A theta kernel is represented by a power series, while a
+polynomial test reads finitely many of its coefficients. Two different estimates are needed.
+The total degree tells us how many powers of a series can enter a test. A valuation estimate
+then tells us which denominators those powers can bring into the answer.
+
+**Example [Expository].** Take $p=5$, choose $\pi^{24}=5$, and put $c=\pi^6$.
+In the two-position case of `hhS`, one can take $u_0=1$, $u_1=0$ and one pair of indices
+$(a,b)$. The two `sSer` factors start with $x,y$ respectively and their next terms have
+degree $25$. Thus the resulting $h=\mathrm{hhS}(u)$ agrees with $x^5y$ through degree $12$.
+With integral multiplier $1$, the kernel factor $\exp(-ch/5)$ through degree $12$ is
+$1-\frac{\pi^6}{5}x^5y+\frac{\pi^{12}}{2\cdot 5^2}x^{10}y^2$.
+The $x^5y$ coefficient has normalized valuation $-3/4$, even though the first
+nonconstant term has degree $6$. The monomial test $P=X_0^5 X_1$ in `applyD`
+reads this coefficient with multiplier $5!\,1!$, giving $-24\pi^6$ of valuation $1/4$.
+This example uses the exponential factor alone. [Lean] for the underlying definitions.
+`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:197,200,205,256`.
+
+**Definition [Lean, read].** For a multi-index $n$, write $[Z^n]F$ for its coefficient
+and $|n|$ for its total degree. Let $R' \subseteq K'$ be the chosen coefficient subring
+of the extension field. A series is coefficientwise integral if each
+coefficient belongs to $R'$ (`IntR`). The predicate `InClass` for $F,h$ requires
+one sequence of integral series $g_i$ such that for every $n$,
+$[Z^n]F=\sum_{i=0}^{|n|}p^{-i}[Z^n](h^i g_i)$.
+In `SConcl`, $F$ is the kernel after scalar extension and the linear substitution
+`ThZ`, which uses the Frobenius basis and scales the coordinates by $\pi$.
+The proposition asks for integral $u$ such that `InClass` holds for every
+zero-constant-term $h=\mathrm{hhS}(u)+pG$ with integral $G$. This is the
+single-kernel property quantified in `FormalGroupSystem.Conclusion1`.
+`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:123,181,190,194,210,216,633`.
+
+**Lemma (Integral coefficients after extracting explicit denominators) [Lean, read].**
+Let $p$ be prime and let $K'$ extend the fraction field of the Witt vectors of $\overline{\mathbb F}_p$,
+let $\pi^{p^2-1}=p$, and let $R'$ contain the image of the Witt vectors and $\pi$.
+Set $c=\pi^{p+1}$. Suppose $H,h$ have zero constant term,
+$h=H+pG$, and $G,V$ are coefficientwise integral in $R'$.
+Then $\exp(-cH/p)V$ has the `InClass` expansion relative to $h$.
+The exponential is formal and the lemma has no analytic convergence hypothesis.
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NatCastInvMemRp.lean:52`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:143`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:94,116`.
+
+**Proof [Lean, read].**
+
+1. Write $i!=p^v m$ with $v=v_p(i!)$ and $p\nmid m$. Legendre's factorial formula gives
+   $(p-1)v\le i$. The image of $m$ is a unit in the Witt ring because its residue
+   is nonzero. Since $c^{p-1}=p$, we have $c^i/i!=c^{i-(p-1)v}/m$ in
+   the subring generated by the Witt vectors and $\pi$. The same holds with $-c$.
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NatCastInvMemRp.lean:28,40,52`.
+2. The relation $h=H+pG$ forces $G(0)=0$. Through degree $N$, the formal exponential
+   of any zero-constant-term argument is the sum of its powers through $N$ with
+   factorial denominators. In multiplying two such sums only pairs of powers
+   with indices $k+l\le N$ can contribute. The binomial formula identifies the
+   resulting triangular sum with the exponential of the sum of the arguments.
+   Applying this at every $N$ yields
+   $\exp(-cH/p)=\exp(-ch/p)\exp(cG)$.
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:59,67`,
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:94`.
+3. By step 1, each finite coefficient sum for $\exp(cG)$ belongs to $R'$.
+   Set $V'=\exp(cG)V$ and $g_i=((-c)^i/i!)V'$. Products remain integral by
+   the finite coefficient convolution. In degree $|n|$, replace the first exponential
+   by its powers through $|n|$. Multiplication by $V'$ preserves the discarded
+   terms' vanishing through that degree. Pull out $p^{-i}$ and obtain the
+   required coefficient identity with the same $g_i$ for every $n$.
+   `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:16,104,129,143`.
+
+**Conditional passage to the kernel [Lean, read].** For $p\ge5$, with even Frobenius
+index count $n'\ge2$, `SConcl_of` starts from `ExtensionLocalCondition`, which writes the
+kernel as an exponential of a phase times a residual factor $U$. It uses the supplied
+Dwork lemma and `RestSExp` to put the exponential after `ThZ` in the form
+$\exp(-cH/p)V$ with $H=\mathrm{hhS}(u)$ and $V$ integral. It uses the supplied
+`RestSInt` to make the transformed $U$ integral. Multiplicativity of the substitution
+lets us absorb that factor into $V$, and the lemma supplies `SConcl`.
+`kernel_expansion_of_restrictions` applies this at each place and step, taking the
+local conditions and Dwork input from `admitted`. [Open] for our reading of the
+deeper restriction inputs and their geometric construction.
+`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:162,546,548,771`,
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelExpansionOfRestrictions.lean:12,22,70,116,136`.
+
+**Where this estimate stops.** If $h$ vanishes below degree $d\ge1$, then only
+$i\le\lfloor |n|/d\rfloor$ can enter the coefficient sum. This follows by adding total
+degrees in the coefficient convolution. For a valuation ring with $v_p(p)=1$, that
+alone allows a loss up to $\lfloor |n|/d\rfloor$ from the explicit $p^{-i}$.
+The zero-constant-term hypothesis matters: at arguments $1$ and $x$, the linear
+coefficient of $\mathrm{expK}(1+x)$ is $2$ by the two terms of the definition,
+while that of $\mathrm{expK}(1)\mathrm{expK}(x)$ is $1$. A denominator bound for one jet leaves the passage from
+`applyD` to the full lattice inequalities to be justified. [Expository]
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InClassOfExp.lean:52,67`,
+`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:256,613`.
+
+**Dependency diagram.** Dotted arrows mark where the textbook reading stops.
+The packet groups the single-kernel result with other estimates. The unit-bound bridge extracts
+`VolumeRatio₂` and `LowTermBound` from it. The twisted part of the true-column row
+theorem has $\mathrm{resChar}(w)=T_u$. The column bound in
+`WeilJacquetShalikaLaw.Conclusion1` has $\mathrm{resChar}(w)\ne T_u$.
+The true-column theorem also returns an own-chain `Conclusion5Sharp`.
+[Lean] for the downstream theorems, [Open] for a complete reading of the
+jet-to-lattice estimates and both routes' remaining geometric inputs.
+`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:80,94,97,107`,
+`src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:243,264`,
+`src/Formalism/SharpRestriction/SmoothDesignExistence/SumOverPrimesHypotheses.lean:187,202,219`,
+`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBounds.lean:17,36`,
+`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8`,
+`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean:97`.
+
+```text
+piFact + finite exponential truncation
+  -> inClass_of_exp -> SConcl_of (restriction inputs)
+  -> FormalGroupSystem.Conclusion1 (one kernel)
+  -> Conclusion₂ packet, alongside the separate lattice estimates
+       ⋯> unit and length bounds -> ServF (off-level column bound)
+
+realized point-kernel laws ⋯> true-column sharp bound
+  -> own-chain sharp bound and twisted column bound at the level prime
+```
 
 ---
 
@@ -482,16 +588,17 @@ division of labor [Lean, read]:
   an explicit input hypothesis**, check `InNP` on `NuLat`, pair the composite column against test
   forms via `val_step` (`:401`) and `period_ge` (`:419–437`) so the $\pm v_{\mathrm{DG}}$ denominator
   offsets cancel, and apply `gainD_le_gainS` (`:552`) to deduce period divisibility at order `L.sg u w`;
-- **proving `Conclusion1` itself** (combining single-step Lubin–Tate / formal-group height-$2$
-  divided-power estimates on supersingular unitary/CM reductions at inert primes `[Katz1976]`,
-  `[KudlaRallis1994]` across the $m$ lifts) happens upstream in `FormalGroupSystem.lean` (`:633, 649`)
-  and the `4,699`-module import cone of `DIVRecBridgeSel.lean` (`GServT.lean:31` $\to$ `ServF`) [Lean].
+- Section 8.4.4 proves a conditional single-kernel expansion. The service proof
+  also uses lattice estimates from the formal-group packet to obtain the off-level
+  composite bound. The two declarations named `Conclusion1` have different conclusions.
+  [Lean] `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:633,775`,
+  `src/Formalism/SharpRestriction/SmoothDesignExistence/SumOverPrimesHypotheses.lean:187,202,219`.
 
 ### 8.5.2 Why even powers of $p$ cancel and why ramified primes are harmless
 
 Two small structural points save readers hours of puzzlement [Expository]:
 
-1. **Why only odd powers $p^{2e+1}$ appear in `ASK` (`FirstPrimeNeSecondPrime.lean:76`) and
+1. **Why only odd powers $p^{2e+1}$ appear in `ASK` (`src/Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:76`) and
    `FormalGroupSystem.gA` (`:66`).** On the analytic Fourier side (Chapter 5, Theorem 5.1), an
    inert prime $p$ has Frobenius element $\mathrm{frob}(p) \in \Phi^c$ (first bit $1$ in
    $\mathbb Z/2\mathbb Z$), so $i \cdot \mathrm{frob}(p)$ lands in $\Phi^c$ **if and only if $i$ is
@@ -539,7 +646,7 @@ supersingular CM reductions, Lubin–Tate formal groups, or `Conclusion1` [Expos
 | `ColBr`, `NPc`, `JointAt`, `SecondLevelHypothesisAt`, `SecondLevelHypothesisFamily` | `src/Formalism/LocalToGlobal/GroupLattices/JointServices.lean:13,72,95,125,163` | Proposition 8.3(1): spans `InNP`-admissible vectors into the local $\mathcal O_L$-submodule `NPc` away from $T_u, g_0, g_1$ (`OffTG`) and merges it with `ColBr`. | [Lean, read] |
 | `SelectionServed`, `closed_servF_of_servT_of_dGamSize` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GServT.lean:13,31` | Proposition 8.3(2): discharges `ServF` (supplying `Conclusion1`) from served orbit selection and gamma-factor bounds. | [Lean, read] |
 | `DivisionKernelData`, `pkg_of_rowsK_alt`, `DivisionKernelConstantBounds`, `linkDIVt_of_bridge_kernel`, `closed_linkDIVt_of_closed_bridge_kernel` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:32,113,166,193,197` | Proposition 8.3(2): supplies `Conclusion1` to `off_level_bound_family` alongside `SecondLevelHypothesisFamily` to prove `LinkDIVt` (import cone 4,699). | [Lean, read] |
-| `gam`, `gB`, `gA`, `Conclusion1`, `Conclusion2`; `trueColumns_row_sharp_bounds` | `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,57,66,633,649`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8` | Definition 8.3(2) (`R2`): supersingular height-$2$ slope $\frac{p}{p^2-1} = \sum_{e \ge 0} p^{-(2e+1)}$, odd-power gain `gA`, and upstream kernel-valuation theorems (internal proof bodies unread `[Open]`). | [Lean] |
+| `gam`, `gB`, `gA`, `Conclusion1`, `Conclusion2`; `trueColumns_row_sharp_bounds` | `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:51,57,66,633,649`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrueColumnsRowSharpBoundsStatement.lean:8` | Definition 8.3(2) (`R2`): supersingular height-$2$ slope $\frac{p}{p^2-1} = \sum_{e \ge 0} p^{-(2e+1)}$, odd-power gain `gA`, and statement interfaces. Section 8.4.4 reads the conditional kernel expansion, with deeper estimates `[Open]`. | [Lean] |
 
 **Summary of the chapter.** At primes $p$ inert in the imaginary quadratic core $K = \mathbb Q(\sqrt{-d})$,
 supersingular height-$2$ formal groups have $D^p \equiv 0 \pmod p$ and Newton-polygon slope
@@ -550,6 +657,6 @@ In `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`, `Co
 `InNP ... → ColGe ... (totS ...)` (supplied upstream via `FormalGroupSystem.lean` and
 `DIVRecBridgeSel.lean`), and `off_level_bound` (`:504`) plus `off_level_bound_family` (`:614`) combine
 that `Conclusion1` input with `PairInt`, `val_step`, `period_ge`, and `gainD_le_gainS` to deduce period
-divisibility at order `L.sg u w`, feeding `LinkDIVt` (`DIVRecBridgeSel.lean:197`) [Lean, read]. In
+divisibility at order `L.sg u w`, feeding `LinkDIVt` (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/DIVRecBridgeSel.lean:197`) [Lean, read]. In
 Chapter 9 we see how Bost's Arakelov slope inequality converts this local $\mathfrak p_w$-adic
 divisibility into a global numerical inequality!

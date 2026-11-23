@@ -198,7 +198,7 @@ $$A_k(z) = \frac{(-1)^k \Phi_{\mathrm{toy}}^{(k)}(z)}{k!}
   At $\gamma = \tau$, the two poles are equidistant from $\sigma + i\gamma$ and could cancel at a
   prescribed $k$! Classically one invokes P. Turán's power-sum method, varying $k$ across a block
   of consecutive integers to break the cancellation. The archive uses a much simpler geometric
-  observation (`Deduction.landau_nearest`, `…/LandauTheorems/LandauNearest.lean:36`) [Lean, read]:
+  observation (`Deduction.landau_nearest`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauNearest.lean:36`) [Lean, read]:
   any two distinct points $a, b \in \mathbb C$ in the half-plane $\Re s < \sigma$ have a unique
   perpendicular bisector, which can intersect the vertical line $\Re s = \sigma$ in **at most one
   point** $\sigma + i\gamma_{a,b}$ (and in zero points if $\Im a = \Im b$, where the bisector is
@@ -251,12 +251,12 @@ function $f : \mathbb N \to \mathbb C$ and real $y \in \mathbb R$, define the Ri
 $$\operatorname{ramp}(f, y) := \sum_{n=0}^{\lfloor y \rfloor_{\mathbb N}} \Lambda(n)\,f(n)\,\max\Bigl(\frac{y}{n} - 1, 0\Bigr)$$
 (where $\lfloor y \rfloor_{\mathbb N} = 0$ if $y < 0$, and the $n = 0$ term vanishes since $\Lambda(0) = 0$).
 For $N \ge 1$ and $\chi : \mathrm{DirichletCharacter}\ \mathbb C\ N$, define the **normalized
-Riesz remainder** $G_\chi(y)$ (`Deduction.Gchi`, `CharFamily.lean:15`) by
+Riesz remainder** $G_\chi(y)$ (`Deduction.Gchi`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean:15`) by
 $$G_\chi(y) := \begin{cases}
 \operatorname{ramp}(\chi, y) - y\log y + (1 + \gamma)\,y & \text{if }\chi = 1,\\[4pt]
 \operatorname{ramp}(\chi, y) + y\,\dfrac{L'(1,\chi)}{L(1,\chi)} & \text{if }\chi \neq 1,
 \end{cases}$$
-and for the Riemann zeta function alone define the real-valued function (`Deduction.G`, `CharFamily.lean:21`)
+and for the Riemann zeta function alone define the real-valued function (`Deduction.G`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean:21`)
 $$G(y) := \Re\,\operatorname{ramp}(1, y) - y\log y + (1 + \gamma)\,y.$$
 
 *(Compatibility across namespaces.)* Two other modules define the same mathematical objects with
@@ -268,7 +268,7 @@ and with or without `max · 0`, which is redundant when $1 \le n \le \lfloor y \
 [Lean, read]. The archive proves their exact pointwise equality:
 - `UpperTheory.Comparison₂.Gz_eq` (`src/Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean:6`)
   proves $\mathrm{Formalism.Gz}(y) = \mathrm{An.G}(y) = \mathrm{Deduction.G}(y)$ for all $y \in \mathbb R$ [Lean, read];
-- `UpperTheory.Comparison₂.gChi_eq` (`…/PrimitiveCosets/GChiEq.lean:16`) proves
+- `UpperTheory.Comparison₂.gChi_eq` (`src/Development/AutomorphicArithmetic/PrimitiveCosets/GChiEq.lean:16`) proves
   $\mathrm{An.gChi}(\psi.\chi, y) = \mathrm{Deduction.Gchi}(\psi.\chi, y)$ for every primitive
   character $\psi : \mathrm{PChar}$ and every $y \in \mathbb R$ [Lean, read].
 We can therefore write $G_\zeta(y)$ for $G(y)$ and $G_\chi(y)$ unambiguously throughout.
@@ -294,8 +294,8 @@ character $\psi : \mathrm{PChar}$ satisfies admissibility automatically: if $\ps
 $N = \operatorname{cond}(\psi.\chi) = \operatorname{cond}(1) = 1$ (`level_family_adm`,
 `src/Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean:19`) [Lean, read].
 
-Associated to $F$ are the following functions and predicates [Lean, read] (`CharFamily.lean:36,38,41`;
-`LandauZeroFreeCriterion.lean:9,11,25`):
+Associated to $F$ are the following functions and predicates [Lean, read] (`src/Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean:36,38,41`;
+`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean:9,11,25`):
 
 1. **Weighted prime-sum remainder (`Deduction.Gm` and `Deduction.gm`):**
    $$G_m(F, y) := \sum_{i \in \iota} a_i\,\Re G_{\chi_i}(y), \qquad g_F(u) := G_m(F, e^u) \quad (y, u \in \mathbb R).$$
@@ -341,7 +341,7 @@ and $Z \subseteq \mathbb C$. We say `PoleData g Φ Z` holds if:
 In `Formalism.HC`, character families carry the extra group-theoretic structure needed by the
 host-field Fourier analysis of Chapter 5 [Lean, read]
 (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean:39`;
-`…/ExplicitFormulaErrorOfHostConditions.lean:8,24–38,105,121`; `…/TotientGaloisClasses/Window.lean:7,30,33`):
+`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:8,24–38,105,121`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean:7,30,33`):
 
 **Definition 3.4 (`KSet`, `Level`, `Level.Gm`, and `Level.cyc`).**
 
@@ -404,9 +404,9 @@ and let $\chi \bmod N$ satisfy the admissibility condition $N = 1 \lor \chi \neq
    with the Mellin integral $\int_1^\infty G_\chi(y) y^{-s-1}\,dy$.*
 
 *(Lean: `Gchi_growth`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiGrowth.lean:37`;
-`mellin_ramp`, `…/MellinRamp.lean:10`; `mellin_Gchi_of_ne_one`, `…/mellinGchiOfNeOne.lean:116`;
-`mellin_Gchi_modOne`, `…/mellinGchiModOne.lean:115`; `poleData_integrable` and `poleData_change`,
-`…/poleData.lean:91,114`.)* [Lean, read]
+`mellin_ramp`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/MellinRamp.lean:10`; `mellin_Gchi_of_ne_one`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean:116`;
+`mellin_Gchi_modOne`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiModOne.lean:115`; `poleData_integrable` and `poleData_change`,
+`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean:91,114`.)* [Lean, read]
 
 *Proof.*
 (1) For $y \ge 1$ and $1 \le n \le \lfloor y \rfloor$, we have $0 \le \Lambda(n) \le \log n \le n$,
@@ -456,9 +456,9 @@ admissible character family $F : \mathrm{CharFamily}$, there exists a function
 $\Phi : \mathbb C \to \mathbb C$ satisfying `PoleData (gm F) Φ (zeroSet F)`.*
 *(Lean: `poleData_abstract`, `poleData_char`, and `poleData`,
 `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean:22,137,248`;
-with `logDeriv_local`, `…/LogDerivLocal.lean:9`; `LFunction_conj`, `…/LFunctionConj.lean:88`;
-`Gchi_conj`, `…/GchiConj.lean:38`; `measurable_Gchi`, `…/measurableGchi.lean:24`; and
-`charFamily_LFunction_ne_zero_of_one_le_re`, `…/CharFamilyLFunctionNeZeroOfOneLeRe.lean:9`.)* [Lean, read]
+with `logDeriv_local`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LogDerivLocal.lean:9`; `LFunction_conj`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LFunctionConj.lean:88`;
+`Gchi_conj`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiConj.lean:38`; `measurable_Gchi`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/measurableGchi.lean:24`; and
+`charFamily_LFunction_ne_zero_of_one_le_re`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean:9`.)* [Lean, read]
 
 *Proof.* We proceed in three steps, matching `poleData_abstract` $\to$ `poleData_char` $\to$ `poleData`.
 
@@ -559,7 +559,7 @@ $\theta \in \mathbb R$, $\delta > 0$, and $C \in \mathbb R$. Suppose that for ev
 there exists $Y \ge Y_0$ such that $G_m(F, y) \le C y^\theta$ for all $y \in [Y, Y^{1+\delta}]$.
 Then `WindowHyp F θ δ` holds, and hence `WindowHypU (gm F) θ δ` holds.*
 *(Lean: `windowHyp_of_rpow`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/WindowHypOfRpow.lean:27`;
-`windowHypU_of_windowHyp`, `…/WindowHypUOfWindowHyp.lean:29`.)* [Lean, read]
+`windowHypU_of_windowHyp`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/WindowHypUOfWindowHyp.lean:29`.)* [Lean, read]
 
 *Proof.* Fix $\eta > 0$ and $Y_0 \in \mathbb R$. Since $\lim_{Y \to \infty} Y^{\eta/2} = \infty$
 and $\log Y \le \frac{Y^{\eta/2}}{\eta / 2}$ for all $Y > 0$, there exists $Y_1 \ge 1$ such that
@@ -599,10 +599,10 @@ an abscissa $\sigma > 2$ (depending only on $\delta$) and a constant $C > 0$ suc
 $\eta > 0$ and every $U_0 \in \mathbb R$, there exist $U \ge U_0$ and an integer $k \ge U$
 satisfying, for **every** $\gamma \in \mathbb R$,*
 $$\lvert A_k(\sigma + i\gamma) \rvert + \Re A_k(\sigma) \le \frac{C\,e^{\eta U}}{(\sigma - \theta)^k}.$$
-*(Lean: `landau_coeff`, `…/LandauCoeff.lean:10`; `iteratedDeriv_laplace`, `…/IteratedDerivLaplace.lean:84`;
-`landau_kernel_max`, `…/LandauKernelMax.lean:9`; `landau_window_ineq`, `…/landauWindowIneq.lean:27`;
-`kernel_integral`, `…/kernelIntegral.lean:9`; `landau_tails`, `…/landauTails.lean:80`; and
-`landau_window_key`, `…/landauWindow.lean:40`.)* [Lean, read]
+*(Lean: `landau_coeff`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCoeff.lean:10`; `iteratedDeriv_laplace`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/IteratedDerivLaplace.lean:84`;
+`landau_kernel_max`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauKernelMax.lean:9`; `landau_window_ineq`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindowIneq.lean:27`;
+`kernel_integral`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/kernelIntegral.lean:9`; `landau_tails`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauTails.lean:80`; and
+`landau_window_key`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean:40`.)* [Lean, read]
 
 *Proof.* We break the estimate into three self-contained steps.
 
@@ -661,7 +661,7 @@ To bound an expression of the form $e^x a^{-(k+1)}$ by $\frac{e^c}{a\,\sigma^k}$
 rewrite $e^x a^{-(k+1)} = \frac{1}{a\,\sigma^k} e^x (\sigma / a)^k$ and use $1 + t \le e^t$ at
 $t = (\sigma - a)/a$ to get $(\sigma / a)^k \le \exp\bigl(k\,\frac{\sigma - a}{a}\bigr)$; thus it
 suffices that $x + k\,\frac{\sigma - a}{a} \le c$. Let us check the exact parameters chosen in
-`landauTails.lean:83–98`:
+`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauTails.lean:83–98`:
 $$l := 2 + \frac{6}{\delta} > 2, \qquad M := l(1 + \delta), \qquad \sigma := M(2 + l), \qquad
 k := \bigl\lceil (1 + \tfrac{\delta}{2})\,\sigma\,U \bigr\rceil.$$
 Notice first that $l\delta = 2\delta + 6$, which yields two exact algebraic identities:
@@ -723,9 +723,9 @@ coefficients $A_k(z)$ from *below*.
    analytic at $\rho$, then for any $0 < r' < r$ there exists $M \ge 0$ such that*
    $$\Bigl\lvert A_k(z) - \frac{c}{(z - \rho)^{k+1}} \Bigr\rvert \le \frac{M}{r'^k} \qquad \forall k \in \mathbb N.$$
 
-*(Lean: `landau_pole_re_le`, `…/LandauPoleReLe.lean:29`; `landau_finite`, `…/LandauFinite.lean:9`;
-`landau_dichotomy`, `…/LandauDichotomy.lean:24`; `landau_nearest`, `…/LandauNearest.lean:36`;
-`landau_cauchy`, `…/LandauCauchy.lean:9`; `landau_pole_asym`, `…/LandauPoleAsym.lean:19`.)* [Lean, read]
+*(Lean: `landau_pole_re_le`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleReLe.lean:29`; `landau_finite`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauFinite.lean:9`;
+`landau_dichotomy`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauDichotomy.lean:24`; `landau_nearest`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauNearest.lean:36`;
+`landau_cauchy`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCauchy.lean:9`; `landau_pole_asym`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleAsym.lean:19`.)* [Lean, read]
 
 *Proof.*
 (1) If some $\rho \in Z$ had $\Re\rho > 2$, then on the closed half-plane $\Re s \ge \sigma_1 := (2 + \Re\rho)/2 > 2$
@@ -809,9 +809,9 @@ pole tries to cross $\Re s = \theta$.
    for all $y \in [Y, Y^{1+\delta}]$ — then `ZeroFree F θ` holds: for every $i \in \iota$ and every
    $s \in \mathbb C$ with $\Re s > \theta$, we have $L(s, \chi_i) \neq 0$.*
 
-*(Lean: `landau_growth_contra`, `…/LandauGrowthContra.lean:9`; `landau_window_contra` and
-`landau_window`, `…/landauWindow.lean:20,83`; `lemmaL`, `…/lemmaL.lean:13`;
-`zeroFree_of_rpow_window`, `…/ZeroFreeOfRpowWindow.lean:11`.)* [Lean, read]
+*(Lean: `landau_growth_contra`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauGrowthContra.lean:9`; `landau_window_contra` and
+`landau_window`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean:20,83`; `lemmaL`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean:13`;
+`zeroFree_of_rpow_window`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean:11`.)* [Lean, read]
 
 *Proof.*
 (1) First note a one-line growth contradiction (`landau_growth_contra`, `landau_window_contra`): if
@@ -900,10 +900,10 @@ It remains only to connect `zeroFree_of_rpow_window` to `Formalism.HC.Level` and
    supply `∀ ψ, HostExW la (GChi ψ).req`.*
 
 *(Lean: `level_family`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean:41`;
-`UpperTheory.Comparison₂.formB`, `…/PrimitiveCosets/Imports.lean:8`; `HasWindows.mono`,
-`…/TotientGaloisClasses/Window.lean:10`; `zeroFreeOn_of_levels` and `zeroFreeOn_of_cyc`,
-`…/ExplicitFormulaErrorOfHostConditions.lean:45,126`; `exists_small_eps`, `level_of_tiedWin`, and
-`zeroFreeOn_of_tiedWin_cyc`, `…/TopWin.lean:59,68,90`; `zeroFreeAll_of_topG`,
+`UpperTheory.Comparison₂.formB`, `src/Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean:8`; `HasWindows.mono`,
+`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean:10`; `zeroFreeOn_of_levels` and `zeroFreeOn_of_cyc`,
+`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:45,126`; `exists_small_eps`, `level_of_tiedWin`, and
+`zeroFreeOn_of_tiedWin_cyc`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean:59,68,90`; `zeroFreeAll_of_topG`,
 `src/Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean:26`.)* [Lean, read]
 
 *Proof.*
@@ -946,7 +946,7 @@ $Y \ge \max(y_0, x_0)$), the set $\{x : \Lambda.\mathrm{Gm}(x) \le x^\theta\}$ a
 in $\Lambda.\mathrm{KEPT}$ vanishes on $\Re w > \theta$; since $\Re s > \theta$ and $\psi \in \Lambda.\mathrm{KEPT}$,
 we conclude $L(s, \psi.\chi) \neq 0$.
 
-(3) In the archive's generic formulation (`TopWin.lean:20–32`), the window set $W_\varepsilon$ is
+(3) In the archive's generic formulation (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean:20–32`), the window set $W_\varepsilon$ is
 `(core Fm).Win` attached to a family object `Fm : Fam eps` satisfying host conditions `EFamC Λ (core Fm)`
 and chain-tying conditions `ChebyshevInequalityOnFamilyWindows @core @Tied Fm eD eL`; the hypothesis
 that these imply $\Lambda.\mathrm{Gm}(x) \le x^{1/2 + (e_D + e_L + 7)\varepsilon}$ for large
@@ -960,7 +960,7 @@ with `Fam := FamP` and supplies its three hypotheses as:
 - `UpperTheory.Comparison₂.level_gm_le_on_family_scales` (`ChebyshevInequalityOnWindows`, Chapter 5) [Lean];
 - `UpperTheory.Comparison₂.formB` (`FormB`, proved in part (1) above) [Lean, read];
 - `TopG` applied to the host supply `hS ψ : HostExW la (GChi ψ).req` (`ChebyshevInequalityAtWindowScale`,
-  Chapters 4, 7, 11, and 13; on the main path `TopPlug.lean:12` sets $\lambda = 3/2$) [Lean]. $\square$
+  Chapters 4, 7, 11, and 13; on the main path `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:12` sets $\lambda = 3/2$) [Lean]. $\square$
 
 ---
 
@@ -992,7 +992,7 @@ Two small features of the code are worth explaining so they do not puzzle a read
 files [Expository]:
 
 1. **The weight $(3o + 1)^{-1}$.** In `landau_window` and `poleData`, *any* strictly positive
-   weights $a_i > 0$ work equally well. Why does `Level.wt` (`ExplicitFormulaErrorOfHostConditions.lean:36`)
+   weights $a_i > 0$ work equally well. Why does `Level.wt` (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:36`)
    choose the specific number $(3\Lambda.o + 1)^{-1}$? Look seventy lines lower in the same file at
    `Frame.lam` (`:135`):
    $$\varphi.\mathrm{lam}(\gamma) = \frac{\text{if }\gamma \in A_0 \text{ then } 4 \text{ else } 3}{3o + 1}.$$
@@ -1004,13 +1004,13 @@ files [Expository]:
    Chapter 5 (`core_gm`); Chapter 3 needs from it only that $(3o + 1)^{-1} > 0$ [Lean, read].
 2. **Unused parallel definitions.** Three files we read contain alternative propositions that the
    main proof path does not invoke [Lean, read]:
-   - `Formalism/StatementOC.lean:23–71` defines order-comparison steps (`OCStep`, `OCAvg`,
+   - `src/Formalism/StatementOC.lean:23–71` defines order-comparison steps (`OCStep`, `OCAvg`,
      `RiemannHypothesisOfLowerBounds`) comparing `Gz` with real quadratic characters; the live
      spine uses **only** `Formalism.Sz` and `Formalism.Gz` (`:11,13`) from that file.
-   - `DedekindLFunctions/LandauZeroFreeCriterion.lean:33–62` defines `famD`, `GmLevel`, and
+   - `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean:33–62` defines `famD`, `GmLevel`, and
      `LandauZeroFreeCriterion` for even characters modulo $2^{j+2}$ under an eventual bound
      $\forall y \ge y_0$; the live spine uses `PoleData` and `WindowHypU` (`:15,25`) instead.
-   - `TotientGaloisClasses/TopWin.lean:34,101–134` defines `TiedAll` and `level_of_tiedAll` for
+   - `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean:34,101–134` defines `TiedAll` and `level_of_tiedAll` for
      eventual bounds holding for *all* $x \ge x_0$, alongside the windowed theorems `level_of_tiedWin`
      and `zeroFreeOn_of_tiedWin_cyc` (`:68,90`) that `zeroFreeAll_of_topG` actually calls.
 
@@ -1063,27 +1063,27 @@ proof body included (`R3` / `[Lean, read]`).
 | `Deduction.mellin_Gchi_modOne` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiModOne.lean:115` | Proposition 3.1(2): Mellin transform of $G_{1 \bmod 1}$ ($\zeta$) on $\Re s > 1$. | [Lean, read] |
 | `Deduction.Gchi_growth` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiGrowth.lean:37` | Proposition 3.1(1): $\lvert G_\chi(y) \rvert \le C_\chi y^2$ for $y \ge 1$. | [Lean, read] |
 | `Deduction.measurable_Gchi` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/measurableGchi.lean:24` | Borel measurability of $y \mapsto G_\chi(y)$. | [Lean, read] |
-| `Deduction.LFunction_conj`, `Deduction.Gchi_conj` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LFunctionConj.lean:88`; `…/GchiConj.lean:38` | Conjugation symmetries $L(\bar s, \chi^{-1}) = \overline{L(s,\chi)}$ and $\overline{G_\chi(y)} = G_{\chi^{-1}}(y)$. | [Lean, read] |
+| `Deduction.LFunction_conj`, `Deduction.Gchi_conj` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LFunctionConj.lean:88`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiConj.lean:38` | Conjugation symmetries $L(\bar s, \chi^{-1}) = \overline{L(s,\chi)}$ and $\overline{G_\chi(y)} = G_{\chi^{-1}}(y)$. | [Lean, read] |
 | `Deduction.logDeriv_local` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LogDerivLocal.lean:9` | Local expansion $f'(s)/f(s) = m/(s - \rho) + h(s)$ at an isolated point. | [Lean, read] |
 | `Deduction.charFamily_LFunction_ne_zero_of_one_le_re` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean:9` | Classical non-vanishing on $\Re s \ge 1$ for admissible family members. | [Lean, read] |
 | `Deduction.poleData_abstract`, `poleData_integrable`, `poleData_change`, `poleData_char`, `poleData` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean:22,91,114,137,248` | Theorem 3.2: removable singularity at $s = 1$ via `dslope` and construction of `PoleData (gm F) Φ (zeroSet F)` with positive real residues at real zeros. | [Lean, read] |
 | `Deduction.windowHyp_of_rpow_eventually`, `Deduction.windowHyp_of_rpow` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/WindowHypOfRpow.lean:9,27` | Lemma 3.3: pointwise bound $G_m(F,y) \le C y^\theta$ on $[Y, Y^{1+\delta}]$ implies `WindowHyp F θ δ`. | [Lean, read] |
 | `Deduction.windowHypU_of_windowHyp` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/WindowHypUOfWindowHyp.lean:29` | Lemma 3.3: substitution $y = e^u$ converts `WindowHyp` into `WindowHypU`. | [Lean, read] |
-| `Deduction.iteratedDeriv_laplace`, `Deduction.landau_coeff` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/IteratedDerivLaplace.lean:84`; `…/LandauCoeff.lean:10` | Lemma 3.4 (Step 1): differentiating the Laplace integral $k$ times on $\Re s > 2$. | [Lean, read] |
-| `Deduction.landau_kernel_max`, `Deduction.landau_window_ineq` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauKernelMax.lean:9`; `…/landauWindowIneq.lean:27` | Lemma 3.4 (Step 1): $u^k e^{-au}/k! \le a^{-k}$ and the one-sided $\lvert g \rvert + g \le 2R$ window inequality. | [Lean, read] |
-| `Deduction.kernel_integral`, `landau_tails_chernoff`, `landau_tails_pow`, `landau_tails` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/kernelIntegral.lean:9`; `…/landauTails.lean:18,62,80` | Lemma 3.4 (Step 2): choice of $\sigma(\delta) > 2$ and $k = \lceil(1+\delta/2)\sigma U\rceil$ and Chernoff tail bound $\le C_1 \sigma^{-k}$. | [Lean, read] |
-| `Deduction.landau_pole_re_le`, `Deduction.landau_finite` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleReLe.lean:29`; `…/LandauFinite.lean:9` | Lemma 3.5(1): poles satisfy $\Re\rho \le 2$ and are finite in compact disks inside $\{\Re s > 0\}$. | [Lean, read] |
+| `Deduction.iteratedDeriv_laplace`, `Deduction.landau_coeff` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/IteratedDerivLaplace.lean:84`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCoeff.lean:10` | Lemma 3.4 (Step 1): differentiating the Laplace integral $k$ times on $\Re s > 2$. | [Lean, read] |
+| `Deduction.landau_kernel_max`, `Deduction.landau_window_ineq` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauKernelMax.lean:9`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindowIneq.lean:27` | Lemma 3.4 (Step 1): $u^k e^{-au}/k! \le a^{-k}$ and the one-sided $\lvert g \rvert + g \le 2R$ window inequality. | [Lean, read] |
+| `Deduction.kernel_integral`, `landau_tails_chernoff`, `landau_tails_pow`, `landau_tails` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/kernelIntegral.lean:9`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauTails.lean:18,62,80` | Lemma 3.4 (Step 2): choice of $\sigma(\delta) > 2$ and $k = \lceil(1+\delta/2)\sigma U\rceil$ and Chernoff tail bound $\le C_1 \sigma^{-k}$. | [Lean, read] |
+| `Deduction.landau_pole_re_le`, `Deduction.landau_finite` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleReLe.lean:29`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauFinite.lean:9` | Lemma 3.5(1): poles satisfy $\Re\rho \le 2$ and are finite in compact disks inside $\{\Re s > 0\}$. | [Lean, read] |
 | `Deduction.landau_dichotomy` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauDichotomy.lean:24` | Lemma 3.5(2): split into pole-free $B(\sigma, D)$ with closer off-axis pole vs. unique nearest real pole $\beta \in (\theta, \sigma)$. | [Lean, read] |
 | `Deduction.landau_nearest_equi`, `Deduction.landau_nearest` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauNearest.lean:10,36` | Lemma 3.5(3): vertical perturbation off finitely many perpendicular bisectors gives a unique nearest pole to $\sigma + i\gamma$. | [Lean, read] |
-| `Deduction.landau_cauchy`, `Deduction.landau_pole_asym` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCauchy.lean:9`; `…/LandauPoleAsym.lean:19` | Lemma 3.5(4): Cauchy estimate and single-pole asymptotic $A_k(z) = c(z-\rho)^{-(k+1)} + O(r'^{-k})$. | [Lean, read] |
-| `Deduction.landau_growth_contra`, `landau_window_contra`, `landau_window_key`, `landau_window` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauGrowthContra.lean:9`; `…/landauWindow.lean:20,40,83` | Lemma 3.4 & Theorem 3.6(1): jet bound + pole lower bound + exponential-growth contradiction prove $\forall \rho \in Z,\ \Re\rho \le \theta$. | [Lean, read] |
-| `Deduction.lemmaL`, `Deduction.zeroFree_of_rpow_window` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean:13`; `…/ZeroFreeOfRpowWindow.lean:11` | Theorem 3.6(2): `WindowHyp F θ δ` (and pointwise $C y^\theta$ windows) imply `ZeroFree F θ`. | [Lean, read] |
+| `Deduction.landau_cauchy`, `Deduction.landau_pole_asym` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCauchy.lean:9`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleAsym.lean:19` | Lemma 3.5(4): Cauchy estimate and single-pole asymptotic $A_k(z) = c(z-\rho)^{-(k+1)} + O(r'^{-k})$. | [Lean, read] |
+| `Deduction.landau_growth_contra`, `landau_window_contra`, `landau_window_key`, `landau_window` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauGrowthContra.lean:9`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean:20,40,83` | Lemma 3.4 & Theorem 3.6(1): jet bound + pole lower bound + exponential-growth contradiction prove $\forall \rho \in Z,\ \Re\rho \le \theta$. | [Lean, read] |
+| `Deduction.lemmaL`, `Deduction.zeroFree_of_rpow_window` | `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean:13`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean:11` | Theorem 3.6(2): `WindowHyp F θ δ` (and pointwise $C y^\theta$ windows) imply `ZeroFree F θ`. | [Lean, read] |
 
 ### 3.6.2 Level bridge and the $\varepsilon \to 0$ engine (node P4)
 
 | Declaration | File:line | Mathematical content / role in Section 3.4 | Tag |
 |---|---|---|---|
-| `UpperTheory.Comparison₂.Gz_eq`, `UpperTheory.Comparison₂.gChi_eq` | `src/Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean:6`; `…/GChiEq.lean:16` | Compatibility identities identifying `Formalism.Gz`, `An.G`, `Deduction.G` and `An.gChi`, `Deduction.Gchi`. | [Lean, read] |
+| `UpperTheory.Comparison₂.Gz_eq`, `UpperTheory.Comparison₂.gChi_eq` | `src/Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean:6`; `src/Development/AutomorphicArithmetic/PrimitiveCosets/GChiEq.lean:16` | Compatibility identities identifying `Formalism.Gz`, `An.G`, `Deduction.G` and `An.gChi`, `Deduction.Gchi`. | [Lean, read] |
 | `UpperTheory.Comparison₂.level_family` | `src/Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean:41` | Theorem 3.7(1): realizes any `Level` $\Lambda$ as an admissible `CharFamily` with positive weights. | [Lean, read] |
 | `UpperTheory.Comparison₂.formB` | `src/Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean:8` | Theorem 3.7(1): proves `∀ Λ : Level, Λ.FormB` from `level_family` and `zeroFree_of_rpow_window`. | [Lean, read] |
 | `Formalism.HC.KSet` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean:39` | Finite inversion-closed set `KEPT` of primitive characters containing `PChar.one` plus optional real odd `psK`. | [Lean, read] |

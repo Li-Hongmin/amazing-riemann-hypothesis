@@ -38,6 +38,8 @@
 - [16. Open problems and what remains to be checked](chapters/16-open-problems-and-what-remains.md)
 - [18. Auditing `GlobalTheory.Published`: worked statement-fidelity case studies (`P18`)](chapters/18-auditing-the-published-layer-case-studies.md)
 
+- [19. Published layer case studies II](chapters/19-published-layer-case-studies-ii.md)
+
 # Records
 
 - [Sources](sources/SOURCES.md)

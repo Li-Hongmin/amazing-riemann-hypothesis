@@ -34,7 +34,7 @@ Pause and admire how small that top-level root is! Once `every_character_of_lite
 (node **P18**, Chapter 13) and `vwin_of_row` (node **P12**, Chapter 11) are in place, **every target
 theorem in `src/Main.lean` rests on two foundational existence theorems proved inside the archive**:
 
-1. **Node P14 (`Row0b` / `Row`, `WeightsConjBis.lean:69`, `RowSrc.lean:6`, import cone 66,167 modules):**
+1. **Node P14 (`Row0b` / `Row`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:69`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6`, import cone 66,167 modules):**
    To every regular algebraic polarized (conjugate-self-dual) cuspidal automorphic representation
    $\pi$ of $\mathrm{GL}_a(\mathbb A_E)$ over a CM field $E$, the archive attaches a continuous
    semisimple $a$-dimensional $\ell$-adic Galois representation
@@ -68,7 +68,7 @@ $\mathrm{GL}_a(\mathbb A_E)$ over CM fields [Expository]? Look back at the exact
 10, and 11 where `Row0b` and `RecTExists` were consumed:
 
 1. **Along the $m$-step theta-lift chain (Chapters 7 and 10):**
-   - In Chapter 7 (`PairLiftOfHoweDualityBernstein.lean:17`, `SiegelEisensteinSecondTermHypotheses.lean:44`),
+   - In Chapter 7 (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/PairLiftOfHoweDualityBernstein.lean:17`, `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:44`),
      lifting an automorphic representation along $U(X_0) \to U(X_1) \to \dots \to U(X_m)$ splices its
      local split-place parameters by $\sigma \mapsto \sigma \boxplus \mu_j[t]$, and `RecTExists`
      translates local parabolic induction of characters and depth-zero types into direct sums of
@@ -79,13 +79,13 @@ $\mathrm{GL}_a(\mathbb A_E)$ over CM fields [Expository]? Look back at the exact
      unramified split places — turning automorphic congruences into Galois $1$-cocycles in
      $Ш^1\bigl(G_{E, S_\ell}, \mathbb Q_\ell / \mathbb Z_\ell(-e)\bigr)$!
 2. **Inside the `VWin` modularity and Euler-system engine (Chapter 11):**
-   In `VwinOfRow.lean:4` and `TopMainZj.lean:47,71` [Lean, read], `Row0b` enters as
+   In `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/VwinOfRow.lean:4` and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TopMainZj.lean:47,71` [Lean, read], `Row0b` enters as
    `OpenImageCondition.mk h` and `gal : RowT`, supplying:
    - the $2$-dimensional $\mathrm{GL}_2$ Galois representations and local–global compatibility needed
-     by Kato's Euler system (`KatoUse`, `KatoUse.lean:15`);
+     by Kato's Euler system (`KatoUse`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean:15`);
    - the $3$-dimensional (and $\mathrm{GSp}_4$-transferred) Galois representations $\rho : G_K \to \mathrm{GL}_3(\overline{\mathbb Q}_\ell)$
      attached to cohomological forms on $U(3)$ whose Frobenius trace differences build the nonzero
-     annihilator integer `NN` in `PropGK` (`KatoUse.lean:36,60`); and
+     annihilator integer `NN` in `PropGK` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean:36,60`); and
    - the crystalline / Hodge–Tate jump control above $\ell$ (`AboveB.crys`, `AboveB.nice`) needed for
      ordinary Hida theory and Taylor–Wiles patching (`PfromAut`).
 
@@ -109,7 +109,7 @@ Notice the crucial observation embodied in nodes **P14** and **P15** [Expository
 - **Why weakening `IsRecT` does NOT create a loophole in `Row0b`:** A skeptical reader might worry:
   *"If `IsRecT` leaves `rc` unconstrained on wild supercuspidals, could `recTExists` define `rc` to
   be some trivial dummy map and make `Row0b` vacuously easy to prove?"* Look at the quantifier order
-  in `PropsB.away` (`WeightsConjBis.lean:58–59`) [Lean, read]:
+  in `PropsB.away` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:58–59`) [Lean, read]:
   ```lean
   away : ∀ (w : HeightOneSpectrum (𝓞 E)) (hl : ((l : ℕ) : 𝓞 E) ∉ w.asIdeal)
     (A : ValuationSubring Ω) (h : IsPlaceOver A w)
@@ -141,7 +141,7 @@ concrete on small ranks $a = 1$ and $a = 2$ [Expository].
    is
    $$\chi_{k, \infty}(z) = (z / \bar z)^k = z^k \bar z^{-k}, \qquad\text{infinitesimal character } z(\tau_0) = k,\ z(\tau_0 \circ c) = -k.$$
    Check the archive's Hodge–Tate weight formulas `PropsB.weights` and `PropsB.weights_conj`
-   (`WeightsConjBis.lean:60–63`) at $a = 1$:
+   (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:60–63`) at $a = 1$:
    $$\mathrm{HT}(\tau_0) = \frac{1 - 1}{2} - k = \{-k\}, \qquad
    \mathrm{HT}(\tau_0 \circ c) = \frac{1 - 1}{2} - (-k) = \{+k\} = \{0 - (-k)\},$$
    satisfying `weights_conj` with purity weight $\mathrm{wt} = 0$! Under Weil's $\ell$-adic
@@ -168,7 +168,7 @@ concrete on small ranks $a = 1$ and $a = 2$ [Expository].
      summands, so its Weil-group image is abelian (commutator-trivial `Tor` on `WD h`,
      `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjAlt.lean:27`),
      and for generic unlinked $\chi_1, \chi_2$ the Weil–Deligne monodromy operator vanishes ($N = 0$,
-     i.e. `y.mono0`). Then `AwayB.tor` (`WeightsConjBis.lean:29`) fires and gives **full isomorphism of
+     i.e. `y.mono0`). Then `AwayB.tor` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:29`) fires and gives **full isomorphism of
      Weil–Deligne representations** `x = y`! In particular, at every unramified prime $w$ of norm $q_w$,
      $r(\mathrm{Frob}_w)$ has exact characteristic polynomial $X^2 - a_w(f) X + q_w$!
    - **Case B — Special / Steinberg twist $\sigma_w = \mathrm{St}_2 \otimes \chi$ (`Tor` true, `mono0` false):**
@@ -183,7 +183,7 @@ concrete on small ranks $a = 1$ and $a = 2$ [Expository].
      `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:35–53`, attached to a regular character $\theta : \mathbb F_{g^2}^\times \to \mathbb C^\times$
      with $\theta^g \neq \theta$). Then `TypeLaw` forces `y.mono0` ($N = 0$) and pins down the inertia
      characteristic polynomial on $I_{\mathbb Q_{g^2}}$ as $(X - \theta(z))(X - \theta(z^g))$
-     (squarefree since $\theta(z) \neq \theta(z^g)$!), so `AwayB.tame0` (`WeightsConjBis.lean:31`)
+     (squarefree since $\theta(z) \neq \theta(z^g)$!), so `AwayB.tame0` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:31`)
      forces `x.mono0` and equates the degree-$0$ (inertia) characteristic polynomials `x.charPol g = y.charPol g`!
 
 ### 12.2.2 The even-rank theta-lift subtraction trick (`TwoUp` and `PeelAll`) in miniature
@@ -286,13 +286,13 @@ completion $k := E_w$, and $h : \mathrm{IsPlaceOver}\,A\,w$ ($A \subset \Omega$ 
 
 ### 12.3.2 Galois representations with weak local–global compatibility (`WeightsConjBis.lean`)
 
-**Definition 12.2 (`IsQpBig`, `AwayB`, `AboveB`, `PropsB`, `Row0b`, and `Row` / `RowT`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:15,26,39,54,69`, `…/SatakeParameters/RecT.lean:6`, and `…/AutomorphyLifting/WeakOfAtt.lean:47`).** [Lean, read]
+**Definition 12.2 (`IsQpBig`, `AwayB`, `AboveB`, `PropsB`, `Row0b`, and `Row` / `RowT`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:15,26,39,54,69`, `src/Development/AutomorphicArithmetic/Foundations/UnitarySphericalFixing/SatakeParameters/RecT.lean:6`, and `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/AutomorphyLifting/WeakOfAtt.lean:47`).** [Lean, read]
 
 Fix a local-reciprocity predicate `Rc : RecNotion` (instantiated as `recT := fun h rc => IsRecT h rc`,
 `src/Development/AutomorphicArithmetic/Foundations/UnitarySphericalFixing/SatakeParameters/RecT.lean:4`), a CM number field $E$ with maximal real subfield $E^+$, a prime $\ell$, an isomorphism
 $\iota : \overline{\mathbb Q}_\ell \simeq \mathbb C$, and a rank $a \ge 1$.
 
-1. **Local compatibility away from $\ell$ (`IsQpBig`, `AwayB`, `WeightsConjBis.lean:15, 26–31`):**
+1. **Local compatibility away from $\ell$ (`IsQpBig`, `AwayB`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:15, 26–31`):**
    Write `IsQpBig w n` (`:15`) if $E_w \simeq_{\mathrm{top}} \mathbb Q_g$ for a rational prime $g$ with
    $n = 1$ or $16 n^2 < g$. For two Weil–Deligne representations $x, y \in \mathrm{WD}(h)$ at $w \nmid \ell$,
    `AwayB x y : Prop` asserts:
@@ -337,8 +337,8 @@ and then map out the 66,167-module internal Shimura-variety / congruence / theta
 
 **Proposition 12.1 (Constructing `RecTExists` from local Artin reciprocity, supercuspidal seeds, and Langlands multisegments).**
 *`UpperTheory.Zero.LLC.RecTExists` holds.*
-*(Lean: `lawsT_of_laws` and `isRecT_of_isRec`, `…/LocalLanglands/IsRecTOfIsRec.lean:91,106`;
-`UpperTheory.Zero.LLC.recTExists`, `…/LocalLanglands/LocalCentralUnits/RecTExists.lean:20`.)* [Lean, read]
+*(Lean: `lawsT_of_laws` and `isRecT_of_isRec`, `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:91,106`;
+`UpperTheory.Zero.LLC.recTExists`, `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:20`.)* [Lean, read]
 
 *Proof.* Open `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:20–66` (`R3` for this file; `R2` `[Lean]` for the imported sub-lemmas
 in its 26,672-module cone):
@@ -373,7 +373,7 @@ in its 26,672-module cone):
 
 Next let us verify two crisp `R3` deductions: first, `aRead_of` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/AutomorphyLifting/WeakOfAtt.lean:105–113`), which shows
 in 9 lines how downstream consumers upgrade `AwayB` to **exact Weil–Deligne equality** `x = rc (algNorm σ)`;
-second, `MainConclusion.lean:7–14`, which wires P14 + P15 + P12 + P18 into `EveryCharacter` and `RiemannHypothesis`!
+second, `src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7–14`, which wires P14 + P15 + P12 + P18 into `EveryCharacter` and `RiemannHypothesis`!
 
 **Proposition 12.2 (Upgrading `AwayB` on unlinked/toral places via `aRead_of`, and closing `MainConclusion.lean`).** [Lean, read]
 
@@ -383,9 +383,9 @@ second, `MainConclusion.lean:7–14`, which wires P14 + P15 + P12 + P18 into `Ev
    attached Galois representation $r$ satisfying `WitA ι r` (`:27–30`), at every place $w$ with either
    $w \nmid \ell$ or `Unl1 r w` (flag characters $\kappa_i \neq \kappa_j \chi_{\mathrm{cyc}}$ on $D_w$),
    **every** $x \in \mathrm{WD}(h)$ satisfying `AwayB x (rc (algNorm σ))` satisfies **`x = rc (algNorm σ)`**!*
-2. *(`everyCharacter_of_row` and `everyCharacter`, `MainConclusion.lean:7,10`)* *Given `galoisLocalGlobalStrong_recParameter : Row0b recT`
-   (`RowSrc.lean:6`) and `recTExists : RecTExists` (`src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:20`), `OpenLiteratureStatements`
-   (`EveryCharacterOfLiteratureOfVWin.lean:215`) and `VWin` (`VwinOfRow.lean:4`) are both inhabited,
+2. *(`everyCharacter_of_row` and `everyCharacter`, `src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7,10`)* *Given `galoisLocalGlobalStrong_recParameter : Row0b recT`
+   (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6`) and `recTExists : RecTExists` (`src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:20`), `OpenLiteratureStatements`
+   (`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215`) and `VWin` (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/VwinOfRow.lean:4`) are both inhabited,
    proving `UpperTheory.EveryCharacter` and `RiemannHypothesis`!*
 
 *Proof.*
@@ -396,7 +396,7 @@ produces `hwin : WinAt π t w` (`:108–111`). Feeding `hwin` into `PlainRec` (`
 and `h3 : (rc (algNorm σ)).mono0`. Therefore, for *any* $x$ satisfying `k : AwayB x (rc (algNorm σ))`,
 projecting `k.tor h2 h3` (`:113`) gives `x = rc (algNorm σ)` immediately!
 
-(2) Look at `EveryCharacterOfLiteratureOfVWin.lean:215–218` [Lean, read]:
+(2) Look at `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215–218` [Lean, read]:
 ```lean
 structure UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop where
   caraianiLocalGlobalDual : _root_.UpperTheory.One.M.Row
@@ -406,7 +406,7 @@ structure UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop where
 Since `UpperTheory.One.M.Row` (`src/Development/AutomorphicArithmetic/Foundations/UnitarySphericalFixing/SatakeParameters/RecT.lean:6`) is definitionally `Row0b (fun h rc => IsRecT h rc)`, a
 single proof `h` of `Row0b recT` fills **both** the first and third fields of `OpenLiteratureStatements`,
 while `recTExists` fills the second field: `⟨h, recTExists, h⟩ : OpenLiteratureStatements`
-(`MainConclusion.lean:8`)! Simultaneously, Theorem 11.4 (`vwin_of_row h`) produces `VWin`. Passing both
+(`src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:8`)! Simultaneously, Theorem 11.4 (`vwin_of_row h`) produces `VWin`. Passing both
 into `every_character_of_literature_of_vWin` proves `EveryCharacter`, and applying it to
 `h := galoisLocalGlobalStrong_recParameter` proves `everyCharacter` (`:10–11`)! $\square$
 
@@ -418,14 +418,14 @@ Let us read the top five files of node **P14** in full (`R3` / `[Lean, read]`): 
 
 **Proposition 12.3 (Top-level assembly of `Row0b recT` from Shimura geometry, congruences, and stable-range theta lifts).**
 *Assume:*
-- *`geoOne_holds : GeoOne` (`WeightOneGeometricRealization.lean:11`, proved from the algebraic
+- *`geoOne_holds : GeoOne` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:11`, proved from the algebraic
   holomorphic Lefschetz fixed-point formula `lefschetz_fixedPoint_finite_etale_correspondence`, `:7–9`),*
 - *`wtLacEx_holds` (lacunary $\ell$-adic weight interpolation, giving `CongFinOdd` via `congFinOdd_of_ex`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/Development.lean:28`), and*
 - *`tLiftK : TLiftK` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/TLiftK.lean:4`, stable-range global theta-lift non-vanishing on definite unitary groups).*
 
-*Then `Row0 recT` and `Row0b recT` hold (`galoisLocalGlobalStrong_recParameter`, `RowSrc.lean:6`).* [Lean, read]
+*Then `Row0 recT` and `Row0b recT` hold (`galoisLocalGlobalStrong_recParameter`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6`).* [Lean, read]
 
-*Proof (top-level proof terms in `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/Development.lean:20–31` and `WeightsConjBis.lean:75–86`).*
+*Proof (top-level proof terms in `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/Development.lean:20–31` and `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:75–86`).*
 1. `seedFinOdd_of_geoOne geoOne_holds` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/Development.lean:28` `[Lean]`) cuts out odd-rank "seed" Galois
    representations from the cohomology of the PEL/Kuga–Sato variety (`GeoOne`).
 2. `limFinOdd_of seed cong` (`:22` `[Lean]`) passes to $\ell$-adic congruence limits via `CongFinOdd`,
@@ -436,7 +436,7 @@ Let us read the top five files of node **P14** in full (`R3` / `[Lean, read]`): 
    (`galoisCompat_unlinkedSupport_of_spherical`) and Iwahori-fixed unlinked compatibility
    (`localGlobalCompatAtIwahoriFixed_of_unlinked`) to inhabit `Row0 recT` (which uses `Away` with
    `IsQp w` in place of `IsQpBig w n`).
-4. Finally, `Row0.row0b` (`WeightsConjBis.lean:84–86` `[Lean, read]`) applies `IsQpBig.isQp` (`:18–20`:
+4. Finally, `Row0.row0b` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:84–86` `[Lean, read]`) applies `IsQpBig.isQp` (`:18–20`:
    forgetting the $16 n^2 < g$ bound!) to weaken `Away` to `AwayB` (`Props.big`, `:75–82`), producing
    `Row0b recT`! $\square$
 
@@ -461,7 +461,7 @@ number-theoretic map of what is formalized inside that cone:
      complex period-lattice uniformization (`FixK_holds`) with orbital sums on **definite** unitary inner
      forms (`move_definite` — using Hilbert reciprocity and **odd rank $n$**!), evaluated on coherent
      Hodge cohomology by an **algebraically proved Atiyah–Bott holomorphic Lefschetz formula**
-     (`lefschetz_fixedPoint_finite_etale_correspondence`, `WeightOneGeometricRealization.lean:9` `[Lean]`)
+     (`lefschetz_fixedPoint_finite_etale_correspondence`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:9` `[Lean]`)
      and transferred to $\ell$-adic étale cohomology by a Faltings-style crystalline Hodge–Tate comparison
      (`PadicHodgeComparison/`, 538 files `[Open]`) [Community]!
 2. **All odd-rank forms via $\ell$-adic congruences and pseudo-characters (`CongFinOdd`, `limFinOdd_of`):**
@@ -486,11 +486,11 @@ number-theoretic map of what is formalized inside that cone:
 | Aspect | Classical published theorems | Lean archive (`Row0b` & `RecTExists`, P14–P15) |
 |---|---|---|
 | **Local Langlands for $\mathrm{GL}_n(E_w)$** | Full bijection uniquely pinned down on all supercuspidals by local $\gamma$/$\varepsilon$-factors of pairs (`[HarrisTaylor2001]`, `[Henniart2000]`, `[BushnellKutzko1993]`). | `RecTExists` (`src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:78`): 12-clause `LawsT`, pinned down on `Good` (toral + twists of $\mathbb Q_g$ depth-zero cuspidals via `TypeLaw`); wild positive-depth supercuspidals satisfy only dimension, irreducibility, norm-twist, and $\lvert\omega\rvert$ `[Lean, read]`. |
-| **Global Galois attachment ($E$ CM)** | Attached for all regular algebraic conjugate-self-dual cuspidal $\pi$ on $\mathrm{GL}_a(\mathbb A_E)$ (`[HarrisTaylor2001]`, `[ClozelHarrisTaylor2008]`, `[Shin2011]`). | `Row0b` (`WeightsConjBis.lean:69`): continuous semisimple $r : G_E \to \mathrm{GL}_a(\overline{\mathbb Q}_\ell)$ with exact Hodge–Tate weights `(a-1)/2 - z` and conjugate purity `HT(τ∘c) = wt - HT(τ)` `[Lean, read]`. |
-| **Local–global compatibility ($w \nmid \ell$)** | Full Frobenius-semisimplified Weil–Deligne isomorphism including monodromy $N$ at all places $w \nmid \ell$ (`[Shin2011]`, `[Caraiani2012]`). | `AwayB` (`WeightsConjBis.lean:26`): exact equality on `Tor` with $N = 0$; inertia charpoly + $N = 0$ on tame squarefree parameters over $\mathbb Q_g$ ($g > 16a^2$); dimension only when $N \neq 0$ `[Lean, read]`. |
-| **Local–global compatibility ($w \mid \ell$)** | Potentially semistable everywhere above $\ell$, crystalline at spherical places, full WD match (`[Caraiani2014]`). | `AboveB` (`WeightsConjBis.lean:39`): crystalline + de Rham + HT jumps at spherical places; de Rham + pst + `AwayB` in `Tor` or tame $\mathbb Q_g$ cases with $N = 0$ `[Lean, read]`. |
+| **Global Galois attachment ($E$ CM)** | Attached for all regular algebraic conjugate-self-dual cuspidal $\pi$ on $\mathrm{GL}_a(\mathbb A_E)$ (`[HarrisTaylor2001]`, `[ClozelHarrisTaylor2008]`, `[Shin2011]`). | `Row0b` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:69`): continuous semisimple $r : G_E \to \mathrm{GL}_a(\overline{\mathbb Q}_\ell)$ with exact Hodge–Tate weights `(a-1)/2 - z` and conjugate purity `HT(τ∘c) = wt - HT(τ)` `[Lean, read]`. |
+| **Local–global compatibility ($w \nmid \ell$)** | Full Frobenius-semisimplified Weil–Deligne isomorphism including monodromy $N$ at all places $w \nmid \ell$ (`[Shin2011]`, `[Caraiani2012]`). | `AwayB` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:26`): exact equality on `Tor` with $N = 0$; inertia charpoly + $N = 0$ on tame squarefree parameters over $\mathbb Q_g$ ($g > 16a^2$); dimension only when $N \neq 0$ `[Lean, read]`. |
+| **Local–global compatibility ($w \mid \ell$)** | Potentially semistable everywhere above $\ell$, crystalline at spherical places, full WD match (`[Caraiani2014]`). | `AboveB` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:39`): crystalline + de Rham + HT jumps at spherical places; de Rham + pst + `AwayB` in `Tor` or tame $\mathbb Q_g$ cases with $N = 0$ `[Lean, read]`. |
 
-*(Non-vacuity check on `AboveB`.)* Notice that `PropsB.above` (`WeightsConjBis.lean:64`) quantifies over
+*(Non-vacuity check on `AboveB`.)* Notice that `PropsB.above` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:64`) quantifies over
 period-ring data `∀ P AI, Nonempty (LocTied l P AI) → ...`; community vacuity audits (`LUMI doc 05` &
 `vacuity-check.md` [Community]) verified that `GlobalTheory.MemLoc.exists_locPrime_tied`
 (`src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281` `[Lean]`)
@@ -529,8 +529,8 @@ between the two November 2026 manuscripts [Paper; Masullo pp. 117–154, 302–3
 | `UpperTheory.Zero.LLC.recTExists` | `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:20` | Proposition 12.1: proves `RecTExists` from local Artin reciprocity `artEx`, supercuspidal seeds `cuspEx`, and Langlands multisegments `exists_isLExt` (top file `R3`; 26,672-module cone `[Lean]` / `[Open]`). | [Lean, read] |
 | `IsQpBig`, `IsQpBig.isQp`, `AwayB`, `Away.big`, `AboveB`, `PropsB`, `Row0b`, `Props.big`, `Row0.row0b` | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:15,18,26,33,39,54,69,75,84` | Definition 12.2 & Proposition 12.3: CM automorphic $\ell$-adic Galois representation predicate `Row0b` with Hodge–Tate weights and weak local–global compatibility `AwayB` / `AboveB` (cone 3,150). | [Lean, read] |
 | `UpperTheory.One.M.recT`, `UpperTheory.One.M.Row`; `Unl1`, `PotUnl`, `WitA`, `RowT`, `PlainRec`, `ARead`, `aRead_of` | `src/Development/AutomorphicArithmetic/Foundations/UnitarySphericalFixing/SatakeParameters/RecT.lean:4,6`; `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/AutomorphyLifting/WeakOfAtt.lean:19,23,27,47,49,98,105` | Definition 12.2 & Proposition 12.2(1): aliases `Row` / `RowT` for `Row0b recT` and proof `aRead_of` upgrading `AwayB` to exact Weil–Deligne equality on `Tor` + `mono0` places. | [Lean, read] |
-| `galoisLocalGlobalStrong_recParameter`; `galoisRepresentations_of_thetaLift`; `coreAll_of`, `rest`, `galoisLocalGlobal_of_geometry_lift`, `galoisLocalGlobalStrong_of_geometry_lift` | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6`; `…/GaloisRepresentationsOfThetaLift.lean:6`; `…/GaloisRepresentations/IntegralStructures/Development.lean:20,24,27,30` | Proposition 12.3: top-level spine proving `Row0b recT` from `geoOne_holds`, `wtLacEx_holds`, and `tLiftK` (top files `R3`; 66,167-module cone `[Lean]` / `[Open]`). | [Lean, read] |
-| `weight_one_geometric_realization`, `geoOne_holds`; `UpperTheory.TP.K.tLiftK` | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:7,11`; `…/ThetaParseval/ThetaKernels/TLiftK.lean:4` | Proposition 12.3 & Section 12.4.4: odd-rank Kuga–Sato / algebraic holomorphic Lefschetz seed (`geoOne_holds`, cone 45,859) and stable-range definite-unitary theta lift (`tLiftK`, cone 20,485) (top wrappers `R3`; internal cones `[Open]`). | [Lean, read] |
+| `galoisLocalGlobalStrong_recParameter`; `galoisRepresentations_of_thetaLift`; `coreAll_of`, `rest`, `galoisLocalGlobal_of_geometry_lift`, `galoisLocalGlobalStrong_of_geometry_lift` | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6`; `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GaloisRepresentationsOfThetaLift.lean:6`; `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/Development.lean:20,24,27,30` | Proposition 12.3: top-level spine proving `Row0b recT` from `geoOne_holds`, `wtLacEx_holds`, and `tLiftK` (top files `R3`; 66,167-module cone `[Lean]` / `[Open]`). | [Lean, read] |
+| `weight_one_geometric_realization`, `geoOne_holds`; `UpperTheory.TP.K.tLiftK` | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:7,11`; `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/TLiftK.lean:4` | Proposition 12.3 & Section 12.4.4: odd-rank Kuga–Sato / algebraic holomorphic Lefschetz seed (`geoOne_holds`, cone 45,859) and stable-range definite-unitary theta lift (`tLiftK`, cone 20,485) (top wrappers `R3`; internal cones `[Open]`). | [Lean, read] |
 | `everyCharacter_of_row`, `everyCharacter`, `riemannHypothesis` | `src/Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7,10,13` | Proposition 12.2(2): master root assembly passing `Row0b recT` and `recTExists` into `OpenLiteratureStatements` and `vwin_of_row` (cone 175,173). | [Lean, read] |
 | `exists_locPrime_tied` | `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281` | Section 12.5.1: inhabits Fontaine period-ring tie `LocTied`, confirming non-vacuity of `PropsB.above` (`[Community]` vacuity check). | [Lean] |
 
@@ -539,7 +539,7 @@ theorems: `RecTExists` (node **P15**) and `Row0b recT` (node **P14**) [Lean, rea
 formalizing wild supercuspidal $\varepsilon$-factors or nearby-cycle monodromy $N \neq 0$, `LawsT`
 (`src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean:55`) pins down local Langlands on `Good` representations (built from characters
 and $\mathbb Q_g$ depth-zero Green cuspidals) and extends by Langlands multisegments (`recTExists`,
-Proposition 12.1), while `PropsB` (`WeightsConjBis.lean:54`) universally quantifies over every
+Proposition 12.1), while `PropsB` (`src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean:54`) universally quantifies over every
 `IsRecT` map to assert exact Weil–Deligne matching on `Tor` ($N = 0$) places and crystalline/pst
 Hodge–Tate jumps above $\ell$ (`aRead_of`, Proposition 12.2) [Lean, read]. Inside the 66,167-module
 cone of `RowSrc.lean`, odd-rank seed representations arise from Kuga–Sato étale cohomology and an
