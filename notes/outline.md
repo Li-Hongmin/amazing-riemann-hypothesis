@@ -72,7 +72,7 @@ Chapters 1 and 3, while Chapter 18 builds on Chapters 11–13 and 16.
 
 | Chapter | Reading needed (beyond proof-map level) |
 |---|---|
-| 2 | done (R3; written in `chapters/02-functional-equations-and-primitive-characters.md`) |
+| 2 | done (R3 for the analytic reductions and for the minimum, recovery, primitivity and uniqueness arguments in §2.3.1; written in `chapters/02-functional-equations-and-primitive-characters.md`) |
 | 3 | done (R3; `landau_window`, `lemmaL`, `windowHyp_of_rpow`, `poleData`, `level_family`, `level_of_tiedWin`, `zeroFreeOn_of_levels` all read in full; written in `chapters/03-landau-window-criterion.md`) |
 | 4 | done (R3 for all `CharacterBoxes/` and `MeanSquareBounds/` glue, `bad_share`, `winPairs`, `supplyChi`, `ExistsPageN`, `IsChiField`; R2 `[Lean]` for imported classical analytic sub-packages; written in `chapters/04-auxiliary-prime-pairs-and-host-fields.md`) |
 | 5 | done (R3; `core_gm`, `ch_core`, `ch_top`, `ch_balance`, `proposition_size_bound`, `CoreAtH`, `EAtH`, `gmA_eq`, `sigA_le`, `level_gm_le_on_family_scales` all read in full; §5.3.1.1 expands the direct `primitive_value_primitive` proof, with a mod-$20$ cyclic quotient example and both `GPsi` branches; written in `chapters/05-the-square-root-barrier-core-gm.md`) |

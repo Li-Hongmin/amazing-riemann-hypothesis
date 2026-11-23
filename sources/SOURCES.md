@@ -260,6 +260,12 @@ All from
 | `Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean` | 2026-11-21T04:30:15Z | 39471 | `db0a44702615c879abb084e3d950085f0f9b3fd71fddbf57105ad4d9cfea92e8` |
 | `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` | 2026-11-22T09:15:00Z | 21422 | `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5` |
 
+Chapter 2 §2.3.1 follows `DirichletCharacter/Basic.lean:66–158,173–196,233–319,333–360`
+for the transition from admissible levels to recovery and the divisibility minimum. The direct
+inputs for extension by zero and surjectivity on units are [MulChar/Basic.lean:134–192](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L134-L192)
+and [ZMod/Units.lean:23–71](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/ZMod/Units.lean#L23-L71),
+retrieved at the same pin on 2026-11-23. The unit-fiber tables are the book’s worked examples.
+
 ## 5. Verification reports and community guides
 
 | Item | URL | Retrieved | Bytes | sha256 | Version read |

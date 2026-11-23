@@ -174,39 +174,150 @@ the archive's character-box modules.
 
 ### 2.3.1 Conductors, level change, and bundled primitive characters
 
-Let $N \ge 1$ be an integer. A **Dirichlet character modulo $N$** is a multiplicative homomorphism
-$(\mathbb Z/N\mathbb Z)^\times \to \mathbb C^\times$, extended to $\mathbb Z/N\mathbb Z$ (and hence
-to $\mathbb Z$ and $\mathbb N$) by mapping every residue class not coprime to $N$ to $0$. In
-Mathlib this is `DirichletCharacter ℂ N`, defined as `MulChar (ZMod N) ℂ` [Lean]
-(`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40`), with the positivity condition $N \ge 1$
-carried by the typeclass `[NeZero N]`. Because every unit of $\mathbb Z/N\mathbb Z$ has finite
-order, every value $\chi(n)$ is either $0$ or a root of unity; in particular $\lvert \chi(n) \rvert \le 1$,
-and the pointwise inverse character $\chi^{-1}$ satisfies $\chi^{-1}(n) = \overline{\chi(n)}$ for
-all $n$.
+A character modulo $N$ may require only a small table. If its values on the units
+depend only on their images modulo a divisor $d$, we can store one value for each
+unit modulo $d$ and recover all the other values by reduction and extension by zero.
 
-**Definition 2.1 (Level change, conductor, and primitive character).** Let $d \mid N$ with
-$d, N \ge 1$, and let $\pi_{N,d} : (\mathbb Z/N\mathbb Z)^\times \twoheadrightarrow (\mathbb Z/d\mathbb Z)^\times$
-be reduction modulo $d$.
+For example, modulo $8$ the sign character from modulus $4$ gives equal values
+at $1$ and $5$, and at $3$ and $7$. A character that distinguishes $1$ from $5$
+needs modulus $8$. Modulo $12$, the sign characters from $3$ and $4$ are distinct,
+and their product requires modulus $12$. We compute their tables below.
 
-1. Given $\psi \bmod d$, the **induced character** (or **level change**) modulo $N$, written
-   `DirichletCharacter.changeLevel` for $d \mid N$ [Lean]
-   (`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:66`), is the character modulo $N$ whose
-   restriction to $(\mathbb Z/N\mathbb Z)^\times$ is $\psi \circ \pi_{N,d}$. On integers $a$ with
-   $\gcd(a, N) = 1$ it equals $\psi(a)$; on integers sharing a prime factor with $N$ it equals $0$.
-2. A character $\chi \bmod N$ **factors through $d$** (`FactorsThrough χ d`) if $d \mid N$ and
-   $\chi = \operatorname{changeLevel}_{d \mid N}(\psi)$ for some $\psi \bmod d$. The **conductor**
-   of $\chi$, denoted $\operatorname{cond}(\chi)$ (`χ.conductor`,
-   `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:246`), is the least natural number $d$
-   through which $\chi$ factors [Lean]. Since $N \ge 1$, we have $\operatorname{cond}(\chi) \ge 1$
-   and $\operatorname{cond}(\chi) \mid N$ (`conductor_ne_zero`, `:255`; `conductor_dvd_level`, `:251`) [Lean].
-3. We say $\chi \bmod N$ is **primitive** (`χ.IsPrimitive`, `:292`) if $\operatorname{cond}(\chi) = N$ [Lean].
-   Every $\chi \bmod N$ is induced from a unique primitive character $\chi^*$ modulo
-   $d = \operatorname{cond}(\chi)$ (`χ.primitiveCharacter`, `:307`;
-   `changeLevel_primitiveCharacter`, `:310`; `primitiveCharacter_isPrimitive`, `:314`) [Lean].
-   For the trivial character $1 \bmod N$, the conductor is $1$ (`conductor_one`, `:259`), and its
-   primitive character is the unique character $1 \bmod 1$ (`level_one`, `:202`) [Lean]. Moreover,
-   taking inverses preserves conductors: $\operatorname{cond}(\chi^{-1}) = \operatorname{cond}(\chi)$
-   (`conductor_inv`, `:405`) [Lean].
+**Definition 2.1 (Level change, conductor, and primitive character).** For $N>0$
+write $U_N=(\mathbb Z/N\mathbb Z)^\times$. A character modulo $N$ is a homomorphism
+$U_N\to\mathbb C^\times$ extended by zero at nonunits. For $d\mid N$, reduction sends
+a unit and its inverse to a unit and its inverse, giving $\pi_{N,d}:U_N\to U_d$.
+The level change $\operatorname{changeLevel}_{d\mid N}(\psi)$ of a character modulo
+$d$ is the composition $\psi\circ\pi_{N,d}$ on $U_N$, extended by zero at the
+nonunits modulo $N$. In a commutative monoid a product is a unit exactly when both
+factors are units, so extension by zero preserves multiplicativity. Two characters
+agree everywhere as soon as they agree on units. Mathlib uses this construction
+for any commutative monoid with zero as coefficient type, with unit values in its
+group of units. [Lean, read] ([DirichletCharacter/Basic.lean:38–40, 64–77][cond-basic];
+[MulChar/Basic.lean:134–192][cond-mulchar].)
+
+We say $\chi$ *factors through* $d$ if $d\mid N$ and some character $\psi$ modulo
+$d$ satisfies $\chi=\operatorname{changeLevel}_{d\mid N}(\psi)$. Let $S(\chi)$
+be the set of all such $d$. The conductor $c=\operatorname{cond}(\chi)$ is the
+minimum of $S(\chi)$ in the natural-number order. A character is *primitive* if
+its conductor equals its modulus. [Lean, read] ([DirichletCharacter/Basic.lean:113–116, 233–246, 291–292][cond-basic].)
+
+**Lemma (Lifting units and descending characters).** For $d\mid N$ and $N>0$,
+$\pi_{N,d}$ is surjective. There is exactly one character inducing $\chi$ at each
+admissible level $d$. A divisor $d$ is admissible exactly when $\chi$ equals $1$
+on $\ker\pi_{N,d}$. [Lean, read] ([ZMod/Units.lean:23–71][cond-units];
+[DirichletCharacter/Basic.lean:79–86, 136–158][cond-basic].)
+
+*Proof.* Take a nonnegative representative $x$ of a unit modulo $d$, so
+$\gcd(x,d)=1$. Let $k$ be the product of the primes dividing $N$ that do not divide
+$x$, with empty product $1$. Then $y=x+kd$ lifts the given unit. For $p\mid N$,
+if $p\nmid x$ then $p\mid k$ and $y\equiv x\pmod p$ is nonzero. If $p\mid x$,
+then $p$ divides neither $d$ (by coprimality) nor $k$ (by construction), and
+$y\equiv kd\pmod p$ is again nonzero. Hence $\gcd(y,N)=1$. This includes $d=1$.
+Mathlib allows level $0$, with $\mathbb Z/0\mathbb Z=\mathbb Z$, but surjectivity
+can fail there. Its units $1,-1$ miss two units under reduction to $U_5$.
+
+An inducing character sends the identity to $1$, so $\chi$ must equal $1$ on the
+kernel. Conversely, under that condition define $\psi(v)=\chi(u)$ for any lift
+$u$ of $v\in U_d$. Two lifts differ by a kernel element, giving the same value.
+Products of lifts lift products, so $\psi$ is multiplicative. Its extension by
+zero induces $\chi$. Surjectivity forces these values for any inducing character
+modulo $d$, giving uniqueness. $\square$
+
+**Theorem (Existence, recovery, and primitivity).** The set $S(\chi)$ contains
+$N$ and consists of positive divisors of $N$. There is a unique character
+$\chi^*$ modulo $c=\operatorname{cond}(\chi)$ with
+$\operatorname{changeLevel}_{c\mid N}(\chi^*)=\chi$, and $\chi^*$ is primitive.
+[Lean, read] ([DirichletCharacter/Basic.lean:93–102, 142–143, 233–256, 273–319][cond-basic].)
+
+*Proof.* Reduction to the same level is the identity. Taking $\chi$ itself as
+witness puts $N$ in $S(\chi)$. By well-ordering of $\mathbb N$, the infimum in
+Lean is attained. Membership supplies $c\mid N$, which implies $c>0$ for $N>0$.
+It also supplies a character $\psi$ at level $c$ and an equation
+$\chi=\operatorname{changeLevel}_{c\mid N}(\psi)$. Lean extracts divisibility and
+chooses the character from this same existential witness. This choice defines
+$\chi^*$. Reading the witness equation in reverse proves recovery, and the lifting
+lemma gives uniqueness at the fixed level $c$.
+
+Put $e=\operatorname{cond}(\chi^*)$. The same membership argument gives $e\mid c$
+and a character at level $e$ inducing $\chi^*$. Reductions compose along
+$e\mid c\mid N$. Hence two successive level changes agree with one, and the
+character at level $e$ induces $\chi$, so $e\in S(\chi)$. Minimality gives
+$c\le e$, and divisibility of the positive $c$ gives $e\le c$. Thus $e=c$.
+The recovery equation in Lean needs no positivity. In the separate branch
+$c=0$ of the primitivity proof, the conductor of $\chi^*$ is $0$ since its own
+level $0$ belongs to its conductor set. $\square$
+
+**Lemma (Divisibility minimum).** For $N>0$ and $d\mid N$, one has
+$d\in S(\chi)$ if and only if $c\mid d$. Moreover, if a primitive character
+modulo any $d\mid N$ induces $\chi$, then $d=c$ and that character is $\chi^*$
+after identifying the two moduli. The divisibility statement follows the cited
+Lean proof. The last assertion combines it with fixed-level uniqueness.
+[Lean, read] ([DirichletCharacter/Basic.lean:100–107, 150–196, 333–360][cond-basic].)
+
+*Proof.* Consider characters $\alpha$ modulo $a$ and $\beta$ modulo $b$, where
+$a,b>0$, whose level changes to $ab$ agree. Put $g=\gcd(a,b)$. If $u\in U_a$
+reduces to $1$ modulo $g$, the generalized Chinese remainder theorem supplies
+$z\equiv u\pmod a$ and $z\equiv1\pmod b$, since $u\equiv1\pmod g$. Both
+congruences ensure that $z$ is a unit modulo $ab$. Evaluating the common
+character there gives $\alpha(u)=\beta(1)=1$, so $\alpha$ descends to $g$
+by the kernel criterion.
+
+Now take $d\in S(\chi)$ and an inducing character $\alpha$ modulo $d$. Compare
+it with $\chi^*$ modulo $c$. Their lifts to $dc$ agree because both lift to the
+character induced by $\chi$ at level $dcN$, and level change from $dc$ to the
+positive level $dcN$ is injective by surjectivity on units. Applying the preceding
+paragraph with $a=d$, $b=c$ makes $\alpha$ descend to $\gcd(d,c)$. Composing
+that descent witness with the change from $d$ to $N$ shows
+$\gcd(d,c)\in S(\chi)$. Thus $c\le\gcd(d,c)\le c$, so $c\mid d$.
+
+Conversely, for $c\mid d\mid N$, every unit congruent to $1$ modulo $d$ also
+reduces to $1$ modulo $c$. The kernel criterion gives descent to $d$ since
+$\chi$ already descends to $c$. If $\alpha$ modulo $d$ induces $\chi$, then
+injectivity of change from $d$ to $N$ identifies $\alpha$ with the lift of
+$\chi^*$ to $d$: after further change, both give $\chi$. If $\alpha$ is
+primitive, its descent to $c$ gives $d\le c$, and $c\mid d$ gives $c\le d$.
+So $d=c$ and $\alpha=\chi^*$. $\square$
+
+**Worked conductor table.** Both $U_8$ and $U_{12}$ have two independent
+generators of order two. Use $3,5$ at level $8$ with product $7$, and
+$5,7$ at level $12$ with product $11$. Each generator can take either sign.
+Their product takes the product of the signs. [Expository]
+
+| $N$ | Ordered units | Values in order | $S(\chi)$ | Conductor |
+|---|---|---|---|---:|
+| 8 | $1,3,5,7$ | $1,1,1,1$ | $\{1,2,4,8\}$ | 1 |
+| 8 | $1,3,5,7$ | $1,-1,1,-1$ | $\{4,8\}$ | 4 |
+| 8 | $1,3,5,7$ | $1,1,-1,-1$ | $\{8\}$ | 8 |
+| 8 | $1,3,5,7$ | $1,-1,-1,1$ | $\{8\}$ | 8 |
+| 12 | $1,5,7,11$ | $1,1,1,1$ | $\{1,2,3,4,6,12\}$ | 1 |
+| 12 | $1,5,7,11$ | $1,-1,1,-1$ | $\{3,6,12\}$ | 3 |
+| 12 | $1,5,7,11$ | $1,1,-1,-1$ | $\{4,12\}$ | 4 |
+| 12 | $1,5,7,11$ | $1,-1,-1,1$ | $\{12\}$ | 12 |
+
+A row descends just when its values are constant on the reduction fibers.
+For both moduli, reduction to $1$ or $2$ has one fiber. Reduction from $8$
+to $4$ pairs $1$ with $5$ and $3$ with $7$. Reduction from $12$ to either
+$3$ or $6$ pairs $1$ with $7$ and $5$ with $11$. Reduction from $12$ to $4$
+pairs $1$ with $5$ and $7$ with $11$. These tests exhaust the proper divisors.
+For the conductor-$4$ row at level $12$, the inducing character takes $-1$
+at the integer $3$ and its lift takes $0$ there. Recovery compares characters
+at level $N$. Before level change their integer values agree on integers
+coprime to $N$. [Expository]
+
+**Notes.** On $U_N$, finiteness forces each character value to be a root of unity.
+Thus its modulus is at most $1$ everywhere, and the inverse character agrees with
+complex conjugation on units and extends by zero elsewhere. Numerical minimality alone cannot prove divisibility minimality,
+even for a set of divisors closed upwards among divisors of $N$. At $N=12$ the
+set $\{3,4,6,12\}$ has minimum $3$, which does not divide $4$. The common-lift
+argument supplies the missing fact for $S(\chi)$ by putting $\gcd(d,c)$ back in
+the set. The principal character at positive level descends to the unique
+character of $U_1$ and so has conductor $1$. Inversion preserves the conductor
+by a separate Mathlib result [Lean] ([DirichletCharacter/Basic.lean:405][cond-basic]).
+
+[cond-basic]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/DirichletCharacter/Basic.lean
+[cond-units]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/ZMod/Units.lean#L23-L71
+[cond-mulchar]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L134-L192
 
 Inside the analytic endgame and the arithmetic engine, the archive packages a primitive character
 together with its modulus into a single dependent record [Lean, read]
@@ -679,7 +790,9 @@ Mathlib declarations are cited at the pinned commit `0df444a360eaa60ab8c11dca51a
 |---|---|---|---|
 | `RiemannHypothesis`, `riemannZeta_zero`, `riemannZeta_def_of_ne_zero`, `completedRiemannZeta_one_sub`, `riemannZeta_one_sub` | `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:185,151,154,106,178` | Global RH statement, $\zeta(0) = -1/2$, $\zeta(s) = \Lambda_\zeta(s)/\Gamma_{\mathbb R}(s)$ ($s \neq 0$), and symmetric/asymmetric functional equations of $\zeta$. | [Lean] |
 | `riemannZeta_ne_zero_of_one_le_re`, `LFunction_ne_zero_of_one_le_re` | `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:411,398` | Classical non-vanishing on $\Re s \ge 1$ for $\zeta$ and Dirichlet $L$-functions. | [Lean] |
-| `DirichletCharacter`, `changeLevel`, `level_one`, `changeLevel_one`, `conductor`, `conductor_dvd_level`, `conductor_ne_zero`, `conductor_one`, `IsPrimitive`, `primitiveCharacter`, `changeLevel_primitiveCharacter`, `primitiveCharacter_isPrimitive`, `conductor_inv`, `Odd`, `Even`, `even_or_odd` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40,66,202,220,246,251,255,259,292,307,310,314,405,533,536,538` | Dirichlet characters, conductors, primitive characters, level changes, inverse conductors, and parity. | [Lean] |
+| `changeLevel`, `changeLevel_injective`, `FactorsThrough.existsUnique`, `factorsThrough_iff_ker_unitsMap` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:66,80,137,150` | Level change, descent and fixed-level uniqueness. | [Lean, read] |
+| `conductor`, `conductor_dvd_level`, `primitiveCharacter`, `changeLevel_primitiveCharacter`, `primitiveCharacter_isPrimitive`, `mem_conductorSet_iff_conductor_dvd` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:246,251,307,310,314,358` | Minimum, witness, recovery, primitivity, and divisibility minimum. | [Lean, read] |
+| `level_one`, `changeLevel_one`, `conductor_one`, `conductor_inv`, `Odd`, `Even`, `even_or_odd` | `Mathlib/NumberTheory/DirichletCharacter/Basic.lean:202,220,259,405,533,536,538` | Principal character, inversion and parity. | [Lean] |
 | `LFunction_modOne_eq`, `LFunction_changeLevel`, `gammaFactor`, `completedLFunction`, `LFunction_eq_completed_div_gammaFactor`, `IsPrimitive.completedLFunction_one_sub` | `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:67,150,207,224,259,284` | Identification $L(s, 1 \bmod 1) = \zeta(s)$, Euler-factor product under level change, $\gamma_\chi(s)$, $\Lambda(s,\chi)$, and the primitive functional equation. | [Lean] |
 
 **Summary of the chapter.** Every Dirichlet $L$-function differs from its primitive $L$-function

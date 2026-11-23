@@ -107,6 +107,10 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Sam Hopkins, Will Sawin, Timothy Chow and Stanley Yao Xiao** (MathOverflow) — Opened and answered a MathOverflow thread on how mathematicians can collaboratively digest and human-verify an enormous AI-generated formal proof. — `commentary` — [Community] Public forum discussion — [MathOverflow #518033](https://mathoverflow.net/questions/518033) (2026-11-20 to 2026-11-21)
 - **Steven Strogatz, James McKee and Alex Kontorovich** (quoted in press) — Offered early reactions in the press noting conditional consequences of GRH (McKee in *New Scientist*), context alongside recent PDE claims (Kontorovich in AP), and caution that independent human verification remained ahead (Strogatz in *Business Insider*). — `commentary` — [Community] Quoted statements in press — [New Scientist](https://www.newscientist.com/article/2600134-anthropic-mathematician-claims-ai-assisted-proof-of-the-riemann-hypothesis/), [Business Insider](https://www.businessinsider.com/reimann-hypothesis-anthropic-claude-solved-biggest-problem-in-math-2026-11), [AP / The Independent](https://www.the-independent.com/news/claude-anthropic-san-francisco-rutgers-university-wall-street-b3089058.html) (2026-11-20 to 2026-11-21)
 
+## Mathlib
+
+- **Ashvni Narayanan, Moritz Firsching, and Michael Stoll** — Mathlib’s Dirichlet character development, credited in the source header. [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/DirichletCharacter/Basic.lean)
+
 ## Our contributions
 - **Hongmin Li (with AI assistance)** — Read and explained the archive's
   `primitive_value_primitive` proof consumed by `prim_read`, including the conductor
@@ -114,6 +118,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   cyclic quotient example and the termwise identity for `GPsi`. The formal proof is
   Alpöge–Claude's. Lipponen's community guide is credited in the source record.
   [Chapter 5, §5.3.1.1](chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character)
+
+- **Hongmin Li (with AI assistance)** — §2.3.1 proof reading and textbook exposition of the conductor construction, with worked tables modulo 8 and 12. [Chapter 2](chapters/02-functional-equations-and-primitive-characters.md#231-conductors-level-change-and-bundled-primitive-characters)
 - **Hongmin Li (with AI assistance)** — Explained how the archive passes from the single
   formal-group kernel to the low-term lattice bound `LowTermBound` [Lean, read]: the one-place
   class expansion `ea_restSU_of`, its transfer to column-test valuations `ea_lowN`, the three
