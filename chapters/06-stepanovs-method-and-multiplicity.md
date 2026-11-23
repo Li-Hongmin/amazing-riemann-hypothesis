@@ -753,6 +753,294 @@ argument step for step:
    Adding $\mathrm{ASK}(u_0) - \mathrm{Ga}(u_0) \le \mathrm{Lo}_P$ to Step 3 gives
    $D.\mathrm{ASK}(u_0) \le D.\mathrm{Main}(u_0) + \mathrm{ErrX5at}(D, C, X'', u_0)$. $\square$
 
+### 6.4.5 From lattice slopes to the weighted mean: the main-path instance of Clause 7
+
+Theorem 6.6, Step 1 used Clause 7 (`QuotientSlopeBoundsWith`) with $\mu_N(u)$, $\mu_M(u)$ and the
+weights $d(u_0, u)$ as abstract real fields of `Data`. This subsection follows one direct
+dependency that the chapter has not yet opened. On the path to `riemannHypothesis` these three
+fields are slopes and ranks of hermitian $\mathcal O_K$-lattices. Clause 7 for them is produced by
+`Mod.model_slopes_five` and consumed by `s_lower5`, and the weighted mean inside `Data.s` is the
+rank-weighted frame average `sFrame`. We read the producer, the identification `Mod.s_eq` and the
+consumer line by line. We do not return to the Stepanov–Bombieri warm-up (§6.2, §6.4.2) or to the
+assembly of `SizeData₂` and `ChainTied` (§6.3.2, Theorem 6.6). All line numbers refer to the fixed
+archive `lean.tar.gz` (sha256 `9631b4f0…49c7fc`, toolchain `leanprover/lean4:v4.33.1`).
+Reachability statements use the main-theorem export recorded in `sources/SOURCES.md` (compressed
+sha256 `d5fad832…89fb`).
+
+**Motivation.** Stepanov counts vanishing at each point and then sums over points. Here each word
+$u \in W(u_0)$ carries a lattice $N_u$. Clause 7 bounds the slope of $N_u$ from below one word at a
+time, and `sub_wmean_le` averages these bounds. Two questions decide what the averaged bound
+means:
+
+- *Which average?* The weights are the ranks of the $N_u$ over $K$. A rank-weighted mean of slopes
+  is the slope of an orthogonal direct sum (Lemma 6.9(3)), so `Data.s` is a slope in its own right.
+- *Which slope?* The field `muN` is `HLat.mu`. This is a normalized slope of an
+  $\mathcal O_K$-lattice, computed on its $\mathbb Z$-realization. Reading a slope bound correctly
+  requires keeping three things apart: torsion in a quotient, saturation of a sublattice, and the
+  base ring ($\mathcal O_K$ or $\mathbb Z$) over which sublattices are allowed.
+
+The file `MeanBoundSecondForm.lean` supplies the vocabulary used below (`Data`, `wmean`, `Data.s`,
+`HidaSetting`, `DIV`, `Slopes`). The averaged propositions named after that file, the term
+`Data.MeanBoundSecondForm` (`src/Formalism/RankGapBounds/MeanBoundSecondForm.lean:187–190`) and the
+term `MeanBoundWith` (`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:67–70`), are not
+in the export, so they are not on the main path. The consumption traced here is the pointwise one
+(Remark 6.12).
+
+**Example 6.8 (one rank-two lattice read three ways)** [Expository]. Let $K = \mathbb Q(\sqrt{-5})$.
+Then $[K:\mathbb Q] = 2$, $K$ has one complex place, and $\lvert d_K \rvert = 20$. Realize the ideal
+$\mathfrak a = 2\mathbb Z + (1+\sqrt{-5})\mathbb Z$ in $\mathbb C = \mathbb R^2$ by real and imaginary
+parts, with the standard inner product. This follows the pattern of `realize`
+(`src/Formalism/HermitianLattices/StatementMaj.lean:78–81`). With this choice the archive's
+normalized slope of $\mathcal O_K$ (Definition 6.7(1)) is $0$. Then $e_1 = 2 \mapsto (2, 0)$ and
+$e_2 = 1 + \sqrt{-5} \mapsto (1, \sqrt 5)$. The Gram
+matrix is $G = \begin{pmatrix} 4 & 2 \\ 2 & 6 \end{pmatrix}$, so $\mathrm{covol}(\mathfrak a)^2 = 20$.
+Multiplication by $\sqrt{-5}$ has matrix $A = \begin{pmatrix} -1 & -3 \\ 2 & 1 \end{pmatrix}$ in the
+basis $(e_1, e_2)$, with $A^2 = -5$ and $A^{\mathsf T} G A = 5G$. Hence $L = \mathfrak a$ is a rank-two
+integral lattice and also an $\mathcal O_K$-module of rank one.
+
+(a) *Index and torsion.* Take $N = \mathbb Z \cdot 2e_1$, with $\lVert 2e_1 \rVert^2 = 16$. Its
+saturation is $N^{\mathrm{sat}} = L \cap \mathbb R N = \mathbb Z e_1$, and
+$[N^{\mathrm{sat}} : N] = 2$. Hence $L/N \cong \mathbb Z/2 \oplus \mathbb Z$, and the torsion subgroup
+$N^{\mathrm{sat}}/N$ has order $2$.
+
+(b) *The archive's quotient.* `F.quot L N` is the image of $L$ under orthogonal projection onto
+$(\mathbb R N)^{\perp}$ (`src/Formalism/LatticeSlopes/Statement.lean:35–36`) [Lean, read]. Here
+$\pi(e_1) = 0$ and $\pi(e_2) = e_2 - \tfrac12 e_1 = (0, \sqrt 5)$, so
+$\mathrm{covol}(\pi L)^2 = 6 - 2^2/4 = 5$. The projection depends only on
+$\mathbb R N = \mathbb R N^{\mathrm{sat}}$. So `F.quot L N` equals `F.quot L N^sat` and does not see
+the torsion.
+
+(c) *Covolumes, degrees, slopes over $\mathbb Z$.* With $\deg = -\log \mathrm{covol}$ and
+$\mathrm{slope} = \deg / \mathrm{rk}$ (`src/Formalism/LatticeSlopes/Statement.lean:15–25`):
+
+| lattice | rank | $\mathrm{covol}^2$ | $\deg$ | slope |
+|---|---|---|---|---|
+| $L = \mathfrak a$ | 2 | 20 | $-\tfrac12 \log 20$ | $-\tfrac14 \log 20$ |
+| $N^{\mathrm{sat}} = \mathbb Z e_1$ | 1 | 4 | $-\log 2$ | $-\log 2$ |
+| $N = \mathbb Z \cdot 2e_1$ | 1 | 16 | $-2\log 2$ | $-2\log 2$ |
+| $\pi L$ (`F.quot`) | 1 | 5 | $-\tfrac12 \log 5$ | $-\tfrac12 \log 5$ |
+
+For the saturated sublattice, $20 = 4 \cdot 5$, that is
+$\deg L = \deg N^{\mathrm{sat}} + \deg \pi L$. For $N$ itself,
+$\deg N + \deg \pi L = -\tfrac12 \log 80 = \deg L - \log 2$. The defect is exactly
+$\log \# (L/N)_{\mathrm{tors}}$.
+
+(d) *Harder–Narasimhan over $\mathbb Z$.* The norm form is
+$4x^2 + 4xy + 6y^2 = (2x + y)^2 + 5y^2$. Its minimum on $L \setminus 0$ is $4$, attained only at
+$\pm e_1$. A rank-two sublattice has slope at most $\mathrm{slope}(L)$ (Lemma 6.9(1)), so the
+largest slope of a $\mathbb Z$-sublattice is $-\log 2$. This exceeds
+$\mathrm{slope}(L) = -\tfrac14 \log 20$ because $2^4 = 16 < 20$. So $L$ is
+unstable as a $\mathbb Z$-lattice. Its filtration is $0 \subset \mathbb Z e_1 \subset L$, with
+quotient slope $-\tfrac12 \log 5$.
+
+(e) *Base ring $\mathcal O_K$.* The line $\mathbb Z e_1$ is not an $\mathcal O_K$-submodule, since
+$\sqrt{-5}\, e_1 = -e_1 + 2e_2$. Every nonzero $\mathcal O_K$-submodule of the rank-one module $L$
+has finite index, so its slope is at most $\mathrm{slope}(L)$. Over $\mathcal O_K$, therefore, $L$ is
+semistable. In the archive's normalization (Definition 6.7(1)),
+$\mathrm{mu}(\mathfrak a) = 2\cdot(-\tfrac14 \log 20) - \log 2 + \tfrac12 \log 20 = -\log 2$,
+and `muMax` of $\mathfrak a$, a supremum over $\mathcal O_K$-submodules, is also $-\log 2$.
+Taking the supremum over $\mathbb Z$-sublattices instead would give
+$2\cdot(-\log 2) - \log 2 + \tfrac12 \log 20 = \tfrac12 \log \tfrac{5}{16}$, an overshoot of
+$\tfrac12 \log \tfrac54$. As a cross-check against Bost's normalization, the Arakelov degree is
+$\widehat{\deg}\, \mathfrak a = \log \#(\mathfrak a / 2\mathcal O_K) - 2\log 2 = -\log 2$, so
+$\hat\mu(\mathfrak a) = -\tfrac12 \log 2$ [Bost1996, App. A.2, pp. 146–147]. In this example
+$\mathrm{mu} = 2\hat\mu$.
+
+(f) *Index and weighted mean.* The square $\mathfrak a^2 = 2\mathcal O_K$, with basis
+$e_1, -e_1 + 2e_2$, is an $\mathcal O_K$-submodule of index $2$ in $\mathfrak a$, with
+$\mathrm{covol}^2 = 80$ and $\mathrm{mu}(2\mathcal O_K) = -2\log 2$. The drop is
+$\log 2 = 2 \log 2 / ([K:\mathbb Q] \cdot 1)$. This equals `sizeOfVal` at the prime $\mathfrak a$ of
+norm $2$ with exponent $1$, that is $2 \cdot \tfrac{\log 2}{2} \cdot 1$
+(`src/Formalism/LocalRingCardinality/DataArith.lean:39–46`). The orthogonal sum
+$\mathfrak a \oplus 2\mathcal O_K$ has $\mathbb Z$-rank $4$ and $\mathrm{covol}^2 = 1600$. Its
+normalized slope is $-\tfrac32 \log 2$, the rank-weighted mean of $-\log 2$ and $-2\log 2$. With
+heights $h = (0, \log 2)$, the frame average of Definition 6.7(2) is
+$\tfrac12\bigl((-\log 2 - 0) + (-2\log 2 - \log 2)\bigr) = -2\log 2$.
+
+Every number in (a)–(f) is checked exactly by `verify_lattice_example.py` (6044 integer and rational
+assertions). Real logarithms are handled as exact vectors of rational exponents over primes. The
+example illustrates the definitions. It is not evidence for any general statement.
+
+**Definition 6.7 (the objects behind the fields of `Data` on the main path)** [Lean, read].
+
+1. *Hermitian $\mathcal O_K$-lattices.* `HLat K` (`src/Formalism/LocalRingCardinality/DataArith.lean:61–72`)
+   is a $K$-space $V$ with basis $b$, matrices $X_v$ at the infinite places, and an
+   $\mathcal O_K$-submodule $L$. Its `rank` is $\mathrm{rk}_K L$ (`:82`, via
+   `src/Formalism/HarderNarasimhan/StatementPl.lean:27`). Its `mu` and `muMax` (`:84, 86`) are
+   `muDef` and `muMaxDef` (`StatementPl.lean:64–68`):
+   $$\mathrm{mu}(L) = 2\,\mathrm{slope}_{\mathbb Z}\bigl(\rho(L)\bigr) - \log 2 + \frac{\log \lvert d_K \rvert}{[K:\mathbb Q]},$$
+   where $\rho$ = `realize b X`. The maximal slope `HN.muMax` is a supremum over nonzero
+   **$\mathcal O_K$-submodules** $N \le L$ (`src/Formalism/HarderNarasimhan/Statement.lean:29–30`).
+   The minimal slope `HN.muMin` is an infimum, over $N \ne L$ with `IsSat`, of the slope of
+   `F.quot` (`:32–34`). Here `IsSat` means $N \le L$ together with $\mathbb Z$-saturation of the
+   realized lattices (`:26–27`, `src/Formalism/LatticeSlopes/Statement.lean:32–33`).
+2. *Frame averages.* For words $u$ with lattices $N_u$ and heights $h_u$:
+   `dU Nu u` is the rank of $N_u$, `Rsum` $= \sum_u$ `dU`, and
+   $$\mathrm{sFrame}(N, h) = \frac{\sum_u \mathrm{rk}(N_u)\,\bigl(\mathrm{mu}(N_u) - h_u\bigr)}{\sum_u \mathrm{rk}(N_u)}$$
+   (`DataArith.lean:127–132`). `DivData` (`:139–159`) bundles a target `RR`, the family `Nu`, maps
+   `Bk u` into the dual of `RR`, and the heights `h`.
+3. *The per-member bound.* `SlopesN_at L C` (`src/Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean:181–183`)
+   asserts, for every word $u$,
+   $$\mathrm{muMax}(N_u) \le \mathrm{muMax}(M_u) + \mathrm{Ga} + \mathrm{Fo} - \mathrm{Ee}(u) + C m B_0,
+   \qquad \mathrm{mu}(M_u) + \mathrm{Ga} + \mathrm{Fo} - \mathrm{Ee}(u) - \mathrm{LoU}(u) \le \mathrm{mu}(N_u),$$
+   with $N_u$ = `D.div.Nu u`, $M_u$ = `(D.fm u).lat 0`, and `LoU` as in `:177–179`.
+4. *The model record.* `Mod.data` (`QuadraticLogDerivCongr.lean:464–504`) fills `Data` from a
+   family member. In particular: `d u0 u` is the rank of $N_u$ (`:483`); `muN` and `muMaxN` are
+   `mu` and `muMax` of $N_u$ (`:485–486`); `h` is `div.h` (`:487`); `muM` and `muMaxM` are those of
+   $M_u$ (`:488–489`); `muCC` is `div.RR.muDual` (`:491`); `IO` is `IOsum` (`:497`).
+
+**Lemma 6.9 (three classical lattice facts)** [Expository]. Let $L$ be a lattice in a euclidean
+space and $N \le L$ a sublattice.
+
+1. *(Index.)* If $L' \le L$ has the same rank $r$, then $\mathrm{covol}(L') = [L:L']\,\mathrm{covol}(L)$,
+   so $\mathrm{slope}(L') = \mathrm{slope}(L) - \log[L:L']/r$.
+2. *(Quotients and torsion.)* Let $\pi$ be the orthogonal projection onto $(\mathbb R N)^{\perp}$.
+   Then $\deg L = \deg N^{\mathrm{sat}} + \deg \pi L$. In general
+   $\deg L = \deg N + \deg \pi L + \log \# (L/N)_{\mathrm{tors}}$.
+3. *(Direct sums.)* For an orthogonal sum, $\deg(L_1 \oplus L_2) = \deg L_1 + \deg L_2$. Hence the
+   slope of the sum is the rank-weighted mean of the slopes.
+
+*Proof.* (1) A basis of $L'$ is a basis of $L$ multiplied by an integer matrix of determinant
+$\pm[L:L']$, and Gram determinants change by its square. (2) $N^{\mathrm{sat}}$ is a direct summand
+of $L$. Choose a basis $f_1, \dots, f_s, g_1, \dots, g_t$ of $L$ whose first $s$ vectors span
+$N^{\mathrm{sat}}$. The Gram matrix of $f_1, \dots, f_s, \pi g_1, \dots, \pi g_t$ is block diagonal,
+and replacing each $\pi g_j$ by $g_j$ adds a real combination of the $f_i$. This is a unipotent
+change of the real basis, so the Gram determinant does not change. This gives the first identity. For the second, $L/N^{\mathrm{sat}}$ is torsion-free, so
+$(L/N)_{\mathrm{tors}} = N^{\mathrm{sat}}/N$, and (1) gives
+$\deg N = \deg N^{\mathrm{sat}} - \log [N^{\mathrm{sat}} : N]$. (3) The Gram matrix of a union of
+bases is block diagonal. $\square$
+
+The saturated case of (2) is the archive input `DegQuot`
+(`src/Formalism/LatticeSlopes/Statement.lean:83–86`). It is supplied as `degQuot`
+(`src/Formalism/LatticeSlopes/ExistsSaturatedSlopeEqMuMax.lean:26`), whose proof we have not read,
+and used through `deg_eq_deg_add_deg_quot` (`:45–47`) [Lean]. The torsion-free quotients of the
+canonical filtration appear in [Bost1996, Prop. A.1, p. 148]. Example 6.8(c) shows that the
+hypothesis `IsSaturated` cannot be dropped.
+
+**Proposition 6.10 (`s_lower5`, with its full hypotheses).** *Let `D : Data U0 W Top m f`,
+`C : Consts` and $X'' \in \mathbb R$, with every $W(u_0)$ finite and nonempty. Assume*
+`D.HidaSetting C` *(`MeanBoundSecondForm.lean:111–116`)*, `D.DIV C` *(`:118–121`)*, `EComp5 D C`
+*(`src/Formalism/SizeWindowBrackets/QuotientSlopeBoundsWith.lean:24–25`)*, `Count5 D C` *(`:27–32`)*,
+`D.Slopes C` *(`MeanBoundSecondForm.lean:139–141`)* *and* `QuotientSlopeBoundsWith D C Xpp`
+*(`QuotientSlopeBoundsWith.lean:19–22`). Then for every $u_0$,*
+$$\mathrm{Ga}(u_0) + \mu_{CC}(u_0) - K_{5,\mathrm{v5}}(u_0) - \mathrm{wmean}_{d(u_0)}\bigl(\mathrm{Lo}_5(u_0, \cdot)\bigr) \le D.s(u_0),$$
+*with $K_{5,\mathrm{v5}} = c_{\mathrm{Slope}} n_T a L_a (1 + m/k) + m(\mathrm{sum}_A\,\mathrm{lg} + c_E B_0) + \mathrm{SDiv} - \mathrm{sum}_A\,\mathrm{Lam}_5(u_0) + \mathrm{EDiv}$*
+(`src/Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean:21–23`).
+*(Lean: `s_lower5`, `LevelOfCongruence.lean:50–66`.)* [Lean, read]
+
+*Proof (the archive's proof, line by line).* Line `:53` records $\mathrm{sum}_A \ge 0$
+(`sumA_nonneg`, `src/Formalism/RankGapBounds/RankGapProofs/WeightedMeanData.lean:152–154`, from the
+eighth conjunct $a_t \ge 0$ of `HidaSetting`). Line `:54` extracts the tenth conjunct
+$d(u_0, u) > 0$ (`MeanBoundSecondForm.lean:114`). Line `:55` unfolds `Data.s` to
+$\mathrm{wmean}_{d(u_0)}(\mu_N - h)$ (`:92`). Line `:56` applies `sub_wmean_le`
+(`WeightedMeanData.lean:40–46`): if $c - Y_u \le X_u$ for every $u$ and all $d_u > 0$, then
+$c - \mathrm{wmean}_d Y \le \mathrm{wmean}_d X$. This follows from `wmean_mono`, `wmean_add` and
+`wmean_const` (`:16–32`), because $\mathrm{wmean}_d X + \mathrm{wmean}_d Y - c$ is the
+$d$-weighted mean of $X_u + Y_u - c \ge 0$. It remains to prove, for each word $u$,
+$$\bigl(\mathrm{Ga} + \mu_{CC} - K_{5,\mathrm{v5}}\bigr) - \mathrm{Lo}_5(u) \le \mu_N(u) - h(u). \tag{G}$$
+Lines `:57–63` collect five inequalities at $(u_0, u)$:
+
+| name | source | inequality |
+|---|---|---|
+| $h_1$ | `(hSN u0 u).2`, Clause 7 | $\mu_M + \mathrm{Ga} + \mathrm{Fo} - \mathrm{Ee} - \mathrm{Lo}_5 \le \mu_N$ |
+| $h_2$ | `hDIV u0 u`, rewritten | $\mu_{CC} + h - \mathrm{Fo} \le \mathrm{SDiv} - \mathrm{sum}_A \log T + \mathrm{EDiv}$ |
+| $h_4$ | $\mathrm{sum}_A \ge 0$ times `(hCount u0 u).1` | $\mathrm{sum}_A\,\mathrm{Lam}_5 \le \mathrm{sum}_A \log T$ |
+| $h_5$ | `exponent_le_upper` (`:32–35`) | $\mathrm{Ee} \le m(\mathrm{sum}_A\,\mathrm{lg} + c_E B_0)$ |
+| $h_6$ | `(hSl u0 u).1`, Clause 6 | $-c_{\mathrm{Slope}} n_T a L_a (1 + m/k) \le \mu_M$ |
+
+The rewrite of $h_2$ at `:59` splits the sum in `DIV` (`Finset.sum_sub_distrib`). It identifies
+$\sum_t m(\mathrm{ph}(a_t) - a_t \log\Omega)$ with `SDiv` (`WeightedMeanData.lean:129`) and
+$\sum_t a_t \log T$ with $\mathrm{sum}_A \log T$ (`sum_aT_mul`, `:156–157`). The constant terms of
+`DIV` are `EDiv` (`:131–132`). Here $h_3$ is $\mathrm{Lam}_5(u_0) \le \log T(u_0, u)$, which is the
+first conjunct of `Count5` because `Lam5` (`LevelOfCongruence.lean:17–19`) is that conjunct's
+left-hand side. After `unfold K5v5 Data.SDiv Data.EDiv` (`:64`), `linarith` closes (G).
+
+A certificate is $h_1 + h_2 + h_4 + h_5 + h_6$, each with multiplier $1$. Adding the five
+inequalities, the terms $\mu_M$, $\mathrm{Fo}$, $\mathrm{Ee}$ and $\mathrm{sum}_A \log T$ cancel, and
+what is left is (G). Each of the five is needed. For each $i$ there is a rational point, in the
+atoms as `linarith` sees them, where the other four hold with equality and both $h_i$ and (G) fail.
+Both facts are checked by `verify_s_lower5_certificate.py` (668 exact assertions). $\square$
+
+**Proposition 6.11 (production and identification on the main path).** *Let `M : Mod Fm x` with
+`hx : Fm.x1 < x`, and suppose `∀ u0, SlopesN_at (Fm.L x (M.pt u0)) C.cSl1`. Then:*
+
+1. *`QuotientSlopeBoundsWith (M.data N CH etaB eB ηv ev) C X''` holds, with
+   $X'' = $ `(Fm.L x M.i0).sc.X'' (Fm.D x M.i0).R.n` (`model_slopes_five`,
+   `QuadraticLogDerivCongr.lean:677–685`)*;
+2. *`(M.data …).s u0 = sFrame (div.Nu) (div.h)` at the member `M.pt u0` (`s_eq`, `:687–691`)*;
+3. *consequently, Proposition 6.10 applied to `M.data` reads*
+   $$\mathrm{sFrame}(N, h) \ge \mathrm{Ga}(u_0) + \mathrm{mu}^{\vee}(\mathrm{RR}) - K_{5,\mathrm{v5}}(u_0) - \mathrm{wmean}_{\mathrm{rk}(N_\cdot)}\bigl(\mathrm{Lo}_5(u_0, \cdot)\bigr),$$
+   *where $\mathrm{mu}^{\vee}(\mathrm{RR})$ is `div.RR.muDual`, the slope of the dual lattice
+   (`src/Formalism/LocalRingCardinality/DataArith.lean:98`).*
+
+[Lean, read]
+
+*Proof.* (1) After `intro u0 u` and splitting the hypothesis at `M.pt u0` (`:680–681`), the proof
+unfolds `LoU` (`:682`) and rewrites with transport lemmas only: `Ee_eq` (`:671–675`), `s_m` (`:530`),
+`point_base_constants_eq` (`:538`), `s_card` (`:546–547`), `s_sc` (`:526`), `s_k` (`:532–533`) and
+`s_n` (`:534`). These move the member's own $\mathrm{Ee}$, $m$, $B_0$, $\# T$, scale, $k$ and $n$ to
+those of the base index `M.i0` used by `M.data`. Then `exact ⟨h1, h2⟩` (`:685`). No lattice theory
+happens in this step. Note that `IOsum` becomes the field `IO` (`:497`), and the term
+`C * L.sc.X'' D.R.n + 1` of `LoU` becomes $c_{\mathrm{Sl1}} X'' + 1$ in `Lo5`. (2) Unfolding
+`Data.s`, `wmean`, `sFrame`, `Rsum` and `dU`, the two sides differ only by the cast
+$\sum_u (\mathrm{rk}\,N_u : \mathbb R) = (\sum_u \mathrm{rk}\,N_u : \mathbb N)$, which `Nat.cast_sum`
+removes before `rfl` (`:689–691`). (3) Substitute Definition 6.7(4) into Proposition 6.10. $\square$
+
+On the main path the hypothesis of Proposition 6.11 comes from `SlopesNF Fm`
+(`QuadraticLogDerivCongr.lean:254`), a hypothesis of `linkCore`
+(`src/Formalism/SharpRestriction/GlobalSchurBounds/LossesSmallShares.lean:38–42`). It is destructured
+at `:47` and turned into clause `L7` by `model_slopes_five` at `:198–200`. `SlopesNF` is in turn
+produced by `slopesNF_of` and `slopesN_at_of`
+(`src/Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean:1529–1546`) from
+`Places_at` (`:1516–1525`). There the place-by-place hypotheses `HypLow`, `HypLow2` and `HypHigh`
+carry the actual comparison of $\mathrm{mu}(N_u)$ with $\mathrm{mu}(M_u)$; we have not read them
+[Lean]. On the consumer side, `s_lower5` is called by `Ga_bound5` (`LevelOfCongruence.lean:121`),
+which is called by `each_unit_bound_statement` (`:187`), which `Deduction.ch_top` applies to the
+seventh component of `SizeData₂` (`src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean:53–54`).
+
+**Remark 6.12 (what is and is not consumed).** Three points.
+
+- *The pointwise form carries the main path.* `PointwiseBoundVariant`
+  (`QuotientSlopeBoundsWith.lean:72–75`) is in the export, together with
+  `QuotientSlopeBoundsWith`, `s_lower5`, `sub_wmean_le`, `Data.s`, `sFrame`, `Mod.data`,
+  `model_slopes_five` and `s_eq`. Outside the export are the following: `Data.MeanBoundSecondForm`;
+  its slope clause `Data.SlopesN` (`MeanBoundSecondForm.lean:143–146`, which uses the older error
+  term `Lo`, `:101–103`, rather than `Lo5`); `MeanBoundWith` and `MeanBoundOfLossBounds`
+  (`QuotientSlopeBoundsWith.lean:67–80`); and their provers `weighted_mean_bound_statement` and
+  `uniform_bound_statement` (`LevelOfCongruence.lean:199–242`). So `MeanBoundSecondForm.lean`
+  enters the main path through its definitions, not through its namesake proposition. The cone
+  status of `SlopesN`, `QuotientSlopeBoundsWith`, `MeanBoundOfLossBounds` and
+  `PointwiseBoundVariant`, and the reading of $s$ as a rank-weighted average, were already published
+  by JoseClaudioSJr [Community; `leanprover-community/riemann-hypothesis` issue #5]. M. Jaswal's
+  exposition describes Clause 7 as a comparison of slopes "shifted by the gains" [Community;
+  Jaswal2026, §3]. Our export check reproduces the cone status independently.
+- *Why torsion and saturation must be kept apart.* Clause 7 compares full slopes, so no quotient is
+  formed inside `s_lower5`. In the mean bound, quotient slopes enter through `muMinCC`. In
+  `Mod.data` this field is `div.RR.muMinDual` (`QuadraticLogDerivCongr.lean:492`), a `muMinDef`,
+  that is an infimum of `F.quot` slopes over saturated sublattices (Definition 6.7(1)). It appears
+  in Clauses 9 and 10 (`SlopeIneq`, `HHBound`). `F.quot` is torsion-free (Example 6.8(b)), and both
+  `HN.muMin` and `DegQuot` require saturation. Without saturation the degree bookkeeping is off by
+  $\log \#(L/N)_{\mathrm{tors}}$ (Example 6.8(c)).
+- *Why the base ring matters.* The extremal slopes `muMax` and `muMin` range over
+  $\mathcal O_K$-submodules, while the weights $d$ are $K$-ranks. Restricting scalars to $\mathbb Z$
+  admits more sublattices and can raise $\mu_{\max}$ (Example 6.8(d)–(e)). Extension of scalars is
+  different: Bost's canonical filtration and normalized slopes are invariant under
+  $f^{\ast}$ for a finite extension $L/K$ [Bost1996, App. A.2 and Prop. A.2, pp. 147–149]. Inside
+  `sFrame` all $N_u$ live over the same $K$ (`DivData K Words`), so the factor $[K:\mathbb Q]$ in the
+  normalization is common to every term. The weighted mean is therefore the normalized slope of the
+  orthogonal sum (Lemma 6.9(3), Example 6.8(f)), with each $h_u$ absorbed by rescaling the metric of
+  $N_u$; compare the input `Twist`, `StatementPl.lean:133–146` [Lean].
+
+**Scope and open items.** Proposition 6.10 is the archive's lemma, with its hypotheses copied
+verbatim. Proposition 6.11 adds only transport and an unfolding. The relation $\mathrm{mu} = 2\hat\mu$
+is checked in Example 6.8 only; a general comparison would need the archive inputs `SizeMu` and
+`PlLat` (`StatementPl.lean:75–106`). These are supplied by `sizeMu` and `plLat`
+(`src/Formalism/HarderNarasimhan/ShiftInvariance.lean:49–50`), whose proofs we have not read, and
+they are used in `bridge_hn_mu_holds` (`src/Formalism/LocalRingCardinality/RankBoundMonotoneInDimension.lean:975–991`)
+[Lean]. Three questions remain [Open] here: whether `Ga`, `Fo` and `Ee` are literally sums of
+`sizeOfVal` terms; how `HypLow` and `HypHigh` produce Clause 7; and how $N_u$ is built from $M_u$.
+The clause is named after quotients, but as stated it only compares slopes.
+
 ---
 
 ## 6.5 Remarks and formalization notes
@@ -855,8 +1143,9 @@ all closed-point norms are powers of a single $q$!
 
 ## 6.6 Lean counterpart for this chapter
 
-Every Lean file listed below was read in full by us (`R3` / `[Lean, read]`). Upstream constructions
-that *inhabit* `FamP` and `ChainTied` belong to Chapters 7–12 (`P17`, `P8`–`P12`).
+Every Lean file listed below was read in full by us (`R3` / `[Lean, read]`), except that the last two
+rows (Section 6.4.5) list single declarations read line by line in files not read in full. Upstream
+constructions that *inhabit* `FamP` and `ChainTied` belong to Chapters 7–12 (`P17`, `P8`–`P12`).
 
 | Declaration | File:line | Mathematical content / role in Sections 6.3–6.4 | Tag |
 |---|---|---|---|
@@ -870,6 +1159,8 @@ that *inhabit* `FamP` and `ChainTied` belong to Chapters 7–12 (`P17`, `P8`–`
 | `wt_self`, `coverS_of_cover`, `FamCore`, `FamCore.Windows`, `FamCore.coverS_carry` | `src/Formalism/SharpRestriction/FamCore.lean:27,47,71,155,187` | Core family structure across scales $x \in \mathrm{Win}$ and shift-covering transfer across $u_0 < n$. | [Lean, read] |
 | `NoGain`, `FamP`, `DFamP` | `src/Formalism/SharpRestriction/ParConsts.lean:24,31,99` | Enriched chain-family structure `FamP eps` extending `FamCore eps` with lattice ties, dropped-prime criteria, and pinned constants. | [Lean, read] |
 | `TiePts`, `TieGlobal`, `TieLocal`, `TieArith`, `ChainTied`, `ChainTied.core_of` | `src/Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:39,50,63,84,97,116` | Bridges a family `Fm : FamP eps` (`D7` + `BasicNotions.SizeData₂`) to `Data` + `LChain.SizeData₂` (`ChainCore` / `CoreAtH`). | [Lean, read] |
+| `Mod.data`, `Mod.Ee_eq`, `Mod.model_slopes_five`, `Mod.s_eq`, `SlopesN_at`, `LoU`, `SlopesNF` | `src/Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean:464,671,677,687,181,177,254` | Section 6.4.5 (Proposition 6.11): the main-path `Data` record, with ranks as weights and `HLat.mu` as slopes; Clause 7 transported from `SlopesN_at`; `Data.s = sFrame`. | [Lean, read] |
+| `HLat`, `HLat.rank`, `HLat.mu`, `dU`, `Rsum`, `sFrame`, `DivData`, `sizeOfVal` | `src/Formalism/LocalRingCardinality/DataArith.lean:61,82,84,127,129,131,139,46` | Section 6.4.5 (Definition 6.7): hermitian $\mathcal O_K$-lattices, the archive-normalized slope, and the rank-weighted frame average. | [Lean, read] |
 
 **Summary of the chapter.** Over a finite field $\mathbb F_q$, Stepanov's and Bombieri's auxiliary
 polynomial $\Phi = \sum_{b=1}^B s_b u_b^Q$ combines Hasse–Schmidt divided-power derivations $D_t^{(k)}$
@@ -883,5 +1174,7 @@ Over $\mathbb Z$, node `P7` of the Lean archive mirrors this zero-versus-pole co
 package `SizeData₂` at even chain length `mAt` $\approx \sqrt{x\delta_1}$ (`src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil.lean:21`),
 $m$-step inert-prime divisibility (`DIV`) bounds the weighted mean slope $s(u_0)$ from below while
 Bost's slope inequality (`SlopeIneq`) bounds $s(u_0)$ from above, cancelling $\mu_{CC}(u_0)$ and
-$\log(\pi/v)$ (`key_identity5`) to bound `ASK` by `Main + ErrX5at`. How the archive actually builds
+$\log(\pi/v)$ (`key_identity5`) to bound `ASK` by `Main + ErrX5at`. On the main path the weights in
+$s(u_0)$ are lattice ranks, $s(u_0)$ is the frame average `sFrame`, and Clause 7 is transported from
+`SlopesN_at` by `model_slopes_five` (Section 6.4.5). How the archive actually builds
 $m$ commuting "derivatives" over a CM field out of **iterated theta lifts** is the subject of Chapter 7.

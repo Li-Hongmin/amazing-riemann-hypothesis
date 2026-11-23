@@ -353,8 +353,13 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Bost1996]** J.-B. Bost, "Périodes et isogénies des variétés abéliennes sur les corps de nombres
   (d'après D. Masser et G. Wüstholz)", *Séminaire Bourbaki*, Vol. 1994/95, exp. no. 795,
   Astérisque 237 (1996), 115–161; open copy at `http://www.numdam.org/item/SB_1994-1995__37__115_0/`
-  (cited in Chapter 9).
+  (cited in Chapters 6 and 9; Chapter 6, §6.4.5 uses Appendix A: the rank-one Arakelov degree on
+  p. 146, $\widehat{\deg}_n$, $\hat\mu$ and invariance under $f^{\ast}$ on p. 147, Prop. A.1 with
+  torsion-free quotients and Prop. A.2 on pp. 148–149).
   Verified: 2026-11-21 via Numdam (`SB_1994-1995__37__115_0`) and SMF Astérisque vol. 237 (1996), exp. 795, pp. 115–161.
+  Re-verified 2026-11-23 (CST) for Chapter 6: Numdam PDF, 3,794,367 B, sha256
+  `13d2911a3b4460552d2ba649609f626a0342beae85966929940ab7df205b0edb`, Appendix A read on PDF pages 33–35
+  (printed pp. 146–148).
 - **[Bost2001]** J.-B. Bost, "Algebraic leaves of algebraic foliations over number fields",
   *Publications Mathématiques de l'IHÉS* 93 (2001), 161–221, doi:10.1007/s10240-001-8191-3
   (cited in Chapter 9).
@@ -946,6 +951,11 @@ the 143 archive citations of the section against the pinned archive and prints e
 
 - URL: <https://github.com/leanprover-community/riemann-hypothesis/issues/3>; <https://github.com/leanprover-community/riemann-hypothesis/issues/5>
 - Author: GitHub users keithadler (#3) and JoseClaudioSJr (#5).
+- Used in Chapter 6, §6.4.5 (Remark 6.12): #5 states the cone status of `SlopesN`, `QuotientSlopeBoundsWith`,
+  `MeanBoundOfLossBounds` and `PointwiseBoundVariant` and read $s$ as the rank-weighted average of $\mu(N_u) - h_u$.
+  Re-fetched 2026-11-23 (CST) by `gh api`: body 63,424 B, sha256
+  `82efbf2283b040750b78af9dc65263ad3be25b7b165851199136d0f61445cae3`, a different size from the 2026-11-21 retrieval
+  above; GitHub reports `updated_at` 2026-11-22T19:16:06Z.
 - Version / date: #3 opened 2026-11-20 21:58:55 UTC, corrected by its author at 22:08 and 23:30; #5 opened 2026-11-21 02:10:48 UTC, follow-ups to 04:09.
 - Retrieved: 2026-11-21 05:01:44 UTC, HTTP 200 (gh api, authenticated read-only), 5,944 bytes, sha256 `5b39ee857bcfb74530837d22146603761148472fa922c15d3c757a06a4cb331a`; #5 2026-11-21 05:01:44 UTC, HTTP 200 (gh api, authenticated read-only), 46,695 bytes, sha256 `4d3d5783d700643e4dd43a48a9fb69b735a90a8b246371814af560819e097ecc`
 - Contribution and reliability: Two independent call-path maps from `riemannHypothesis` down to the load-bearing inputs (#3 by declaration-level reachability, #5 tagged [code]/[reading], AI-assisted). #3 retracted its first headline figure (55% of declarations needed) for about 80% (a safe reduction of only about 9%) after a trimmed build failed; cite the corrected figures only. Both agree with G1 on the upper chain. Useful cross-checks, not verifications.
@@ -1012,6 +1022,15 @@ the 143 archive citations of the section against the pinned archive and prints e
 - Version / date: Upload dates not available to us; titles via YouTube oEmbed.
 - Retrieved: 2026-11-21 05:05:26 UTC, HTTP 200, 846 bytes, sha256 `9e3e0538eb71292bf58db6705cfbbe40b242d399e1fda4900f5d25cc7816b1f4`
 - Contribution and reliability: Popular explainers of the two claims and of RH. Not watched by us; the auto-generated descriptions misspell names. Surveyed only.
+
+<a id="g10"></a>
+**G10. Manvir Jaswal, "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]" (`[Jaswal2026]`).**
+
+- URL: <https://hexagonmath.org/pdf/2611.00799v1> (identifier `hexagon:2611.00799v1`; not an arXiv identifier).
+- Author: Manvir Jaswal (Toronto), per the PDF title page and metadata.
+- Version / date: Version 1, November 21, 2026; 54 pages.
+- Retrieved: 2026-11-23 (CST) by curl, HTTP 200, 893,650 bytes, sha256 `ed3219310e356ef99dad8acb6a2a63ed92df18bd8a73f0dfef63ba5a4e8e57a7`.
+- Contribution and reliability: A Bourbaki-style exposition with archive paths. Section 3, item (c), describes `QuotientSlopeBoundsWith` as a comparison of the slopes of the $N_\omega$ with the stage-zero slopes "shifted by the gains", and the following paragraph describes taking "the rank-weighted mean of the shifted slopes of the $N_\omega$". Cited in Chapter 6, §6.4.5 [Community]. Not reviewed beyond these passages.
 
 ## Errata and disputes (E)
 
@@ -1593,6 +1612,8 @@ Seen and logged, not relied on. Listed so that readers can judge coverage and so
 - **Chapter 8, Sections 8.4.4–8.4.5, 2026-11-23T06:54Z**: `[Katz1976]` re-verified via Crossref (`doi:10.2307/1970966`: Katz, *The Annals of Mathematics* 104, no. 3, first page 459, issue date 1976-11), unchanged. LUMI `docs/04-chain-and-one-half.md` re-fetched (`32,281` B, sha256 `5258df0f8b20609b38926ca1ef54b0ac45afc5b2f7749022dc7086d64573f9f9`, last commit `c6d0e2bc06` at 2026-11-21T13:02:26Z; §5 lists the earlier `31,832`-byte copy of 2026-11-21T04:03:05Z). Its section "How the divisibility `Conclusion1` is proved" outlines the jet bound `kernel_a_one_generic`, the gain identity `ea_A1U`/`ea_BrNum` and the accumulation `lift_bound_of_integrality`/`main_ind` [Community]; Section 8.4.5 reads these declarations against the pinned archive.
 
 - **Chapter 13, Section 13.4.4, 2026-11-23T09:23Z**: `[Green1955]` read in the Internet Archive copy recorded in Part I, §6 (pages listed there). LUMI `docs/07-named-theorems.md` re-fetched from `https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/main/docs/07-named-theorems.md` (`44,821` B, sha256 `e857b8c5f9b6d00f66f645c7bd1183564c7852ac03820c3552821c6895809391`; §5 lists the earlier `43,596`-byte copy); its row for `GreenRegularCharacters` reads "special case — Green's cuspidal characters of GL_d(𝔽_q), only for q = p prime" (review R2 #14) [Community]. Mathlib `FinGroupCharZero.lean` added to Part I, §4 for `FDRep.simple_iff_char_is_norm_one`.
+
+- **Chapter 6, Section 6.4.5, 2026-11-23 (CST)** (run `rhbook-ch06-quotient-slopes-1123h-11231636/fetches/`): [Bost1996] Numdam PDF re-fetched (sha256 `13d2911a…0edb`), Appendix A read on printed pp. 146–148; G2 issue #5 body re-fetched (63,424 B, sha256 `82efbf22…cae3`); G10 [Jaswal2026] added (sha256 `ed321931…57a7`). Main-theorem export (V-section entry above) re-hashed locally: `d5fad832…89fb`, unchanged.
 
 
 ### Internal review of Chapters 17–18
