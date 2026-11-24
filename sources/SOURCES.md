@@ -1693,3 +1693,9 @@ recorded partial acceptance in `REPORT.md`, with itemized findings in
 based on the pinned Lean source and Masullo's PDF (A4). See Chapters 14 and 16–18.
 Masullo's Appendix A.4 is pp. 562–565, and Appendices B–E are pp. 587–654,
 655–742, 743–822 and 823–932 respectively.
+
+### Chapter 18 §18.3.7, local Euler characteristic
+
+- **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The direct cardinality proof, absolute-to-place transport, and `GC.locEuler` give the production and consumption of the Euler field. [Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#1837-local-euler-characteristics-away-from-the-residue-prime)
+- **J. S. Milne**, *Arithmetic Duality Theorems*, 2nd ed. (2006), I, Theorem 2.8 and Lemmas 2.9 and 2.11, pp. 31–34. The local Euler–Poincaré formula, the residue-prime-to-order proof, and the mixed-characteristic equivariant calculation. Retrieved 2026-11-24, SHA-256 `2c6195ec76a974f3f336c77cb71cc3845b018aad2d43136716b3477a3bc5fb31`. [Author PDF](https://www.jmilne.org/math/Books/ADTnot.pdf)
+- **John Tate**, “Duality theorems in Galois cohomology,” Proc. ICM Stockholm (1962), pp. 288–295, Theorems 2.2 and 2.4, pp. 289–290. The historical local Euler formula and the unramified exact annihilator theorem. PDF retrieved 2026-11-24, SHA-256 `61f99c052fe734da98ef56de080bbd5fbc640973e7c4649e3be423f9d2e2302f`. [Original proceedings scan](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf)
