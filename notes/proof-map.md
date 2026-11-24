@@ -159,6 +159,8 @@ We cite ours.
 
 **P12 (independence supply).** Chapter 11 §11.4.3.1 reads the bodies of `sinnott`, `nonvan`, and `memZ` (R3). Finite differences and the sum over sign representatives yield the reduced twist. Uniform nonvanishing supplies the ideal relation used by `cyc`. See the section’s pinned source map for the named inputs that retain [Lean].
 
+**P12 (class-group rank supply).** Chapter 11 §11.4.3.2 reads `cyc` and its direct producers (R3). Multiplying the `memZ` membership by $1-[J]$ and using Stickelberger annihilation (`stickH`) shows that $(1-\gamma)^N$ maps $(1-J)\mathrm{Cl}(L)$ into its $\ell$-multiples (`core`). A nilpotent length estimate (`nilCard`, `card_range_inf_torsion_le_index_pow`) bounds $\lvert(1-J)\mathrm{Cl}(L)\cap\mathrm{Cl}(L)[\ell]\rvert$ by the $N$-th power of the ambiguous quotient $[\mathrm{Cl}(L):\ell\mathrm{Cl}(L)+(1-\gamma)\mathrm{Cl}(L)]$, which `ambCyc` bounds by the number of $\mathbb Z/\ell$-characters of $G_F$ unramified outside $\ell$, $F=\mathbb Q(\zeta_{f\ell^e})$. For odd $\ell$, `reflOdd` and `pOdd` give $[\mathrm{Cl}:\mathrm{Cl}^\ell]\le\ell B^{2N}$. For $\ell=2$, `sgnCyc` bounds $[\mathrm{Cl}^-:(1-J)\mathrm{Cl}]$ by $2^{\varphi(4f)N}$ and `pTwo` gives $(2^{\varphi(4f)N}B^N)^2$. Stickelberger's theorem, the Artin-map and Kummer inputs, and the unit-sign inputs keep [Lean].
+
 **P12 (size).** `VwinOfRow.lean` (6 lines) imports a cone of 157,603 modules, 90% of the
 archive. By import weight the window bound is the largest single component of the proof.
 

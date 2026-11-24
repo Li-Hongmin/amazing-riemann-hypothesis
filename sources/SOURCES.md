@@ -540,6 +540,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   listing offering full text on request and a third-party viewer whose authorization could not
   be established. No authorized copy of p. 334 was obtained. The Satake, parameter and Haar
   comparisons remain [Open].
+- **[Lemmermeyer2013]** F. Lemmermeyer, "The ambiguous class number formula revisited",
+  *Journal of the Ramanujan Mathematical Society* 28 (2013), no. 4, 415–421; arXiv:1309.1071
+  (cited in Chapter 11, §11.4.3.2).
+  Verified: 2026-11-24 via the journal's issue listing (vol. 28, no. 4, December 2013, pp. 415–421) and the
+  arXiv PDF v1 (sha256 `53a80b00b693203386df6ca3350b4d5891159580037ca72a2096d59776300065`), read in full.
+  Theorem 1 gives, for a cyclic extension $L/K$ of prime degree $\ell$, the number of ambiguous classes as
+  $h(K)\,\ell^{t-1}/(E_K:E_K\cap N L^\times)$, with $t$ the number of ramified primes including the infinite
+  ones. Chapter 11 quotes it only for comparison with the archive's bound on the $\ell$-rank of the
+  coinvariants, which does not use this formula.
 - **[MazurWiles1984]** B. Mazur and A. Wiles, "Class fields of abelian extensions of $\mathbf Q$",
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapters 10 and 11).
@@ -679,6 +688,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in
   Chapters 2 and 11).
   Verified: 2026-11-21 via Springer GTM vol. 83 (`ISBN 978-0-387-94762-4`).
+  Chapter 11 §11.4.3.2 also cites §6.2 "Stickelberger's theorem" (p. 93), §10.2 "Reflection
+  theorems" (p. 188) and §16.2 "Sinnott's proof that $\mu=0$" (p. 380). Section titles and first pages
+  checked 2026-11-24 against the Deutsche Nationalbibliothek table-of-contents scan
+  (<https://d-nb.info/949560073/04>) and Springer's chapter list (doi:10.1007/978-1-4612-1934-7). These
+  sections are cited for the classical statements that the chapter compares with; the proofs it
+  transcribes are the archive's.
 - **[Weil1948]** A. Weil, *Sur les courbes algébriques et les variétés qui s'en déduisent*,
   Actualités Scientifiques et Industrielles 1041 (Publications de l'Institut de Mathématique de
   l'Université de Strasbourg VII), Hermann, Paris, 1948 (cited in Chapter 6).
