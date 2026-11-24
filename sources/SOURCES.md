@@ -409,6 +409,15 @@ All from
 | `Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean` | 2026-11-24T20:05Z | 15347 | `8f74642098d0390e08eae980f72ba29801c46b03446dae2fd20eff9ba0f08737` |
 | `Mathlib/Analysis/Fourier/FourierTransform.lean` | 2026-11-24T20:05Z | 28060 | `589a62a5719d3912b7f16b834c47c24a1f782ca025920b1849fc3cf788609412` |
 | `Mathlib/Analysis/InnerProductSpace/l2Space.lean` | 2026-11-24T20:05Z | 27827 | `b676e33fe380e3672f4472900aee9ae28516b127edd0174cab4c3d91b84a765c` |
+| `Mathlib/MeasureTheory/Group/Prod.lean` | 2026-11-24T20:06Z | 24969 | `033d8219fc6e0d17464e7dcb089cc0b1a8923fe339881667494e78260b05ef59` |
+| `Mathlib/MeasureTheory/Constructions/Pi.lean` | 2026-11-24T20:06Z | 47220 | `8751b21ac855f1a7b7c63258e8325f75b6fc236d360758b822ddf54597b118bf` |
+| `Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean` | 2026-11-24T20:04Z | 13610 | `69ebaf9328733df7c742ae16a376e6f2eab61e8de910f73c1a5836fd0a0e3ac5` |
+| `Mathlib/MeasureTheory/Measure/EverywherePos.lean` | 2026-11-24T20:13Z | 16827 | `64a7aec8398e3c96fad4bc7f8519119adba070d8dbe26d55f8579b0d402c2173` |
+| `Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean` | 2026-11-24T20:13Z | 34486 | `d24a9ae0e039064eb61570a7260171f6e4f77f6abebd16250aabd1a76a63029a` |
+| `Mathlib/Topology/Algebra/Group/Pointwise.lean` | 2026-11-24T20:13Z | 17366 | `e99495fdf4ec8a40cb25c90db17974e70f513e1f746f3b218554be87b40fa14a` |
+| `Mathlib/MeasureTheory/Function/L2Space.lean` | 2026-11-24T20:13Z | 13899 | `7dd0542490f2841e8a91d2258a903d328383d7305915375d99d589fae40de399` |
+| `Mathlib/Analysis/InnerProductSpace/Defs.lean` | 2026-11-24T20:13Z | 28705 | `a8e737e66df67ee0feeacd148cfebf78f1208dfd23c5e17f878d7ba72051e40f` |
+| `Mathlib/Analysis/InnerProductSpace/Basic.lean` | 2026-11-24T20:14Z | 46963 | `344aa5e0b104223d327bb1f13db092b4d320017c8f82b7ba9846b5f517222468` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -506,6 +515,29 @@ comparisons verified online 2026-11-24 UTC: T. Tao, *An Introduction to Measure 
 [Pinned `EqHaar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L231-L306)
 · [Pinned `WithDensity.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L419-L596)
 · [Tao, 245A Notes 1](https://terrytao.wordpress.com/2010/09/09/245A-notes-1-lebesgue-measure/)
+
+**Chapter 15, §15.4.3.3.** Reads at pin `0df444a360eaa60ab8c11dca51a86af692955474` the two
+production proofs of the uniqueness of Haar measure used in §§15.4.3.1–15.4.3.2: the test-function
+route in `Haar/Unique.lean` (Sébastien Gouëzel; `:74–711`, `:821–924`, `:1042–1072`), with Halmos's
+completion-regularity theorem in `Measure/EverywherePos.lean` (Sébastien Gouëzel, statement level),
+Urysohn's lemma in `Topology/UrysohnsLemma.lean` (Yury Kudryashov), compactly supported Fubini in
+`Integral/Prod.lean` (Floris van Doorn) and the regularity classes of `Measure/Regular.lean`
+(Sébastien Gouëzel, Floris van Doorn, Yury Kudryashov); and the product route in `Group/Prod.lean`
+(Floris van Doorn, `:78–335`) and `haarMeasure_unique` in `Haar/Basic.lean:670–676` (Floris van
+Doorn), with the finite products of `Constructions/Pi.lean` (Floris van Doorn), the coordinate
+measures of `Haar/OfBasis.lean` (Sébastien Gouëzel), the Borel instances of
+`Constructions/BorelSpace/Basic.lean` (Johannes Hölzl, Yury Kudryashov),
+`Topology/Algebra/Group/Pointwise.lean` (Johannes Hölzl, Mario Carneiro, Patrick Massot), and the
+inner-product convention in `Analysis/InnerProductSpace/Defs.lean` and `Basic.lean` (Zhouhang Zhou,
+Sébastien Gouëzel, Frédéric Dupuis) and `Function/L2Space.lean` (Rémy Degenne). The nine files not
+listed before were retrieved 2026-11-24T20:04–20:14Z; the earlier rows for `Haar/Unique.lean`,
+`Haar/Basic.lean`, `Lebesgue/EqHaar.lean`, `Group/Measure.lean`, `Haar/DistribChar.lean`,
+`Measure/Regular.lean`, `UrysohnsLemma.lean` and `Integral/Prod.lean` were re-downloaded with the same
+SHA-256. Literature checked online the same day: [Halmos1950] (bibliographic record only),
+[vanDoorn2021] §6 and [McQuillan2024].
+[Pinned `Haar/Unique.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean)
+· [Pinned `Group/Prod.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Group/Prod.lean)
+· [MathOverflow 456670](https://mathoverflow.net/questions/456670/)
 
 **Chapter 14, §14.4.2.** David Loeffler's pinned Mathlib
 `Real.fourierCoeff_tsum_comp_add` and `Real.tsum_eq_tsum_fourier` supply the
@@ -821,6 +853,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Memoirs of the American Mathematical Society 16, American Mathematical Society, Providence, RI,
   1955, doi:10.1090/memo/0016 (cited in Chapters 14 and 18).
   Verified: 2026-11-22 via Crossref / AMS (`doi:10.1090/memo/0016`), *Mem. Amer. Math. Soc.* no. 16 (1955).
+- **[Halmos1950]** P. R. Halmos, *Measure Theory*, Van Nostrand, 1950; reprinted as Graduate Texts
+  in Mathematics 18, Springer, doi:10.1007/978-1-4684-9440-2. Chapter "Haar Measure", pp. 250–265,
+  doi:10.1007/978-1-4684-9440-2_12; §59 (measurable groups) and §60, Theorem A (uniqueness) are the
+  source followed by Mathlib's `Group/Prod.lean` (cited in Chapter 15, §15.4.3.3).
+  Verified: 2026-11-24 via Crossref (book and chapter records, JSON SHA-256
+  `0fa479214ea124a225f2e46090ba5d15a291740dc470559c3030b1fe8fc7c69f` and
+  `72b833ed75a7eb9e83d791ce96e82ff3d6e30146c495067a6ad453fccacdf891`); the text of §§59–60 was not
+  consulted, and the section numbers are those cited by `Group/Prod.lean` and [vanDoorn2021].
 - **[HarrisTaylor2001]** M. Harris and R. Taylor, *The Geometry and Cohomology of Some Simple Shimura
   Varieties*, Annals of Mathematics Studies 151, Princeton University Press, Princeton, NJ, 2001,
   ISBN 978-0-691-09092-4 (cited in Chapters 12 and 16).
@@ -980,6 +1020,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapters 10 and 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388599`), *Invent. Math.* vol. 76, no. 2 (1984), pp. 179–330.
+- **[McQuillan2024]** C. McQuillan, answer (2024-01-06 14:25:06Z) to S. Gouëzel, "Uniqueness of
+  left-invariant Borel probability measure on compact groups", MathOverflow question 456670 (asked
+  2023-10-18), https://mathoverflow.net/questions/456670/. Derives uniqueness from Halmos's theorem
+  that Haar measure is completion regular (Fremlin 443M); the argument followed by Mathlib's
+  `Haar/Unique.lean` (cited in Chapter 15, §15.4.3.3).
+  Verified: 2026-11-24T20:18Z, page retrieved (138374 bytes, SHA-256
+  `335c9aee0b4aa7170c5fc3886e624ae3074108b96c070e398cf0e0656ecf1ebf`); question, answer dates and
+  author names read from the page.
 - **[Meyer2005]** R. Meyer, "On a representation of the idele class group related to primes and zeros
   of $L$-functions", *Duke Mathematical Journal* 127 (2005), no. 3, 519–595,
   doi:10.1215/S0012-7094-04-12734-4 (cited in Chapters 14 and 15).
@@ -1182,6 +1230,16 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Primzahlen, welche zu einer gegebenen Substitutionsklasse gehören", *Mathematische Annalen* 95
   (1926), no. 1, 191–228, doi:10.1007/BF01206606 (cited in Chapter 18).
   Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1007/BF01206606`), *Math. Ann.* vol. 95, no. 1 (1926), pp. 191–228.
+- **[vanDoorn2021]** F. van Doorn, "Formalized Haar Measure", in L. Cohen and C. Kaliszyk (eds.),
+  *12th International Conference on Interactive Theorem Proving (ITP 2021)*, LIPIcs 193, Article 18,
+  pp. 18:1–18:17, doi:10.4230/LIPIcs.ITP.2021.18; arXiv:2102.07636. §6 (pp. 18:13–18:15) proves
+  uniqueness for second-countable locally compact groups after Halmos §§59–60 and records the gap in
+  Halmos §60, Theorem A (finiteness of $\nu(Ky)$), patched there by assuming $K$ compact and $\nu$
+  regular (cited in Chapter 15, §15.4.3.3).
+  Verified: 2026-11-24T20:18Z, PDF retrieved from
+  `https://drops.dagstuhl.de/storage/00lipics/lipics-vol193-itp2021/LIPIcs.ITP.2021.18/LIPIcs.ITP.2021.18.pdf`
+  (852781 bytes, SHA-256 `84b4868e569f92c183da670197a01797df61296c0a6a6cb01a46a913d6e61b10`);
+  Crossref has no record of this DOI, so the bibliographic data are taken from the PDF title page.
 - **[Washington1997]** L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate
   Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Lemma 1.4 and
   Proposition 2.1, pp. 3, 9–10, cited in Chapter 10, §10.4.7.2; Theorem 4.3, cited in Chapters 2
@@ -2944,6 +3002,18 @@ pp. 15–16 and 517–519 against PDF `e039d3f6…97bf5`; verified all $z=1+2i$ 
 identities by exact rational arithmetic (`verify_linear_haar_density.py`, `handcalc_cert.json`,
 0.0002 s CPU) in run `rhbook-ch15-linear-haar-density-1125k-11250207`, following cross-source audit
 `audit-rhbook-ch15-halfdensity-1125g-11250125-11250155`.
+
+### Chapter 15 §15.4.3.3, uniqueness of Haar measure, and §15.4.3.2 audit wiring
+
+Added nine pinned Mathlib files (`Group/Prod.lean`, `Constructions/Pi.lean`, `Haar/OfBasis.lean`,
+`Measure/EverywherePos.lean`, `Constructions/BorelSpace/Basic.lean`, `Topology/Algebra/Group/Pointwise.lean`,
+`Function/L2Space.lean`, `InnerProductSpace/Defs.lean`, `InnerProductSpace/Basic.lean`) to Part I, §4
+and three literature records ([Halmos1950], [vanDoorn2021], [McQuillan2024]) to §6 (retrieved
+2026-11-24 UTC). Corrected the location of `addHaarMeasure_unique` (`Haar/Basic.lean:670–676`, not
+`Haar/Unique.lean`). Verified the hand calculations of Examples 1–3 by exact symbolic arithmetic
+(`verify_haar_uniqueness.py`, `handcalc_cert.json`, 0.5 s CPU) in run
+`rhbook-ch15-haar-uniqueness-1125u-11250401`, following audit
+`audit-rhbook-ch15-linear-haar-density-1125k-11250207-11250301`.
 
 ### Chapter 1 §§1.2.2.6–1.2.2.7, Poisson summation to theta inversion, and §1.2.2.6 post-audit fixes
 

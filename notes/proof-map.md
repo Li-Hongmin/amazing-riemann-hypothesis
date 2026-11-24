@@ -229,7 +229,7 @@ compared line by line.
 | Ch. 14 | multiplicities of zeros, function fields, higher rank | none; §14.2 (function fields) is relevant to the Stepanov motivation of P7–P8 |
 | App. B | convexity bound, explicit formulas, zero-free regions | P5 and P13 (classical analytic inputs) |
 | App. B, Prop. B.4.1.2 (pp. 608–610) | Logarithmic periodization and midpoint samples at jumps (§14.4.2) | Classical Mathlib correspondence [Lean, read] for `Real.fourierCoeff_tsum_comp_add` and `Real.tsum_eq_tsum_fourier` at the fixed pin. Jump convergence is a literature input. The application to Ch. 11 orbital traces is [Open]. |
-| §1.2.3 (1), p. 16; §12.4.1, (12.4.1.16)–(12.4.1.23), p. 518 | the diagonal weight $\lvert x\rvert_{F,S}^{2a}$ against the multiplicative Tamagawa measure $\mu_S=c_S\lvert\cdot\rvert_{F,S}^{-1}\nu_S$; $a=1/2$ returns the additive measure (§15.4.3.1) | Classical Mathlib correspondence [Lean, read] for `distribHaarChar`, `Real.map_volume_mul_left`, `addHaar_smul`, `integral_comp_mul_left_Ioi`, `mellin_comp_mul_left`, `IsHaarMeasure.isInvInvariant_of_regular`, `IsHaarMeasure.nullSingletonClass` at the fixed pin. Local only: no bearing on the $\alpha$-independence of Theorem 12.5.1.1 [Open]. |
+| §1.2.3 (1), p. 16; §12.4.1, (12.4.1.16)–(12.4.1.23), p. 518 | the diagonal weight $\lvert x\rvert_{F,S}^{2a}$ against the multiplicative Tamagawa measure $\mu_S=c_S\lvert\cdot\rvert_{F,S}^{-1}\nu_S$; $a=1/2$ returns the additive measure (§15.4.3.1); $c_S$ is a ratio of two Haar measures (§15.4.3.3) | Classical Mathlib correspondence [Lean, read] for `distribHaarChar`, `haarScalarFactor`, `isMulLeftInvariant_eq_smul_of_regular`, `haarMeasure_unique`, `Real.map_volume_mul_left`, `addHaar_smul`, `integral_comp_mul_left_Ioi`, `mellin_comp_mul_left`, `IsHaarMeasure.isInvInvariant_of_regular`, `IsHaarMeasure.nullSingletonClass` at the fixed pin. Local only: no bearing on the $\alpha$-independence of Theorem 12.5.1.1 [Open]. |
 
 The two arguments share only the classical frame (functional equations, explicit-formula-type
 links between zeros and primes). Their engines are disjoint: an adelic trace formula on
@@ -612,10 +612,11 @@ Inherited without repetition: top-level `AddCircle` bridge (`Analysis/Fourier/Po
 
 **P17 cell constituents and extended multiplicities (§7.4.3.6).** Local R3 for the $\mathbb N_\infty$ extended multiplicity and its exactness and finiteness (`OccursTimes`, `jhMult`, `step_dichotomy`, `occurs_add`, `jhMult_exact`, `jhMult_ne_top`, `jhMult_ne_zero_iff` in `JhMultSubAddQuot.lean`; `jhMult_of_le`, `jhMult_filtration`, `finite_constituents`, `cls_exact` in `NontrivialOfIrreducible.lean`), factorwise tensor exactness (`piTensor_exact_position` in `PiTensorSmoothRepsExactEachFactor.lean`), doubly indexed block swapping (`sigmaCurry` in `PiExteriorTensorFlattenedIndexEquivNested.lean`, `piTensor_swapBlocks_equiv` in `PiTensorDoublyIndexedSwapBlocksEquiv.lean`), exactness of normalized column induction (`smIndMap_injective`, `exists_smIndMap_eq`, `relInd_surjective`, `jhMult_relInd_exact` in `JordanHolderMultNormalisedInductionExact.lean`, projecting only `.1` of `smInd_coinvariants` in `SmIndCoinvariants.lean`, with `mem_span_bump` in `InductionContragredient.lean`, `exists_fixed_map_eq` in `IwahoriProjSurjective.lean`, `exists_open_normalised_subgroup_subset` and `levi_integral_facts`), the multilinear expansion (`one_coord₂`, `additive_family_expand` in `AdditiveFamilyFunctionDeterminedConstituents.lean`), the cell constituent theorem (`CellSemis.cellSemisimplification` in `GeometricLemmaCellSemisimplificationGL.lean`), and the consumers `Mix.cellone` (`MCellone.lean`) and `cell_diag`/`exists_of_cell`/`offdiag_eq_zero`/`jhMult_jac_multiProd` (`IsSubquotientCompMulSingle.lean`). This upgrades `jhMult_of_le` and `CellSemis.cellSemisimplification` named in §§7.4.3.2 and 7.4.3.4 and wires the $\mathbb N_\infty$ multiplicity scope into Theorem 7.3r. Named interfaces: upstream inhabitation of `BernsteinZelevinskyFiniteness` (`cellSemisimplification` directly projects only `JacquetFiniteLength`), the proof bodies of `piExteriorTensor_smoothIrreducible_isIrreducible`, `exists_equiv_piExteriorTensor_blockLevi`, `tensor_product_determines_factor_classes`, `relative_jacquet_functor_piTensor_equiv` and `normalised_induction_product_parabolic_piTensor`, the local Iwasawa/compact-open leaf lemmas `UnitInd.exists_iwasawa` and `SplitFlip`/`SplitWeil` interfaces, and Mathlib's `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`. [Subsection](../chapters/07-chains-of-theta-lifts.md#7436-composition-factors-of-a-cell-module)
 
-### Chapter 15 half-density normalization and linear-Haar / `withDensity` supply
+### Chapter 15 half-density normalization, linear-Haar / `withDensity` supply and Haar uniqueness
 
-[§15.4.3.1](../chapters/15-two-proofs-side-by-side.md#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight)
-and [§15.4.3.2](../chapters/15-two-proofs-side-by-side.md#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport)
+[§15.4.3.1](../chapters/15-two-proofs-side-by-side.md#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight),
+[§15.4.3.2](../chapters/15-two-proofs-side-by-side.md#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport)
+and [§15.4.3.3](../chapters/15-two-proofs-side-by-side.md#15433-uniqueness-of-haar-measure-proportionality-normalization-and-the-constant-in-the-half-density-transport)
 follow the Mathlib supply at pin `0df444a360eaa60ab8c11dca51a86af692955474`.
 In §15.4.3.1 (with post-audit repairs for $c_S$ in both clauses of Theorem 15.3(3), $S\ne\emptyset$
 for uniqueness, and removal of the false `MeasurePreserving`-identity claim in Lemma 15.3d), R3 covers
@@ -644,14 +645,28 @@ complex real-basis and volume transport (`LinearAlgebra/Complex/Module.lean:144�
 vs. `compMeasurePreserving` supply (`WithDensity.lean:245–300, 322–355, 398–449, 538–572, 589–596`,
 `Integral/LebesgueNormedSpace.lean:22–49`, `Function/L1Space/Integrable.lean:864–914`,
 `Function/LpSpace/Basic.lean:547–636`, `Function/AEEqFun.lean:280–318`).
-Statement level: `haarScalarFactor`/`addHaarScalarFactor_smul_congr'` (`Haar/Unique.lean:277, 1063–1073`),
-`addHaarMeasure_unique` (`EqHaar.lean` / `Haar/Unique.lean`), `LinearMap.det_smul`
+In §15.4.3.3, R3 covers the uniqueness of Haar measure in both production routes: the test-function
+route `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:74–711, 821–924, 1042–1072`
+(`integral_isMulLeftInvariant_isMulRightInvariant_combo`, `haarScalarFactor` and its algebra,
+`measure_isMulInvariant_eq_smul_of_isCompact_closure`, `isMulLeftInvariant_eq_smul_of_regular`,
+`isMulLeftInvariant_eq_smul`, `addHaarScalarFactor_smul_congr'`), and the σ-finite route
+`Mathlib/MeasureTheory/Group/Prod.lean:78–335` (`measure_mul_lintegral_eq`,
+`ae_measure_preimage_mul_right_lt_top_of_ne_zero`, `measure_lintegral_div_measure`, `measure_eq_div_smul`)
+with `haarMeasure_unique` (`Haar/Basic.lean:670–676`; earlier misattributed to `Haar/Unique.lean`),
+`Constructions/Pi.lean:276–293, 572–578, 648–650, 664–666`, `Haar/OfBasis.lean:50–51, 187–200, 253–279`
+and the inner-product convention (`InnerProductSpace/Defs.lean:53–54`, `InnerProductSpace/Basic.lean:903–915`,
+`Function/L2Space.lean:134–138`); this upgrades `haarScalarFactor`, `addHaarScalarFactor_smul_congr'`
+and `addHaarMeasure_unique` from statement level. Named at statement level there: the Haar-content
+construction (`Haar/Basic.lean:88–507`), Halmos's completion-regularity theorem
+(`Measure/EverywherePos.lean:280–288`), the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`,
+Urysohn's lemma, compactly supported Fubini, `pi_eq`, and the regularity and σ-finiteness instances.
+Statement level for §§15.4.3.1–15.4.3.2 otherwise: `LinearMap.det_smul`
 (`LinearAlgebra/Determinant.lean:256`), `MeasureTheory.Measure.haar` (`Haar/Basic.lean:584`), and
 `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq`. Named inputs / `[Expository]` packaging: the two-line
 $2\times 2$ evaluation $\det_{\mathbb R}(\ell_z)=u^2+v^2$ and $p=2$ `withDensity` square-root
 assembly (textbook proofs over R3 library lemmas); Fourier transform on a local field (Proposition
 15.4(2), classical); a Haar measure instance on $\mathbb Q_p$ (absent at the pin; $\mathbb Q_5$
-shells normalized by hand); Masullo's diagonal smoothing (pp. 15, 517). Both subsections are local
+shells normalized by hand); Masullo's diagonal smoothing (pp. 15, 517). All three subsections are local
 measure theory; the Chapter 14 `[Open]` items are unchanged.
 [Pinned `DistribChar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
 · [Pinned `EqHaar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L231-L306)

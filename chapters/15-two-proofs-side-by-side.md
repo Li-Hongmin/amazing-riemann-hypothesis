@@ -368,7 +368,8 @@ Why $\frac{1}{2}$, and not $\frac{2}{3}$ or $\frac{3}{4}$? Compare the two mecha
      Subsections 15.4.3.1 and 15.4.3.2 below prove it as Theorems 15.3 and 15.6, with the local and
      real-linear determinant normalizations of $\lvert\cdot\rvert_{F,S}$, the domain $K_S^\times$ of
      $\mu_S$, the constant $c_S$ of (12.4.1.17), the `withDensity` $L^2$ half-density transport, and
-     four worked hand calculations.)
+     four worked hand calculations. Subsection 15.4.3.3 reads the uniqueness of Haar measure used
+     by both and identifies $c_S$ as a ratio of two Haar measures, Theorem 15.8 and Corollary 15.9.)
   2. *Concentration on that axis:* Zeros are forced onto $\Re s = \frac{1}{2}$ **only if** the trace on
      $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$ is independent of $\alpha > 0$ (`Theorem 12.5.1.1`, p. 519)
      — the exact step currently blocked by the `[Open]` issues of Chapter 14!
@@ -423,7 +424,8 @@ $K=\mathbb R$, $\mathbb C$, or a non-archimedean local field such as $\mathbb Q_
 additive Haar measure $\nu$ on $K$.
 
 1. For $t\in K^\times$ the map $x\mapsto tx$ is a topological group automorphism of $(K,+)$, so
-   the pushed-forward measure is again a Haar measure and is a positive multiple of $\nu$. The
+   the pushed-forward measure is again a Haar measure and is a positive multiple of $\nu$ (Theorem
+   15.8(3),(6) in §15.4.3.3). The
    **modulus** $\Delta_K(t)\in\mathbb R_{>0}$ is the number with
    $$\nu(tS)=\Delta_K(t)\,\nu(S)\quad\text{for every Borel set } S\subseteq K .$$
    It does not depend on $\nu$ and $\Delta_K:K^\times\to\mathbb R_{>0}$ is a group homomorphism.
@@ -547,7 +549,7 @@ $s=0$ it is the invariance of $dt/t$.
 
 Inversion invariance: $K^\times$ is an abelian locally compact group and $\mu$ is a Haar measure
 on it, so its image under $x\mapsto x^{-1}$ is $c\mu$ for some $c>0$ by uniqueness of Haar
-measure; applying inversion twice gives $c^2\mu=\mu$, hence $c=1$. This is the Lean proof of
+measure (Theorem 15.8(3) in §15.4.3.3); applying inversion twice gives $c^2\mu=\mu$, hence $c=1$. This is the Lean proof of
 `IsHaarMeasure.isInvInvariant_of_regular`
 ([`Haar/Unique.lean:978–1000`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L978-L1000)),
 where $c$ is `haarScalarFactor μ.inv μ` and $c^2=1^2$ is extracted on a positive compact.
@@ -740,7 +742,7 @@ constants in (12.4.1.25)–(12.4.1.26) and do not use them.
 | File and lines at the pin | Declaration | Role here | Reading |
 |---|---|---|---|
 | `Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean:43–55, 57–58, 83–86, 92–95` | `distribHaarChar`, `distribHaarChar_pos`, `distribHaarChar_mul`, `distribHaarChar_eq_of_measure_smul_eq_mul` | Definition 15.2(1): the modulus as the Haar scalar factor of the pulled-back measure; homomorphism property | R3 (whole file read) |
-| `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:277, 1063–1073` | `haarScalarFactor`, `addHaarScalarFactor_smul_congr'` | supplies independence of $\nu$ in Definition 15.2(1) | statement level |
+| `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:277, 1063–1073` | `haarScalarFactor`, `addHaarScalarFactor_smul_congr'` | supplies independence of $\nu$ in Definition 15.2(1) | statement level (R3 in §15.4.3.3) |
 | `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:96, 123, 312–336` | `Real.volume_Ioo`, `Real.volume_singleton`, `Real.smul_map_volume_mul_left`, `Real.map_volume_mul_left`, `Real.volume_preimage_mul_left` | Lemma 15.3a(1), Lemma 15.3b(1) for $\mathbb R$ | R3 |
 | `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:297–306, 336–375` | `addHaar_image_linearMap`, `map_addHaar_smul`, `addHaar_preimage_smul`, `addHaar_smul` | Lemma 15.3a(2), real-scalar case (`:297–306` and general $z\in\mathbb C$ read at R3 in §15.4.3.2) | R3 (`:336–375` here; `:297–306` in §15.4.3.2) |
 | `Mathlib/LinearAlgebra/Determinant.lean:256` | `LinearMap.det_smul` | $\det(r\cdot\mathrm{id})=r^{\dim}$ inside `map_addHaar_smul` | statement level |
@@ -756,7 +758,7 @@ constants in (12.4.1.25)–(12.4.1.26) and do not use them.
 
 **Retained inputs (not read in §15.4.3.1; linear-Haar and density-$L^2$ items opened in §15.4.3.2).**
 The uniqueness theorem for Haar measure behind `haarScalarFactor` and
-`isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean`); the Fourier transform on a general
+`isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean`; read in §15.4.3.3); the Fourier transform on a general
 local field (Proposition 15.4(2) is classical `[Expository]`, and for $\mathbb R$ Mathlib's
 `Real.fourierIntegral` is not cited here); a Haar measure on $\mathbb Q_p$ as a Mathlib instance
 (absent at the pin); and Masullo's smoothing of kernels along the diagonal (Hardy–Littlewood and
@@ -1044,7 +1046,7 @@ $f:E\to E$ be an $\mathbb R$-linear map.
 *Proof.* (1) First suppose $E=(\iota\to\mathbb R)$ for a finite type $\iota$, with an arbitrary
 additive Haar measure $\mu$ (`map_linearMap_addHaar_pi_eq_smul_addHaar`, `EqHaar.lean:218–226`). By
 Haar uniqueness normalized on the unit cube $[0,1]^\iota$ (`addHaarMeasure_unique μ (piIcc01 ι)`
-and `addHaarMeasure_eq_volume_pi`, `:117–121`), $\mu=\mu([0,1]^\iota)\,\mathrm{vol}$. Pushing forward
+and `addHaarMeasure_eq_volume_pi`, `:117–121`; Lemma 15.7f(2)–(3) in §15.4.3.3), $\mu=\mu([0,1]^\iota)\,\mathrm{vol}$. Pushing forward
 along $f$ commutes with scalar multiplication (`Measure.map_smul`), so Lemma 15.5a(4) yields
 $f_\ast\mu=\mu([0,1]^\iota)\,\lvert(\det f)^{-1}\rvert\,\mathrm{vol}=\lvert(\det f)^{-1}\rvert\,\mu$.
 
@@ -1131,8 +1133,11 @@ weight, with weighted measure $\rho_w:=\rho.\mathrm{withDensity}(w)$ (via `ENNRe
    (`AEEqFun.compMeasurePreserving`, [`AEEqFun.lean:280–297`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/AEEqFun.lean#L280-L297))
    under the hypothesis $\phi_\ast\rho_1=\rho_2$. For $\phi=\mathrm{id}_X$, $(\mathrm{id}_X)_\ast\rho=\rho$,
    so `MeasurePreserving id ρ ρ_w` holds on a $\sigma$-finite space $(X,\rho)$ if and only if $w=1$
-   $\rho$-almost everywhere; whenever $w$ is not $\rho$-a.e. equal to $1$, no precomposition
-   operator $C_{\mathrm{id}}$ exists between $L^2(X,\rho)$ and $L^2(X,\rho_w)$, and when $w=1$
+   $\rho$-almost everywhere. Whenever $w$ is not $\rho$-a.e. equal to $1$, the identity does not
+   satisfy the `MeasurePreserving` hypothesis, so this isometric precomposition interface does not
+   apply to it. The precomposition $C_{\mathrm{id}}:[v]_\rho\mapsto[v]_{\rho_w}$ can still be a
+   bounded operator, but it is not an isometry: for $X=[0,1]$, $\rho=dx$ and $w=4$, it is a bounded
+   invertible operator $L^2(\rho)\to L^2(4\rho)$ of norm $2$ whose inverse has norm $1/2$. When $w=1$
    $\rho$-a.e., $C_{\mathrm{id}}=M_1$ is the trivial identity (`compMeasurePreserving_id`, `:589–595`).
 3. *(How the two operators compose to produce unitary dilations.)* For $(K,\nu,\Delta_K,\mu)$ as in
    Definition 15.2 and $t\in K^\times$, left multiplication $\tau_t(x):=tx$ satisfies
@@ -1185,7 +1190,8 @@ which multiplies by $f$ rather than $w^{1/2}$ because $p=1$), we verify four thi
 for every $B\in\mathcal M$. On any $\sigma$-finite space $(X,\rho)$, testing on $\{w\ge 1+\varepsilon\}\cap X_n$
 and $\{w\le 1-\varepsilon\}\cap X_n$ along an exhausting sequence $\rho(X_n)<\infty$ forces $w=1$
 $\rho$-a.e.; conversely, if $w=1$ $\rho$-a.e., then $\rho_w=\rho$ and `compMeasurePreserving_id`
-gives the identity operator.
+gives the identity operator. In the example, $\lVert[v]_{4\rho}\rVert^2_{L^2(4\rho)}=4\lVert[v]_\rho\rVert^2_{L^2(\rho)}$,
+which gives the two norms $2$ and $1/2$.
 
 (3) By Lemma 15.3c, $\tau_t:K^\times\to K^\times$ is a homeomorphism with $(\tau_t)_\ast\mu=\mu$,
 so `Lp.compMeasurePreservingₗᵢ` applies at $p=2$. For $g\in L^2(K,\nu)$, $(U_{1/2}g)(x)=\Delta_K(x)^{1/2}g(x)$
@@ -1244,10 +1250,11 @@ $c_\emptyset=1$, and $\nu_\emptyset=\mu_\emptyset$ the unit point mass). Then:
      $$\int_{K_S^\times} k_a(x,x)\,d\mu_S(x)
        = c_S\int_{K_S^\times} k(x,x)\,\Delta_S(x)^{2a-1}\,d\nu_S(x)$$
      whenever either side converges absolutely. In particular, for a rank-one kernel
-     $k(x,y)=g(x)\overline{h(y)}$ with $g,h\in L^2(K_S,\nu_S)$ at $a=1/2$,
+     $k(x,y)=g(x)\overline{h(y)}$ with $g,h\in L^2(K_S,\nu_S)$ at $a=1/2$, and with the inner
+     product conjugate-linear in the first variable as in Mathlib (Corollary 15.9(5) in §15.4.3.3),
      $$\int_{K_S^\times} k_{1/2}(x,x)\,d\mu_S(x)
-       = c_S\,\langle U_S g, U_S h\rangle_{L^2(\mu_S)}
-       = c_S\,\langle g, h\rangle_{L^2(\nu_S)},$$
+       = c_S\,\langle U_S h, U_S g\rangle_{L^2(\mu_S)}
+       = c_S\,\langle h, g\rangle_{L^2(\nu_S)},$$
      reconciling the exact cancellation of $c_S$ in $U_S$ with its explicit presence in (12.4.1.17)
      and (12.4.1.23) [Paper; Masullo p. 518].
 3. *(Non-empty $S$ criterion for uniqueness of $a=1/2$.)* If $S\ne\emptyset$, the following four
@@ -1271,6 +1278,8 @@ factors are $\sigma$-finite, so Fubini/Tonelli gives $\nu_S(\{x:x_v=0\})=0$ and 
 $\nu_S(K_S\setminus K_S^\times)=0$. Product density multiplication and Lemma 15.3c in each coordinate
 give $\mu_S=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1})$ and its multiplication and
 inversion invariance; when $S=S_f$, $\mu_S\bigl(\prod_{v\in S_f}\mathcal O_v^\times\bigr)=c_S\prod_{v\in S_f}(1-N(\mathfrak p_v)^{-1})=1$.
+That this normalization determines $\mu_S$ among the Haar measures on $K_S^\times$, and that $c_S$ is
+the ratio of two such measures, is Theorem 15.8(5) and Corollary 15.9(6) in §15.4.3.3.
 
 (2) Since $c_S\Delta_S^{-1}$, $\Delta_S^{1-2a}$, and $\Delta_S^{2a}$ are continuous positive functions
 on $K_S^\times$, `withDensity_mul₀` (`WithDensity.lean:538–544`) composes densities by pointwise
@@ -1290,7 +1299,9 @@ $$(U_S^{-1}C_{\tau_t}U_S g)(x)=c_S^{1/2}\Delta_S(x)^{-1/2}\bigl(c_S^{-1/2}\Delta
 Integrating $k(x,x)$ against $\mu_S.\mathrm{withDensity}(\Delta_S^{2a})=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{2a-1})$
 via `lintegral_withDensity_eq_lintegral_mul` (for $\lvert k(x,x)\rvert$ and then by linearity for real
 and imaginary parts) gives the diagonal kernel formula; for $k(x,y)=g(x)\overline{h(y)}$ at $a=1/2$,
-$k_{1/2}(x,x)=\Delta_S(x)g(x)\overline{h(x)}=c_S\,U_S(g)(x)\overline{U_S(h)(x)}$.
+$k_{1/2}(x,x)=\Delta_S(x)g(x)\overline{h(x)}=c_S\,\overline{U_S(h)(x)}\,U_S(g)(x)$, whose
+$\mu_S$-integral is $c_S\langle U_Sh,U_Sg\rangle_{L^2(\mu_S)}$ because Mathlib's $L^2$ inner product
+is $\langle u,v\rangle=\int\overline u\,v$ (`L2.inner_def`, `RCLike.inner_apply`).
 
 (3) Assume $S\ne\emptyset$. The equivalence *(i)* $\iff$ *(iv)* (with $c=c_S$) is Theorem
 15.3(3)(ii). Clearly *(iv)* $\implies$ *(ii)* and *(iii)* by part (2). If *(ii)* holds—say
@@ -1361,7 +1372,588 @@ integral, "locally finite Borel measure on $K$" in Lemma 15.3b(2), and "dilation
 | `Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean:22–49` · `Function/L1Space/Integrable.lean:864–914` | `aemeasurable_withDensity_iff`, `L1.withDensitySMulLI`, `L1.withDensitySMulLI_apply` | Lemma 15.5d(1): strong measurability under positive density and Mathlib's $L^1$ multiplication-isometry prototype | R3 |
 | `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:547–636` · `Function/AEEqFun.lean:280–318` | `AEEqFun.compMeasurePreserving`, `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving`, `Lp.compMeasurePreserving_id`, `Lp.compMeasurePreservingₗᵢ` | Definition 15.5(2) and Lemma 15.5d(2)–(3): precomposition operator under `MeasurePreserving` and its conjugation by $U_{1/2}$ | R3 |
 | Inherited from §15.4.3.1 | `distribHaarChar`, `Real.map_volume_mul_left`, `IsHaarMeasure.nullSingletonClass`, `IsHaarMeasure.isInvInvariant_of_regular`, `ProperSpace ℚ_[p]`, Lemmas 15.3a(1),(3), 15.3b, 15.3c, Proposition 15.4 | Single-field $\mathbb R$ and non-archimedean modulus/shells, zero removal, multiplicative and inversion invariance, 1-field Fourier scaling | Inherited (audited in §15.4.3.1) |
-| Retained named inputs (unread / `[Open]`) | `addHaarMeasure_unique` (`Haar/Unique.lean`), `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq` (`Constructions/Pi.lean`, `Integral/Lebesgue/Marginal.lean`), Haar instance on $\mathbb Q_p$ (absent at pin), Masullo diagonal smoothing (`pp. 15, 517`) & Ch. 10/12/13 strip-trace steps (`pp. 451, 514, 519, 521–522`) | Measure-uniqueness and Fubini-marginal foundations `[Lean]`; $\mathbb Q_5$ measure normalization `[Expository]`; Masullo global trace steps `[Paper]` / `[Open]` | Statement / named boundary |
+| Retained named inputs (unread / `[Open]`) | `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq` (`Constructions/Pi.lean`, `Integral/Lebesgue/Marginal.lean`), Haar instance on $\mathbb Q_p$ (absent at pin), Masullo diagonal smoothing (`pp. 15, 517`) & Ch. 10/12/13 strip-trace steps (`pp. 451, 514, 519, 521–522`); `addHaarMeasure_unique` is in `Haar/Basic.lean:670–676`, not `Haar/Unique.lean`, and is read in §15.4.3.3 | Measure-uniqueness and Fubini-marginal foundations `[Lean]`; $\mathbb Q_5$ measure normalization `[Expository]`; Masullo global trace steps `[Paper]` / `[Open]` | Statement / named boundary |
+
+#### 15.4.3.3 Uniqueness of Haar measure: proportionality, normalization and the constant in the half-density transport
+
+> **Reading boundary.** This subsection explains existing measure theory and does no new RH
+> research. `[Lean, read]` refers to proof bodies read at the archive's Mathlib pin
+> `0df444a360eaa60ab8c11dca51a86af692955474` (archive bundle SHA-256
+> `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). Reading library proofs and
+> building this book is not a Lean kernel verification. Unlike the declarations of §15.4.3.1, the
+> uniqueness theorems read here are also called by archive files, for instance
+> `isMulLeftInvariant_eq_smul` at
+> `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/HaarUniquenessConjugation.lean:154` and
+> `addHaarMeasure_unique` at
+> `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/UnimodularClassRepresentatives/FundamentalDomainPiBasis.lean:44–45`.
+> Those call sites are not followed, and nothing below says whether they lie on the import path of
+> `src/Main.lean`. Inherited without re-proof: §15.4.3.1 (values of the modulus, zero removal,
+> invariance of $\Delta_K^{-1}\nu$, Theorem 15.3) and §15.4.3.2 (Lemmas 15.5a–d, Theorem 15.6).
+> Kept at statement level and named where used: the construction of Haar measure from Haar
+> content, Urysohn's lemma, Halmos's theorem that a Haar measure is completion regular, Fubini for
+> compactly supported continuous functions, Tonelli and the box criterion for product measures,
+> and the regularity and $\sigma$-finiteness instances listed in the source map. Masullo's diagonal
+> smoothing (pp. 15, 517) and the strip-trace and nuclearity steps (pp. 451, 514, 519, 521–522)
+> remain `[Paper]`/`[Open]`.
+
+**Motivation.** Subsections 15.4.3.1–15.4.3.2 use the uniqueness of Haar measure five times
+without reading its proof:
+
+1. Definition 15.2(1) says that the pushforward of $\nu$ under $x\mapsto tx$ "is a positive
+   multiple of $\nu$" and that the multiple "does not depend on $\nu$". In Mathlib the identity
+   $\nu(tS)=\Delta_K(t)\,\nu(S)$ is `distribHaarChar_mul` (`DistribChar.lean:83–86`), which
+   rewrites with `isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean:905–914`). The
+   independence of $\nu$ is `addHaarScalarFactor_smul_congr'` (`Haar/Unique.lean:1069–1072`),
+   called at `DistribChar.lean:63–66`.
+2. Lemma 15.3c obtains inversion invariance from `isInvInvariant_of_regular`
+   (`Haar/Unique.lean:978–999`), which calls `isMulLeftInvariant_eq_smul_of_regular` for the
+   reflected measure.
+3. The first step of Lemma 15.5b(1), `map_linearMap_addHaar_pi_eq_smul_addHaar`
+   (`EqHaar.lean:218–226`), writes an arbitrary additive Haar measure on $\iota\to\mathbb R$ as
+   $\mu([0,1]^\iota)\cdot\mathrm{vol}$ by `addHaarMeasure_unique`. This is the additive form of
+   `haarMeasure_unique` in `Haar/Basic.lean:670–676`, not a declaration of `Haar/Unique.lean` as
+   the source map of §15.4.3.2 said, and it is proved by a different method.
+4. The normalization of product Lebesgue measure, `addHaarMeasure_eq_volume_pi`
+   (`EqHaar.lean:117–121`), is the same `addHaarMeasure_unique` applied to `volume` on
+   $\iota\to\mathbb R$.
+5. Theorem 15.6(1) calls $\mu_S=c_S\Delta_S^{-1}\nu_S$ "normalized on $\prod_{v\in S_f}\mathcal O_v^\times$",
+   and Masullo's (12.4.1.17) presents $c_S$ as the constant relating two normalizations
+   [Paper; Masullo p. 518]. That one normalization fixes a Haar measure, and that the ratio of two
+   Haar measures is a single number, is uniqueness on the locally compact group $K_S^\times$.
+
+The pinned library proves uniqueness twice, by different methods and under different
+hypotheses, and §15.4.3 uses both. Route T (test functions; `Haar/Unique.lean`, Sébastien
+Gouëzel, 2023) needs local compactness to compare integrals, and regularity of both measures to
+compare measures. Items 1–2 use it. Route P (products; `Group/Prod.lean` and `Haar/Basic.lean`,
+Floris van Doorn, 2020–2021, after Halmos 1950, §§59–60) needs $\sigma$-finiteness and a measurable
+multiplication $G\times G\to G$, which second countability supplies. Items 3–4 use it. This
+subsection reads both routes (Lemmas 15.7a–f), states the theorem with the hypotheses each
+consumer uses (Theorem 15.8), shows by examples what each hypothesis does (Example 3), and
+returns the result to the half-density transport of Theorem 15.6 (Corollary 15.9), where Masullo's
+$c_S$ appears as one such ratio.
+
+**Example 1 (real-linear coordinates on $\mathbb R^2=\mathbb C$: one constant, three
+measurements).** Let $\nu_{\mathbb C}$ be planar Lebesgue measure on $\mathbb C$ in the basis
+$(1,i)$, as in §15.4.3.2, and let $Q=\{x+iy:0\le x,y\le 1\}$, so $\nu_{\mathbb C}(Q)=1$. Put
+$b_1=1+2i$ and $b_2=-2+i$, the images of $1$ and $i$ under $\ell_{1+2i}$, and give $w\in\mathbb C$
+the real-linear coordinates $(s,t)$ defined by $w=sb_1+tb_2=(1+2i)(s+it)$. Mathlib's coordinate
+measure for this basis is `b.addHaar`, the Haar measure normalized on the parallelogram
+$P_b=\{sb_1+tb_2:0\le s,t\le1\}$ (`Haar/OfBasis.lean:50–51, 253–256`); call it $\nu_b$. Theorem
+15.8 below predicts $\nu_b=c\,\nu_{\mathbb C}$ for one number $c$. Three independent measurements
+give it.
+
+- *(a) The normalizing compact.* $\nu_b(P_b)=1$ (`Basis.addHaar_self`, `Haar/OfBasis.lean:278–279`).
+  The vertices of $P_b$ are $0$, $1+2i$, $-1+3i$, $-2+i$, and the shoelace formula gives
+  $\nu_{\mathbb C}(P_b)=\tfrac12\lvert 0+5+5+0\rvert=5$. Hence $c=1/5$.
+- *(b) A second positive compact.* The image of $ds\,dt$ under $L_b(s,t)=sb_1+tb_2$ is
+  $\sigma$-finite, translation-invariant and gives $P_b=L_b([0,1]^2)$ mass $1$, so it equals
+  $\nu_b$ by `Basis.addHaar_eq_iff` (`Haar/OfBasis.lean:267–271`), an instance of Theorem
+  15.8(4)–(5). Thus $\nu_b(Q)$ is the area of $L_b^{-1}(Q)$ in the $(s,t)$-plane. Since
+  $L_b^{-1}(x,y)=\bigl(\tfrac{x+2y}{5},\tfrac{-2x+y}{5}\bigr)$, the square $Q$ goes to the square
+  with vertices $(0,0)$, $(\tfrac15,-\tfrac25)$, $(\tfrac35,-\tfrac15)$, $(\tfrac25,\tfrac15)$, of
+  side $1/\sqrt5$. So $\nu_b(Q)=1/5$ and again $c=1/5$.
+- *(c) A positive test function.* Let $g(w)=(1-\lvert w\rvert^2)_+$: continuous, supported in
+  the closed unit disc, $g\ge0$, $g(0)=1$. Then
+  $\int g\,d\nu_{\mathbb C}=2\pi\int_0^1(1-r^2)\,r\,dr=\frac{\pi}{2}$. Since
+  $\lvert L_b(s,t)\rvert^2=\lvert1+2i\rvert^2(s^2+t^2)=5(s^2+t^2)$,
+  $$\int g\,d\nu_b=\iint\bigl(1-5(s^2+t^2)\bigr)_+\,ds\,dt=2\pi\int_0^{1/\sqrt5}(1-5\rho^2)\,\rho\,d\rho=\frac{\pi}{10},$$
+  and the quotient $\int g\,d\nu_b\big/\int g\,d\nu_{\mathbb C}=\frac15$ is the formula for $c$ in
+  Lemma 15.7b.
+- *(d) The constant depends on the normalization, the modulus does not.* Because
+  $\ell_{1+2i}(Q)=P_b$, the modulus of $w\mapsto(1+2i)w$ computed with $\nu_{\mathbb C}$ is
+  $\nu_{\mathbb C}(P_b)/\nu_{\mathbb C}(Q)=5$, and computed with $\nu_b$ it is
+  $\nu_b(P_b)/\nu_b(Q)=1\big/\tfrac15=5$. This is Theorem 15.8(6) on one example: $c=1/5$
+  changes with the normalization, $\Delta_{\mathbb C}(1+2i)=5$ does not.
+- *(e) Transport and the order of the inner product.* Here $\nu_b=\lambda\,\nu_{\mathbb C}$ with
+  $\lambda=1/5$, and $\mu_b:=\Delta_{\mathbb C}^{-1}\nu_b=\kappa\,\mu_{\mathbb C}$ with $\kappa=1/5$,
+  so the constant of Corollary 15.9 is $c'=\kappa\cdot1/\lambda=1$ and $U_b\colon g\mapsto\lvert w\rvert g$
+  is unitary from $L^2(\mathbb C,\nu_b)$ onto $L^2(\mathbb C^\times,\mu_b)$. On the annulus
+  $A=\{1\le\lvert w\rvert\le2\}$, $\nu_{\mathbb C}(A)=3\pi$ and $\nu_b(A)=\frac{3\pi}{5}$. With
+  Mathlib's convention $\langle u,v\rangle=\int\overline u\,v$ (conjugate-linear in the first
+  variable) and $g=i\mathbf 1_A$, $h=\mathbf 1_A$:
+  $\langle h,g\rangle_{L^2(\nu_b)}=i\,\nu_b(A)=\frac{3\pi i}{5}$, while
+  $\langle g,h\rangle_{L^2(\nu_b)}=-\frac{3\pi i}{5}$, and
+  $\langle U_bh,U_bg\rangle_{L^2(\mu_b)}=i\int_A\lvert w\rvert^2\,d\mu_b=i\,\nu_b(A)=\frac{3\pi i}{5}$.
+  The rescaling $R_\lambda g=\lambda^{-1/2}g=\sqrt5\,g$ is unitary from $L^2(\nu_{\mathbb C})$ onto
+  $L^2(\nu_b)$: $\lVert R_\lambda\mathbf 1_A\rVert^2_{L^2(\nu_b)}=5\cdot\frac{3\pi}{5}=3\pi=\lVert\mathbf 1_A\rVert^2_{L^2(\nu_{\mathbb C})}$.
+
+**Example 2 (the complex coordinate on $\mathbb C$ and $\mathbb C^\times$).**
+
+- *(a) Additive.* In the coordinate $w=x+iy$,
+  $dw\wedge d\overline w=(dx+i\,dy)\wedge(dx-i\,dy)=-2i\,dx\wedge dy$, so the coordinate measure
+  $\nu_w:=\lvert dw\wedge d\overline w\rvert$ is $2\,dx\,dy$, i.e. $\nu_w=\lambda\,\nu_{\mathbb C}$
+  with $\lambda=2$. The three measurements of Example 1 agree: $\nu_w(Q)/\nu_{\mathbb C}(Q)=2$,
+  $\nu_w(D)/\nu_{\mathbb C}(D)=2\pi/\pi=2$ for the closed unit disc $D$, and
+  $\int g\,d\nu_w\big/\int g\,d\nu_{\mathbb C}=\pi\big/\frac{\pi}{2}=2$.
+- *(b) Multiplicative, normalized on a positive compact of $\mathbb C^\times$.* The annulus $A$ is
+  compact with non-empty interior in $\mathbb C^\times$. Let $\mu_A$ be the Haar measure on
+  $\mathbb C^\times$ with $\mu_A(A)=1$ (`haarMeasure A`). The measure
+  $\Delta_{\mathbb C}^{-1}\nu_w=2\,dx\,dy/\lvert w\rvert^2=2\,dr\,d\theta/r$ is a Haar measure on
+  $\mathbb C^\times$ (Lemma 15.3c), with
+  $(\Delta_{\mathbb C}^{-1}\nu_w)(A)=2\cdot2\pi\int_1^2\frac{dr}{r}=4\pi\log 2$. Theorem 15.8(5)
+  gives $\mu_A=c'\,\Delta_{\mathbb C}^{-1}\nu_w$ with $c'=\frac{1}{4\pi\log 2}$. In the notation of
+  Corollary 15.9, $\kappa=\mu_A(A)/\mu_{\mathbb C}(A)=\frac{1}{2\pi\log 2}$ and $c'=\kappa\cdot1/\lambda$.
+- *(c) The same constant from a test function on $\mathbb C^\times$.* Let
+  $\varphi(w)=(1-\lvert\log\lvert w\rvert\rvert)_+$: continuous, supported in the compact set
+  $\{e^{-1}\le\lvert w\rvert\le e\}\subset\mathbb C^\times$, $\varphi\ge0$, $\varphi(1)=1$. With
+  $u=\log r$, $\int\varphi\,d\mu_{\mathbb C}=2\pi\int(1-\lvert u\rvert)_+\,du=2\pi$ and
+  $\int\varphi\,d(\Delta_{\mathbb C}^{-1}\nu_w)=4\pi$. The test-function quotient is $2$, the same
+  as the quotient $4\pi\log 2/(2\pi\log 2)$ on $A$. For $\mu_A$ the theorem then predicts
+  $\int\varphi\,d\mu_A=c'\cdot4\pi=\frac{1}{\log 2}$, and the quotient
+  $\int\varphi\,d\mu_A\big/\int\varphi\,d\mu_{\mathbb C}=\frac{1}{2\pi\log 2}$ is $\kappa$ again.
+- *(d) A pushforward with no determinant.* The squaring map $q(w)=w^2$ is a continuous,
+  surjective, proper homomorphism of $\mathbb C^\times$, so $q_\ast\mu_{\mathbb C}$ is again a Haar
+  measure (`isHaarMeasure_map`, `Group/Measure.lean:817–827`), and Theorem 15.8 makes
+  $q_\ast\mu_{\mathbb C}=c\,\mu_{\mathbb C}$. On $E_1=\{1\le\lvert z\rvert\le4\}$:
+  $q^{-1}(E_1)=A$, so $q_\ast\mu_{\mathbb C}(E_1)=2\pi\log 2$ against
+  $\mu_{\mathbb C}(E_1)=2\pi\log4$. On $E_2=\{1\le\lvert z\rvert\le2,\ 0\le\arg z\le\pi\}$:
+  $q^{-1}(E_2)=\{1\le\lvert w\rvert\le\sqrt2,\ \arg w\in[0,\frac{\pi}{2}]\cup[\pi,\frac{3\pi}{2}]\}$ has
+  $\mu_{\mathbb C}$-mass $\frac{\pi}{2}\log 2$ against $\mu_{\mathbb C}(E_2)=\pi\log 2$. Both quotients
+  are $c=\frac12$. This is the multiplicative counterpart of the pushforward comparison in
+  `map_linearMap_addHaar_pi_eq_smul_addHaar`: $\mathbb C^\times$ is not a vector space, there is no
+  determinant, and only uniqueness says that the quotient is the same on every set.
+- *(e) Transport, constants and the order of the inner product.* By Corollary 15.9(4) the map
+  $U_A\colon g\mapsto c'^{-1/2}\Delta_{\mathbb C}^{1/2}g=(4\pi\log 2)^{1/2}\lvert w\rvert g$ is unitary
+  from $L^2(\mathbb C,\nu_w)$ onto $L^2(\mathbb C^\times,\mu_A)$. With $g=i\mathbf 1_A$ and
+  $h=\mathbf 1_A$: $\nu_w(A)=6\pi$, $\langle h,g\rangle_{L^2(\nu_w)}=6\pi i$,
+  $\langle g,h\rangle_{L^2(\nu_w)}=-6\pi i$, and
+  $\langle U_Ah,U_Ag\rangle_{L^2(\mu_A)}=4\pi\log 2\cdot i\int_A\lvert w\rvert^2\,d\mu_A=6\pi i$.
+  For the rank-one kernel $k(x,y)=g(x)\overline{h(y)}$ one has
+  $k_{1/2}(x,x)=\Delta_{\mathbb C}(x)\,g(x)\overline{h(x)}=i\lvert x\rvert^2\mathbf 1_A(x)$ and
+  $$\int_{\mathbb C^\times}k_{1/2}(x,x)\,d\mu_A(x)=i\,c'\,\nu_w(A)=\frac{3i}{2\log 2}=c'\langle U_Ah,U_Ag\rangle_{L^2(\mu_A)}=c'\langle h,g\rangle_{L^2(\nu_w)},$$
+  whereas the reversed order $c'\langle g,h\rangle$ would give $-\frac{3i}{2\log 2}$. The factor in
+  front is $c'$, not the $c_S=1$ of Theorem 15.6 at a complex place, because $\nu_w$ and $\mu_A$
+  are not the normalizations of Theorem 15.6.
+
+**Definition 15.7 (Haar measures, positive compacts, positive test functions, regularity, scalar
+factor).** Let $G$ be a topological group with its Borel $\sigma$-algebra. To keep the letters
+$\mu,\nu$ of §§15.4.3.1–15.4.3.2 free, the measures compared here are called $m$ and $m'$
+(Mathlib's `μ` and `μ'`).
+
+1. $m$ is *left-invariant* if $m(gE)=m(E)$ for all $g\in G$ and Borel $E$; right-invariance is
+   defined with $Eg$. A *Haar measure* in Mathlib's sense (`IsHaarMeasure`,
+   `Group/Measure.lean:779–781`; additive `IsAddHaarMeasure`, `:766–768`) is a left-invariant
+   measure that is finite on compact sets (`IsFiniteMeasureOnCompacts`) and positive on non-empty
+   open sets (`IsOpenPosMeasure`). Regularity is not part of the definition (docstring,
+   `:758–765`).
+2. A *positive compact* is a compact $K_0\subseteq G$ with non-empty interior
+   (`PositiveCompacts G`). A group with a positive compact is locally compact
+   (`PositiveCompacts.locallyCompactSpace_of_group`, used at `Haar/Basic.lean:543`), and every Haar
+   measure has $0<m(K_0)<\infty$. The measure `haarMeasure K₀` (`Haar/Basic.lean:521–522`) is a
+   Haar measure (`:574–579`) with mass $1$ on $K_0$ (`:542–548`); it is regular (`:552–557`) and,
+   if $G$ is second countable, $\sigma$-finite (`:565–567`). Its construction from Haar content
+   (`Haar/Basic.lean:88–507`) is not read here.
+3. A *positive test function* at $x_0$ is a continuous compactly supported $g\colon G\to\mathbb R$
+   with $g\ge0$ and $g(x_0)\ne0$. On a locally compact group one exists at every point
+   (`exists_continuous_nonneg_pos`, `UrysohnsLemma.lean:540–548`: Urysohn's lemma on a compact
+   neighbourhood).
+4. $m$ is *outer regular* if $m(E)=\inf\{m(U):U\supseteq E\text{ open}\}$ for Borel $E$, and
+   *regular* if moreover it is finite on compact sets and $m(U)=\sup\{m(K):K\subseteq U\text{ compact}\}$
+   for open $U$ (`Measure/Regular.lean:304–318`). It is *inner regular* if
+   $m(E)=\sup\{m(K):K\subseteq E\text{ compact}\}$ for all Borel $E$ (`:327–330`), and *inner
+   regular on finite-measure sets* if this holds when $m(E)<\infty$ (`InnerRegularCompactLTTop`,
+   `:332–337`). A regular measure is inner regular on finite-measure sets (`:1122–1123`), and
+   every locally finite measure on a $\sigma$-compact pseudometrizable space is regular
+   (`:1183–1187`). The last instance covers $\mathbb R^n$, $\mathbb C$, $\mathbb C^\times$,
+   $\mathbb Q_p$, $\mathbb Q_p^\times$, $K_S$ and $K_S^\times$.
+5. For $m$ a Haar measure and $m'$ left-invariant and finite on compact sets, the *scalar factor*
+   $c(m',m)\in[0,\infty)$ is `haarScalarFactor m' m` (`Haar/Unique.lean:277–281`). On a locally
+   compact group it is a number with $\int f\,dm'=c(m',m)\int f\,dm$ for every continuous
+   compactly supported $f$ (`:292–300`); such a number exists by Lemma 15.7b. On a group that is
+   not locally compact the definition returns $1$; this is harmless, because every continuous
+   compactly supported function there is $0$.
+
+**Lemma 15.7a (the Fubini identity with a positive test function) `[Lean, read]`.** Let $m$ and
+$\varrho$ be measures on $G$, finite on compact sets, with $m$ left-invariant and $\varrho$
+right-invariant and positive on non-empty open sets. Let $f,g$ be continuous with compact support,
+$g\ge0$ and $g(x_0)\ne0$. Put $D(x)=\int g(y^{-1}x)\,d\varrho(y)$. Then
+$$\int f\,dm=\Bigl(\int f(y)\,D(y)^{-1}\,d\varrho(y)\Bigr)\int g\,dm$$
+(`integral_isMulLeftInvariant_isMulRightInvariant_combo`, [`Haar/Unique.lean:129–217`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L129-L217)).
+If $G$ is locally compact, $D$ is continuous and everywhere positive.
+
+*Proof.* If $G$ is not locally compact, then $f=0$
+(`HasCompactSupport.eq_zero_or_locallyCompactSpace_of_group`, `Topology/Algebra/Group/Pointwise.lean:419–423`)
+and both sides vanish; assume $G$ locally compact. *Continuity of $D$*
+(`continuous_integral_apply_inv_mul`, `Haar/Unique.lean:74–100`): on a compact neighbourhood $t$
+of a point, the integrand $(x,y)\mapsto g(y^{-1}x)$ vanishes for $y$ outside the compact set
+$t\cdot(\operatorname{tsupport}g)^{-1}$, and a parametric integral of a continuous function with
+uniformly compact support is continuous. *Positivity* (`:140–148`): for fixed $x$, the function
+$y\mapsto g(y^{-1}x)$ is continuous and $\ge0$, and it is non-zero at $y=xx_0^{-1}$ because
+$(xx_0^{-1})^{-1}x=x_0$. Its support is a non-empty open set, which has positive
+$\varrho$-measure, so $D(x)>0$. This is the only use of $g\ge0$, $g(x_0)\ne0$ and the positivity
+of $\varrho$ on open sets. *The computation* (`:149–217`) is a chain of seven equalities. First
+$$\int f\,dm=\int f(x)D(x)^{-1}D(x)\,dm(x)=\int\!\!\int f(x)D(x)^{-1}g(y^{-1}x)\,d\varrho(y)\,dm(x).$$
+Exchange the integrals: the integrand is continuous with support in $K\times\overline{KL^{-1}}$
+for $K=\operatorname{tsupport}f$ and $L=\operatorname{tsupport}g$, and Fubini for continuous
+compactly supported functions needs only finiteness of $m$ and $\varrho$ on compact sets, not
+$\sigma$-finiteness (`integral_integral_swap_of_hasCompactSupport`, `Integral/Prod.lean:600–606`;
+statement level). In the inner $m$-integral substitute $x\mapsto yx$, which preserves $m$; this
+gives $\int\!\!\int f(yx)D(yx)^{-1}g(x)\,dm(x)\,d\varrho(y)$. Exchange again (support in
+$L\times\overline{KL^{-1}}$). In the inner $\varrho$-integral use right-invariance,
+$\int f(yx)D(yx)^{-1}\,d\varrho(y)=\int f(y)D(y)^{-1}\,d\varrho(y)$, a constant, and pull it out
+of the $m$-integral. $\square$
+
+**Lemma 15.7b (proportionality of integrals, and the algebra of the scalar factor)
+`[Lean, read]`.** Let $G$ be locally compact, $m$ a Haar measure and $m'$ left-invariant and
+finite on compact sets.
+
+1. There is $c\ge0$ with $\int f\,dm'=c\int f\,dm$ for every continuous compactly supported $f$,
+   and $c=\int g\,dm'\big/\int g\,dm$ for any positive test function $g$ (the denominator is
+   positive). Hence $c=c(m',m)$ does not depend on $g$, and $c(m',m)=\int f\,dm'\big/\int f\,dm$
+   whenever $\int f\,dm\ne0$
+   (`exists_integral_isMulLeftInvariant_eq_smul_of_hasCompactSupport`, `Haar/Unique.lean:226–258`;
+   `haarScalarFactor_eq_integral_div` and `…_of_continuous_nonneg_pos`, `:302–320`).
+2. $c(m,m)=1$ (`:363–375`); $c(m',n)=c(m',m)\,c(m,n)$ for a third Haar measure $n$
+   (`haarScalarFactor_eq_mul`, `:377–397`); $c(a\,m',m)=a\,c(m',m)$ for $a\ge0$ (`:322–334`); and
+   $c(m',m)>0$ when $m'$ is also a Haar measure (`:417–423`).
+3. If $m'$ is also a Haar measure, $c(\phi_\ast m',\phi_\ast m)=c(m',m)$ for every topological group
+   automorphism $\phi$ (`haarScalarFactor_map`, `:399–415`). If a group $\Gamma$ acts on a locally
+   compact abelian group $A$ by additive automorphisms, each continuous, and
+   $(\gamma\cdot n)(E):=n(\gamma E)$, then $c(\gamma\cdot m,\gamma\cdot n)=c(m,n)$ and therefore
+   $c(\gamma\cdot m,m)=c(\gamma\cdot n,n)$ for any two additive Haar measures $m,n$ on $A$
+   (`addHaarScalarFactor_domSMul`, `addHaarScalarFactor_smul_congr'`, `:1042–1072`).
+
+*Proof.* (1) Let $\varrho=m^{\mathrm{inv}}$ be the image of $m$ under $x\mapsto x^{-1}$. It is
+right-invariant, finite on compact sets and positive on open sets, because inversion is a
+homeomorphism exchanging left and right translations (`Group/Measure.lean:371–372, 496–503`).
+Take $x_0=1$ and a positive test function $g$ at $1$ (`:237–238`). Lemma 15.7a with the same $g$,
+applied once to $m$ and once to $m'$, gives $\int f\,dm=B_f\int g\,dm$ and $\int f\,dm'=B_f\int g\,dm'$
+with the same $B_f=\int fD^{-1}\,d\varrho$, because $D$ depends only on $g$ and $\varrho$. Since $m$
+is positive on the open set $\{g>0\}$, $\int g\,dm>0$; eliminate $B_f$ (`:250–258`). For any other
+$f$ with $\int f\,dm\ne0$, in particular any positive test function, divide. (2) Each identity is
+a one-line computation with one positive test function $g$. For the chain rule,
+$\int g\,dm'=c(m',n)\int g\,dn$ and also $\int g\,dm'=c(m',m)\int g\,dm=c(m',m)\,c(m,n)\int g\,dn$,
+with $\int g\,dn>0$. Positivity follows from $1=c(m',m')=c(m',m)\,c(m,m')$. (3) Change variables,
+$\int f\,d(\phi_\ast m)=\int f\circ\phi\,dm$, in numerator and denominator (`:405–415`); the action
+is the same computation with $f\mapsto f(\gamma\,\cdot)$ (`:1048–1060`). Then
+$c(\gamma\cdot m,m)=c(\gamma\cdot m,\gamma\cdot n)\,c(\gamma\cdot n,m)=c(m,n)\,c(\gamma\cdot n,m)=c(\gamma\cdot n,n)$
+by the chain rule, the invariance just proved, and the chain rule again (`:1069–1072`). $\square$
+
+**Lemma 15.7c (from integrals to sets with compact closure, without regularity)
+`[Lean, read]`.** Let $G$ be locally compact, $m$ a Haar measure, $m'$ left-invariant and finite
+on compact sets, and $c=c(m',m)$.
+
+1. $m'(f^{-1}\{1\})=c\,m(f^{-1}\{1\})$ for every continuous compactly supported
+   $f\colon G\to\mathbb R$ (`measure_preimage_isMulLeftInvariant_eq_smul_of_hasCompactSupport`,
+   `Haar/Unique.lean:476–538`).
+2. If $m$ is inner regular on finite-measure sets, then $m'(E)=c\,m(E)$ for every Borel $E$ with
+   compact closure (`:553–610`).
+3. The same holds with no regularity assumption on $m$ or $m'$, and for every set $E$ with
+   compact closure, measurable or not (`measure_isMulInvariant_eq_smul_of_isCompact_closure`,
+   `:625–668`). In particular $m'=c\,m$ if $G$ is compact (`isMulInvariant_eq_smul_of_compactSpace`,
+   `:675–679`).
+
+*Proof.* (1) Choose $u_n\downarrow0$ in $(0,1)$ and let $v_n\colon\mathbb R\to[0,1]$ be the
+thickened indicator of $\{1\}$ at scale $u_n$: continuous, equal to $1$ at $1$ and to $0$ outside
+$(1-u_n,1+u_n)$. Then $v_n\circ f$ is continuous with compact support ($v_n(0)=0$ since $u_n<1$),
+so $\int v_n\circ f\,dm'=c\int v_n\circ f\,dm$ by Lemma 15.7b. As $n\to\infty$, $v_n\circ f$
+tends pointwise to $\mathbf 1_{f^{-1}\{1\}}$ with the integrable bound
+$\mathbf 1_{\operatorname{tsupport}f}$, and dominated convergence on both sides gives the claim.
+Both sides are finite because $f^{-1}\{1\}$ is compact (`:485–538`). (2) Lower bound
+(`:553–569`): for $r<c\,m(E)$, Halmos's theorem gives a compact zero set $Z=f^{-1}\{1\}\subseteq E$
+with $r<c\,m(Z)$ (`innerRegularWRT_preimage_one_hasCompactSupport_measure_ne_top_of_group`,
+`Measure/EverywherePos.lean:280–288`, under exactly the hypotheses on $m$ assumed here; statement
+level). Then $r<c\,m(Z)=m'(Z)\le m'(E)$ by (1). Upper bound (`:584–610`): Urysohn's lemma
+(`exists_continuous_one_zero_of_isCompact`, `UrysohnsLemma.lean:404–406`; statement level) gives a
+continuous compactly supported $f$ equal to $1$ on $\overline E$, so $E\subseteq T:=f^{-1}\{1\}$, a
+compact zero set. The lower bound applied to $T\setminus E$ gives $c\,m(T\setminus E)\le m'(T\setminus E)$.
+With $m'(T)=c\,m(T)$ from (1) and all four quantities finite, subtraction gives
+$m'(E)\le c\,m(E)$. (3) Let $n$ be the regular Haar measure `haar` (`Haar/Basic.lean:584–585`); being
+regular, it is inner regular on finite-measure sets. Apply (2) to the pairs $(m',n)$ and $(m,n)$
+and use the chain rule $c(m',n)=c(m',m)\,c(m,n)$ (`:625–634`). A non-measurable $E$ is squeezed
+between measurable hulls taken inside $\overline E$, once for each measure (`:645–668`). On a
+compact group every set has compact closure. $\square$
+
+This is the argument of Colin McQuillan's MathOverflow answer cited in the file header
+(`:52–54`, sketch at `:425–461`): integrals of continuous functions determine the measures of
+compact zero sets, and Halmos's completion-regularity theorem lets zero sets approximate every set
+of finite measure. The question it answered, asked by Gouëzel while formalizing this file, was
+whether two left-invariant Borel probability measures on a compact group must coincide; in the
+file this is `isHaarMeasure_eq_of_isProbabilityMeasure` (`:695–711`) [McQuillan2024].
+
+**Lemma 15.7d (regular measures: equality of measures) `[Lean, read]`.** Let $G$ be locally
+compact and $m$ a Haar measure.
+
+1. If $m$ and the left-invariant measure $m'$ are both regular, or both inner regular and $m'$ is
+   finite on compact sets, then $m'=c(m',m)\,m$ (`isMulLeftInvariant_eq_smul_of_regular`,
+   `Haar/Unique.lean:905–914`; `isMulLeftInvariant_eq_smul_of_innerRegular`, `:888–896`).
+2. If $G$ is moreover second countable, $m'=c(m',m)\,m$ for every left-invariant $m'$ that is
+   finite on compact sets (`isMulLeftInvariant_eq_smul`, `:921–924`).
+
+*Proof.* For a Borel $E$ with $m(E),m'(E)<\infty$, inner regularity on finite-measure sets writes
+both values as suprema over compact $K\subseteq E$ (`MeasurableSet.measure_eq_iSup_isCompact_of_ne_top`,
+`Measure/Regular.lean:881–884`), and $m'(K)=c\,m(K)$ by Lemma 15.7c because a compact set has
+compact closure (`:847–879`; a non-measurable $E$ goes through a common measurable hull). In the
+inner regular case every Borel set is such a supremum, which gives (1) at once (`:892–896`). In the
+regular case, regularity writes $m'(U)$ and $m(U)$ as suprema over compact subsets for open $U$
+(`IsOpen.measure_eq_iSup_isCompact`, `Measure/Regular.lean:1112–1114`), so $m'(U)=c\,m(U)$
+(`:908–913`); outer regular measures that agree on open sets agree, because
+$m(E)=\inf\{m(U):U\supseteq E\text{ open}\}$ (`OuterRegular.ext_isOpen`, `Measure/Regular.lean:481–486`).
+(2) A second-countable locally compact group is $\sigma$-compact and pseudometrizable, so every
+measure finite on compact sets is regular by the instance of Definition 15.7(4), and (1) applies
+(`:924`). $\square$
+
+**Lemma 15.7e (σ-finite left-invariant measures on a measurable group: Halmos's argument)
+`[Lean, read]`.** Let $G$ be a group whose multiplication $G\times G\to G$ and inversion are
+measurable, let $m$ and $m'$ be $\sigma$-finite left-invariant measures, and let $s\subseteq G$
+satisfy $0<m(s)<\infty$. Then $m'(s)\,m(t)=m(s)\,m'(t)$ for every $t\subseteq G$, and
+$$m'=\frac{m'(s)}{m(s)}\,m$$
+(`measure_mul_measure_eq`, `measure_eq_div_smul`, [`Group/Prod.lean:312–335`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Group/Prod.lean#L312-L335)).
+If $G$ is a second-countable topological group with its Borel $\sigma$-algebra, the measurability
+hypotheses hold (`ContinuousMul.measurableMul₂`, `ContinuousInv.measurableInv`,
+`Constructions/BorelSpace/Basic.lean:543–544, 605–608`), and for every $\sigma$-finite
+left-invariant $m'$ and every positive compact $K_0$, $m'=m'(K_0)\cdot$`haarMeasure K₀`
+(`haarMeasure_unique`, [`Haar/Basic.lean:670–676`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L670-L676)).
+Finiteness on compact sets is not assumed, and $m'=0$ is allowed.
+
+*Proof.* (i) *Shears.* The map $S(x,y)=(x,xy)$ preserves $m'\times m$: on each fibre
+$\{x\}\times G$ it is left translation by $x$, which preserves $m$ (`Group/Prod.lean:78–86`). With
+the swap $R(x,y)=(y,x)$, the map $T=S^{-1}RSR$, $T(x,y)=(yx,x^{-1})$, preserves $m'\times m$
+(`:130–140`), so by Tonelli, for measurable $F\ge0$,
+$\int\!\!\int F(yx,x^{-1})\,dm(y)\,dm'(x)=\int\!\!\int F(x,y)\,dm(y)\,dm'(x)$ (`:182–195`).
+(ii) *Halmos §60, Theorem A.* With $F(x,y)=\mathbf 1_s(x)f(y)$ this reads
+$m'(s)\int f\,dm=\int m(sx^{-1})\,f(x^{-1})\,dm'(x)$, where $sx^{-1}=\{z:zx\in s\}$
+(`measure_mul_lintegral_eq`, `:222–239`). (iii) Replace $f$ by $y\mapsto f(y^{-1})/m(sy^{-1})$,
+which needs $0<m(sx^{-1})<\infty$. Positivity holds for every $x$: a right translate of a non-null
+set is non-null (`:197–206`). Finiteness holds for $m'$-almost every $x$ (`:256–281`, through the
+mutual absolute continuity of non-zero left-invariant measures, `:241–249`). This finiteness is the
+step Halmos's proof leaves unjustified (docstring `:283–291`). Van Doorn's 2021 formalization
+patched it by assuming $s$ compact and the measure regular, and he left open whether finiteness
+holds for every $x$ [vanDoorn2021, §6, p. 18:15]; the pinned file needs only almost every $x$ and
+so allows any $s$ with $0<m(s)<\infty$. The result is
+$m'(s)\int f(y^{-1})\,m(sy^{-1})^{-1}\,dm(y)=\int f\,dm'$ (`measure_lintegral_div_measure`,
+`:292–310`). (iv) Take $f=\mathbf 1_t$ and apply (iii) to the pairs $(m',m)$ and $(m,m)$. The same
+integral $J=\int\mathbf 1_t(y^{-1})\,m(sy^{-1})^{-1}\,dm(y)$ gives $m'(s)J=m'(t)$ and $m(s)J=m(t)$,
+hence $m'(s)\,m(t)=m(s)\,m'(t)$ (`:312–326`; non-measurable $s,t$ through common measurable hulls).
+(v) Divide by $m(s)$ (`:329–335`). For `haarMeasure_unique` take $m=$ `haarMeasure K₀` and
+$s=\overline{K_0}$: $m(\overline{K_0})=1$ (`Haar/Basic.lean:559–561`), $\overline{K_0}$ is compact
+with non-empty interior, and $m'(\overline{K_0})=m'(K_0)$ (`IsCompact.measure_closure`,
+`Constructions/BorelSpace/Basic.lean:288–289`). $\square$
+
+**Lemma 15.7f (finite products, the unit-cube normalization and the pushforward comparison)
+`[Lean, read]`.**
+
+1. A finite product of $\sigma$-finite left-invariant measures $m_i$ on groups with measurable
+   translations is left-invariant: translation by $v$ pulls the box $\prod_i E_i$ back to the box
+   $\prod_i v_i^{-1}E_i$, whose mass is $\prod_i m_i(E_i)$, and $\sigma$-finite product measures
+   are determined by boxes (`pi.isMulLeftInvariant`, `Constructions/Pi.lean:572–578`, with `pi_eq`
+   and `pi_pi`, `:276–293`). A finite product of Haar measures is a Haar measure
+   (`pi.isHaarMeasure`, `:648–650`).
+2. *(Unit-cube normalization.)* On $\iota\to\mathbb R$, `volume` is `addHaarMeasure` of $[0,1]^\iota$
+   (`addHaarMeasure_eq_volume_pi`, `EqHaar.lean:117–121`): by Lemma 15.7e,
+   $\mathrm{vol}=\mathrm{vol}([0,1]^\iota)\cdot$`addHaarMeasure`$([0,1]^\iota)$, and
+   $\mathrm{vol}([0,1]^\iota)=\prod_{i\in\iota}\mathrm{vol}([0,1])=1$ (`volume_pi_pi`,
+   `Constructions/Pi.lean:664–666`).
+3. *(Pushforward comparison.)* For an additive Haar measure $\mu$ on $\iota\to\mathbb R$ and a
+   linear $f$ with $\det f\ne0$, (2) and Lemma 15.7e give $\mu=\mu([0,1]^\iota)\,\mathrm{vol}$; the
+   pushforward of a multiple is the multiple of the pushforward, and Lemma 15.5a(4) computes
+   $f_\ast\mathrm{vol}$, so $f_\ast\mu=\lvert\det f\rvert^{-1}\mu$ (`EqHaar.lean:218–226`).
+
+*Proof.* Items (1)–(3) transcribe the cited proof bodies; the only input from outside this
+subsection is Lemma 15.5a(4). $\square$
+
+**Theorem 15.8 (uniqueness of Haar measure, with the hypotheses each consumer uses)
+`[Lean, read]`.** Let $G$ be a locally compact topological group with its Borel $\sigma$-algebra,
+$m$ a Haar measure on $G$, and $m'$ a left-invariant measure on $G$. Write $c=c(m',m)$.
+
+1. *(Integrals.)* If $m'$ is finite on compact sets, $\int f\,dm'=c\int f\,dm$ for every
+   continuous compactly supported $f$, and $c=\int g\,dm'/\int g\,dm$ for every positive test
+   function $g$.
+2. *(Sets with compact closure.)* If $m'$ is finite on compact sets, $m'(E)=c\,m(E)$ for every
+   $E\subseteq G$ with compact closure; if $G$ is compact, $m'=c\,m$.
+3. *(Regular measures.)* If $m$ and $m'$ are regular, or both are inner regular and $m'$ is finite
+   on compact sets, then $m'=c\,m$.
+4. *(σ-finite measures on second-countable groups.)* If $G$ is second countable and $m'$ is
+   $\sigma$-finite, then $m'=\frac{m'(s)}{m(s)}\,m$ for every $s$ with $0<m(s)<\infty$; in
+   particular $m'=m'(K_0)\cdot$`haarMeasure K₀` for every positive compact $K_0$.
+5. *(Normalization.)* Under (3) or (4), the constant equals $m'(K_0)/m(K_0)$ for every positive
+   compact $K_0$, and $\int g\,dm'/\int g\,dm$ for every positive test function $g$; it is positive
+   when $m'$ is a Haar measure. Two such Haar measures that give one positive compact the same
+   mass, or one positive test function the same integral, are equal. In particular `haarMeasure K₀`
+   is the only such measure with mass $1$ on $K_0$ (`haarMeasure_eq_iff`, `Haar/Basic.lean:682–685`).
+6. *(Moduli.)* Let a group $\Gamma$ act on a locally compact abelian group $A$ by additive
+   automorphisms, each continuous. Then $\Delta(\gamma):=c(\gamma\cdot n,n)$ does not depend on the
+   additive Haar measure $n$, $\gamma\mapsto\Delta(\gamma)$ is a homomorphism to $\mathbb R_{>0}$, and
+   $n(\gamma E)=\Delta(\gamma)\,n(E)$ for every $E\subseteq A$ when $n$ is regular. For a local field
+   $K$ and $\Gamma=K^\times$ acting by multiplication this is $\Delta_K$ of Definition 15.2(1)
+   (`distribHaarChar`).
+
+*Proof.* (1) is Lemma 15.7b(1), (2) is Lemma 15.7c(3), and (3) is Lemma 15.7d(1). For (4), $m$ is
+$\sigma$-finite because a second-countable locally compact group is $\sigma$-compact
+(`IsHaarMeasure.sigmaFinite`, `Group/Measure.lean:912–916`), and Lemma 15.7e applies.
+(5) Under (3), apply (2) to $K_0$ and (1) to $g$. Under (4), take $s=K_0$, which satisfies
+$0<m(K_0)<\infty$ because $K_0$ is compact with non-empty interior. The constant
+$m'(K_0)/m(K_0)$ is finite: the measure $\infty\cdot m$ gives infinite mass to every set of
+positive $m$-measure, so it is not $\sigma$-finite. Hence $m'$ is a finite multiple of $m$,
+finite on compact sets, and (1) applies to $g$. Positivity is Lemma 15.7b(2), and a constant equal
+to $1$ on one positive compact or one test function is $1$. (6) Independence of $n$ is Lemma
+15.7b(3), as used in `addHaarScalarFactor_smul_eq_distribHaarChar` (`DistribChar.lean:63–66`). The
+homomorphism property is the chain rule together with $c(\gamma\cdot m,\gamma\cdot n)=c(m,n)$; it
+is the `map_mul'` field of `distribHaarChar` (`DistribChar.lean:43–55`), and $\Delta(\gamma)>0$ is
+Lemma 15.7b(2). For regular $n$ the measure $E\mapsto n(\gamma E)$ is regular, as the image of $n$
+under a homeomorphism (`Regular.domSMul`, `Measure/Regular.lean:1176–1179`), and left-invariant, so
+(3) gives $n(\gamma E)=\Delta(\gamma)\,n(E)$; this is `distribHaarChar_mul` (`DistribChar.lean:83–86`).
+$\square$
+
+**Corollary 15.9 (the constant in the half-density transport) `[Expository]` over `[Lean, read]`
+inputs.** In the setting of Theorem 15.6, let $\nu'$ be any additive Haar measure on $K_S$ and
+$\mu'$ any Haar measure on the multiplicative group $K_S^\times$.
+
+1. $\nu'=\lambda\,\nu_S$ with $\lambda=\nu'(C)/\nu_S(C)>0$ for any positive compact
+   $C\subseteq K_S$; for a product $C=\prod_vC_v$ of positive compacts,
+   $\nu_S(C)=\prod_v\nu_v(C_v)$.
+2. The modulus $\Delta_S$ computed from $\nu'$ is the one computed from $\nu_S$.
+3. $\mu'=c'\,\Delta_S^{-1}\nu'|_{K_S^\times}$ with $c'=\mu'(C')\big/\int_{C'}\Delta_S^{-1}\,d\nu'$ for
+   any positive compact $C'\subseteq K_S^\times$; equivalently $c'=\kappa\,c_S/\lambda$ with
+   $\kappa=\mu'(C')/\mu_S(C')$.
+4. $U'_{S,a}(g):=c'^{-1/2}\Delta_S^{a}g|_{K_S^\times}$ is a unitary map from $L^2(K_S,\nu')$ onto
+   $L^2(K_S^\times,\mu'_{S,a})$, where $\mu'_{S,a}:=\mu'.\mathrm{withDensity}(\Delta_S^{1-2a})$, and
+   $U'_{S,a}\circ R_\lambda=R_\kappa\circ U_{S,a}$ for the rescaling unitaries
+   $R_\lambda\colon g\mapsto\lambda^{-1/2}g$ from $L^2(\nu_S)$ onto $L^2(\nu')$ and
+   $R_\kappa\colon f\mapsto\kappa^{-1/2}f$ from $L^2(\mu_{S,a})$ onto $L^2(\mu'_{S,a})$. The whole
+   dependence of the transport of Theorem 15.6 on the two normalizations is carried by the number
+   $c'$.
+5. With the inner product conjugate-linear in the first variable, as in Mathlib,
+   $\langle U'_{S,1/2}h,U'_{S,1/2}g\rangle_{L^2(\mu')}=\langle h,g\rangle_{L^2(\nu')}$, and the
+   rank-one kernel $k(x,y)=g(x)\overline{h(y)}$ satisfies
+   $\int_{K_S^\times}k_{1/2}(x,x)\,d\mu'(x)=c'\langle U'_{S,1/2}h,U'_{S,1/2}g\rangle_{L^2(\mu')}=c'\langle h,g\rangle_{L^2(\nu')}$.
+6. At a finite place $v$ with residue field of size $q_v$ and $\nu_v(\mathcal O_v)=1$, the Haar
+   measure $\mu_v^1$ on $F_v^\times$ with $\mu_v^1(\mathcal O_v^\times)=1$ is $c_v\,\Delta_v^{-1}\nu_v$
+   with $c_v=\frac{q_v}{q_v-1}$. With $c_v=1$ at the archimedean places, where Masullo takes
+   $\mu_v=\Delta_v^{-1}\nu_v$, the product measure is $\mu_S=c_S\Delta_S^{-1}\nu_S$ with
+   $c_S=\prod_{v\in S_f}c_v$, Masullo's (12.4.1.17) [Paper; Masullo p. 518]; for $v=5$,
+   $c_5=\frac54$.
+
+*Proof.* (1) $K_S$ is a second-countable locally compact group, so its Haar measures are regular
+(Definition 15.7(4)) and Theorem 15.8(3),(5) applies; $\nu_S(C)=\prod_v\nu_v(C_v)$ is the product
+formula on boxes. (2) is Theorem 15.8(6) for $K_S^\times$ acting on $K_S$ coordinatewise.
+(3) $\Delta_S^{-1}\nu'=\lambda\,\Delta_S^{-1}\nu_S=(\lambda/c_S)\,\mu_S$ is a Haar measure on
+$K_S^\times$ (Theorem 15.6(1)), and $\mu'=\kappa\,\mu_S$ by Theorem 15.8(3),(5) on $K_S^\times$, so
+$\mu'=\kappa c_S\lambda^{-1}\,\Delta_S^{-1}\nu'$. (4) The proof of Theorem 15.6(2) uses only the
+identity $\mu_S=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1})$ and Lemma 15.5d(1). By (3)
+the identity $\mu'=\nu'|_{K_S^\times}.\mathrm{withDensity}(c'\Delta_S^{-1})$ holds, and the same
+argument gives unitarity. For the square,
+$U'_{S,a}R_\lambda g=c'^{-1/2}\lambda^{-1/2}\Delta_S^ag=(\kappa c_S)^{-1/2}\Delta_S^ag=R_\kappa U_{S,a}g$.
+(5) Lemma 15.5d(1) preserves inner products. In Mathlib $\langle u,v\rangle_{L^2}=\int\overline{u}\,v$
+(`L2.inner_def`, `Function/L2Space.lean:134–138`, with `RCLike.inner_apply`,
+`Analysis/InnerProductSpace/Basic.lean:910–912`; the convention is stated at
+`Analysis/InnerProductSpace/Defs.lean:53–54`). Pointwise,
+$k_{1/2}(x,x)=\Delta_S(x)g(x)\overline{h(x)}=c'\,\overline{U'h(x)}\,U'g(x)$; integrate against
+$\mu'$. (6) $\mathcal O_v^\times$ is compact and open in $F_v^\times$, hence a positive compact, and
+$(\Delta_v^{-1}\nu_v)(\mathcal O_v^\times)=\nu_v(\mathcal O_v^\times)=1-q_v^{-1}$ by Lemma 15.3a(3), so
+Theorem 15.8(5) gives $c_v=1/(1-q_v^{-1})$. The product of the local measures is a Haar measure on
+$K_S^\times$ (Lemma 15.7f(1)) and equals $c_S\Delta_S^{-1}\nu_S$ on boxes. $\square$
+
+Corollary 15.9(5) is the Mathlib-convention form of the rank-one identity of Theorem 15.6(2),
+which now reads $c_S\langle U_Sh,U_Sg\rangle=c_S\langle h,g\rangle$. Example 2(e) shows that the two
+orders differ by complex conjugation as soon as $g$ and $h$ carry different phases.
+
+**Example 3 (deleting a hypothesis).**
+
+- *(a) Positivity of $m$.* The zero measure on $\mathbb R^2$ is left-invariant and finite on
+  compact sets, but $\int g\,d0=0$ for every test function, so the quotient of Lemma 15.7b is
+  undefined, and $\nu_{\mathbb C}\ne c\cdot0$ for every $c\in[0,\infty]$ ($\nu_{\mathbb C}(Q)=1$,
+  while $\infty\cdot0=0$ in $[0,\infty]$). This is why `haarScalarFactor` asks $m$ to be a Haar
+  measure, "to exclude for instance the case where `μ = 0`" (`Haar/Unique.lean:265–268`). On
+  $\mathbb R^2$ this is the only failure: a left-invariant measure that is finite on compacts and
+  vanishes on one open ball vanishes on countably many translates covering $\mathbb R^2$, hence is
+  $0$.
+- *(b) Positivity of the test function.* $g_-(x,y)=x\,(1-x^2-y^2)_+$ is continuous with compact
+  support and $g_-(\tfrac12,0)=\frac{3}{8}\ne0$, but it changes sign. Every Haar measure on
+  $\mathbb R^2$ is a multiple of $\nu_{\mathbb C}$, which is invariant under $(x,y)\mapsto(-x,y)$, so
+  $\int g_-\,dm=0$ for all of them: the quotient $\int g_-\,d\nu_b\big/\int g_-\,d\nu_{\mathbb C}=0/0$
+  fixes nothing. In Lemma 15.7a with $\varrho=\nu_{\mathbb C}$,
+  $D(x)=\int g_-(x-y)\,d\nu_{\mathbb C}(y)=0$ for every $x$, and $D^{-1}$ does not exist.
+- *(c) Local finiteness.* Counting measure $\#$ on $\mathbb R^2$ is translation-invariant and
+  positive on non-empty open sets, but $\#(Q)=\infty$. It is no multiple of $\nu_{\mathbb C}$:
+  $\#(\{0\})=1$, while $c\,\nu_{\mathbb C}(\{0\})=0$ for every $c\in[0,\infty]$. Both routes fail at a
+  definite step. For a positive test function the Lebesgue integral is
+  $\int g\,d\#=\sum_xg(x)=\infty$, since $g>0$ on an uncountable open set; $g$ is not
+  $\#$-integrable, Mathlib's Bochner integral assigns it the value $0$, and neither Lemma 15.7a nor
+  Lemma 15.7b applies, both requiring finiteness on compact sets. And $\#$ is not $\sigma$-finite (a
+  set of finite measure is finite), so Lemma 15.7e does not apply.
+- *(d) Normalizing on the wrong set.* The unit circle $S^1\subset\mathbb C^\times$ is compact with
+  empty interior: $\mu_{\mathbb C}(S^1)=\int_{S^1}\lvert w\rvert^{-2}\,d\nu_{\mathbb C}=0$, so every Haar
+  measure on $\mathbb C^\times$ gives $S^1$ mass $0$ and the normalization "$\mu'(S^1)=1$" has no
+  solution. The group $\mathbb C^\times$ itself has interior but is not compact, and every Haar
+  measure gives it mass $\infty$ (`measure_univ_of_isMulLeftInvariant`, `Group/Measure.lean:662–663`;
+  here directly, $\mathbb C^\times$ contains the disjoint translates $4^{j}A$, $j\in\mathbb Z$). These are
+  the hypotheses $m(s)\ne0$ and $m(s)\ne\infty$ of `measure_eq_div_smul`; positive compacts satisfy
+  both.
+- *(e) Regularity, or second countability.* Let $G=\mathbb R_d\times\mathbb R$, the first factor
+  discrete: locally compact, not second countable. With $\lambda_1$ Lebesgue measure and
+  $E_x=\{y:(x,y)\in E\}$, the measure $m_\Sigma(E)=\sum_{x\in\mathbb R}\lambda_1(E_x)$ is a Haar measure:
+  it is translation-invariant, finite on compact sets (a compact set meets finitely many lines
+  $\{x\}\times\mathbb R$) and positive on open sets. It is not $\sigma$-finite. Let $m_{\mathrm{reg}}$ be
+  the regular Haar measure `haarMeasure K₀` for $K_0=\{0\}\times[0,1]$. By Theorem 15.8(2) applied to
+  $K_0$ the constant is $1$, the two measures agree on every set with compact closure, and by
+  `measure_isHaarMeasure_eq_smul_of_isOpen` (`Haar/Unique.lean:828–831`) they agree on every open set.
+  On the closed set $E=\mathbb R_d\times\{0\}$, $m_\Sigma(E)=0$. An open $U\supseteq E$ contains
+  segments $\{x\}\times(-\varepsilon_x,\varepsilon_x)$ for every $x$; for some $k$ uncountably many
+  $\varepsilon_x$ exceed $1/k$, and $N$ of these disjoint segments have $m_{\mathrm{reg}}$-mass $2N/k$.
+  So outer regularity gives $m_{\mathrm{reg}}(E)=\infty$, and $m_\Sigma\ne c\,m_{\mathrm{reg}}$ for every
+  $c$: equality of measures needs the hypotheses of (3) or (4). The comment at
+  `Haar/Basic.lean:587–592` uses the same set to show that Steinhaus' theorem fails for the regular
+  Haar measure.
+
+**Remark 1 (two routes, one constant).** The consumers in §15.4.3 and what they use:
+
+| Consumer | Declaration called | Route | Hypotheses used |
+|---|---|---|---|
+| Definition 15.2(1): $\nu(tS)=\Delta_K(t)\nu(S)$ | `distribHaarChar_mul` → `isAddLeftInvariant_eq_smul_of_regular` | T | locally compact, $\nu$ regular |
+| Definition 15.2(1): independence of $\nu$ | `addHaarScalarFactor_smul_congr'` | T, integrals only | locally compact |
+| Lemma 15.3c: inversion | `isInvInvariant_of_regular` → `isMulLeftInvariant_eq_smul_of_regular` | T | locally compact, regular, abelian |
+| Lemma 15.5b(1): pushforward on $\iota\to\mathbb R$ | `map_linearMap_addHaar_pi_eq_smul_addHaar` → `addHaarMeasure_unique` | P | second countable, $\sigma$-finite |
+| Unit-cube normalization of `volume` | `addHaarMeasure_eq_volume_pi` → `addHaarMeasure_unique` | P | second countable, $\sigma$-finite, box formula |
+| Theorem 15.6(1) and (12.4.1.17): $c_S$ | Corollary 15.9(3),(6) | T or P | second countable, locally compact |
+
+On every group of this chapter both routes apply, and Theorem 15.8(5) says that they give the same
+number. They extend in different directions: route T reaches groups that are not second countable
+(Example 3(e) shows that it then needs regularity for sets that are not relatively compact), and
+route P reaches measures that are only $\sigma$-finite.
+
+**Remark 2 (what this does not show).** Like §§15.4.3.1–15.4.3.2, this subsection is local measure
+theory on one locally compact group at a time and proves nothing about zeros. It makes the constant
+in (12.4.1.17) a theorem. It does not touch the diagonal smoothing of kernels (pp. 15, 517), the
+omitted §12.3 (p. 514), the Chapter 10 strip bound (p. 451), the asserted $\alpha$-independence in
+Theorem 12.5.1.1 (p. 519) or the unwritten Chapter 13 (pp. 521–522), which stay `[Open]`.
+
+**Remark 3 (repairs to §§15.4.3.1–15.4.3.2 made with this subsection).** Following the audit of
+§15.4.3.2: Lemma 15.5d(2) now says that the identity fails the `MeasurePreserving` hypothesis of the
+isometric precomposition interface, instead of saying that no precomposition operator exists, and
+gives a bounded non-isometric example; the rank-one identity of Theorem 15.6(2) is written in
+Mathlib's order $c_S\langle U_Sh,U_Sg\rangle=c_S\langle h,g\rangle$. Found while reading for this
+subsection: the source map of §15.4.3.2 placed `addHaarMeasure_unique` in `Haar/Unique.lean`; it is
+the additive form of `haarMeasure_unique` in `Haar/Basic.lean:670–676`.
+
+**Source map for this subsection.** Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`; all
+paths under `Mathlib/`.
+
+| File and lines at the pin | Declarations | Role here | Reading |
+|---|---|---|---|
+| [`MeasureTheory/Measure/Haar/Unique.lean:74–423`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L74-L423) | `continuous_integral_apply_inv_mul`, `integral_isMulLeftInvariant_isMulRightInvariant_combo`, `exists_integral_isMulLeftInvariant_eq_smul_of_hasCompactSupport`, `haarScalarFactor`, `integral_isMulLeftInvariant_eq_smul_of_hasCompactSupport`, `haarScalarFactor_eq_integral_div`, `…_of_continuous_nonneg_pos`, `haarScalarFactor_smul`, `haarScalarFactor_self`, `haarScalarFactor_eq_mul`, `haarScalarFactor_map`, `haarScalarFactor_pos_of_isHaarMeasure` | Definition 15.7(5), Lemmas 15.7a–b | R3 |
+| [`MeasureTheory/Measure/Haar/Unique.lean:425–711`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L425-L711) | `measure_preimage_isMulLeftInvariant_eq_smul_of_hasCompactSupport`, `smul_measure_isMulInvariant_le_of_isCompact_closure`, `measure_isMulInvariant_eq_smul_of_isCompact_closure_of_innerRegularCompactLTTop`, `…_of_measurableSet`, `measure_isMulInvariant_eq_smul_of_isCompact_closure`, `isMulInvariant_eq_smul_of_compactSpace`, `isHaarMeasure_eq_of_isProbabilityMeasure` | Lemma 15.7c | R3 |
+| [`MeasureTheory/Measure/Haar/Unique.lean:821–924`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L821-L924) | `measure_isHaarMeasure_eq_smul_of_isOpen`, `measure_isMulLeftInvariant_eq_smul_of_ne_top`, `isMulLeftInvariant_eq_smul_of_innerRegular`, `isMulLeftInvariant_eq_smul_of_regular`, `isMulLeftInvariant_eq_smul` | Lemma 15.7d, Example 3(e) | R3 (the open-set case `:720–820` statement level) |
+| [`MeasureTheory/Measure/Haar/Unique.lean:1042–1072`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L1042-L1072) | `addHaarScalarFactor_domSMul`, `addHaarScalarFactor_smul_congr`, `addHaarScalarFactor_smul_congr'` | Lemma 15.7b(3), Theorem 15.8(6) | R3 |
+| [`MeasureTheory/Group/Prod.lean:78–335`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Group/Prod.lean#L78-L335) | `measurePreserving_prod_mul`, `measurePreserving_mul_prod_inv`, `lintegral_lintegral_mul_inv`, `measure_mul_right_null`, `measure_mul_lintegral_eq`, `absolutelyContinuous_of_isMulLeftInvariant`, `ae_measure_preimage_mul_right_lt_top(_of_ne_zero)`, `measure_lintegral_div_measure`, `measure_mul_measure_eq`, `measure_eq_div_smul` | Lemma 15.7e | R3 |
+| [`MeasureTheory/Measure/Haar/Basic.lean:517–585, 644–700`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L644-L700) | `haarMeasure`, `haarMeasure_self`, `regular_haarMeasure`, `haarMeasure_closure_self`, `sigmaFinite_haarMeasure`, `isHaarMeasure_haarMeasure`, `haar`, `haarMeasure_unique`, `haarMeasure_eq_iff`, `regular_of_isMulLeftInvariant` | Definition 15.7(2), Lemma 15.7e | R3 (construction `:88–507` statement level) |
+| [`MeasureTheory/Constructions/Pi.lean:276–293, 572–578, 648–650, 664–666`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/Pi.lean#L572-L578) | `pi_eq`, `pi_pi`, `pi.isMulLeftInvariant`, `pi.isHaarMeasure`, `volume_pi_pi` | Lemma 15.7f(1)–(2) | R3 (`pi_eq` statement level) |
+| `MeasureTheory/Measure/Lebesgue/EqHaar.lean:113–121, 218–226` | `addHaarMeasure_eq_volume`, `addHaarMeasure_eq_volume_pi`, `map_linearMap_addHaar_pi_eq_smul_addHaar` | Lemma 15.7f(2)–(3) | inherited R3 (§15.4.3.2); uniqueness step read here |
+| `MeasureTheory/Measure/Haar/OfBasis.lean:50–51, 187–200, 253–279` | `parallelepiped`, `Basis.parallelepiped`, `Basis.addHaar`, `Basis.addHaar_eq_iff`, `Basis.addHaar_self` | Example 1 | R3 |
+| `MeasureTheory/Measure/Haar/DistribChar.lean:43–86` | `distribHaarChar`, `addHaarScalarFactor_smul_eq_distribHaarChar`, `distribHaarChar_mul` | Theorem 15.8(6) | inherited R3 (§15.4.3.1) |
+| `MeasureTheory/Group/Measure.lean:371–372, 496–503, 662–663, 758–781, 791–797, 804–827, 912–916` | inversion instances, `measure_univ_of_isMulLeftInvariant`, `IsAddHaarMeasure`, `IsHaarMeasure`, `IsHaarMeasure.smul`, `isHaarMeasure_of_isCompact_nonempty_interior`, `isHaarMeasure_map`, `IsHaarMeasure.sigmaFinite` | Definition 15.7(1), Lemma 15.7b, Examples 2(d), 3(d) | R3 for the definitions, statement level for the instances |
+| `MeasureTheory/Measure/Regular.lean:304–337, 481–486, 881–884, 1112–1123, 1176–1187` | `OuterRegular`, `Regular`, `InnerRegular`, `InnerRegularCompactLTTop`, `OuterRegular.ext_isOpen`, `measure_eq_iSup_isCompact(_of_ne_top)`, `Regular.domSMul`, `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` | Definition 15.7(4), Lemma 15.7d, Theorem 15.8(6) | definitions and `ext_isOpen` R3; instances statement level |
+| `MeasureTheory/Measure/EverywherePos.lean:280–288` · `Topology/UrysohnsLemma.lean:404–406, 540–548` · `MeasureTheory/Integral/Prod.lean:600–606` · `MeasureTheory/Constructions/BorelSpace/Basic.lean:288–289, 543–544, 605–608` · `Topology/Algebra/Group/Pointwise.lean:419–423` | Halmos's completion-regularity theorem, `exists_continuous_one_zero_of_isCompact`, `exists_continuous_nonneg_pos`, `integral_integral_swap_of_hasCompactSupport`, `IsCompact.measure_closure`, `ContinuousInv.measurableInv`, `ContinuousMul.measurableMul₂`, `HasCompactSupport.eq_zero_or_locallyCompactSpace_of_group` | named inputs of Lemmas 15.7a–e | statement level (`exists_continuous_nonneg_pos` R3) |
+| `Analysis/InnerProductSpace/Defs.lean:53–54` · `Analysis/InnerProductSpace/Basic.lean:903–915` · `MeasureTheory/Function/L2Space.lean:134–138` | convention, `RCLike.innerProductSpace`, `RCLike.inner_apply`, `L2.inner_def` | Corollary 15.9(5), Examples 1(e), 2(e), Theorem 15.6(2) | R3 |
+
+**Reading levels.**
+
+| Level | What |
+|---|---|
+| Read here (R3) | The test-function chain of `Haar/Unique.lean` (`:74–711`, `:821–924`, `:1042–1072`); the Halmos chain of `Group/Prod.lean:78–335`; `haarMeasure_unique` and its neighbours in `Haar/Basic.lean`; the product lemmas of `Constructions/Pi.lean`; `Basis.addHaar`; the inner-product convention |
+| Inherited | `distribHaarChar` and `isInvInvariant_of_regular` (§15.4.3.1); the determinant and `withDensity` lemmas, Lemmas 15.5a–d and Theorem 15.6 (§15.4.3.2) |
+| Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the regularity and $\sigma$-finiteness instances; measurability of multiplication under second countability; the archive's own call sites of these theorems |
+| Literature | Halmos, *Measure Theory* (1950), Ch. XI, §§59–60, as cited by `Group/Prod.lean` [Halmos1950; bibliographic record checked, text not consulted]; F. van Doorn, "Formalized Haar Measure", ITP 2021, §6 [vanDoorn2021]; C. McQuillan's answer to S. Gouëzel's MathOverflow question 456670 [McQuillan2024] |
 
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
@@ -1422,7 +2014,7 @@ Finally, look at the epistemic mirror image between the two works as of `2026-11
 |---|---|---|
 | **I. Target scope** | $\zeta(s)$ and all Dirichlet $L(s, \chi)$ over $\mathbb Q$ (`src/Main.lean:4–12`) + abelian $\zeta_K(s)$ via Kronecker–Weber; non-abelian ERH **not** covered (`[Lean, read]`). | Intended: all unitary Hecke $L(s, \chi)$ over **all** number fields $F$ (`p. 6`), including all Dedekind $\zeta_K(s)$; Ch. 13 (`pp. 521–522`) unwritten (`[Paper]`, `[Open]`). |
 | **II. Zeros $\leftrightarrow$ primes bridge** | **One-sided** Riesz prime sum $G_m(x) \le x^{1/2+O(\varepsilon)}$ on sparse windows $[Y, Y^{1+\delta}]$ + Landau/Pólya real Laplace monotonicity (`P5`, `landau_window`); **no** sum over high zeros! | **Two-sided** convolution trace on $C_F$ for $\varphi \in D(C_F)$ with $\varphi(C_F^1) = 0$ (`Thm. 12.5.1.1`, `p. 519`); avoids Weil positivity (`§1.4.6`, `p. 30`) and requires summing over all strip zeros. |
-| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $c_S\lvert x \rvert_{F,S}^{2a-1} = c_S \iff a = \frac{1}{2}$ for $S\ne\emptyset$ (`p. 16, p. 518`; proved as Theorems 15.3 and 15.6 in §§15.4.3.1–15.4.3.2) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
+| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $c_S\lvert x \rvert_{F,S}^{2a-1} = c_S \iff a = \frac{1}{2}$ for $S\ne\emptyset$ (`p. 16, p. 518`; proved as Theorems 15.3 and 15.6 in §§15.4.3.1–15.4.3.2, with $c_S$ a ratio of Haar measures by Corollary 15.9 in §15.4.3.3) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
 | **IV. Core engine & $\mathbb F_q(X)$** | **Arithmetic-geometric / automorphic:** definite $U(n)$ theta chains (`P17`), supersingular $p$-adic divisibility (`P8`), Bost slopes (`P9`), Rallis/Gram decay (`P10`), GMA congruences & Iwasawa/$U(3)$ $\mathrm{Ш}^1$ (`P11`–`P12`), $\mathrm{GL}_a$ Galois reps (`P14`–`P16`). **Inspired directly by $\mathbb F_q(X)$!** | **Topological / functional-analytic on $\mathrm{GL}_1$:** periodic Schauder bases (`Chs. 4, 7`), Weil $PV_v$ operators (`Ch. 5`), nuclear locally convex duals (`App. C`), Hardy–Sobolev strip spaces (`Ch. 9`), divisorial shells (`Ch. 11`). **Provably fails over $\mathbb F_q(X)$ (`§14.2`, `pp. 534–536`)!** |
 | **V. Verification state (`2026-11-22`)** | **175,187 `.lean` files, 0 `sorry`s, 3 standard axioms**; accepted by `leanchecker`, `nanoda`, `con-leche --compare`, `con-ron --compare`, `lean4lean`; sandboxed rebuild export byte-identical (`[Community]`). Deep ~146k-module proof bodies largely unread by humans (`[Open]`). | **940-page human draft**; Wave 1 (`Chs. 2–4, 9`) mostly formalized in `mccorvie/riemann-masullo`, Wave 2 (`Thm. 5.2.1.1`, `§B.4`) flagged issues `[Community]`; **Ch. 10 `p. 451`/`p. 463` strip nuclearity gap, omitted `§12.3` (`p. 514`), and unwritten Ch. 13 (`pp. 521–522`) remain `[Open]`.** |
 
