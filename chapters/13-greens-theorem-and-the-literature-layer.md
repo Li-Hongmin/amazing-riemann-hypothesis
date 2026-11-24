@@ -1956,8 +1956,8 @@ wrapper (`:138`) and multiplies by $(-1)^{d-1}=\prod_{1\le i<d}(-1)$ factor by f
    (I8) (`VirtualCharacterIrreducibleExpansionNormSq.lean:82`) and in `isCusp_psi`
    (`GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:26, 38`). The zero extension proper, parts (1), (2) and
    (4), is used elsewhere in the archive. Examples are the converse statement `exists_regular`
-   (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:50–58`), which concerns an
-   irreducible character whose zero extension is primitive, and the files
+   (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:49–58`), which concerns an
+   irreducible character whose zero extension is primitive and takes parts (1), (3) and (4) at `:58`, and the files
    `IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`, `ExistsIntCoeffPrimitiveGLCharacter.lean:26` and
    `EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` in `…/Proofs/CharacterTheory/`. We located these
    calls but did not read them [Lean]. The zero extension of a function on $\mathrm{GL}_d(F)$ is unrelated to
@@ -1997,7 +1997,7 @@ archive (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7
 | [Lean] (Mathlib; statement and proof read) | `FDRep.simple_iff_char_is_norm_one`, with `simple_iff_end_is_rank_one` | `Mathlib/RepresentationTheory/FinGroupCharZero.lean:90–128` |
 | [Lean] (Mathlib; statements read) | `Representation.char_one`, `card_inv_mul_sum_char_mul_char_eq_finrank`, `char_orthonormal`, `FDRep.scalar_product_char_eq_finrank_equivariant`; `IsIrreducible`, `irreducible_iff_isSimpleModule_asModule`, `finrank_intertwiningMap_self`; `card_linearIndependent` | `Mathlib/RepresentationTheory/Character.lean:64, 115, 134, 211`; `Mathlib/RepresentationTheory/Irreducible.lean:30–35, 81`; `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean:39–41` |
 | R2 / [Lean] | `exists_irrChar_add` (body read at `:47–66`) and its inputs `exists_irreducible_subrepresentation`, `T.exists_character_quotient_of_injective_intertwining`, `T.isCharacterOverSubfield_of_representation`; `T.isCharacterOverSubfield_zero_and_add` | `CT/ExistsIrrCharAdd.lean:8, 47`; `CT/IsCharacterOverSubfieldZeroAndAddStatement.lean:6` |
-| Located, not read | Other consumers of the zero extension and of Lemmas 13.28–13.29 | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:50–125`; `CT/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`; `CT/ExistsIntCoeffPrimitiveGLCharacter.lean:26`; `CT/EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` |
+| Located, not read | Other consumers of the zero extension and of Lemmas 13.28–13.29 | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:49–125`; `CT/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`; `CT/ExistsIntCoeffPrimitiveGLCharacter.lean:26`; `CT/EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` |
 | Our check | `check_positive_sign.py`: Examples 13.24–13.25, Lemma 13.26 and the identity in Remark 13.4.10(5) in exact arithmetic | not in the repository; see `sources/SOURCES.md`, Part I §7 |
 
 ## 13.5 Remarks, formalization notes, and Masullo's counterpart
