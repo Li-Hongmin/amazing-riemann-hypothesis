@@ -245,12 +245,40 @@ traces each proposition from `src/Main.lean` downwards (Lemma 19.1). Findings at
   single-root `riemannHypothesis` closure. The full `DoublingMethod`, `SiegelEisensteinSimplePole`,
   `basicIdentity_of_mem`, and the full construction through `doublingMethod_of_three` are absent.
   See Section 19.4 for the closure check and the base-point deduction from `DM`.
-- `WeilThetaConvergence` is produced from `SiegelSetUnitary` (`siegel_of_core siegelCore_holds`,
-  unread) and read twice inside `rallis_of_dm`.
+- `WeilThetaConvergence` is produced from `SiegelSetUnitary` (`siegel_of_core siegelCore_holds`, read in §19.3.1) and read twice inside `rallis_of_dm`.
 - `RallisInnerProductConvergent` is assigned to the theta-input bundle passed to the main
   assembly; no projection of that field occurs in the archive, and its reader is [Open].
 - The split-place normalization of `UnramifiedDoublingGL` needs the $d_v$ of
   [LapidRallis2005, Remark 3] and remains [Open].
+
+**P18 (rational reduction, §19.3.2).** R3 [Lean, read] for `RedCov.cov_main`,
+`step` and `hasRed_all` at
+`src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/UnitarySiegelDomainExists.lean:73–265`,
+the parabolic compact-slice assembly and the two uniform height estimates
+mapped in SOURCES. R3 covers the forwarding into `SiegelCore` and the
+consumption of this cover in `WeilTheta`. R2 [Lean] for the deeper local
+compact groups, norm-one Levi and unipotent compactness, adelic
+approximation and modulus. The direct lattice estimate is read in §19.3.3. Full dependency reading
+remains [Open]. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1932-rational-reduction-and-the-covering-of-the-adelic-quotient)
+
+**P18 (inverse-torus lattice sum, §19.3.3).** R3 [Lean, read] for
+`tsum_maj_invPt_torus_le`, its forwarding declaration, the dual-frame and
+stacked enlargement assembly, the bounded-denominator wrapper, compact
+majorant pullback, and the direct applications in `absTheta_le_torus` and
+`weilThetaConvergence_of_siegelSet`. The section proves uniform bounds for
+translates of a fixed lattice and explains the conditional Fubini step.
+§19.3.4 reads the direct denominator, norm and compact-action suppliers, and §19.3.7 reads the weighted count. Other deeper interfaces are listed there and in SOURCES.
+[Subsection](../chapters/19-published-layer-case-studies-ii.md#1933-the-lattice-majorant-for-the-inverse-torus)
+
+**P18 (finite support and Minkowski lattice, §19.3.4).** R3 [Lean, read] for the direct scalar and matrix denominator proofs, the factorial compactness argument, `integral_of_mem_intAE`, the scaled embedding norm, and the compact support image and operator bound. The rational stack has a fixed left inverse, and the compact right multipliers have bounded norms as inverses of their pullbacks. See the declaration and proof lines in the subsection. The full lattice is proved in the place model. R2 interfaces include `exists_adele_equiv`, `isOpen_intAE`, `tendsto_factorial_finiteAdele`, the two adelic-completion integrality lemmas, the place identification for the counting norms, and the torus inputs listed in the subsection; `weighted_integral_tuple_lattice_count_bound` is read in §19.3.7. The Schwartz input is read in §19.3.5. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1934-from-finite-support-to-a-fixed-minkowski-lattice)
+
+**P18 (Schwartz supply, §19.3.5).** R3 [Lean, read] for the two forwarding declarations, the finite-period and span proofs, the converse finite coset assembly, the compact lift and uniform seminorm bound, and the cited theta bound and measurability bodies. This subsection uses the underlying adelic splitting, inverse chart and parametrization size bounds at their interfaces. See §19.3.6 for their direct proofs. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1935-a-common-finite-support-for-schwartz-majorants)
+
+**P18 (compatible adelic coordinates and real parameters, §19.3.6).** R3 [Lean, read] for the tensor split, the direct real and complex inverse chart constructions, and the real-parameter size proof. The compact two-sided comparison is proved in the textbook model. The CM-type place indexing `places_bijective` is read in §19.3.8; it rests on the same `mk_tauE_bijective` as the weighted count. Coordinate continuity and the imported Mathlib continuity and antilipschitz lemmas are named inputs. The weighted counting implementation is read in §19.3.7. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1936-compatible-adelic-coordinates-and-real-parameters)
+
+**P18 (weighted lattice count, §19.3.7).** R3 [Lean, read] for `weighted_count` and its forwarding declaration `weighted_integral_tuple_lattice_count_bound`, the coordinate bound `exists_repr_le`, the exact integer coordinates, the one-dimensional cell lemmas from `tail_term` to `tsum_int_le`, the product-of-sums lemma `tsum_pi_prod_ennreal` and the cone absorption. The actual call uses the block set given by rows of the Witt stack times columns and the lattice $(ML)^{-1}\mathcal O_E$. The exponent it returns is $N=4bn(2r+m)$, twice the redundant stacking threshold, and it is fixed before the Schwartz constants. The place identification `CMTypePlaces.mk_tauE_bijective`, of which only the surjective half is used, is read in §19.3.8, which also compares the separate declaration `LevelSeries.mk_tauE_bij`. The Mathlib canonical-embedding lemmas remain named inputs. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1937-unit-cells-and-the-uniform-weighted-lattice-count)
+
+**P18 (CM-type place identification, §19.3.8).** R3 [Lean, read] for `GlobalTheory.CMTypePlaces.mk_tauE_bijective`, `places_bijective` and its forwarding declaration, the enumeration `factEmb` with `HostRaw.hostEmb`, the definitions of `tauE`, `Host.emb`, `HostRaw.cmType` and `Frame.Psi`, and the sign lemmas `galE_mem_Psi_iff` and `tauE_sqrtMinusD`. The weighted count calls only the surjective half, at `SiegelConeIntegralMatrixLatticeCount.lean:145`; the real chart of §19.3.6 uses both halves through `places_bijective`. The separate proof `LevelSeries.mk_tauE_bij` is read and is not on this path. The host structure fields, in particular `der.cmType`, `der.cm`, `φ₀_mem` and `gal_sqd`, and Mathlib's `InfinitePlace.mk_eq_iff` remain named inputs [Lean]. `DerOfRaw` is defined but neither proved nor used, so the construction of these fields is [Open]. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1938-cm-types-and-the-place-identification)
 
 **P11, lattice specialization (§10.4.7.1).** R3 for `export_at` with `isLatIn_of_index_le`, `index_unscale` and `index_extend`, for `abHyp_fam`, `export_at_setting`, `twistModule_all_character_powers_of_admissible`, the signed-index lemmas `sIdx_add_and_mono` and `sIdx_baseChange`, and the `partAB` steps of `admissibleIndexBoundAllPowers_of_conditions`, `admAB_of_toric_parts` and `abstract_form_of_lattice_run`. Statement level ([Lean]) for signed-length additivity, the DVR length base-change formula, `PropABCD`/`propABCD_of_rel`, `exists_level_order_exponents_small_valuation_determinants`, `SelmerSeriesChoice`, `Pack.Main`, and the main-path suppliers of `IsotypicPartsInternalDirectSum`, `GroupAlgebraIntegrality`, `GoodLatticePoints`, `admT4` and `TwistedSeriesSpecialisation`. The reference lattice is fixed before the witness, and one index bound serves every coprime power. [Chapter 10](../chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
 **P11, global Selmer presentation (§10.4.12).** R3 for the specified bodies of `oneMatrix_of_galoisCohomology`, `GlobalTheory.SelFun.Level.level`, `GlobalTheory.KRep.kernelRep`, the residual obstruction count, and `selC_transfer`, and for the indicated universal-evaluation and determinant consumers. The totally complex Poitou–Tate input, local/global finiteness and Euler inputs, crystalline comparison, signature and residual supplies retain their individual reading boundaries. [Chapter 10](../chapters/10-congruence-modules-to-sha.md#10412-a-square-presentation-of-the-global-selmer-functor)

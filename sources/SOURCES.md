@@ -1816,3 +1816,91 @@ Masullo's Appendix A.4 is pp. 562–565, and Appendices B–E are pp. 587–654,
 - **[Lemmermeyer1995]** F. Lemmermeyer, “Ideal class groups of cyclotomic number fields I,” *Acta Arithmetica* 72(4) (1995), 347–359, §1 and Proposition 1(a), (b), (c), (g), pp. 347–349. The paper defines the minus class group as the kernel of the relative norm and collects Hasse's results on the unit index (Sätze 14, 16–17, 25 and 27): $Q\in\{1,2\}$; no capitulation from $K^+$ to $K$ when $Q=2$; $Q=1$ when $K^+$ has units of every signature; $Q=2$ for $\mathbb Q(\zeta_m)$ with $m\not\equiv2\bmod4$ composite, proved from $(1-\zeta_m)^{1-\sigma}=-\zeta_m$. Retrieved 2026-11-24, SHA-256 `af477031783dfbf5aa96248c521f32c177da73eaa57019ce168279736b32b726`. [Journal scan](http://matwbn.icm.edu.pl/ksiazki/aa/aa72/aa7245.pdf)
 - [Lemmermeyer2013] (above), Theorem 1, re-downloaded 2026-11-24 with the same SHA-256, is used only to check the two examples of §11.4.3.4 against the ambiguous class number formula.
 - The [Chapter 11 source map](../chapters/11-the-window-bound-vwin.md#11434-signs-of-real-generators-and-the-binary-minus-defect) locates the sign proofs in the pinned Alpöge archive. The classical sources supply comparisons; the proofs in the chapter follow the archive.
+
+### Chapter 19 §19.3.1 Siegel-set control
+
+**Chapter 19, §19.3.1.** A2 (joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`) supplies the Siegel-set Haar estimate and the weighted cone-integrability proof. The original production declarations and read boundaries are cited in the subsection. The rank-one calculations are textbook exposition. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1931-siegel-sets-and-the-integrable-majorant)
+
+### Chapter 19 rational covering
+
+**[Borel1963]** Armand Borel, “Some finiteness properties of adele groups
+over number fields,” *Publications Mathématiques de l'IHÉS* 16 (1963),
+5–30. Original PDF retrieved 2026-11-23, SHA-256
+`678a378a947a25edd682942539cc9d22de47e8e141db0a19dd124e5138d2fedc`.
+Section 4.1 and Theorem 4.5, printed pp. 113–114, supply the comparison
+between finitely many pieces of a fundamental set and rational
+translations, including the extra overlap condition.
+[Original PDF](https://www.numdam.org/item/PMIHES_1963__16__5_0.pdf)
+
+**A2, §19.3.2.** The joined archive supplies the compact-tail induction,
+parabolic slice and final absorption. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1932-rational-reduction-and-the-covering-of-the-adelic-quotient)
+
+| Reading | Declaration and source | Role and dependency boundary |
+|---|---|---|
+| R3 | `torus_zero`, `mul_mem_one`, `ratV_zero`, `nearMin_rat`, `step`, `hasRed_zero`, `hasRed_all`, `torus_neg`, `conj_mem_one`, `cov_main` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/UnitarySiegelDomainExists.lean:26–265` | Entire covering production body, including closure, rank induction and adjustment on the fixed compact set |
+| R3 | `ratV_injective`, `Sends.inv`, `hgt_mul` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RatVInjective.lean:41–58` | Pointwise tensor embedding, inverse action and transport of vector heights |
+| R3 | `exists_pos_le_hgt` and `exists_nearMin` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsNearMinimalVector.lean:54–97` | Operator-bound and product-formula input, then the positive infimum and factor two |
+| R3 | `exists_ratPts_sends_isotropic` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RationalUnitarySendsIsotropic.lean:16–55` | `WittPartner.full` and `HyperbolicPairTransitive.full` supply the isometry. Their internal proofs are outside this reading |
+| R3 | `exists_sends_hE` and `hE_mulVec_self` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RationalUnitaryWittExtension.lean:12–41` | Rational matrices act on rational vectors and preserve self-pairing |
+| R3 | `exists_sends_of_rat_mem_minPar` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MinimalParabolicScalesIsotropic.lean:11–61` | Extracts the rational matrix, descends its triangular action by injectivity and inverts the nonzero first diagonal entry |
+| R3 | `exists_compact_iwasawa_of_frame` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/UnitaryAdelicIwasawa.lean:11–17` | Assembles the two local compacts and keeps compactness and Iwasawa |
+| R3 | `levi_cocompact` and `minParOne_cocompact` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MinimalParabolicRationalCompact.lean:22–54` | Assembly. The underlying `commutant_closed_subgroup_compact_quotient` and `UnipCocompact.unipMin_cocompact` are named supplies |
+| R3 | `Fr.dec` and `exists_levi` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/WittFrameReduceRank.lean:719–821` | Covers the final decomposition and assembly. `exists_fr_witt`, the `Fr.iG` base-change infrastructure, and `Fr.iG_tor` and `Fr.iG_comm` are used through their interfaces |
+| R3 | `exists_isotropic_le` and `First.exp_neg_le` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ReductionTheoryHeightBound.lean:75–128` | Short-vector versus thick-part proof, then first-coordinate estimate. `small_height_vector_isotropic`, `unitary_points_height_bound_finite`, `unitary_points_height_bound_compact` and `torus_siegel_height_lower_bound` are supplied |
+| R3 | `hgt_line`, `hgt_pair`, `upper_bound`, `Simple.simple_bound` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ReductionTheoryLowerBound.lean:110–170` and `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ReductionTheoryLowerBound.lean:199–346` | The pair-of-columns calculation and adjacent-coordinate estimate. `adelic_tensor_rational_approximation`, `compact_height_lower_bound`, `adelic_box_compact` and `compact_adelic_norm_bounded` are supplied |
+| R3 | `unitary_siegel_domain_exists` at `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/UnitarySiegelDomainExistsStatement.lean:8–9` and `SiegelRed.siegelCore` at `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/SiegelSetUnitary.lean:17–30` | Exact forwarding and cover field assignment |
+| R3 | `siegelCore_holds` at `src/Development/WeilBound/CoreStatements/AbelianHeightsDuality/PublishedTheoremStatements/SiegelSetUnitaryHolds.lean:7–8` and `UpperTheory.Lit.siegelSetUnitary_of_core`, `UpperTheory.Lit.weilThetaConvergence` at `src/Development/AutomorphicArithmetic/ThetaCorrespondence/WeilRepresentation/WeilTheta.lean:7–10` | Actual main-path wrappers |
+| R3 | `weilThetaConvergence_of_siegelSet` at `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeilThetaConvergenceOfSiegelSet.lean:23–54` | Reads the rational cover at line 38, followed by compact-conjugate and cone bounds |
+| R3 | `exists_torus_section` at `src/Development/WeilBound/ThetaLifts/Reductions/SiegelAbs.lean:275–335` | Supplies continuity, additivity, section and kernel splitting through `exists_tau` |
+| R2 | `PMod.map_mul_torus_of` at `src/Development/WeilBound/ThetaLifts/Reductions/SiegelParMod.lean:437` | Separate modulus computation |
+| R3 | `GlobalTheory.T.adelicMatrixSchwartzMajorant_inv_mul_le` at `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/AdelicMatrixSchwartzMajorantInvMulLeStatement.lean:12` and `GlobalTheory.T.siegelTorus_tsum_majorant_translatedRationalPoints_le` at `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/SiegelTorusTsumMajorantTranslatedRationalPointsLStatement.lean:12` | Direct proof bodies and application read in §19.3.3. Deeper arithmetic and analytic supplies remain open |
+
+### Chapter 19 §19.3.3 lattice majorant
+
+- NIST Digital Library of Mathematical Functions, §1.8(iv), equation
+  (1.8.14), retrieved 2026-11-23. This gives the shifted periodization
+  identity specialized to the Gaussian in the rank-one example.
+  [Original](https://dlmf.nist.gov/1.8.E14)
+- Gan–Qiu–Takeda, author version 3, §§1.7, 2.2 and 3.1, printed pp. 3, 8
+  and 14, retrieved 2026-11-23. SHA-256
+  `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`.
+  These passages specify the unitary convergent range used for comparison.
+  [Author manuscript](https://arxiv.org/pdf/1207.4709v3)
+- Pinned Lean archive, joined SHA-256
+  `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+  The proof and consumer line citations are in the chapter. The deeper
+  suppliers for the finite-place denominator and frame norm are read in §19.3.4. Integral-lattice counting and Schwartz–Bruhat support and decay remain statement-level inputs. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1933-the-lattice-majorant-for-the-inverse-torus)
+
+### Chapter 19 §19.3.4 finite support and Minkowski lattices
+
+- **A2** (joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). The subsection records the direct denominator, matrix, scaled norm and compact-translate production proofs with their full archive-relative paths and line numbers. [Chapter 19](../chapters/19-published-layer-case-studies-ii.md#1934-from-finite-support-to-a-fixed-minkowski-lattice)
+- **Andrew V. Sutherland**, *18.785 Number Theory I*, Lecture 25 (29 November 2021), Definitions 25.1 and 25.7, Propositions 25.6 and 25.10. Restricted products, their local compactness and adelic scalar extension. Original PDF checked online 2026-11-24, SHA-256 `1941241af698ce35d40e63ce0b9bca1950514fb60866a30d098103ebef5bd4a5`. [MIT lecture notes](https://math.mit.edu/classes/18.785/2021fa/LectureNotes25.pdf)
+- **James S. Milne**, *Algebraic Number Theory*, v3.08 (19 July 2020), Proposition 4.26, pp. 79–80. Integral ideal lattices via the embedding matrix. Original PDF checked online 2026-11-24, SHA-256 `24b83c789a89f25aebffb3cbe4ae5ca29edd0075acc072de093d140770630847`. [Author’s notes](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+- **Gan–Qiu–Takeda**, arXiv:1207.4709v3, §2.2 and §3.1, pp. 8 and 14. Rechecked the definition of $d(n)$ and the classical convergence range quoted in §19.3.3. [Author preprint](https://arxiv.org/pdf/1207.4709v3)
+
+### Chapter 19 §19.3.5 (2026-11-24)
+
+- **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Supplies the finite-level characterization, majorant proof and theta consumers. The subsection pins the individual source lines and the scope of the reading. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1935-a-common-finite-support-for-schwartz-majorants)
+- **Gan–Qiu–Takeda**, arXiv:1207.4709v3, PDF SHA-256 `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`, retrieved 2026-11-24. Section 2.1, p. 8, identifies the test space by restricted tensor products. Sections 2.2 and 3.1, pp. 8 and 14, give $d(n)$ and the Weil convergence range. [Author preprint](https://arxiv.org/pdf/1207.4709v3)
+- **Andrew Sutherland**, MIT 18.785 Fall 2021, Lecture 25, PDF SHA-256 `1941241af698ce35d40e63ce0b9bca1950514fb60866a30d098103ebef5bd4a5`, retrieved 2026-11-24. Definition 25.7 and Proposition 25.10 give the place model and its classical base-change comparison. [Lecture notes](https://math.mit.edu/classes/18.785/2021fa/LectureNotes25.pdf)
+
+### Chapter 19 §19.3.6 (2026-11-24)
+
+- **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Supplies the tensor split, the CM chart and the real-parameter size proof. The subsection gives the exact source paths and reading boundaries. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1936-compatible-adelic-coordinates-and-real-parameters)
+- **Sutherland, Lecture 25** and **Gan–Qiu–Takeda**, at the versions recorded for §19.3.5. Definition 25.7 and Proposition 25.10 describe the classical adelic model. Sections 2.1 and 3.1 of the preprint give the Schwartz tensor convention and theta integral context. [MIT notes](https://math.mit.edu/classes/18.785/2021fa/LectureNotes25.pdf) · [Author preprint](https://arxiv.org/pdf/1207.4709v3)
+
+### Chapter 19 §19.3.7 (2026-11-24)
+
+- **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Supplies `weighted_count`, its cell and coordinate lemmas and the stacked call sites. The subsection pins the paths and lines; per-file hashes are in the run directory. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1937-unit-cells-and-the-uniform-weighted-lattice-count)
+- **Mathlib** at the pinned commit `0df444a360eaa60ab8c11dca51a86af692955474`. `Mathlib/NumberTheory/NumberField/CanonicalEmbedding/Basic.lean` (SHA-256 `66562d624f53b8d641de6ad75615d5f5e5d28d0bd8744710ce91de1d96b2b075`), lines 80–89, 112–136 and 164–178, gives `norm_le_iff`, `latticeBasis` and `integralBasis_repr_apply` (author Xavier Roblot). `Mathlib/NumberTheory/NumberField/Basic.lean` (SHA-256 `68833cc080857da33ed2661fac14c281651f140904af0fb587a447e23b81bac6`), lines 397–398, 406–409 and 415–416, gives `integralBasis`, `integralBasis_repr_apply` and `RingOfIntegers.rank` (authors Ashvni Narayanan and Anne Baanen). Retrieved 2026-11-24. [Canonical embedding](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/Basic.lean) · [Number fields](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/Basic.lean)
+- **NIST DLMF**, equations 25.6.1, 5.15.1–5.15.5 and 2.10.1, retrieved 2026-11-24. They give $\zeta(2)$ and $\zeta(4)$, the trigamma values at integers and half-integers, and the first-order Euler–Maclaurin comparison. [§25.6](https://dlmf.nist.gov/25.6) · [§5.15](https://dlmf.nist.gov/5.15) · [§2.10](https://dlmf.nist.gov/2.10)
+- **James S. Milne**, *Algebraic Number Theory*, v3.08, Propositions 2.26 and 4.26, pp. 34 and 79–80. The squared determinant of the embedding matrix of a basis is its discriminant, which is nonzero. Rechecked 2026-11-24, SHA-256 `24b83c789a89f25aebffb3cbe4ae5ca29edd0075acc072de093d140770630847`. [Author’s notes](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+- **Eric W. Weisstein**, “Apéry’s Constant,” MathWorld, equation (1), retrieved 2026-11-24. It gives the decimal value of $\zeta(3)$ used in Example 2. [MathWorld](https://mathworld.wolfram.com/AperysConstant.html)
+
+### Chapter 19 §19.3.8 (2026-11-24)
+
+- **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Supplies the place identification `GlobalTheory.CMTypePlaces.mk_tauE_bijective` and its restriction `places_bijective` (`src/Development/AbelianVarietyTheory/Proofs/HeightProofs/CmTypeRestrictRealSubfieldInfinitePlaceBijective.lean:14–60`), the enumeration `factEmb` (`src/Formalism/LocalRingCardinality/RankBoundMonotoneInDimension.lean:516–522`) with `HostRaw.hostEmb` (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/HostFacts.lean:258–266`), the host structures `HostRaw`, `HostDer` and `HostAx` (`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean:12–175`) and `Host` (`src/Formalism/LocalRingCardinality/DataHost.lean:39–122`), and the separate proof `LevelSeries.mk_tauE_bij` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HeckeCharInfinityEqCoeffMulHalfNormPow.lean:51–70`). The consumers are `SiegelConeIntegralMatrixLatticeCount.lean:145` and `ExistsInverseChart.lean:17`; the subsection gives the remaining lines.
+- **Mathlib** at the pinned commit `0df444a360eaa60ab8c11dca51a86af692955474`, files retrieved 2026-11-24: [InfinitePlace/Basic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean) (SHA-256 `58a2b448c78accf9ca7dfe1490954e51ebf0b64e2f42f35adc71ebf91d309b87`; `mk_conjugate_eq` at line 108, `mk_eq_iff` at 144), [InfinitePlace/Embeddings.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean) (`1c387b8e514d0511c5a6164bc2c661d9de542114b6b56a67449626d8f2aa0634`; `conjugate_coe_eq` at 205), [CMField.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/CMField.lean) (`859821a8d728906bd029df2b8be1412c942cd0f94dda0e819e6dd424ff485ba2`; `IsCMField` at 71, `equivInfinitePlace` at 101–104) and [CanonicalEmbedding/Basic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/Basic.lean) (`66562d624f53b8d641de6ad75615d5f5e5d28d0bd8744710ce91de1d96b2b075`; `conj_apply` at 65, `norm_le_iff` at 80, `latticeBasis` at 112).
+- **J. S. Milne**, *Complex Multiplication*, v0.10 (14 July 2020), Definition 1.8, display (3) and the extension of CM types from a CM subfield, p. 11; Proposition 1.9, Corollary 1.10 and Exercise 1.11, p. 12. PDF retrieved 2026-11-24, SHA-256 `0ac337a885d72f6938f15724b897f568fe350d0d754d0b52370b8f3a01d2e2b5`. [Original PDF](https://www.jmilne.org/math/CourseNotes/CM.pdf)
+- **Andrew V. Sutherland**, *18.785 Number Theory I*, Fall 2021, Lecture 13, Corollary 13.7, Definition 13.8 and Corollary 13.9, p. 3 (PDF SHA-256 `7d45006469b85335185189d0f6a783180e63907ea856e3931fccee0c89a514c8`), and Lecture 14, pp. 3–4, the real subspace $K_{\mathbb R}\subset K_{\mathbb C}$ (PDF SHA-256 `4e59e33ada17f0c8f74237723236ef738cdf74b215f80f7cf3eecd52de2f8206`). [Lecture 13](https://math.mit.edu/classes/18.785/2021fa/LectureNotes13.pdf) · [Lecture 14](https://math.mit.edu/classes/18.785/2021fa/LectureNotes14.pdf)
+- **NIST DLMF**, equation 25.6.1, and **Eric W. Weisstein**, “Apéry’s Constant,” MathWorld, equation (1), rechecked online 2026-11-25, for $\zeta(2)$, $\zeta(4)$ and $\zeta(3)$ in the $\mathbb Q(i)$ calculation. [DLMF 25.6.1](https://dlmf.nist.gov/25.6.E1) · [MathWorld](https://mathworld.wolfram.com/AperysConstant.html)

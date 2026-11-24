@@ -152,6 +152,20 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Andrew Yang** — Mathlib’s trace of an integral closure (`Algebra.intTrace`, `Algebra.algebraMap_intTrace`, `Algebra.intTrace_eq_of_isLocalization`), which keeps the archive’s trace inside the polynomial chart ring (Chapter 12, §12.4.4). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/IntegralClosure/IntegralRestrict.lean#L263-L331)
 
+## Sources for the lattice estimates
+
+- The pinned Alpöge archive supplies the inverse-torus bound, its production
+  by rational coordinate enlargement and its use in the theta integral.
+  NIST DLMF provides the Poisson identity for the elementary example and
+  Gan–Qiu–Takeda record the classical convergence range.
+  [Source ledger](sources/SOURCES.md#chapter-19-1933-lattice-majorant)
+
+- The Alpöge–Claude archive supplies the three denominator and scaled-norm interfaces and the two compact-action bounds. Sutherland and Milne provide background on adelic topology and full ideal lattices. The 24 November same-model review of §19.3.3 checked the conditional estimate and identified these arithmetic inputs for follow-up. [Source ledger](sources/SOURCES.md#chapter-19-1934-finite-support-and-minkowski-lattices)
+
+- The Alpöge–Claude archive supplies the weighted integral lattice count, its one-dimensional cell lemmas and the coordinate bound through the canonical embedding. Xavier Roblot (canonical-embedding lattice basis) and Ashvni Narayanan and Anne Baanen (integral basis) supply the Mathlib inputs [Community]. NIST DLMF and MathWorld supply the zeta and trigamma values, and Milne supplies the discriminant background. The 24 November reviews of §§19.3.4–19.3.5 listed this count as a named input for follow-up. [Source ledger](sources/SOURCES.md#chapter-19-1937-2026-11-24)
+
+- The Alpöge–Claude archive supplies the CM-type place identification `mk_tauE_bijective`, its restriction `places_bijective`, the enumeration `factEmb` and the separate proof `mk_tauE_bij`. Xavier Roblot (Mathlib infinite places, CM fields and the canonical embedding; complex embeddings with Alex J. Best) supplies the place, conjugation and restriction lemmas. J. S. Milne and Andrew V. Sutherland provide the classical CM-type and Minkowski-space background. [Source ledger](sources/SOURCES.md#chapter-19-1938-2026-11-24)
+
 ## Our contributions
 
 - **Hongmin Li (with AI assistance)** — Read and explained the four counting proofs behind the local degree in `decEquiv` [Lean, read]: the closed ball as an integral closure and its count, integral approximation modulo $p$ through a denominator prime to the place, the power kernel $w^e$, the norm count, and their assembly into $[K:\mathbb Q_p]=e(w/p)f(w/p)$. Proved the layer-by-layer approximation and the identification of $\mathcal O_K$ with the $w$-adic completion, which are not Lean declarations. Worked out a ramified example over $\mathbb Q(i)$ and an unramified example over $\mathbb Q(\sqrt5)$ at $p=2$, which separate $p^f$ from $p^{[K:\mathbb Q_p]}$ and $w$ from $w^e$. The formal proofs are Alpöge–Claude's, and the classical statements are Milne's. [Chapter 18, §18.3.9](chapters/18-auditing-the-published-layer-case-studies.md#1839-counting-the-local-degree-closed-balls-integral-approximation-and-the-power-kernel)
@@ -343,6 +357,31 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 
 - **Hongmin Li (with AI assistance)** — Wrote the conditional textbook theorem that separates what countable exceptions, almost-everywhere representatives and absolute integrability pay in the box comparison and in rectangle Fubini [Lean, read], with the simple-function approximation step, the actual $(-iF,F)$ call, two null-modification examples, a hand-built gauge and Henstock–Sacks bound for $x^{-1/2}$, the call for $\lvert q\rvert^2$, and the $\pm\pi/4$ counterexample read as two fluxes. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#fubini-and-the-box-comparison-on-a-rectangle)
 - **Hongmin Li (with AI assistance)** — Wrote the textbook proof of the Henstock–Sacks inequality from the pinned Mathlib body, with the common-completion lemma, integrability on subboxes, the $\delta/(m+1)$ constant, the admissibility clauses for tags, distortion and complements, the return to the grouped third estimate of the comparison proof, a worked run of the proof on a three-valued step function with the gauge constant $6\rho$, and a counterexample showing that $L^1$ convergence cannot replace pointwise monotonicity in that estimate [Lean, read]. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#the-henstocksacks-inequality-tagged-sums-over-part-of-a-rectangle)
+
+- Hongmin Li with Codex developed §19.3.4, with a proof of the common denominator and full Minkowski lattice, three box and ideal calculations, two failure examples, and the conditional uniform bound for the theta sum. [Subsection](chapters/19-published-layer-case-studies-ii.md#1934-from-finite-support-to-a-fixed-minkowski-lattice)
+
+- Chapter 19 §19.3.3 develops a proof for uniformly translated lattices
+  by box counting and dyadic shells, gives two hand calculations, and
+  traces the conditional use of the bound in the archive.
+  [Subsection](chapters/19-published-layer-case-studies-ii.md#1933-the-lattice-majorant-for-the-inverse-torus)
+
+**Chapter 19, §19.3.1.** The Siegel-set control and cone proofs are from the Alpöge–Claude archive (A2). Hongmin Li with Codex contributed the graduate-text derivation, rank-one examples and production-to-consumer map. The existing spherical-series and Rallis reports remain separate contributions. [Subsection](chapters/19-published-layer-case-studies-ii.md#1931-siegel-sets-and-the-integrable-majorant)
+
+**Chapter 19, §19.3.2.** The Alpöge–Claude archive supplies the unitary
+rational covering proof. Borel supplies the literature comparison on
+adelic fundamental sets. Hongmin Li with Codex contributed the conditional
+textbook treatment, two hand calculations and a reading map. The §19.3.1
+same-model review is recorded separately in the preceding run's audit.
+[Original article](https://www.numdam.org/item/PMIHES_1963__16__5_0.pdf) ·
+[Subsection](chapters/19-published-layer-case-studies-ii.md#1932-rational-reduction-and-the-covering-of-the-adelic-quotient)
+
+- **Chapter 19 Schwartz supply.** We reconstruct the common-support majorant, the quantifier order in the theta application, and the measurability and integration argument. The two Gaussian examples and the two divergence examples are textbook exposition. The formal producers and consumers are due to Alpöge and Claude in archive A2. [Chapter 19, §19.3.5](chapters/19-published-layer-case-studies-ii.md#1935-a-common-finite-support-for-schwartz-majorants)
+
+- **Chapter 19 adelic coordinates.** We reconstruct the compatible splitting and inverse chart, prove the conditional compact two-sided bounds, and give the two matrix examples. The formal producers are due to Alpöge and Claude in A2. [Chapter 19, §19.3.6](chapters/19-published-layer-case-studies-ii.md#1936-compatible-adelic-coordinates-and-real-parameters)
+
+- **Chapter 19 weighted lattice count.** We follow the archive’s unit-cell proof of the weighted integral lattice count. We state and prove a translation-uniform version with a real exponent and a two-sided cell lemma, and we work out the on-lattice and half-lattice example and the unequal-width example, including the critical $\ell^1$ shell count. We trace the actual exponent $N=4bn(2r+m)$ to the stacking threshold and the Schwartz order, and record that the count calls `CMTypePlaces.mk_tauE_bijective` rather than `mk_tauE_bij`. The formal proofs are Alpöge and Claude’s in A2. [Chapter 19, §19.3.7](chapters/19-published-layer-case-studies-ii.md#1937-unit-cells-and-the-uniform-weighted-lattice-count)
+
+- **Chapter 19 CM-type place identification.** We read the archive's proof that the CM-type family `tauE` meets every infinite place exactly once, and its restriction to the real subfield. We prove the conjugate-pairing and place lemmas with both directions of the identification, derive the Minkowski coordinates and the inverse chart, and locate the single surjective step used by the weighted count. The $\mathbb Q(i)$ and $\mathbb Q(\zeta_8)$ calculations and the doubling remark are ours [Expository]; the formal proofs are Alpöge and Claude's. [Subsection](chapters/19-published-layer-case-studies-ii.md#1938-cm-types-and-the-place-identification)
 
 ### Chapter 12 Lefschetz exposition
 - **Community, Chapter 12, §12.4.4.** Aapo Lipponen’s LUMI project identifies the algebraic Lefschetz route and its use in the comparison over $\mathbb C$. [LUMI guide](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/05-galois-representations.md#L89-L103)
