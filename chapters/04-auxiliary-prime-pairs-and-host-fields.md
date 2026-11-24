@@ -18,7 +18,7 @@ by us (`R3` / `[Lean, read]`). Of the classical analytic sub-packages imported a
 the sieve, the width-$1/400$ zero-density count and the Landau–Page step across moduli are also
 read in full (Section 4.7). The prime number theorem in progressions modulo divisible-by-$8$
 moduli, Siegel's lower bound and the internal lemmas of the Perron contour tail were read at
-statement level (`R2` / `[Lean]`). We distinguish the two tags explicitly throughout.
+statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail, the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
 
 ---
 
@@ -835,7 +835,7 @@ then the two-stage prime-pair existence theorem `PairEx`.
      ($N_0 = 8M$, conductor $F = 8M \le \exp(z/2)$ for large $Y$). Note $\log m_0 = \log 8$,
      so $\frac{1}{4}(\log Y)^2 \log 8 \ll Y^{\varepsilon/5} = z$ holds trivially. Because
      $\lvert \mathcal P_1 \rvert > 0$ and at most $\frac{1}{2}\lvert\mathcal P_1\rvert$ primes are
-     bad, more than $\frac{1}{2}\lvert\mathcal P_1\rvert > 0$ primes $q \in \mathcal P_1$ satisfy
+     bad, at least $\frac{1}{2}\lvert\mathcal P_1\rvert > 0$ primes $q \in \mathcal P_1$ satisfy
      `GoodQ (8*M)` (`src/Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:29–34`). Pick one such prime $q \equiv 3 \pmod 8$ with
      $\frac{1}{2} z < \log q \le z$ and $8M < q$ (so $\gcd(M, q) = 1$).
    - **Stage 2 (`stage2`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:61`):** With $q$ fixed, let
@@ -855,7 +855,7 @@ then the two-stage prime-pair existence theorem `PairEx`.
      $\varepsilon' := \frac{6}{5}\varepsilon < \frac{6}{5}\cdot\frac{1}{52} < \frac{1}{4}$ (`src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:71`)
      on $\log U = z' = z(\log Y)^2 \ge \frac{1}{4}(\log Y)^2 \log m_0$. Twisting primitive characters
      of $\xi \cdot (\frac{\cdot}{q})^i$ ($i \in \{0, 1\}$, conductor $\le 8Mq \le 8M e^z \le e^{z'/2}$)
-     by $(\frac{\cdot}{d})$ at $\eta = 1/2$ leaves more than $\frac{1}{2}\lvert \mathcal P_2 \rvert > 0$
+     by $(\frac{\cdot}{d})$ at $\eta = 1/2$ leaves at least $\frac{1}{2}\lvert \mathcal P_2 \rvert > 0$
      primes $d \in \mathcal P_2$ satisfying `GoodD (8*M)` (`src/Development/AutomorphicArithmetic/MeanSquareBounds/PairShare.lean:26`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:9`).
      Note finally that `GoodQ (8*M)` and `GoodD (8*M)` give `ZeroFreeBox Q` precisely up to
      $Q = 8M e^z = \mathrm{height}(M, \varepsilon, Y, 0)$ when $j = 0$ and
@@ -1071,7 +1071,7 @@ Every file in `CharacterBoxes/`, `MeanSquareBounds/`, `ShortNorms/supplyOfAdmOf.
 `TotientGaloisClasses/`, and `FrobeniusOrbits/Statement.lean` cited below was read in full by us
 (`R3` / `[Lean, read]`). So were the zero-density package (`zero_density_box` and its `CountZ*`
 files) and `page_across` (Section 4.7). The remaining classical analytic sub-packages (the lemma files
-behind `tail_contour`, `twist_bound`, `pnt_progressions_relative_weak_holds`, `count_pos`,
+behind `tail_contour`, `twist_bound`, `pnt_progressions_relative_weak_holds`,
 `excBound`) and the short-norm/rank packages (`hostOfField`, `admissible_ranks_of_CMDatum`) were
 read at statement level (`R2` / `[Lean]`). Section 4.7.6 lists the files.
 
@@ -1115,7 +1115,8 @@ read at statement level (`R2` / `[Lean]`). Section 4.7.6 lists the files.
 | `divisor_weight_bound`, `l_function_partial_sum`, `LFunction_eq_G`, `norm_character_sum_Icc_le` | `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/DivisorBound.lean:56`; `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/LPartialSum.lean:136`; `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/LFunctionEqGOfOneLt.lean:228`; `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:39` | Direct dependencies of Lemmas 4.12–4.13: $d(n) \le C_e n^e$, partial-sum approximation of $L(s, \chi)$ on $\Re s > 0$, and character sums $\le q + 1$. | [Lean, read] |
 | `page_across` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqPage.lean:37` | Lemma 4.16: Landau–Page across moduli, conditional on `ZFRDirichlet` (proved by `zFRDirichlet` [Lean]). | [Lean, read] |
 | `meanSquareHypW_of_pnt` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqMain.lean:55` | Diagonal $s=1$ and single exceptional modulus $s=n_*$ prime-power counting for `MeanSq`. | [Lean, read] |
-| `tail_contour`, `box_tail_bound`, `twist_bound`, `pnt_progressions_relative_weak_holds`, `count_a`, `excBound` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:14`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailFinal.lean:13`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:18`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:346`; `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32` | Statements 4.17–4.18. These are the Perron contour tail on $\mathcal B(Q)$, the Jacobi-sum bound outside $n_*$, PNT in progressions, $\lvert \mathcal P \rvert \ge X^{9/10}$, and Siegel's lower bound. `tailK` and `kappa4` call `tail_contour` directly, and `box_tail_bound` is its real-character sibling. Top-level proofs are read; the internal files are `R2`. | [Lean] |
+| `count_pos`, `count_a` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:275,346` | §4.9 proves the conditional candidate count and traces its use in the sieve. | [Lean, read] |
+| `tail_contour`, `box_tail_bound`, `twist_bound`, `pnt_progressions_relative_weak_holds`, `excBound` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:14`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailFinal.lean:13`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:18`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22`; `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32` | Statements 4.17–4.18. These are the Perron contour tail on $\mathcal B(Q)$, the Jacobi-sum bound outside $n_*$, PNT in progressions, and Siegel's lower bound. `tailK` and `kappa4` call `tail_contour` directly, and `box_tail_bound` is its real-character sibling. Top-level proofs are read; the internal files are `R2`. | [Lean] |
 
 ---
 
@@ -1415,7 +1416,7 @@ $s \ne n_*$. We read its statement and its first lines, `:25–26` [Lean].
 3. `count_a` (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:346`) derives
    $\lvert \mathrm{PPset}(m_0, a_0, X) \rvert \ge X^{9/10}$ under the hypotheses of Proposition 4.5. Its proof
    instantiates `ExcBound` only at $\varepsilon = 1$, i.e. $\beta \le 1 - c_0/m_0$ (`:352`, `:380–385`). The counting itself
-   is delegated to `count_pos` (`:275`) [Lean]. The PNT package calls `excBound` again internally, for
+   is delegated to `count_pos` (`:275`), proved in §4.9 [Lean, read]. The PNT package calls `excBound` again internally, for
    example at `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/DeuringHeilbronnFinishTuran.lean:19` with $\varepsilon = 1/2$. We have not read those files.
 
 **Statement 4.18 (the contour tail; `tail_contour`, `box_tail_bound`).**
@@ -1430,7 +1431,7 @@ where $S_\chi(y) = \sum_{n \le y} \Lambda(n)\chi(n)(y/n - 1)$
 We read the top-level proof (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:19–135`). It moves the Perron integral of
 $-\frac{L'}{L}(w)\,y^w/(w(w-1))$ to $\Re w = 1 - 1/400 + \delta$ at height $T = Q/2$ (`:26`, `:44–45`). It then
 bounds the two vertical tails (`:53–64`), the horizontal segments (`:66–85`) and the shifted
-vertical line (`:87–105`). The lemmas it cites (`tail_box_negLD`, `tail_shift_identity`, `tc_*`) are [Lean].
+vertical line (`:87–105`). Section 4.8 reads the conditional estimate and identifies the deeper suppliers still at R2.
 
 `box_tail_bound` (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailFinal.lean:13`) packages the same estimate at $z = x^{400}$, $\eta = x^{-2}$ for
 `GoodFor` characters (`src/Formalism/GL3MeanSquares/SecondEstimateOfIntervalHypothesis.lean:47`). That predicate includes $\chi^2 = 1$. Its proof (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailFinal.lean:14–101`) is
@@ -1476,13 +1477,750 @@ form, but no ineffective input is used. In the files we have read, ineffectivity
   `src/Formalism/LFunctionBounds/PositivityBound.lean:51,62`, `LPartialSum.lean`, `LFunctionEqGOfOneLt.lean` and
   `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:10–51`. Also `MSqPage.lean` (`page_across`, conditional on `ZFRDirichlet`) and the
   proof body of `box_tail_bound` (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailFinal.lean:13–101`).
-- **R2 (`[Lean]`)**: `tail_contour`'s lemma files `TailBox`, `TailKernel`, `TailContourA`,
-  `TailContourB`, `ExceptionalZeroBounds/LRight` and `PerronHorizontalSegmentBound`; `TailDiff`,
+- **R2 (`[Lean]`)**: the full `tail_contour` closure (see §4.8.6 for the individual suppliers and the locally read proof bodies); `TailDiff`,
   `TailMertens` and `TailNum`; the PNT package behind `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22` (`PNTRangeA`, `PNTGlue`,
   `PrimeCountOfPsi`, `PNTSharp`, `PNTBAsm`, `PNTZSum`, `PNTDens`, `PNTExplMain`, `PNTZSumL`,
-  `PNTDHB` and their imports); `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:1–344` (`count_pos` and helpers); `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:27–229`
+  `PNTDHB` and their imports); `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:27–229`
   with `MSqTwistB` and `MSqTwistC`; `FinalSiegel`, `ExcBoundOf` and `LDerivNearOne` behind `excBound`; and
   `NoZeroComplex` behind `zFRDirichlet`.
+
+## 4.8 From the zero-free box to the truncated Perron tail
+
+### 4.8.1 Motivation
+
+A smoothed prime sum can be recovered by integrating a logarithmic derivative against a kernel. The factor $1/(s(s-1))$ gives quadratic decay high on the original vertical line. Moving the finite part of that line to the left crosses the kernel pole at $1$ and lowers the exponent of $y$ in $y^s$. When two endpoints are close, subtract their integrands *before* estimating the new vertical integral. The numerator difference supplies the short-interval factor $\eta$, while cancelling one denominator factor in the bound. The resulting integral has logarithmic growth in the truncation height. The original tails and the horizontal segments still have both denominator factors.
+
+### 4.8.2 A parameter example [Expository]
+
+Take $N=3$, $Q=20$, $\delta=1/800$, $z=1$ and $\eta=1/2$. Use the non-principal character modulo $3$ and take its zero-free box as a hypothesis for this example. Then $y_0=1$, $y_1=3/2$, $T=10$ and $\sigma=799/800$. The contour is $1/800$ from the strict left edge of the box and $1/800$ from the kernel pole. At the top edge the local zero disc can reach height $10+11/60=611/60<20$. The horizontal span is $801/800$, and the pointwise majorant at $y_1$ on either horizontal side is $9M/400$, where $M=K_B\log 20$. At the real-axis crossing of the shifted line, $u=0$ gives $1/|\sigma-1|=800$. The bound for the paired left integrals in the proof below is $8M\log 8001$. The two terms inside the final parentheses become $(\log 20)/2$ and $1/20$. These substitutions describe the geometry and the bounds under the stated analytic hypotheses.
+
+### 4.8.3 Definitions and analytic inputs
+
+Write $L(s)=L(s,\chi)$, $D(s)=-L'(s)/L(s)$ and
+$$
+S_\chi(y)=\sum_{1\le n\le y}\Lambda(n)\chi(n)(y/n-1),\qquad
+F_y(s)=\frac{D(s)y^s}{s(s-1)}.
+$$
+The sum weight is the smoothed Perron weight $(a-1)$ for $a=y/n\ge1$, and zero for $0<a<1$. The kernel explanation is that a vertical integral of $a^s/(s(s-1))$ to the right of $1$ closes to the left for $a>1$, giving residues $a$ and $-1$ at $1$ and $0$. For $a<1$ one closes to the right, with no poles. At $a=1$ the two residues cancel and the weight is zero; the kernel's quadratic decay makes the vertical integral continuous in $a$ on compact subintervals of $(0,\infty)$. The archive supplies the integrable character formula on $\Re s=2$, namely $2\pi S_\chi(y)=\int_{\mathbb R}F_y(2+it)\,dt$ for $y\ge1$. This formula and the rectangle shift are analytic inputs [Lean]. The definitions are at §4.8.6.
+
+Let $\mathcal B(Q)$ mean $L(s)\ne0$ whenever $\Re s>1-1/400$ and $|\Im s|\le Q$. Set $\sigma=1-1/400+\delta$, $T=Q/2$ and $\ell=\log Q$. In the following proof $0<\delta\le1/800$, so $\sigma$ lies strictly inside the box and $g=1-\sigma=1/400-\delta\ge1/800$. For $Q\ge2$, $0<T\le Q-1$. These are two different margins: $\delta$ separates the shifted contour from nearby zeros, while $g$ separates it from the kernel pole.
+
+### 4.8.4 Lemma (the box supplies a bound for the numerator)
+
+**[Lean, read] conditional on the polynomial-growth, local Landau and right-half-plane inputs.** For fixed $\delta>0$ there is $K_B\ge0$ such that, if $1\le N\le Q$, $Q\ge2$, $\chi$ is non-principal and has $\mathcal B(Q)$, then $|D(s)|\le K_B\ell$ for $\Re s\ge1-1/400+\delta$ and $|\Im s|\le Q-1$.
+
+**Proof.** Use the polynomial-growth bound $|L(w)|\le C N(1+|w|)$ for $\Re w\ge1/2$, the inverse bound $1/|L(w)|\le\Re w/(\Re w-1)$ for $\Re w>1$, and the right-side bound $|D(w)|\le1/(\Re w-1)+C_R$ there, with $C_R\ge0$. If $\Re s\ge11/10$, the last inequality gives $|D(s)|\le10+C_R\le (10+C_R)\ell/\log2$.
+
+Otherwise $26/27\le\Re s<11/10$ and $L(s)\ne0$ by the box. Put $t=\Im s$, $c=21/20+it$, $r=11/20$ and $X=N(|t|+2)$. The disc of radius $r$ about $c$ lies in $\Re w\ge1/2$ and $1+|w|\le2(|t|+2)$ there by the triangle inequality. At $c$ the inverse bound gives $1/|L(c)|\le21$ (the center is nonzero in $\Re w>1$). Thus on the disc $|L(w)|\le H|L(c)|$ for $H=2\cdot21(|C|+1)X\ge1$. Non-principality supplies holomorphy. The local Landau input supplies the zeros $Z$ in the closed disc of radius $r/3$, with nonnegative integer weights $m_\rho$ whose sum is at most $\log H/\log2$. At nonzeros in the closed disc of radius $r/6$ it bounds the error after subtracting $\sum_{\rho\in Z}m_\rho/(s-\rho)$ from $L'(s)/L(s)$ by $72\log H/r$. The real-part range above ensures $|s-c|\le r/6$.
+
+Each $\rho\in Z$ has $|\Im\rho|\le |t|+r/3<Q$. Since the box excludes zeros strictly to the right of $1-1/400$, every such $\rho$ satisfies $\Re\rho\le1-1/400$ and $|s-\rho|\ge\delta$. Triangle inequality and $\delta>0$ bound the zero sum by $\log H/(\delta\log2)$. For $X\ge2$, set $A_0=1+\log(2\cdot21(|C|+1))/\log2$ so that $\log H\le A_0\log X$. Also $X\le Q(Q+1)\le Q^3$ by $N\le Q$, $|t|\le Q-1$ and $Q\ge2$. Combining the two triangle bounds gives the claimed estimate with
+$$
+K_B=3A_0\left(\frac{1440}{11}+\frac{1}{\delta\log2}\right)
+         +\frac{10+C_R}{\log2}.
+$$
+Both summands are nonnegative, so this constant serves in either real-part range. A zero on the allowed box edge would make $|s-\rho|=\delta$ when the heights coincide. At $\delta=0$ this separation argument loses its finite majorant.
+
+### 4.8.5 Theorem (conditional truncated tail bound)
+
+**[Lean, read] for the estimate given its analytic inputs.** Fix $0<\delta\le1/800$. Suppose $1\le N\le Q$, $Q\ge2$, and $\chi$ is non-principal with $\mathcal B(Q)$. Assume the inputs of the box lemma, the Perron identity and the rectangle shift described below. Then for $z\ge1$ and $0<\eta\le1$,
+$$
+|S_\chi(z+z\eta)-S_\chi(z)-z\eta D(1)|
+ \le K\ell\left(\ell\eta z^\sigma+\frac{z^2}{Q}\right),\qquad
+ K=160K_B+32(1+C_R).
+$$
+Here $K$ depends on $\delta$ and the uniform analytic constants, and works for every such $N,\chi,Q,z,\eta$.
+
+**Proof.** Let $y_0=z$, $y_1=z(1+\eta)$, so $1\le y_j\le2z$. For either $y=y_j$, write $E_y$ for the integral of $F_y(2+it)$ over the complement of $(-T,T]$, $H_y^\pm=\int_\sigma^2 F_y(x\pm iT)\,dx$ and $V_y=\int_{-T}^T F_y(\sigma+iu)\,du$. The closed rectangle $[\sigma,2]+i[-T,T]$ lies in the box. The rectangle shift input applies for non-principal $\chi$, $y>0$, $0<\sigma<1<2$, $T>0$, and no zeros anywhere on or inside the rectangle. The pole of the kernel at $1$ contributes residue $yD(1)$ and $0$ lies outside. With counterclockwise orientation the bottom edge runs right, the right edge up, the top edge left and the left edge down. Splitting the original Perron integral gives
+$$
+2\pi(S_\chi(y)-yD(1))=E_y+i(H_y^- -H_y^+)+V_y .
+$$
+The absolute integrability in the original Perron identity permits the split; finite endpoints make no difference to these integrals.
+
+**Left edge.** Put $M=K_B\ell$. For $|u|\le T$, $s=\sigma+iu$ has $|D(s)|\le M$. For real $w\in[z,y_1]$, differentiation along the positive axis gives $(w^s)'=s w^{s-1}$. Since $0<\sigma<1$ and $w\ge z>0$, the derivative has norm at most $|s|z^{\sigma-1}$. Integration over length $z\eta$ yields
+$$
+|y_1^s-y_0^s|\le |s|\eta z^\sigma,\qquad
+|F_{y_1}(s)-F_{y_0}(s)|\le \frac{4M\eta z^\sigma}{|s-1|}.
+$$
+Here $s\ne0,1$, so $|s|$ cancels. The displayed majorant keeps the factor $4$ used by the formal proof, by nonnegativity. The integrands are continuous on this compact segment since $L$ has no zeros there and neither kernel denominator vanishes. The two coordinate lower bounds give $|s-1|\ge\max(g,|u|)\ge(g+|u|)/2$ with $g>0$. The integral of $2/(g+|u|)$ is $4\log(1+T/g)$ by evenness and the antiderivative of $1/(g+u)$ for $u\ge0$. Since $g\ge1/800$, this is at most $4\log(1+800T)$. Finally $1+800T=1+400Q\le512Q\le Q^{10}$ for $Q\ge2$. Taking the norm after subtracting gives $|V_{y_1}-V_{y_0}|\le160K_B\ell^2\eta z^\sigma$.
+
+**Horizontal edges.** For $\sigma\le x\le2$ and $|v|=T>0$, the box bound gives $|D(x+iv)|\le M$. The modulus of the power is $y^x\le y^2$ since $y\ge1$. Both denominator factors have modulus at least $T$, their common absolute imaginary part. Hence $|F_y(x+iv)|\le My^2/T^2$. Integrating a continuous function over a span $2-\sigma\le2$ gives
+$$
+|H_y^\pm|\le \frac{8Mz^2}{T^2}=\frac{32Mz^2}{Q^2}\le\frac{16Mz^2}{Q}.
+$$
+The last step uses $Q\ge2$. The span is approximately one, whereas the box width enters through the left endpoint $\sigma$ and the exponent $z^\sigma$.
+
+**Original right tails.** On $\Re s=2$ the right-half-plane bound gives $|D(s)|\le1+C_R$ for all heights. For $|t|\ge T>0$, both denominator moduli are at least $|t|$, so $|F_y(2+it)|\le B/t^2$ with $B=4(1+C_R)z^2$. The archive uses the positive majorant $2B/(T^2+t^2)$ on this set, valid because $t^2\ge T^2$. Its integral over the whole real line is $2\pi B/T$ by the arctangent integral and $T>0$. Thus $|E_y|\le 2\pi\cdot8(1+C_R)z^2/Q$. The height restriction of the box plays no role in the right-half-plane bound for $|t|>T$.
+
+**Assembly.** Subtract the two shift identities, use $y_1-y_0=z\eta$ and take the triangle inequality with $|i|=1$. There are two right tails, four horizontal terms and one paired left difference. After dividing by $2\pi>0$ and using $2\pi\ge1$ on the nonnegative horizontal and left bounds, the result is at most
+$$
+16(1+C_R)\frac{z^2}{Q}
+ +64K_B\ell\frac{z^2}{Q}+160K_B\ell^2\eta z^\sigma .
+$$
+Now $\ell\ge\log2\ge1/2$ (integrate $1/x\ge1/2$ over $[1,2]$), so $16(1+C_R)\le32(1+C_R)\ell$. The stated $K$ dominates both coefficients after factoring out $\ell$. This proves the bound on the stated domain.
+
+### 4.8.6 Source map and reading boundary
+
+All paths below are relative to the joined Alpöge archive with SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`
+([SOURCES, §1](../sources/SOURCES.md#1-the-lean-archive-primary-source)).
+
+| Step | Archive declaration and proof |
+|---|---|
+| Box, sum and kernel definitions | `src/Formalism/GL3MeanSquares/SecondEstimateOfIntervalHypothesis.lean:44–45`; `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:11–20,28–36`; `src/Formalism/LandauZeroFreeBounds/NoZeroComplexOf.lean:10–11` |
+| Local disc and its input | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LandauLemmaLfunctionZeros.lean:9–91`; `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:57–68` |
+| Separation and uniform box bound | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailBox.lean:13–119` |
+| Shift identity and its orientation | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourA.lean:11–35` |
+| Derivative of the power difference and integrated left edge | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourB.lean:10–99,157–244` |
+| Horizontal and original right pointwise bounds | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourB.lean:101–155` |
+| Right-tail integral | `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/NormIntegralComplLe.lean:9–43` |
+| Combining the seven contributions and absorbing the logarithm | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourB.lean:246–271`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:19–135` |
+
+**Which kernel is consumed?** `TailKernel.lean` is imported both directly and through `TailContourB`. Its `tail_kernel_cpow` and `tail_kernel_line` prove closely related bounds at
+`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailKernel.lean:27–64,89–124`. The actual consumer at `TailContour.lean:87–89` calls `tc_left_int`, which calls `tc_left_pt` and integrates $2/(g+|u|)$ directly. `tc_left_pt` differentiates $w^s$ on a real interval. The separately imported `perron_horizontal_segment_bound` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronHorizontalSegmentBound.lean:71–121` belongs to a different estimate with a zero-free region and an optional exceptional zero. The horizontal consumer here is `tc_horiz_pt`.
+
+**Remaining R2 [Lean].** The proof bodies of `TailContourA` and the consumed declarations of `TailContourB` are read locally. The closure through `TailContourA` remains R2, in particular `perron_formula_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283`) and `rectangle_contour_shift_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:114`), with their inner inputs (Mellin inversion and the residue theorem, respectively). On the box side the local expansion underneath `landau_local3` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LandauLocal3.lean:8–9`) and the right-half-plane estimate supplied through `l_log_deriv_right` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:116–126`) remain R2 at depth. Their immediate inner suppliers are `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ExistsLocalZeroExpansionOfBound.lean:49` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:11`. The inverse bound `inverseBound` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:23–86`), which `tail_box_negLD` uses for $1/|L(c)|\le21$, and the polynomial-growth input `lfunction_polynomial_growth` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) also remain R2. The unused Perron horizontal provider and the standalone kernel lemmas receive no promotion from this reading. The complete imported proof of `tail_contour` remains R2. The conditional proof here reads one estimate with its analytic inputs exposed.
+
+## 4.9 Counting enough candidates before the sieve
+
+### 4.9.1 Motivation
+
+A mean-square bound proportional to the number of candidates holds vacuously on an empty set. Even when the set is nonempty, the zero-density loss in §4.4.5 is an absolute count, so we need a lower bound against which to compare it. The archive first counts primes in the entire progression, retains the primes above the square-root cut, and only then bounds the share that fails the twist tests. An exceptional zero enters the progression main term as a signed correction. The bad twist tests delete elements of a finite set.
+
+### 4.9.2 A small progression and two character tests [Expository]
+
+Take $M=8$, $b=3$, and $U=100$. The primes in the progression up to $U$ are $3,11,19,43,59,67,83$. Exactly one, $3$, is at most $\sqrt U=10$, leaving $P=\{11,19,43,59,67,83\}$. To model two character tests, take the primitive quadratic characters of conductors $3$ and $5$, and stipulate the failure sets for their window-sum tests to be $\{19,43\}$ and $\{43,67\}$. Stipulate also a box failure set $\{19\}$. The union is exactly $\{19,43,67\}$, leaving $\{11,59,83\}$. The sum of the three failure counts is $5$, while their union has size $3$. The stipulated flags illustrate the finite-set deduction in §4.9.5. The prime list and the square-root cut are exact, and the analytic large-scale hypotheses are outside this example.
+
+For the sign of the exceptional correction, the primitive quadratic character of conductor $8$ given by $(2/\cdot)$ takes the value $-1$ on $3$ and $+1$ on $1$. If that character supplied the optional pair in the formula below, the progression $3\bmod 8$ would gain $\operatorname{li}_2(U^\beta)/4$ and the progression $1\bmod 8$ would lose exactly the same amount. This is a conditional substitution in the formula for the main term.
+
+### 4.9.3 Definitions and named analytic inputs
+
+Let $M$ be a positive multiple of $8$, let $b$ be a reduced residue class, and, for $U>0$, write
+$$
+P(M,b,U)=\{q\text{ prime}: q\equiv b\bmod M,\ \sqrt U<q\le U\}.
+$$
+This is the positive-scale interpretation of `PPset`. The count $\pi(U;M,b)$ includes all primes up to $U$ in the class. Put $\operatorname{li}_2(U)=\int_2^U dt/\log t$. An exceptional pair consists of a character $\chi\bmod M$ with $\chi^2=1$, $\chi\ne1$, and a real zero $\beta$ of its $L$-function with $1-1/(8\log M)<\beta<1$. For an optional pair $e$, define the main term $H_e(b,U)$ by
+$$
+H_{\mathrm{none}}(b,U)=\frac{\operatorname{li}_2(U)}{\varphi(M)},\qquad
+H_{(\chi,\beta)}(b,U)=\frac{\operatorname{li}_2(U)-\Re\chi(b)\operatorname{li}_2(U^\beta)}{\varphi(M)}.
+$$
+
+- **Relative PNT in progressions (`PNTAPRelW`) [Lean].** There exist real $c_3>0,A_0,C_0$ such that for each positive $M$ divisible by $8$ there is an option $e$ fixed for that modulus, valid if present, with no exceptional pair if absent. For every $U\ge2$ and every $b$ coprime to $M$ with $C_0\log M\log(\log M+2)\le\log U$, one has
+  $$
+  |\pi(U;M,b)-H_e(b,U)|\le A_0 E\,H_e(b,U),
+  \qquad E=\exp(-c_3\log U/\log M)+\exp(-\sqrt{c_3\log U}).
+  $$
+  The proof below uses validity of the pair when present and the relative estimate in either case.
+- **Real-zero separation (`ExcBound`) [Lean].** For every $\delta>0$ there is $c_0(\delta)>0$ such that for all positive moduli and all nonprincipal characters with $\chi^2=1$, each real zero $\beta$ satisfies $\beta\le1-c_0(\delta)M^{-\delta}$. The deduction uses $\delta=1$. The full analytic statement is the one in the archive, with classical background in [Siegel1935] and [Davenport2000].
+
+### 4.9.4 Conditional counting proposition [Lean, read]
+
+Assume `PNTAPRelW` and `ExcBound`. For every $\varepsilon>0$ there is $x_0$ such that for every real $x\ge x_0$ and $U>0$, every positive $M$ divisible by $8$, and every $b$ coprime to $M$, the conditions
+$$
+\frac14(\log x)^2\log M\le \log U,\qquad
+x^{\varepsilon/6}\le\log U\le x^{\varepsilon/5}(\log x)^2
+$$
+imply $|P(M,b,U)|\ge U^{9/10}>0$. The threshold comes before the choice of $M,b,U$.
+
+**Proof.** Write $L=\log x$, $v=\log U$, $\Lambda=\log M$, and set $c=\min(c_0(1),1)$ and $k_0=\log(4(|A_0|+1))$. The witnesses in `count_a` give the threshold
+$$
+x_0=\exp\!\left(320+4|C_0|(5+\varepsilon/5)
+       +|4k_0/c_3|+|4k_0^2/c_3|
+       +|\log(320/c)|\right).
+$$
+Each summand is nonnegative, hence $L$ is at least each of the displayed summands. Fix $M,b,U$ in the claimed range and select the option for $M$. The real-zero bound with $c_0(1)$ also holds with the smaller constant $c$. The proof now passes these data to `count_pos`, which uses the lower bound $L^2\Lambda/4\le v$ and the upper bound $v\le x^{\varepsilon/5}L^2$.
+
+1. **Enter the PNT range (`range_ok`).** Since $M\ge8$, $\Lambda\ge1$. The two bounds just cited give $\Lambda\le4x^{\varepsilon/5}$ and $v\ge L^2/4$. In particular $v\ge4$, $v\ge80\Lambda$, and $U\ge2$. Also $\Lambda+2\le6x^{\varepsilon/5}$, so $\log(\Lambda+2)\le5+(\varepsilon/5)L\le(5+\varepsilon/5)L$. Multiply by $|C_0|$ and use the threshold to bound the product by $L^2/4$. This proves $C_0\Lambda\log(\Lambda+2)\le v$, including for negative $C_0$.
+
+2. **Keep a positive main term (`mainAP_lower`).** For $2\le a\le U$, continuity of $1/\log t$ on $[2,U]$ gives the integral difference, and its minimum on $[a,U]$ gives
+   $$
+   \operatorname{li}_2(U)-\operatorname{li}_2(a)\ge (U-a)/v.
+   $$
+   Thus $\operatorname{li}_2(a)\ge0$. Without an exceptional pair, use $a=2$ and $U-2\ge cU/(2M)$ (here $U\ge5$, $M\ge8$, $c\le1$). With a pair, $\beta\ge7/8$ and $v\ge4$ give $2\le U^\beta\le U$. The separation $\beta\le1-c/M$ and $v\ge1$ give $U^\beta\le U\exp(-c/M)$. For $0\le w\le1$, convexity on the segment from $0$ to $-1$ gives $\exp(-w)\le1-w/2$, since $\exp(-1)\le1/2$. Apply it to $w=c/M$ to obtain $U-U^\beta\ge cU/(2M)$. Because $\Re\chi(b)\le1$ and $\operatorname{li}_2(U^\beta)\ge0$, the integral difference at $a=U^\beta$ bounds the numerator from below even for the most adverse sign. Dividing the positive lower bound by $0<\varphi(M)\le M$ yields, in both cases,
+   $$
+   H_e(b,U)\ge \frac{cU}{2vM^2}.
+   $$
+
+3. **Make the relative loss at most one half (`err_le_half`).** The threshold and $L^2\ge L$ give $k_0,k_0^2\le c_3L^2/4$. Since $v/\Lambda\ge L^2/4$ and $v\ge L^2/4$, we have $c_3 v/\Lambda\ge k_0$ and $\sqrt{c_3v}\ge k_0$ (with $k_0\ge0$). Each exponential in $E$ is at most $e^{-k_0}=1/(4(|A_0|+1))$. Hence $|A_0|E\le1/2$. Positivity from step 2 lets us bound $A_0 EH_e$ by $H_e/2$. The absolute-error inequality in the PNT then gives $\pi(U;M,b)\ge H_e(b,U)/2$.
+
+4. **Budget for the short segment (`size_ineq`, `piAP_le_card_PPset_add`).** From $v\ge L^2/4$ and $L\ge320$ we get $v/20\ge L\ge\log(320/c)$. Also $v\le40e^{v/40}$ and $M^2=e^{2\Lambda}\le e^{v/40}$, the latter by $v\ge80\Lambda$. Splitting $e^v$ into factors with exponents $9v/10$, $v/20$, $v/40$, $v/40$ gives
+   $$
+   \frac{cU}{2vM^2}
+   \ \ge\ U^{9/10}\frac{c e^{v/20}}{80}
+   \ \ge\ 4U^{9/10}.
+   $$
+   Every prime counted by $\pi$ belongs to $P$ or to the integer interval $[1,\lfloor\sqrt U\rfloor]$. Thus $\pi\le |P|+\sqrt U$. Since $\sqrt U\le U^{9/10}$ for $U\ge1$, we conclude $|P|\ge 2U^{9/10}-\sqrt U\ge U^{9/10}$. $\square$
+
+The archive states `count_a` for real $U$ without an explicit positivity premise. In the $U=0$ branch the real power is zero. For $U<0$, Lean's real-power convention gives $\exp((9/10)\log U)\cos(9\pi/10)\le0$, so the same weak inequality follows from nonnegative cardinality. The positive-scale branch is the one used to prove nonemptiness.
+
+### 4.9.5 From candidate count to a window
+
+At either application of `stage`, write $P=P(M,b,U)$ and fix the list $\Xi$ of at most $R$ primitive characters of conductor $\le F\le\sqrt U$. For any subset $B$ of failing candidates, each of its members lies in the box-failure set $B_1$ or in a window-sum failure set $B_{2,\xi}$ for some $\xi\in\Xi$. The first set has size at most $|C_b|(FU)^{1/4}\le |C_b|U^{3/8}$. The count just proved is used twice in `stage`: first to turn $U>0$ into $P$ nonempty, and then to turn the absolute box loss into at most $\eta|P|/2$. For the latter use
+$$
+U^{21/40}\ge 2|C_b|/\eta,\qquad 9/10-3/8=21/40.
+$$
+The mean-square and uniformization inputs give $|B_{2,\xi}|\le\eta|P|/(2(R+1))$ per character at the stage threshold. The union bound gives $|B|\le\eta |P|$. Taking $B$ to be the entire failure set gives at least $(1-\eta)|P|$ survivors by the exact identity $|P|=|B|+|P\setminus B|$. For $0<\eta<1$, both factors in $(1-\eta)|P|$ are positive. The PNT option has already been accounted for inside $H_e$. The separate Jacobi-sum exception $n_*$ of §4.7.5 is an excluded index in a twist estimate and is handled within the mean-square supplier, with no additional deletion of an auxiliary prime here.
+
+**A scale with an existence threshold [Expository].** Fix $\varepsilon,\tau>0$, $K\ge1$, and a target modulus $N_0>0$ in the ranges of Theorem 4.7. Set $\eta=1/2$, $z=Y^{\varepsilon/5}$, $U_1=e^z$, $U_2=e^{z(\log Y)^2}$, and $T=\max(4,(4|C_b|)^{40/21})$. Take $Y$ beyond both stage thresholds, both counting thresholds (at $\varepsilon$ and $6\varepsilon/5$), and the progression-range thresholds from §4.4.5. Also require $Y\ge e^2$ and $z\ge\log T$, for example by adjoining $(\log T)^{5/\varepsilon}$ to the maximum. Then $U_2\ge U_1\ge T$, and the displayed box-loss inequality holds in both stages. At stage 1, $M=8,b=3$, so the range follows from $(\log Y)^2\log 8/4\le z$, $Y^{\varepsilon/6}\le z$ and $\log Y\ge1$. At stage 2, $M=16\,\mathrm{oddM}(z,q)$ varies with the first-stage prime $q$, but $\log M\le4z$ uniformly, so $(\log Y)^2\log M/4\le\log U_2$, and the CRT supplies the reduced class. With $\varepsilon'=6\varepsilon/5$, the lower logarithmic cutoff is $Y^{\varepsilon'/6}=z$, and the upper cutoff is $Y^{\varepsilon'/5}(\log Y)^2\ge\log U_2$. Each stage therefore retains at least $U_i^{9/10}/2>0$ candidates on these scales. The threshold is chosen before selecting $q$ and works for the second progression attached to any eligible first-stage $q$.
+
+In the archive, `stage1` and `stage2` pass the progression data to `stage`. The latter chooses $Y_0$ after fixing the analytic and sieve parameters, then uses $\log U\ge Y^{\varepsilon/6}$ and $U\ge1+\log U$ to enforce the cutoff in $U$. `pair_share` applies the complement count in both stages, and `pair_exists` sets $\eta=1/2$ and picks $q$ first and $d$ second. The wrapper `pairEx` takes $N_0=8M$ for the target modulus $M$ and includes the extra threshold for the logarithmic-derivative bound. Finally `winPairs` fixes the target character $\psi$ and the exponent $J$ supplied by `VWinAt ψ 401`. It asks `PairEx` for its threshold $Y_1$ at $(M,A)=(\psi.N,J)$, then chooses $X$ large enough that $X^{1/J}\ge Y_1$ before taking the pair at $Y=X^{1/J}$. This same pair is used for the whole rescaled window of §4.4.6. The consumer receives a threshold and pair witnesses. The inequality $|P|\ge U^{9/10}$ has already done its work in producing those witnesses.
+
+### 4.9.6 Source map and reading boundary
+
+The references identify the joined Alpöge–Claude archive, Lean `v4.33.1`, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` ([SOURCES, §1](../sources/SOURCES.md#1-the-lean-archive-primary-source)).
+
+| Step | Archive source |
+|---|---|
+| Finite progression count, exceptional pair, main term and relative PNT | `src/Formalism/GL3MeanSquares/SecondEstimateOfIntervalHypothesis.lean:50–51`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MeanSquareHypWIff.lean:24–46` |
+| Short-segment loss | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:13–30` |
+| Integral and convexity steps, including the full `mainAP_lower` supplier | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:32–173` |
+| Size, relative loss and PNT range | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:175–203,205–237,239–273` |
+| `count_pos` and threshold in `count_a` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:275–344,346–397` |
+| `stage` calls the count, proves positivity and absorbs losses | `src/Development/AutomorphicArithmetic/MeanSquareBounds/StagePow.lean:29–39,53–94,100–139,140–170` |
+| Two progression choices and exact complements | `src/Development/AutomorphicArithmetic/MeanSquareBounds/Stage1Succ.lean:41–83`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:61–79,120–149`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairShare.lean:16–24,32–52` |
+| Witness selection and window consumer | `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:13–43`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/pairEx.lean:112–130`, `src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:5–35,52–68` |
+
+**Reading status.** The complete proof bodies in `MSqCount`, including its direct counting suppliers, are [Lean, read] (local R3). The analytic inputs remain [Lean]: `pnt_progressions_relative_weak_holds` is assembled at `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:16–24`, and `ExcBound` is stated at `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52` and supplied at `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–32`. The inner proofs of the relative progression estimate and the Siegel input remain [Open] for the book's reading record. The P13 dependency closure retains the corresponding R2 entries.
+
+**Related community reading [Community].** The LUMI vacuity report traced the use of the positive counts in the pair and window wrappers and marked the two sieve stages for closer reading. [LUMI vacuity report](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/reports/vacuity-check.md)
+
+---
+
+## 4.10. Joining the two ranges of the relative progression estimate
+
+The candidate count in §4.9 needs a prime-counting error measured against the
+main term in the chosen residue class. If a real zero at $\beta$ is close to
+$1$, the main term can involve the difference of two large logarithmic
+integrals. An error measured against the ordinary logarithmic integral can then
+overwhelm the difference. The two estimates assembled in `PNTFinal` first
+control a sum of character errors on a common scale, $y\eta(M)$. Only after
+joining those estimates does the proof pass to prime counts.
+
+### 4.10.1. Two model calculations [Expository]
+
+Take $M=8$ and write $l=\log 8$. For a small parameter illustration, use
+near threshold $a=1/20$, an alternative far threshold $a_-=1/40$, and
+$\log y=4096$. Then $1.6<l<3.2$, so both the near estimate at $a$ and the far estimate at
+$a_-$ apply provided the far range constant satisfies
+$C_0 l\log(l+2)\le4096$. For example, the model value $C_0=16$ satisfies
+this check. For $X=y$ the resulting prime-count range condition is
+$32l\log(l+2)\le4096$, which holds as well. At this overlap point, trial rates $c_N=1/10$ and $c_F=1/2000$
+give the normalized factors $e^{-6.4}\approx0.001662$ and
+$e^{-2.048/l}\approx0.3735$, respectively, before multiplication by their
+individual constants. These trial constants illustrate the inequalities in
+the range statements.
+
+**No exceptional pair.** Set $e(8)=\mathrm{none}$. The character main term is
+$y$ for the principal character and zero for the other three. Here
+$\eta(8)=1$. For each reduced class, the prime-counting main term is
+$\operatorname{li}_2(X)/4$, where $\operatorname{li}_2(X)=\int_2^X dt/\log t$.
+
+**An exceptional pair in the model.** Use the quadratic character modulo $8$
+with values $(1,-1,-1,1)$ on $(1,3,5,7)$, and prescribe
+$\beta=999/1000$. This simulated separation satisfies
+$0<1-\beta<1/(8l)$ and gives $\eta(8)=l/1000\approx0.00207944$.
+For example, the trial region constant $c_Z=1/20$ puts this value of $\beta$
+inside the narrow region, since $1-\beta<c_Z/\log16$. The exceptional
+character's main term is $-y^\beta/\beta$. At the overlap point its magnitude
+relative to $y$ is $e^{-4.096}/0.999\approx0.01666$. The prime-counting main
+terms in classes $1$ and $3$ are respectively
+$(\operatorname{li}_2(X)-\operatorname{li}_2(X^\beta))/4$ and
+$(\operatorname{li}_2(X)+\operatorname{li}_2(X^\beta))/4$.
+The same two decay factors as above multiply $y\eta(8)$ on both sides of
+the splice. The exceptional data are counterfactual inputs to the formulas.
+The calculations supply no assertion of an exceptional zero for modulus $8$.
+
+### 4.10.2. The common normalization
+
+Let $M$ be a positive multiple of $8$, $l=\log M$, and
+$H(M)=l\log(l+2)$. Write $\psi_\chi(y)=\sum_{n\le y}\Lambda(n)\chi(n)$.
+The narrow region has boundary
+$\operatorname{Re}s=1-c_Z/\log(M(|\operatorname{Im}s|+2))$, with the
+boundary included. The archive takes $c_Z$ to be the smaller of a
+zero-free-region witness and $1/20$.
+
+An exceptional pair is a nonprincipal quadratic character $\chi_1$ modulo
+$M$ and a real zero $\beta$ of its $L$-function with
+$1-1/(8l)<\beta<1$. The selector $e(M)$ chooses such a pair inside the
+narrow region if one exists, otherwise chooses an exceptional pair in the
+wider interval if one exists, and returns none in the remaining case.
+Set $\eta(M)=1$ for none and $\eta(M)=\min(1,(1-\beta)l)$ for a selected
+pair. For $y\ge2$, use the character main term
+$F_\chi(y)=\mathbf{1}_{\chi=1}y-\mathbf{1}_{\chi=\chi_1}y^\beta/\beta$,
+where the second term is omitted for none. Define
+$S_M(y)=\sum_{\chi\bmod M}|\psi_\chi(y)-F_\chi(y)|$.
+
+For a reduced residue class $b$, put $\theta=\chi_1(b)\in\{-1,1\}$ if a
+pair is selected, and put $\theta=0$, $\beta=1$ otherwise. Write
+$P_b(X)=(\operatorname{li}_2(X)-\theta\operatorname{li}_2(X^\beta))/\varphi(M)$.
+Both range estimates use the same $e(M)$ and thus the same $F_\chi$, $\eta$,
+and eventual $P_b$. The narrow region used to choose or account for a zero
+is a region in the complex $s$-plane. The near and far estimates below are
+ranges of the real parameters $(M,y)$.
+
+### 4.10.3. Conditional splice and proof
+
+**Proposition 4.10.1 [Lean, read].** Use `abel_core`, the progression orthogonality identity and the prime-power removal bound cited in the source map as named inputs, and the numerical estimate `num_main` proved in §4.10.5. Assume the Dirichlet zero-free-region
+input `ZFRDirichlet`, the per-character bound `PsiChiBound`, and the
+real-zero separation input `ExcBound` at exponent $1$. Assume also the
+far-range inputs `ExplicitS`, `SharpenS`, and `ZeroSum` of §4.10.4.
+Then there are $a,c_N>0$ and $A_N\ge0$ for which
+$S_M(y)\le A_N y\eta(M)e^{-c_N\sqrt{\log y}}$ whenever
+$l\le a\sqrt{\log y}$. For each fixed $v>0$ there are $c_F>0$,
+$A_F\ge0$ and $C_F\ge0$ for which
+$S_M(y)\le A_F y\eta(M)e^{-c_F\log y/l}$ whenever
+$v\sqrt{\log y}<l$ and $\log y\ge C_F H(M)$. Both estimates assume $y\ge2$
+and $M$ as above. Choose the far constants at $v=a$, and set
+$c=\min(c_N,c_F)$, $A=A_N+A_F$, $C_0=C_F$. Then, throughout
+$y\ge2$, $\log y\ge C_0 H(M)$,
+
+$$
+S_M(y)\le A y\eta(M)\bigl(e^{-c\log y/l}+e^{-c\sqrt{\log y}}\bigr).
+$$
+
+Let $c_1>0$ be the uniform constant in $\eta(M)\ge c_1/M$ derived below.
+With $d=\min(c/2,c^2/2)$, $D=\max(2C_0,16)$ and
+$B=10 A+5632e^{2d}/c_1$, every real $X\ge2$ with
+$\log X\ge D H(M)$ and every natural $b$ coprime to $M$ satisfy
+
+$$
+|\pi(X;M,b)-P_b(X)|
+\le B\bigl(e^{-d\log X/l}+e^{-\sqrt{d\log X}}\bigr) P_b(X).
+$$
+
+**Proof, near range.** The zero-free-region input says that a zero in the
+narrow region is simple, real, attached to a nonprincipal quadratic
+character, and unique over all characters at this modulus. Such a zero is
+in the wider exceptional interval since
+$c_Z/\log(2M)<1/(8l)$, and the nonvanishing on $\operatorname{Re}s\ge1$
+gives the strict upper endpoint. Selection therefore picks its character
+and value. For each character the finite list of narrow-region zeros
+required by `PsiChiBound` is empty unless the selected pair lies in the
+narrow region and belongs to that character. In that case the list is the
+singleton containing the selected zero. Simplicity supplies the required
+nonzero derivative, and uniqueness gives exhaustiveness.
+
+Fix the constants $k>0$ and $C$ of `PsiChiBound` at $c_Z$. That input
+bounds the character error with the narrow-list main term by
+$Cy e^{-k\sqrt{\log y}}$ if $M\le e^{k\sqrt{\log y}}$. Set
+$a=\min(k/4,c_Z)$ and $s=\sqrt{\log y}$. The hypothesis $l\le as$
+implies the modulus bound of the input. If there is no selected pair or
+the character differs from the selected character, its empty-list main
+term already agrees with $F_\chi$. The singleton case agrees as well.
+
+There remains the selected character with a zero in the wider interval
+outside the narrow region. The empty-list estimate holds, and moving to
+$F_\chi$ adds at most $y^\beta/\beta$. The wider interval and $M\ge8$
+give $\beta\ge1/2$. Exclusion from the narrow region gives
+$(1-\beta)\log(2M)>c_Z$. Using $\log(2M)\le2l\le2c_Zs$ and
+$\log y=s^2$ yields $(1-\beta)\log y\ge s/2$. Consequently
+
+$$
+y^\beta/\beta\le 2y e^{-(1-\beta)\log y}\le2y e^{-s/2}.
+$$
+
+The triangle inequality now gives $|C|y e^{-ks}+2y e^{-s/2}$ as a bound
+in every case. There are $\varphi(M)\le M$ characters.
+
+For the relative normalization, let $h>0$ be the separation witness
+$1-\beta\ge h/M$ in `ExcBound`. Take $c_1=\min(1,h\log3)$.
+For $M\ge3$, $c_1/M\le1$, and, in the selected case,
+$c_1/M\le (1-\beta)l$. Thus $M\eta(M)\ge c_1$ in either case.
+Converting the sum of absolute bounds to a bound with $\eta$ costs a
+second factor of $M$. In fact $2a\le k/2$ and $2a\le1/10$, so with
+$c_N=\min(k/2,2/5)$ both $M^2e^{-ks}$ and $M^2e^{-s/2}$ are at most
+$e^{-c_Ns}$. This gives $A_N=(|C|+2)/c_1$. This is the chain from
+`rangeA_far_term` and the empty and singleton lists through
+`rangeA_one_char` to `psi_relative_near_range`.
+
+**Proof, far range.** Fix $v>0$. Use the strip width $\kappa$ supplied by
+`ZeroSum`, the uniform explicit-formula witness $C$ at $\kappa$, and
+the zero-sum witnesses $(c_z,A_z,C_z)$ at height exponent $12$. Use the numerical estimate `num_main` (Lemma 4.10.3). The
+proof takes $T=M^{12}$, $\delta=M^{-5}$ and $t=y^{-\kappa/2}$. For each
+character, `ExplicitS` gives a finite zero list $Z_\chi$ with weights
+$m_\chi(\rho)$, and an error bounded at both differencing points
+$y,(1+\delta)y$ by
+
+$$
+E=C\bigl((MT)^C t+\log(2y)\log^2(MT)/T\bigr).
+$$
+
+Let $W_\chi=\sum_{\rho\in Z_\chi}(m_\chi(\rho)-w_\chi(\rho))
+y^{\operatorname{Re}\rho-1}$, where $w_\chi(\rho)=1$ exactly when $(\chi,\rho)=(\chi_1,\beta)$ is the
+selected pair, and $w_\chi(\rho)=0$ elsewhere. This is nonnegative.
+The matching estimate `one_char` accounts for a selected zero missing
+from the list by at most $2yt$ in its own character. Indeed, completeness
+above $1-\kappa/2$ at height $T$ forces a missing real zero below that
+line. If the selected zero is present, one copy cancels with the term in
+$F_\chi$. The remaining explicit-formula sum is bounded by $2y W_\chi$
+since every listed real part is at least $1/2$, so $|\rho|\ge1/2$, and $|y^\rho|=y^{\operatorname{Re}\rho}$. To see the matching identity directly, write the error with the selected main term as the formula residual minus the sum weighted by $m_\chi-w_\chi$, plus the difference between the selected term and the sum weighted by $w_\chi$. The triangle inequality gives the sum of the three bounds.
+The weighted sum in the differencing error is at most $W_\chi+1$ for the
+selected character and $W_\chi$ for all others. With $\delta\le1/2$,
+`SharpenS` therefore bounds the sum of character errors by
+
+$$
+M\bigl(4yE/\delta+4(\delta y+1)\log(2y)\bigr)
++22y\sum_\chi W_\chi+20\delta y+2yt.
+$$
+
+Here the first summand uses the bound $M$ for the number of characters,
+and the last two terms are charged at most once. The numerical estimate
+`num_main` bounds the terms outside the zero sum by $B_*/M^2$ times $y$,
+for a uniform $B_*\ge0$ and $\log y\ge C_* H(M)$ in the strict far
+range. The zero-sum input bounds $\sum_\chi W_\chi$ by
+$|A_z|\eta e^{-c_z\log y/l}$ for $\log y\ge C_zH(M)$.
+Choose $c_F=\min(c_z,v^2)$ and $C_F=\max(C_z,C_*)$.
+Since $v\sqrt{\log y}<l$, one has $M^{-1}\le e^{-c_F\log y/l}$.
+Use $M^{-1}\le\eta/c_1$ on the other inverse modulus. This yields
+$A_F=22|A_z|+B_*/c_1$. Here $C_*>0$ by the choice in `num_main`.
+
+**Proof, splice.** The two actual branches of `glue_ranges` are
+$l\le a\sqrt{\log y}$ and $a\sqrt{\log y}<l$. Equality calls the near
+estimate. In the first branch, lowering its exponent to $c$ increases
+the exponential because $\sqrt{\log y}\ge0$. In the second branch the
+same holds because $\log y/l\ge0$. In each branch enlarge its coefficient
+to $A$ and add the other nonnegative exponential. These operations
+preserve the inequality since $y\eta\ge0$. The Lean proof permits
+amplitudes of either sign and uses $\max(A_N,0)+\max(A_F,0)$, which
+agrees with $A$ here. The far constants are chosen once after $a$ is fixed.
+
+**Proof, transfer to prime counts.** For $\sqrt X\le y\le X$,
+$\log y\ge(\log X)/2\ge C_0H(M)$. Also $\log X\ge16l$ because
+$l\ge\log8>2$ and $\log(l+2)>1$. This ensures $y\ge2$. Character
+orthogonality gives the progression Chebyshev main term
+$(y-\theta y^\beta/\beta)/\varphi(M)$, with error bounded by
+$S_M(y)/\varphi(M)$: the coefficient $\chi(b^{-1})$ has modulus one
+and its value for the exceptional term is $\theta$. Put $L=\log X$ and
+$R=e^{-dL/l}+e^{-\sqrt{dL}}$. The inequalities
+$c\log y\ge dL$ and $c\sqrt{\log y}\ge\sqrt{dL}$ bound the Chebyshev
+error by $D_1 y$ throughout that interval, where
+$D_1=A\eta R/\varphi(M)$.
+
+The supplies to `pi_core` give a partial-summation error at most
+$5D_1X/L+40\sqrt X$ for the weighted prime-power count with weights
+$1/j$ on $p^j$. Removing powers $j\ge2$ adds at most $4\sqrt X L$.
+The resulting main term is $P_b(X)$, with the same lower limit $2$ for
+both logarithmic integrals. To turn this into a relative estimate,
+write $P_*=X\eta/(2L\varphi(M))$. If $\theta\le0$, integrate on
+$[X/2,X]$ to see $P_b(X)\ge P_*$. If $\theta=1$, the difference of
+integrals is at least $(X-X^\beta)/L$. Since
+$(1-\beta)L\ge\eta$ and $0<\eta\le1$, convexity gives
+$e^{-(1-\beta)L}\le e^{-\eta}\le1-\eta/2$, so again $P_b(X)\ge P_*$.
+
+The first error is $10 A R P_*$. The other errors total at most
+$44\sqrt X L$ since $L\ge1$. Use $L^2\le64 e^{L/4}$,
+$\sqrt{dL}\le2d+L/8$, $2l\le L/8$, and
+$\eta/\varphi(M)\ge c_1 e^{-2l}$. In succession these give
+
+$$
+44\sqrt X L\le 2816 e^{3L/4}/L
+\le 2816 e^{2d-\sqrt{dL}+L-2l}/L
+\le (5632e^{2d}/c_1)R P_*.
+$$
+
+Combining the errors and enlarging $P_*$ to $P_b(X)$ proves the claim.
+This is the transfer in `prime_count_of_psi` and `pi_core`, conditional
+on the stated numerical and partial-summation supplies.
+
+### 4.10.4. Scope and source map
+
+The proved assembly has a seam at $\log y=(l/a)^2$. With the exactly
+matching thresholds in the source, there is no point where both branch
+hypotheses hold. The quantifier over the far threshold supplies an
+optional overlap: fix any $0<a_-<a$ and use the far theorem at $a_-$.
+Then both estimates hold when
+$(l/a)^2\le\log y<(l/a_-)^2$, subject to
+$\log y\ge C_F(a_-)H(M)$ and $y\ge2$. This band is nonempty for
+sufficiently large $M$ because $H(M)/l^2\to0$. On it either estimate
+bounds the very same absolute error and one may take their minimum.
+The far exponent there is
+$c_F(\sqrt{\log y}/l)\sqrt{\log y}$, with
+$1/a\le\sqrt{\log y}/l<1/a_-$, so both estimates decay on the
+square-root logarithmic scale. One choice of constants works for all
+allowed $M,y,X,b$ once the analytic witnesses and thresholds have been fixed.
+The source gives no uniform witnesses as $a_-$ varies down to zero and
+claims no effective numerical value for the Siegel-dependent constant.
+In the prime-counting range $L\ge D l\log(l+2)$ the two decay terms tend
+to zero as $X\to\infty$, uniformly over the permitted moduli: split at a
+fixed large $l$ and then let $L\to\infty$ for the bounded $l$ part.
+The proposition is for positive multiples of $8$ and for reduced classes
+at the prime-counting stage. It allows every real $X$ above its
+modulus-dependent lower threshold.
+
+`PNTFinal` supplies `ExplicitS` by the smoothed explicit formula and
+`SharpenS` by the differenced formula. `ZeroSum` is the relative bound
+on the weighted zeros after subtracting one copy of the selected pair.
+Its supplier uses the spaced zero-density bound `LogDensityM` and the
+lossy Deuring–Heilbronn input `DeuringHeilbronnMB`. These named analytic
+inputs and the partial-summation estimates cited below delimit the proof.
+The numerical estimate is proved in §4.10.5. In particular, the separation witness used twice in
+the normalization comes from `excBound`, which in the archive uses
+Siegel's lower bound. Classical background is available in Davenport,
+*Multiplicative Number Theory*, third edition, and Siegel's class-number
+paper, pp. 83–86. The precise ranges and relative normalization here are
+those of the archive. [Davenport2000](https://link.springer.com/book/9780387950976) · [Siegel1935](https://doi.org/10.4064/AA-1-1-83-86)
+
+In P13 the resulting `PNTAPRelW` supplies the progression estimate in
+§4.9. Invoke its existing `count_pos` and `count_a` interfaces, with
+their own range and `ExcBound` hypotheses, for $|\mathcal P|\ge U^{9/10}$.
+The supply proved here is the prime-distribution input to those interfaces.
+
+The following paths are relative to the root of the joined Lean archive
+with SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+R3 applies to the listed proof bodies. The analytic dependency closure
+remains R2.
+
+| Role | Archive path and lines | Status |
+|---|---|---|
+| Definitions of the selector, weight, main terms and conditional interfaces | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/DeuringHeilbronnM.lean:13–111`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MeanSquareHypWIff.lean:24–46` | Definitions |
+| Selector, narrow-region uniqueness deduction and the relative weight bound | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTEOf.lean:11–195` | [Lean, read] |
+| Character matching, outer exceptional term and relative near estimate | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTRangeA.lean:11–239` | [Lean, read] |
+| Conditional far assembly from explicit formula, differencing and zero sum | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsm.lean:15–166` | [Lean, read] |
+| Common bound and final wiring | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTGlue.lean:11–56`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:16–24` | [Lean, read] |
+| Transfer to the relative prime count | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PrimeCountOfPsi.lean:12–91`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiC.lean:11–212` | [Lean, read] |
+| Far-range numerical bound | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:7–63,88–158` | [Lean, read], §4.10.5 |
+| Modulus factor and exceptional term matching | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:65–86`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmB.lean:11–153` | [Lean, read] |
+| Smoothed formula, differencing, zero sum, density and repulsion | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHBSt.lean:11` | [Lean] |
+| Character orthogonality, weighted prime-power removal and Abel summation | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:44`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:102`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:135`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:145`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiB.lean:212` | [Lean] |
+| Zero-free region and per-character bound, exceptional separation and Siegel input | `src/Formalism/LandauZeroFreeBounds/Statement.lean:9`, `src/Formalism/LandauZeroFreeBounds/NoZeroComplex.lean:32`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:10–31`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:23`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32`, `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52` | [Lean] |
+
+The inner proofs in the [Lean] rows remain [Open] for the book’s reading record.
+
+### 4.10.5 The far-range numerical absorption lemma `num_main`
+
+The far-range proof in §4.10.3 cites one purely numerical estimate, `num_main`. This subsection proves it, follows its actual arguments in `psi_relative_far_range`, and shows where its output is spent. No analytic input enters the lemma itself. The analytic witnesses enter only as the three positive numbers to which it is applied.
+
+#### 4.10.5.1 Motivation
+
+Let $M$ be a positive multiple of $8$, put $l=\log M$, and let $y\ge2$. The far-range proof applies the explicit formula with truncation height $T=M^{12}$, differences with step $\delta=M^{-5}$, and writes $t=y^{-\kappa/2}$. Here $\kappa\in(0,1/20]$ is the strip width of `ZeroSum` and $C>0$ is the `ExplicitS` constant at $\kappa$. Both differencing points $y$ and $(1+\delta)y$ lie in $[y,2y]$, so the explicit-formula error is at most $E=C\bigl((MT)^Ct+\log(2y)\log^2(MT)/T\bigr)$ at both. Once the weighted zero sum $\sum_\chi W_\chi$ has been separated, the sum of the character errors is bounded by $22y\sum_\chi W_\chi$ plus
+
+$$
+N(M,y)=M\Bigl(\frac{4yE}{\delta}+4(\delta y+1)\log(2y)\Bigr)+20\delta y+2yt .
+$$
+
+The zero sum is controlled on the scale $y\eta(M)e^{-c\log y/l}$. To bring $N$ to the same scale, the proof first shows $N\le B_*yM^{-2}$. It then spends the two inverse moduli, one on the normalization $\eta(M)\ge c_1/M$ and one on the decay $e^{-c\log y/l}$.
+
+The bound $N\le B_*yM^{-2}$ mixes two kinds of tails. Some summands carry negative powers of $M$, from $\delta$ and $T$. Others carry the negative power $t=y^{-\kappa/2}$ of $y$, against the polynomial loss $(MT)^C=M^{13C}$. Write $y=M^u$, that is, $u=\log y/l$. Then $t=M^{-\kappa u/2}$, so the saving $y^{-\kappa/2}$ becomes the saving of a fixed power of $M$ once $u$ is bounded below. The later conversion $M^{-1}\le e^{-cu}$ needs the upper bound $u\le l/c$. The far range is the window of $u$ in which both conversions hold.
+
+#### 4.10.5.2 Three calculations at one modulus [Expository]
+
+The lemma below holds for every positive triple $(v,\kappa,C)$. Here $v$ is the far-range parameter, the archive's `cA`. For the calculations take the placeholder triple $v=\kappa=1/20$ and $C=1$. The values of $v$ and $\kappa$ are the largest that the archive permits. The far parameter actually used is the near-range constant $a=\min(k/4,c_Z)\le1/20$, and `ZeroSum` has $\kappa\le1/20$. The value of $C$ is arbitrary. The arithmetic is a genuine instance of the lemma, but it identifies none of the archive's analytic witnesses. With these values
+
+$$
+D_v=1+v^{-2}=401,\qquad C_*=5+\frac{26C+20}{\kappa}=925,\qquad B_*=4C+676CD_v+8D_v+22=274310 .
+$$
+
+Take $M=2^{10}=1024$. Then $l=10\log2\approx6.93147$, $H(M)=l\log(l+2)\approx15.1770$, $C_*H(M)\approx14038.7$ and $(l/v)^2=400l^2\approx19218.1$. Split $N$ into the five summands $N_1,\dots,N_5$ of §4.10.5.3. Divided by $yM^{-2}$ they are
+
+$$
+\frac{N_1}{yM^{-2}}=4M^{21-u/40},\qquad
+\frac{N_2}{yM^{-2}}=\frac{4\log(2y)(13l)^2}{M^4},\qquad
+\frac{N_3}{yM^{-2}}=4\log(2y)\Bigl(\frac{1}{M^2}+\frac{M^3}{y}\Bigr),
+$$
+
+$$
+\frac{N_4}{yM^{-2}}=\frac{20}{M^3},\qquad
+\frac{N_5}{yM^{-2}}=2M^{2-u/40}.
+$$
+
+The proof of the lemma gives them the budgets $4C=4$, $676CD_v=271076$, $8D_v=3208$, $20$ and $2$, whose sum is $B_*$.
+
+**Below the lower threshold: $\log y=5000$.** Here $u\approx721.35$. The far condition holds, since $v\sqrt{\log y}\approx3.54<l$. The range condition fails, since $5000<14038.7$. The absorption itself fails as well: $\kappa u\approx36.07<26C+16=42$, so $t=M^{-18.03}$ does not beat $M^{13C+8}=M^{21}$. Indeed
+
+$$
+\frac{N_1}{yM^{-2}}=4M^{2.966}=4e^{20.561}\approx3.40\cdot10^{9}>B_* .
+$$
+
+The other four quotients are about $1.5\cdot10^{-4}$, $1.9\cdot10^{-2}$, $1.9\cdot10^{-8}$ and $10^{-48}$. Hence $N(M,y)>B_*yM^{-2}$, so at this point the conclusion of the lemma is false, not merely unproved. Neither range estimate of Proposition 4.10.1 claims the point. The near condition $l\le a\sqrt{\log y}$ fails, and the common threshold $C_0=C_F\ge C_*$ excludes it.
+
+**Inside the window: $\log y=15000$.** Here $u\approx2164.04$, $14038.7\le15000<19218.1$ and $v\sqrt{\log y}\approx6.124<l$. The three absorption conditions $u\ge5$, $\kappa u\ge26C+16$ and $\kappa u\ge4$ hold, since $\kappa u\approx108.2$. The five quotients and their budgets are
+
+| Summand | Quotient by $yM^{-2}$ | Budget |
+|---|---|---|
+| $N_1$ | $4e^{145.56-375}\approx9.1\cdot10^{-100}$ | $4$ |
+| $N_2$ | $4\cdot15000.69\cdot8119.6/2^{40}\approx4.43\cdot10^{-4}$ | $271076$ |
+| $N_3$ | $4\cdot15000.69/2^{20}\approx5.72\cdot10^{-2}$ | $3208$ |
+| $N_4$ | $20/2^{30}\approx1.86\cdot10^{-8}$ | $20$ |
+| $N_5$ | $2e^{13.86-375}\approx2.9\cdot10^{-157}$ | $2$ |
+
+So $N(M,y)\approx0.0577\,yM^{-2}\le B_*yM^{-2}$. The differencing summand $N_3$ dominates, and every budget is lossy by many orders of magnitude.
+
+**Beyond the seam: $\log y=20000$.** Now $v\sqrt{\log y}\approx7.071>l$, so the far hypothesis fails, and the splice gives this point to the near estimate. The numerical inequality still holds, since the five quotients add up to about $0.077$. The conversion is what breaks. Take $c_F=v^2$, the largest value its definition permits. Then $c_Fu\approx7.213>l$ and $e^{-c_Fu}\approx7.37\cdot10^{-4}<M^{-1}\approx9.77\cdot10^{-4}$. Far beyond the seam the inequality fails too. The quotient for $N_2$ exceeds $B_*$ once $\log(2y)>B_*M^4/(4C(13l)^2)\approx9.3\cdot10^{12}$, because a truncation height fixed at $M^{12}$ cannot control $\log y$ for astronomically large $y$.
+
+#### 4.10.5.3 Definitions
+
+Let $v,\kappa,C>0$, let $M\ge8$ and $y\ge2$ be real, and put $l=\log M$. Write
+
+$$
+T=M^{12},\qquad \delta=M^{-5},\qquad t=y^{-\kappa/2},\qquad u=\frac{\log y}{l},\qquad H(M)=l\log(l+2).
+$$
+
+For $M>0$ the archive's real power $M^{(12:\mathbb R)}$ equals the natural power $M^{12}$. Thus $MT=M^{13}$, $(MT)^C=e^{13Cl}$ and $\log(MT)=13l$. The **far-range budget** is $N(M,y)=N_1+\dots+N_5$, where
+
+$$
+N_1=4CyM^6(MT)^Ct,\qquad N_2=\frac{4Cy\log(2y)\log^2(MT)}{M^6},\qquad N_3=4M(\delta y+1)\log(2y),
+$$
+
+$$
+N_4=20\delta y,\qquad N_5=2yt .
+$$
+
+Thus $N_1+N_2=M\cdot4yE/\delta$ with $E$ as in §4.10.5.1. This is literally the left side of `num_main`, with $T$, $\delta$ and $t$ substituted as in `psi_relative_far_range`.
+
+The five summands have the following roles [Expository; their sources are the named inputs of §4.10.3]:
+
+- $N_1$ is the first part of the explicit-formula error, the decay $y^{-\kappa/2}$ against the height and conductor loss $(MT)^C$.
+- $N_2$ comes from truncating the zero sum at height $T$.
+- $N_3$ is the differencing term of `SharpenS`. Heuristically, $\Lambda(n)\le\log(2y)$ on the at most $\delta y+1$ integers of an interval of length $\delta y$.
+- $N_4$ is the share of the selected zero in the differencing zero sum, charged once because $\sum_\chi\mathbf 1_{\chi=\chi_1}\le1$.
+- $N_5$ pays for a selected zero absent from the explicit-formula list. Such a zero lies below $1-\kappa/2$.
+
+The factor $M$ in $N_1$, $N_2$ and $N_3$ counts characters, since $\varphi(M)\le M$.
+
+Define the constants
+
+$$
+D_v=1+v^{-2},\qquad C_*=5+\frac{26C+20}{\kappa},\qquad B_*=4C+676CD_v+8D_v+22 .
+$$
+
+The **window** at $M$ is the set of $y\ge2$ with $C_*H(M)\le\log y<(l/v)^2$. Equivalently,
+
+$$
+C_*\log(l+2)\le u<\frac{l}{v^2}.
+$$
+
+The right end is the strict far condition $v\sqrt{\log y}<l$. The left end implies $u\ge C_*$, because $l\ge1$ gives $\log(l+2)\ge\log3\ge1$.
+
+#### 4.10.5.4 The lemma
+
+**Lemma 4.10.2 (algebraic core, `num_alg`) [Lean, read].** Let $M,y,C,K,P,t,g,m$ be real numbers with
+
+$$
+1\le M,\quad M^5\le y,\quad C\ge0,\quad K\ge0,\quad P\le M^{-8},\quad t\le M^{-2},\quad g\le KM^2,\quad 0\le m\le13M .
+$$
+
+Then
+
+$$
+M\Bigl(4yC\Bigl(P+\frac{gm^2}{M^{12}}\Bigr)M^5+4(M^{-5}y+1)g\Bigr)+20M^{-5}y+2yt\le(4C+676CK+8K+22)\,yM^{-2}.
+$$
+
+No sign condition is imposed on $P$, $t$ or $g$.
+
+**Lemma 4.10.3 (far-range numerical absorption, `num_main`) [Lean, read].** Let $v,\kappa,C>0$, and let $D_v$, $C_*$ and $B_*$ be as in §4.10.5.3. Then $C_*\ge0$ and $B_*\ge0$. For all real $M\ge8$ and $y\ge2$ with
+
+$$
+C_*\,l\log(l+2)\le\log y\qquad\text{and}\qquad v\sqrt{\log y}<l,
+$$
+
+one has $N(M,y)\le B_*\,y\,M^{-1}M^{-1}$. The proof gives the individual bounds $N_1\le4CyM^{-2}$, $N_2\le676CD_v\,yM^{-2}$, $N_3\le8D_v\,yM^{-2}$, $N_4\le20yM^{-2}$ and $N_5\le2yM^{-2}$.
+
+*Quantifiers and endpoints.* The archive states $\forall v,\kappa,C>0\ \exists C_*,B_*\ge0\ \forall M,y$, and its witnesses are the displayed closed forms. Thus $C_*$ depends only on $(\kappa,C)$, and $B_*$ only on $(v,C)$. Neither depends on $M$, $y$, a character or a residue class. The hypotheses $M\ge8$, $y\ge2$ and the range inequality are non-strict. The far inequality is strict, matching `glue_ranges`, which sends equality to the near estimate. Of $M\ge8$ and $y\ge2$ the proof uses only $M\ge3$ (so that $l\ge1$), $y>0$ and $\log y\ge0$. Of the far condition it uses only the consequence $v^2\log y<l^2$.
+
+#### 4.10.5.5 Proof
+
+*Proof of Lemma 4.10.2.* From $M\ge1$ and $M^5\le y$ we get $M>0$ and $y\ge0$. Clearing denominators,
+
+$$
+M\cdot4yC\Bigl(P+\frac{gm^2}{M^{12}}\Bigr)M^5=4Cy\Bigl(M^6P+\frac{gm^2}{M^6}\Bigr).
+$$
+
+Since $M^6\ge0$, $M^6P\le M^6M^{-8}=M^{-2}$. From $0\le m\le13M$ we get $m^2\le169M^2$. Because $m^2\ge0$ and $KM^2\ge0$, $gm^2\le KM^2m^2\le169KM^4$, and dividing by $M^6>0$ gives $gm^2/M^6\le169KM^{-2}$. As $4Cy\ge0$, the first part is at most $4Cy(1+169K)M^{-2}=(4C+676CK)yM^{-2}$. Next, $4M(M^{-5}y+1)\ge0$, so
+
+$$
+4M(M^{-5}y+1)g\le4M(M^{-5}y+1)KM^2=4K\bigl(yM^{-2}+M^3\bigr)\le8KyM^{-2},
+$$
+
+where $M^3\le yM^{-2}$ is the hypothesis $M^5\le y$. Finally, $M^{-5}\le M^{-2}$ gives $20M^{-5}y\le20yM^{-2}$, and $2yt\le2yM^{-2}$ because $2y\ge0$. Adding the four bounds gives $(4C+676CK+8K+20+2)yM^{-2}$. $\square$
+
+*Proof of Lemma 4.10.3.* Nonnegativity of $C_*$ and $B_*$ follows from $\kappa,C>0$ and $D_v>0$. Fix $M$ and $y$ as in the statement. We verify the hypotheses of Lemma 4.10.2 for
+
+$$
+P=(MT)^Ct,\qquad t=y^{-\kappa/2},\qquad g=\log(2y),\qquad m=\log(MT),
+$$
+
+with the same $C$ and with $K=D_v=1+v^{-2}$.
+
+1. *Logarithms.* Since $M\ge8>e$, $l\ge1$, hence $l+2\ge3>e$ and $\log(l+2)\ge1$. Also $l\le M-1\le M$.
+2. *The lower end of the window.* Multiply $\log(l+2)\ge1$ by $C_*l\ge0$ and use the range hypothesis: $C_*l\le\log y$, that is, $u\ge C_*$.
+3. *One inequality for both $y$-tails.* Multiply by $\kappa>0$. Since $\kappa C_*=5\kappa+26C+20$ and $5\kappa l\ge0$,
+
+   $$
+   (26C+20)\,l\le\kappa\log y .
+   $$
+
+4. *$M^5\le y$.* Since $C_*\ge5$, $5l\le C_*l\le\log y$, and the logarithm is increasing.
+5. *The power tail.* With $(MT)^C=e^{13Cl}$ and $t=e^{-(\kappa/2)\log y}$, the claim $P\le M^{-8}$ reads $13Cl-\tfrac{\kappa}{2}\log y\le-8l$, i.e. $(26C+16)l\le\kappa\log y$. This follows from step 3 because $4l\ge0$.
+6. *The second $y$-tail.* Likewise $t\le M^{-2}$ reads $4l\le\kappa\log y$, which follows from step 3 because $(26C+16)l\ge0$.
+7. *The logarithm of $2y$.* Squaring the far condition, whose two sides are nonnegative, gives $v^2\log y<l^2$ (`logy_lt`). Hence $\log y\le l^2v^{-2}\le M^2v^{-2}$ by step 1. With $\log2\le1\le M^2$,
+
+   $$
+   \log(2y)=\log2+\log y\le M^2+v^{-2}M^2=D_vM^2 .
+   $$
+
+8. *The logarithm of $MT$.* $\log(MT)=13l\in[0,13M]$ by step 1.
+
+Lemma 4.10.2 now gives the claim, and $M^{-2}=M^{-1}M^{-1}$. The individual bounds are the four estimates of its proof, with the first split into $4C$ for $N_1$ and $676CD_v$ for $N_2$. $\square$
+
+Steps 3, 5 and 6 convert the tails $y^{-\kappa/2}$ into powers of $M$, all from the single inequality of step 3. Step 4 is needed only for the summand $4M\log(2y)$ of $N_3$, which carries no factor $y$. Step 7 is the only use of the far condition. Beyond $\log(l+2)\ge1$ the factor $\log(l+2)$ plays no role here. It gives the threshold the same shape as the range of `ZeroSum`, so the two thresholds merge as $C_F=\max(C_z,C_*)$.
+
+#### 4.10.5.6 Remarks
+
+**Where the output is spent [Lean, read, §4.10.3].** In `psi_relative_far_range` the lemma is called once, as `num_main cA κ C`, with $v$ equal to the far parameter `cA`. Through `glue_ranges` this parameter is the near-range constant $a=\min(k/4,c_Z)$. The other two arguments are $\kappa$, from `ZeroSum`, and $C$, from `ExplicitS` at that $\kappa$. The same $C$ is the zero-counting constant passed to `ZeroSum`, together with the height exponent $12$ that matches $T=M^{12}$. The choices are therefore made in the order $a$, $\kappa$, $C$, $(c_z,A_z,C_z)$, $(C_*,B_*)$, $c_1$. In the window, the two inverse moduli are spent as follows:
+
+$$
+B_*yM^{-1}M^{-1}\le B_*y\cdot\frac{\eta(M)}{c_1}\cdot e^{-c_F\log y/l},\qquad c_F=\min(c_z,v^2).
+$$
+
+The first factor uses $c_1M^{-1}\le\eta(M)$, with $c_1=\min(1,h\log3)$ and $h$ the `ExcBound` witness at exponent $1$. If $e(M)$ is none, $\eta=1\ge c_1/M$. If a pair $(\chi_1,\beta_1)$ is selected, then $1-\beta_1\ge h/M$ and $l\ge\log3$ give $(1-\beta_1)l\ge c_1/M$. The second factor is `inv_le_exp`, through $c_F\log y\le v^2\log y<l^2$. Under its own threshold $C_zH(M)\le\log y$, the zero sum is at most $|A_z|\,\eta\,e^{-c_z\log y/l}\le|A_z|\,\eta\,e^{-c_F\log y/l}$. The power tail of this lemma and the exponential tail of `ZeroSum` thus reach the same normal form, under the same threshold $C_FH(M)\le\log y$ and the same window condition:
+
+$$
+\sum_\chi|\psi_\chi(y)-F_\chi(y)|\le\Bigl(22|A_z|+\frac{B_*}{c_1}\Bigr)\,y\,\eta(M)\,e^{-c_F\log y/l}.
+$$
+
+At the prime-counting stage of §4.10.3, $y$ runs over $[\sqrt X,X]$, so $u$ runs over $[\tfrac12\log X/l,\ \log X/l]$. This interval may straddle the seam. For that reason the two range estimates are spliced before the transfer, and the constant $D=\max(2C_0,16)$ of Proposition 4.10.1 places the whole interval above the common threshold.
+
+**A legal parameter set with margin [Expository].** Keep $v=\kappa=1/20$ and $C=1$. For the analytic witnesses take the placeholders $h=1/10$, $c_z=1/100$, $A_z=1$ and any $C_z\le C_*$. Then $c_1=(\log3)/10\approx0.10986$, $c_F=v^2=1/400$, $C_F=C_*=925$ and $A_F=22+B_*/c_1\approx2.4969\cdot10^6$. In the second calculation above, with $M=2^{10}$, the converted factor is $A_Fe^{-c_Fu}\approx1.1\cdot10^4$: the bound is true but useless there. Margin requires $c_Fu>\log A_F\approx14.73$, that is $u>5892$. Since $c_Fu\le v^2u<l$ in the window, it also forces $l>14.73$. Take $M=2^{30}$, so $l\approx20.7944$, and $u=7000$, i.e. $\log y=7000l\approx145560.9$. Then:
+
+- the range holds: $C_*H(M)\approx60138.0\le145560.9$;
+- the far condition holds: $v\sqrt{\log y}\approx19.08<20.79$;
+- the left side is $N(M,y)\approx5.1\cdot10^{-13}\,yM^{-2}$, with $N_3$ again dominant;
+- the conversion holds: $c_Fu=17.5\le l$ and $M^{-1}\approx9.3\cdot10^{-10}\le e^{-17.5}\approx2.51\cdot10^{-8}$;
+- for $\eta$ only the inequality $c_1/M\approx1.02\cdot10^{-10}\le\eta(M)$ is used.
+
+The far-range bound becomes
+
+$$
+\sum_\chi|\psi_\chi(y)-F_\chi(y)|\le A_Fe^{-17.5}\,y\eta(M)\approx0.063\,y\eta(M).
+$$
+
+This is a proper fraction of the scale $y\eta(M)$ on which §4.10.3 measures the main term and proves the prime-counting lower bound $P_b(X)\ge P_*$. With these placeholders the estimate has margin only for $M>A_F$, in particular only above $B_*/c_1$. The archive obtains $c_1$ through Siegel's lower bound and gives no numerical value for it, so the source supplies no numerical modulus threshold. The placeholders certify nothing about `ZeroSum`, `ExplicitS` or `ExcBound`.
+
+**The shape of the window.** The window is nonempty exactly when $l/v^2>C_*\log(l+2)$. For the placeholders this means $l>4.2307$, or $M>68.8$, and $72$ is the first multiple of $8$ beyond it. At $M=8$ the lower end $\log y=2704.3$ exceeds the upper end $1729.6$. At $M=64$ the lower end $6993.4$ exceeds the upper end $6918.5$. For such moduli every $y$ above the range threshold satisfies $l\le v\sqrt{\log y}$, so the near estimate covers the whole range and the far branch is never used. As $v$ decreases the window widens, but $B_*=(676C+8)v^{-2}+680C+30$ grows and $c_F\le v^2$ shrinks. For the numerical part, this quantifies the remark of §4.10.4 that the source gives no witnesses uniform as the far parameter tends to zero.
+
+**Why $12$, $5$ and $2$.** The final $M^{-2}$ pays for exactly the two inverse moduli of the conversion. Each of $N_1$, $N_2$ and $N_3$ carries the character count $M$, and $N_1$ and $N_2$ also carry $1/\delta=M^5$, for $M^6$ in all. The truncation summand therefore has $M^6\log(2y)(13l)^2/T$. The far condition and $l\le M$ make $\log(2y)(13l)^2$ at most $169D_vM^4$, so $T=M^{6+2+4}=M^{12}$ is the height at which $N_2$ fits the budget. Given only $\log(2y)\le D_vM^2$, the step $\delta=M^{-5}$ is the largest for which $4M\delta y\log(2y)\le4D_v\,yM^{-2}$. Its reciprocal $M^5$ is what $N_1$ and $N_2$ pay. Once $u\ge5$, also $\delta y\ge1$, which absorbs the $+1$ in $N_3$. The exponents are convenient, not optimized.
+
+**Classical comparison [Community].** Tao's lecture notes on Linnik's theorem prove a special case of Gallagher's prime number theorem in progressions [Gallagher1970], with relative error $\exp(-c\log x/\log q)$ for $x\ge q^C$, following Chapter 18 of Iwaniec–Kowalski. They too truncate the explicit formula at a fixed power of the modulus: Exercise 5 takes $T=q^2$, with error $O(xq^{-2}\log^2q)$ for $x\ge q^C$. The hint points out that a naive truncation gives $\log^2x$ instead of $\log^2q$ when $x$ is extremely large compared with $q$, and that removing the last factor $\log x$ needs more than the bound $\Lambda(n)\le\log n$. The notes' Theorem 2 keeps the power saving $O(\log^2q/q)$ as a separate error term next to $\exp(-c\log x/\log q)$. The archive meets both points differently. It keeps the factor $\log(2y)$ in $N_2$ and bounds it by $D_vM^2$ through the far condition, which confines the lemma to the far range. It then converts the power saving into the far-range normal form instead of carrying it separately. [Tao2015](https://terrytao.wordpress.com/2015/02/22/254a-notes-7-linniks-theorem-on-primes-in-arithmetic-progressions/) · [Gallagher1970](https://doi.org/10.1007/BF01403187)
+
+#### 4.10.5.7 Source map and reading boundary
+
+Paths are relative to the root of the joined Lean archive with SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The archive files read for this subsection (`PNTBAsmA`, `PNTBAsm`, `PNTBAsmB`, `DeuringHeilbronnM`, `PNTEOf`, `PNTGlue`, `PNTRangeA` and `PNTFinal`) were compared byte for byte with the members of that tarball.
+
+| Role | Archive path and lines | Status |
+|---|---|---|
+| `num_alg`, statement and proof | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:7–55` | [Lean, read] |
+| $1\le\log x$ for $x\ge3$, and $(M^n)^{-1}=e^{-n\log M}$ | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:57–63` | [Lean, read] |
+| `num_main`, statement, witnesses and proof | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:88–158` | [Lean, read] |
+| Squared far condition and $M^{-1}\le e^{-c\log y/l}$ | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:65–86` | [Lean, read], §4.10.3 |
+| The call, $T$, $\delta$, $t$ and $E$, and the conversion of the output | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsm.lean:15–22,38,46–57,128–166` | [Lean, read], §4.10.3 |
+| Origin of $N_4$, $N_5$ and the character count | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmB.lean:30–153` | [Lean, read], §4.10.3 |
+| `PsiRelB`, `ExplicitS`, `SharpenS`, `ZeroSum`, `PsiRelBOf` and the weight $\eta$ | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/DeuringHeilbronnM.lean:19–22,47–75,92–111` | Definitions |
+| $c_1M^{-1}\le\eta(M)$ (`etaOf_lower`) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTEOf.lean:141–167` | [Lean, read], §4.10.3 |
+| The value of $v$ and the splice | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTRangeA.lean:161–167`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTGlue.lean:22–25`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22–24` | [Lean, read], §4.10.3 |
+| Suppliers of $\kappa$, $C$, $E$, the differencing and the zero sum | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13` | [Lean] |
+| Supplier of $h$, through Siegel's lower bound | `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–32` | [Lean] |
+
+The proof bodies of Lemmas 4.10.2 and 4.10.3 are read in full (local R3). Their remaining dependencies are order and field lemmas and facts about $\log$, $\exp$ and real powers in Mathlib at the pinned commit `0df444a`, used at statement level [Lean]. Examples are `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307`), `Real.rpow_def_of_pos` and `Real.rpow_natCast` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:51,62`) and `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`). The numerical lemma is unconditional. Reading it raises the status of no analytic supplier. The smoothed explicit formula (`PNTExplMain`), the differencing (`PNTSharp`), the zero sum (`PNTZSumL`) with its zero-density (`PNTDens`) and Deuring–Heilbronn (`DeuringHeilbronnMB`, `PNTDHB`) inputs, and the Siegel input keep R2. Their proofs remain [Open] for the book's reading record.
 
 ---
 
