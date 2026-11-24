@@ -120,10 +120,405 @@ $\mathbb C\setminus\{1\}$ with the classical meromorphic continuation of the Dir
 Mathlib's total function must return *some* value; it returns
 $\zeta(1)=(\gamma-\log 4\pi)/2$ [Lean] (`riemannZeta_one`,
 `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:418`). This "junk value" is the reason for the
-hypothesis $s\ne1$. In fact the hypothesis is not even needed: the junk value is nonzero, and
+hypothesis $s\ne1$. Section 1.2.2.2 derives this value from the Gamma-normalized subtraction. The assigned value is nonzero, and
 Mathlib proves $\zeta(s)\ne0$ on the whole closed half-plane $\Re s\ge1$, including $s=1$
 [Lean] (`riemannZeta_ne_zero_of_one_le_re`,
 `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:411`).
+
+#### 1.2.2.1 How the theta integral produces the even Hurwitz pole
+
+The even Hurwitz series converges on $\Re s>1$. Its theta integral has two endpoints, and each asks for a different subtraction. The large-$t$ limit depends on the shift, while the leading term at zero has the same coefficient for every shift. The latter is the source of the common pole used in Section 1.3.2.
+
+**Two shifts.** At $a=1$, reindexing $n+1$ leaves each positive absolute distance twice after omitting distance zero. At $a=1/2$, the distances are $m+1/2$ for $m\ge0$, also with multiplicity two. Thus in the starting half-plane the even series give $E_1(s)=\zeta(s)$ and $E_{1/2}(s)=2^s\sum_{m\ge0}(2m+1)^{-s}=(2^s-1)\zeta(s)$. We will obtain their residues directly from the kernels.
+
+**Definition.** For $a\in\mathbb R/\mathbb Z$, use any real representative in the sums
+
+$$
+ f_a(t)=\sum_{n\in\mathbb Z}e^{-\pi(n+a)^2t},\qquad
+ g_a(t)=\sum_{n\in\mathbb Z}e^{2\pi i n a}e^{-\pi n^2t},\qquad t>0.
+$$
+
+Translation by an integer reindexes $f_a$ and leaves the phases of $g_a$ unchanged. Pairing opposite indices makes $g_a$ real. Gaussian comparison on $t\ge\eta>0$ gives locally uniform convergence. Let $\delta_a=1$ for the zero class and $0$ otherwise, and use $t^w=\exp(w\log t)$ with the real logarithm.
+
+The input from **Gaussian Poisson summation** is $f_a(t)=t^{-1/2}g_a(1/t)$. In Mathlib, the kernel proof substitutes $z=ait$ and $\tau=it$ into the two-variable Jacobi theta transformation. Then $z/\tau=a$ and $-1/\tau=i/t$. The exponential multiplier cancels $e^{-\pi a^2t}$, leaving the reciprocal of the positive square root of $-i\tau=t$. The theta transformation invokes `Complex.tsum_exp_neg_quadratic`, retained here as an imported Poisson input [Lean]. [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:132–153](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L132-L153) · [Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean:465–490](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean#L465-L490) · [Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean:87](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean#L87)
+
+**Lemma (the modified Mellin integral).** The function
+
+$$
+ A_a(s)=\frac12\int_1^\infty t^{s/2-1}(f_a(t)-\delta_a)\,dt
+       +\frac12\int_1^\infty t^{(1-s)/2-1}(g_a(t)-1)\,dt
+$$
+
+is entire. For $\Re s>1$ one has
+
+$$
+ \frac12\int_0^\infty t^{s/2-1}(f_a(t)-\delta_a)\,dt
+   = A_a(s)-\frac{\delta_a}{s}+\frac1{s-1}.
+$$
+
+The right-hand side continues the completed even series meromorphically. It has a simple pole of residue $1$ at $s=1$ and has residue $-\delta_a$ at zero, where it is holomorphic if $\delta_a=0$.
+
+**Proof.** Choose $0\le a<1$. Splitting the integer indices gives distances $m+a$ and $m+1-a$, $m\ge0$. For $b>0$, $(m+b)^2\ge b^2+m$, so the sum for distances $m+b$ is bounded by $e^{-\pi b^2t}/(1-e^{-\pi t})$. For $b=0$, delete $m=0$ and use the bound with $b=1$. The denominators are bounded below for $t\ge1$. The $n=0$ term of $g_a$ is $1$, and the other terms have total modulus at most $2e^{-\pi t}/(1-e^{-\pi t})$. Therefore $f_a(t)-\delta_a=O(e^{-ct})$ for some $c>0$ and $g_a(t)-1=O(e^{-\pi t})$.
+
+At zero, inversion gives $f_a(t)-\delta_a=t^{-1/2}-\delta_a+O(t^{-1/2}e^{-\pi/t})$. Put $w=s/2$. At infinity the original Mellin integral converges absolutely for every $w$. At zero its integrand has modulus asymptotic to $t^{\Re w-3/2}$, so absolute convergence holds exactly for $\Re w>1/2$. The leading power also prevents conditional convergence. For $\Re w<1/2$, its truncated integral grows in modulus like a constant times $\epsilon^{\Re w-1/2}$, and the constant-kernel contribution is of smaller order, including its logarithmic growth when $w=0$. On $\Re w=1/2$ the leading integral has a logarithmic divergence at $w=1/2$ and an oscillating cutoff term at other points. The constant-kernel contribution converges there, and the exponential remainder is integrable for every $w$.
+
+Define the modified kernel by $f_a(t)-t^{-1/2}$ on $(0,1)$, by $f_a(t)-\delta_a$ on $(1,\infty)$, and by zero at $1$. A singleton has measure zero. The lower piece is $t^{-1/2}(g_a(1/t)-1)$. With $u=1/t$ the product $t^{w-1}t^{-1/2}\,dt$ becomes $-u^{1/2-w-1}\,du$. Reversing the limits sends the lower piece to $\int_1^\infty u^{1/2-w-1}(g_a(u)-1)\,du$. This change can first be made on a truncated interval. The transformed integrand is integrable at infinity for every $w$, so the cutoff can be removed. This proves that $A_a(s)$ is half the modified Mellin transform.
+
+On any bounded disk of $s$, both upper integrands are bounded by a constant times $t^M e^{-c't}$ for a suitable real $M$ and $c'>0$. Their derivatives in $s$ introduce $\pm(\log t)/2$. The resulting bound is integrable, and also bounds difference quotients along segments inside the disk by integration of the derivative along the segment. Dominated convergence therefore gives complex differentiability at every center.
+
+The modified kernel minus the original kernel $f_a-\delta_a$ is $\delta_a-t^{-1/2}$ below $1$ and vanishes above it. For $\Re w>1/2$ the two correcting integrals converge separately. Their truncated power integrals are $(1-\epsilon^w)/w$ and $(1-\epsilon^{w-1/2})/(w-1/2)$. The constant correction requires $\Re w>0$ if its coefficient is nonzero. The $t^{-1/2}$ correction requires $\Re w>1/2$. In the latter half-plane the cutoff terms vanish. The transform of the difference is consequently $\delta_a/w-1/(w-1/2)$. Subtracting this from the modified transform, dividing by two and using $w=s/2$ gives $A_a(s)-\delta_a/s+1/(s-1)$.
+
+For the series identification, let $\sigma=\Re s>1$. For $d=|n+a|>0$, substitution $u=\pi d^2t$ gives the integral of the absolute value of the weighted Gaussian as $\Gamma(\sigma/2)(\pi d^2)^{-\sigma/2}$. These bounds are summable since $d\ge |n|/2$ for large $|n|$. Thus the integral and sum can be exchanged. The same substitution with the complex exponent gives $\Gamma(s/2)(\pi d^2)^{-s/2}$, so the original half-integral is $G(s)E_a(s)$, where
+
+$$
+ G(s)=\pi^{-s/2}\Gamma(s/2),\qquad
+ E_a(s)=\frac12\sum_{\substack{n\in\mathbb Z\\n+a\ne0}}|n+a|^{-s}
+ \quad(\Re s>1).
+$$
+
+Write $C_a(s)$ for the continued completed expression. Its rational terms give the residues. Away from $0$ and $1$ define the continuation of $E_a$ by $C_a/G$. The reciprocal of $G$ is entire, and $G(1)=1$ by $\Gamma(1/2)=\sqrt\pi$. Since $\Gamma$ has residue $1$ at zero, $sG(s)$ extends holomorphically there with value $2$. The quotient of $sC_a(s)$ by this function gives $E_a(0)=-\delta_a/2$, with holomorphy at zero. At $1$, $E_a$ has residue $1$ and the precise subtraction used by Lean is
+
+$$
+ E_a(s)-\frac{1}{(s-1)G(s)}
+   =\frac{A_a(s)-\delta_a/s}{G(s)}.
+$$
+
+The right side is holomorphic near $1$. Lean's total division sets the pole term to zero at $1$, so the same equality there follows from its defining expression. The meromorphic residue is read on the punctured neighborhood. $\square$
+
+**Hand calculation.** At $a=1$, $f_1(t)=g_1(t)=1+2\sum_{m\ge1}e^{-\pi m^2t}$. The upper integral subtracts $1$, and the lower correction to the completed function is $-1/s+1/(s-1)$. The residues of $C_1$ at $0,1$ are $-1,1$, respectively. Division by the gamma factor gives $E_1(0)=-1/2$.
+
+At $a=1/2$, $f_{1/2}(t)=2\sum_{m\ge0}e^{-\pi(m+1/2)^2t}$ has leading term $2e^{-\pi t/4}$ at infinity. Its partner is $g_{1/2}(t)=1+2\sum_{m\ge1}(-1)^m e^{-\pi m^2t}$, so near zero $f_{1/2}(t)=t^{-1/2}(1-2e^{-\pi/t}+O(e^{-4\pi/t}))$. The upper integral has no constant to subtract. The lower correction is $1/(s-1)$, so $C_{1/2}$ is holomorphic at zero, $E_{1/2}(0)=0$, and the residue at $1$ is still $1$. The values at zero agree with $\zeta(0,a)=1/2-a$ at these two shifts. The residue at $1$ also agrees with the factor $2^1-1=1$ in the half-integer example. [DLMF §25.11(i), (v)](https://dlmf.nist.gov/25.11) · [DLMF 25.11.13](https://dlmf.nist.gov/25.11.E13)
+
+**Source note.** The archive SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Its manifest, at `lean/lake-manifest.json:6–13`, pins Mathlib to `0df444a360eaa60ab8c11dca51a86af692955474`. The following local proofs are [Lean, read].
+
+- **Pole subtraction.** The theorem at line 630 removes the update at zero on a neighborhood of $1$. It uses the completed-function decomposition at line 305 and the entire modified transform at line 417. The FE pair supplies weight $1/2$, scalar $1$, and constants $(\delta_a,1)$. It obtains its exponential bounds by Gaussian comparison. [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:223–315](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L223-L315) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:417–419](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L417-L419) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:630–642](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L630-L642)
+- **Production of the correction.** In the namespace `WeakFEPair`, `f_modif` makes the two subtractions, `f_modif_aux1` records the difference including the singleton, and `f_modif_aux2` evaluates its Mellin transform. The theorem `hasMellin` subtracts this transform from `Λ₀`. For entireness, `differentiable_Λ₀` uses the pair modified to have zero constants, with inversion giving rapid decay at zero from the partner's decay at infinity. [Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean:149–182](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L149-L182) · [Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean:212–232](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L212-L232) · [Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean:247–418](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L247-L418)
+- **Analytic suppliers.** The Mellin proof bounds the integrand by endpoint powers and its parameter derivative by nearby powers times a logarithm. The Dirichlet series proof uses summability of the integrals of the Gaussian norms. At zero, Lean uses the quotient limit and a removable-singularity theorem to justify the update. The local gamma normalization uses the entire reciprocal and the limit of $sG(s)$ at zero. Section 1.2.2.2 gives the local reading of the removable-singularity and reciprocal Gamma producers. The general parameter-integral and Poisson theorems remain [Lean]. [Mathlib/Analysis/MellinTransform.lean:228–283](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/MellinTransform.lean#L228-L283) · [Mathlib/Analysis/MellinTransform.lean:320–406](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/MellinTransform.lean#L320-L406) · [Mathlib/NumberTheory/LSeries/MellinEqDirichlet.lean:24–131](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/MellinEqDirichlet.lean#L24-L131) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:528–547](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L528-L547) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:554–619](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L554-L619) · [Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:77–111](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L77-L111)
+
+#### 1.2.2.2 Removing the Gamma factor at zero and at one
+
+At an integer shift the completed even Hurwitz function has a pole at zero, but the ordinary even function has value $-1/2$ there. At a quarter shift de-completion instead creates a zero of the even part. At one the ordinary Hurwitz function has a simple pole, and the Mathlib function stores a finite value from a holomorphic remainder. Both assignments can be understood by identifying the holomorphic function whose value is being stored.
+
+Write $E_a$ and $O_a$ for the ordinary even and odd parts, and $H_a=E_a+O_a$ for the full function. Let $P_a$ be the completed even function and $A_a$ its entire part. Write $G(s)=\pi^{-s/2}\Gamma(s/2)$, $q=1/G$, and $\delta_a=1$ for the zero class in $\mathbb R/\mathbb Z$ and $0$ otherwise. The even Mellin construction in §1.2.2.1 supplies
+$$
+ P_a(s)=A_a(s)-\frac{\delta_a}{s}+\frac1{s-1}.
+$$
+This formula also describes the total functions if division by zero returns zero. Write $[f]_{c\gets v}$ for $f$ with its value at $c$ replaced by $v$. We use the odd continuation and reflection in §1.3.2.1 and the series identifications in §§1.2.2.1 and 1.3.2.
+
+**Lemma (holomorphy of an update).** Let $f$ be holomorphic on a punctured disk at $c$. If $(z-c)f(z)\to0$, then $f$ has a unique holomorphic extension. If $v$ is its punctured limit, the extension is exactly $[f]_{c\gets v}$.
+
+**Proof.** Set $F(z)=(z-c)f(z)$ away from $c$ and $F(c)=0$. This is continuous and holomorphic off $c$. In applying Morera's theorem to $F$, cut a disk of radius $\epsilon$ out of any triangle meeting $c$. Cauchy's theorem applies to the remaining region. The new arcs have total length at most $2\pi\epsilon$ and the discarded straight segments have length tending to zero. Since $F$ is bounded near $c$, these integrals tend to zero. Thus $F$ is holomorphic. Its Taylor series has zero constant coefficient, so dividing by $z-c$ gives a holomorphic function with center value $F'(c)$ and the same punctured values as $f$. Continuity gives uniqueness and identifies $F'(c)$ with any previously calculated punctured limit. $\square$
+
+In the Lean proof the hypothesis is $(f(z)-f(c))=o((z-c)^{-1})$, where $f(c)$ is an arbitrary stored value. Multiplication by $z-c$ gives the same zero limit, because $(z-c)f(c)\to0$. Lean proves the continuous-center case by applying a Cauchy power-series theorem on a closed ball with the singleton as the countable exceptional set. It applies that case to $F$ and then to the divided difference of $F$ at $c$. Off $c$ this difference is holomorphic by the quotient rule. At $c$ its assigned value is $F'(c)$, and continuity there is the definition of the derivative of $F$. Continuity also identifies the punctured limit with $F'(c)$, so updating with the punctured limit gives exactly the differentiable divided difference. [Lean, read] [Mathlib/Analysis/Complex/RemovableSingularity.lean:34–86](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Complex/RemovableSingularity.lean#L34-L86)
+
+**Lemma (the reciprocal Gamma zero).** The function $q$ is entire, with simple zeros at $-2n$ for $n\ge0$. Its expansion at zero is $q(s)=s/2+O(s^2)$, and $q(1)=1$.
+
+**Proof.** Use the recurrence, holomorphy and nonvanishing of $\Gamma$ in the right half-plane, and the values $\Gamma(1)=1$ and $\Gamma(1/2)=\sqrt\pi$. Let $R(z)$ be the total reciprocal of $\Gamma(z)$, assigned zero at the nonpositive integers. The recurrence gives $R(z)=zR(z+1)$ everywhere, including at zero by the assigned values. For any center one can choose an integer $m\ge0$ with $\Re(z+m)>0$ on a neighborhood of the center. There
+$$
+ R(z)=\frac{z(z+1)\cdots(z+m-1)}{\Gamma(z+m)}
+$$
+with the empty product equal to $1$. This is holomorphic. At $z=-n$, with $m>n$, precisely one factor vanishes and it vanishes simply. Now $q(s)=\pi^{s/2}R(s/2)$. Near zero its recurrence expression is $\pi^{s/2}(s/2)/\Gamma(1+s/2)$, and the half-integer Gamma value gives $q(1)=1$. $\square$
+
+Lean proves reciprocal entireness by induction on a shift into the right half-plane. The Deligne factor composes with division by two and multiplies by a nonzero entire power of $\pi$. Its residue proof uses $(s/2)\Gamma(s/2)\to1$ on the punctured filter and $2\pi^{-s/2}\to2$. [Lean, read] [Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:513–535](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L513-L535) · [Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:73–115](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L73-L115)
+
+**Proposition (Laurent orders and specified values).** Let $P$ be holomorphic off the center $c$ of a disk with at most a simple pole there, and let $q$ be holomorphic on the disk. Write $r$ for the residue of $P$ and $B=P-r/(s-c)$ for its holomorphic part. If $q$ has a simple zero at $c$, then $qP$ extends holomorphically with value $rq'(c)$. An update agrees with that extension precisely when its specified value equals $rq'(c)$. If $q(c)\ne0$, the product has residue $rq(c)$ and has a simple pole when $r\ne0$. Subtracting $rq(s)/(s-c)$ gives a holomorphic extension with center value $q(c)B(c)$. Subtracting $rq(c)/(s-c)$ instead gives center value $q(c)B(c)+rq'(c)$.
+
+**Proof.** Write $w=s-c$ and $q(s)=q(c)+wU(s)$ with $U(c)=q'(c)$ and $U$ holomorphic. Multiplication gives
+$$
+ q(s)P(s)=\frac{rq(c)}{w}+rU(s)+q(s)B(s).
+$$
+This proves the extension identities and the necessity of the specified center value by continuity. For a nonzero meromorphic germ the order is its least Laurent exponent. Orders add because the leading coefficients multiply. A simple pole and simple zero therefore give order zero, while a holomorphic $P$ acquires one additional order of vanishing when $q$ has a simple zero. The at-most-simple-pole hypothesis itself follows if $wP$ has a finite limit: apply the update lemma to $wP$ and divide its Taylor series by $w$. $\square$
+
+At zero take $r=-\delta_a$. The actual definition of $E_a$ updates $qP_a$ with $-\delta_a/2$, so it agrees on the whole disk with the holomorphic extension. The Lean producer uses the punctured identity $P_a/G=(sP_a)/(sG)$ to get this limit. Away from zero and one, the product is differentiable and the update agrees on a neighborhood. At zero, the raw total quotient is zero, and convergence of the punctured quotient makes it bounded and hence $o(1/s)$. The update lemma gives differentiability of the specified update. [Lean, read] [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:554–619](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L554-L619)
+
+Near one set $B_a(s)=A_a(s)-\delta_a/s$. In the total-function convention the following identity holds on the full neighborhood, including one:
+$$
+ E_a(s)-\frac{q(s)}{s-1}=q(s)B_a(s).
+$$
+Indeed the rational pole term of $P_a$ evaluates to zero at one, and the only update in $E_a$ is at zero. The stored values are $E_a(1)=B_a(1)$ and $H_a(1)=B_a(1)+O_a(1)$. The odd part is entire and the meromorphic germs of $E_a$ and $H_a$ have residue $1$. Their ordinary Laurent constants differ from the stored values by $q'(1)$. Subtraction of two shifts also cancels the identical function $q(s)/(s-1)$ at every point of the neighborhood. This is the holomorphic identity consumed by the finite sum with weights of total sum zero. [Lean, read] [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:621–661](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L621-L661) · [Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:82–107](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L82-L107) · [Mathlib/NumberTheory/LSeries/ZMod.lean:122–129](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L122-L129)
+
+**Integer shift.** Take $a=1$, the zero class. Delete the zero distance and pair each positive distance with its negative. The even half-sum is $\zeta(s)$ and the odd half-sum cancels, giving $O_1\equiv0$ by entireness and uniqueness. At zero $P_1(s)=-1/s+O(1)$, so $q(s)P_1(s)=-1/2+O(s)$. The residue $-1$ and the simple inverse Gamma zero give the order-zero value $H_1(0)=E_1(0)=-1/2$.
+
+Put $w=s-1$. Use the Laurent constant $\gamma$ of $\zeta$ at one, produced in §1.2.2.3, and $\psi(1/2)=-\gamma-2\log 2$ for the logarithmic derivative of $\Gamma$, produced in §1.2.2.4. Then
+$$
+ G'(1)=\frac{\psi(1/2)-\log\pi}{2}
+       =-\frac{\gamma+\log(4\pi)}2,\qquad q'(1)=-G'(1).
+$$
+Multiplying $\zeta(1+w)=1/w+\gamma+O(w)$ by $G(1+w)=1+wG'(1)+O(w^2)$ gives $P_1(1+w)=1/w+\gamma+G'(1)+O(w)$. The stored value at one is therefore
+$$
+ H_1(1)=E_1(1)=\gamma+G'(1)=\frac{\gamma-\log(4\pi)}2.
+$$
+The ordinary Laurent constant is $\gamma$ and its residue is $1$. At zero the series terms are ones, and at one the series is harmonic. Both diverge. [DLMF 5.4.13](https://dlmf.nist.gov/5.4#E13) · [DLMF 25.2.4–5](https://dlmf.nist.gov/25.2#E4)
+
+**Quarter shift.** For $a=1/4$ the negative shift is represented by $3/4$. On $\Re s>1$ their one-sided series use the progressions $1$ and $3$ modulo four, each with scale $4^s$. Before scaling, the sum of the two progressions is $(1-2^{-s})\zeta(s)$, and their difference is $\beta(s)=\sum_{n\ge0}(-1)^n(2n+1)^{-s}$. Consequently, for $s\ne1$,
+$$
+ E_{1/4}(s)=m(s)\zeta(s),\qquad m(s)=\frac{2^s(2^s-1)}2,\qquad
+ O_{1/4}(s)=\frac{4^s}{2}\beta(s).
+$$
+The sine series at $1/4$ identifies $\beta$ with the entire sine zeta function. The identities extend by uniqueness to $\mathbb C\setminus\{1\}$; at $s=1$ the first one fails for the total functions, since the stored values differ by $3\log 2$ (computed below). The alternating-series remainder for real $s\ge1$ is bounded by the reciprocal of the first omitted odd integer. Hence the limit at one equals the alternating sum. Integrate the finite geometric sum in $-x^2$ on $[0,1]$. The integral of the remainder is at most $\int_0^1x^{2M+2}\,dx$ after indices $0,\ldots,M$, giving $\beta(1)=\int_0^1(1+x^2)^{-1}\,dx=\pi/4$.
+
+The odd completion uses $G(s+1)$, with values $1$ and $1/\pi$ at zero and one. The completed odd reflection identifies the odd completion at zero with the sine completion at one. Thus $O_{1/4}(0)=\beta(1)/\pi=1/4$ and $O_{1/4}(1)=2\beta(1)=\pi/2$. For the even part, $m(0)=0$ and $m'(0)=(\log 2)/2$. Since $\zeta(0)=-1/2$, the even function has a simple zero, and multiplication by $G(s)=2/s+O(1)$ gives $P_{1/4}(0)=-(\log 2)/2$. The completed residue is zero and the inverse Gamma zero survives in $E_{1/4}$, whose update is $0$. Hence $H_{1/4}(0)=1/4$.
+
+At one $m(1)=1$ and $m'(1)=3\log 2$. The even expansion starts with $1/w+\gamma+3\log 2$, and the full expansion with $1/w+\gamma+3\log 2+\pi/2$. Subtracting $q(s)/(s-1)$ gives the actual stored values
+$$
+ \begin{aligned}
+ E_{1/4}(1)&=\frac{\gamma-\log(4\pi)}2+3\log 2,\\
+ H_{1/4}(1)&=\frac{\gamma-\log(4\pi)}2+3\log 2+\frac{\pi}{2}.
+ \end{aligned}
+$$
+In particular $H_{1/4}-H_1$ extends at one with value $3\log 2+\pi/2$, because the residues cancel. At one the full and even series diverge by harmonic comparison. The odd series converges there, but its absolute tail diverges. At zero the full series terms are ones, and the alternating beta terms have modulus one. Grouping the latter in pairs at zero produces zero partial sums along only one subsequence and cannot justify substitution into the original series. [DLMF 25.11.1, 25.11.13](https://dlmf.nist.gov/25.11)
+
+**Source note.** The zero-value proof for $\zeta$ unfolds the update. The one-value proof identifies the limit of the Gamma-normalized subtraction with the limit obtained from continuity at the actual stored value. The quarter-shift evaluations are deductions from these interfaces and the series and reflection identities. The [proof map](../notes/proof-map.md#p1-chapter-1-removable-values) records the pinned paths and the imported inputs. [Mathlib/NumberTheory/LSeries/RiemannZeta.lean:119–156](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L119-L156) · [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:386–422](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L386-L422)
+
+#### 1.2.2.3 The Laurent constant at one: harmonic sums, the integral error and the stored value
+
+Section 1.2.2.2 took the Laurent constant $\gamma$ of $\zeta$ at one as a classical input and derived the stored value $\zeta(1)=(\gamma-\log 4\pi)/2$ from it. This subsection closes that supply. It follows the Mathlib proof that produces $\gamma$ as a limit of harmonic sums, converts the limit along the real axis to a limit in the complex plane, and identifies the stored value. Three numbers attached to the point $s=1$ have to be kept apart throughout:
+
+| Name | Formula | Where it comes from |
+|---|---|---|
+| Laurent constant | $\gamma=\lim_{s\to1}\bigl(\zeta(s)-\tfrac1{s-1}\bigr)$ | the harmonic sums below |
+| normalized derivative | $G'(1)=-\tfrac{\gamma+\log 4\pi}2$, where $G(s)=\pi^{-s/2}\Gamma(s/2)$ | the Gamma factor, §1.2.2.2 |
+| stored value | $\zeta(1)=\gamma+G'(1)=\tfrac{\gamma-\log 4\pi}2$ | the two together |
+
+Only the first is a property of the Riemann zeta function. The second is a property of the normalization chosen in the Mellin construction, and the third is what the total function `riemannZeta` returns at the pole.
+
+**Example (the ordinary harmonic sum).** Write $H_N=\sum_{k=1}^N 1/k$. Compare $H_N$ with $\log N$ through the integral of $1/x$. On $[k,k+1]$ the function $1/x$ lies between $1/(k+1)$ and $1/k$, so $1/(k+1)<\log(k+1)-\log k<1/k$. Summing from $k=1$ to $N$ gives $H_{N+1}-1<\log(N+1)<H_N$. The two sequences $a_N=H_N-\log(N+1)$ and $b_N=H_N-\log N$ therefore satisfy $0<a_N$ and $b_N\le 1$, and they differ by $\log(1+1/N)\to0$. The common limit is Euler's constant. Taking $N=6$ gives $H_6=49/20$, $a_6=49/20-\log7$ and $b_6=49/20-\log 6$, which is how Mathlib proves $1/2<\gamma<2/3$. The sequence $H_N-\log N$ does not converge fast: the error is about $1/(2N)$. The point of the construction below is that a suitably weighted version of the same error has a finite sum, and that this sum controls $\zeta$ near one.
+
+**Definition (the integral error).** For an integer $n\ge1$ and real $s>0$ put
+$$
+ t_n(s)=\int_n^{n+1}\frac{x-n}{x^{s+1}}\,dx ,\qquad T(s)=\sum_{n\ge1}t_n(s).
+$$
+Each $t_n(s)$ is nonnegative. In Mathlib the index is shifted: `term (n + 1) s` is our $t_{n+1}(s)$, and `termTSum s` is $T(s)$. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:61–85](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L61-L85)
+
+The integrand is the Euler summation kernel. Integrating $x^{-s-1}$ against the sawtooth $x-n$ on each unit interval records the error made when the sum $\sum n^{-s}$ is replaced by the integral $\int x^{-s}\,dx$. The next two lemmas evaluate $t_n$ in closed form at $s=1$ and for $s>1$.
+
+**Lemma (Euler's constant as a limit).** The sequence $a_N=H_N-\log(N+1)$ is strictly increasing and the sequence $b_N=H_N-\log N$, $N\ge1$, is strictly decreasing. Both converge to the same real number $\gamma$, and $a_N<\gamma<b_N$ for every $N\ge1$.
+
+**Proof.** The inequality $\log y<y-1$ for $y>0$, $y\ne1$, gives everything. For $a$, $a_{N+1}-a_N=\frac1{N+1}-\log\frac{N+2}{N+1}$, and with $y=\frac{N+2}{N+1}$ the logarithm is less than $y-1=\frac1{N+1}$, so the difference is positive. For $b$, $b_{N+1}-b_N=\frac1{N+1}-\log\frac{N+1}{N}$, and with $y=\frac{N}{N+1}$ we get $\log\frac{N+1}{N}=-\log y>1-y=\frac1{N+1}$, so the difference is negative. Since $b_N-a_N=\log(1+1/N)>0$, every $a_M$ is below every $b_N$ (compare both with the index $\max(M,N)$). The increasing sequence $a$ is bounded above by $b_1=1$, so it converges to its supremum; call it $\gamma$. The difference $\log(1+1/N)$ tends to zero, so $b_N\to\gamma$ as well. Strict monotonicity gives the strict bounds. $\square$
+
+Mathlib defines `Real.eulerMascheroniConstant` as the limit of the increasing sequence and proves the two monotonicity statements from `log_lt_sub_one_of_pos` exactly as above. The junk value $2$ assigned to $b_0$ keeps the decreasing sequence total. The statement $H_N-\log N\to\gamma$ is `Real.tendsto_harmonic_sub_log`. [Lean, read] [Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean:48–154](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean#L48-L154)
+
+**Lemma (the integral error at one).** For $n\ge1$,
+$$
+ t_n(1)=\log(n+1)-\log n-\frac1{n+1},\qquad
+ \sum_{n=1}^{N}t_n(1)=\log(N+1)-H_{N+1}+1,\qquad T(1)=1-\gamma .
+$$
+
+**Proof.** Write $(x-n)/x^2=1/x-n/x^2$. The first part integrates to $\log(n+1)-\log n$. The second integrates to $n\bigl(1/n-1/(n+1)\bigr)=1/(n+1)$. For the partial sum, induct on $N$. The case $N=0$ reads $0=\log1-H_1+1$. For the step, add $t_{N+1}(1)=\log(N+2)-\log(N+1)-1/(N+2)$ to $\log(N+1)-H_{N+1}+1$ and use $H_{N+2}=H_{N+1}+1/(N+2)$. Finally $\log(N+1)-H_{N+1}+1=1-b_{N+1}\to1-\gamma$. Because the terms are nonnegative, convergence of partial sums is the same as summability, so $T(1)=1-\gamma$. $\square$
+
+In Lean the partial-sum identity is `termSum_one`, proved by induction with `harmonic_succ`, and the sum is `term_tsum_one`, which composes the decreasing-sequence limit with the shift $N\mapsto N+1$. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:93–156](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L93-L156) · [Mathlib/NumberTheory/Harmonic/Defs.lean:23–31](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/Defs.lean#L23-L31)
+
+**Lemma (the integral error for $s>1$).** For $n\ge1$ and real $s>1$,
+$$
+ t_n(s)=\frac1{s-1}\Bigl(\frac1{n^{s-1}}-\frac1{(n+1)^{s-1}}\Bigr)-\frac ns\Bigl(\frac1{n^{s}}-\frac1{(n+1)^{s}}\Bigr),
+$$
+$$
+ \sum_{n=1}^{N}t_n(s)=\frac1{s-1}\Bigl(1-\frac1{(N+1)^{s-1}}\Bigr)-\frac1s\Bigl(\sum_{m=1}^{N}\frac1{m^s}-\frac{N}{(N+1)^s}\Bigr),
+$$
+and consequently
+$$
+ T(s)=\frac1{s-1}-\frac{\zeta(s)}s,\qquad \zeta(s)-\frac1{s-1}=1-s\,T(s).
+$$
+
+**Proof.** Split the integrand as $x^{-s}-n\,x^{-s-1}$ and integrate each power. The first sum telescopes to the displayed expression. For the second, write $\sum_{n=1}^N n\bigl(n^{-s}-(n+1)^{-s}\bigr)=\sum_{n=1}^N n^{1-s}-\sum_{m=2}^{N+1}(m-1)m^{-s}$. Expanding $(m-1)m^{-s}=m^{1-s}-m^{-s}$ cancels all but the first term of the first sum and the last of the second, leaving $1-(N+1)^{1-s}+\sum_{m=2}^{N+1}m^{-s}=\sum_{m=1}^{N}m^{-s}+(N+1)^{-s}-(N+1)^{1-s}$, which is $\sum_{m=1}^N m^{-s}-N(N+1)^{-s}$. Now let $N\to\infty$. Since $s>1$, $(N+1)^{1-s}\to0$, the partial sums of $m^{-s}$ tend to $\zeta(s)$, and $0\le N(N+1)^{-s}\le(N+1)^{1-s}\to0$. Hence $T(s)=1/(s-1)-\zeta(s)/s$. Multiply by $s$ and rearrange: $\zeta(s)-1/(s-1)=1-sT(s)$, using $s/(s-1)-1/(s-1)=1$. $\square$
+
+Lean's `termSum_of_lt` carries exactly this telescoping, by two inductions on $N$, and `termTSum_of_lt` passes to the limit using the summability of $m^{-s}$ for $s>1$ and the comparison $N(N+1)^{-s}\le(N+1)^{1-s}$. The rearrangement is `zeta_limit_aux1`. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:166–262](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L166-L262)
+
+**Lemma (continuity of the error sum).** $T$ is continuous on $[1,\infty)$.
+
+**Proof.** Two dominated-convergence arguments. For fixed $n$ the integrand $(x-n)x^{-s-1}$ is continuous in $s$ and, for $s\ge1$ and $x\ge n\ge1$, bounded by $(x-n)x^{-2}$, which is integrable on $[n,n+1]$. So each $t_n$ is continuous on $[1,\infty)$. For the sum, the same monotonicity in $s$ gives $0\le t_n(s)\le t_n(1)$ for $s\ge1$, and $\sum t_n(1)=1-\gamma$ converges. A series of continuous functions dominated by a convergent constant series is continuous. $\square$
+
+The Lean proof is `continuousOn_term` followed by `continuousOn_termTSum`, with the pointwise bound `term n s ≤ term n 1` supplied by monotonicity of the integrand. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:272–311](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L272-L311)
+
+**Theorem (the Laurent constant along the real axis).** As $s\to1^+$ through real values, $\zeta(s)-\dfrac1{s-1}\to\gamma$.
+
+**Proof.** For real $s>1$ the previous lemma gives $\zeta(s)-1/(s-1)=1-sT(s)$. The right side is continuous on $[1,\infty)$ and takes the value $1-T(1)=1-(1-\gamma)=\gamma$ at $s=1$. $\square$
+
+This is `tendsto_riemannZeta_sub_one_div_nhds_right`. The proof first replaces `riemannZeta s` for real $s>1$ by the series $\sum_{n\ge0}(n+1)^{-s}$, using the identification of §1.2.2 and the compatibility of real and complex powers, then applies `zeta_limit_aux1` and the continuity of $T$ at the left endpoint of $[1,\infty)$. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:316–339](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L316-L339) · [Mathlib/NumberTheory/LSeries/RiemannZeta.lean:214–219](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L214-L219)
+
+**Theorem (the Laurent constant in the plane).** The function $f(s)=\zeta(s)-\dfrac1{s-1}$ extends holomorphically to $s=1$ with value $\gamma$. Equivalently $f(s)\to\gamma$ as $s\to1$ through complex $s\ne1$, and $\zeta(s)=\dfrac1{s-1}+\gamma+O(s-1)$ near one.
+
+**Proof.** The function $f$ is holomorphic on a punctured neighborhood of one, because $\zeta$ is differentiable away from one and the pole term is differentiable there. By the residue statement of §§1.2.2.1–1.2.2.2, $(s-1)\zeta(s)\to1$, so $(s-1)f(s)=(s-1)\zeta(s)-1\to0$. The holomorphy-of-an-update lemma of §1.2.2.2 applies: $f$ has a holomorphic extension, hence some punctured limit $C$. Restricting to real $s>1$, which approach one inside the punctured neighborhood, gives $C=\gamma$ by the previous theorem and uniqueness of limits. $\square$
+
+Lean carries out the proof in the order stated. It applies `Complex.tendsto_limUnder_of_differentiable_on_punctured_nhds_of_isLittleO` to get an unnamed limit, where the little-o hypothesis $f(s)-f(1)=o(1/(s-1))$ is checked from `riemannZeta_residue_one`, and then composes with the real embedding to identify the limit with $\gamma$. The entire function `riemannZeta₀`, equal to $\zeta(s)-(s-1)^{-1}$ off one and to $\gamma$ at one, is the resulting extension. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:342–373](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L342-L373) · [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:532–558](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L532-L558) · [Mathlib/NumberTheory/LSeries/RiemannZeta.lean:242–243](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L242-L243)
+
+**Theorem (identification of the stored value).** Let $G(s)=\pi^{-s/2}\Gamma(s/2)$ and $q=1/G$ as in §1.2.2.2. Then
+$$
+ \lim_{s\to1}\Bigl(\frac1{s-1}-\frac{q(s)}{s-1}\Bigr)=G'(1)=-\frac{\gamma+\log 4\pi}2,
+ \qquad
+ \lim_{s\to1}\Bigl(\zeta(s)-\frac{q(s)}{s-1}\Bigr)=\gamma+G'(1)=\frac{\gamma-\log 4\pi}2,
+$$
+and the second limit is the stored value $\zeta(1)$ of the total function. The completed function has the same stored value, $\Lambda(1)=\zeta(1)$, and the entire function $\Lambda_0$ of §1.2.2.1 has $\Lambda_0(1)=\zeta(1)+1$.
+
+**Proof.** Since $G(1)=1$ and $G$ is holomorphic and nonvanishing near one,
+$$
+ \frac1{s-1}-\frac1{G(s)(s-1)}=\frac{G(s)-1}{s-1}\cdot\frac1{G(s)}\longrightarrow G'(1)\cdot\frac1{G(1)}=G'(1).
+$$
+The value of $G'(1)$ is the logarithmic derivative at one: $G'(1)/G(1)=-\tfrac12\log\pi+\tfrac12\psi(1/2)$ with $\psi(1/2)=-\gamma-2\log2$ (produced in §1.2.2.4), which gives $-(\gamma+\log 4\pi)/2$. Adding this limit to the Laurent-constant limit gives the second display. By §1.2.2.2 the function $\zeta(s)-q(s)/(s-1)$ is differentiable at one with the stored value $\zeta(1)$ as its value there, so it is continuous there and its punctured limit is $\zeta(1)$. Uniqueness of limits gives $\zeta(1)=(\gamma-\log4\pi)/2$. For the completed function, $\Lambda(1)=G(1)\zeta(1)=\zeta(1)$ because $\zeta(s)=\Lambda(s)/G(s)$ for $s\ne0$ as total functions. For $\Lambda_0$, the identity $\Lambda(s)=\Lambda_0(s)-1/s-1/(1-s)$ holds for all $s$ in the total-function convention; at $s=1$ the last term is $1/0=0$, so $\Lambda_0(1)=\Lambda(1)+1$. $\square$
+
+In Lean, `tendsto_Gamma_term_aux` writes the difference as a slope of `Gammaℝ` at one divided by `Gammaℝ s`, and reads off the slope limit from `hasDerivAt_Gammaℝ_one`. That derivative is computed by the product and chain rules from the derivative of $\Gamma$ at $1/2$ and of $\pi^{-s/2}$; §1.2.2.4 reads the production of the derivative at $1/2$. The final step `riemannZeta_one` compares the resulting limit of `riemannZeta s - 1 / Gammaℝ s / (s - 1)` with the continuity statement `tendsto_hurwitzZetaEven_sub_one_div_nhds_one 0` and uses `tendsto_nhds_unique`. The completed values follow by rewriting. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:386–438](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L386-L438) · [Mathlib/NumberTheory/Harmonic/GammaDeriv.lean:180–227](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L180-L227) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:647–650](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L647-L650)
+
+**Example (the quarter shift).** Let $H_{1/4}$ be the full Hurwitz function at the quarter shift, as in §1.2.2.2, so that $H_{1/4}(s)=\sum_{n\ge0}(n+1/4)^{-s}$ for $\Re s>1$. Its Laurent constant at one can be computed twice.
+
+First, from the identities of §1.2.2.2, valid for $s\ne1$: $H_{1/4}(s)=m(s)\zeta(s)+O_{1/4}(s)$ with $m(s)=2^s(2^s-1)/2$ and $O_{1/4}$ entire. Expanding at $s=1+w$ with $m(1)=1$, $m'(1)=3\log2$ and the theorem above,
+$$
+ H_{1/4}(1+w)=\frac1w+\gamma+3\log2+\frac\pi2+O(w).
+$$
+The Laurent constant is $\gamma+3\log2+\pi/2$. Here only the value of the Laurent constant of $\zeta$ has been used from this subsection; the rest is the de-completion of §1.2.2.2.
+
+Second, directly from the series, as a check against the classical digamma function [Expository]. For real $0<a\le1$ and $1\le s\le2$ consider
+$$
+ \zeta(s,a)-\zeta(s)=\bigl(a^{-s}-1\bigr)+\sum_{n\ge1}\Bigl(\frac1{(n+a)^{s}}-\frac1{(n+1)^{s}}\Bigr).
+$$
+By the mean value theorem on $[n+a,n+1]$ the $n$-th term is bounded in absolute value by $s(1-a)n^{-s-1}\le 2n^{-2}$, uniformly in $s\in[1,2]$. The series is therefore uniformly convergent, and its sum is continuous on $[1,2]$. Letting $s\to1^+$ and using the theorem above for $\zeta$,
+$$
+ \lim_{s\to1^+}\Bigl(\zeta(s,a)-\frac1{s-1}\Bigr)=\gamma+\frac1a-1+\sum_{n\ge1}\Bigl(\frac1{n+a}-\frac1{n+1}\Bigr)=\gamma-\gamma-\psi(a)=-\psi(a),
+$$
+where the last equality is the series $\psi(a)=-\gamma+\sum_{k\ge0}\bigl(\frac1{k+1}-\frac1{k+a}\bigr)$. For $a=1/4$ use Gauss's formula for $\psi$ at rational arguments with $p/q=1/4$:
+$$
+ \psi\bigl(\tfrac14\bigr)=-\gamma-\log4-\frac\pi2\cot\frac\pi4+\frac12\sum_{k=1}^{3}\cos\frac{\pi k}{2}\,\log\Bigl(2-2\cos\frac{\pi k}2\Bigr).
+$$
+The $k=1$ and $k=3$ terms vanish because the cosine does, and the $k=2$ term is $\tfrac12(-1)\log4=-\log2$. Hence $\psi(1/4)=-\gamma-3\log2-\pi/2$ and $-\psi(1/4)=\gamma+3\log2+\pi/2$, in agreement with the first computation. The stored value is again the Laurent constant plus the normalized derivative,
+$$
+ H_{1/4}(1)=\gamma+3\log2+\frac\pi2+G'(1)=\frac{\gamma-\log 4\pi}2+3\log2+\frac\pi2,
+$$
+because the general statement `tendsto_hurwitzZeta_sub_one_div_nhds_one` identifies the stored value of every shift with the limit of the same $q$-normalized subtraction. Mathlib has no digamma evaluation at $1/4$; the two agreeing computations are our check of the de-completion identities, not a Lean theorem. [Lean, read] [Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:82–101](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L82-L101) · [DLMF 5.7.6](https://dlmf.nist.gov/5.7#E6) · [DLMF 5.4.19](https://dlmf.nist.gov/5.4#E19)
+
+**Remarks.**
+
+1. *Three numbers.* For the integer shift the Laurent constant is $\gamma\approx0.5772$, the normalized derivative is $G'(1)\approx-1.554$, and the stored value is $\zeta(1)\approx-0.977$. For the quarter shift the Laurent constant is $\gamma+3\log2+\pi/2\approx4.227$ and the stored value is about $2.673$. The normalized derivative is the same for every shift, because it is a property of $q$ alone. Differences of two shifts therefore have the same value at one whether one uses Laurent constants or stored values, which is the cancellation used by the finite Dirichlet sums of §1.3.2.
+
+2. *Why the real axis suffices.* The removable-singularity lemma only shows that some limit exists. The value is then determined by any single approach to the point, and the real approach from the right is where the Dirichlet series converges and the Euler summation kernel is positive. This is a different route from reading $\gamma$ off the completed decomposition of §1.2.2.1, which gives the residue but not the constant term.
+
+3. *Consumers.* The constant is used in Mathlib for $\zeta'(0)=-\tfrac12\log 2\pi$ (`deriv_riemannZeta_zero`) and for the nonvanishing $\zeta(1)\ne0$, which follows from $\gamma<2/3<1<\log4\pi$. The latter is what removes the hypothesis $s\ne1$ discussed at the start of §1.2.2. We have read the nonvanishing proof and only the statement of the derivative computation. [Lean, read] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:441–450](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L441-L450) · [Lean] [Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean:492–517](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L492-L517)
+
+4. *Classical form.* The constant $\gamma$ is the $n=0$ Stieltjes constant in the expansion $\zeta(s)=\frac1{s-1}+\sum_{n\ge0}\frac{(-1)^n}{n!}\gamma_n(s-1)^n$, with $\gamma_0=\lim_m\bigl(\sum_{k\le m}1/k-\log m\bigr)$. The Mathlib route proves exactly $\gamma_0=\gamma$ and nothing about the higher coefficients, which are not needed anywhere in the archive's main line. [DLMF 25.2.4–5](https://dlmf.nist.gov/25.2#E4)
+
+**Source note.** The reading in this subsection is R3 for the harmonic-sum, integral-error, continuity and limit bodies in `ZetaAsymp.lean` and `EulerMascheroni.lean`, for the Deligne-factor derivative wrapper in `GammaDeriv.lean`, and for the stored-value consumers. Inputs retained at the boundary are the derivative of the real Gamma function at $1/2$ and at positive integers (now read in §1.2.2.4), the interval-integral library used to evaluate $t_n$, the dominated-convergence lemmas for parametric integrals and series, and the elementary logarithm and exponential bounds behind $1/2<\gamma<2/3$. The [proof map](../notes/proof-map.md#p1-chapter-1-laurent-constant-at-one) lists these with pinned paths.
+
+#### 1.2.2.4 The derivative of Gamma at one half: duplication, log-convexity and the Deligne factor
+
+Sections 1.2.2.2 and 1.2.2.3 used one fact about the Gamma function that neither of them proved: the logarithmic derivative $\psi(1/2)=-\gamma-2\log 2$, which fixes the normalized derivative $G'(1)=-(\gamma+\log 4\pi)/2$ of the Deligne factor $G(s)=\pi^{-s/2}\Gamma(s/2)$. Section 1.2.2.3 kept the two Mathlib producers, the derivative of the real Gamma function at $1/2$ and at the positive integers, as named inputs at its boundary. This subsection reads those producers. It is about a different number from the previous subsection. The Laurent constant $\gamma$ of $\zeta$ at one is a property of the zeta function and was produced there from harmonic sums; it is not recomputed here. The derivative of $\Gamma$ at $1/2$ is a property of the normalization chosen in the Mellin construction, and the only thing it borrows from §1.2.2.3 is the limit $H_n-\log n\to\gamma$.
+
+Throughout, $\Gamma$ is the real Gamma function on $(0,\infty)$, $f=\log\Gamma$, $\psi=f'=\Gamma'/\Gamma$ its logarithmic derivative, and $H_n=\sum_{k=1}^n 1/k$.
+
+**Example (the recurrence moves the derivative between integers).** Differentiating $\Gamma(x+1)=x\Gamma(x)$ gives $\Gamma'(x+1)=\Gamma(x)+x\Gamma'(x)$. Dividing by $\Gamma(x+1)=x\Gamma(x)$ gives the recurrence of the logarithmic derivative,
+$$
+ \psi(x+1)=\psi(x)+\frac1x .
+$$
+So once $\psi(1)$ is known, every $\psi(n+1)=\psi(1)+H_n$ follows, and once $\psi(1/2)$ is known, every $\psi(n+1/2)$ follows. The recurrence carries values along a lattice of spacing one but cannot connect the integer lattice with the half-integer lattice. Two separate pieces of information are therefore needed: a value at one point of each lattice. Mathlib gets the first from convexity and the second from the duplication formula.
+
+**Definition (log-convexity).** A function $f$ on an interval is convex if $f(ax+by)\le af(x)+bf(y)$ for $x,y$ in the interval and $a,b\ge0$ with $a+b=1$. The Gamma function is log-convex on $(0,\infty)$: the function $f=\log\Gamma$ is convex there. Mathlib proves this from Hölder's inequality applied to the integral $\Gamma(ax+by)=\int_0^\infty t^{ax+by-1}e^{-t}\,dt$; we use only the statement. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:111–119](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L111-L119)
+
+**Lemma (chords and tangents).** Let $f$ be convex on an open interval and differentiable at the points named. For $x<y$ in the interval,
+$$
+ f'(x)\le\frac{f(y)-f(x)}{y-x}\le f'(y).
+$$
+
+**Proof.** For $x<u<y$ the three-chord inequality of a convex function gives $\frac{f(u)-f(x)}{u-x}\le\frac{f(y)-f(x)}{y-x}\le\frac{f(y)-f(u)}{y-u}$: the point $(u,f(u))$ lies on or below the chord from $x$ to $y$. Let $u\to x^+$ in the first inequality and $u\to y^-$ in the second. $\square$
+
+Mathlib has both halves as `ConvexOn.deriv_le_slope` and `ConvexOn.slope_le_deriv`; the bodies are not read here. [Lean] [Mathlib/Analysis/Convex/Deriv.lean:601–671](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Convex/Deriv.lean#L601-L671)
+
+**Theorem (the derivative at positive integers).** For every integer $n\ge0$,
+$$
+ \psi(n+1)=H_n-\gamma,\qquad \Gamma'(n+1)=n!\,(H_n-\gamma).
+$$
+In particular $\Gamma'(1)=-\gamma$.
+
+**Proof.** The function $f=\log\Gamma$ is differentiable on $(0,\infty)$, since $\Gamma$ is differentiable and positive there. From $\Gamma(x+1)=x\Gamma(x)$ we get $f(x+1)=f(x)+\log x$ for $x>0$, and differentiating, $f'(x+1)=f'(x)+1/x$. Induction on $n$ gives $f'(n+1)=f'(1)+H_n$: the case $n=0$ is trivial, and the step adds $1/(n+1)$ to both sides and uses $H_{n+1}=H_n+1/(n+1)$.
+
+It remains to show $f'(1)=-\gamma$. Apply the chords-and-tangents lemma to $f$ on $[n,n+1]$ and on $[n+1,n+2]$, for $n\ge1$. The chord slopes are $f(n+1)-f(n)=\log n$ and $f(n+2)-f(n+1)=\log(n+1)$, so
+$$
+ \log n\le f'(n+1)\le\log(n+1).
+$$
+Substituting $f'(n+1)=f'(1)+H_n$ and rearranging,
+$$
+ H_n-\log(n+1)\le -f'(1)\le H_n-\log n .
+$$
+Both outer sequences converge to $\gamma$: this is the lemma on Euler's constant as a limit in §1.2.2.3, with $a_n=H_n-\log(n+1)$ and $b_n=H_n-\log n$. Hence $-f'(1)=\gamma$. Finally $\Gamma'(n+1)=\Gamma(n+1)f'(n+1)=n!\,(H_n-\gamma)$ by $\Gamma(n+1)=n!$. $\square$
+
+This is `Real.deriv_Gamma_nat`, and the Lean proof follows the order above: it reduces to `log ∘ Gamma`, proves the derivative recurrence `hder_rec` from the functional equation by differentiating an eventual equality, proves `hder_nat` by induction with `harmonic_succ`, obtains the two slope bounds `derivLB` and `derivUB` from `convexOn_log_Gamma` through `slope_le_deriv` and `deriv_le_slope`, and closes with `le_antisymm` against the two limits `tendsto_harmonic_sub_log` and `tendsto_harmonic_sub_log_add_one`. The wrapped forms are `Real.hasDerivAt_Gamma_nat`, `Real.hasDerivAt_Gamma_one` and `eulerMascheroniConstant_eq_neg_deriv`, which states $\gamma=-\Gamma'(1)$. The differentiability of $\Gamma$ away from the nonpositive integers, `Real.differentiableAt_Gamma`, is used as a named input. [Lean, read] [Mathlib/NumberTheory/Harmonic/GammaDeriv.lean:32–98](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L32-L98) · [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/Deriv.lean:149](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deriv.lean#L149)
+
+**Theorem (Legendre duplication; input).** For every real $s$, as total functions,
+$$
+ \Gamma(s)\,\Gamma\bigl(s+\tfrac12\bigr)=\Gamma(2s)\,2^{1-2s}\sqrt\pi ,
+$$
+and $\Gamma(1/2)=\sqrt\pi$.
+
+Mathlib proves the duplication formula for $s>0$ from the Bohr–Mollerup characterization (the right side, suitably rescaled, satisfies the functional equation, is log-convex and equals one at $s=1$), extends it to all complex $s$ by the identity theorem applied to the entire reciprocals of both sides, and restricts back to the reals. The value $\Gamma(1/2)=\sqrt\pi$ is the Gaussian integral. We have read the structure of the complex extension and use the positive-real case and the Gaussian integral as named inputs. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:559–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L559-L601) · [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:447–452](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L447-L452) · [Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:307](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean#L307) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5) · [DLMF 5.4.6](https://dlmf.nist.gov/5.4#E6)
+
+**Theorem (the derivative at one half).**
+$$
+ \Gamma'\bigl(\tfrac12\bigr)=-\sqrt\pi\,(\gamma+2\log 2),\qquad \psi\bigl(\tfrac12\bigr)=-\gamma-2\log 2 .
+$$
+
+**Proof (hand calculation A).** Both sides of the duplication formula are differentiable at $s=1/2$: the left because $\Gamma$ is differentiable at $1/2$ and at $1$, the right because $\Gamma$ is differentiable at $2\cdot\frac12=1$ and $2^{1-2s}$ is a smooth function of $s$. Differentiate at $s=1/2$, where $\Gamma(1/2)=\sqrt\pi$, $\Gamma(1)=1$, $\Gamma'(1)=-\gamma$ and $2^{1-2s}=1$.
+
+Left side, by the product rule:
+$$
+ \Gamma'\bigl(\tfrac12\bigr)\Gamma(1)+\Gamma\bigl(\tfrac12\bigr)\Gamma'(1)=\Gamma'\bigl(\tfrac12\bigr)-\sqrt\pi\,\gamma .
+$$
+Right side, by the product and chain rules, with $\frac{d}{ds}\Gamma(2s)=2\Gamma'(2s)$ and $\frac{d}{ds}2^{1-2s}=-2\log2\cdot2^{1-2s}$:
+$$
+ \sqrt\pi\Bigl(2\Gamma'(1)\cdot1+\Gamma(1)\cdot(-2\log 2)\Bigr)=\sqrt\pi\,(-2\gamma-2\log 2).
+$$
+Equating and solving, $\Gamma'(1/2)=\sqrt\pi(-2\gamma-2\log2)+\sqrt\pi\gamma=-\sqrt\pi(\gamma+2\log 2)$. Dividing by $\Gamma(1/2)=\sqrt\pi$ gives $\psi(1/2)$. Numerically $\gamma+2\log2\approx1.96351$ and $\Gamma'(1/2)\approx-3.48023$. $\square$
+
+The Lean proof `Real.hasDerivAt_Gamma_one_half` is a six-step `calc` computing `deriv Gamma (1/2)`. It first adds and subtracts $\sqrt\pi\gamma$ to rewrite the target as the derivative of $s\mapsto\Gamma(s)\Gamma(s+1/2)$ at $1/2$ (using `deriv_fun_mul`, `Gamma_one_half_eq`, `Gamma_one` and `eulerMascheroniConstant_eq_neg_deriv`), replaces the product by the right side of `Gamma_mul_Gamma_add_half`, pulls out the constant $\sqrt\pi$, splits the remaining product, evaluates the derivative of $\Gamma(2s)$ by the chain rule and `hasDerivAt_Gamma_one`, and the derivative of $2^{1-2s}$ by `HasDerivAt.rpow`, and finishes with `ring`. Every differentiability side condition is discharged by `differentiableAt_Gamma` at a positive point. [Lean, read] [Mathlib/NumberTheory/Harmonic/GammaDeriv.lean:100–146](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L100-L146) · [DLMF 5.4.13](https://dlmf.nist.gov/5.4#E13)
+
+**Corollary (three halves and the half-integer lattice).**
+$$
+ \Gamma'\bigl(\tfrac32\bigr)=\frac{\sqrt\pi}2\,(2-\gamma-2\log 2),\qquad
+ \psi\bigl(n+\tfrac12\bigr)=-\gamma-2\log2+2\sum_{k=1}^{n}\frac1{2k-1}\quad(n\ge0).
+$$
+
+**Proof (hand calculation B).** Apply the recurrence of the first example at $x=1/2$: $\Gamma'(3/2)=\Gamma(1/2)+\tfrac12\Gamma'(1/2)=\sqrt\pi-\tfrac12\sqrt\pi(\gamma+2\log2)=\tfrac{\sqrt\pi}2(2-\gamma-2\log 2)$. Equivalently $\psi(3/2)=\psi(1/2)+2=2-\gamma-2\log 2\approx0.03649$, and with $\Gamma(3/2)=\sqrt\pi/2\approx0.88623$ we get $\Gamma'(3/2)\approx0.03234$. For general $n$, induct: $\psi(n+\tfrac32)=\psi(n+\tfrac12)+\frac1{n+1/2}=\psi(n+\tfrac12)+\frac{2}{2n+1}$, which adds the next odd reciprocal. $\square$
+
+The half-integer formula is DLMF 5.4.15; Mathlib states only the case $n=0$. [Expository] from [Lean] inputs · [DLMF 5.4.15](https://dlmf.nist.gov/5.4#E15) · [DLMF 5.5.2](https://dlmf.nist.gov/5.5#E2)
+
+**Proposition (transport to the complex function).** Let $F:\mathbb C\to\mathbb C$ be complex-differentiable at a real point $x$, let $g:\mathbb R\to\mathbb R$ have derivative $g'(x)$ at $x$, and suppose $F(t)=g(t)$ for all real $t$. Then $F'(x)=g'(x)$. In particular the complex Gamma function has derivative $-\gamma$ at $1$, $-\sqrt\pi(\gamma+2\log2)$ at $1/2$ and $n!(H_n-\gamma)$ at $n+1$.
+
+**Proof.** The restriction $t\mapsto F(t)$ of $F$ to the real line is the composition of $F$ with the inclusion $\mathbb R\to\mathbb C$, so by the chain rule it has derivative $F'(x)\cdot1$ at $x$ as a map $\mathbb R\to\mathbb C$. By hypothesis this restriction equals $t\mapsto g(t)$ viewed in $\mathbb C$, whose derivative is $g'(x)$. Derivatives are unique, so $F'(x)=g'(x)$. For $\Gamma$ the hypotheses hold at $1$, $1/2$ and $n+1$: the complex function is differentiable away from the nonpositive integers and agrees with the real function on the real line. $\square$
+
+In Lean this is the private lemma `HasDerivAt.complex_of_real`, proved by `comp_ofReal` and `ofReal_comp` and the uniqueness of `deriv`, applied with `Gamma_ofReal`. The three complex statements are `Complex.hasDerivAt_Gamma_nat`, `Complex.hasDerivAt_Gamma_one` and `Complex.hasDerivAt_Gamma_one_half`. [Lean, read] [Mathlib/NumberTheory/Harmonic/GammaDeriv.lean:154–191](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L154-L191)
+
+**Theorem (normalized derivatives of the two Gamma factors).** Let $G(s)=\pi^{-s/2}\Gamma(s/2)$ be the Deligne factor of §1.2.2.2 and $\Gamma_{\mathbb C}(s)=2(2\pi)^{-s}\Gamma(s)$ its complex companion. Then
+$$
+ G'(1)=-\frac{\gamma+\log 4\pi}2,\qquad \Gamma_{\mathbb C}'(1)=-\frac{\gamma+\log 2\pi}{\pi}.
+$$
+
+**Proof.** For $G$, the product rule at $s=1$ with $\frac{d}{ds}\pi^{-s/2}=-\tfrac12\log\pi\cdot\pi^{-s/2}$ and $\frac{d}{ds}\Gamma(s/2)=\tfrac12\Gamma'(s/2)$ gives
+$$
+ G'(1)=\pi^{-1/2}\Bigl(-\tfrac12\log\pi\cdot\Gamma(\tfrac12)+\tfrac12\Gamma'(\tfrac12)\Bigr)
+      =-\tfrac12\log\pi+\tfrac12\psi(\tfrac12)
+      =-\tfrac12\bigl(\log\pi+\gamma+2\log 2\bigr)=-\frac{\gamma+\log4\pi}2 .
+$$
+For $\Gamma_{\mathbb C}$, with $\frac{d}{ds}(2\pi)^{-s}=-\log(2\pi)(2\pi)^{-s}$, $\Gamma(1)=1$ and $\Gamma'(1)=-\gamma$,
+$$
+ \Gamma_{\mathbb C}'(1)=2\bigl((2\pi)^{-1}(-\log 2\pi)+(2\pi)^{-1}(-\gamma)\bigr)=-\frac{\gamma+\log 2\pi}{\pi}. \qquad\square
+$$
+
+These are `hasDerivAt_Gammaℝ_one` and `hasDerivAt_Gammaℂ_one`, both proved by `HasDerivAt.mul` of a `const_cpow` derivative and the complex Gamma derivative at $1/2$ (composed with $s\mapsto s/2$) or at $1$, followed by a rewrite of the resulting expression into the stated real logarithm. Numerically $G'(1)\approx-1.55412$ and $\Gamma_{\mathbb C}'(1)\approx-0.76875$. [Lean, read] [Mathlib/NumberTheory/Harmonic/GammaDeriv.lean:193–228](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L193-L228) · [Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:43–45](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L43-L45)
+
+**Where each derivative is spent in this chapter.**
+
+| Derivative | Value | Paid to |
+|---|---|---|
+| $\Gamma'(1)=-\gamma$ | from log-convexity | the half-point calculation above; in Mathlib also $\zeta'(0)=-\tfrac12\log2\pi$ (§1.2.2.3, Remark 3) |
+| $\Gamma'(1/2)$, i.e. $\psi(1/2)$ | from duplication | $G'(1)$ in the integer-shift calculation of §1.2.2.2 and in the identification of the stored value $\zeta(1)$ in §1.2.2.3 |
+| $\Gamma'(3/2)$, $\Gamma'(n+1)$ for $n\ge1$ | from the recurrence | nothing in this chapter; they illustrate the recurrence the Lean induction runs on |
+
+**Remarks.**
+
+1. *Two lattices, two inputs.* The recurrence connects $\psi$ at points differing by integers. Log-convexity fixes the integer lattice through the squeeze $\log n\le\psi(n+1)\le\log(n+1)$, and the duplication formula connects the half-integer lattice to the integer one at the single point $s=1/2$, where $2s=1$. The only use of the duplication formula in Chapter 1 is this one derivative.
+
+2. *What is borrowed from §1.2.2.3.* Only the limit $H_n-\log n\to\gamma$, in both its forms $a_n\to\gamma$ and $b_n\to\gamma$. The Euler-summation integral error, the continuity of $T$ and the removable-singularity transfer play no role here. Conversely §1.2.2.3 borrowed from this subsection only $G'(1)$. The two productions are independent and meet in the stored value $\zeta(1)=\gamma+G'(1)$.
+
+3. *The classical routes not taken.* The textbook derivations of $\psi(1)=-\gamma$ go through the Weierstrass product or the series $\psi(z)=-\gamma+\sum_{k\ge0}\bigl(\frac1{k+1}-\frac1{k+z}\bigr)$ used in the quarter-shift check of §1.2.2.3. Mathlib has neither at the pinned commit; the convexity route needs only the Bohr–Mollerup development already present for the duplication formula. The value $\psi(1/2)$ is likewise usually read off the series or the reflection formula; here it comes from one differentiation.
+
+4. *Real versus complex.* All derivatives are computed for the real Gamma function and transported. The transport proposition is the only place where complex differentiability of $\Gamma$ at the point is needed, and it is supplied by `differentiableAt_Gamma` away from the nonpositive integers.
+
+**Source note.** The reading in this subsection is R3 for `Real.deriv_Gamma_nat`, `Real.hasDerivAt_Gamma_one_half`, the transport lemma and the three complex derivative statements, and for the two normalized derivatives `hasDerivAt_Gammaℝ_one` and `hasDerivAt_Gammaℂ_one`. Inputs retained at the boundary are the log-convexity of $\Gamma$ (Hölder), the positive-real duplication formula (Bohr–Mollerup uniqueness), the Gaussian integral $\Gamma(1/2)=\sqrt\pi$, the convex slope lemmas, the differentiability of $\Gamma$ away from the nonpositive integers, and the real and complex power rules `HasDerivAt.rpow` and `HasDerivAt.const_cpow`. The [proof map](../notes/proof-map.md#p1-chapter-1-derivative-of-gamma-at-one-half) lists these with pinned paths. The hand calculations A and B and the half-integer formula are ours, checked against DLMF 5.4.12–15 and 5.5.2, 5.5.5.
 
 ### 1.2.3 The excluded points are exactly the trivial zeros
 
@@ -182,29 +577,295 @@ Mathlib's definition. The second says that no Dirichlet L-function vanishes on t
 half-plane $\Re s>1/2$, except that the trivial character is allowed its pole at $s=1$. The third
 and fourth are GRH in the critical strip, for all characters and for primitive ones.
 
-### 1.3.2 `DirichletCharacter.LFunction` is the Dirichlet L-function
+### 1.3.2 From the finite Hurwitz sum to the classical Dirichlet L-function
 
-A Dirichlet character mod $N$ in Mathlib is a multiplicative map
-$\mathbb Z/N\mathbb Z\to\mathbb C$ that vanishes on non-units: `DirichletCharacter ℂ N` is
-by definition `MulChar (ZMod N) ℂ` [Lean]
-(`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40`). Its L-function is defined through a finite combination of Hurwitz zeta
-functions [Lean] (`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:61` defines
-`LFunction χ s := ZMod.LFunction χ s`, and `Mathlib/NumberTheory/LSeries/ZMod.lean:83` defines
-`ZMod.LFunction Φ s := N ^ (-s) * ∑ j : ZMod N, Φ j * hurwitzZeta (toAddCircle j) s`). As
-with $\zeta$, two theorems identify it:
+**Motivation.** A Dirichlet character gives periodic coefficients in a
+series that converges absolutely on $\Re s>1$. The zero statements also
+evaluate the $L$-function in the critical strip. To identify the function
+there, we first group the series by residue classes and then follow what
+happens to their poles under continuation.
 
-- For $\Re s>1$, `LFunction χ s` equals the Dirichlet series $\sum_{n\ge1}\chi(n)n^{-s}$ [Lean]
-  (`LFunction_eq_LSeries`, `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:75`).
-- For $\chi\ne1$ it is entire [Lean] (`differentiable_LFunction`,
-  `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:98`); for $N=1$ the unique character
-  gives $\zeta$ [Lean] (`LFunction_modOne_eq`,
-  `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:67`).
+**Examples.** The nonprincipal character $\chi_3$ modulo $3$ sends the unit
+$2$, of order two, to $-1$. The principal character $\chi_{0,4}$ modulo $4$
+sends both units to $1$. Their values on a period are
 
-By the identity theorem again, `LFunction χ` is the classical $L(s,\chi)$ wherever the latter is
-holomorphic, and for the trivial character mod $N$ it is
-$\zeta(s)\prod_{p\mid N}(1-p^{-s})$ away from $s=1$ [Expository]; the product formula is the
-level-change identity `LFunction_changeLevel` [Lean]
-(`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:150`).
+| Character | Residues in order starting at $0$ | Sum |
+|---|---|---:|
+| $\chi_3$ | $(0,1,-1)$ | $0$ |
+| $\chi_{0,4}$ | $(0,1,0,1)$ | $2$ |
+
+The respective finite Hurwitz expressions are
+$3^{-s}(\zeta(s,1/3)-\zeta(s,2/3))$ and
+$4^{-s}(\zeta(s,1/4)+\zeta(s,3/4))$ in the convergence half-plane.
+At $s=2$, keep two terms per Hurwitz series. For $\chi_3$ this gives
+$3^{-2}(9+9/16-9/4-9/25)=1-1/4+1/16-1/25=309/400$.
+For $\chi_{0,4}$ it gives
+$4^{-2}(16+16/25+16/9+16/49)=1+1/9+1/25+1/49=12916/11025$.
+In each case the expression on the right adds the first two periods
+of the ordinary series.
+
+**Definitions.** For $N\ge1$, a complex Dirichlet character modulo $N$
+is a homomorphism from $(\mathbb Z/N\mathbb Z)^\times$ to $\mathbb C^\times$,
+extended by zero on nonunits. The principal character is $1$ on units.
+For $N=1$ the sole residue class is a unit, so its character is $1$ on every
+integer. For any function $\Phi:\mathbb Z/N\mathbb Z\to\mathbb C$, set
+$$
+F_\Phi(s)=N^{-s}\sum_{j=0}^{N-1}\Phi(j)H_{j/N}(s).
+$$
+Here $N^{-s}=\exp(-s\log N)$ uses the real logarithm and $j$ runs over the
+least nonnegative representatives. The notation $H_a$ denotes Mathlib's
+total Hurwitz function at the class of $a$ in $\mathbb R/\mathbb Z$.
+For $0<a<1$ and $\Re s>1$ it sums $1/(m+a)^s$ over $m\ge0$. At the
+zero class the sum is $\sum_{m\ge1}m^{-s}$. Taking $a=1$ shifts the
+index by one. Taking $a=0$ instead makes the first term zero under
+Lean's conventions $0^s=0$ for $s\ne0$ and division by zero equal to zero.
+For modulus one the finite sum thus recovers the Riemann zeta function [Lean, read]
+([`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:67`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L67),
+[`Mathlib/NumberTheory/LSeries/ZMod.lean:87`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L87)).
+The ordinary series in Lean has a term at $n=0$ defined to be zero,
+even when the coefficient there is $1$.
+
+In Lean the zero extension is part of the character type, `MulChar (ZMod N) ℂ`. The character type is defined in [`Mathlib/NumberTheory/DirichletCharacter/Basic.lean:40`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/DirichletCharacter/Basic.lean#L40) [Lean].
+The finite sum and its character specialization are definitions [Lean, read]
+([`Mathlib/NumberTheory/LSeries/ZMod.lean:83`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L83),
+[`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:61`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L61)).
+The parameter and zero-term conversions are [Lean, read]
+([`Mathlib/Topology/Instances/AddCircle/Real.lean:77`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Instances/AddCircle/Real.lean#L77),
+[`Mathlib/NumberTheory/LSeries/Basic.lean:88`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Basic.lean#L88),
+[`Mathlib/NumberTheory/LSeries/Basic.lean:100`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Basic.lean#L100)).
+
+**Lemma (grouping by residues).** For every $\Phi$ as above and $\Re s>1$,
+$$
+F_\Phi(s)=\sum_{n=1}^\infty\frac{\Phi(n\bmod N)}{n^s}.
+$$
+
+**Proof.** Set $\sigma=\Re s$ and let $M$ be the maximum of $|\Phi(j)|$ over the residues. The sum of
+absolute values is bounded by $M\sum_{n\ge1}n^{-\sigma}$, which converges.
+Insert the zero term at $n=0$. Euclidean division gives the bijection
+$n\mapsto(n\bmod N,\lfloor n/N\rfloor)$ with inverse $(j,m)\mapsto j+Nm$.
+Cutting each inner sum at $m<K$ covers exactly $0\le n<NK$. The omitted
+terms have total norm at most $M\sum_{n\ge NK} n^{-\sigma}$, tending to
+zero as $K$ increases. Hence we may sum by residue class and then add
+the $N$ sums. For $j+Nm>0$ we have
+$$
+(j+Nm)^{-s}=N^{-s}(m+j/N)^{-s},
+$$
+using additivity of the real logarithm on positive factors. At
+$(j,m)=(0,0)$ both formal summands are zero. Pulling $N^{-s}$ out
+leaves the Hurwitz series in each residue class.
+
+In Lean, `Nat.residueClassesEquiv` gives the bijection. `Nat.sumByResidueClasses`
+transfers summability along the inverse and uses the product-indexed sum
+followed by a finite outer sum. `ZMod.LFunction_eq_LSeries` uses the
+bound on the finite residue ring and compares the norms with a convergent
+$p$-series. It then expands the Hurwitz series, and uses
+`mul_cpow_ofReal_nonneg` before reducing the coefficient of $j+Nm$ to
+$\Phi(j)$. The character version specializes this proof [Lean, read]
+([`Mathlib/Data/ZMod/Basic.lean:1296`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/ZMod/Basic.lean#L1296),
+[`Mathlib/Analysis/SumOverResidueClass.lean:106`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SumOverResidueClass.lean#L106),
+[`Mathlib/NumberTheory/LSeries/ZMod.lean:70`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L70),
+[`Mathlib/NumberTheory/LSeries/Basic.lean:346`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Basic.lean#L346),
+[`Mathlib/NumberTheory/LSeries/ZMod.lean:93`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L93),
+[`Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean:186`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean#L186),
+[`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:75`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L75)).
+
+**Proposition (identification).** Let $\chi$ be a complex Dirichlet character
+modulo $N\ge1$. For nonprincipal $\chi$, $F_\chi$ is the unique entire
+continuation of its Dirichlet series, including its value at $1$. For
+principal $\chi$, $F_\chi$ on $\mathbb C\setminus\{1\}$ is the unique holomorphic
+continuation there and has a simple pole at $1$ of residue $\varphi(N)/N$,
+where $\varphi(N)$ counts the units modulo $N$.
+
+**Proof.** The Hurwitz inputs are holomorphy of $H_a$ away from $1$
+and holomorphy near $1$ of
+$$
+R_a(s)=H_a(s)-B(s),\qquad
+B(s)=\frac{1}{(s-1)\Gamma_{\mathbb R}(s)},\qquad
+\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2).
+$$
+The total convention gives $B(1)=0$. To see the direct Hurwitz steps,
+write $H_a$ as the sum of its even and odd parts. In the convergence
+half-plane, pairing $m$ with $-m-1$ in the bilateral series gives terms
+$(u_m+v_m)/2$ and $(u_m-v_m)/2$, where $u_m=1/(m+a)^s$ and
+$v_m=1/(m+1-a)^s$ with the same endpoint convention. Adding the parts
+recovers $u_m$. Away from $1$ the even part is holomorphic, including
+its updated value at $0$, and the odd part is entire. At $0$ the
+completed even function has residue $-1$ for the zero class and $0$
+otherwise. Since $s\Gamma_{\mathbb R}(s)$ tends to $2$ there, the
+quotient has a finite limit. The even-part definition inserts that
+limit, and the removable-singularity lemma gives holomorphy there. Near $1$, the even
+part is the completed even function divided by $\Gamma_{\mathbb R}(s)$.
+The completed even function is an entire term minus $\mathbf 1_{a=0}/s$
+plus $1/(s-1)$, with $a=0$ denoting the zero class. Subtracting $B$
+cancels the last term, including at $1$ under total division. The
+remaining quotient is holomorphic near $1$ since $\Gamma_{\mathbb R}(1)=1$.
+Adding the entire odd part gives the stated regularity of $R_a$.
+These are the direct Hurwitz interface proofs [Lean, read]
+([`Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:66`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L66),
+[`Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:72`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L72),
+[`Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:88`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L88),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:305`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L305),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:554`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L554),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:613`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L613),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:630`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L630),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:683`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L683),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean:466`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean#L466),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean:505`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean#L505)).
+
+Put $S=\sum_j\chi(j)$. A nonprincipal character has a unit $b$ with
+$\chi(b)\ne1$. Multiplication by $b$ permutes the residues, so
+$S=\sum_j\chi(bj)=\chi(b)S$ and $S=0$. For the principal character,
+$S=\varphi(N)>0$. Away from $1$, holomorphy of $F_\chi$ follows from
+the finite sum and the entire factor $N^{-s}$. Near $1$, write
+$$
+F_\chi(s)=N^{-s}\left(\sum_j\chi(j)R_{j/N}(s)+S B(s)\right).
+$$
+When $S=0$, the last term vanishes identically, so the first term gives
+a holomorphic expression even at $1$. This is the cancellation in
+`ZMod.differentiableAt_LFunction`. The character wrapper uses the finite
+character sum and applies pointwise differentiability at every $s$
+[Lean, read] ([`Mathlib/NumberTheory/MulChar/Basic.lean:425`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L425),
+[`Mathlib/NumberTheory/MulChar/Basic.lean:607`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L607),
+[`Mathlib/NumberTheory/MulChar/Basic.lean:614`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L614),
+[`Mathlib/NumberTheory/LSeries/ZMod.lean:122`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L122),
+[`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:92`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L92),
+[`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:98`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L98)).
+When $S>0$, multiplying by $s-1$ gives a holomorphic extension near $1$
+with value $S/N$ there because $\Gamma_{\mathbb R}(1)=1$. This nonzero
+value proves that the pole is simple. The pinned proof also computes
+the average directly as a punctured limit [Lean, read]
+([`Mathlib/NumberTheory/LSeries/ZMod.lean:136`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L136)).
+
+For uniqueness, let $U=\mathbb C$ for a nonprincipal character and
+$U=\mathbb C\setminus\{1\}$ for a principal character. Both are open and
+connected. Any continuation on $U$ and $F_\chi$ agree in a neighborhood
+of $2$ by the grouping lemma. The set on which their difference vanishes
+in a neighborhood is nonempty and open in $U$. At a limit point in $U$,
+a first nonzero coefficient in the local power series would make the
+zeros isolated. Hence every coefficient vanishes there, so the set is
+also closed in $U$. Connectedness gives equality throughout $U$.
+The pinned identity principle uses the same neighborhood-equality
+and preconnectedness hypotheses
+([`Mathlib/Analysis/Analytic/Uniqueness.lean:223`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Uniqueness.lean#L223)).
+The Euler-factor comparison is used in Chapter 2. The classical finite-sum formula appears in [DLMF §25.15(i), equation (25.15.3)](https://dlmf.nist.gov/25.15.E3).
+
+**Notes on the examples.** For $\chi_3$, the opposite weights cancel
+the common pole, so the total Lean value at $1$ belongs to the entire
+continuation. For $\chi_{0,4}$, the weights add and the pole has residue
+$2/4=1/2$. Lean still assigns a complex value at $1$. Its Hurwitz
+terms there are the regularized limits after subtracting $B$
+[Lean, read] ([`Mathlib/NumberTheory/LSeries/HurwitzZeta.lean:96`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L96)).
+The residue comes from the punctured limit of $(s-1)F_{\chi_{0,4}}(s)$. The
+archive therefore excludes $(\chi,s)=(1,1)$ in its half-plane statement
+(`src/Statements.lean:8`).
+
+There is also an exact check outside the convergence half-plane.
+By the classical formula $\zeta(0,a)=1/2-a$ for $0<a<1$,
+$L(0,\chi_3)=(1/2-1/3)-(1/2-2/3)=1/3$ and
+$L(0,\chi_{0,4})=(1/2-1/4)+(1/2-3/4)=0$.
+These values use the continuation just identified and the separate
+classical value formula [Paper].
+[DLMF §25.11(iv), equation (25.11.13)](https://dlmf.nist.gov/25.11.E13).
+
+**Reading boundary.** The completed Hurwitz series and the underlying
+theta kernels and modified Mellin transform arguments remain [Lean]
+at their cited interfaces and [Open] for deeper reading
+([`Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:297`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L297),
+[`Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean:339`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean#L339),
+[`Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean:376`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L376)).
+
+#### 1.3.2.1 The odd Hurwitz part and its Mellin transform
+
+An odd character weights $j$ and $-j$ with opposite signs in the finite Hurwitz sum. The relevant projection is therefore half the difference of the Hurwitz functions at the two shifts. To construct its continuation, weight each point of a shifted lattice by its signed distance from the origin. This weight kills the zero-distance term. The transformed kernel also has zero constant term, so the resulting Mellin integral needs no endpoint corrections.
+
+**Examples.** At $a=1/2$, the shifts coincide and the lattice terms cancel in pairs $n\leftrightarrow -n-1$. At $a=1/4$, the two one-sided sums involve the positive integers congruent to $1$ and $3$ modulo four, respectively. Their difference produces the odd character modulo four.
+
+**Definitions.** Fix $a\in\mathbb R/\mathbb Z$, represented by any real number, and put $e(u)=\exp(2\pi i u)$. For $t>0$ define
+$$
+ F_a(t)=\sum_{n\in\mathbb Z}(n+a)e^{-\pi(n+a)^2t},
+ \qquad
+ G_a(t)=2\sum_{n\ge1}n\sin(2\pi na)e^{-\pi n^2t}.
+$$
+Integer shifts of $a$ reindex the first sum and preserve the second. Both kernels change sign under $a\mapsto-a$. We use Jacobi's transformation from Gaussian Poisson summation and the classical Gamma integral and entire reciprocal Gamma function as inputs.
+
+**Kernel lemma.** Both kernels are continuous for $t>0$ and exponentially small as $t\to\infty$ for fixed $a$. They satisfy $F_a(t)=t^{-3/2}G_a(1/t)$ and $G_a(t)=t^{-3/2}F_a(1/t)$. At $0^+$ both are $O(t^r)$ for every real $r$.
+
+**Proof.** Write $\Theta(z,\tau)=\sum_{n\in\mathbb Z}\exp(\pi i n^2\tau+2\pi i nz)$ for $\Im\tau>0$. The Gaussian majorant on compact subsets also bounds the derivative series in $z$. Completing the square gives
+$$
+ F_a(t)=e^{-\pi a^2t}
+       \left(\frac{\Theta_z(ait,it)}{2\pi i}+a\Theta(ait,it)\right).
+$$
+The quotient $\Theta_z(a,it)/(-2\pi)$ equals $G_a(t)$ because pairing opposite frequencies gives $-in(e(na)-e(-na))=2n\sin(2\pi na)$. Differentiate Jacobi's identity
+$$
+ \Theta(z,\tau)=(-i\tau)^{-1/2}e^{-\pi i z^2/\tau}
+                     \Theta(z/\tau,-1/\tau).
+$$
+The derivative of the exponential brings down $-2\pi iz/\tau$. At $z=ait,\ \tau=it$ that term cancels the $a\Theta$ term in $F_a$. The Gaussian factors cancel, leaving $t^{-1/2}/(2\pi i\cdot it)=-t^{-3/2}/(2\pi)$ times $\Theta_z(a,i/t)$. Interchanging $t$ and $1/t$ gives the second inversion.
+
+After dropping the zero-distance term, let $d>0$ be the least absolute distance in the shifted lattice. For $t\ge1$, the absolute sum for $F_a$ is at most $e^{-\pi d^2t/2}\sum_n |n+a|e^{-\pi(n+a)^2/2}$. The same estimate for $G_a$ uses minimum positive frequency $1$ and $|\sin|\le1$. Gaussian majorants for $t\ge\eta>0$ give local uniform convergence and continuity. Inversion now bounds each kernel near zero by $Ct^{-3/2}e^{-c/t}$ for some $c>0$, which beats every power of $t$. At infinity the exponential bounds likewise beat every power. $\square$
+
+**Proposition (odd Hurwitz continuation and reflection).** Under the stated Poisson and Gamma inputs, set
+$$
+ M_H(w)=\int_0^\infty H(t)t^{w-1}\,dt,\qquad
+ w=\frac{s+1}{2},\qquad D(s)=\Gamma_{\mathbb R}(s+1)=\pi^{-w}\Gamma(w).
+$$
+Then $C_a(s)=M_{F_a}(w)/2$ and $T_a(s)=M_{G_a}(w)/2$ are entire, and $C_a(1-s)=T_a(s)$ for all $s$. Multiplying by the entire reciprocal $D^{-1}$ defines entire functions $O_a=D^{-1}C_a$ and $S_a=D^{-1}T_a$. On $\Re s>1$,
+$$
+ O_a(s)=\frac12\sum_{\substack{n\in\mathbb Z\\n+a\ne0}}
+                 \frac{\operatorname{sgn}(n+a)}{|n+a|^s},
+ \qquad S_a(s)=\sum_{n\ge1}\frac{\sin(2\pi na)}{n^s}.
+$$
+For $0<a<1$, the odd series equals $(\zeta(s,a)-\zeta(s,1-a))/2$ in that region. At the zero class of the circle it is identically zero.
+
+**Proof.** Use real logarithms in the positive-real powers. On each compact set of $w$, both endpoint estimates dominate the Mellin integrands and their parameter derivatives, which insert a factor $\log t$. For difference quotients, integrate this derivative along the segment joining the two parameters and use the same integrable majorant on a slightly larger compact disk. Dominated convergence gives entire transforms. Absolute convergence permits $u=1/t$:
+$$
+ M_{F_a}(3/2-w)=\int_0^\infty G_a(1/t)t^{-w-1}\,dt
+               =\int_0^\infty G_a(u)u^{w-1}\,du.
+$$
+The shift matters because $3/2-w=(2-s)/2$ is the Mellin parameter for $1-s$. Both completions use the same half.
+
+For $r\ne0$, substituting $u=\pi r^2t$ gives
+$$
+ \int_0^\infty r e^{-\pi r^2t}t^{w-1}\,dt
+ =\Gamma(w)\pi^{-w}\operatorname{sgn}(r)|r|^{1-2w}
+ =D(s)\operatorname{sgn}(r)|r|^{-s}.
+$$
+The absolute integral is $\Gamma(\Re w)\pi^{-\Re w}|r|^{-\Re s}$. For $\Re s>1$ these quantities are summable over $r=n+a\ne0$, and likewise over $r=n\ge1$ with bounded sine coefficients. This permits termwise integration. For $G_a$ the $2$ cancels the defining half, and $D$ is nonzero on this half-plane. Splitting at $n=0$ with negative indices written $-m-1$ gives the one-sided Hurwitz difference. The identity theorem gives uniqueness of the entire continuation. At integral $a$ the signed lattice cancels and the sine coefficients vanish. $\square$
+
+**Finite-sum identification and reflection.** For $N\ge1$, let $\Phi$ be odd on $\mathbb Z/N\mathbb Z$, and put $a_j=j/N\bmod1$. In the ordinary finite Hurwitz sum and in its Mathlib completion, the even contributions sum to zero under $j\mapsto-j$. Thus
+$$
+ L_\Phi(s)=N^{-s}\sum_j\Phi(j)O_{a_j}(s),\qquad
+ \mathcal C_\Phi(s)=N^{-s}\sum_j\Phi(j)C_{a_j}(s).
+$$
+Both are entire, with $L_\Phi=D^{-1}\mathcal C_\Phi$. The convergence-region identification in §1.3.2 therefore identifies this same entire function for an odd character, whether primitive or imprimitive.
+
+Use the unnormalized discrete Fourier transform $\widehat\Phi(k)=\sum_j\Phi(j)e(-jk/N)$. It is odd by reindexing. The sine coefficient is
+$$
+ \sum_j\Phi(j)\sin(2\pi jk/N)
+ =\frac{-\widehat\Phi(k)-\widehat\Phi(k)}{2i}
+ =i\widehat\Phi(k).
+$$
+On $\Re s>1$, summing the sine Dirichlet series gives $iL_{\widehat\Phi}(s)$. The Lean proof computes this equality by subtracting exponential zeta sums with opposite phases. Multiplying by $D(s)$ gives $\sum_j\Phi(j)T_{a_j}(s)=i\mathcal C_{\widehat\Phi}(s)$. Applying the odd Hurwitz reflection to each summand at $1-s$ and using the identity theorem yields, for all $s$,
+$$
+ \mathcal C_\Phi(1-s)=N^{s-1}i\mathcal C_{\widehat\Phi}(s).
+$$
+
+For a primitive odd character, insert the primitive Fourier–Gauss formula $\widehat\chi(k)=\tau(\chi)\chi^{-1}(-k)$ with $\tau(\chi)=\sum_j\chi(j)e(j/N)$. The sign $\chi^{-1}(-1)=-1$ combines with $i$ to give $1/i$. Hence the odd branch of the primitive-character equation is
+$$
+ \mathcal C_\chi(1-s)=N^{s-1/2}\frac{\tau(\chi)}{i\sqrt N}\,
+                                  \mathcal C_{\chi^{-1}}(s).
+$$
+The completion here uses just the Gamma factor. The conductor power is separate, as in Mathlib. Primitivity is used in the Fourier–Gauss substitution.
+
+**The examples at $s=0,1$.** At $a=1/2$, the kernel cancellation gives $C_a=T_a=O_a=S_a=0$ at both points and everywhere else. For $a=1/4$, let $\chi_4$ have values $0,1,0,-1$ at $0,1,2,3$. This character is primitive since both proper divisor moduli have only the trivial character. Since $\sin(\pi n/2)=\chi_4(n)$, writing $\beta=L_{\chi_4}$ gives $S_{1/4}=\beta$ and $O_{1/4}=(4^s/2)\beta$. Their series identification extends to all $s$ by the identity theorem. For real $s>1$ each grouped difference $(4m+1)^{-s}-(4m+3)^{-s}$ is positive. Directly $\tau(\chi_4)=i-(-i)=2i$ and $\widehat\chi_4(k)=-2i\chi_4(k)$, giving root number $1$.
+
+The alternating-series remainder is uniform for real $s\ge1$, bounded by the first omitted term with $s=1$. Taking $s\downarrow1$ gives $\beta(1)=1-1/3+1/5-\cdots=\pi/4$, the last evaluation by Abel's theorem for the arctangent series. Since $D(0)=1$ and $D(1)=1/\pi$, we have $T_{1/4}(1)=C_{1/4}(0)=O_{1/4}(0)=1/4$ and $\beta(0)=1/2$. Also $O_{1/4}(1)=\pi/2$ and $C_{1/4}(1)=T_{1/4}(0)=1/2$.
+
+**Domain and source notes.** In general $O_a(0)=S_a(1)/\pi$ and $S_a(0)=O_a(1)/\pi$. At those points the Mellin parameters are $1/2$ and $1$, both in the domain of the integral. At $s=1$ in the modulo-four example, the absolute integrals of the nonzero summands have a divergent harmonic tail. The kernel integral and paired series still converge. At $s=0$ even the individual beta series terms fail to tend to zero. At negative odd integers, the reciprocal Gamma factor gives zeros of the ordinary functions, regardless of the values of their completions.
+
+The ordinary reflection is $O_a(1-s)=D(1-s)^{-1}D(s)S_a(s)$ wherever $D(s)$ is finite. Gamma reflection and duplication express the coefficient there, by continuation at removable singularities, as $2(2\pi)^{-s}\Gamma(s)\sin(\pi s/2)$ for $s$ outside the nonpositive integers. Its value at $s=1$ is $1/\pi$ and its limit at $s=0$ is $\pi$, since $\Gamma(s)\sim1/s$. Indeed reflection gives the reciprocal of $\Gamma(1-s/2)$ as $\Gamma(s/2)\sin(\pi s/2)/\pi$, and duplication gives the product of $\Gamma(s/2)$ and $\Gamma((s+1)/2)$ as $2^{1-s}\sqrt\pi\,\Gamma(s)$. The analogous sine reflection follows by exchanging the two completed functions. The odd bracket in the classical primitive-character equation is $-2i\sin(\pi s/2)$, consistent with the coefficient obtained from the signed Fourier convention. The classical special value $\zeta(0,a)=1/2-a$ independently gives $O_{1/4}(0)=1/4$ from the difference of shifts. [DLMF 25.11.13](https://dlmf.nist.gov/25.11.E13) [DLMF 25.15.5](https://dlmf.nist.gov/25.15.E5)
+
+The odd kernel wrappers, Mellin specialization, completed reflection and local odd finite-sum consumers are [Lean, read] at Mathlib commit 0df444a360eaa60ab8c11dca51a86af692955474 in archive A2 (SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc). The [proof map](../notes/proof-map.md#p1-chapter-1-odd-hurwitz-continuation) gives the declarations, argument substitutions and retained analytic inputs.
 
 ### 1.3.3 Quantifiers: what is covered
 

@@ -1952,3 +1952,52 @@ parabolic slice and final absorption. [Subsection](../chapters/19-published-laye
 - **Mathlib** at commit `0df444a360eaa60ab8c11dca51a86af692955474`, pinned by the archive: `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307`), `Real.rpow_def_of_pos` and `Real.rpow_natCast` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:51,62`) and `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`), checked by statement. Files retrieved 2026-11-24, SHA-256 `1f36a9802233e878953d809b16e020beaf0ace5afd4c8279d47b52af6ee186bf`, `1f4e64fc28a20f4e19291a94dafd68daa82588b46f6ee5b9203df373ba595fa3` and `690c5e4fb7f5dcea80acf0ff8f22fb6c10c74ea61b3ac337fa801685be3e0e25`. [Mathlib at that commit](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474)
 - **[Gallagher1970]**, metadata only. Crossref record retrieved 2026-11-24 (SHA-256 `bd46e09f3c0332db8f103069a2558fc246dcb1c6c85d8c146808d34e2a9f44e4`): *Invent. Math.* 11, no. 4, pp. 329–339, December 1970. The Springer article page shows the same volume and pages; the full text is paywalled and was not read. [Publisher](https://doi.org/10.1007/BF01403187)
 - **[Tao2015]**, read for Theorem 2, Exercise 5 and its hint (the $\log^2x$ versus $\log^2q$ remark and the bound $\Lambda(n)\le\log n$). The notes link Gallagher's theorem to MR0279049 and the treatment to Chapter 18 of Iwaniec–Kowalski (MR2061214). Retrieved 2026-11-24, SHA-256 `c6db99bae3d078922b9cccc001041be70543008703a59947ddc2d18cc1f1283a`. [Notes](https://terrytao.wordpress.com/2015/02/22/254a-notes-7-linniks-theorem-on-primes-in-arithmetic-progressions/)
+### Chapter 1, §1.3.2 — Dirichlet series and the Hurwitz sum
+
+- The fixed Mathlib implementation supplies the residue-class grouping, the
+  common-pole subtraction and the two differentiability wrappers.
+  [ZMod.lean:70–144](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L70-L144),
+  [DirichletContinuation.lean:61–100](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L61-L100),
+  [HurwitzZetaEven.lean:630–650](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L630-L650).
+- The NIST Digital Library of Mathematical Functions gives the classical
+  Hurwitz series, the finite Dirichlet L-function formula and the value at
+  zero. [DLMF 25.11.1](https://dlmf.nist.gov/25.11.E1),
+  [25.15.3](https://dlmf.nist.gov/25.15.E3),
+  [25.11.13](https://dlmf.nist.gov/25.11.E13).
+
+**Even Hurwitz continuation.** [Chapter 1 §1.2.2.1](../chapters/01-statement-and-fidelity.md#1221-how-the-theta-integral-produces-the-even-hurwitz-pole) maps the local proof to the pinned Mathlib
+theta kernels, the abstract functional-equation pair, and its Mellin suppliers.
+[Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean:334–369](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L334-L369) · [Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean:630–642](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L630-L642)
+
+NIST DLMF, §25.11(i), (v), online edition retrieved 2026-11-23. The classical series,
+pole and zero-argument value supply independent comparisons for the two shifts.
+[DLMF §25.11](https://dlmf.nist.gov/25.11) · [DLMF 25.11.13](https://dlmf.nist.gov/25.11.E13)
+
+**Chapter 1, §1.3.2.1.** David Loeffler's odd Hurwitz development in the
+pinned Mathlib source constructs the signed theta kernels, their Mellin transforms
+and the completed reflection. The corresponding odd finite-sum consumer is
+in ZMod.lean, with the character specialization in DirichletContinuation.lean.
+Retrieved 2026-11-23. The odd Hurwitz source has SHA-256
+cce8ee2bc4e5329f8931146110e9e54c7a230a89dcdee0012d0131f5019033bd. [HurwitzZetaOdd](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean#L302)
+· [ZMod](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L432)
+· [DirichletContinuation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L303)
+
+NIST DLMF v1.2.8, consulted 2026-11-23, gives the independent classical
+Hurwitz zero-value check and the primitive character functional equation in
+ordinary normalization. [DLMF 25.11.13](https://dlmf.nist.gov/25.11.E13)
+· [DLMF 25.15.5](https://dlmf.nist.gov/25.15.E5)
+
+### Chapter 1, §1.2.2.2 — Removable values and reciprocal Gamma
+
+- Mathlib at the A2 manifest pin, `0df444a360eaa60ab8c11dca51a86af692955474`, retrieved 2026-11-24. Yury Kudryashov's removable-singularity file produces the differentiable update from the divided difference. David Loeffler's Gamma files produce the entire reciprocal and the Deligne normalization. The Hurwitz file uses them at zero and subtracts the common pole at one. The zeta asymptotics file by David Loeffler and Terence Tao identifies the actual value at one. [Fixed proof locations and reading boundary](../notes/proof-map.md#p1-chapter-1-removable-values)
+- NIST Digital Library of Mathematical Functions, v1.2.8, retrieved 2026-11-24. The Gamma pole and reciprocal conventions, half-argument digamma value, Laurent expansion at one, and classical Hurwitz zero value give independent checks of the normalizations. The book's total-function assignment at one comes from Mathlib. [DLMF §5.2](https://dlmf.nist.gov/5.2) · [DLMF 5.4.13](https://dlmf.nist.gov/5.4#E13) · [DLMF 25.2.4–5](https://dlmf.nist.gov/25.2#E4) · [DLMF 25.11.13](https://dlmf.nist.gov/25.11#E13)
+
+### Chapter 1, §1.2.2.3 — Laurent constant at one
+
+- Mathlib at the A2 manifest pin, `0df444a360eaa60ab8c11dca51a86af692955474`, files retrieved from that commit 2026-11-24 (SHA-256 of each in the run directory). David Loeffler's `EulerMascheroni.lean` defines $\gamma$ as the limit of `harmonic n - log (n+1)` and proves $1/2<\gamma<2/3$. The zeta asymptotics file by David Loeffler and Terence Tao evaluates the Euler-summation error sum at $s=1$ and $s>1$, proves its continuity, obtains the right-real limit $\gamma$ of $\zeta(s)-1/(s-1)$, transfers it to the punctured complex neighborhood, and identifies `riemannZeta 1`. The derivative of the Deligne factor at one is in `GammaDeriv.lean`. [EulerMascheroni.lean:48–172](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean#L48-L172) · [ZetaAsymp.lean:61–450](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L61-L450) · [GammaDeriv.lean:180–227](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L180-L227) · [Fixed proof locations and reading boundary](../notes/proof-map.md#p1-chapter-1-laurent-constant-at-one)
+- NIST Digital Library of Mathematical Functions, v1.2.8, retrieved 2026-11-24. The digamma series and Gauss's rational-argument formula give the classical check $-\psi(1/4)=\gamma+3\log 2+\pi/2$ of the quarter-shift Laurent constant; the Stieltjes expansion names $\gamma_0=\gamma$. These are independent comparisons, not formalized in the pinned Mathlib. [DLMF 5.7.6](https://dlmf.nist.gov/5.7#E6) · [DLMF 5.4.19](https://dlmf.nist.gov/5.4#E19) · [DLMF 5.4.13](https://dlmf.nist.gov/5.4#E13) · [DLMF 25.2.4–5](https://dlmf.nist.gov/25.2#E4)
+
+### Chapter 1, §1.2.2.4 — Derivative of Gamma at one half
+
+- Mathlib at the A2 manifest pin, `0df444a360eaa60ab8c11dca51a86af692955474`, files retrieved from that commit 2026-11-25 (SHA-256 of each in the run directory; `GammaDeriv.lean` byte-identical to the §1.2.2.3 copy). David Loeffler's `GammaDeriv.lean` proves $\Gamma'(n+1)=n!(H_n-\gamma)$ from the log-convexity of $\Gamma$ and the harmonic limit, $\Gamma'(1/2)=-\sqrt\pi(\gamma+2\log2)$ from Legendre's duplication formula, transports both to the complex function and derives the derivatives of the Deligne factors $\Gamma_{\mathbb R}$ and $\Gamma_{\mathbb C}$ at one. The log-convexity (Bohr–Mollerup file), the duplication formula (Beta file) and $\Gamma(1/2)=\sqrt\pi$ (Gaussian integral) are used as named inputs. [GammaDeriv.lean:32–228](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L32-L228) · [BohrMollerup.lean:111–119](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L111-L119) · [Beta.lean:559–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L559-L601) · [Fixed proof locations and reading boundary](../notes/proof-map.md#p1-chapter-1-derivative-of-gamma-at-one-half)
+- NIST Digital Library of Mathematical Functions, v1.2.8, retrieved 2026-11-25. The digamma values $\psi(1)=-\gamma$, $\psi(1/2)=-\gamma-2\ln2$, the integer and half-integer formulas, the recurrence $\psi(z+1)=\psi(z)+1/z$ and the duplication formula are the classical comparisons for the hand calculations at $1/2$ and $3/2$; the half-integer formula is not formalized in the pinned Mathlib. [DLMF 5.4.12–15](https://dlmf.nist.gov/5.4#E12) · [DLMF 5.5.2](https://dlmf.nist.gov/5.5#E2) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5) · [DLMF 5.4.6](https://dlmf.nist.gov/5.4#E6)
