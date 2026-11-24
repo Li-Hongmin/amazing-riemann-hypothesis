@@ -56,6 +56,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 ## Exposition and teaching material
 
+- **Community and literature.** J. S. Milne supplies the classical isomorphism of decomposition groups with local Galois groups, the conjugation invariance of localization maps and the local class field theory used in the examples of §18.3.8. The Alpöge–Claude archive supplies the formal comparison `decEquiv` and the cohomology transport lemmas. [Sources](sources/SOURCES.md#chapter-18-1838-completion-comparison)
+
 - **Community and literature.** John Tate supplies the local Euler and exact-annihilator theorems. J. S. Milne supplies the inertia filtration proof and the equivariant calculation at the residue prime. The Alpöge–Claude archive supplies the formal local Euler construction and its applications. [Sources](sources/SOURCES.md#chapter-18-1837-local-euler-characteristic)
 
 - **Aapo Lipponen (editor)** (`aapolipponen/rh-lean-check-lumi/docs`) — Published a ten-part reader's guide (`01-what-is-proved.md` through `10-open-frontier.md`), glossary, and seven AI-agent module reports mapping the analytic endgame, the $\sqrt{X}$ theta-lift chain, Galois representations, the `VWin` Tate–Shafarevich bound, and the ~250 named literature theorems, with explicit markers for unread lower layers. — `exposition` — [Community] AI-assisted module guide, publicly available — [rh-lean-check-lumi/docs](https://github.com/aapolipponen/rh-lean-check-lumi/tree/main/docs) (2026-11-20)
@@ -124,6 +126,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Chris Birkbeck, Inna Capdeboscq, Johan Commelin, Thomas Lanard and Peiran Wu** — Mathlib’s count of linearly independent tuples over a finite field, the input to the archive’s subspace count (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean)
 
 ## Our contributions
+
+- **Hongmin Li (with AI assistance)** — Read and explained the archive's comparison `decEquiv` between decomposition groups and Galois groups of completions [Lean, read]: adapted embeddings, the restriction isomorphism and its continuity, inertia, the local degree by counting, and the transport of cohomology and restriction maps. Derived the conjugation formulas under a change of embedding, which are not Lean declarations, and worked out a split and an inert example over $\mathbb Q(i)$ in which two embeddings differ on cohomology by a sign and by an involution. The formal proofs are Alpöge–Claude's and the classical statements are Milne's. [Chapter 18, §18.3.8](chapters/18-auditing-the-published-layer-case-studies.md#1838-decomposition-groups-as-galois-groups-of-completions)
 
 - **Chapter 18 §18.3.7.** We explain the local Euler count via Frobenius invariants and coinvariants, give two full examples over $\mathbb Q_5$, and trace which proof supplies the Euler field and where its dimension identity is used. [Subsection](chapters/18-auditing-the-published-layer-case-studies.md#1837-local-euler-characteristics-away-from-the-residue-prime)
 - **Hongmin Li (with AI assistance)** — Explained how the quotient-slope clause reaches the
