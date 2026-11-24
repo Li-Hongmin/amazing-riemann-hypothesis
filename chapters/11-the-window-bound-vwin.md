@@ -523,8 +523,7 @@ two regimes (`src/Development/AutomorphicArithmetic/AutomorphicVarieties/HeightA
 Remarkably, `FerreroWashington` is **not** left in the unreviewed `GlobalTheory.Published` pool: we read
 the entire 119-line file `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean`
 (import cone **809** modules) and the 104-line bridge `ExistsIwasawaRankBoundOfFerreroWashington.lean`
-(cone **2,033**) line by line (`R3` / `[Lean, read]` for both files; `R2` `[Lean]` for their imported
-Stickelberger/Sinnott sub-modules)!
+(cone **2,033**) line by line (`R3` / `[Lean, read]` for both files; see §11.4.3.1 for the finite independence supply and its remaining imported inputs)!
 
 **Proposition 11.3 (In-archive deduction of `FerreroWashington` and Iwasawa rank stabilization).**
 *For every prime $\ell$ (including $\ell = 2$!) and every abelian number field $K / \mathbb Q$ containing
@@ -541,13 +540,12 @@ $$\exists r \in \mathbb N,\ \forall n \in \mathbb N,\quad \bigl\lvert \mathrm{Cl
 
 1. **Full cyclotomic towers $\mathbb Q(\zeta_{f \ell^n})$ (`FW.cyc`, `:18–103`):** Let $f > 1$ be
    coprime to $\ell$, and set $c := 2 f \ell + 1$ (odd, $> 1$, coprime to $f\ell$, `:25–28`).
-   - *Minus part via Stickelberger + Sinnott (`[FerreroWashington1979]`, `[Sinnott1984]`):* The imported
-     Sinnott independence lemma `memZ` (`:29` `[Lean]`) produces $N, n_0 \in \mathbb N$ and, for each
-     $n \ge n_0$, a Galois element $\gamma \in (\mathbb Z / f \ell^n \mathbb Z)^\times$ whose Stickelberger
-     projection is nontrivial mod $\ell$, while `stickH` (`:50, 86` `[Lean]`) shows that the smoothed
-     Stickelberger element `thetaH (f * l^n) (2*f*l + 1)` annihilates the minus class group! Combined
-     with the uniform genus/ambiguous-ideal bound `ambCyc` (`B`, `:30` `[Lean]`), `core` (`:47, 83` `[Lean]`)
-     bounds the minus $\ell$-torsion subgroup by $\lvert \mathrm{difR}(-1) \cap \mathrm{Cl}(L)[\ell] \rvert \le B^N$ (`:52, 88`)!
+   - *Minus part via Stickelberger + Sinnott (`[FerreroWashington1979]`, `[Sinnott1984]`):* The
+     output of the independence argument is `memZ` (see §11.4.3.1). It supplies a fixed exponent and
+     a cyclotomic generator $\gamma$ such that a power of $[\gamma]-1$ lies in the ideal generated
+     by the smoothed Stickelberger half-sum, $1+[-1]$, and $\ell$. Combining this with
+     Stickelberger annihilation (`stickH`) and the ambiguous-class estimate (`ambCyc`),
+     `core` gives $\lvert \mathrm{difR}(-1)\cap\mathrm{Cl}(L)[\ell]\rvert\le B^N$ (`:47–53`, `:83–89`).
    - *Plus part via Kummer/Leopoldt reflection (`:54–64` for $\ell = 2$; `:90–102` for $\ell \ge 3$):*
      Because $L = \mathbb Q(\zeta_{f \ell^n})$ ($n \ge n_0 \ge 2$) contains $\mu_\ell$ (and $\mu_4$ when
      $\ell = 2$), **Kummer / Leopoldt reflection** (`reflOdd` and `pOdd` at `:99–102` for odd $\ell$,
@@ -566,6 +564,111 @@ $$\exists r \in \mathbb N,\ \forall n \in \mathbb N,\quad \bigl\lvert \mathrm{Cl
    between unramified $\mathbb Z/\ell\mathbb Z$-extensions and $\mathrm{Hom}(\mathrm{Cl}(K_n), \mathbb Z/\ell\mathbb Z)$
    (`cardClDual` and `pullOnto`, `:99–103` `[Lean]`) immediately transfers $\le \ell^r$ to the Iwasawa
    cotorsion module `XDual`! $\square$
+
+#### 11.4.3.1 From a finite difference to Stickelberger nonvanishing
+
+**Motivation.** A sum of dilates of a distribution can vanish even when the distribution is nonzero. Here the distribution has a finite-difference equation with a numerator that has a known nonzero coefficient. The archive uses that equation to prove nonvanishing after averaging over roots of unity and twisting by a character. It works with finite group rings and makes the level of detection uniform in the character. The declaration that supplies the class-group proof is the resulting ideal membership in `memZ`. The source map below refers throughout to the joined Lean archive with SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. [Lean, read]
+
+**Example.** [Expository] Over $\mathbb F_5$, take $P(X)=a+bX$ and the dilates $P(X)/(1-X^2)$ and $P(Y)/(1-Y^2)$. Think of $X$ and $Y$ as the monomials for the two independent directions in $\mathbb Z^2$. If the sum of these fractions is zero, then
+$$
+(a+bX)(1-Y^2)+(a+bY)(1-X^2)=0.
+$$
+Map to the group ring with $X^2=1$ and $Y$ still unrestricted. Only $(a+bX)(1-Y^2)$ survives. Multiplication by $1-Y^2$ is injective since a nonzero Laurent polynomial in $Y$ has a highest term. The coefficients of $1$ and $X$ are independent in the group ring of $\mathbb Z/2\mathbb Z$, so $a=b=0$. This calculation uses the denominator factors in two ways. Clearing them first produces a finite expression, and killing one of them in a quotient then isolates its numerator. The archive uses the same operations with additive $\ell$-adic exponents.
+
+**Definitions.** For an abelian group $A$ written additively, use $[a]$ for its basis element in $k[A]$. Thus $[a][b]=[a+b]$ and $[0]=1$. Fix a nonempty finite index set $I$, units $\eta_i\in\mathbb Z_\ell^\times$, and an integer $N>0$. For $P\colon\mathbb N\to k$, set
+$$
+B_i=\sum_{0\le s<N}P(s)[s\eta_i],\qquad D_i=1-[N\eta_i],\qquad
+E=\sum_{i\in I}B_i\prod_{j\ne i}D_j.
+$$
+Here $E$ is the archive's `sinE` in $k[\mathbb Z_\ell]$. In the localization inverting the $D_i$, it is the numerator obtained by clearing denominators in $\sum_i B_i/D_i$. At a finite level we use the cross-multiplied expression $E$ directly. The factors $1-[N\eta_i]$ there have finite-order exponents and can be zero divisors. [Lean, read]
+
+**Lemma (finite-level independence).** [Lean, read] Let $\ell$ be prime. Suppose for $i\ne j$ and $a,b\in\mathbb Z$ that $a\eta_i=b\eta_j$ in $\mathbb Z_\ell$ implies $a=0$. There is an integer $d_0\ge 0$ depending only on the $\eta_i$ and $N$ with the following property. For every $d\ge d_0$, every commutative ring $k$, and functions $P\colon\mathbb N\to k$ and $\alpha\colon\mathbb Z/\ell^d\mathbb Z\to k$, assume
+$$
+\alpha(y)-\alpha(y-N)=\sum_{0\le s<N,\ s\equiv y\bmod\ell^d}P(s),
+\qquad
+\sum_{i\in I}\alpha(\bar\eta_i^{-1}y)=0
+$$
+for every $y\in\mathbb Z/\ell^d\mathbb Z$. Then $P(s)=0$ for every $0\le s<N$. The requirement on the directions is pairwise absence of a nonzero rational ratio.
+
+**Proof.** At level $d$, set $A_i=\sum_y\alpha(y)[\bar\eta_i y]$. Use overbars on group-ring elements for reduction of exponents modulo $\ell^d$. Translation by $N$ in the first hypothesis gives $\bar D_i A_i=\bar B_i$ coefficient by coefficient. The second hypothesis says $\sum_i A_i=0$ since multiplication by $\bar\eta_i$ permutes residues. Consequently
+$$
+\bar E=\sum_i A_i\prod_j\bar D_j=0.
+$$
+This proves the finite group-ring identity in `sinFin`. The reduction map commutes with the sums and products defining $E$ because it sends $[a]$ to $[\bar a]$. This is `sinMap`.
+
+Expand the products in $E$. Its support is contained in the fixed finite set of exponents
+$$
+S=\left\{s\eta_i+\sum_{j\in U}N\eta_j:\ i\in I,\ 0\le s<N,\ U\subseteq I\right\}.
+$$
+This is `sinSupp`. Distinct $\ell$-adic integers differ modulo some power of $\ell$ and then differ modulo every higher power. Take $d_0$ to be the largest distinguishing level for pairs of distinct elements of $S$, with $d_0=0$ if there are no pairs. This is `sep`. For $d\ge d_0$, each coefficient of $E$ on $S$ is therefore the coefficient of $\bar E$ at the corresponding residue. It follows that $E=0$ before reduction.
+
+Choose $i_0\in I$ and project to the additive quotient $A'=\mathbb Z_\ell/\mathbb Z N\eta_{i_0}$, where the denominator denotes the **abstract cyclic subgroup**. In the group ring of this quotient, $D_{i_0}$ maps to zero. The image of $E=0$ is therefore the image of $B_{i_0}$ times the product of the other denominator factors. For each $j\ne i_0$, the image of $N\eta_j$ has infinite order. If $mN\eta_j=bN\eta_{i_0}$ with $m>0$, pairwise independence gives $mN=0$, an impossibility. For an infinite-order element $u$ of an abelian group, multiplication by $1-[u]$ is injective on its group ring over any $k$. Indeed, an element killed by this factor has coefficients invariant under translation by $u$. Any nonzero coefficient would generate infinitely many nonzero coefficients, contrary to finite support. This is `nzd`. Cancel the factors one at a time. The image of $B_{i_0}$ vanishes, and the $N$ exponents $s\eta_{i_0}$ for $0\le s<N$ are distinct in $A'$ because $\eta_{i_0}$ has infinite additive order. Reading their coefficients gives $P(s)=0$. This is `sinLem` and completes the proof of `sinnott`. $\square$
+
+**Arithmetic application.** [Lean, read] Fix $f$ coprime to $\ell$ and an odd integer $c>1$ coprime to $f\ell$. Write $M=f\ell^n$, $G=(\mathbb Z/M\mathbb Z)^\times$, and $e=2$ for $\ell=2$ and $e=1$ otherwise. Put $W=\mu_{\varphi(\ell^e)}(\mathbb Z_\ell)$ and $Q_d=(\mathbb Z/\ell^d\mathbb Z)^\times/\bar W$. For $d\le n$, let $\pi_d:G\to Q_d$ be reduction followed by the quotient. Over a field $k$ of characteristic $\ell$, let $\chi:G\to k^\times$ satisfy $\chi(-1)=-1$. Extend $\chi$ to a function $\Psi$ by zero on nonunits. The smoothing coefficient and half-sum are
+$$
+g(s)=\left\lfloor\frac{c\,\operatorname{rep}_M(c^{-1}s)}{M}\right\rfloor-\frac{c-1}{2},\qquad
+\theta_{\mathrm{half}}=\sum_{s\in G,\ 2\operatorname{rep}_M(s)<M}g(s)[s].
+$$
+Here $\operatorname{rep}_M$ takes least nonnegative representatives, and $[s]$ in the multiplicative group ring denotes a basis element with $[s][t]=[st]$. The twist of the reduced half-sum is its image under $[s]\mapsto \chi(s)[\pi_d(s)]$.
+
+The archive's `nonvan` asserts that a single $d\ge2$, depending on $\ell,f,c$, makes this twist nonzero for **all** $n\ge d$, all such $k$, and all such $\chi$. To see the application of the lemma, choose representatives $R$ for $W/\{\pm1\}$. For $r,r'\in R$, a relation $ar=br'$ with $a\ne0$ gives $a^{\varphi(\ell^e)}=b^{\varphi(\ell^e)}$ upon raising to the common exponent $\varphi(\ell^e)$, so $a=\pm b$ and $r=\pm r'$. Distinct representatives satisfy the independence hypothesis. Use $N=cf\ell$ and take $d=\max(d_0,2)$ from the lemma with these directions.
+
+Suppose the twist vanishes. Let $\alpha(y)$ be the sum of $g(s)\Psi(s)$ over the fiber of $y$ under $\mathbb Z/M\mathbb Z\to\mathbb Z/\ell^d\mathbb Z$. For unit $y$, the residues $\bar r^{-1}y$ partition the corresponding $\pi_d$-fiber up to sign, using injectivity of reduction on $W$ for $d\ge2$ (`reps`, with `teich` [Lean]). More precisely, their inverse images in $G$ select one member of each orbit $\{s,-s\}$ in the fiber. The lower-half representatives defining $\theta_{\mathrm{half}}$ also select one member of each orbit, since $M>2$. The value $g(s)\Psi(s)$ is the same on both members. Indeed $g(-s)=-g(s)$ by complementary floors: if $x=\operatorname{rep}_M(c^{-1}s)$, then $0<x<M$ and $cx/M$ is nonintegral, so $\lfloor c(M-x)/M\rfloor+\lfloor cx/M\rfloor=c-1$. Also $\Psi(-s)=-\Psi(s)$. This proves that $\sum_{r\in R}\alpha(\bar r^{-1}y)$ is the corresponding twist coefficient. For nonunit $y$ all terms are zero since no unit maps to a nonunit. This is the coefficient comparison in `twCoef`. It applies in characteristic two as well: choosing one per orbit avoids division by two.
+
+For the difference equation, $\Psi$ has period $f\ell$. Units remain units under translation by $f\ell$, and for each unit the ratio between its translate and itself lies in the $\ell$-group $\ker(G\to(\mathbb Z/f\ell\mathbb Z)^\times)$. Every element of $\ell$-power order in $k^\times$ is $1$. Nonunits remain nonunits. This is `charPer`. The shift by $c$ in $g$ comes from changing $\operatorname{rep}_M(c^{-1}s)$ by one. If $x=\operatorname{rep}_M(c^{-1}s)>0$, the floor difference is $\lfloor cx/M\rfloor-\lfloor c(x-1)/M\rfloor$, the number of integers $h$ satisfying $c(x-1)<hM\le cx$. Setting $j=cx-hM$ counts precisely the integers $0\le j<c$ congruent to $s$ modulo $M$. At $x=0$ the same calculation uses the floor at $x-1=-1$. Replacing $-1$ by the actual representative $M-1$ increases that floor by $c$, so the difference has an extra term $-c$ at $s=0$. Thus the one-step difference sums $1-c\,\mathbf 1_{c\mid j}$ over $0\le j<c$ congruent to $s$. Telescoping $f\ell$ steps and multiplying by the periodic $\Psi$ gives the numerator
+$$
+P(j)=\Psi(j)(1-c\,\mathbf 1_{c\mid j})\quad(0\le j<cf\ell).
+$$
+Summing over the reduction fibers commutes with translation by $N$, so the difference identity descends to $\alpha$ (`gcShift`, `pushDiff`). The lemma would force $P(1)=0$, whereas $c>1$ and $\Psi(1)=1$ give $P(1)=1$. This proves `nonvan`.
+
+**The interface consumed by Ferrero–Washington.** [Lean, read] For the same $\ell,f,c$, `memZ` supplies $H,d$ with $d\ge 2$ such that for every $n\ge d$ there is $\gamma\in G$ represented by $1+f\ell^e$, with $[G:\langle\gamma\rangle]=\varphi(f\ell^e)$, satisfying
+$$
+([\gamma]-1)^H\in(\theta_{\mathrm{half}},\ 1+[-1],\ \ell)\subseteq\mathbb Z[G].
+$$
+The proof takes $d$ from `nonvan`, writes $\varphi(f\ell^e)=\ell^a m$ with $(m,\ell)=1$, and takes $H=\ell^d\ell^a$. The group-splitting input `struct` gives the index of $\langle\gamma\rangle$ stated above, $\gamma^{\ell^n}=1$, and a homomorphism $p:G\to G$ with image in $\langle\gamma\rangle$. It supplies $p(-1)=1$, $(g/p(g))^{\ell^a m}=1$, $\pi_d\circ p=\pi_d$, and $(\pi_d\gamma)^{\ell^d}=1$. To see how the nonvanishing enters the ideal, work over $k=\overline{\mathbb F}_\ell$ and write $p$ for that projection, $q=\ell^a$, and $T=[\gamma]-1$. Let $D$ be the image of $g\mapsto (g/p(g))^q$. Every element of $D$ has order dividing $m$, so $D$ has order prime to $\ell$. In the quotient by $(\theta_{\mathrm{half}},1+[-1])$, consider an eigenvector $v\ne0$ for $D$ with character $\psi$. Define $\chi(g)$ by $\chi(g)^q=\psi((g/p(g))^q)$ using inverse Frobenius. Because $p(-1)=1$ and $[-1]$ acts as the scalar $-1$ in this quotient, $\chi(-1)=-1$. Put $F=\operatorname{tw}(\chi,p)(\theta_{\mathrm{half}}\bmod\ell)$. Taking the $q$-th power of the half-sum and acting on $v$ is the same as acting by $F^q$: on each monomial this is the identity $g^q=(g/p(g))^q p(g)^q$, and Frobenius distributes over sums. Hence $F^qv=0$.
+
+Now $F$ is a polynomial in the nilpotent $T$ since $p(g)\in\langle\gamma\rangle$. The image of $T^{\ell^d}$ under $\pi_d$ is zero, while the image of $F$ is the nonzero twist from `nonvan`. Thus $F$ is not divisible by $T^{\ell^d}$. Factoring its polynomial at zero gives $F=T^u U$ for some $u<\ell^d$ and a unit $U$ (its constant coefficient is nonzero and its remaining terms are nilpotent). In particular $F\mid T^{\ell^d}$ and $T^{q\ell^d}v=0$. The character eigenspaces span the quotient: the usual idempotents $|D|^{-1}\sum_{x\in D}\psi(x)^{-1}[x]$ sum to $1$ by character orthogonality. Therefore $T^{q\ell^d}$ is zero there. This is the deduction in `algK`. The proof of `descZ` descends the resulting expression coefficientwise by choosing an $\mathbb F_\ell$-linear retraction $\overline{\mathbb F}_\ell\to\mathbb F_\ell$ fixing $1$. This retraction commutes with multiplication by the reductions of integral group-ring elements. Lifting coefficients of the multipliers to $\mathbb Z$ leaves an error divisible by $\ell$. In `cyc`, the single call to `memZ` uses $c=2(f\ell)+1$. The resulting membership, together with Stickelberger annihilation, is what the class-group bound consumes. In additive notation, multiply the ideal relation by $1-[J]$, where $J=-1$. The term $1+[J]$ drops out because $J^2=1$, and $\theta_{\mathrm{half}}(1-[J])$ annihilates the class group by `stickH`. It follows that $(1-[\gamma])^H$ sends $(1-J)C$ into $\ell(1-J)C$ for the class group $C$. [Lean] for the group splitting and class-group estimates used at this interface.
+
+**Remark on $\mu$.** [Expository] The finite functions $\alpha$ play the role of distribution coefficients on residue classes, and summing their dilates is the operation behind the $\Gamma$-transform on units. For an integral power series over a discrete valuation ring, having $\mu=0$ means surviving reduction modulo a uniformizer. A compatible system in the completed group ring survives reduction as soon as a finite quotient has a coefficient that survives. In the archive the reduced coefficients are used on the **algebraic** side through `memZ`, which feeds the uniform class-group rank bound in the preceding proposition.
+
+Sinnott's continuous result starts from a measure whose associated power series is a rational function. Its $\Gamma$-transform has the same $\mu$-invariant as the sum of the restriction to units and its image under negation. The sign pairing matters at $\ell=2$ as well. The paper proves rational-function independence by rescaling independent Laurent monomials to shorten a putative relation. The finite proof above isolates a numerator by killing a denominator in an abstract group quotient. [Paper] [Sinnott1984, Theorem 1 and §3, pp. 276–279](https://gdz.sub.uni-goettingen.de/id/PPN356556735_0075?tify=%7B%22pages%22%3A%5B282%5D%7D).
+
+For the usual Iwasawa-module interpretation, assume the cyclotomic class-group control theorem and the torsion $\mathbb Z_\ell[[T]]$ structure theorem in the following form. The finite-layer class groups agree with the coinvariants by $(1+T)^{\ell^j}-1$ up to errors of bounded order, and the inverse-limit module is pseudo-isomorphic to the elementary module, with finite kernel and cokernel. A summand $\mathbb Z_\ell[[T]]/(\ell^b)$ with $b>0$ contributes $\ell^j$ dimensions after taking these coinvariants and reducing modulo $\ell$, since $(1+T)^{\ell^j}-1$ reduces to $T^{\ell^j}$. Finite errors affect the dimensions by a bounded amount: apply the coinvariant-and-reduction functor, quotient by $(\ell,(1+T)^{\ell^j}-1)$, and bound the resulting kernel correction for a finite cokernel by its first Tor, computed with the two-generator Koszul resolution. Its middle term consists of two copies of the finite cokernel. The same bound applies to a control map with bounded finite errors on the finite-layer coinvariants after reduction by $\ell$, using the resolution of $\mathbb Z_\ell/\ell$. Thus the uniform bound excludes every such summand, giving $\mu=0$ under those named structure and control inputs. [Open] for the proof of these inputs and for the construction and identification of the continuous measures. The finite-level theorem above supplies the independence argument used by the archive.
+
+**Source map.** Joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Paths are relative to the archive root.
+
+| Archive file and lines | Status |
+| --- | --- |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/TwSingle.lean:7–48` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SinFin.lean:5–64` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SinMap.lean:5–10` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SinSupp.lean:5–56` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SepPair.lean:5–25` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/Nzd.lean:5–36` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SinLem.lean:7–78` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/Sinnott.lean:10–44` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/EvenTot.lean:24–86` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/CharPer.lean:5–53` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/GcNeg.lean:28–62` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/GcDiff.lean:25` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/GcShift.lean:6–62` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/PushDiff.lean:5–38` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/TwCoef.lean:5–203` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/Nonvan.lean:12–60` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/ToKOf.lean:13–37` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/DescZRetr.lean:5–61` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/Struct.lean:27` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/AlgK.lean:8–84` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/ToZModPowOneEqZeroIff.lean:53` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/HalfSum.lean:5` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/CardRangeInfTorsionLeIndexPow.lean:64` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:29–50` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FerreroWashington.lean:79–89` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/PhiDvd.lean:5–89` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/FrobEig.lean:5` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/SepChar.lean:5` | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/StickH.lean:8` | [Lean] |
+| `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/FerreroWashingtonIndex/AmbCyc.lean:9` | [Lean] |
 
 ### 11.4.4 Top-level modularity-to-`VWin` wiring (`vwin_of_row`) and honest map of the 157,603-module cone
 
@@ -626,7 +729,7 @@ Our exact transitive import-cone audit separates the fully read (`R3`) algebraic
 | `PublishedTheorems/FerreroWashington.lean` | **0** | `R3` (`[Lean, read]`) | Pure Mathlib statement of bounded $\ell$-rank in cyclotomic $\mathbb Z_\ell$-towers (including $\ell = 2$). |
 | `LemmaK.lean` | **9** | `R3` (`[Lean, read]`) | Statement of Soulé-type $\log\lvert H^2(\mathbb Z_\ell(e+1)) \rvert$ torsion bound; proof cone in `KTheoryStability/` is `[Open]`. |
 | `ExistsPageN.lean`, `LengthEqAddEigen.lean`, `PrimeSetBoundDataOfPrimitiveChar.lean`, `AdmissibleOfPageN.lean` | **19–38** | `R3` (`[Lean, read]`) | Master definitions `VVle`, `VWin`, parity split `vvle_of_parts`, CM/conductor proofs, and subexponential squeeze `vwin_of_joint`. |
-| `FerreroWashingtonIndex/FerreroWashington.lean` | **809** | `R3` (`[Lean, read]` top proof; `R2` `[Lean]` Sinnott sub-lemmas) | Proves `FW.ferreroWashington` via Sinnott's independence lemma, Stickelberger annihilation, and Kummer reflection. |
+| `FerreroWashingtonIndex/FerreroWashington.lean` | **809** | `R3` (`[Lean, read]` top proof; `R3` for the finite independence supply in §11.4.3.1) | Proves `FW.ferreroWashington` via Sinnott's independence lemma, Stickelberger annihilation, and Kummer reflection. |
 | `JointWinOfCounts.lean` (with `ThmHV`, `FinalLe`, `SumOut`, `CountVs`) | **1,144** | `R3` (`[Lean, read]` top files; `R2` `[Lean]` character-orbit helpers) | Assembles `CountI`–`CountV`, `CountZ`, `LemmaK`, `ThmBab`, and `ThmBcFree` into `VWin`. |
 | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean`, `KatoUse.lean` | **1,711–1,713** | `R3` (`[Lean, read]` statements; proof cones `[Open]`) | Interfaces `PfromAut` (Taylor–Wiles patching on universal ordinary determinant rings) and `KatoUse` / `PropGK` ($U(3)$ trace annihilator). |
 | `WindowBoundOfLiteratureLevel.lean` $\to$ `TopMainZj.lean` $\to$ `VwinOfRow.lean` | **55,066 $\to$ 157,603** | `R3` (`[Lean, read]` top wiring; deep proof cones `[Open]`) | Wires `Row0b`, `OpenImageCondition`, `LemmaK`, Kato, and residually reducible $U(3)/\mathrm{GSp}_4$ modularity into `VWin`. |

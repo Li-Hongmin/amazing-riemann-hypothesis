@@ -157,6 +157,8 @@ producers `HypLow`/`HypHigh` behind `Places_at`
 101). Likewise `LinkS` is at `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:152` in our extraction (LUMI: 145).
 We cite ours.
 
+**P12 (independence supply).** Chapter 11 §11.4.3.1 reads the bodies of `sinnott`, `nonvan`, and `memZ` (R3). Finite differences and the sum over sign representatives yield the reduced twist. Uniform nonvanishing supplies the ideal relation used by `cyc`. See the section’s pinned source map for the named inputs that retain [Lean].
+
 **P12 (size).** `VwinOfRow.lean` (6 lines) imports a cone of 157,603 modules, 90% of the
 archive. By import weight the window bound is the largest single component of the proof.
 

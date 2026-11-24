@@ -635,6 +635,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   function", *Inventiones Mathematicae* 75 (1984), no. 2, 273–282, doi:10.1007/BF01388565 (cited
   in Chapter 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01388565`), *Invent. Math.* vol. 75, no. 2 (1984), pp. 273–282.
+  Content checked 2026-11-23 in the Göttingen digitization of the original printing, vol. 75,
+  pp. 273–282. Theorem 1 compares the transform with the sign-symmetrized restriction to units.
+  Section 3 gives the Laurent-monomial independence argument. Chapter 11 §11.4.3.1 gives the
+  finite group-ring proof from the pinned Lean archive. The original Ferrero–Washington article
+  is the historical theorem citation, and Sinnott is the reference for the transform approach.
+  [Göttingen scan](https://gdz.sub.uni-goettingen.de/id/PPN356556735_0075)
 - **[SkinnerUrban2014]** C. Skinner and E. Urban, "The Iwasawa Main Conjectures for $\mathrm{GL}_2$",
   *Inventiones Mathematicae* 195 (2014), no. 1, 1–277, doi:10.1007/s00222-013-0448-1 (cited in
   Chapter 10, §10.4.5: §4 "Constructing coycles" [sic] and the map (4.4.3.a), compared with Lemma 10.8;
