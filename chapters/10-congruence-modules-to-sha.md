@@ -8,8 +8,9 @@
 > `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`), and, in §§10.4.5–10.4.6,
 > for the imported DVR determinant lemma, block-determinant lemmas, GMA Fitting step, peeling lemma,
 > cyclotomic-block $Ш^1$ bound, class-number bound, $\rho$-block Selmer comparison and
-> `twist_kills_selmer` (`R3`), and for the main-path twist construction and Chebotarev producer read in §10.4.7
-> and the lattice-specialization transport read in §10.4.7.1.
+> `twist_kills_selmer` (`R3`), for the main-path twist construction and Chebotarev producer read in §10.4.7,
+> the lattice-specialization transport read in §10.4.7.1, and for the local and conditional matrix proofs in
+> §§10.4.8–10.4.13, including the global invariant sum read in §10.4.11.1. Each subsection records its reading boundary.
 > `[Lean]` marks the remaining statement-level sub-lemmas at the
 > end of §10.4.5 and for the deeper inputs listed in §10.4.7; `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
 > draft; `[Community]` for public community reports; `[Expository]` for classical Hida/Ribet/Bellaïche–Chenevier
@@ -1134,6 +1135,16 @@ theorem in the `Published` namespace. Both the matrix-and-bounds producer of the
 auxiliary primes and the application of its result to all good signatures were read
 line by line. [Lean, read]
 
+The twist call also takes `PoitouTateTotallyComplex`, `CohDimTwo`, `TameLocal`,
+`LocalFiniteness`, `LocalTateDuality`, `LocalEulerChar`, `GlobalFiniteness`,
+`GlobalEulerChar`, `UnramifiedOrthogonality`, `ArchimedeanSignatureMatching` and
+`GreenbergWiles`, followed by `RayCharacterArtin` and the hypotheses projected from
+`hI`. Among the latter, `hI.a2` supplies the distinct `BlochKatoReduction.adm2`
+used in `AdmACD`. The dependency claim about the single-power package concerns
+`IntegralHeckeForms.adm2`.
+`src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtOfBundles.lean:19–28`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:93–103`.
+
 **Dependency evidence.** The SHA-256-verified DeDeo export of the five main theorems
 contains `admissibleIndexBoundAllPowers_of_conditions`, `exportAll_of_six_inputs`,
 `galois_twisted_selmer_auxprimes_of_matrix_and_bounds` and `GlobalTheory.Published.cheb_holds`.
@@ -1144,11 +1155,11 @@ roots together. Reachability alone does not establish consumption. The proof
 applications above identify where the witness is passed and read.
 [DeDeo export, SOURCES V8](../sources/SOURCES.md#v8)
 
-**Remark [Open].** The deeper cohomology and determinant arguments behind the Selmer presentation
-and the two order bounds, the cyclotomic prime-norm existence inputs to `chebotarevDegreeOne'`, and the
-toric supply `PropABCD` with the level lemma behind `exists_level` remain to be read. Section 10.4.7.1
-reads the lattice-specialization transport. The applications above identify these inputs and their
-quantifiers.
+**Remark.** §10.4.8 gives the conditional first-order proof used by both order bounds.
+Section 10.4.12 supplies the conditional global Selmer presentation. The cyclotomic prime-norm existence inputs to `chebotarevDegreeOne'`, and the
+toric supply `PropABCD` with the level lemma behind `exists_level` remain [Open] for a full reading;
+§10.4.7.1 reads the lattice-specialization transport. The applications above identify these inputs
+and their quantifiers.
 
 #### 10.4.7.1 Lattice specialization: one index bound for every coprime power
 
@@ -1327,7 +1338,1308 @@ Neither of these two producers is called on the path from `src/Main.lean` (§10.
 The reading upgrades the transport in §10.4.6 from statement level to a read proof. It does not upgrade the toric supply, the level lemma or the integrality inputs. The lattice clauses are proved from those named inputs.
 
 
+### 10.4.8 From tame inertia to the order of a Selmer determinant
+
+#### Motivation
+
+Choosing auxiliary places gives two kinds of control. At a second-half place the residual representation is trivial on the decomposition group, so a residual cocycle is additive there. Meanwhile the first-half characters give prescribed coordinates on the second-half Frobenius. The first-order twist combines these facts: Frobenius conjugation of inertia forces a linear relation between the leading values of a liftable cocycle. A matrix computing continuous Selmer cohomology transfers that relation to its first-order kernel. This section follows that supply chain for both order bounds of §10.4.7. The scalar quadratic-relation estimate in §10.4.5 belongs to the congruence-length calculation in Theorem 10.2.
+
+#### Example 10.7. A finite DVR module and a first-order kernel
+
+Over $O=\mathbb Z_3$, let
+$$
+A(T)=\begin{pmatrix}3+T&0\\0&9+T^2\end{pmatrix}.
+$$
+At $T=0$ take coefficients in $O/(27)$. The equations $3x=0$ and $9y=0$ give
+$x\in 9O/27O$, $y\in 3O/27O$. There are $3\cdot9=27$ solutions and the length is $1+2=3$.
+The integral cokernel is $O/(3)\oplus O/(9)$, with the same length $v_3(27)=3$.
+Here $\operatorname{len}_O(O/(3))=1$, so division by this factor gives normalized length $3$.
+
+On the residual polynomial line in characteristic $3$ the matrix is $\operatorname{diag}(T,T^2)$.
+A leading vector $x_0$ admits a lift $x_0+Tx_1$ to the kernel modulo $T^2$ exactly when its first coordinate vanishes.
+Thus the space of leading vectors is one-dimensional, although the constant matrix has a two-dimensional
+kernel. The determinant has order $3$ and the adjugate $\operatorname{diag}(T^2,T)$ has an entry of order $1$.
+For comparison, $\operatorname{diag}(T,T)$ has zero space of liftable leading vectors and determinant
+of order $2$. This arithmetic model illustrates both matrix tests. The finite specialization and
+the residual line measure different quantities.
+
+#### Definitions and hypotheses
+
+Write $O_0=X.O0(i)$, $k=O_0/\mathfrak m$, $r=D.R.r$, and $I_R=\mathrm{Fin}(R)\sqcup\mathrm{Fin}(R)$.
+The group ring $\Lambda$ is $O_0[(\mathbb Z/\ell^M)^{I_R}]$. The map `toLam` sends $X_q$ to the
+$q$-th group generator minus $1$. The twisting factor is the **inverse** of the joint
+character $d=(d_q)_q$. `IsRes` means the scalar map kills $\mathfrak m$.
+
+For a discrete coefficient module $B$ with the indicated Galois action, $Z^1(G,B)$ consists
+of the continuous functions satisfying $z(gh)=z(g)+g z(h)$. The submodule $B^1(G,B)$ consists of
+$g\mapsto gm-m$. The source uses $H^1=Z^1/B^1$ and imposes the local conditions on **classes**
+in that quotient. At an element acting as the identity, evaluation on $H^1$ is well-defined
+because every coboundary evaluates to zero there. On a whole residually trivial decomposition
+group the restriction of a residual cocycle is additive. For discrete coefficients continuity
+is equivalent to local constancy. Finite image on a profinite group follows by compactness,
+and finite module length in a DVR calculation requires a separate torsion bound.
+`src/Formalism/GaloisCohomology/Statement.lean`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:25–32`.
+
+The hypotheses of the order argument are the archive's `TameLocal`, `GalHyp`, `FirstHalf`,
+`Recip`, and `EqDim`, with `Position`, `IsQ` and `Computes` for the chosen data.
+`TameLocal.1` gives `TameQuotient`. `Position` supplies two disjoint families up to conjugacy,
+the norm congruence and character conditions, the `Steps` coordinates, and residual
+triviality on each second-half decomposition group with Frobenius $\phi_a$ and conjugate
+$\phi'_a$. `IsQ` identifies $Q$ with the places over the selected pairs. `FirstHalf` gives
+vanishing of local $H^0,H^1,H^2$ at first-half places for the specified twisted torsion
+coefficients and both representations. `Computes` is a functorial identification of the
+matrix kernel over each discrete $\ell$-power-torsion coefficient module with the
+$Q$-relaxed Selmer submodule of $H^1$. It applies to $k$ and to the discrete dual numbers.
+`EqDim` records finite-dimensional unrelaxed residual Selmer spaces of equal dimension for
+the representation and its dual. The public wrapper takes it, and its proof uses the
+separately supplied `Corank` condition at the matrix stage.
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsDualDualRep.lean:23–35,65–140`,
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:92–110`.
+
+#### Lemma 10.14. The tame relation on a dual-number cocycle
+
+Assume `TameQuotient` at a place $v\nmid\ell$ with chosen place above it, $M\ge1$ and
+$q=Nv\equiv1\pmod{2\ell^M}$. Let $d$ be a character to the additive cyclic group
+$\mathbb Z/\ell^M$ with open kernel and surjective restriction to inertia $I$.
+Fix a Frobenius $\phi$ at the chosen place. There is $\gamma\in I$ with $d(\gamma)=1$
+in additive notation such that the following holds for every field $K$ of characteristic
+$\ell$ and $K$-module $W$. If $z_0$ is locally constant and additive on the decomposition
+group $D_v$, then $z_0(\gamma)=0$ implies $z_0|_I=0$. If $\lambda$ and $z_1$ are also
+locally constant, with $\lambda$ additive on $D_v$ and
+$$
+z_1(gh)=z_1(g)+z_1(h)+\lambda(g)z_0(h)\qquad(g,h\in D_v),
+$$
+then $\lambda(\gamma)z_0(\phi)=\lambda(\phi)z_0(\gamma)$.
+[Lean, read]
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameLocalRelationDualNumberCocycleStatement.lean:9–10`.
+
+*Proof.* Let $J$ be the kernel of the pro-$\ell$ tame inertia quotient. The source hypothesis
+gives an inertia lift $\gamma_0$ whose powers together with $J$ are dense in $I$, and
+$\phi\gamma_0=\gamma_0^q j\phi$ for some $j\in J$. Every open normal subgroup of $J$ has
+index prime to $\ell$. A homomorphism from $J$ with open kernel to a group of exponent
+$\ell^n$ is trivial: the order of each image divides both the kernel index and $\ell^n$.
+This kills $d$ on $J$ and kills any locally constant additive $K$-valued or $W$-valued
+map on $J$. The preimage under $d$ of the subgroup generated by $d(\gamma_0)$ is open
+because it contains the open kernel. It is also closed, contains $J$ and the powers of
+$\gamma_0$, and hence contains $I$. By surjectivity there is an integer $b$ with
+$b\,d(\gamma_0)=1$ in $\mathbb Z/\ell^M$. Use $\gamma=\gamma_0^b$. Reduction of this
+identity in $K$ gives $b\ne0$ in $K$. Additivity gives
+$z_0(\gamma)=b z_0(\gamma_0)$, so vanishing at $\gamma$ gives vanishing on the dense
+subgroup generated by $\gamma_0$ and $J$. The zero fiber of a locally constant map
+is closed, which proves vanishing on $I$.
+
+For the second conclusion, $\lambda$ vanishes on $J$, and $z_1$ is additive there since
+$z_0|_J=0$. Hence $z_1|_J=0$ as well. Induction, using
+$\lambda(\gamma_0^n)=n\lambda(\gamma_0)$ and the binomial recursion, gives
+$$
+z_1(\gamma_0^n)=n z_1(\gamma_0)+\binom{n}{2}\lambda(\gamma_0)z_0(\gamma_0).
+$$
+The constant at $n=0$ is zero by the cocycle law at the identity. Since $q-1$ is a
+multiple of $2\ell^M$, $q$ becomes $1$ in $K$ and the integer $\binom{q}{2}$ becomes $0$.
+The factor $2$ in the congruence gives this conclusion also in characteristic two.
+Now expand $z_1(\phi\gamma_0)$ as $z_1(\gamma_0^q j\phi)$. After cancelling the two
+$z_1$ values the identity is $\lambda(\phi)z_0(\gamma_0)=\lambda(\gamma_0)z_0(\phi)$.
+Multiplication by $b$ gives the result. $\square$
+`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ContinuousCycMod.lean:116–133`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameLocalRelationDualNumberCocycle.lean:13–159`.
+
+#### Proposition 10.15. From the local relation to the two order bounds
+
+Assume the named hypotheses above, with $4rR+2<\ell^M$ and an $a\times a$ matrix
+$\Phi$ over $\Lambda$ satisfying `Computes`. With `Corank` at $e=0$, every polynomial
+lift of $\det\Phi$ through `toLam` has a unit coefficient of total degree at most $4rR$.
+With `Corank` at $e=1$, either $a=0$ or there is an entry of $\operatorname{adj}\Phi$
+for which every polynomial lift has such a coefficient. Here `Corank` at $e$ asserts
+that suitable coefficients in the Frobenius pairings against all unrelaxed dual Selmer
+classes cut the possible independent unrelaxed classes down to at most $e$.
+[Lean, read] for the conditional argument.
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsDualDualRep.lean:126–142`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:118–350`.
+
+*Proof.* Lift $\Phi$ entrywise through the surjection `toLam`. Let $V$ be its kernel over
+$k$ via augmentation. The residual transfer of `Computes` gives an injection
+$E:V\hookrightarrow H^1$, with image satisfying the relaxed local conditions, and supplies
+the compatible cocycle representatives used below. The dual representation in `Recip` is
+the inverse transpose of the original, scaled by `eps0`. Choose $\gamma_a$ by Lemma 10.14
+for each second-half character. Let $c_a\in k^\times$ be the reciprocity weights at the
+pairs $(\gamma_a,\phi_a)$ and their conjugates, and $c^0_a\in k$ the `Corank` weights at
+$(\phi_a,\phi_a)$ and their conjugates. On $V$ put $t$ equal to evaluation of $E$ at
+$\gamma_a,\gamma'_a$, and $u$ equal to evaluation at $\phi_a,\phi'_a$ scaled by
+$s_a=c^0_a/c_a$. Both maps have target $U=(k^r\times k^r)^R$. These evaluations
+descend through coboundaries by residual triviality, also at the conjugate elements.
+
+Suppose $t x_0=0$ and $t x_1=u x_0$. The first equality and Lemma 10.14 remove the
+second-half inertia values, including at the conjugate places. The relaxed-to-unrelaxed
+transfer, using `FirstHalf`, puts $E x_0$ in unrelaxed Selmer. In the reciprocity sum
+for a representative of $E x_1$, the second equality replaces each inertia evaluation
+by $s_a$ times the corresponding Frobenius evaluation of $E x_0$. The factor
+$c_a s_a=c^0_a$ yields exactly the `Corank` sum for $E x_0$ against every unrelaxed
+dual class. Therefore no $e+1$ independent $x_0$ can satisfy these equations, since
+$E$ is injective. On $\ker t$ consider $u$ modulo $\operatorname{im}t$. Its kernel has
+dimension at most $e$, and its image has dimension at most $\dim U-\dim\operatorname{im}t$.
+Rank–nullity gives $\dim V\le 2rR+e$. After extension of scalars the constant matrix
+kernel still has dimension at most this value, since independent columns in the
+original image remain independent.
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:131–197`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FinrankKerMapLeOfFirstOrderKernelExt.lean:5–70`.
+
+Use $K=k((\sigma))$, represented by Hahn series with integer exponents, and
+$\beta_a=\sigma s_a$. Specialize the polynomial entries along $X_q=b_qT$, with
+$b_{\mathrm{inr}(a)}=\beta_a$ and
+$$
+b_{\mathrm{inl}(a)}=1-\sum_j\beta_j\,\overline{d_{\mathrm{inr}(j)}(\phi_a)}.
+$$
+Bars on characters denote additive coordinates reduced to $K$. Modulo $T^2$ this
+sends each group element $\delta$ to $1+T\sum_q b_q\bar\delta_q$. It is multiplicative
+because $T^2=0$, has augmentation as constant term, and evaluation of a polynomial
+retains just its constant and linear coefficients. The inverse twisting character
+has linear coefficient $\lambda(g)=-\sum_q b_q\overline{d_q(g)}$. It is locally
+constant by the open kernels, additive, and changes sign under conjugation by the
+CM involution because the characters are anticyclotomic.
+
+Write $\Psi=A+TB+\cdots$ for the resulting polynomial matrix. A vector
+$x_0+T x_1$ in its kernel modulo $T^2$ satisfies exactly
+$$A x_0=0,\qquad B x_0+A x_1=0.$$
+The transfer of `Computes` represents it by a continuous twisted cocycle
+$w=w_0+T w_1$. At the second-half decomposition group the base action is the
+identity after reduction, so its cocycle law is the law of Lemma 10.14 with $z_j=w_j$.
+The `Steps` Kronecker coordinates give $\lambda(\phi_a)=-1$ by the choice of
+$b_{\mathrm{inl}(a)}$. At $\gamma_a$ only the character of its own place is nonzero,
+and its additive value is $1$, giving $\lambda(\gamma_a)=-\beta_a$.
+Lemma 10.14 now gives $w_0(\gamma_a)=\beta_a w_0(\phi_a)$. Apply it also to
+the cocycle composed with complex conjugation. Both $\lambda$ values change
+sign, giving the same ratio for the conjugate pair.
+
+For each $k$-linear functional $p:K\to k$, compose constant-term projection
+on the dual numbers with $p$, and separately with $p(\sigma\,\cdot)$. These
+are module maps for the augmented action. Functorial transfer gives vectors
+$x,x'\in V$ whose coordinates are $p(x_0)$ and $p(\sigma x_0)$, with classes
+represented by $p(w_0)$ and $p(\sigma w_0)$. The two local relations then give
+$t x=u x'$. The property of admitting these pairs for all $p$ is stable
+under $K$-scaling (precompose $p$ with multiplication) and subtraction.
+Normalize a nonzero leading vector by its coordinate of smallest series
+order so that this coordinate is $1$ and all coordinates have nonnegative
+order. With $p$ equal to coefficient extraction at $0$ we get $t x=0$,
+since the constant coefficient of $\sigma x_0$ vanishes. With $p$ equal
+to extraction at $1$ we get a witness $y$ with $t y=u x$. The reduction
+$x$ has a coordinate $1$. If there are two independent leading vectors,
+subtract a multiple of the first from the second to zero its pivot
+coordinate before normalizing the second. Their reductions are independent
+because the second retains its zero at the first pivot and has a $1$
+at another coordinate. In either case $e=0,1$, this contradicts the
+bound over $k$ on independent leading vectors.
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:198–322`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LaurentDegenerationFirstOrderKernel.lean:6–124`.
+
+Finally put $\nu=\dim\ker A$. For $e=0$, diagonalize $A$ over $K$ using constant
+determinant-one row and column operations. Use the resulting column basis to
+factor $T$ from each of the $\nu$ columns with zero constant term. The
+constant matrix after division has trivial kernel: a kernel vector splits
+into the coordinates of those $\nu$ columns and the remaining coordinates,
+giving a leading vector and a correction satisfying the two first-order
+equations. The leading vector must vanish. The remaining columns have
+independent constant terms, so the correction vanishes. Thus the determinant
+has order $\nu\le 2rR$, which gives the weaker bound $4rR$ used by `resBound`.
+
+For $e=1$ and $a>0$, set $m=2rR$. If $m=0$, $\nu\le1$ gives a nonzero
+constant cofactor. Otherwise use determinant-one row and column operations
+to diagonalize $A$ and divide the $\nu$ zero constant **rows** by $T$.
+The new constant matrix has nullity at most one: each kernel vector
+vanishes in the nonzero diagonal coordinates, and its linear-coefficient
+image vanishes on the zero rows. On each nonzero row choose the correction
+as minus that linear-coefficient value divided by the diagonal entry.
+This produces a first-order lift, so two independent kernel vectors are
+excluded. A square matrix of nullity at most one has a nonzero cofactor
+(diagonalize and omit the possible zero diagonal entry). This includes the
+$1\times1$ case with empty minor $1$. Restoring the row factors adds at most
+$\nu$ to that cofactor's order, since only rows retained by the minor add
+a factor of $T$. If every original adjugate entry were divisible by
+$T^{2m+1}$, the same would hold after constant changes of basis, contradicting
+this entry's order at most $\nu\le m+1\le2m$.
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NotXPowSuccDvdDetOfFirstOrderKernelEqZero.lean:6–130`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsNotXPowDvdAdjugateOfFirstOrderKernel.lean:10–237`.
+
+Apply the order test with $n=4rR+1$. In $K[T]/(T^n)$, $(1+b_qT)^{\ell^M}=1$
+by characteristic $\ell$ and $n\le\ell^M$. Taking products of powers of these
+elements therefore defines an algebra map from the group ring, and its composite
+with `toLam` is exactly the line substitution modulo $T^n$. Two polynomial lifts
+of the same determinant or selected adjugate entry thus have the same image.
+If every coefficient of degree below $n$ in a lift belonged to $\mathfrak m$,
+these coefficients would reduce to zero and higher terms would be divisible by
+$T^n$. This contradicts the order test. A coefficient outside the maximal ideal
+is a unit, as asserted. $\square$
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsUnitCoeffOfNotXPowDvdLine.lean:9–80`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:324–350`.
+
+#### What the two order bounds read from stepAB
+
+[Section 10.4.13](#10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient) proves the two-batch selection and the conjugacy test for Selmer evaluations.
+
+`stepAB` first selects left places with Frobenius represented by the designated tame
+element $z$ modulo the open normal subgroup $W$ (intersection of the requested
+subgroup, the admissible subgroup, and the root-fixing subgroup). The left characters are
+surjective at their own inertia and trivial at the other selected left inertias.
+Products of these inertia elements correct each right-hand target $h_a$ inside $W$
+so that its left-character values are the Kronecker coordinates. The second selection
+uses $W\cap\bigcap_b\ker d_{\mathrm{inl}(b)}$, preserving these coordinates at the
+right Frobenius even after conjugation, since the characters are abelian.
+The root-fixing constraint supplies $Nv\equiv1\bmod 2\ell^M$.
+The output also keeps the auxiliary places distinct up to conjugacy, places all
+their inertias inside the requested subgroup, and specifies the right Frobenius
+congruence to the original $h_a$. Chebotarev and the good-character conditions are inputs
+to this selection argument.
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobenius.lean:274–418`.
+
+- With $\nu(X,i)=0$, the residual branch reads the chosen places, inertia and
+  Frobenius congruences to put the right decomposition groups in the small subgroup
+  $L$ and build `Position`. The `ChooseH` witness supplies `Corank` at $0$.
+  It applies the determinant half of `ResBound`, and the unit coefficient has DVR
+  valuation zero.
+  `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualBoundOfComponents.lean:28–57`.
+- With $\nu(X,i)>0$, the other branch appends identity targets for the finite list of
+  signatures, retains the first $R_0$ right places for the initial test and uses the
+  other left places in its induction. `StartInd.start_of_galHyp` restricts the group
+  ring to the retained coordinates and uses first-half unramifiedness to transport
+  `Computes`. The chosen Frobenius congruences supply `Corank` at $1$ and `Position`
+  for the adjugate half of `ResBound`. The resulting coefficient extends back with
+  zero exponent on the discarded coordinates. `Start` then feeds the separate `Grow`
+  and `Step` induction, whose determinant coefficient is bounded in valuation.
+  `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AddValLeOfNotMem.lean:87–144`,
+  `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ContinuousCocycleChangeScalarsBack.lean:452–498`,
+  `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BoundModTwoUniformizerAtTwoOfChebotarev.lean:25–35`.
+
+#### Remarks on units, length and the reading boundary
+
+The unit in Proposition 10.15 is detected by a nonzero residue of a coefficient.
+The unit root-difference input `IsUnit (del51 ...)` in the GMA calculation is a
+different hypothesis: it normalizes the rank-one quasi-idempotent $E_{\mathrm{el}}$
+with $E_{\mathrm{el}}^2=\delta_{51}E_{\mathrm{el}}$ and gives the zero coboundary-length
+term where used in Theorem 10.2. The familiar two-root unit-discriminant test is
+$\operatorname{disc}((X-\alpha)(X-\beta))=(\alpha-\beta)^2$ is a unit exactly when
+$\alpha-\beta$ is a unit, for example $1,-1$ over $\mathbb Z_3$. The local argument
+of Lemma 10.14 requires the tame norm congruence and the indicated action on the
+cocycle, and has no unit-discriminant hypothesis. In the neighboring scalar
+`QuadAt` calculation the torsion budget uses $\zeta_v-1$, which can be a nonunit.
+`src/Formalism/SharpRestriction/LevelLetterCocycles/IdempotentChoiceDepthZero.lean:56–62`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:61–88`.
+
+For a square matrix over a DVR $O$ with nonzero determinant, elementary divisors
+$u_j\varpi^{n_j}$ give both cokernel length $\sum_j n_j$ and the same kernel length
+on $(\operatorname{Frac}(O)/O)^a$ by taking $\varpi^{n_j}$-torsion in each coordinate.
+With zero determinant a zero diagonal factor contributes infinite length in
+this divisible module. Finite length permits ordinary integer lengths and
+normalization by the positive factor $\operatorname{len}_O(O/(\ell))=v_\varpi(\ell)$.
+The residual order along $T$ is a polynomial order. Upon specializing the twisting
+characters to roots of unity, the determinant becomes the evaluation at their values
+minus $1$. The equality between its normalized valuation and twisted Selmer length
+uses `Computes` and
+`twisted_selmer_lengths_eq_determinant_valuation` [Lean]. This is separate from the
+finite-length arithmetic of Example 10.7.
+`src/Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean:32–33`,
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:109–116`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistedSelmerLengthsEqDeterminantValuation.lean:330–385`.
+
+Classical background is Serre's *Local Fields*, Chapter IV, “Ramification Groups”
+[SerreLocalFields]. The first-order cocycle argument above follows the archive.
+The upstream `TameQuotient` producer, `matrixComputesTwistedSelmer_residual_transfer`,
+`relaxedResidualSelmer_mem_unrelaxed`, `ChooseH`, `Recip`, `FirstHalf`, and the
+positive-order `Grow`/`Step` producers retain their [Lean] interfaces here. The
+global Selmer presentation is supplied in §10.4.12. The deeper reciprocity and finiteness cones remain [Open]
+for a full reading. The reading grade applies to the local proof and the
+conditional matrix argument, including their linear algebra.
+
 ---
+
+### 10.4.9 Positive-order induction and the determinant coefficient bound
+
+At the end of `Start`, every positive-size presentation for each signature
+has an adjugate entry whose lifts all have low-degree unit coefficients. The remaining
+problem is to obtain a low-degree determinant coefficient of valuation at
+most $v_\varpi(\ell^\nu)$ for every signature at **the same family of places**.
+A place chosen for the next signature must also preserve the bounds for the
+ones already treated. The archive handles these two requirements with
+`Step` and `Grow`, respectively.
+
+#### Example 10.16. Coefficient tests over a DVR [Expository]
+
+Work over $\mathbb Z_3$ with $\nu=1$, $e=1$ and $I=(9)$. Take two left
+variables $x_0,x_1$, and append right variables $y_0,y_1$ in that order.
+For two signatures take square presentations $\operatorname{diag}(D,1)$
+with the following determinants.
+
+| Number of right variables | First signature | Second signature |
+|---|---|---|
+| 0 | $0$ | $0$ |
+| 1 | $3y_0$ | $0$ |
+| 2 | $3x_1^2 y_0+9y_1$ | $3y_1$ |
+
+In every adjugate the upper left entry is $1$, which remains $1$ on setting
+all unused left variables to zero. The first extension supplies the
+degree-one coefficient $3$ in $y_0$ for the first signature. In comparing
+old and new presentations, set the appended right variable $y_0$ to zero
+and work modulo $9$. For the second extension set $y_1=0$. The first
+signature then has restricted determinant $x_1^2(3y_0)$, which exhibits
+the comparison with exponent $2$ and raises the total order modulo $9$
+from one to three. The coefficient $3$ still has valuation one. At
+$x_1=y_0=3, y_1=0$ the determinant changes from $9$ to $81$, exhibiting
+two additional powers of $3$ from the factor $x_1^2$. This particular
+specialization need not meet the eventual Selmer estimate. For the second
+signature, $3y_1$ supplies a fresh witness at the second extension.
+The adjugate test after the first extension kills the unused left
+coordinate $x_1$, whereas the second comparison kills the newly appended
+right coordinate $y_1$. Both operations will occur in the proof with
+different purposes.
+
+At the second comparison the displayed determinants fail the single-factor kernel test for Grow. To see this, pass to $T=(\mathbb Z/9)[x_1,y_0]/(x_1^2,y_0^2)$. The two cokernels become $T$ and $T/(3y_0)$. Any surjection between them has kernel $(3y_0)$. The prescribed inertia factor has the form $u=(1+x_1)(1+y_0)^a-1$, so $u(3y_0)=3x_1y_0\ne0$. A kernel annihilated by $u$ would remain so after taking its image under base change, by right exactness. Thus the table illustrates numerical coefficient behavior. The proof of Grow below supplies the comparison for the Selmer presentations.
+
+One can use $r=1$, $R_0=0$, and $w_0=0$ to follow the numerical bounds in
+this toy chain. They are $w_1=4$ and $w_2=20$, with strict working cutoffs
+$1,5,21$. With $\ell=3$ and $M=5$ the level allows these cutoffs because
+$w_2\le 3^{5-1-1}$. The table illustrates coefficient tests and the comparison
+identities for the displayed lifts. The number-field existence argument
+below uses Selmer presentations and arithmetic supplies in addition.
+
+The nilpotent test in Step also has a small hand calculation. In
+$A=(\mathbb Z/9)[t]/(t^6)$ take $w=1$, so $b=2$ and $h=6$.
+For a sliced adjugate polynomial specializing to $3+t$,
+$(3+t)(t-3)=t^2$ and $3t^5\ne0$. In the augmented ring
+$A[u,v]/(u^2,v^2)$, degree seven can survive, for example $3t^5uv$,
+whereas degree eight cannot. These are the same exponents as
+$h+2r=8$ for $r=1$.
+
+#### Definitions and the two transitions
+
+Fix the archive data $D,N,X,\mathrm{bkP},i$. Write $O=X.O0(i)$,
+$\ell=X.l(i)$, $\nu=\nu(X,i)>0$, $r=D.R.r$, $\lambda=\ell^\nu$,
+$e=v_\varpi(\lambda)$, and $I=(\lambda)\mathfrak m_O=(\varpi^{e+1})$.
+At level $M$ put $J=\ell^{M-\nu-1}$ and
+$\Lambda_n=O[(\mathbb Z/\ell^M)^{\mathrm{Fin}(R)\sqcup \mathrm{Fin}(n)}]$.
+The map `toLam` sends a variable to its group generator minus $1$.
+Write $P$ for the family with $R$ left and $n$ right places. In `IsQ`,
+$Q$ is exactly the union of the places over the designated auxiliary
+primes, including their conjugates. All coefficient assertions below
+range over **every** such $Q$ and **every** square presentation $\Phi$
+satisfying `Computes` for that signature and those characters.
+
+- $\mathrm{NF}_s(P,c)$ requires every lift of $\det\Phi$ to have a
+  coefficient outside $I$ in total degree $<c$.
+- $\mathrm{NFit}_s(P,c)$ allows matrix size zero. Otherwise it requires
+  a fixed adjugate entry for which every polynomial lift has a unit
+  coefficient in total degree $<c$, with exponent zero on all left
+  variables indexed by $j\ge n$. The witnessing monomial may depend on
+  the lift.
+- `Ext` fixes all left places and all old right places. The full
+  `PiLocalization₂` condition includes `SlopeTestRemainingChoices`,
+  the left orbit inertia inclusions in $L$, left Frobenius conjugate to
+  $z$ modulo $L$, and the right decomposition inclusions in $L$.
+  At right index $a$, the left character values in additive coordinates
+  are $\delta_{ab}$ for every $b$ and every Frobenius representative.
+  `Small2` requires `Small`, trivial action of $L$ on the
+  $2\ell^M$-th roots of unity, and $T_s(g)-1$ entrywise in $I$ for $g\in L$.
+
+These are the predicates in
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Small2.lean:13–57`.
+The index $n$ increases by one per extension, and $\dim T_s=r$ is fixed.
+The square presentation sizes $a,a'$ are independent. In particular
+there is no asserted corank decrement. `Grow` can use a positive-size
+old matrix by replacing an empty presentation by the one-by-one identity,
+which represents the same zero kernel.
+
+**Lemma 10.17 (transport through one extension) [Lean, read].**
+Assume `GalHyp`, `ThmS`, `TameLocal`, $n<R$, $\nu+2\le M$,
+$c+2r\le J$, the tame element condition on $z$, `Small2`, and
+`PiLocalization₂` for an extension $P'$ of $P$. Both $\mathrm{NF}_s$
+and $\mathrm{NFit}_s$ at cutoff $c$ pass from $P$ to $P'$ at cutoff
+$c+2r$.
+
+*Proof.* Put $k=2r$ and restrict $\Lambda_{n+1}\to\Lambda_n$ by
+forgetting the new right group coordinate. On polynomial lifts this sets
+the corresponding variable equal to zero. For any new presentation,
+choose an old one from `ThmS`, taking the old $Q$ by filtering the new
+one to the old auxiliary orbits. Over $\Lambda_n/I\Lambda_n$ the two
+presentations represent the old and new relaxed Selmer functors with
+the same inverse character. Indeed the two ring maps are surjective,
+the inverse characters agree under restriction, and $\ell^{\nu+1}$
+annihilates the quotient. The change of scalars in `represents_of_computes`
+uses these facts to identify the cohomology classes and preserve
+naturality for all discrete coefficient modules.
+
+Let $p$ be the new right place and $\phi$ one of its Frobenius elements.
+For the old tuple of characters $\delta$, put
+$u=\prod_q(1+X_q)^{\delta_q(\phi)}-1$, using least nonnegative
+representatives. This polynomial has zero constant coefficient and
+coefficient $1$ at the single left variable with index $n$.
+The extra relaxed places are $p$ and its conjugate. In the comparison
+ring the representation is trivial on their decomposition groups
+before twisting. The old characters are unramified there, and their
+Frobenius values at the conjugate are inverse to those at $p$.
+The two local evaluations of the relaxed cocycle on inertia give $2r$
+scalar coordinates. By the tame generator test, their common vanishing
+is exactly the old Selmer condition. Each is killed by the image of $u$:
+the Frobenius twist minus $1$ at either place is an associate of that
+image. These evaluation maps commute with coefficient maps, since
+inertia acts trivially and coboundaries evaluate to zero there.
+
+For a square matrix $\Psi$ write $C(\Psi)=\operatorname{coker}(\Psi^t)$.
+The kernel functor on a module $B$ is $\operatorname{Hom}(C(\Psi),B)$.
+Evaluating the $2r$ inertia coordinates on the universal vector of the
+new cokernel gives $2r$ elements killed by the image of $u$. Quotient
+by their span. The resulting module represents the old kernel functor:
+maps out of it are exactly those whose universal vectors have zero
+inertia evaluations. Evaluating this identification on the two
+representing modules and their identity maps gives inverse maps. Thus
+the new cokernel surjects onto the old with kernel generated by these
+$2r$ elements. All matrices here are reduced and the new one is
+restricted first.
+
+For clarity, the Fitting comparison follows by lifting the old
+generators into the new cokernel and adding the $k$ kernel generators.
+This gives a surjection from a free module, with a square matrix of
+relations of the form
+$\begin{pmatrix}u1_k&-C\\0&\Phi^t\end{pmatrix}$, where $u1_k$
+denotes $u$ times the identity. The off-diagonal block records how
+the lifted old relations land in the kernel. The determinant is
+$u^k\det\Phi$. The bottom-right adjugate block is $u^k\operatorname{adj}(\Phi^t)$
+when the old size is positive. To compare with the actual new
+presentation, take the sum of the free modules for the actual and
+lifted generators. Changing generators by a block unitriangular matrix
+shows that the kernel of the combined surjection is the image of the
+actual new presentation stabilized by an identity. The stabilized
+matrix of lifted relations has columns in that image and factors
+through it. Taking determinants and using the adjugate product
+identity gives the inclusions in the determinant and adjugate ideals
+of the new presentation. For the adjugate, identity stabilization
+contributes only the actual adjugate entries and copies of its
+determinant, which belongs to their span by cofactor expansion when
+the actual new size is positive. Transposition just interchanges the
+adjugate indices. Size zero on the new side is allowed immediately
+by $\mathrm{NFit}$.
+
+Here is the coefficient descent which makes these ideal inclusions
+effective. For an ideal $I'\supseteq I$ and a set $K$ of forbidden
+variables, kill $K$ and reduce modulo $I'$. Vanishing in degrees
+$<d$ is an ideal condition, since multiplications never decrease
+total degree. A relation in the group ring modulo $I$ lifts to this
+condition, for $d\le J$, if its generators have lifts satisfying it.
+To see this, work modulo $I$ and all monomials of degree at least $J$.
+Each $1+X_q$ has $\ell^M$-th power $1$ there. In the binomial
+expansion terms of degree $\ge J$ vanish, and for $0<b<J$ the
+identity $b\binom{\ell^M}{b}=\ell^M\binom{\ell^M-1}{b-1}$ gives
+$v_\ell\binom{\ell^M}{b}\ge M-v_\ell(b)\ge \nu+1$.
+Thus the polynomial quotient factors through the reduced group ring.
+Choose polynomial lifts of the multipliers (the group-ring map is
+surjective). Their sum times the lifted generators satisfies the
+ideal condition, and the difference from the specified lift has
+coefficients in $I$ below $J$. This proves the descent for every lift.
+
+Finally, after killing $K$, vanishings for $u^k F$ below degree $c+k$
+imply vanishings for $F$ below $c$ provided the distinguished variable
+$q$ of $u$ survives. For one factor, take the coefficient at $m+1_q$
+for $|m|<c$. The term $u_{1_q}F_m$ has unit multiplier. All other
+nonzero terms have an index of $F$ of degree $\le |m|$ and smaller
+weight, assigning weight $1$ to $q$ and $2$ to every other variable.
+The constant term of $u$ is zero and its only monomial of weight
+one is $X_q$. Induction on weight therefore gives $F_m=0$ in the
+coefficient quotient. Iterate this argument for $k$ factors.
+
+For $\mathrm{NF}$ take $I'=I$, $K=\varnothing$. A counterexample
+lift at $P'$ vanishes below $c+k$ modulo $I$ after restriction.
+Descent and cancellation contradict the old witness. For
+$\mathrm{NFit}$ take $I'=\mathfrak m_O$ and $K$ the left variables
+with index $\ge n+1$. If no new entry works, choose a counterexample
+lift for each entry and restrict each lift. The distinguished variable
+at index $n$ survives, so descent and cancellation force the chosen
+old entry to vanish below $c$ modulo $\mathfrak m_O$ on this slice.
+The old witness avoided even the variables of index $\ge n$, hence
+also survives this slice, a contradiction. $square$
+
+Proof locations for the comparison and descent are
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevInductionGrowBoundOfPresentation.lean:96–149,157–221,225–293,301–451,455–502`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/RepresentsOfComputes.lean:117–187`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CokEquivOfExact.lean:89–143`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetMemSpanAdjugate.lean:64–153,160–247`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CoeffMemOfToLamMem.lean:33–76`,
+and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CoeffMemOfPowMul.lean:7–92`.
+
+#### How a signature gets its first determinant bound
+
+The production proof is `NewPrime.step` [Lean, read], with the
+suppliers below as inputs. With the ambient hypotheses of Lemma 10.17, it starts from
+`PiLocalization₂` for $P$ and takes `AdmFam`
+for $H,S,d$, $L\le H$, $v_\varpi(\lambda)=e$, and $\mathrm{NFit}_s(P,w+1)$.
+For this step set $b=(e+1)w$, $h=2b+2$, and require $h+2r\le J$.
+The output is an extension satisfying full `PiLocalization₂` and
+$\mathrm{NF}_s(P',h+2r)$.
+
+If $\mathrm{NF}_s(P,h)$ already holds, the prime-selection routine
+takes target $1$ modulo $L$, with $U=L$. Apply `Grow` at cutoff $h$.
+Otherwise take the bad determinant lift $F_0$ and its presentation
+$\Phi$. The size cannot be zero: evaluation at all variables zero
+over $O/I$ would give both zero (by its constant coefficient) and
+one (the empty determinant). The hypothesis then gives the lift $F_1$
+of an adjugate entry with a unit coefficient of degree $\le w$
+avoiding the unused left set $K=\{j\text{ on the left}:j\ge n\}$.
+
+The finite local ring construction [Lean] evaluates variables at
+$a_q t$, with $a_q=0$ exactly on $K$ and units elsewhere. The ring
+$A$ kills $I$ and has $t^h=0$, $\lambda t^{h-1}\ne0$ and
+$F_1(a_qt)\mid t^b$. Here is the divisibility argument within that
+construction. Pass to a finite extension of the residue field
+where the indicated homogeneous part on the coordinate slice is
+nonzero at a point with all surviving coordinates nonzero. Such a
+point exists over the infinite algebraic closure, and its finitely
+many coordinates lie in a finite extension. Lift to a finite
+coefficient ring over $O/I$ with injective structure map and
+residue kernel generated by $\varpi$, as in `exists_lift`. The
+evaluated polynomial in $t$ is $\varpi A_1(t)+t^{d_0}V(t)$
+where $d_0\le w$ is the first degree with nonzero residue and $V(0)$
+is a unit. After truncation by $t^h$, $V$ is a unit. In the quotient
+by the evaluated polynomial, $t^{d_0}V=-\varpi A_1$, whose
+$(e+1)$-st power is zero. Hence $t^b$ vanishes there. The truncation is
+free in degrees $0,\ldots,h-1$ over the coefficient ring, so
+$\lambda t^{h-1}\ne0$ follows from injectivity and $\lambda\notin I$.
+The construction is used at
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsFiniteLocalRingPolyDividesVarPow.lean:65–119,121–198,200–280,282–430`.
+
+The evaluation factors through $\Lambda_n$ because $t^h=0$ with
+$h\le J$, and the binomial argument of Lemma 10.17 applies. It gives a specialized
+matrix $\Psi$ and a universal cocycle. The bad low coefficients
+force $\det\Psi=0$, since degrees $\ge h$ also vanish. The indicated
+adjugate entry divides $t^b$ and its column is in the kernel.
+In the dual-class selection call the scalar is $\lambda t^b$ and
+the auxiliary factor is $t$. The required nonannihilation of the
+entry follows because multiplying a putative vanishing by the
+complementary factor in the divisibility $F_1(a_qt)\mid t^b$ gives
+$\lambda t^{2b+1}=0$. This is the source of the exponent $2b+2$.
+
+The arithmetic supplies give a dual Selmer class and a
+nonzero cocycle pairing at a target element of
+$L'=L\cap \bigcap_{q\notin K}\ker d(P(q))$. They also provide an
+open normal $U\le L'$ preserving that pairing on the prescribed
+conjugacy class. The unused left inertias lie in $U$ by the
+first-half vanishing input for the two cocycles. The prime-selector
+proof first corrects the target by an element of $U$ to set the
+unused left character values to the next coordinate vector.
+It uses inertia generators of those unused left places, which
+have trivial cross-values at the other left coordinates.
+It then applies the supplied Chebotarev theorem modulo the
+intersection of $U$ with all left character kernels, avoiding the
+finite excluded set and old orbits. Finally it multiplies the
+chosen Frobenius by inertia at the new place to make its own
+character value $1$ without changing the required conjugacy
+modulo $U$. This yields the required extension and a Frobenius
+with nonzero pairing. The prime-selector body is
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsNewPlaceFrobeniusConjugateModOpenNormalSub.lean:12–126`.
+
+Take any new presentation and any determinant lift $F'$.
+Use $B=A[x_1,x_2]/(x_1^2,x_2^{2r})$ with augmentation onto $A$.
+Multiplication by $x_1x_2^{2r-1}$ detects the augmented coefficient
+because the surviving monomials form an $A$-basis. Use $x_1$ at
+the new right coordinate, $x_2$ at the left coordinate $n$, and
+$a_qt$ at every other old coordinate. Reduction to $A$ gives the
+old evaluation since the left coordinate $n$ belongs to $K$. Each
+substituted element has $J$-th power zero by the cutoff inequality,
+so the same binomial argument gives the map from the extended group
+ring. Inertia at the new right place
+tests $x_1$, and its chosen Frobenius tests $x_2$ by the coordinate
+condition and the vanishing of the other character factors.
+The determinant nonvanishing test takes the two conjugate sets
+of $r$ local rows. The local row relation gives $x_1$ times the
+Frobenius rows equal to $x_2$ times the inertia rows up to the
+unit factors specified by the twist, modulo the new presentation
+rows. The comparison supplies lifts of the old presentation
+relations modulo the new relations and the inertia rows. By
+reciprocity the dual combination of the inertia rows is itself a
+relation after reduction. Here are the relation lifts explicitly. Write $x=x_1$, $y=x_2$, and
+let $G$ consist of lifts of the old comparison rows $E$ followed by the
+new inertia rows multiplied by their unit factors $\eta_j$. These
+generate modulo the rows of $\Phi'$: they do so modulo $(x,y)$ by the
+comparison, and the quotient by their span plus the new rows then
+equals its own multiple by the nilpotent ideal $(x,y)$, so it is zero.
+Consequently any relation or expression among the reduced generators
+lifts with its prescribed coefficients modulo $(x,y)$. Indeed, lift the
+coefficients and the multiple of the new rows first. Express the
+remaining error as $x p+y q$ and express $p,q$ in the generators and the
+new rows. This corrects the lift without changing its reduction.
+
+Write $U_j$ for the old Frobenius rows and $k_j$ for the signed dual
+coordinates. For the top rows of a square relation matrix take lifts
+$D$ of $(\Psi,C)$, where $C$ accounts for the inertia correction,
+except that at the column index $l_0$ of the tested adjugate column
+the row is replaced by $(0,k)$ using reciprocity. For each new
+Frobenius row choose its expression modulo the new relations, with
+coefficient row $W_j$ reducing to $(U_j,\sigma_j)$ for some
+inertia correction $\sigma_j$. With $e_j^{\mathrm{right}}$ denoting the
+basis row of the $j$-th inertia generator, the bottom rows
+$y e_j^{\mathrm{right}}-xW_j$ are relations by the local row identity. In its block expansion the coefficient of
+$x_1x_2^{2r-1}$, reduced to $A$, is the nonzero pairing with
+that column, up to sign. Indeed exactly one of the $2r$ bottom
+rows must contribute the $x_1$ part, and the other $2r-1$ must
+contribute the $x_2$ identity parts. In the reduced summand for bottom row $j$, swap that row with the
+row at $l_0$. The matrix is block triangular. Its top left block is
+$\Psi$ with row $l_0$ replaced by $-U_j$. Its bottom right block is the
+identity with row $j$ replaced by $k$. The sign of the swap and
+cofactor expansion give $k_j\sum_c U_{jc}\operatorname{adj}(\Psi)_{c l_0}$.
+Summing gives precisely the signed pairing used in the comparison. If the new determinant were zero,
+the lifted square relation matrix would have determinant zero:
+its rows are relations on a generating list for the new
+cokernel, so the stabilized relation comparison gives divisibility
+by the new determinant. The augmentation test now gives the
+contradiction.
+
+If all coefficients of $F'$ of degree $<h+2r$ lay in $I$, its
+evaluation would be zero. Low terms vanish because the ring kills
+$I$. Any monomial of degree at least $h+2r$ is divisible after
+evaluation by $t^h$, $x_1^2$, or $x_2^{2r}$, since the maximum
+sum of the three surviving exponents is
+$(h-1)+1+(2r-1)=h+2r-1$. Evaluation commutes with the determinant.
+The nonzero specialized determinant therefore proves
+$\mathrm{NF}_s(P',h+2r)$ with the universal quantifiers intact.
+
+The producer and the determinant argument are in
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:46–83,85–151,153–352`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetNeZeroOfLowestFormNeZeroPresentation.lean:12–47,49–109,118–230,234–372`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsRingSqZeroNilpotentAugmented.lean:22–71`,
+and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AevalEqZeroLowCoeffThreeNilpotents.lean:8–64`.
+The dual class, the nonzero pairing, reciprocity and the local row
+relations are imported arithmetic supplies [Lean]. In particular
+the existence of the pairing does not follow from the formal
+nonvanishing test.
+
+#### Proposition 10.18. The positive-order recurrence [Lean, read]
+
+Fix $D,N,X,\mathrm{bkP},i$, an enumeration $f:\mathrm{Fin}(t)\to X.\mathrm{Sig}(i)$,
+and assume $\nu>0$. Take `Grow` and `Step` for every $f(j)$,
+with the hypotheses detailed above when these are supplied by their
+actual producers. Fix level $M$, $H,S,d,A,L,z$, with
+`AdmFam`, $L\le H$, the tame element condition on $z$, and
+`Small2` for every $f(j)$. Set $R=R_0+t$ and assume
+$e=v_\varpi(\lambda)$ is finite, $\nu+2\le M$, and $w_t\le J$, where
+$w_0=w$ and
+$w_{k+1}=2(e+1)w_k+2+2r$.
+Suppose $P_0$ has $R$ left and $R_0$ right places, satisfies
+`PiLocalization₂`, and has $\mathrm{NFit}_{f(j)}(P_0,w+1)$ for
+every $j$. Then for every $0\le k\le t$ there is an iterated extension
+$P_k$ with $R_0+k$ right places, the original left places, and
+`PiLocalization₂`. At $P_k$ the cutoff $w_k+1$ works for every
+adjugate test, and for the determinant tests at indices $j<k$.
+In particular for each $j$ at $P_t$, every determinant lift has
+a coefficient of degree $\le w_t$ and valuation $\le e$.
+
+*Proof.* At $k=0$ the adjugate tests are the hypotheses and the
+determinant list is empty. If $k<t$, then $R_0+k<R$. Both
+$w_k+1+2r\le w_{k+1}$ and $w_k\le w_{k+1}$ follow directly
+from the recurrence. In particular $w_{k+1}\le w_t\le J$.
+Apply `Step` to $f(k)$ with input $w_k$ and get a single
+extension and its new determinant bound at strict cutoff $w_{k+1}$.
+Apply `Grow` to this same extension for all adjugate tests and
+all earlier determinant tests, at cutoff $w_k+1$. Their new cutoff
+$w_k+1+2r$ is at most $w_{k+1}$. Enlarge the cutoffs to
+$w_{k+1}+1$, preserving every witness. The left tuple and all
+previous right positions persist by `Ext`. Thus $t-k$ is the
+remaining number of steps, while $R-(R_0+k)$ is exactly the
+available number of right slots. At $k=t$ every signature has
+$\mathrm{NF}$. A degree $<w_t+1$ is at most $w_t$, and outside
+$(\varpi^{e+1})$ means nonzero with valuation at most $e$.
+$square$
+
+The recurrence, its monotonicity, the proof of the invariant and
+the valuation exit are
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AddValLeOfNotMem.lean:28–85`.
+The assembly at lines 87–144 uses `ChooseH` and `StepAB` as in
+§10.4.8. It starts with $w=4rR_0$ and outputs the constants
+$R=R_0+t$, $D_d=w_t$, $M_0=w_t+\nu+3$. The extra level margin
+ensures $w_t\le J$ and leaves the strict starting inequality
+$4rR_0+2<\ell^M$ for `Start`. The final tuple also satisfies `Steps` for the requested open normal
+subgroup $H'$: the left data come from the initial selection and the right
+character coordinates from the final localization condition. The
+residual branch enters the consumer at $\nu=0$.
+
+#### Selmer consumption and reading boundary
+
+In the positive case, `ThmC` supplies the `OrdBound` at
+$v_\varpi(\ell^\nu)$. The consumer takes its $R,D_d,M_0$,
+replaces $M_0$ by $\max (M_0,1)$, and takes the actual final
+place family. For every good signature and every `IsQ`, `ThmS`
+supplies a square presentation. Surjectivity gives a determinant
+lift $F$. The same $F$ carries both the bound
+$\exists m, |m|\le D_d, v_\varpi(F_m)\le e$ and the evaluation
+identity supplied by `SelmerLengthsByDeterminant`. The coefficient
+assertion enters the simultaneous `exists_level` evaluation
+argument together with the other required toric bounds. For the
+chosen root evaluations with $X_q=u_q-1$ and $u_q=\zeta^{\ell^{\eta_q}}$
+for the selected exponents $\eta_q$ and each primitive root $\zeta$
+of the chosen order (taking the side root for each signature)
+that argument gives a nonzero value and normalized valuation at
+most $\nu+\varepsilon$. The consumer applies the presentation's
+length identity to this very value and uses $v_\varpi(\ell)>0$
+to cancel the factor in $v_\varpi(\ell^\nu)=\nu v_\varpi(\ell)$.
+This gives the Selmer length bound with the chosen error budget
+for every coprime power in the existing admissible-index theorem.
+A low coefficient alone gives no bound at an arbitrary
+specialization.
+
+The exact call sites are
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BoundModTwoUniformizerAtTwoOfChebotarev.lean:25–35`,
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GaloisTwistedSelmerAuxprimesOfMatrixAndBounds.lean:47–63`,
+and
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:92–122,133–145,161–197`.
+The relevant statements are
+`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:46–77` and
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–337`.
+`SelmerLengthsByDeterminant` and `exists_level` enter here as
+[Lean] supplies. The positive-order top assembly takes `Cheb`,
+`PoitouTateTotallyComplex`, `CohDimTwo`, `TameLocal`,
+`LocalFiniteness`, `LocalTateDuality`, `LocalEulerChar`,
+`GlobalFiniteness`, `GlobalEulerChar`, `UnramifiedOrthogonality`,
+and `Gen.ArchimedeanSignatureMatching`. These inputs and the
+arithmetic cones for the dual-class and pairing selection remain
+outside the R3 boundary [Open] for full reading. Classical Fitting
+terminology and presentation invariance are described in the Stacks
+Project, §15.8 [StacksFitting].
+
+Archive pin for this subsection (A2, joined SHA-256)
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+### 10.4.10 From an adjugate entry to a Frobenius witness
+
+#### Motivation
+
+In the branch of `Step` that needs an arithmetic witness, the finite local specialization has an element $\lambda t^{2B+1}\ne0$, with $\lambda=\ell^\nu$ in the coefficient ring and $B=(e+1)w$. Here $B$ is the exponent called $b$ in the expression $\lambda t^{2b+1}$, and Lean's argument named `b` is a matrix index. The goal is to choose an auxiliary prime whose Frobenius detects an original Selmer cocycle against a dual Selmer cocycle. There are three steps. Finite duality supplies a comparison of matrix kernels. Galois cohomology turns that comparison into a global dual class and a nonzero evaluation on a subgroup. Chebotarev realizes a conjugacy class in a finite quotient at a prime. The output is the nonzero scalar consumed by the determinant argument.
+
+#### Example. Nonzero values over a finite local ring [Expository]
+
+Take $A=\mathbb Z/9\mathbb Z$ with maximal ideal $(3)$. Call a vector in a free module primitive if its reduction modulo the maximal ideal is nonzero. For an element of $A$ this means it is a unit. The balanced pairing $P(u,v)=3uv$ has radical $(3)$ on each side. It takes the nonzero value $3$ on $(1,1)$, yet $P(3,v)=0$ for every $v$, and the entire pairing reduces to zero modulo $(3)$. The multiplication pairing $P(u,v)=uv$ is perfect. It detects $3$ by pairing it with $1$, but every value on $3$ still reduces to zero. For an illustration in rank two, the perfect dot product pairs the primitive vectors $(1,0)$ and $(3,1)$ to $3$. A primitive vector for this dot product admits a partner giving a unit, by testing a unit coordinate against its basis vector. A specified partner can give a nonzero nonunit or even zero. The scalar sought by `Step` is merely nonzero in $A$.
+
+#### Definitions
+
+Fix the archive's twist index $i$ and signature. Write $G=G_E$, $\ell$ for the twist prime, $O_0$ for the base coefficient ring, $N_0=\ell^{\nu+1}$ and $C=\mathbb Z/N_0\mathbb Z$. Let $A$ be a finite commutative local $O_0$-algebra with discrete topology killing the ideal $(\ell^\nu)\mathfrak m_{O_0}$ (`Kills`). In particular $N_0 A=0$, since $\ell\in\mathfrak m_{O_0}$. Use the archive's `Setup` for the twist $\kappa$ and the finite set $Q$, and `IsDual` for $\rho$. In matrix terms, if $T_0(g)$ is the untwisted original action and $\epsilon_0$ is the cyclotomic character in $O_0$, then $\rho(g)=\epsilon_0(g)(T_0(g)^{-1})^{\mathsf T}$. The setup includes `GalHyp` (the isotypic valuation, valuation stability, self-duality, no-jump and `adm3` conditions, and the rank bound $r\ge100$), a local coefficient map with $A$ finite as an $O_0$-module, an open kernel and pointwise $\ell$-power order for $\kappa$, triviality of $\kappa$ above $\ell$ and on inertia outside $Q$, and $Q$ disjoint from the places above $\ell$. On $V^r$ and $W^r$ for coefficient modules $V,W$ write $\pi$ for the original action twisted by $\kappa$ and $\pi'$ for the cyclotomic dual action twisted by $\kappa^{-1}$.
+
+A biadditive $\beta:V\times W\to C$ is balanced if $\beta(av,w)=\beta(v,aw)$. The archive calls it perfect if it is balanced and has zero radicals on both sides. Its coordinate sum gives the local cup pairing with the cyclotomic action on $C$. Write $\mathcal S(V)$ for the original Selmer group with the relaxation at $\operatorname{Spl}(i)\cup Q$, and $\mathcal D(\beta)$ for the dual classes. A dual representative is a continuous cocycle $y$ that vanishes on inertia outside the primes over $\ell$, $\operatorname{Spl}(i)$ and $Q$, restricts to a coboundary at $\operatorname{Spl}(i)\cup Q$, and pairs by cup product to a coboundary with every class in the original local condition at each prime above $\ell$. A coboundary on a group with action $\pi'$ has the form $g\mapsto \pi'(g)m-m$. The two coefficient modules can vary while the actions and the local conditions are transported as in the archive. `NoInvDual` requires zero global dual invariants for **every** coefficient module, including quotients.
+
+A square matrix $\Psi$ of size $a$ and rectangular matrices $Z(g)$ satisfy `Univ` if, on every discrete coefficient module $V$, a vector $u\in\ker(\Psi:V^a\to V^a)$ yields a Selmer cocycle $g\mapsto Z(g)u$, this cocycle is a coboundary only for $u=0$, and every Selmer class is represented this way. Thus $|\ker\Psi_V|=|\mathcal S(V)|$ for finite $V$. Injectivity follows by applying the zero criterion to the difference of two representatives. Surjectivity is the last clause of `Univ`. The proof of base change uses the quotient of the free row module by the span of the rows of $\Psi$. The images of the standard basis give a universal kernel vector. Lift the corresponding cocycle's coordinates to rows of $Z(g)$ and evaluate those rows against any kernel vector. The natural presentation and the transfer of Selmer conditions then give all three clauses.
+
+Write $L_v$ for the original local condition above $\ell$. The order formula used below applies to every finite perfect coefficient pair and reads $|\mathcal S(V)|=|\mathcal D(\beta)|\prod_{v\in Q}|H^0(G_v,W^r)|$, with $\mathcal D(\beta)$ finite. Here $G_v$ denotes the chosen decomposition group. In its conditional proof, local Tate duality identifies the perpendicular conditions: the relaxed conditions at $\operatorname{Spl}(i)\cup Q$ have zero perpendicular, and above $\ell$ the perpendicular is given by the cup test. The Greenberg–Wiles formula expresses the ratio of orders by global invariants, local orders and the archimedean term. The global invariants vanish on both sides. More explicitly, write $H_v$ and $H'_v$ for the original and dual invariants. With $S$ the union of the places above $\ell$ and the relaxed places, the formula reduces to
+$|\mathcal S(V)|\,|V^r|^{r_2(E)}\prod_{v\in S}|H_v|=|\mathcal D(\beta)|\prod_{v\mid\ell}|L_v|\prod_{v\in\operatorname{Spl}(i)\cup Q}|H^1(G_v,V^r)|$.
+Above $\ell$, the supplied product for $|L_v|$ is $|V^r|^{r_2(E)}\prod_{v\mid\ell}|H_v|$. At the relaxed places, local duality and the local Euler characteristic give $|H^1(G_v,V^r)|=|H_v||H'_v|$. Cancel the common positive integer factors. The dual invariants at $\operatorname{Spl}(i)$ are zero as modules, so their cardinalities are one. This leaves exactly the factors indexed by $Q$. The calculation uses the named duality, finiteness, Euler characteristic and signature inputs listed below.
+
+#### Lemma. Dual selection under the Step hypotheses [Lean, read]
+
+Keep `Setup`, `Kills`, `IsDual`, `NoInvDual`, the order formula and `Univ` as above. The lifting of the local condition under a surjective coefficient map and the cup pairing equivariance used below are consequences of these arithmetic hypotheses in the cited suppliers. Take a finite discrete module $Y$ and a perfect $\beta:Y\times A\to C$. Suppose $t$ kills the invariants of the dual action on $A^r$ at every $v\in\operatorname{Spl}(i)\cup Q$. Let $c\in A$ and let $u_0$ be a row with $u_0\Psi=0$. If $ct(u_0)_j\ne0$ for some $j$, there exists a dual Selmer cocycle $y$ with $c[y]\ne0$ in global $H^1$.
+
+**Proof.** Put $s=ct$, $\bar Y=Y/sY$ and $A[s]=\{u\in A:su=0\}$. Pair $\bar Y$ against $A[s]$ by $\bar\beta(\bar v,u)=\beta(v,u)$. Balance makes this well-defined and gives balance on the quotient. The right radical is zero by testing all lifts of $\bar v$. To see that the left radical is zero, compose with the faithful additive character of $C$ in $\mathbb C^\times$. This embeds $A[s]$ into the character group of $\bar Y$. The same construction with the original pairing reversed embeds $Y[s]$ into the character group of $A/sA$. Finite abelian groups and their character groups have the same order, and multiplication by $s$ on a finite module has kernel and cokernel of equal order. Hence $|A[s]|\le|\bar Y|=|Y[s]|\le|A/sA|=|A[s]|$. The first embedding is bijective and characters separate points, giving the left radical assertion.
+
+Assume $c[y]=0$ for all dual Selmer classes. Write $cy=\delta m$. Modulo $cA$, the vector $m$ is globally invariant. Apply `NoInvDual` to $A/cA$ to write $m=cm'$ with $m'\in A^r$. Then $y-\delta m'$ takes values killed by $c$, hence in $A[s]^r$. It defines a continuous cocycle $y_s$ there. Indeed, the coefficient inclusion is injective and equivariant, so the cocycle identity descends, and discrete values give continuity from the locally constant image.
+
+Verify each dual condition for $y_s$. At an unramified prime in the defining inertia condition, $y$ vanishes on inertia and the action on $A^r$ is trivial there, so $y_s$ also vanishes. At $v\in\operatorname{Spl}(i)\cup Q$, write $y|_{G_v}=\delta m_v$. Then $c(m_v-m')$ is fixed by $G_v$, so $tc(m_v-m')=0$. Thus the coboundary witness $m_v-m'$ belongs to the smaller module. At a prime over $\ell$, use the surjective-coefficient comparison of the original local conditions to lift the tested class for $\bar Y$ to one for $Y$. The resulting cocycle and the pushforward of its lift differ by a coboundary. Cup-coboundary membership is unchanged on replacing either argument by a cohomologous representative. Explicitly, for the coordinate pairing $P$ and cocycles $x,y$, the change when replacing $x$ by $x+\delta w$ is the differential of $g\mapsto P(w,y(g))$. When replacing $y$ by $y-\delta m'$ the change is the differential of $g\mapsto P(x(g),\pi'(g)m')$. Both follow by expanding the cocycle identities and using cyclotomic equivariance of $P$. The identity defining $\bar\beta$ identifies the cup expression on the two coefficient pairs. This proves the required condition above $\ell$.
+
+The images of the classes for $\bar\beta$ therefore include all classes for $\beta$, giving $|\mathcal D(\beta)|\le|\mathcal D(\bar\beta)|$ without requiring injectivity on cohomology. At each $v\in Q$ every invariant in $A^r$ is killed by $t$ and hence by $s$. The inclusion of $A[s]^r$ therefore gives a bijection on those invariants. Applying the two order formulas and `Univ` yields $|\ker\Psi_Y|\le|\ker\Psi_{\bar Y}|$.
+
+For an endomorphism of a finite module the order of its kernel equals that of its cokernel. The quotient $Y\to\bar Y$ induces a surjection on the cokernels of the two matrix actions, and the inequality just proved makes it bijective. In particular $sY^a\subseteq\operatorname{im}\Psi_Y$. For each $v\in Y$, choose a preimage under $\Psi_Y$ of the vector with $sv$ in position $j$ and zero elsewhere. Applying $u_0$ gives $s(u_0)_j v=0$ because $u_0\Psi=0$. Balance gives $\beta(v,s(u_0)_j)=\beta(s(u_0)_j v,1)=0$ for all $v$. The right radical is zero, contradicting the hypothesis. $\square$
+
+#### Lemma. From the class to a nonzero subgroup evaluation [Lean, read]
+
+Use the positive-order setting $\nu>0$, $M\ge\nu+1$, the tame element $z$ and the subgroup $L_*$ satisfying `Small2`. Assume $\kappa$ is anticyclotomic and trivial on $L_*$ and $z$. Write $\iota g$ for conjugation by the chosen complex conjugation. The two actions are trivial on $L_*$, which is open, normal, and $\iota$-stable, and $[g,z]\in L_*$ for every $g$. These action statements follow from the congruence on the original matrices and the roots of unity fixed by $L_*$, which also make the cyclotomic factor trivial in $A$. At $z$ the actions are scalars $d,d^{-1}$ with $d^2-1$ a unit. In particular both $d-1$ and $d^{-1}-1$ are units. Set $x(g)=Z(g)x_0$ for a right kernel vector $x_0$. If $(x_0)_j\mid q$ and $\lambda q[y]\ne0$, there is $h\in L_*$ with
+$\mathcal B(h)=x(h)\cdot y(h)-x(\iota h)\cdot y(\iota h)\ne0$ in $A$.
+
+**Proof.** A cocycle $f$ vanishing on $L_*$ in a representation trivial there and scalar $D$ at $z$ satisfies $f(gz)=f(zg)$, since $gz=[g,z]zg$. The two cocycle expansions give $(D-1)f(g)=\pi(g)f(z)-f(z)$. If $D-1$ is a unit, $f$ is the coboundary of $(D-1)^{-1}f(z)$. Apply this first to the original cocycle modulo the ideal $J$ generated by all coordinates of $x(h)$, $h\in L_*$. The coordinatewise reduction of $x_0$ is in the kernel, and the resulting universal cocycle is zero on $L_*$. It is a coboundary by the scalar argument, so `Univ` over the coefficient module $A/J$ forces $x_0$ to be zero modulo $J$. Hence $(x_0)_j\in J$ and $q\in J$.
+
+Suppose $\mathcal B$ vanishes on $L_*$. The archive's two-cocycle vanishing lemma gives $\lambda x(h)_a y(h')_b=0$ for all subgroup elements $h,h'$ and all coordinates $a,b$. Its proof uses the original and dual matrix actions $T,T'$ and the conjugate-dual relation $T'(\iota g)=J_0(\chi(g)T(g))J_0^{-1}$, where $J_0$ is invertible and $\chi$ is the indicated power of the cyclotomic character. On $L_*$ both cocycles are additive. Polarizing the diagonal identity at $uv$ gives equality of the two sums of mixed terms for $u,v\in L_*$. Now replace $u$ by $zuz^{-1}$. Its two values scale by $d,d^{-1}$, and the two conjugated values by $d^{-1},d$. For the conjugate scalars, apply the conjugate-dual relation at $z$ and $\iota z$ with $\chi(z)=\chi(\iota z)=1$. Subtract $d$ times the first identity from the second and cancel the unit $d-d^{-1}$. This gives $x(v)\cdot y(u)=x(\iota u)\cdot y(\iota v)$. Replacing one argument by a $G$-conjugate now gives the trace comparison
+$\operatorname{tr}(T(g)U)=\chi(g)\operatorname{tr}(T(g)U')$, with $U=x(h)y(h')^{\mathsf T}$ and $U'=J_0^{-1}y(\iota h)x(\iota h')^{\mathsf T}J_0$.
+
+For the trace comparison, extend $T$ and $\chi T$ to maps $f,f'$ from the group algebra onto the full matrix algebra, using the full matrix span and the units $\chi(g)$. Put $I=\operatorname{Ann}_A(U)$. If $f'(b)=0$, apply the trace identity to $p b q$, where $f(p)=E_{ki}$ and $f(q)=E_{jl}$ are matrix units. The left trace is $f(b)_{ij}U_{lk}$ and the right trace is zero. Thus every entry of $f(b)$ belongs to $I$. The case $I=A$ gives $U=0$ immediately. Otherwise choose preimages $s_{ij}$ of the matrix units under $f'$. They define an $A/I$-linear map by taking $E_{ij}$ to $f(s_{ij})$ modulo $I$. Subtracting the linear combination of the $s_{ij}$ representing $f'(b)$ shows that the map carries $f'(b)$ to $f(b)$ modulo $I$. Surjectivity of $f'$ and multiplicativity of $f,f'$ make this a unital algebra endomorphism. The supplied local matrix-algebra determinant invariance gives $\det T(g_0)=\chi(g_0)^r\det T(g_0)$ modulo $I$. Cancel the unit determinant to get $(\chi(g_0)^r-1)U=0$. Here $\chi(g)$ is the image of $\epsilon_0(g)^{D.R.t}$ in $A$, where $\epsilon_0$ is the cyclotomic character in $O_0$ and $D.R.t$ is the archive's fixed rank parameter. The cyclotomic image supplies $g_0$ with $\chi(g_0)^r-1$ equal to $\ell^\nu$ times a unit. This gives the stated coordinate annihilation.
+
+Extend the coordinate annihilation by linearity from the generators of $J$ to $q\in J$. Then $\lambda q y$ vanishes on $L_*$. The same scalar argument for the dual action, with $D=d^{-1}$, makes it a global coboundary, a contradiction. In this argument the point is supplied by restrictions of global cocycles and the tame and conjugate-dual hypotheses.
+
+#### The actual arguments of Step
+
+Let $q=t^B$ and $\Psi$ be the specialized presentation of determinant zero. Write $A_{\rm adj}=\operatorname{adj}(\Psi)$ and let $(i_0,j_0)$ be the selected entry, with $a_*= (A_{\rm adj})_{i_0j_0}$ dividing $q$. Step takes the row $u_0=(A_{\rm adj})_{i_0,*}$ and the column $x_0=(A_{\rm adj})_{*,j_0}$. The identities $A_{\rm adj}\Psi=\Psi A_{\rm adj}=0$ give the two kernel equations. If $q=a_*v$, then $\lambda t^{2B+1}=(\lambda q)t a_*v$, so $c=\lambda q$ meets the lemma's test $ct(u_0)_{j_0}\ne0$. The resulting class has $\lambda q[y]\ne0$. The column satisfies $(x_0)_{i_0}\mid q$, as the subgroup lemma requires. The original class comes from `Univ` at this column and is nonzero because the column has a nonzero coordinate and `Univ` detects coboundaries.
+
+In this application $\beta$ is evaluation on $Y=\operatorname{Hom}_{\mathbb Z}(A,C)$ with $(a\phi)(b)=\phi(ab)$. Characters detect nonzero elements since $N_0 A=0$. The same character module also gives the row criterion passed to the determinant argument. If a row $v$ lies outside the span of the rows of $\Psi$, choose an additive character on their quotient that detects the image of $v$. Pull it back to $F:A^a\to C$ and set $u_j(b)=F(be_j)$, where $e_j$ is the $j$-th basis row. For each row $w$, $(\sum_j w_j u_j)(b)=F(bw)$. For the rows of $\Psi$ this is zero, so $u\in\ker\Psi_Y$. For $w=v$ and $b=1$ it is nonzero. Thus a row annihilating the whole kernel belongs to the row span.
+
+The no-invariants hypothesis is supplied by the tame scalar with nontrivial residual eigenvalue and a twist of $\ell$-power order. For the local annihilator test, the invariants vanish at $\operatorname{Spl}(i)$ and at the old left places by the respective local vanishing and scalar Frobenius tests. At a place in $Q$ lying over an old right coordinate, choose an inertia element on which its own auxiliary character has additive coordinate $1$. All other auxiliary characters are trivial there, as is the untwisted dual action. The action on that element is therefore multiplication by $1+a_qt$ with $a_q$ a unit. Invariance gives $a_qtm=0$ and then $tm=0$.
+
+Step forms $L_*$ by intersecting its original $L$ with the kernels of the characters at all coordinates outside the unused left coordinates. Those unused coordinates have zero coefficients in the specialization. The intersection therefore kills $\kappa$, and `Small2` persists by the character constraints. The proof uses this $L_*$ for $\mathcal B$ and uses the original $L$ in the prime-selection call.
+
+#### From the subgroup element to a prime [Lean, read conditional on Chebotarev]
+
+Inside $L_*$ take $U$ to be the common zero subgroup of $x,y,x\circ\iota,y\circ\iota$. Each ordinary zero subgroup is open by continuity and normal because $f(khk^{-1})=\pi(k)f(h)$ for $h\in L_*$, by the cocycle law and triviality of the action there. Taking the two inverse images under $\iota$ and intersecting gives the asserted open normal subgroup. If $k\sigma k^{-1}h^{-1}\in U$, the same conjugation formula gives $x(\sigma)=\pi(k^{-1})x(h)$ and the corresponding formula for $y$, and likewise for the conjugate terms. The dot products both scale by the same cyclotomic unit, since the twists cancel and the cyclotomic character is invariant under $\iota$. Thus $\mathcal B(\sigma)\ne0$.
+
+The first-half inertia-vanishing supplier gives all four vanishings on each unused left inertia subgroup. The vanishing uses the Frobenius test on an inertia generator. The action on inertia is trivial and any continuous cocycle there is additive. The tame quotient supplies a generator for maps to the finite $\ell$-power torsion module. Frobenius sends this generator to its norm power in that quotient, and the norm is $1$ modulo $N_0$. Thus the cocycle value on the generator is fixed by Frobenius. The nontrivial residual scalar of Frobenius forces the value to vanish, since the twist has $\ell$-power order and reduces to $1$. Apply the same argument at the conjugate place, using anticyclotomicity for triviality of the twist on conjugate inertia.
+
+Those inertia groups are in $L_*$ by the old left inertia inclusion in $L$ and the triviality there of the characters outside the unused left coordinates. So they are in $U$. The already used left characters are trivial on $h$. Multiply $h$ on the left by an element of $U$ to set the unused left coordinates to the required vector, with coordinate $1$ at the next left index and $0$ elsewhere in additive notation. The elements that change one coordinate at a time come from the corresponding inertia groups. Their product gives the adjustment $\eta\in U$ and leaves the used coordinates fixed.
+
+Apply the degree-one Chebotarev input to $\eta h$ modulo the intersection of $U$ with all left character kernels. Exclude the existing places, the prescribed bad sets, places ramified modulo $U$, and the other finite exclusions in the selector. The input chooses a place and a Frobenius at a prolongation. Transport to the fixed prolongation by conjugacy and use agreement of Frobenius lifts modulo inertia. This preserves both the left coordinates and the conjugacy requirement modulo $U$. The finite splitting exception and the degree-one and unramified tests give the required split condition. Since Frobenius belongs to $L$, it fixes the roots of unity of order $2\ell^M$, giving $\operatorname{Norm}(p)\equiv1\pmod{2\ell^M}$. Inertia lies in $U\subseteq L$, so it and Frobenius give the decomposition-group inclusion in $L$. The admissible family supplies the good character at this split place, using the exclusion of its bad set and the inclusion of the decomposition group in $L\subseteq H$. The new character is surjective on its inertia, which yields an inertia element $\gamma$ of additive coordinate $1$. Right-multiply the initial Frobenius by an inertia element whose new character is the inverse of that initial Frobenius value. The adjusted Frobenius has trivial new character. Every Frobenius lift at the chosen prolongation has the same required old left coordinates, by the congruence in the smaller quotient. The enlarged family retains the old places and their conditions, and the exclusion of their places and conjugates gives the required distinctness. Since this adjustment is in $U$, normality preserves the congruence $k\sigma k^{-1}h^{-1}\in U$. The resulting $\sigma$ lies in $L_*$ because it is conjugate to $h$ modulo $U\subseteq L_*$ and $L_*$ is normal. It gives the required $\mathcal B(\sigma)\ne0$ at the new place.
+
+#### Remarks and reading boundary
+
+The determinant argument receives $\sigma,\gamma$, the dual Selmer representative $y$, the universal original cocycle at the specified column, and the nonzero value $\mathcal B(\sigma)$. Its comparison of inertia rows uses reciprocity and the twisted local relation as separate arithmetic inputs. In particular, the evaluation pairing $\beta$ belongs to the order comparison, whereas $\mathcal B$ takes values in $A$ and detects the arithmetic witness. On $L_*$, changes by global coboundaries leave both evaluations in $\mathcal B$ unchanged, since the actions are trivial there and $\iota L_*=L_*$.
+
+All archive references below are to A2, joined SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The read claims are conditional on the suppliers listed below. Neukirch, Schmidt and Wingberg give the classical cohomological context. Sutherland's Theorem 28.9 gives classical Chebotarev for a finite Galois extension and a conjugacy-stable set. The proof above uses the archive's degree-one interface with finite exclusions. [Cohomology of Number Fields](https://doi.org/10.1007/978-3-540-37889-1) · [MIT 18.785, Lecture 28](https://math.mit.edu/classes/18.785/2021fa/LectureNotes28.pdf).
+
+##### [Lean] Definitions and hypotheses
+
+- `Setup` and the restrictions on the twist. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/H1MapSubgroup.lean:38–42`.
+- `IsDual`, residual triviality and `Small`. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsDualDualRep.lean:17–24`.
+- `GalHyp`. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:119–120`.
+- `Small2`, `PiLocalization₂` and the `Step` statement. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Small2.lean:13–25,51–57`.
+
+##### [Lean, read] Conditional proof bodies and consumed segments
+
+- Pairing, Selmer and output definitions. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/VecPairApply.lean:21–40,47–62,72–93,103–113`.
+- Finite pairing, kernel comparison and complete dual-class selection. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsDualSelmerClassNotKilled.lean:11–38,42–81,83–126,133–153,157–167,169–197`.
+- Cup coboundary identities and complete coefficient descent. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DualSelmerClassFromCoeffsKilledByMul.lean:20–39,43–46,48–124`.
+- Surjective local-condition comparison conditional on the local lift. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BkOnLeMapOfSurjective.lean:9–21`.
+- Conditional local-to-global order formula and its specialization. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerOrderFormulaDualSelmer.lean:19–40,51–146,150–185`.
+- Universal cocycle from the natural presentation and scalar transfer. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsUniversalSelmerCocycleBaseChange.lean:12–38,41–48,50–110`.
+- Character pairing and the row criterion handed to the determinant argument. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/PerfectPairingFiniteModuleRowsCriterion.lean:12–17,21–44,52–108`.
+- Global dual invariants on every coefficient module. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NoInvDualOfSetup.lean:12–30`.
+- The three local invariant cases. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalInvariantsKilled.lean:11–17,20–34,36–85`.
+- Conditional tame inertia vanishing on both conjugate places. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/InertiaVanishingNoInvariantsFirstHalfPlaces.lean:76–139`.
+- Scalar restriction argument and detection through the right kernel column. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsSmallSubgroupCocycleFormNeZero.lean:11–37,39–95`.
+- Triviality after killing the twist on the subgroup. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistedRepresentationKillsSmallSubgroup.lean:10–27,29–43,45–79`.
+- Tame and conjugate-dual comparison and cyclotomic annihilation. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwoMulCocycleValuesZeroOnSmallSubgroup.lean:16–47,49–122`.
+- Polarization and trace identity. `src/Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/CyclotomicTotient/PolarTraceMulVecMulVecEq.lean:8–26,28–89`.
+- Trace argument modulo the annihilator of the outer product. `src/Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/CyclotomicTotient/TwistTrace.lean:6–76,78–111`.
+- Common zero subgroup and invariance of nonvanishing. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsOpenNormalSubgroupTwoCocycles.lean:16–48,50–66,68–91`.
+- Independent character values and transport from a Chebotarev prolongation. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobenius.lean:173–191,195–235`.
+- Extension of the auxiliary family and both inertia choices. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsNewPlaceFrobeniusConjugateModOpenNormalSub.lean:12–126`.
+- Actual Step arguments and handoff. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:153–229,230–260,301–309`.
+
+##### [Lean] Named inputs and downstream interfaces
+
+- Exported dual selection wrapper. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsDualSelmerClassNotKilledStatement.lean:6–7`.
+- Exported order formula wrapper. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerOrderFormulaDualSelmerStatement.lean:6–7`.
+- Greenberg–Wiles ratio, Poitou–Tate, global finiteness and Euler characteristic. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GreenbergWilesPairStatement.lean:6`.
+- Local Tate pairing, local finiteness and Euler characteristic. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalDualityPerfectPairFiniteModulesStatement.lean:6`.
+- Order of the finite local conditions. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalConditionOrderAboveLFiniteModulesStatement.lean:6`.
+- Local saturation. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalConditionAboveLSaturatedOfSelmerSetup.lean:257`.
+- Local count and archimedean signature matching. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalCountOfSetup.lean:491`.
+- Surjective lift of the local Bloch–Kato condition. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerObstructionLeResidualSelmerSimpleExtension.lean:466`.
+- Vanishing at the exceptional places in `Spl`. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ContinuousAlgebraMapPadicInt.lean:439`.
+- Continuity, unramified actions and equivariance of the cup pairing. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/PairingEquivariant.lean:54`.
+- Scalar transfer of the Selmer condition. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerCocyclesScalarChangeTransferStatement.lean:6`.
+- Square presentation and its naturality. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerPresentationMatrixOfGaloisCohomology.lean:20`.
+- Tame scalar and its unit differences. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameInertiaElementActsByScalar.lean:29`.
+- Residual scalar test on a finite local algebra with an ℓ-power twist. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FirstHalfLocalCohomologyVanishingOfLocalDualityT.lean:156`.
+- Full span of the twisted matrices. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SpanTopOfResidue.lean:70`.
+- Cyclotomic image at the prescribed order. `src/Development/AutomorphicArithmetic/CyclotomicBounds/CyclotomicOrders/ExistsCycZPowNeOne.lean:21`.
+- Determinant invariance under a matrix algebra endomorphism over a local ring. `src/Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/CyclotomicTotient/SkolemNoether.lean:126`.
+- Degree-one Chebotarev input `Cheb`. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11–13`.
+- Closed `cheb_holds` supplier traced in §10.4.7. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:66–67`.
+- Downstream global reciprocity for the new inertia rows. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ReciprocityRelaxedSelmerDualSelmerNewPlace.lean:190`.
+- Downstream twisted local relation. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalCocycleRowsRelationNewPlace.lean:37`.
+- Downstream determinant argument, covered in §10.4.9. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetNeZeroOfLowestFormNeZeroPresentation.lean:234`.
+
+### 10.4.11 The local presentation at the new pair of places
+
+#### Motivation
+
+The witness in `10.4.10 evaluates a cocycle from the old Selmer presentation. The determinant in `10.4.9 belongs to the enlarged presentation. To transfer the witness, we need equations on the enlarged presentation and a comparison with the old one. Over the lifted coefficient ring, the tame relation ties the new inertia rows to the new Frobenius rows. After reducing coefficients, imposing the two inertia evaluations as relations restores the old Selmer conditions and identifies the Frobenius evaluations.
+
+#### Example 10.19. Two local characters over a quotient of $\mathbb Z_3$ [Expository]
+
+Take $\nu=1$, $M=3$, $A=\mathbb Z/9\mathbb Z$ and $B=A[x,y]/(x^2,y^4)$. At a place of norm $q=163\equiv1\pmod{54}$ the pro-$3$ tame relation $\sigma\gamma\sigma^{-1}=\gamma^q$ becomes commutation after imposing $\gamma^{27}=\sigma^{27}=1$. Put $h=(1+y)^{-1}=1-y+y^2-y^3$. The scalar actions on $(\gamma,\sigma)$ are $(1-x,h)$ on the first copy and $(1+x,1+y)$ on the conjugate copy. Give the cocycle values $(x,yh)$ and $(x,y)$ respectively. These define affine maps $v\mapsto R(g)v+f(g)$ on $B$. On the first copy both maps fix $1$, and on the second both fix $-1$. Thus each pair commutes because their scalar parts commute. The $27$th powers are the identity since $x^2=y^4=0$ and $\binom{27}{j}$ is divisible by nine for $1\le j\le3$.
+
+The first equality is $x(yh)=yh\cdot x$ and the conjugate equality is $xy=y\cdot x$. Dropping $h$ from the first right-hand side gives a difference $-xy^2+xy^3\ne0$. Both actions become trivial under $x=y=0$. This calculation uses cocycles of the stated finite local tame quotient, one scalar coordinate at a time.
+
+#### Example 10.20. Imposing the inertia rows over a quotient of $\mathbb Z_2$ [Expository]
+
+Take $A=\mathbb Z/8\mathbb Z$, $\nu=2$, $M=4$ and $q=97\equiv1\pmod{32}$. With trivial action the tame quotient obtained by imposing $\gamma^{16}=\sigma^{16}=1$ is $(\mathbb Z/16\mathbb Z)^2$. On two copies use the cocycles into $A^4$ with values $e_1,e_2,e_3,e_4$ on $\gamma,\sigma,\gamma^c,\sigma^c$, respectively. These are homomorphisms since $16A=0$. Imposing the inertia evaluations as relations gives $A^4/(Ae_1+Ae_3)$, free on the classes of $e_2,e_4$. In these coordinates the Frobenius rows are $(1,0)$ and $(0,1)$. Changing lifts to $\sigma\gamma^5$ and $\sigma^c(\gamma^c)^7$ adds $5e_1$ and $7e_3$ to the rows and preserves their images. The quotient cocycles vanish on all inertia. This is the comparison for a local functor with trivial action. The global comparison must also preserve the Selmer conditions at the other places.
+
+#### Definitions and coefficient data
+
+Keep the twist index $i$ and signature $s$ fixed. Write $O_0=X.O0(i)$, $\ell=X.l(i)$, $\nu=\nu(X,i)>0$, $I=(\ell^\nu)\mathfrak m_{O_0}$ and $N_0=\ell^{\nu+1}$. The coefficient algebras annihilate $I$ (`Kills`), so $N_0$ annihilates their modules. Over a DVR with uniformizer $\varpi$ and $e=v_\varpi(\ell^\nu)$ this means factoring through $O_0/(\varpi^{e+1})$. The character exponent group is $\mathbb Z/\ell^M\mathbb Z$, where $M\ge\nu+2$. The finite dual pairing takes values in $\mathbb Z/N_0\mathbb Z$.
+
+Use `Small2` and `NewPl`. The new place $p$ lies in a split pair $p,p^c$ outside the exceptional set, hence away from $\ell$. Its norm $q$ satisfies $q\equiv1\pmod{2\ell^M}$. Its chosen decomposition group lies in the $c$-stable subgroup $L$, where $g^c$ denotes `cConj` applied to $g$. The arithmetic Frobenius $\sigma$ acts on residue classes by the $q$th power. The continuous exponent character $d$ has $d(\gamma)=1$ on the chosen inertia element $\gamma$. Write $[d(\tau)]$ for the representative in $[0,\ell^M-1]$. At the transported conjugate prolongation use $\sigma^c,\gamma^c$. On $L$ the original untwisted action is the identity after coefficient reduction by `Small2`. The `IsDual` action before twisting is also the identity there, since the cyclotomic factor is trivial modulo $N_0$.
+
+Let $A$ be the finite local specialization in `Step` and $B=A[x,y]/(x^2,y^{2r})$ with $r=D.R.r>0$. Let $\pi:B\to A$ be augmentation and use a bar for reduction. The new right slot $q_0$ is evaluated at $x$, the newly used left slot $q_1$ at $y$, and the other slots at the images of their old $a_0(v)t$. The old value of $q_1$ was zero. The product rule is $\kappa'(g)\prod_v(1+\xi_v)^{[d_v(g)]}=1$ and reduces to the rule for $\kappa$. On new inertia only the new right character contributes. At $\sigma$ its exponent is zero, the newly used left exponent is one, and the other factors are one by the kernel and zero-slot conditions. Hence $\kappa'(\tau)(1+x)^{[d(\tau)]}=1$ on inertia and $\kappa'(\sigma)(1+y)=1$. The characters invert under $c$, and $\kappa$ is trivial on the new decomposition group. [Lean, read] (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:64–83,261–352`.)
+
+Write $\operatorname{row}(H)$ for the span of the rows of $H$. An archive `Univ` pair $(H,Z_H)$ takes each solution $v$ of $Hv=0$ in any discrete coefficient module to the Selmer cocycle $g\mapsto Z_H(g)v$. It represents every Selmer class this way and detects zero classes by $v=0$. Use the old pair $(\Psi,Z)$ over $A$ for $Q$ and the lifted pair $(\Phi',Z')$ over $B$ for $Q'=Q\cup\{p,p^c\}$. The pair $(\bar\Phi',\bar Z')$ is universal over $A$ for $Q'$. Restrict scalars through $\pi$ and use `selmerCocycles_scalarChange_transfer` to identify actions, coboundaries and Selmer conditions before applying the three clauses of `Univ`. This transfer uses the archive local conditions, including the condition at $\ell$. The square presentations before specialization and the universal cocycles of the specialized matrices come from `exists_universalSelmerCocycle_baseChange` as used in `Step`. [Lean, read]. The scalar-transfer proof is Lemma 10.27. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/VecPairApply.lean:16–21,47–79,101–117` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalSelmerCocycleMapAlgHom.lean:10–22`.)
+
+#### Lemma 10.21. Tame inertia with square-zero increment [Lean, read]
+
+Let $W$ be discrete and killed by $N_0$. Suppose the action is $1+[d(\tau)]b$ on inertia and $1+a$ on $\sigma$, with $b^2=0$. Then every continuous cocycle $f$ satisfies $a f(\gamma)=b f(\sigma)$. If $b=0$, vanishing on $\gamma$ implies vanishing on inertia.
+
+*Proof.* `TameQuotient` gives the pro-$\ell$ inertia quotient with kernel $J$ whose open normal subgroups have index prime to $\ell$. The character $d$ kills $J$ by coprime order. The action is then trivial there, so $f|_J$ is additive with open kernel. Its image is killed both by the prime-to-$\ell$ index and by $N_0$, hence vanishes. Write $\sigma\gamma=\gamma^q j\sigma$ with $j\in J$. Iterating the cocycle identity gives $f(\gamma^q)=q f(\gamma)+\binom q2 b f(\gamma)$ and the action $1+qb$ on $\gamma^q$. The congruence $q\equiv1\pmod{2N_0}$ ensures both $q=1$ on $W$ and $N_0\mid\binom q2$, including at $\ell=2$. The two expressions for the cocycle on $\sigma\gamma$ thus give $(1+a)f(\gamma)+f(\sigma)=f(\gamma)+(1+b)f(\sigma)$. Finally the image of $\gamma$ generates $\mathbb Z_\ell$ topologically because $d(\gamma)=1$ modulo $\ell$ excludes divisibility by $\ell$ there. If $b=0$, the continuous inertia restriction is additive, and vanishes once it vanishes on $J$ and $\gamma$. $\square$
+
+A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameRelationCocycleSquareZeroInertia.lean:11–96`. The local-field background is the description by prime-to-residue-characteristic roots of a uniformizer after unramified extension. The precise quotient in the proof is the named archive input. [Sutherland, MIT 18.785, Lecture 11, Theorem 11.10, p. 3](https://math.mit.edu/classes/18.785/2021fa/LectureNotes11.pdf)
+
+#### Theorem 10.22. Conditional local presentation and determinant transfer [Lean, read]
+
+Assume the coefficient, character and universal-presentation data above, `TameLocal` and the archive scalar transfer. Index the new rows by $j=(b,c)\in\{0,1\}\times\{1,\ldots,r\}$, writing $g_0=g$ and $g_1=g^c$. Let $u_j=Z'(\sigma_b)_c$, $T_j=Z'(\gamma_b)_c$, $U_j=Z(\sigma_b)_c$, and set $\eta_{0,c}=\kappa'(\sigma)$ and $\eta_{1,c}=1$. Put $W=\operatorname{row}(\bar\Phi')+\operatorname{span}_A\{\bar T_j\}$. Then:
+
+1. Over $B$, $x u_j-y\eta_j T_j\in\operatorname{row}(\Phi')$.
+2. Over $A$ there is an $a$ by $a'$ matrix $E$, where $a,a'$ are the sizes of $\Psi,\Phi'$. Its rows generate $A^{a'}/W$, the rows of $\Psi E$ belong to $W$, and $\bar u_j-U_j E\in W$. The induced map $A^a/\operatorname{row}(\Psi)\to A^{a'}/W$ is an isomorphism [Expository].
+3. Assume `Setup`, `IsDual`, an old dual Selmer cocycle $f^\vee$ with coefficients in $A$, and a balanced perfect pairing $\beta:Y\times A\to\mathbb Z/N_0\mathbb Z$ with the finite row criterion over $A$. This criterion says that a row annihilating all solutions in $Y$ belongs to the span of the matrix rows over $A$. Assume the named reciprocity identity below for the split pair. With $k_{0,c}=f^\vee(\sigma)_c$ and $k_{1,c}=-f^\vee(\sigma^c)_c$, we have $\sum_j k_j\bar T_j\in\operatorname{row}(\bar\Phi')$. If $\sum_j k_j U_j\operatorname{adj}(\Psi)_{\bullet l_0}\ne0$ for some column $l_0$, then $\det\Phi'\ne0$.
+
+*Lifted relations.* In the direct case the increments are $-x[d(\tau)]$ and $-y\kappa'(\sigma)$, by $x^2=0$ and the inverse character formula. In the conjugate case they are $x[d(\tau)]$ and $y$. Lemma 10.21 gives $x f(\sigma)=y\kappa'(\sigma)f(\gamma)$ and $x f(\sigma^c)=y f(\gamma^c)$. Take $B^{a'}/\operatorname{row}(\Phi')$ as coefficient module. The standard basis images solve the equations of $\Phi'$, so `Univ` supplies a cocycle on these images. Evaluation of a row gives precisely its class in the quotient. The two equalities give the asserted row membership. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalCocycleRowsRelationNewPlace.lean:15–122`.)
+
+*Reduced comparison.* The action over $A$ is trivial on the new decomposition group and its conjugate. Vanishing on $\gamma,\gamma^c$ restores the unramified condition by Lemma 10.21. If a chosen prolongation differs from the transported one, conjugating an inertia element where $f$ vanishes by $g$ gives a coboundary with witness $-f(g)$. Thus the unramified class is valid at the chosen prolongation as well. The condition above $\ell$ is unchanged. The same holds at $\operatorname{Spl}(i)\cup Q$ and outside $\operatorname{Spl}(i)\cup Q'$.
+
+Take the coefficient module $A^{a'}/W$. Its basis images give a relaxed cocycle with zero new inertia. Its class is represented by an old solution vector, whose entries lift to rows of $E$. The equations for this vector give the rows of $\Psi E$ in $W$. The coboundary relating the two representatives vanishes on $\sigma_b$ because its action is trivial, yielding $\bar u_j-U_j E\in W$. Quotient further by the images of the rows of $E$. The relaxed cocycle becomes a coboundary there, forcing all basis images to vanish by the zero test of `Univ`. Thus the rows of $E$ generate. For the isomorphism, in every discrete $A$-module the old classes are exactly the relaxed classes with both inertia evaluations zero. The converse uses that an unramified class restricts to a coboundary on inertia, which is zero under trivial action. These evaluations are invariant under coboundaries. The map induced by $E$ therefore gives a bijection on homomorphisms into every discrete $A$-module, so it is an isomorphism. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerUnramifiedOfVanishInertiaGenerators.lean:18–65` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ComparisonCocycles.lean:24–117`.)
+
+*Signed row.* The input `reciprocity_relaxedSelmer_dualSelmer_newPlace` equates $\sum_c\beta(f(\gamma)_c,f^\vee(\sigma)_c)$ and its conjugate evaluation for each reduced relaxed cocycle $f$. In `NewRecip.reciprocity` the two local cup invariants are a common unit times the evaluations with opposite signs. Conjugation inverts the chosen primitive $N_0$th root, giving the minus sign by the transport rule for the invariants. Old and exceptional places contribute zero by the dual local conditions, and outside the support the cup product is unramified. The sum-of-invariants input gives equality after cancelling the unit. This uses `sum_local_inv_eq_zero_of_unramified_cocycle_pow` with `PoitouTateTotallyComplex`, `pairing_equivariant_alt` and `tame_cupProduct_invariant_unramified_hom`. The sum-of-invariants input and the assembly of the invariant two-cocycle are read in §10.4.11.1.
+
+Apply the identity to the cocycle from $cv$ for any solution $v$ of $\bar\Phi'v=0$ in $Y$ and any $c\in A$. Balancing gives $\beta(\sum_j k_j\bar T_j v,c)=0$ for all $c$. Perfection gives zero in $Y$. The row criterion puts the combination in $\operatorname{row}(\bar\Phi')$ itself, before adjoining the inertia rows. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ReciprocityRelaxedSelmerDualSelmerNewPlace.lean:126–184,190–315` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:117–151`.)
+
+*Determinant.* Let $G$ have top rows lifting $E$ and bottom rows $\eta_jT_j$. Since $\bar\eta_j=1$, the rows generate modulo $\operatorname{row}(\Phi')$ by the comparison and Nakayama for the nilpotent ideal $(x,y)$. An equation modulo $(x,y)$ on these generators lifts to one modulo $\operatorname{row}(\Phi')$ with the prescribed reduced coefficients. Lift its coefficients, write the residual error as $xv+yw$ after subtracting a row combination of $\Phi'$, and express $v,w$ in the generators modulo $\operatorname{row}(\Phi')$ to correct the coefficients.
+
+For instance, if $(\Psi E)_b$ is congruent to $\sum_j R_{bj}\bar T_j$ modulo $\operatorname{row}(\bar\Phi')$, its coefficient row on the reduced generators is $(\Psi_b,-R_b)$. The old equations give top coefficient rows reducing to $(\Psi,C)$, where $C$ is minus the coefficients expressing $\Psi E$ in the inertia rows modulo $\bar\Phi'$. Replace row $l_0$ by a lift of $(0,k)$ using the signed relation. Lift the Frobenius comparison to rows $V_j$ with $\bar V_j=(U_j,S_j)$ for some $S_j$ and $u_j-V_jG\in\operatorname{row}(\Phi')$. Use $y(0,e_j)-xV_j$ as the new bottom coefficient rows. Their products with $G$ are relations by claim 1. The determinant of this square relation matrix belongs to the zeroth Fitting ideal of $B^{a'}/\operatorname{row}(\Phi')$, which is $(\det\Phi')$. [Stacks Project, Lemma 15.8.2 and proof](https://stacks.math.columbia.edu/tag/07Z8)
+
+Terms with at least two lower rows from $-xV$ vanish by $x^2=0$. The term with none vanishes by $y^{2r}=0$. Factor out $xy^{2r-1}$. This monomial annihilates $(x,y)$, so compute the coefficient over $A$. In the term from lower row $j$, exchange it with row $l_0$. The row exchange contributes a minus sign. The new top row has left part $-U_j$, contributing a second minus in the cofactor expansion. In the lower right block, the identity with row $j$ replaced by $k$ has determinant $k_j$. The result is $xy^{2r-1}\sum_j k_j U_j\operatorname{adj}(\Psi)_{\bullet l_0}$. The monomial is part of a free $A$-basis, so its nonzero coefficient forces $\det\Phi'\ne0$. $\square$ (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DetNeZeroOfLowestFormNeZeroPresentation.lean:12–372` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsRingSqZeroNilpotentAugmented.lean:22–71`.)
+
+#### Remarks on the Step interface
+
+The old equations come from $\Psi$ through the comparison, with one row replaced by the signed inertia relation. Old inertia enters separately in the prime choice. At the first unused left place, the specialized twist is trivial on inertia. The tame relation says the tame cocycle value is Frobenius-fixed since the norm is one modulo $N_0$. Frobenius has residual scalar different from one there (or its inverse for the dual), and an $\ell$-power twist leaves that residual scalar unchanged. Frobenius minus one is invertible, so the tame cocycle value vanishes on both sides of the split pair, for the original and dual cocycles. This permits the open normal subgroup in the selection to contain that inertia. The lifted coordinate $y$ is then read by the new Frobenius. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/InertiaVanishingNoInvariantsFirstHalfPlaces.lean:38–139` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:241–260,301–347`.)
+
+The scalar in the theorem is the signed evaluation in §10.4.10 on the old right kernel column. It can be a nonunit. In the bad branch the old determinant is zero under the specialization, with $t^h=0$ for $h=2(e+1)w+2$. Each variable in the lifted evaluation is a multiple of $t$, or is $x$ or $y$. The largest possible surviving degree is $(h-1)+1+(2r-1)$. If all coefficients below degree $h+2r$ belonged to $I$, the lift's determinant would vanish in $B$, contradicting the theorem. This is the return to the existing `Step` coefficient bound. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:188–229,261–352`.)
+
+The reading covers the local relation, the unramified comparison, the reciprocity assembly under its named inputs, and the passage to the determinant. Section 10.4.12 supplies the square Selmer presentation and scalar transfer. The global invariant sum is read in §10.4.11.1 (Theorem 10.22f and Proposition 10.22g). The suppliers of the local cup invariant, of `PoitouTateTotallyComplex` and of the deeper global duality of §10.4.10 retain their reading boundaries. The examples compute local rules on finite tame quotients.
+
+#### 10.4.11.1 The global invariant sum in the new-place reciprocity
+
+##### Motivation [Expository]
+
+The signed row of Theorem 10.22 rests on one global identity. For a reduced relaxed Selmer cocycle $x$ and an old dual Selmer cocycle $y$, the two local cup invariants at the new split pair $p,p^c$ are a common unit times the evaluations $\sum_c\beta(x(\gamma)_c,y(\sigma)_c)$ and $-\sum_c\beta(x(\gamma^c)_c,y(\sigma^c)_c)$, and their sum vanishes. The vanishing is the content of the archive theorem `sum_local_inv_eq_zero_of_unramified_cocycle_pow`, which §10.4.11 cited but did not open. This subsection reads its direct producer and shows exactly which part of global duality it consumes.
+
+Two facts have to be separated. The first is a statement about one-dimensional coefficients only: for a continuous $2$-cocycle on $G_F$ with values in $\mu_{\ell^n}$ that is invariant under the subgroup generated by the inertia groups outside a finite set $S$ of places containing those above $\ell$, the sum over $S$ of the local invariants of its restrictions is zero. This is the Brauer–Hasse–Noether reciprocity in cohomological form, read off from the degree-two tail of the Poitou–Tate sequence for the cyclotomic character. The second is a statement about the actual coefficient pairing of the Step argument: the cup product of a Selmer cocycle with values in $Y^r$ and a dual cocycle with values in $Y'^r$, paired coordinatewise by a balanced $\beta$ into $\mathbb Z/N_0\mathbb Z$, is such an invariant $2$-cocycle, and all its local invariants vanish except at $p$ and $p^c$. The first fact is Theorem 10.22f, the second is Proposition 10.22g. Neither uses the Selmer order formula of §10.4.10 nor the obstruction count of §10.4.12; Remark 10.22h records the differences.
+
+In the two examples below, $F=\mathbb Q(i)$ is totally complex, $\ell=3$, $n=1$ and $N_0=3$. We take $x$ to be a cubic character $\chi$ of $G_F$ with trivial action on $\mathbb Z/3\mathbb Z$, and $y$ to be the Kummer cocycle $\delta b$ of an element $b\in F^\times$, with values in $\mu_3$. The pairing is $P(a,\zeta^k)=ak$ for a fixed primitive cube root of unity $\zeta$. It satisfies $P(a,g\cdot\zeta^k)=\omega(g)P(a,\zeta^k)$ for the mod-$3$ cyclotomic character $\omega$, which is the equivariance required of $\beta$ in the archive. The cup product $\chi\cup\delta b$ lies in $H^2(F,\mu_3)=\operatorname{Br}(F)[3]$ and its local invariant at $v$ is the local Artin symbol $\chi_v(b)$, written additively in $\mathbb Z/3\mathbb Z$ through $\omega\mapsto1$. This is the classical case $r=1$ of the archive pairing, with the real coefficient pairing and real cocycles, not an abstract Brauer class.
+
+##### Example 10.22a. Two places, and what happens when one is deleted [Expository]
+
+Let $\chi$ be the cubic character of $\mathbb Q$ of conductor $7$, restricted to $G_{\mathbb Q(i)}$. The cubes in $(\mathbb Z/7\mathbb Z)^\times$ are $\{1,6\}$, and $3$ is a generator with $3^k$ running through $3,2,6,4,5,1$. Put $\chi_7(3)=\omega$, so that $\chi_7(5)=\omega^5=\omega^2$. Take $b=2+i$, of norm $5$. The places of $F$ where the invariant of $\chi\cup\delta b$ can be nonzero are those where $\chi$ ramifies, namely the inert place $(7)$ with $q=49$, and those where $b$ is not a unit, namely $(2+i)$ with $q=5$. The set $S$ must also contain the inert place $(3)$ above $\ell$.
+
+1. At $(2+i)$ the character is unramified and $b$ is a uniformizer, so $\chi_v(b)=\chi(\operatorname{Frob}_v)$. The residue degree is one, so $\operatorname{Frob}_v$ restricts to $\operatorname{Frob}_5$ on the cubic field, and $\chi_v(b)=\chi_7(5)=\omega^2$. Invariant $2$.
+2. At $(7)$ the local field is $\mathbb Q_7(i)=\mathbb Q_{49}$, unramified quadratic over $\mathbb Q_7$, and $\chi$ restricted to it is still totally ramified of order three. Local reciprocity is compatible with norms, so $\chi_v(b)=\chi_{\mathbb Q_7}(N(2+i))=\chi_{\mathbb Q_7}(5)$. For the rational element $5$, global reciprocity over $\mathbb Q$ gives $\chi_5(5)\chi_7(5)_{\mathrm{loc}}=1$ since $5$ is a unit at every other finite prime and $\chi$ is even. As $\chi_5(5)=\chi(\operatorname{Frob}_5)=\omega^2$, we get $\chi_{\mathbb Q_7}(5)=\omega$. Invariant $1$.
+3. At $(3)$, at $(2-i)$ and at $(1+i)$ the character is unramified and $b$ is a unit. Invariant $0$.
+
+The tuple of invariants over $S=\{(3),(7),(2+i),(2-i),(1+i)\}$ is $(0,1,2,0,0)$, with sum $3\equiv0$. It is globally realized by $\chi\cup\delta b$. Now delete the nonzero place $(7)$: the tuple $(0,0,2,0,0)$ has sum $2\ne0$. By Theorem 10.22f no $2$-cocycle on $G_F$ with values in $\mu_3$ that is invariant under the inertia groups outside $S$ restricts to it. No choice of $\chi$ and $b$, and more generally no global class, produces an invariant at $(2+i)$ alone. The place $(7)$ carries the compensating value because $\chi$ ramifies there, which is exactly how the new inertia evaluation enters Theorem 10.22.
+
+The archive computes the invariant at $(7)$ through the tame formula of `tame_cupProduct_invariant_unramified_hom`, as $u\cdot x(\gamma)\,y(\varphi)$ with $u$ a unit fixed by the normalisation, $\gamma$ a tame inertia generator with $d(\gamma)=1$ and $\varphi$ a Frobenius. Here $y(\varphi)$ is the cubic residue symbol of $b$ in $\mathbb F_{49}=\mathbb F_7(i)$. Since $(2+i)^7=2-i$ by Frobenius and $(2+i)(2-i)=5$, we get $(2+i)^8=5$ and $(2+i)^{16}=25\equiv4$. As $4=2^2$ with $2$ a primitive cube root of unity in $\mathbb F_7$, the residue symbol is $2$. The value $1$ computed above then forces $u\,x(\gamma)\equiv2$. Only the product $u\,x(\gamma)$ is determined, and this is the only place where the unspecified unit enters.
+
+##### Example 10.22b. A conjugate split pair with opposite invariants [Expository]
+
+Let $\chi$ now be the cubic character of $\mathbb Q$ of conductor $13$, restricted to $G_{\mathbb Q(i)}$. Since $13\equiv1\pmod{12}$, the prime $13=(3+2i)(3-2i)$ splits in $F$ and each factor has $q=13\equiv1\pmod 3$, so both local fields are $\mathbb Q_{13}$ and $\chi$ is totally ramified at $p=(3+2i)$ and at $p^c=(3-2i)$. The cubes in $(\mathbb Z/13\mathbb Z)^\times$ form the subgroup $\{1,5,8,12\}$, and $2$ is a generator with powers $2,4,8,3,6,12,11,9,5,10,7,1$. Put $\chi_{13}(2)=\omega$, so $\chi_{13}(7)=\omega^{11}=\omega^2$ and $\chi_{13}(10)=\omega^{10}=\omega$.
+
+Take again $b=2+i$. From $3+2i\equiv0$ we get $i\equiv-3\cdot2^{-1}\equiv5\pmod p$ and $i\equiv8\pmod{p^c}$, so $b\equiv7\pmod p$ and $b\equiv10\pmod{p^c}$.
+
+1. At $p$ the element $b$ is a unit and $\chi$ is totally ramified, so $\chi_p(b)=\chi_{\mathbb Q_{13}}(7)=\chi_{13}(7)^{-1}=\omega$ by the same rational reciprocity argument as in Example 10.22a. Invariant $1$.
+2. At $p^c$ likewise $\chi_{p^c}(b)=\chi_{13}(10)^{-1}=\omega^2$. Invariant $2$.
+3. At $(2+i)$ the character is unramified and $b$ is a uniformizer, so the invariant is $\chi(\operatorname{Frob}_5)=\chi_{13}(5)$. Since $5$ is a cube modulo $13$, this is $0$.
+4. At $(3)$, $(2-i)$ and $(1+i)$ the invariant is $0$.
+
+The tuple is $(1,2)$ at $(p,p^c)$ and zero elsewhere, with sum $0$. The two nonzero entries are negatives of each other, which is the shape used in Theorem 10.22: deleting either breaks the identity, and the equality of the two signed evaluations is the whole content of the sum. In the tame formula, $x(\gamma)=x(\gamma^c)$ because $\chi$ comes from $\mathbb Q$, and the residue symbols are $7^4\equiv9$ and $10^4\equiv3=9^2$ in $\mathbb F_{13}$, that is $1$ and $2$ with respect to $\zeta\equiv9$. The sign in the archive's conjugate formula comes from transporting the place and the root of unity by complex conjugation, which inverts $\zeta$; with this transport the two invariants are read as $u\,x(\gamma)\,y(\varphi)$ and $-u\,x(\gamma^c)\,y(\varphi^c)$ with equal absolute values, as the formula in `local_pair` asserts. One checks that $7\cdot10=70\equiv5$ is a cube, which is the residue-field form of the same cancellation.
+
+##### Definitions [Lean, read]
+
+Fix a totally complex number field $F$, an algebraic closure $\Omega$, and write $G=\operatorname{Aut}_F(\Omega)$ with the Krull topology. For a valuation subring $A\subset\Omega$ write $\operatorname{Dec}(A)$ for its decomposition group and $\operatorname{Ine}(A)$ for the inertia subgroup, the elements of $\operatorname{Dec}(A)$ moving every $A$-integral element by something of valuation less than one. The subring $A$ lies over the finite place $v$ if $A$-integrality of $x\in\mathcal O_F$ with valuation less than one is equivalent to $x\in v$. Fix a prime $\ell$ and $n\ge1$. The mod $\ell^n$ cyclotomic character $\omega_n:G\to(\mathbb Z/\ell^n\mathbb Z)^\times$ is the reduction of the $\ell$-adic cyclotomic character. (A2, `src/ReciprocityTheory/GaloisValuations/Global.lean:15,45,106`; `src/Formalism/ConjugateSelfDual/Statement.lean:20–25`.)
+
+For a continuous representation $\rho$ of a topological group $\Gamma$ on a discrete module $M$, the archive's $Z^2(\rho)$ is the module of continuous maps $w:\Gamma\times\Gamma\to M$ with $\rho(g)w(h,k)-w(gh,k)+w(g,hk)-w(g,h)=0$, $B^2(\rho)$ is the module of differentials $d^1c(g,h)=\rho(g)c(h)-c(gh)+c(g)$ of continuous $c:\Gamma\to M$, and $H^2(\rho)=Z^2/B^2$. (A2, `src/ReciprocityTheory/NeutralLocalFields/Duality.lean:73–107`; `src/ReciprocityTheory/GaloisValuations/SeparatedDvrSecondCohomologyMem.lean:97–107`.) For a character $\mu:\Gamma\to R^\times$, $\operatorname{charRep}(\mu)$ is $R$ with $g$ acting by multiplication by $\mu(g)$. The global coefficient module is $\mu\mathrm{Rep}=\operatorname{charRep}(\omega_n)$ on $\mathbb Z/\ell^n\mathbb Z$, and for $A$ over $v$ the local module $\mu\mathrm{Loc}(A)$ is its restriction to $\operatorname{Dec}(A)$. (A2, `src/ReciprocityTheory/Hypotheses/GalCohDefs.lean:21,141`; `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:17–19`.)
+
+An invariant family is a choice, for every valuation subring $A$, of a linear map $\operatorname{inv}_A:H^2(\mu\mathrm{Loc}(A))\to\mathbb Z/\ell^n\mathbb Z$. Given a primitive $\ell^n$th root of unity $\zeta\in\Omega$, the family is a family of local invariants, `IsLocalInvariants`, if for every $A$ over a finite $v$ the map $\operatorname{inv}_A$ is bijective and normalised, and the family is conjugation compatible. Normalised means that the class of the cocycle $(g,h)\mapsto\kappa(g)\chi(h)$ has invariant $1$ whenever $\kappa$ records the action on an $\ell^n$th root of a uniformizer of $v$ through $g(y)=\zeta^{\kappa(g)}y$, and $\chi$ is an additive character of $\operatorname{Dec}(A)$ that kills inertia and takes the value $1$ on Frobenius elements. Conjugation compatible means that for every ring automorphism $\sigma$ of $\Omega$ covering an automorphism of $F$, with $\sigma(\zeta)=\zeta^c$ and $\sigma(A)=A'$, the invariants of corresponding cocycles on $A$ and $A'$ agree after multiplying the transported cocycle by $c$. (A2, same file, :23–53.) These are the two properties used by `local_pair` in §10.4.11: bijectivity is handed to the tame formula, and conjugation compatibility with $c=-1$ produces the minus sign at $p^c$.
+
+For a finite set $S$ of finite places, $N_S$ is the closed normal subgroup of $G$ generated by the inertia groups $\operatorname{Ine}(A)$ for all $A$ over places outside $S$, and $G_S=G/N_S$. A continuous cocycle on $G_S$ is the same as one on $G$ invariant under right translation of both arguments by $N_S$. The set $S$ contains the places above $\ell$ if every $v$ with $\ell\in v$ lies in $S$. (A2, `src/ReciprocityTheory/GaloisValuations/Global.lean:128–145`; `src/ReciprocityTheory/Hypotheses/GalCoh.lean:141–142`.)
+
+The deep input `PoitouTateTotallyComplex` asserts, for every totally complex $F$, every $\ell$, $n\ge1$ and $\zeta$, the existence of a family of local invariants $\operatorname{inv}$ such that for every $S$ containing the places above $\ell$, every choice $A_v$ of valuation subrings over $v\in S$, every lift $\mu:G_S\to(\mathbb Z/\ell^n\mathbb Z)^\times$ of $\omega_n$ and every finite discrete continuous $G_S$-module $M$, the nine-term sequence
+$$0\to H^0(M)\to\prod_{v\in S}H^0_v(M)\to H^2(M^\vee)^\ast\to H^1(M)\to\prod_{v\in S}H^1_v(M)\to H^1(M^\vee)^\ast\to H^2(M)\to\prod_{v\in S}H^2_v(M)\to H^0(M^\vee)^\ast\to0$$
+is exact, where $M^\vee$ is the $\mu$-twisted dual and the maps out of the local products are sums over $v$ of local cup products followed by $\operatorname{inv}_{A_v}$; and that the Tate–Shafarevich kernels in degrees one and two are finite and dual with equal orders. (A2, same file, :150–175, :288–301.) The reading here concerns only the exactness at the eighth position, from $\prod_{v\in S}H^2_v(M)$ to $H^0(M^\vee)^\ast$, for the one-dimensional $M=\operatorname{charRep}(\mu)$.
+
+##### Lemma 10.22c. Descent of an invariant cochain to the quotient [Lean, read]
+
+Let $\Gamma$ be a topological group, $N$ a subgroup, and $w:\Gamma\times\Gamma\to M$ continuous with $w(gn,hn')=w(g,h)$ for all $n,n'\in N$. Then there is a unique $W:(\Gamma/N)\times(\Gamma/N)\to M$ with $W(\bar g,\bar h)=w(g,h)$, and $W$ is continuous.
+
+*Proof.* Define $W$ on cosets by choosing representatives; the invariance hypothesis is exactly independence of the choice, since $g$ and $g'$ lie in the same left coset when $g'=gn$. The quotient map $\Gamma\to\Gamma/N$ is an open quotient map, hence so is its product with itself, and a function out of a quotient is continuous when its composite with the quotient map is. $\square$ (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocycle.lean:9–20`.)
+
+##### Lemma 10.22d. The descended cochain is a cocycle for the lifted character [Lean, read]
+
+In the setting of the Definitions, let $S$ contain the places above $\ell$. Then $\omega_n$ kills $N_S$ and factors through a continuous $\mu:G_S\to(\mathbb Z/\ell^n\mathbb Z)^\times$. If $w\in Z^2(\mu\mathrm{Rep})$ is invariant under $N_S$ in both arguments, its descent $W$ of Lemma 10.22c lies in $Z^2(\operatorname{charRep}(\mu))$.
+
+*Proof.* For $\sigma$ in an inertia group at a place $v$ not above $\ell$, the $\ell$-adic cyclotomic character is trivial, because the $\ell$-power roots of unity are unramified at $v$; the archive proves this as `cyc_eq_one_of_mem_Ine` and passes it through the reduction $\mathbb Z_\ell\to\mathbb Z/\ell^n\mathbb Z$. The kernel of $\omega_n$ is a closed normal subgroup containing these inertia groups, hence contains their normal closure and its closure, which is $N_S$. The quotient map $\mu$ exists by the universal property of $G_S$. For the cocycle identity, lift the three arguments to $G$; the identity for $W$ at the lifts is the identity for $w$ after rewriting $W(\bar g\bar h,\bar k)=w(gh,k)$ and $\mu(\bar g)=\omega_n(g)$. Continuity is Lemma 10.22c. $\square$ (A2, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:254–280`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocyclePow.lean:12–22`.)
+
+##### Lemma 10.22e. The degree-two tail at the identity invariant [Lean, read; conditional on `PoitouTateTotallyComplex`]
+
+Assume `PoitouTateTotallyComplex` and keep $S$, $A_v$, $\mu$ as above. Let $\operatorname{inv}$ be the family it supplies. Then for every class $x\in H^2(\operatorname{charRep}(\mu))$,
+$$\sum_{v\in S}\operatorname{inv}_{A_v}\bigl(\operatorname{res}_v x\bigr)=0,$$
+where $\operatorname{res}_v$ restricts along $\operatorname{Dec}(A_v)\to G_S$ and the local class is viewed in $H^2(\mu\mathrm{Loc}(A_v))$ through the identification of $\operatorname{charRep}(\mu)$ restricted to $\operatorname{Dec}(A_v)$ with $\mu\mathrm{Loc}(A_v)$.
+
+*Proof.* Apply the nine-term exactness to $M=\operatorname{charRep}(\mu)$, which is finite and has continuous action because $\omega_n$ is continuous. Exactness at the eighth position says that the composite of the localization $H^2(M)\to\prod_vH^2_v(M)$ with the transgression $\prod_vH^2_v(M)\to H^0(M^\vee)^\ast$ is zero. The twisted dual $M^\vee$ is $\operatorname{Hom}(M,\mathbb Z/\ell^n\mathbb Z)$ with $g$ acting by $\mu(g)\cdot\phi\circ\mu(g)^{-1}$, which is trivial for $M=\operatorname{charRep}(\mu)$; so the identity map is an invariant element $\iota\in H^0(M^\vee)$. The transgression evaluated at $\iota$ is $\sum_v\operatorname{inv}_{A_v}$ of the local cup products $\operatorname{res}_vx\cup\iota$, and cupping a degree-two class with the identity functional returns the class itself. Hence the sum of the local invariants of $\operatorname{res}_vx$ is zero. The identification of the restricted $\operatorname{charRep}(\mu)$ with $\mu\mathrm{Loc}(A_v)$ is the equality $\mu(\bar g)=\omega_n(g)$ on decomposition groups, implemented by a bijective map on $H^2$ with the identity on cochains. $\square$ (A2, `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:64–99,196–220,305–337`.)
+
+The lemma uses one direction of one exactness statement. The other direction, that a tuple of local classes with vanishing invariant sum is the restriction of a global class, is also part of the nine-term exactness but is not used by the producer read here.
+
+##### Theorem 10.22f. The finite invariant sum [Lean, read; conditional on `PoitouTateTotallyComplex`]
+
+Assume `PoitouTateTotallyComplex`. Let $F$ be totally complex, $\ell$ prime, $n\ge1$, and $\zeta\in\Omega$ a primitive $\ell^n$th root of unity. There is a family of local invariants $\operatorname{inv}$ for $\zeta$ with the following property. For every finite set $S$ of places containing those above $\ell$, every choice of $A_v$ over $v$ for all finite $v$, every $w\in Z^2(\mu\mathrm{Rep})$ with $w(gu,hu')=w(g,h)$ for all $u,u'\in N_S$, and every family of local cocycles $w_v\in Z^2(\mu\mathrm{Loc}(A_v))$ with $w_v(g,h)=w(g,h)$ on $\operatorname{Dec}(A_v)$,
+$$\sum_{v\in S}\operatorname{inv}_{A_v}([w_v])=0 .$$
+
+*Proof.* Take $\operatorname{inv}$ from Lemma 10.22e. Fix $S$, $A$, $w$ and $(w_v)$. Lemma 10.22d produces $\mu$ and the class $[W]\in H^2(\operatorname{charRep}(\mu))$ of the descent of $w$. Lemma 10.22e gives $\sum_{v\in S}\operatorname{inv}_{A_v}(\operatorname{res}_v[W])=0$. It remains to identify $\operatorname{res}_v[W]$ with $[w_v]$ for each $v\in S$. Both are classes of cocycles on $\operatorname{Dec}(A_v)$ with the same action, and the cochains agree pointwise: $(\operatorname{res}_vW)(g,h)=W(\bar g,\bar h)=w(g,h)=w_v(g,h)$. The sum over the finite set $S$ is rewritten as a sum over the subtype $S$ to match the indexing of the nine-term sequence. $\square$ (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocyclePow.lean:8–29`; the exported wrapper is `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocyclePowStatement.lean:6–7`, and the $n=1$ predecessor with the same proof is `SumInvEqZeroOfUnramifiedCocycle.lean:22–43`.)
+
+The theorem asks nothing of $w$ at the places in $S$. The invariance under $N_S$ is a condition only outside $S$, and it is what makes $w$ a cocycle of $G_S$. In Example 10.22a the cocycle $\chi\cup\delta b$ is invariant under $N_S$ because $\chi$ is unramified outside $\{(7)\}$, $b$ is a unit outside $\{(2+i)\}$, and $\mu_3$ is unramified outside $\{(3)\}$; the condition fails for the smaller set obtained by deleting $(7)$, and so does the conclusion.
+
+##### Proposition 10.22g. The coefficient pairing produces an invariant cocycle with two surviving places [Lean, read]
+
+Keep the hypotheses of Theorem 10.22(3) in §10.4.11: `Setup`, `Kills`, `IsDual`, the anti-invariant twist $\kappa$ trivial on the new decomposition group, $Q'=Q\cup\{p,p^c\}$, discrete $A$-modules $Y,Y'$ with a balanced $\beta:Y\times Y'\to\mathbb Z/N_0\mathbb Z$, a dual Selmer cocycle $y$ for $Q$ with values in $Y'^r$ and action $\kappa^{-1}\rho$, and a relaxed Selmer cocycle $x$ for $Q'$ with values in $Y^r$ and action $\kappa T_{\mathrm{gl}}$. Let $\langle\cdot,\cdot\rangle$ be the coordinate sum of $\beta$, and let $\pi,\pi'$ be the two actions. Define
+$$w(g,h)=\langle x(g),\pi'(g)\,y(h)\rangle .$$
+Let $S$ be the union of the places above $\ell$, the exceptional places $\operatorname{Spl}(i)$, and $Q'$, and let $A_v$ be the chosen prolongations, except that at $p^c$ the transported conjugate prolongation of $p$ is used. Then:
+
+1. $w\in Z^2(\mu\mathrm{Rep})$ for $n=\nu+1$;
+2. $w(gu,hu')=w(g,h)$ for all $u,u'\in N_S$;
+3. for every $v\in S$ other than $p,p^c$, the local class $[w|_{\operatorname{Dec}(A_v)}]$ is zero;
+4. hence, under `PoitouTateTotallyComplex`, $\operatorname{inv}_{A_p}([w|_p])+\operatorname{inv}_{A_{p^c}}([w|_{p^c}])=0$.
+
+*Proof of (1).* The pairing is continuous since all modules are discrete, and $w$ is continuous because $x,y$ are continuous and $\pi'$ acts continuously, the latter being the first clause supplied by `pairing_equivariant_alt`. The cocycle identity for $w$ follows from the two cocycle identities and the equivariance $\langle\pi(g)a,\pi'(g)b\rangle=\omega_n(g)\langle a,b\rangle$, the third clause of the same supplier. Explicitly, $\omega_n(g)w(h,k)=\langle\pi(g)x(h),\pi'(gh)y(k)\rangle$, and expanding $x(gh)=x(g)+\pi(g)x(h)$ and $y(hk)=y(h)+\pi'(h)y(k)$ in $w(gh,k)$ and $w(g,hk)$ makes the four terms cancel. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ReciprocityRelaxedSelmerDualSelmerNewPlace.lean:22–31`.)
+
+*Proof of (2).* Let $K_x$ be the set of $g$ with $x(g)=0$ and $\pi(g)=1$, and $K_y$ likewise for $y$ and $\pi'$. Each is a closed normal subgroup: closed by continuity, a subgroup by the cocycle identity, normal because $x(gng^{-1})=\pi(g)x(n)$ when $\pi(n)=1$ and $x(n)=0$. For $v\notin S$ and $\tau$ in the inertia at any prolongation of $v$, the fourth clause of `pairing_equivariant_alt` gives $\pi(\tau)=\pi'(\tau)=1$, and the Selmer conditions make $x$ and $y$ coboundaries on that inertia; with trivial action a coboundary is zero. Hence both inertia groups lie in $K_x\cap K_y$. Since $K_x\cap K_y$ is closed and normal, it contains $N_S$. For $u,u'\in N_S$ now compute $w(gu,hu')=\langle x(g)+\pi(g)x(u),\pi'(g)\pi'(u)(y(h)+\pi'(h)y(u'))\rangle=\langle x(g),\pi'(g)y(h)\rangle$. (A2, same file, :59–74 and :268–289; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CocycleUnramifiedOutsideVanishOnKernel.lean:41–85`.)
+
+*Proof of (3).* At $v$ above $\ell$, the dual Selmer condition on $y$ says that cupping with every cocycle in the original local condition gives a coboundary, and $x$ restricted to $\operatorname{Dec}(A_v)$ satisfies that condition; this is the third clause of `DualSel` applied to the restriction of $x$. At $v\in\operatorname{Spl}(i)\cup Q$, the dual condition says $y|_{\operatorname{Dec}(A_v)}=\pi'(\cdot)m-m$ for some $m\in Y'^r$. Then $c(g)=-\langle x(g),\pi'(g)m\rangle$ is a continuous $1$-cochain on $\operatorname{Dec}(A_v)$ whose differential is $w$: using the cocycle identity for $x$ and the equivariance once more,
+$$\omega_n(g)c(h)-c(gh)+c(g)=\langle x(g),\pi'(g)(\pi'(h)m-m)\rangle=\langle x(g),\pi'(g)y(h)\rangle .$$
+(A2, same file, :82–95 and :290–311.) Note that $Q'\setminus Q=\{p,p^c\}$, so these two cases exhaust $S\setminus\{p,p^c\}$.
+
+*Proof of (4).* Theorem 10.22f with $w_v=w|_{\operatorname{Dec}(A_v)}$, which is a cocycle for $\mu\mathrm{Loc}(A_v)$ by restriction, gives $\sum_{v\in S}\operatorname{inv}_{A_v}([w_v])=0$, and by (3) only the two terms at $p$ and $p^c$ survive. (A2, same file, :282–312.) $\square$
+
+The identity of Theorem 10.22(3) is now the combination of (4) with the tame evaluations: `local_pair` writes the term at $p$ as $u\langle x(\gamma),y(\sigma)\rangle$ and the term at $p^c$ as $-u\langle x(\gamma^c),y(\sigma^c)\rangle$ for a unit $u$, using bijectivity of $\operatorname{inv}_{A_p}$ in the tame formula, conjugation compatibility with $\sigma(\zeta)=\zeta^{-1}$ at $p^c$, the vanishing of $y$ on both new inertia groups, and the triviality of both actions and of $\omega_n$ on the new decomposition groups. Cancelling $u$ gives the signed row. (A2, same file, :126–184 and :313–315.) The tame formula itself, `tame_cupProduct_invariant_unramified_hom`, and the equivariance supplier `pairing_equivariant_alt` are used as named inputs here and remain [Lean].
+
+##### Remark 10.22h. Three different uses of global duality in §§10.4.10–10.4.12 [Expository]
+
+All three subsections invoke `PoitouTateTotallyComplex`, but at different positions of the nine-term sequence and for different coefficient modules.
+
+- §10.4.10 compares the orders of the original and dual Selmer groups. This is the Greenberg–Wiles ratio, obtained from the alternating orders along the whole sequence for the $r$-dimensional module $V(k)$, together with local duality and Euler characteristics. No individual local invariant is computed.
+- §10.4.12 counts the obstruction to lifting a Selmer class across a simple coefficient extension. It uses the eighth position for $M=V(k)$, where the dual invariants $H^0(M^\vee)$ vanish by the commutator hypothesis, so that the degree-two localization is surjective onto the product at $S$, and the kernel $D_2$ of localization above $\ell$ enters the count.
+- This subsection uses the eighth position for the one-dimensional $M=\operatorname{charRep}(\mu)$, where $H^0(M^\vee)=\mathbb Z/\ell^n\mathbb Z$ is as large as possible and the identity element is evaluated. Here the composite being zero is the only thing used, and it is a statement about one specific cocycle, the cup product of the two Selmer cocycles.
+
+Classically, the third item is the reciprocity law for the Brauer group of a number field with no real places, and the first two are the finiteness and duality statements of Poitou–Tate; the nine-term sequence packages them together. The archive keeps the three uses apart in three different consumers, and the reading levels differ accordingly.
+
+##### Source map and reading boundary
+
+All archive references are to A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+[Lean, read] in this subsection: the producer `GlobalTheory.sum_inv_eq_zero_of_unramified_cocycle_pow` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocyclePow.lean:8–29`), its exported wrapper (`SumInvEqZeroOfUnramifiedCocyclePowStatement.lean:6–7`), the descent lemma `exists_descend_pair_quotient` and the $n=1$ version (`SumInvEqZeroOfUnramifiedCocycle.lean:9–43`), the lift `exists_lift_cycMod`, the continuity `contAction_charRep`, the identity invariant `idInv`, the tail evaluation `NineTermExact.sum_eq_zero`, the local identification `toMuLoc_bijective` and the unpacking `PoitouTateTotallyComplex.annihilators` (`src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:64–99,196–280,305–340`), and the whole consumer file `ReciprocityRelaxedSelmerDualSelmerNewPlace.lean:22–315`, namely `cupZ`, `locZ`, `conj_root`, `ine_le_of_normal`, `NS_le`, `loc_eq_zero`, `sq_eq_zero`, `local_pair` and `NewRecip.reciprocity`, together with `kerSub` and its normality and closedness (`CocycleUnramifiedOutsideVanishOnKernel.lean:41–85`).
+
+[Lean], named inputs not read here: the proposition `PoitouTateTotallyComplex` itself (`PoitouTateNineTermTransgressionZeroApply.lean:288–301`) and whatever produces it on the main path; `tame_cupProduct_invariant_unramified_hom` (`TameCupProductInvariantUnramifiedHomStatement.lean:6`); `pairing_equivariant_alt` (`PairingEquivariantStatement.lean:6`); `twisted_representation_kills_small_subgroup`; the cup-product constructions `cup20`, `cupH1H1TwistedDual` and `cupProductH2H0` (`src/ReciprocityTheory/Hypotheses/GalCohDefs.lean:100–112`; `src/ReciprocityTheory/GaloisValuations/ContinuousConstSMulQuotient.lean:134`); and the unramifiedness of the cyclotomic character at places not above $\ell$, `cyc_eq_one_of_mem_Ine`. The examples are classical computations with the local Artin symbol and are [Expository]; the cohomological form of reciprocity they illustrate is Theorem 8.6.10 of Neukirch, Schmidt and Wingberg and Theorem I.4.10 of Milne, both cited in `sources/SOURCES.md`.
+
+### 10.4.12 A square presentation of the global Selmer functor
+
+#### Motivation
+
+The local evaluations in §§10.4.8–10.4.11 give relations on global classes. To apply those relations to a determinant we first need a square matrix representing the global Selmer functor, with the same matrix used on every torsion coefficient module. The arithmetic estimate responsible for squareness bounds the obstruction to lifting a global class across an extension with simple kernel.
+
+#### Example 10.23. A non-saturated condition [Expository]
+
+Let $O$ be a DVR with uniformizer $p$. Model restriction by the identity on $Y$ and impose the condition $pY$. In the coefficient sequence
+$$0\longrightarrow O/p\xrightarrow{1\mapsto p}O/p^2
+  \xrightarrow{\mathrm{red}}O/p\longrightarrow 0,$$
+the selected submodules are $0,pO/p^2,0$. The middle term has length one and maps to zero, yet the left term supplies no preimage of its generator. The class of $1$ fails the condition at the source and its image satisfies it. The integral condition $pO\subset O$ has quotient of length one, whereas saturating it gives $O$ with quotient of length zero. The same difference occurs modulo $p^2$. The failed reflection along the coefficient injection prevents any natural matrix-kernel representation of this functor.
+
+#### Example 10.24. Flat extension and ramified lengths [Expository]
+
+Take $O=k[[p]]$, $O'=k[[t]]$, and $p=t^2$. Separating even and odd terms gives $O'=O\oplus tO$, hence this extension is free. For
+$$A=\begin{pmatrix}p&p\\0&p^2\end{pmatrix}$$
+subtracting the first column from the second gives diagonal entries $p,p^2$. The cokernel is $O/p\oplus O/p^2$. On $(k((p))/O)^2$ the diagonal kernel is $p^{-1}O/O\oplus p^{-2}O/O$. Both lengths are three. Over $O'$ the diagonal entries are $t^2,t^4$. The cokernel is $O'/t^2\oplus O'/t^4$ and the kernel on $(k((t))/O')^2$ is $t^{-2}O'/O'\oplus t^{-4}O'/O'$. Both lengths are six, the valuation of $t^6$. Flatness preserves exactness, while the ramification index converts the lengths.
+
+After the nonflat reduction $O\to k$, however, $A$ becomes zero and its kernel on $k^2$ is all of $k^2$. The kernel on $O^2$ was zero. The cokernel presentation survives by right exactness. This also explains the failure of injectivity after tensoring $0\to O\xrightarrow{p}O$ with $k$.
+
+#### The global object and its coefficient modules
+
+Fix $D,N,X,\mathrm{bkP}$ and then $i,s$ satisfying `GalHyp`. Fix $M\ge1$, a finite index set $\iota$, places $P$, characters $d$ satisfying `SlopeTestRemainingChoices` with empty forbidden set, and $Q$ satisfying `IsQ P Q`. Put $O=X.O0\,i$, $\Lambda=O[(\mathbb Z/\ell^M)^\iota]$, and let $\kappa=\mathrm{delInv}(i,M,d)$ be the inverse tautological character. For discrete coefficients $B$, set $V(B)=B^r$ with action $\kappa T_{\mathrm{gl}}(i,s)$. The functor $\mathcal S(B)$ is the submodule of continuous $H^1(G_E,V(B))$ satisfying all local conditions. Above $\ell$ the condition is `bkOn`. At the other places in $\mathrm{Spl}(i)\cup Q$ it is full, and elsewhere it is the kernel of restriction to inertia. Above $\ell$ the generators are classes of continuous cocycles with coordinates $c(g)_j b$ for $b\in B$ and integral crystalline coordinates $c$ transported to the chosen decomposition group. The scalar action in this formula comes from $O$. (A2, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:69–111`.)
+
+The group ring is finite free over the complete DVR $O$. Its reduction is a truncated polynomial ring on the generator differences, each killed by its $\ell^M$th power. The reduction is local with nilpotent maximal ideal, so finiteness gives locality, and the maximal ideal powers and powers of $\ell$ are cofinal. It follows that $\Lambda$ is complete Noetherian local with finite residue field and that elementwise $\ell$-power torsion agrees with elementwise maximal-ideal-power torsion.
+
+#### Lemma 10.25. The arithmetic inputs to the relation count
+
+The interface of `oneMatrix_of_galoisCohomology` lists `Cheb`, `PoitouTateTotallyComplex`, `CohDimTwo`, `TameLocal`, `LocalFiniteness`, `LocalTateDuality`, `LocalEulerChar`, `GlobalFiniteness`, `GlobalEulerChar`, `UnramifiedOrthogonality` and `Gen.ArchimedeanSignatureMatching`. Its body discards Chebotarev, the tame input and unramified orthogonality. It obtains `Setup` from the auxiliary data, including the triviality of $\kappa$ above $\ell$ and the unramified action at the places with unramified conditions. The local saturation wrapper uses triviality above $\ell$. The local count uses the signature input. The obstruction calculation directly uses totally complex Poitou–Tate, local and global finiteness, and local and global Euler characteristics. The obstruction wrapper also takes `CohDimTwo`, local Tate duality and saturation as arguments. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerPresentationMatrixOfGaloisCohomology.lean:20–35`.)
+
+Under these hypotheses the following properties hold.
+
+1. Coefficient maps act on Selmer classes and $\mathcal S$ is left exact. Global $H^0$ vanishes on torsion coefficients, so the long exact sequence gives injectivity and exactness at global $H^1$. For a sequence exact at the middle term whose second map is arbitrary, factor the second map through its image and use vanishing of invariants on the remaining quotient to get injectivity on $H^1$ of the image. A global lift belongs to $\mathcal S$ by reflection along the coefficient injection. At crystalline places this is `LocSat`, at relaxed places membership is automatic, and at unramified places inertia acts trivially, so vanishing of the restricted class is vanishing of the cocycle on inertia.
+2. Every element of $\mathcal S(B)$ comes from a finite coefficient submodule. A representative has finite image by compactness and discreteness. Its coordinates generate a submodule killed by a common power of the maximal ideal, finite because the residue field is finite. Matrix multiplication defines the action on its coordinate vectors. Reflection as in (1) shows that the resulting class satisfies the local conditions.
+3. For every short exact sequence $0\to k\to B\to C\to0$ of torsion coefficients with $k$ the residue field, the quotient $\mathcal S(C)/\operatorname{im}\mathcal S(B)$ is finite with cardinality at most $|\mathcal S(k)|$, which is finite. Every simple coefficient module is isomorphic to $k$.
+
+*Proof of (3).* Write $W=V(k)$ and $h=|W|^{r_2(E)}$, with $r_2(E)$ the number of complex places. Use the Galois group $G_{E,S}$ unramified outside the finite set of places above $\ell$ and the relaxed places. The actions factor through it. Selmer cocycles vanish on the inertia groups outside $S$ and descend to this quotient. Indeed they vanish on the conjugates of those inertia groups by the cocycle identity and inertia's trivial action, then on the closed normal subgroup they generate by continuity. Inside $S$ only the crystalline conditions constrain the classes. Use $H^j_v$ for cohomology at the chosen decomposition group and write
+$$D_2=\ker\bigl(H^2(G_{E,S},W)\to\prod_{v\mid\ell}H^2_v(W)\bigr),\qquad
+ C_1=\operatorname{coker}\bigl(H^1(G_{E,S},W)\to
+       \prod_{v\mid\ell}H^1_v(W)/L_v(k)\bigr).$$
+The commutator hypothesis on the residual representation eliminates invariants of the twisted dual: such a functional transforms by a scalar character and consequently kills every difference $ghw-hgw$. The last dual invariant term of the Poitou–Tate sequence therefore vanishes. Degree-two localization is surjective onto the product at $S$, hence onto the subproduct above $\ell$. [Milne, Arithmetic Duality Theorems, I.4.10](https://www.jmilne.org/math/Books/ADTnot.pdf#page=57)
+
+The local and global finiteness inputs give finite groups for the count. Vanishing of global invariants and the global Euler formula give
+$$|H^1(G_{E,S},W)|=|H^2(G_{E,S},W)|h.$$
+The local Euler formulas and the sum of local degrees give
+$$\prod_{v\mid\ell}|H^1_v(W)|
+ =\prod_{v\mid\ell}|H^0_v(W)|\,\prod_{v\mid\ell}|H^2_v(W)|\,h^2.$$
+Here $\sum_{v\mid\ell}[E_v:\mathbb Q_\ell]=2r_2(E)$. The signature-based `LocCount` supplies
+$$\prod_{v\mid\ell}|L_v(k)|=\prod_{v\mid\ell}|H^0_v(W)|\,h,$$
+with $|W|=|k|^r$ and $r_2(E)=D.R.f$. In the local count, if $d_v$ is the fraction-field dimension of crystalline $H^1$, the finite free lattice of integral crystalline cocycles has rank $r+d_v$ by vanishing of rational local invariants and the dimension of the coboundaries. Saturation injects its reduction into the space of residue-valued cochains: an integral combination vanishing pointwise modulo the uniformizer divides by the uniformizer in the lattice. Extending scalars between residue fields preserves linear independence of a finite list of cocycles, as can be checked by choosing finitely many coordinates that detect that list. Thus the corresponding cocycle span has order $|k|^{r+d_v}$. Its coboundaries have order $|k|^r/|H^0_v(W)|$ by the first isomorphism theorem. Dividing gives $|L_v(k)|=|H^0_v(W)||k|^{d_v}$. The signature calculation expresses $\sum_v d_v$ as a sum over $2D.R.f$ embeddings. The contributions at conjugate embeddings sum to $r$ by the filtration relation, giving $\sum_v d_v=D.R.f\,r$. This uses the crystalline dimension and embedding inputs of the archive. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalCountOfSetup.lean:30–85,195–314,447–516`.) Thus the first localization target, modulo the local conditions, has order $h\prod_{v\mid\ell}|H^2_v(W)|$. Taking orders of kernels and images and using surjectivity in degree two gives
+$$|\mathcal S(k)|=|D_2|\,|C_1|.$$
+
+A class $x\in\mathcal S(C)$ has connecting class in $D_2$. Above $\ell$ its allowed local classes lift across $B\to C$ by lifting the coefficient in each crystalline generator, so its local connecting classes vanish. Fix a representative $x_0$ of each nonempty fiber of the connecting map. For $x$ in that fiber choose a global lift $a_x$ of $x-x_0$. At each crystalline place choose an allowed local lift of the same difference. Subtract this from the restriction of $a_x$. The difference maps to zero over $C$ and hence comes from a residual local class $p_{x,v}$. Record the tuple of these classes modulo the image of global residual localization and the residual local conditions, that is, in $C_1$.
+
+If $x,x'$ have equal records in both $D_2$ and $C_1$, then the difference of their residual tuples is the restriction of one global residual class modulo the local conditions. Subtract the image of that global residual class from $a_x-a_{x'}$. The corrected lift satisfies the crystalline conditions by functoriality of the local submodules and satisfies the other conditions by construction over $G_{E,S}$. It maps to $x-x'$. Choosing a representative of each coset now injects the obstruction quotient into $D_2\times C_1$. This proves (3). $\square$
+
+The calculation follows A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerObstructionLeResidualSelmerSimpleExtension.lean:61–290,327–363,390–454,466–486,521–561`. The vanishing of the dual invariant term is used in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/H0TwDualEqZero.lean:13–81`.
+
+The saturation used in (1) has a concrete proof. The integral crystalline lattice is the inverse image of a fraction-field vector subspace, hence dividing an integral cochain by a nonzero scalar preserves the condition whenever the result is integral. To reflect its coefficient span along an injection $B'\hookrightarrow B$, write the image of a cochain as a finite sum $\sum_i c_i b_i$. If $c_1\ne0$, choose a coordinate of $c_1$ of least valuation and divide $c_1$ by that coordinate to get a lattice element $d$ taking value $1$ there. Subtract $d$ times the value of the original $B'$-cochain at that coordinate. In the expression over $B$ this eliminates the first term and replaces each remaining $c_i$ by $c_i-c_i(g)_j d$, still in the lattice. Induction eliminates the finite list. Coboundaries are in the same span, since they are combinations of the columns of $T_{\mathrm{gl}}(g)-1$ at the places where $\kappa=1$. The reflected span therefore gives the claimed reflection on classes. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalConditionAboveLSaturatedOfSelmerSetup.lean:19–92,100–132,137–156,216–260`.)
+
+#### Theorem 10.26. Conditional finite square presentation
+
+Let $(\Lambda,\mathfrak m,k)$ be complete Noetherian local with finite residue field. Let $F$ be an additive $\Lambda$-linear functor from elementwise $\mathfrak m$-power torsion modules to $\Lambda$-modules. Assume (i) left exactness, (ii) every class comes from a finite coefficient submodule and (iii) the finite obstruction bound in Lemma 10.25(3) for every short exact sequence with simple kernel. Then a finitely generated module $H$ has a presentation
+$$\Lambda^a\xrightarrow{\Phi^{\mathsf T}}\Lambda^a\longrightarrow H\longrightarrow0,\qquad
+   \Phi_{ij}\in\mathfrak m,$$
+with $F(B)\cong\operatorname{Hom}_\Lambda(H,B)=\ker(\Phi:B^a\to B^a)$ naturally for every torsion $B$.
+
+*Proof.* Apply (iii) with $B=k$ and $C=0$ to get finiteness of $F(k)$. Put $a=\dim_k F(k)$. Fix $n\ge1$. Call $(D,x)$, with $D$ finite killed by $\mathfrak m^n$ and $x\in F(D)$, minimal if $F(f)x=0$ implies $f=0$ for maps from $D$ to torsion modules. Any pair has a minimal supporting submodule. Choose a submodule of least cardinality whose image under $F$ contains $x$, with a lift there. If a map from this submodule kills the lift, left exactness puts the lift on its kernel, so the kernel is the entire submodule. For a minimal pair, evaluation at $x$ injects $\operatorname{Hom}_\Lambda(D,k)$ into $F(k)$ by linearity and minimality. Thus $D$ has at most $a$ generators by Nakayama and $|D|\le|\Lambda/\mathfrak m^n|^a$. The quotient ring is finite since its successive maximal ideal quotients are finite dimensional over $k$.
+
+Choose a maximal-cardinality minimal pair $(H_n,x_n)$, allowing the zero pair. If $B$ is finite killed by $\mathfrak m^n$ and $y\in F(B)$, choose a minimal support inside $H_n\oplus B$ for $(x_n,y)$ via additivity. The support projects onto $H_n$: the quotient by its image kills $x_n$ under $F$, and minimality forces the quotient map to vanish. Maximality of $|H_n|$ makes the projection an isomorphism. Composing its inverse with the other projection gives a map to $B$ evaluating to $y$. Uniqueness follows from minimality. This gives a linear natural representation at level $n$.
+
+The map $H_{n+1}\to H_n$ sending the universal element to $x_n$ induces $H_{n+1}/\mathfrak m^n H_{n+1}\cong H_n$. Both sides represent the same finite-level functor, and evaluating at their universal elements gives mutually inverse maps. In particular $H_1\cong k^a$. Lift a basis compatibly and use Nakayama to obtain compatible surjections $P=\Lambda^a\to H_n$. Their kernels $R_n$ contain $\mathfrak m^nP$ and satisfy $R_n=R_{n+1}+\mathfrak m^nP$. Put $R=\bigcap_n R_n$. Starting with $v\in R_n$, choose successive $v_j\in R_j$ with $v_n=v$ and $v_{j+1}-v_j\in\mathfrak m^jP$. The limit exists by completeness and lies in each $R_j$, which is closed since it contains $\mathfrak m^jP$. Hence $R_n=R+\mathfrak m^nP$. Set $H=P/R$, with $R\subseteq\mathfrak mP$.
+
+A map $H\to B$ into a torsion module has finite image killed by some $\mathfrak m^n$, and yields an element of $F(B)$ by evaluating $x_n$ via the induced map from $H_n$. This is independent of $n$ by compatibility, and is linear and natural. It is injective by testing differences at a common level using minimality, and surjective by finite coefficient support and finite-level representation.
+
+To count relations, take $j$ with $R\cap\mathfrak m^jP\subseteq\mathfrak m R$ by Artin–Rees. Every $\lambda:R\to k$ therefore factors through the image of $R$ in $P/\mathfrak m^jP$. Embed $k$ in an injective module $J$ and let $I=J[\mathfrak m^\infty]$. Injectivity extends the composite functional to $P/\mathfrak m^jP\to J$, with image in $I$ since $\mathfrak m^j$ kills the source. Write $u_\lambda:P\to I$ for the resulting map. For $q:I\to I/k$, the composite $q u_\lambda$ kills $R$ and induces $H\to I/k$. Its class in $F(I/k)/\operatorname{im} F(I)$ is independent of the extension, because two choices differ by a map vanishing on $R$. If the classes for $\lambda$ and $\mu$ coincide, subtract from $u_\lambda-u_\mu$ the map through $H$ furnished by the equality. The remainder takes values in $k$. Every map $P\to k$ kills $R\subseteq\mathfrak mP$, hence $\lambda=\mu$. By (iii),
+$$|\operatorname{Hom}_\Lambda(R,k)|\le |F(k)|=|k|^a.$$
+The relation module is finitely generated by Noetherianity, so Nakayama gives at most $a$ generators. Pad to $a$ rows with zeros, including the empty case. With those rows as $\Phi$, maps $H\to B$ are exactly solutions of the row equations. $\square$
+
+This follows the construction in A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LeftExactFunctorRepresentableTorsionModules.lean:21–151`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TorsionLeftExactFunctorKernelSquareMatrix.lean:110–458` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsTorsionModuleExtendingResidueMaps.lean:35–82`. Artin–Rees is used only for the displayed containment. [Stacks Project, Algebra §10.51](https://stacks.math.columbia.edu/tag/00IN)
+
+For $F=\mathcal S$ the theorem supplies `ThmS`. The choice of $a,\Phi$ follows $i,s,M,\iota,P,d,Q$ and precedes every $B,B'$ and coefficient map in `Computes`. Its naturality applies to coefficient maps on cocycle representatives modulo coboundaries. Conversely, the representation on finite levels determines the compatible reductions of $H$, hence $H$ up to unique isomorphism compatible with the representation, by completeness of finite modules. Its zeroth Fitting ideal is therefore independent of the presentation. Squareness permits zero rows and does not assert injectivity of $\Phi^{\mathsf T}$. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerTheoremOfLocalComponents.lean:204–228,286–300`.)
+
+#### Lemma 10.27. Scalar transport on the same coefficient module
+
+Let $\phi:A\to A'$ be an $O$-algebra map and let $\kappa'=\phi\kappa$. Let $Y$ be a discrete $A'$-module, with $A$-action through $\phi$. For every $Q$ and every function $f:G_E\to Y^r$, membership in `SelC` is equivalent for the two scalar actions.
+
+*Proof.* The action formulas agree term by term in $\kappa T_{\mathrm{gl}}$, since both the character and each matrix entry act through the prescribed scalar maps. Thus continuity, the cocycle equation and the set of coboundaries agree. The identity on representatives gives a bijective semilinear map on $H^1$ commuting with restrictions. Full and unramified local conditions are preserved and reflected. Above $\ell$ each generating cocycle has the same integral crystalline data and the same coefficient $b$; its underlying function is identical on both sides. The forward map carries the $A$-span into the $A'$-span. For the reverse, an $A'$-multiple $a' c(g)_j b$ can be represented in the source by taking the coefficient $a'b\in Y$. By addition every element of the target span has a preimage in the source span. Bijectivity gives reflection and hence the equivalence on global classes and cocycle representatives. $\square$
+
+[Lean, read] A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerCocyclesScalarChangeTransfer.lean:20–190` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SelmerCocyclesScalarChangeTransferStatement.lean:6–7`. There is no flatness hypothesis. For tensor extension of modules, right exactness presents $H\otimes_A A'$ by $\phi(\Phi)^{\mathsf T}$. If $A'$ is flat, tensoring also preserves a matrix kernel, by exactness at the source of the matrix map. Comparing a tensor-defined cohomology theory would require a separate comparison of its local conditions. [Stacks Project, Algebra §10.39](https://stacks.math.columbia.edu/tag/00H9)
+
+#### Determinant lengths and the Step/Grow consumers
+
+For a specialization to a DVR $O'$ with fraction field $K'$ put $A'=\phi(\Phi)$. Smith reduction by invertible matrices diagonalizes it, permitting zero diagonal entries. An entry of valuation $b$ gives $O'/\pi^b$ in the cokernel and $\pi^{-b}O'/O'$ in the kernel on the fraction field quotient, each of length $b$ by the uniformizer filtration. A zero entry gives $O'$ and $K'/O'$ respectively, both of infinite length. Transposition preserves the diagonal invariants. Hence
+$$\operatorname{len}_{O'}\ker(A':(K'/O')^a\to(K'/O')^a)
+ =\operatorname{len}_{O'}\operatorname{coker}((A')^{\mathsf T})
+ =v_{O'}(\det A'),$$
+where $v_{O'}(0)=\infty$. In the archive `lamChar` specializes to `X.Ok i k` and sends $\kappa$ to $\psi^{-1}$. Naturality for multiplication by every receiving DVR scalar makes the specialized isomorphism linear over that DVR. The actual proof compares the local crystalline conditions by the two generator inclusions and uses triviality of $\psi$ above $\ell$. It then divides both sides by $v_{O'}(\ell)$ in `SelPoly`. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistedSelmerLengthsEqDeterminantValuation.lean:329–385`.)
+
+In Step the receiving algebra satisfies `Kills`, which forces all its modules to be $\ell$-power torsion. Take as coefficient module the row cokernel of the specialized matrix. Its basis classes form a universal solution of the row equations. Applying `Computes` gives a global Selmer class there. Choose a representative and lift its coordinates to rows over the receiving algebra. Every solution in any discrete receiving module is obtained from the universal solution by a unique evaluation map. Naturality identifies evaluation of the lifted rows with the associated global class. The zero test and surjectivity concern classes modulo coboundaries. Lemma 10.27 transports this identification and any further specialized universal pair, even into the nonflat nilpotent rings used in the signed determinant argument of §10.4.11. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsUniversalSelmerCocycleBaseChange.lean:18–110` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalSelmerCocycleMapAlgHom.lean:10–23`.)
+
+`AntiOfKer.step` feeds the supplier of `ThmS` to Grow. For each allowable new $Q'$, Grow chooses the matching old $Q$ and invokes `ThmS` there. It compares with **any** supplied `Computes` presentation at $Q'$. The tame relation uses the local group construction `TameQuotient_holds` with its valuation and tame-generator inputs. The local row comparisons then propagate the determinant and adjugate bounds. At each permitted signature and $Q$, the auxiliary-prime theorem picks a presentation, lifts its determinant to a polynomial, and applies the order bound and `SelmerLengthsByDeterminant` to the very same lift. Evaluating that polynomial at a good character bounds the length of the global Selmer group. (A2, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:105,153–166,193–194,299`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevInductionGrowBoundOfPresentation.lean:462–502`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GaloisTwistedSelmerAuxprimesOfMatrixAndBounds.lean:47–63` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistAllPowersOfGaloisCohomologyClassField.lean:20–30`.)
+
+#### Reading boundary
+
+A2 has joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The square-matrix assembly, scalar transport and the indicated segments of the consumer proofs are [Lean, read]. The hand proofs and examples explain the conditional implications. `PoitouTateTotallyComplex`, `GlobalFiniteness`, `LocalFiniteness`, `GlobalEulerChar`, `LocalEulerChar`, `ArchimedeanSignatureMatching` and the underlying residual and crystalline inputs remain separately supplied [Lean]. Degree-two localization in the obstruction count is a different use of global duality from the global sum of cup invariants in §10.4.11.1 and the dual Selmer order formula in §10.4.10; see Remark 10.22h.
+
+---
+
+### 10.4.13 Choosing the auxiliary primes in a common Galois quotient
+
+#### Motivation
+
+The two order bounds in §10.4.8 start with left and right places. A left Frobenius must resemble the designated tame element $z$. A right Frobenius with index $a$ must resemble the preselected element $h_a$ and have left-character coordinates equal to the $a$-th basis vector. The construction uses left inertia to make these requirements compatible before asking Chebotarev for a right prime.
+
+#### Example 10.28. Splitting and inertia in a quadratic field [Expository]
+
+In $\mathbb Q(i)$ the ring of integers is $\mathbb Z[i]$. Exclude $2$ and, for illustration, $3$. At $5$, $X^2+1=(X-2)(X+2)$ in $\mathbb F_5[X]$. The two primes have norm $5$, and Frobenius is the identity since $i^5=i$. At $7$ the squares are $0,1,2,4$, so the polynomial is irreducible. Its single prime has norm $49$, and Frobenius over the rational prime acts by $i\mapsto i^7=-i$. Both target classes in the group of order two are singletons. If the base field is instead $\mathbb Q(i)$, the prime over $7$ fails the requirement of degree one over $\mathbb Q$. The degree-one condition in the selector concerns the **base** prime, independently of its splitting in the extension defining the quotient.
+
+#### Example 10.29. A nonabelian quotient and its evaluation [Expository]
+
+Let $L$ be the splitting field of $X^3-2$ over $\mathbb Q$. Eisenstein at $2$ gives an irreducible cubic. The real root generates a real cubic field, and adjoining a primitive cube root of unity doubles the degree. The faithful permutation action on the roots therefore identifies the group with $S_3$. The discriminant is $-108$. At $5$ and $7$ the reductions of the three roots are distinct, so inertia, which fixes each reduced root, fixes every root. Frobenius permutes the reduced roots in cycles of lengths equal to the irreducible factor degrees, since a root of degree $d$ has orbit of length $d$ under residue Frobenius.
+
+At $5$ the factorization is $(X-3)(X^2+3X+4)$. The quadratic discriminant is $3$ modulo $5$, outside the squares $0,1,4$. Frobenius is a transposition. At $7$ the cubes are $0,1,-1$, so the cubic is irreducible and Frobenius is a three-cycle. Sign gives $-1$ and $+1$ respectively. It detects the quadratic subfield $\mathbb Q(\sqrt{-3})$, because a transposition negates the product of the root differences whose square is $-108$. The request “transposition and sign $+1$” has no representative in this common quotient.
+
+For a vector-valued example let $r=(123)$, $s=(12)$ and let the group act on $\mathbb F_3$ by the sign. Every element is $r^a s^b$, uniquely with exponents modulo $3$ and $2$. The relation $srs^{-1}=r^{-1}$ gives the multiplication rule $(a,b)(c,d)=(a+(-1)^b c,b+d)$. Hence $f(r^a s^b)=a$ is a cocycle. At $7$, the representatives $r,r^{-1}$ give values $1,-1$ and conjugation by $s$ exchanges them. Nonvanishing survives the change of representative, while the value transforms by the action.
+
+#### Definitions and the degree-one selection lemma
+
+Let $E$ be the number field of the host, $G=\operatorname{Gal}(\overline E/E)$, and $O(v)=\{v,\bar v\}$ the orbit under the host involution. This is the archive's `Over` relation. It concerns primes of $E$. At a prolongation $B$ of $v$ to $\overline E$ write $D_B,I_B$ for decomposition and inertia. An arithmetic Frobenius lift acts on the residue field by $x\mapsto x^{Nv}$, where $Nv$ is the absolute norm. Changing this prolongation is a separate operation from replacing $v$ by $\bar v$.
+
+**Lemma 10.30 (selection and transport).** Assume qualitative Chebotarev density for finite Galois extensions of number fields. Given an open normal subgroup $V\subseteq G$, a target $g\in G$ and a finite set $T$ of primes of $E$, there exists a prime $v$ such that every member of $O(v)$ avoids $T$ and has residue degree and ramification index one over $\mathbb Q$. At every prolongation $B$ of $v$, $I_B\subseteq V$, and every Frobenius lift $\sigma$ at $B$ satisfies $k\sigma k^{-1}g^{-1}\in V$ for some $k\in G$. For a finite list of targets in the same quotient the orbits of the chosen primes can be taken pairwise disjoint.
+
+**Proof.** Saturate $T$ under the involution and exclude the finitely many primes ramified over $\mathbb Q$. Apply Chebotarev in $\overline E^V/E$ to the class of $gV$. If $s>1$, primes of residue degree at least two contribute at most $[E:\mathbb Q]\sum_p p^{-2s}$ to the Dirichlet sum, since each lies over a rational prime $p$ and has norm at least $p^2$. This bound stays finite as $s\downarrow1$. The discarded primes, including the finite exclusions, contribute density zero. The remaining set has positive density and is infinite. The involution preserves residue fields up to isomorphism and preserves absolute ramification indices.
+
+At the chosen $v$ inertia is trivial in $G/V$. The Galois action on prolongations is transitive, and changing a prolongation conjugates the Frobenius because the induced residue-field isomorphism commutes with the $Nv$-power map. We can thus take a prolongation $B_0$ where the image of a lift $\sigma_0$ is exactly $gV$. At any other prolongation $B=t B_0$, $t^{-1}\sigma t$ is a lift at $B_0$, so $\sigma_0^{-1}t^{-1}\sigma t\in I_{B_0}\subseteq V$. In the quotient this says $t^{-1}\sigma tV=gV$. For a list, fix its targets first and add the earlier choices to $T$ at each selection. Saturation excludes the whole orbit of each earlier choice. The empty list gives the empty family. $\square$
+
+The archive assumes the degree-one existence input `Cheb` with a witness at some prolongation. Its own supplier is traced in §10.4.7. The transport and finite-list proof are `exists_pick` and `exists_picks`. The density deduction here explains why the degree-one requirement is compatible with the class. [Sutherland, Lecture 28, §28.5, Theorem 28.9](https://math.mit.edu/classes/18.785/2021fa/LectureNotes28.pdf)
+
+#### Theorem 10.31. The two batches of StepAB [Lean, read]
+
+Fix a prime $\ell$, an integer $M\ge1$, $m=2\ell^M$, and the additive group $C=\mathbb Z/\ell^M\mathbb Z$. Write $J$ for the subgroup fixing all $m$-th roots of unity. Fix open normal subgroups $H,U\subseteq G$, finite sets of primes $A,S,S_0$, and characters $d_P:G\to C$ indexed by the primes $P$. Use the host splitting test that a split prime has $P\ne\bar P$ over the fixed field of the involution. Primes of absolute degree one outside a finite set $A_0$ pass this test.
+
+Assume the following admissibility condition. Whenever $P$ is split, $P\notin S$, and $D_B\subseteq H$ at the fixed prolongation of $P$, the character $d_P$ has open kernel, is anticyclotomic and trivial on the decomposition groups above $\ell$, is trivial on inertia away from $O(P)$, and maps inertia onto $C$ at every prolongation over $O(P)$. Anticyclotomic means the involution negates the character. Fix $z\in H$ lying in inertia at a designated twist prime away from $m$. Finally fix $R\ge0$ and $h_a\in H\cap J$ for $0\le a<R$. Assume the degree-one selection input of Lemma 10.30.
+
+There exist left primes $P_b$ and right primes $Q_a$ for $0\le a,b<R$, with all $2R$ orbits pairwise disjoint. Every member $v$ of an orbit is split, has absolute residue degree and ramification index one, avoids $A\cup S\cup S_0$, satisfies $Nv\equiv1\pmod m$, and has inertia in $U$ at every prolongation. The characters are good at the selected primes, meaning they satisfy all five character conditions above. At the fixed prolongations, every left lift is conjugate to $z$ modulo $U$, every right lift $\tau$ at $Q_a$ satisfies $d_{P_b}(\tau)=\delta_{ab}$, and at each $Q_a$ there is a Frobenius lift conjugate to $h_a$ modulo $U$.
+
+**Proof.** Reduction away from $m$ is injective on $\mu_m$, the group of $m$-th roots of unity. In fact, if a root $\zeta\ne1$ reduces to $1$, reducing $1+\zeta+\cdots+\zeta^{m-1}=0$ gives $m=0$ in the residue field. Apply this to the quotient of any two roots with equal reduction. Consequently inertia away from $m$ fixes $\mu_m$ and arithmetic Frobenius acts on it by the $Nv$-power map. Thus $z\in J$. The designated primes in the archive lie over rational primes distinct from $2$ and $\ell$. Since $\mu_m$ generates a finite Galois extension, $J$ is open normal.
+
+Before choosing any prime put $W=U\cap H\cap J$ and fix
+$$
+T=A\cup S\cup S_0\cup A_0\cup
+\{v:e(v/\mathbb Q)\ne1\}\cup
+\operatorname{Ram}(\overline E^U/E)\cup
+\operatorname{Ram}(\overline E^H/E)\cup\{v:v\mid m\}.
+$$
+Both fixed fields are finite extensions, so their relative ramification sets are finite. Away from $T$, inertia belongs to $W$ by the two relative ramification exclusions and the root calculation. For the finite splitting exception, take an integral $b$ with $\bar b-b\ne0$, for example the archive's $b=\sqrt{-d}$. If the involution fixes a degree-one prime, it acts trivially on its prime residue field $\mathbb F_p$, so the prime divides $\bar b-b$. This happens at only finitely many primes.
+
+In either batch, if the quotient kernel lies in $H\cap J$ and the target belongs to $H\cap J$, every lift at the fixed prolongation belongs to $H\cap J$. Indeed the congruence puts its conjugate inside this subgroup, which is normal. A primitive $m$-th root then gives $m\mid Nv-1$. The conjugate prime has the same norm. Also, $D_B$ is topologically generated by its inertia and one Frobenius lift, since the quotient is procyclic with the residue Frobenius as a topological generator. As $H$ is closed, $D_B\subseteq H$. Together with splitting and avoidance of $S$, this gives the good character. This argument applies whenever the prime has degree one and its orbit avoids $T$.
+
+Choose the $R$ left primes with target the class of $zW$ in $G/W$ and exclusion $T$, enlarged by earlier choices. Then set $d_b=d_{P_b}$. On inertia of $P_b$ the character $d_b$ is surjective, while each $d_j$ with $j\ne b$ vanishes because the orbits are disjoint. These inertia groups lie in $W$. Consequently $W\to C^R$, $w\mapsto(d_b(w))_b$, is onto. Given a vector, choose for each coordinate an element of that left inertia attaining its value. Their product lies in $W$ and has the requested vector by additivity. This proves the coordinate correction used by `exists_values`.
+
+For each $a$ choose $\epsilon_a\in W$ with $d_b(\epsilon_a)=\delta_{ab}-d_b(h_a)$ and put $\gamma_a=h_a\epsilon_a$. Then $\gamma_a\in H\cap J$, $\gamma_a U=h_a U$, and $d_b(\gamma_a)=\delta_{ab}$. Now, before any right choice, fix
+$$
+V_2=W\cap\bigcap_{b<R}\ker d_b,\qquad T_2=T\cup\{P_b:0\le b<R\}.
+$$
+The intersection is open normal because each kernel is open normal and the list is finite. Choose right primes in $G/V_2$ with targets the classes of $\gamma_a V_2$, excluding $T_2$ and the earlier right choices. Saturation enforces disjointness across the two batches. The common prime and character conditions follow from the preceding implication.
+
+Every right lift $\tau$ satisfies $k\tau k^{-1}\gamma_a^{-1}\in V_2$ for some $k$. Applying $d_b$ gives $0=d_b(\tau)-d_b(\gamma_a)$ since an abelian character is constant on conjugacy classes. Also
+$$
+k\tau k^{-1}h_a^{-1}
+=(k\tau k^{-1}\gamma_a^{-1})(h_a\epsilon_a h_a^{-1})\in U
+$$
+by $V_2\subseteq U$ and normality of $U$. Any lift at the fixed prolongation provides the existential witness. On the left, $W\subseteq U$ gives the required congruence for every lift. These are the auxiliary-place, `Steps`, inertia and right Frobenius fields of `StepAB`. $\square$
+
+The right quotient depends on the chosen left places. In each call the quotient, target and finite exclusions precede the prime. Each right call uses a single compatible class in one quotient. The coordinate correction proves that the requested left-character values and the original congruence modulo $U$ have a common lift. The nonabelian example shows why independently chosen values on quotient projections can be incompatible. For the same reason, a norm congruence and a Frobenius class imposed separately must agree on the intersection of their fields.
+
+#### Lemma 10.32. The conjugacy test for Selmer evaluations [Lean, read]
+
+Let $L_*$ be open normal in $G$ and stable under the automorphism $\iota$ of $G$ induced by complex conjugation. Suppose $x,y$ are continuous cocycles in discrete modules for a representation $R$ on a finite free module over a commutative ring $\Lambda$ and its dual twisted by a unit character $\chi$. Suppose both actions are trivial on $L_*$ and $\chi\circ\iota=\chi$. Using the evaluation pairing, put
+$$
+\mathcal B(g)=\langle x(g),y(g)\rangle-\langle x(\iota g),y(\iota g)\rangle.
+$$
+There is an open normal subgroup $U_*\subseteq L_*$ such that for $h\in L_*$ and $k\sigma k^{-1}h^{-1}\in U_*$,
+$$
+\mathcal B(\sigma)=\chi(k^{-1})\mathcal B(h).
+$$
+Thus nonvanishing gives a conjugacy-invariant test in $G/U_*$. If $I_B\subseteq U_*$, both cocycles give unramified local classes at $B$. At such a prime with $\sigma\in L_*$ the test evaluates the local classes on Frobenius, with both conjugate evaluations included.
+
+**Proof.** For either cocycle $f$ with action $\rho$, $f(1)=0$, and on $L_*$ its restriction is an additive homomorphism. For $g\in L_*$ the cocycle law gives
+$$
+f(kgk^{-1})=f(k)+\rho(k)f(g)+\rho(kg)f(k^{-1})=\rho(k)f(g),
+$$
+since $\rho(kg)=\rho(k)$ and $f(kk^{-1})=0$. Its kernel in $L_*$ is therefore normal in $G$. It is open by continuity and discreteness. Intersect the two kernels and their inverse images under $\iota$ to obtain $U_*$. If $k\sigma k^{-1}=uh$ with $u\in U_*$, then $\sigma\in L_*$ by normality and $f(uh)=f(h)$ since $f(u)=0$ and $\rho(u)=1$. Thus $f(\sigma)=\rho(k^{-1})f(h)$. Apply this also to $\iota(\sigma),\iota(h),\iota(k)$.
+
+In dual bases the action matrices are $R(k)$ and $\chi(k)R(k)^{-\mathsf T}$. The pairing therefore scales by $\chi(k)$, with reciprocal twists $\kappa,\kappa^{-1}$ cancelling in the archive's application. Both terms in $\mathcal B$ acquire the same multiplier because $\chi\circ\iota=\chi$. A unit preserves nonvanishing over any coefficient ring. When $I_B\subseteq U_*$, the actions and the cocycles are trivial on inertia, so the restrictions descend to $D_B/I_B$. This also holds at the conjugate prolongation by $\iota$-stability. Changing a lift by an inertia factor preserves the value. A coboundary at $g$ is $\rho(g)v-v$, which vanishes on $\sigma$ and $\iota(\sigma)$ because both lie in $L_*$. $\square$
+
+For a general unramified cocycle the value on Frobenius is interpreted modulo the image of $\rho(\sigma)-1$, precisely the ambiguity from changing representative by a coboundary. Here that image is zero. Transport to another prolongation can still change vector coordinates, as in the $S_3$ example. Chebotarev can realize a representative by allowing the prolongation to be chosen along with the prime. At a fixed prolongation it supplies the conjugacy test, and one cannot prescribe arbitrary non-conjugacy-invariant coordinates of the local evaluation this way.
+
+#### The actual Step and Grow interfaces
+
+In the residual branch, `ChooseH` supplies $h_a$ in a small normal subgroup $L$ and an open congruence subgroup inside $L$. The call to `StepAB` intersects that subgroup with the caller's subgroup. Therefore both the chosen right Frobenius and its inertia lie in $L$, which puts its decomposition group in $L$ for `Position`. The chosen Frobenius and its host conjugate enter the `ChooseH` test giving `Corank` at zero. In positive order, `thmC_of_parts` appends one identity target per signature, selects both batches, then keeps all left places and only the initial right places. The restricted character matrix and the decomposition test supply `PiLocalization₂`. The retained right Frobenius witnesses give `Corank` at one. `Start` uses these inputs for the initial adjugate test before the induction of §10.4.9.
+
+For a subsequent induction step, `AntiOfKer` receives a subgroup witness $h\in L_*$ with $\mathcal B(h)\ne0$ from the universal and dual Selmer cocycles. The first-half inertia vanishing places every unused left inertia inside $U_*$ of Lemma 10.32. The old, used coordinates already vanish on $h$. The one-place selector corrects $h$ on the left by a product in $U_*$ from the unused inertias, setting the next left coordinate to $1$ and the other unused coordinates to $0$. The used coordinates stay zero by off-orbit triviality. It fixes the corrected class modulo $U_*\cap\bigcap_b\ker d_{P_b}$ and the exclusion of old orbits and finite arithmetic exceptions before calling `exists_pick`. At the new prime, inertia lies in $U_*$ and all old left characters vanish there. Its own character is onto on inertia, giving one inertia element with coordinate $1$ and another that cancels its own character on the Frobenius lift. Multiplication by the second inertia element preserves the Frobenius residue action, all old left coordinates and the congruence to $h$ modulo $U_*$. Write $\eta$ for the first correction. If $k\sigma k^{-1}(\eta h)^{-1}\in U_*$ and $\tau$ is the correcting inertia element, then $k(\sigma\tau)k^{-1}h^{-1}$ is the product of $(k\sigma)\tau(k\sigma)^{-1}$, the old congruence discrepancy, and $\eta$. All three belong to $U_*$. Lemma 10.32 transports the nonvanishing to this adjusted lift, which enters the new local row argument.
+
+`Step` returns `Ext P P'`, the enlarged `PiLocalization₂` and the new determinant test. `Grow` takes the extension and its localization data as inputs. For each presentation at the new places it chooses a compatible old place set and presentation and transfers the prior coefficient and adjugate bounds. The single-prime call in `Step` shares the general selection helper with the initial two-batch call. See §§10.4.9–10.4.12 for the determinant, local relations and square presentation.
+
+#### Source map and reading boundary
+
+Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Paths are relative to the extracted `lean/` root.
+
+- **R3, conditional production bodies.** Root fixing, norm and decomposition tests, finite exclusions, list and character constructions, `exists_pick` and `stepAB`. `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobenius.lean:26–138,142–191,195–246,250–272,274–418`. The split-prime exception is `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DenseFrobeniusSplitPlaces.lean:12–73`.
+- **R3, evaluation and one-place production, also mapped in §10.4.10.** `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsOpenNormalSubgroupTwoCocycles.lean:16–91` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsNewPlaceFrobeniusConjugateModOpenNormalSub.lean:12–126`.
+- **[Lean], statements.** `GoodChar`, `AdmFam`, `SlopeTestRemainingChoices` and `Steps` in `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:13–42`. `StepAB` and `ChooseH` in `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsDualDualRep.lean:118–124,142–146`. `Cheb` in `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11–14`.
+- **[Lean], consumer slices.** `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualBoundOfComponents.lean:29–57`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AddValLeOfNotMem.lean:110–137`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AntiOfKer.lean:221–260`, and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevInductionGrowBoundOfPresentation.lean:462–482`.
+- **Named inputs.** The degree-one supplier retains its reading scope in §10.4.7. The deeper inputs are §10.4.7’s cyclotomic irreducibility (`exists_prime_dvd_sub_one_cyclotomic_irreducible_over`), crossing-field construction (`exists_cyclotomic_crossing_field_deciding_frobenius`), prime norm existence (`exists_prime_absNorm_eq_of_irreducible_cyclotomic'`) and restriction of Frobenius (`isFrob_restrictScalars_of_prime_absNorm'`), called at lines 22–40 of `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean`. Valuation transport uses `exists_smul_eq_of_isPlaceOver` and `inv_mul_mem_Ine_of_isFrob` in `src/ReciprocityTheory/GaloisValuations/Global.lean:340,239` and `isFrob_smul` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsPlaceOverMoveValCc.lean:148`. The decomposition test uses `closure_frob_sup_Ine` in `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsCoprimePowOfMemIneKer.lean:188`. The finite-ramification and degree/norm suppliers are `finite_ramified` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FinitePlacesInertiaNotFixingFiniteExtension.lean:62` and `absNorm_prime_iff_inertiaDeg_eq_one_and_finite_ramified` in `src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified.lean:8`. The construction of `AdmFam`, the joint `ChooseH` test, small-subgroup actions, first-half inertia vanishing, reciprocity and Poitou–Tate remain inputs with the reading boundaries of the preceding subsections.
+
+Positive density gives existence with the stated finite exclusions. A bound on the least eligible norm would need an effective Chebotarev estimate for these extensions and quantitative control of the exclusions. The argument makes no bounded-norm claim.
 
 ## 10.5 Remarks, formalization notes, and Masullo's counterpart
 
@@ -1391,6 +2703,13 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
 | `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |
 | `GlobalTheory.Published.GlobalArtinReciprocity` (`Prop` & hypothesis at `CutCoreUnit.main`) | `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExistsUniqueHcharOfFiniteOrder.lean:70` (used at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlobalCongruenceCountOfRootDifferenceUnit.lean:45`) | Named literature `Prop` used at $c = 0$ to bound unramified homomorphisms by $v_\ell(h_E)$ (`Prop` verified faithful in **Chapter 18** `[Lean, read]`; upstream 1,015-module proof cone `[Open]`). | [Lean, read] |
+| `ChosenPrimes.stepAB` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsAuxiliaryPrimesPrescribedFrobenius.lean:274–418` | §10.4.13 proves the conditional production of both batches. §10.4.8 summarizes both consumers. | [Lean, read] |
+| `TameRel.tame_relation` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameLocalRelationDualNumberCocycle.lean:105–159` | Lemma 10.14. Continuous local cocycles and the first-order Frobenius relation. | [Lean, read] |
+| `GlobalTheory.sum_inv_eq_zero_of_unramified_cocycle_pow`; `exists_descend_pair_quotient`; `NineTermExact.sum_eq_zero`, `idInv`, `exists_lift_cycMod`, `PoitouTateTotallyComplex.annihilators` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocyclePow.lean:8–29`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumInvEqZeroOfUnramifiedCocycle.lean:9–20`; `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:196–220,254–280,305–340` | §10.4.11.1, Lemmas 10.22c–10.22e and Theorem 10.22f: the finite invariant sum from the degree-two tail of the nine-term sequence at the identity invariant. | [Lean, read], conditional on `PoitouTateTotallyComplex` |
+| `NewRecip.cupZ`, `locZ`, `NS_le`, `loc_eq_zero`, `local_pair`, `NewRecip.reciprocity` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ReciprocityRelaxedSelmerDualSelmerNewPlace.lean:22–31,39–41,68–74,82–95,126–184,190–315` | §10.4.11.1, Proposition 10.22g: the coefficient pairing gives an $N_S$-invariant two-cocycle whose local classes vanish away from the new split pair. | [Lean, read] |
+| `PoitouTateTotallyComplex`; `IsLocalInvariants`, `InvFam` | `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean:288–301,23–53` | §10.4.11.1: the nine-term exactness and Sha duality input, and the normalised conjugation-compatible local invariants. Definitions read; producer not read. | [Lean] |
+| `ResOrder.core`, `ResOrder.resBound` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:118–350` | Proposition 10.15. Conditional first-order matrix, determinant and adjugate argument. | [Lean, read] |
+| Main-path all-powers witness and Chebotarev | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportAtOfBundles.lean:19–28`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean:17–67` | §10.4.7 traces the used applications, with deeper producers named there. | [Lean] |
 
 **Summary of the chapter.** Projecting integral theta lifts onto cuspidal eigenspaces loses
 denominators governed by Hecke congruence ideals `[Ribet1976]`, `[Hida1981]`, `[Hida1988]`. Using an
@@ -1398,7 +2717,7 @@ orthogonal idempotent GMA decomposition (`src/Formalism/SharpRestriction/LevelLe
 (Proposition 10.1) bounds each congruence ideal by off-diagonal Galois $1$-cocycle lengths
 `[BellaicheChenevier2009]`, and `CutCoreUnit.main` (Theorem 10.2) reduces those cocycles to the
 cuspidal Selmer length $\mathrm{sPi}$ (bounded at a good twist by `twist_kills_selmer`, Proposition
-10.3; the existence of the twist is the `Prop` `TwistingCharacterExistence`, §10.4.6), the class-number valuation $v_\ell(h_E)$ ($c = 0$), tame
+10.3; §10.4.7 traces the all-coprime-powers witness and §10.4.8 its first-order Selmer input), the class-number valuation $v_\ell(h_E)$ ($c = 0$), tame
 cyclotomic units, and the cyclotomic Tate–Shafarevich lengths $\sum_{1 \le e < R.t} \mathrm{shaLen}(E, \ell, e)$
 ($1 \le e < R.t$) [Lean, read]. Finally, `divinN_of_hypV` (Theorem 10.4) proves that combining `HypV`
 ($\sum'_\ell \mathrm{vvTerm} \le \sqrt{b} = \exp(x^\varepsilon / 2)$), `LinkN`, and `SmallLevelRankEq`

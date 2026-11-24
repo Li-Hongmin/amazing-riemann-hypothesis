@@ -119,6 +119,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 ## Mathlib
 
 - **Ashvni Narayanan, Moritz Firsching, and Michael Stoll** — Mathlib’s Dirichlet character development, credited in the source header. [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/DirichletCharacter/Basic.lean)
+- The Stacks Project contributors supply the commutative algebra references for flatness, Artin–Rees and presentation invariance of Fitting ideals used in Chapter 10. [Flatness](https://stacks.math.columbia.edu/tag/00H9) · [Artin–Rees](https://stacks.math.columbia.edu/tag/00IN) · [Fitting ideals](https://stacks.math.columbia.edu/tag/07Z8)
 
 - **Sophie Morel** — Mathlib’s `FDRep.simple_iff_char_is_norm_one` and `simple_iff_end_is_rank_one`, the norm criterion for simplicity used by the archive in `isCusp_psi` (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/FinGroupCharZero.lean)
 
@@ -137,6 +138,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Floris van Doorn** — Mathlib’s product measure and Bochner Fubini (`Measure.prod`, `measure_ae_null_of_prod_null`, `integrable_prod_iff`, `integral_prod`, `setIntegral_prod`), used at the planar theorem’s only Fubini step (Chapter 3, §3.4.1). [Product measure](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Prod.lean#L71-L781) · [Fubini](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Prod.lean#L126-L512)
 
 - **Zhouhang Zhou, Yury Kudryashov and Heather Macbeth** — Mathlib’s simple-function approximation and the $L^1$ induction principle (`SimpleFunc.approxOn`, `MemLp.induction`, `Integrable.induction`), the approximation step behind both identifications in Chapter 3, §3.4.1. [Induction principle](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L805-L932) · [Approximating sequence](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDense.lean#L55-L125)
+**Chapter 10 auxiliary primes.** Alpöge and Claude supply the two-batch selection and the cocycle conjugacy argument in the pinned archive. Andrew V. Sutherland supplies the qualitative Chebotarev reference. [Source ledger](sources/SOURCES.md#chapter-10-10413-auxiliary-prime-selection)
+
 
 - **Andrew Yang and Riccardo Brasca** — Mathlib’s trace on quotients (`Algebra.trace_quotient_mk` and `Algebra.trace_quotient_eq_of_isDedekindDomain`), whose localization proof the archive’s projective version `trace_quotient_eq_of_projective` follows (Chapter 12, §12.4.4). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Quotient.lean#L40-L125)
 
@@ -145,6 +148,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 ## Our contributions
 
 - **Hongmin Li (with AI assistance)** — Read and explained the archive's comparison `decEquiv` between decomposition groups and Galois groups of completions [Lean, read]: adapted embeddings, the restriction isomorphism and its continuity, inertia, the local degree by counting, and the transport of cohomology and restriction maps. Derived the conjugation formulas under a change of embedding, which are not Lean declarations, and worked out a split and an inert example over $\mathbb Q(i)$ in which two embeddings differ on cohomology by a sign and by an involution. The formal proofs are Alpöge–Claude's and the classical statements are Milne's. [Chapter 18, §18.3.8](chapters/18-auditing-the-published-layer-case-studies.md#1838-decomposition-groups-as-galois-groups-of-completions)
+- **Hongmin Li with AI assistance** — Expanded the two-batch prime selector and local evaluation bridge into conditional textbook proofs, checked the actual Step/Grow interfaces, and supplied the quadratic and nonabelian worked examples. [Chapter 10, §10.4.13](chapters/10-congruence-modules-to-sha.md#10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient)
+
 
 - **Chapter 18 §18.3.7.** We explain the local Euler count via Frobenius invariants and coinvariants, give two full examples over $\mathbb Q_5$, and trace which proof supplies the Euler field and where its dimension identity is used. [Subsection](chapters/18-auditing-the-published-layer-case-studies.md#1837-local-euler-characteristics-away-from-the-residue-prime)
 - **Hongmin Li (with AI assistance)** — Explained how the quotient-slope clause reaches the
@@ -166,6 +171,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   [Chapter 5, §5.3.1.1](chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character)
 
 - **Hongmin Li (with AI assistance)** — §2.3.1 proof reading and textbook exposition of the conductor construction, with worked tables modulo 8 and 12. [Chapter 2](chapters/02-functional-equations-and-primitive-characters.md#231-conductors-level-change-and-bundled-primitive-characters)
+- **Hongmin Li (with AI assistance)** — Wrote the finite DVR example and textbook account of tame inertia, dual-number cocycles, and the two determinant/adjugate order tests. The formal argument is by Alpöge with Claude. Serre's classical ramification background is credited in the source ledger. — [Chapter 10, §10.4.8](chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant)
+
 - **Hongmin Li (with AI assistance)** — Explained how the archive passes from the single
   formal-group kernel to the low-term lattice bound `LowTermBound` [Lean, read]: the one-place
   class expansion `ea_restSU_of`, its transfer to column-test valuations `ea_lowN`, the three
@@ -291,6 +298,7 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 - **Hongmin Li (with AI assistance)** — Explained the Alpöge–Claude archive’s existing virtuality proof and worked out the four-line example over the field of three elements. Green’s published argument is credited in the sources. [Chapter 13, §13.4.5](chapters/13-greens-theorem-and-the-literature-layer.md#1345-why-lifted-power-sums-are-virtual-characters)
 
 - **Hongmin Li (with AI assistance)** — Read the P16 Gram and expansion production bodies for (I4)/(I5) and wrote the graduate-level reconstruction via endomorphism masses and torus Fourier inversion, with hand calculations in ranks one and two. LUMI's P16 statement-fidelity review is credited above. Green's original torus multiplicity supplies the historical comparison. [Chapter 13, §13.4.6](chapters/13-greens-theorem-and-the-literature-layer.md#1346-the-gram-matrix-and-fourier-expansion-of-primitive-class-functions).
+- **Chapter 10, §§10.4.9–10.4.12.** The book follows the degree bound through the auxiliary-prime induction and proves a conditional finite presentation theorem for the global Selmer functor. It explains the two coefficient operations and supplies DVR computations of exactness and length. The formal constructions are due to the authors of A2. [Chapter 10](chapters/10-congruence-modules-to-sha.md#10412-a-square-presentation-of-the-global-selmer-functor)
 
 - **Hongmin Li (with AI assistance)** — Read the P16 (I7) parabolic producer and its strong-induction consumer, and wrote the finite-group induction and pairing proof with two hand calculations. The LUMI statement-fidelity audit is credited in the community records above. [Chapter 13, §13.4.7](chapters/13-greens-theorem-and-the-literature-layer.md#1347-parabolic-induction-and-the-virtual-character-subtraction).
 
@@ -316,6 +324,7 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 - **Hongmin Li (with AI assistance)** — Transcribed the rectangle and weighted-annulus arguments for complex scalars, with worked centered kernels and a pole-crossing example in Chapter 3. [Textbook subsection](chapters/03-landau-window-criterion.md#weighted-circle-integrals-and-the-rectangle-theorem)
 
 - **Hongmin Li (with AI assistance)** — Wrote the scalar Cauchy expansion and uniform remainder proof, the two worked coefficient calculations, and the mapping to P5’s analytic-germ interface. [Chapter 3](chapters/03-landau-window-criterion.md#from-complex-differentiability-to-a-power-series)
+- **Hongmin Li (with AI assistance)** — Read the direct producer of the finite invariant sum `sum_inv_eq_zero_of_unramified_cocycle_pow`, its descent and nine-term tail evaluation, and the entire consumer `NewRecip.reciprocity`, and wrote the conditional textbook proofs (Lemmas 10.22c–10.22e, Theorem 10.22f, Proposition 10.22g) with two hand computations over $\mathbb Q(i)$ for $\ell=3$ using the actual coefficient pairing; one shows that deleting a nonzero place breaks reciprocity, the other shows the conjugate split pair with opposite invariants. The formal proofs are Alpöge and Claude’s in A2; the classical reciprocity is Neukirch–Schmidt–Wingberg Theorem 8.6.10 and Milne ADT I.4.10. [Chapter 10, §10.4.11.1](chapters/10-congruence-modules-to-sha.md#104111-the-global-invariant-sum-in-the-new-place-reciprocity)
 
 - **Hongmin Li (with AI assistance)** — Wrote the complex-variable textbook proof of coefficient uniqueness, re-centering and propagation of a zero germ, with worked examples and the link to `poleData_abstract` in Chapter 3, §3.4.1 [Lean, read]. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#why-a-nonzero-analytic-germ-has-a-first-nonzero-coefficient) · [Sources](sources/SOURCES.md#source-map-what-each-source-contributes)
 
