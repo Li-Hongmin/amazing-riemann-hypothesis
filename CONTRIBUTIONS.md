@@ -307,7 +307,13 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **David Loeffler, Terence Tao, Michael Stoll and Stuart Presnell** — Credited in the pinned Mathlib file headers (`0df444a`) for the entire pole-removed continuation `riemannZeta₁` (`NumberTheory/Harmonic/ZetaAsymp.lean:536,561`, Loeffler and Tao), the principal Dirichlet continuation `LFunctionTrivChar₁` and Euler-factor relation (`NumberTheory/LSeries/DirichletContinuation.lean:169,174,338`, Loeffler and Stoll; `ZMod.lean:67,83`, Loeffler), and the squarefree prime-factor divisibility `Nat.prod_primeFactors_dvd` (`Data/Nat/Factorization/Basic.lean:45,350`, Presnell) used at statement level by the polynomial-growth proofs read in Chapter 4 §4.10.9. — `formalization` — [ZetaAsymp.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L536-L565) · [Factorization/Basic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/Nat/Factorization/Basic.lean#L350-L355) · [Source ledger](sources/SOURCES.md#chapter-4-4109-uniform-polynomial-growth)
 
+### Chapter 8 projection and first derivatives
+
+**Levent Alpöge with Claude** authored the archive A2 proofs of StepZero_of, LamModule_of, FirstDeriv_of, CobLin_of and StepI_of. The Mathlib substitution and derivative infrastructure credited in the §8.4.17 record also supports these proofs. [Source record](sources/SOURCES.md#chapter-8-8418--projection-and-first-derivatives-for-betaisg)
+
 ## Our contributions
+
+**Hongmin Li with AI assistance** read the two production steps, wrote the conditional proofs and supplied two all-orders BeProp checks and a deletion example. [Chapter 8 §8.4.18](chapters/08-divisibility-at-inert-primes.md#8418-projection-and-first-derivatives-for-betaisg)
 
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.8](chapters/11-the-window-bound-vwin.md#11438-the-two-arithmetic-suppliers-of-the-herbrand-quotient) explains the two arithmetic proofs in a common notation and computes the actual cyclic Tate group orders for the Gaussian and real cubic examples. It also exhibits the effect of omitting a ramified place and explains the class-group obstruction to surjectivity.
 
