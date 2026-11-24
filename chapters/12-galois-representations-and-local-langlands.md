@@ -483,7 +483,9 @@ The P14 calculation proceeds through the
 [finite étale correspondence](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed),
 the [local Lefschetz weight](#from-a-finite-étale-chart-to-the-local-lefschetz-weight),
 the [global Čech comparison](#from-fixed-point-vanishing-to-a-global-čech-boundary),
-and the [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre).
+the [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre),
+and the [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre)
+that supplies the reduced origin fibre.
 
 #### The holomorphic Lefschetz input to the odd-rank seed
 
@@ -591,7 +593,8 @@ finite product also transports finite dimensionality and preserves trace.
    take the two function-field embeddings. The first supplies the extension
    used for the field trace. The proof chooses a finite projective-space
    presentation placing the images of $F$ over the coordinate origin with
-   reduced fiber there. Pull the affine cover back along $c_1$. In the
+   reduced fiber there ([reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre)).
+   Pull the affine cover back along $c_1$. In the
    origin chart the affine point comparison and evaluation of pulled-back
    sections identify the coincidence points with the fixed evaluations
    of the normalized coordinate rings in the fiber. The regular-parameter
@@ -665,7 +668,7 @@ trace comparison [Community]. [LUMI guide, lines 89–103](https://github.com/aa
 | `src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleCorrespondence.lean:15–155` | Step 3, including tangent transport and the empty-index case. |
 | `src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleIntegral.lean:25–70,74–245` | Steps 4–5. Presentation and fixed evaluations at lines 93–156, local matrix and conjugacy at 158–204, Čech calculation and return to the scheme formula at 205–245. |
 | `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsHodgeCohomologyEquivCechDifferentials.lean:9–20`, `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsChartLiftOfFiniteCover.lean:7–30` | Comparison and chart calculation as named inputs [Lean]. The [local chart calculation](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) below gives the scoped R3 reading. |
-| `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOriginStatement.lean:8–9`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceLocalParametersStatement.lean:162–163`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceFamilyStatement.lean:160–165` | Named inputs for the reduced fiber, matrix conjugacy and cocycle-level pull–trace comparison [Lean]. |
+| `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOriginStatement.lean:8–9`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceLocalParametersStatement.lean:162–163`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceFamilyStatement.lean:160–165` | Named inputs for the reduced fiber, matrix conjugacy and cocycle-level pull–trace comparison [Lean]; the reduced-fiber producer is read in the [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre). |
 | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/HodgeTraceFromLefschetzAndGroupSide.lean:92–111,121–140,167`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/PGeoStep.lean:16–85` | Exact input contract, correspondence legs, specialization and level normalization. |
 | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/KsHodgeOfGeo.lean:7–8`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/HodgeTraceOfLefschetzAndGroupSide.lean:42–55` | Passage through group-side inputs to `KSHodge`. |
 | `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/GeometricRealizationOfWeightOne.lean:18–25`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:7–11` | `KSAll`, the exact theorem application, and `geoOne_holds`. |
@@ -979,7 +982,9 @@ The R3 entries cover the indicated proof bodies. The imported constructions
 of the finite projective cover, reduced origin fibres, regular parameters
 and tangent conjugacy, and the natural comparison
 <code>exists_hodge_cohomology_equiv_cech_differentials</code> are used at
-their interfaces. The diagonal supplies <code>ZFam</code>, <code>ZEx</code>,
+their interfaces; the projective cover and the reduced origin fibre are
+read in the [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre).
+The diagonal supplies <code>ZFam</code>, <code>ZEx</code>,
 <code>ZId</code> and <code>PrB</code>, while <code>GMap</code>,
 <code>LCupRel</code>, <code>EdgeB</code> and <code>TrLin</code>
 supply the join, boundary and trace comparisons. Their inner proofs,
@@ -1187,7 +1192,7 @@ $$
 $$
 which is $2$ for $a=0$ and $-2$ for $a=1$. The sum of the values at the two fibre points is $1$ or $-1$. Here the trace is the sum of the values weighted by the lengths of the local rings, and the pointwise sum is half of it. The element $q$ is a nonzero nilpotent of the fibre ring that vanishes at both points.
 
-Over an algebraically closed field every finite algebra splits into local rings $H_{\mathfrak m}$ with residue field $k$. On $H_{\mathfrak m}$, multiplication by $h$ is $h(\mathfrak m)$ plus a nilpotent, so $\operatorname{Tr}(h)=\sum_{\mathfrak m}\operatorname{length}(H_{\mathfrak m})\,h(\mathfrak m)$. This multiplicity formula is elementary exposition and is not part of the archive. It does not enlarge the domain of the present argument. In the chart proof, reducedness of the origin fibre also makes the $t_j$ local parameters at each fixed point. The local Koszul comparison uses this, and so do <code>LocMax</code>, <code>LocForms</code> and <code>LocReg</code>, which all assume <code>RedFib</code>. At a ramified point the $t_j$ no longer generate the maximal ideal and the local coefficient changes. With the unchanged coefficients, the length-weighted sum gives twice the Lefschetz number in this example. The archive instead chooses an auxiliary projection whose origin fibre is reduced (<code>exists_finiteCover_projSpace_reduced_fibre_origin</code>, [Lean]).
+Over an algebraically closed field every finite algebra splits into local rings $H_{\mathfrak m}$ with residue field $k$. On $H_{\mathfrak m}$, multiplication by $h$ is $h(\mathfrak m)$ plus a nilpotent, so $\operatorname{Tr}(h)=\sum_{\mathfrak m}\operatorname{length}(H_{\mathfrak m})\,h(\mathfrak m)$. This multiplicity formula is elementary exposition and is not part of the archive. It does not enlarge the domain of the present argument. In the chart proof, reducedness of the origin fibre also makes the $t_j$ local parameters at each fixed point. The local Koszul comparison uses this, and so do <code>LocMax</code>, <code>LocForms</code> and <code>LocReg</code>, which all assume <code>RedFib</code>. At a ramified point the $t_j$ no longer generate the maximal ideal and the local coefficient changes. With the unchanged coefficients, the length-weighted sum gives twice the Lefschetz number in this example. The archive instead chooses an auxiliary projection whose origin fibre is reduced (<code>exists_finiteCover_projSpace_reduced_fibre_origin</code>, [Lean, read]; see the [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre)).
 
 **Remark (the actual call: one leg, raw trace and normalization) [Lean, read].** The wrapper <code>deRham_restriction_trace_degree_one</code> chooses a top coefficient for $L$ and uses Lemma 1(a) to restate the theorem without $\tau$, as $\rho(\operatorname{Tr}_{L/F}h)=\sum_ee(h)$. This is the interface <code>ResidueOfTraceIsFiberSum</code>. In <code>fieldLe_of</code> the top coefficient is chosen for the target field $K$ and the residue functional on $F$. The coefficient $h$ comes from <code>YMain</code>. Its producer obtains $h$ from <code>CRT</code>, with value $L_a(e)$ at each fixed evaluation $e\in F_x$ and $0$ at the other fibre points, and records $\sum_ee(h)=\sum_{e\in F_x}L_a(e)$. The third clause of <code>TrTop</code> kills the transferred boundary between the cup cocycle $\Lambda$ and <code>locCoch</code> $h$. The second clause then evaluates the transferred top form. The form trace along the first leg satisfies $\operatorname{tr}_{K'/K}(h\,\mathrm{vol}_0)=(\operatorname{Tr}_{K'/K}h)\,\mathrm{vol}_0$, because $\mathrm{vol}_0$ on $K'$ is the image of $\mathrm{vol}_0$ on $K$. Together with $\operatorname{Tr}_{K'/F}=\operatorname{Tr}_{K/F}\circ\operatorname{Tr}_{K'/K}$ this gives $\rho(\operatorname{Tr}_{K'/F}h)$. The theorem with $L=K'$ turns this into $\sum_ee(h)$, and the interpolation identity into $\sum_{e\in F_x}L_a(e)$. The first leg thus supplies both the transfer and the fibre. The second leg enters only through the set of fixed evaluations. No factor $[K':F]$ or $[K':K]$ appears, because the transfer is the raw one and each sheet is counted once. This is the convention of the [holomorphic trace formula](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed), where $\operatorname{Tr}_{c_1}(1)$ is the local degree. The Hecke normalization comes afterwards. <code>geoStep_of</code> writes the normalized operator as the inverse relative level index times the raw composite of transfer and pullback. It applies the raw formula in each form degree, sums against $(-y)^a$, and cancels the index with the identity supplied by <code>FixK</code>.
 
@@ -1219,7 +1224,210 @@ All calculations in this subsection are checked by exact arithmetic in the run's
 | Actual call | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PFieldLe.lean:216–336</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PTrTop.lean:11–70</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYMain.lean:111–123</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/DeRhamRestrictionTraceDegreeOne.lean:8–16</code>, <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/ExistsChartLiftOfFiniteCover.lean:161</code> | Lines 318–323 of <code>fieldLe_of</code> combine <code>TrTop</code>, the theorem and <code>YMain</code>. Prior R3, rechecked. |
 | Normalization | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/PGeoStep.lean:16–85</code> | Raw formula, inverse relative level index and <code>FixK</code> cancellation. Prior R3, rechecked. |
 
-R3 covers the named bodies. The polynomial-chart isomorphism <code>rA_single_polyEquiv</code> and its <code>Model.chartEquiv</code>, the fraction-field statement, finiteness and smoothness of the chart closures (<code>finite_cover_chart_smooth_normal</code>), <code>isRegularRing_of_smooth</code>, the local miracle-flatness lemma behind <code>flat_of_isRegularRing_of_isRegularRing</code>, the existence of $\tau$, <code>CRT</code>, the reduced-fibre projective chart and the Mathlib library lemmas are used at their interfaces. The [global boundary](#from-fixed-point-vanishing-to-a-global-čech-boundary) and the [local Koszul weights](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) keep the reading levels recorded there. The geometry of <code>FixK_holds</code>, the group-side matching <code>MarkWeightedFixedPointEqDefinitePairOdd</code> and <code>TraceDefinitePairsEqAutomorphicTrace</code>, and the naturality of the Hodge–Čech comparison retain their [Lean] / [Open] status.
+R3 covers the named bodies. The polynomial-chart isomorphism <code>rA_single_polyEquiv</code> and its <code>Model.chartEquiv</code>, the fraction-field statement, finiteness and smoothness of the chart closures (<code>finite_cover_chart_smooth_normal</code>), <code>isRegularRing_of_smooth</code>, the local miracle-flatness lemma behind <code>flat_of_isRegularRing_of_isRegularRing</code>, the existence of $\tau$, <code>CRT</code> and the Mathlib library lemmas are used at their interfaces. The reduced-fibre projective chart is read in the [next subsection](#from-a-general-projection-to-a-reduced-origin-fibre). The [global boundary](#from-fixed-point-vanishing-to-a-global-čech-boundary) and the [local Koszul weights](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) keep the reading levels recorded there. The geometry of <code>FixK_holds</code>, the group-side matching <code>MarkWeightedFixedPointEqDefinitePairOdd</code> and <code>TraceDefinitePairsEqAutomorphicTrace</code>, and the naturality of the Hodge–Čech comparison retain their [Lean] / [Open] status.
+
+#### From a general projection to a reduced origin fibre
+
+The [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre) took three facts about the auxiliary coordinates as given. The coordinates form a finite cover (<code>IsFinCover</code>). The origin fibre ring is reduced (<code>RedFib</code>). The coincidences of the correspondence lie over the origin. This subsection proves that such coordinates exist on every smooth projective variety over $\mathbb C$, for any prescribed finite set of points. The statement is <code>exists_finiteCover_projSpace_reduced_fibre_origin</code>. Its direct producer is <code>FibRed.exists_finCover_fibre_reduced</code>, and the germ-quotient lemma <code>FibRed.quotEquiv_of_germ</code> serves as the bridge inside the proof. We then follow the result into the chart proof, where it becomes the hypothesis <code>RedFib</code> for the source function field.
+
+**Motivation.** The three requirements pull against each other.
+
+- *Finiteness* concerns all of $X$: the $d+1$ forms that define the map to $\mathbb P^d$ must have no common zero.
+- *Placing a finite set $S$ over the origin* is a closed condition at finitely many points: the last $d$ forms must vanish on $S$.
+- *Reducedness* concerns the whole origin fibre. That includes points imposed by the first two choices, about which nothing is known in advance.
+
+The [non-reduced example](#from-the-finite-algebra-trace-to-the-reduced-fibre) of the preceding subsection shows what is at stake. If the auxiliary map is ramified over the origin, the trace counts lengths and the local comparison of the chart proof is unavailable. The obvious repair translates the target coordinate until the origin is no longer a branch value. That repair fails, because it moves $S$ off the origin. The archive keeps $S$ fixed and translates instead by a form that vanishes to second order on $S$. Such a translation moves only the other fibre points, and Sard's theorem shows that almost every translation parameter moves them off the branch locus. The two examples below show both effects on one plane cubic.
+
+**Example (a legal finite projection of a smooth cubic) [Expository].** Let $E\subset\mathbb P^2$ be the cubic $y^2z=x^3-xz^2$. Its partial derivatives $-3x^2+z^2$, $2yz$ and $y^2+2xz$ have no common zero on $E$, so $E$ is smooth of dimension $d=1$. Take $S=\{P_0\}$ with $P_0=(0:0:1)$, and consider the linear forms
+$$
+f_0=z,\qquad g=y,\qquad h=x,\qquad F_c=g+c\,h=y+cx\qquad(c\in\mathbb C).
+$$
+On the chart $z\ne0$ use affine coordinates $x,y$. Then $E$ is $y^2=x^3-x$, and the auxiliary coordinate is $t=F_c/f_0=y+cx$.
+
+- *Jets at $S$.* The equation gives $x=x^3-y^2$. So $x$ lies in $\mathfrak m_{P_0}^2$, where $\mathfrak m_{P_0}=(x,y)$, and $\mathfrak m_{P_0}\subset(y)+\mathfrak m_{P_0}^2$. Thus $h$ vanishes to second order at $P_0$, and $g$ has a full first-order jet there: it generates the cotangent line. The common zeros of $g$ and $h$ on $E$ reduce to $P_0$. Since $h$ vanishes to second order, every $F_c$ has the same first-order jet $y$ at $P_0$.
+- *No common zero, hence a finite map.* If $z=0$ on $E$ then $x^3=0$, so the point is $O=(0:1:0)$, where $F_c=1$. The opens $U_0=E\cap\{z\ne0\}$ and $U_1=E\cap\{F_c\ne0\}$ therefore cover $E$, and $(f_0:F_c)$ is a morphism $E\to\mathbb P^1$.
+- *The origin chart.* Substituting $y=t-cx$ into $y^2=x^3-x$ gives
+  $$
+  x^3-c^2x^2+(2ct-1)x-t^2=0,
+  $$
+  a monic cubic in $x$ over $\mathbb C[t]$. Hence $\Gamma(U_0,\mathcal O)=\mathbb C[t][x]/(\text{cubic})$ is free over $A=\mathbb C[t]$ with basis $1,x,x^2$. The extension $\mathbb C(E)/\mathbb C(t)$ has degree $3$, the number of intersections of $E$ with a line.
+- *The chart at infinity.* On $F_c\ne0$ use the coordinates $x/F_c$ and $u=z/F_c=1/t$. Write $x$ again for $x/F_c$. The equation becomes $-x^3+c^2ux^2+(u^2-2cu)x+u=0$, which is monic in $x$ up to sign, so the chart ring is free of rank $3$ over $\mathbb C[u]$. At $u=0$ it reduces to $x^3=0$. The fibre over $t=\infty$ is the flex $O$, counted three times. Only the origin fibre has to be reduced, so this does no harm.
+- *The origin fibre.* At $t=0$ the cubic becomes $x\,(x^2-c^2x-1)$. The root $x=0$ is $P_0$, which lies on every member of the family. The quadratic factor has discriminant $c^4+4$ and does not vanish at $x=0$. So for $c^4\neq-4$ the fibre ring is
+  $$
+  B_0/(t)=\mathbb C[x]/\bigl(x(x^2-c^2x-1)\bigr)\cong\mathbb C\times\mathbb C\times\mathbb C .
+  $$
+  It is reduced with three points. For $c=0$ they are the three points of order two, $x=0,\pm1$ with $y=0$.
+- *Transversality.* At each fibre point $q$ the archive checks the condition $\mathfrak m_q\subset(t)+\mathfrak m_q^2$, which says that $t$ generates the cotangent line at $q$. At $P_0$ this is the jet computation above. For $c=0$, at $q=(1,0)$ we have $(x-1)\,x(x+1)=y^2$ and $x(x+1)=2+(x-1)(x+2)$. Hence $2(x-1)=y^2-(x-1)^2(x+2)\in(y)+\mathfrak m_q^2$, and the point $(-1,0)$ is symmetric.
+- *Germs and integrality.* The ring $B_0=\Gamma(U_0,\mathcal O)$ is the coordinate ring of a smooth affine curve, hence normal, and it is integral over $\mathbb C[t]$. So it is the integral closure of $\mathbb C[t]$ in $\mathbb C(E)$. Equivalently, the integral elements of $\mathbb C(E)$ are exactly the germs of regular functions on $U_0$. A function with a pole on $U_0$ illustrates both directions. At $c=0$ put $w=y/x$, which has a pole at $P_0$: there $y$ is a local parameter and $x$ vanishes to order two. With $t=y$ one checks $w^3+w^2/t-t=y\,(y^2-x^3+x)/x^3=0$. This is the minimal polynomial of $w$ over $\mathbb C(t)$. Indeed $x^3-x-t^2$ has no root in $\mathbb C(t)$, because a root would be a polynomial of degree $2/3$; so $x\notin\mathbb C(t)$, hence $w\notin\mathbb C(t)$, and the extension has degree $3$. The coefficient $1/t$ is not a polynomial, so $w$ is not integral over $\mathbb C[t]$.
+
+This is the archive's construction in miniature. The form $g$ has full jets on $S$, the form $h$ vanishes doubly on $S$, the base locus of $g$ and $h$ is $S$, the translation is $F_c=g+ch$, and $f_0$ vanishes nowhere on the origin fibre.
+
+**Example (a branch value at the origin) [Expository].** Keep $E$, $S$ and $f_0$, and take $c=1+i$, one of the four roots of $c^4=-4$. The quadratic factor becomes $x^2-2ix-1=(x-i)^2$, so
+$$
+B_0/(t)\cong\mathbb C[x]/\bigl(x(x-i)^2\bigr)\cong\mathbb C\times\mathbb C[\varepsilon]/(\varepsilon^2).
+$$
+The second factor sits at $Q=(i,1-i)$, where the line $y+(1+i)x=0$ is tangent to $E$. Indeed the gradient $(-3x^2+1,\,2y)$ of $y^2-x^3+x$ at $Q$ is $(4,\,2-2i)=(2-2i)\,(1+i,\,1)$. The class of $x(x-i)$ is a nonzero nilpotent. In terms of the criterion used below, $\mathfrak m_Q\not\subset(t)+\mathfrak m_Q^2$: the image of $\mathfrak m_Q$ in the fibre ring is the ideal $(x-i)$, and it is not idempotent. The [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre) would weight $Q$ by $2$.
+
+There are two ways to move the branch value away from the origin, and they behave differently.
+
+- *Translating the target coordinate.* Replacing $t$ by $t-a$, that is $F_c$ by $F_c-af_0$, makes the new origin fibre the old fibre over $a$. For $a$ outside the finitely many branch values of $t$ that fibre is reduced. But $t(P_0)=0\ne a$, so $P_0$ leaves the origin fibre, and the coincidence that $S$ was meant to record is lost.
+- *Translating inside the family.* Replacing $c$ by $c'$ adds $(c'-c)h$ to $F_c$. Since $h=x$ vanishes to second order at $P_0$, every member passes through $P_0$ with the same first-order jet $y$. Only the two other points move. They are the residual intersections of $E$ with the line through $P_0$ of slope $-c'$, so they form the fibre over $-c'$ of the projection $\pi=y/x$ from $P_0$. This projection is a map $E\to\mathbb P^1$ of degree two. By Riemann–Hurwitz it has exactly four branch values, the slopes $-c$ with $c^4=-4$. Every other $c'$ gives a reduced origin fibre.
+
+In the proof below the second mechanism appears in general. The exceptional parameters are the negatives of the critical values of $g/h$. Sard's theorem says that this set has measure zero; here it consists of four points.
+
+Suppose instead that $g$ had a double zero on $S$, for instance $g=x$. Then every $g+ch$ would have one as well, and no choice of $c$ would help. This is why the archive requires full first-order jets of $g$ on $S$, and that uses the smoothness of $X$ at the points of $S$. The ramified auxiliary map $t=z^2/(1+z^2)^2$ of the preceding subsection fails in exactly this way. In homogeneous coordinates it is $z_0^2z_1^2/(z_0^2+z_1^2)^2$, and the numerator vanishes doubly at both points of $S=\{0,\infty\}$. The split map $t=z/(1+z)^2=z_0z_1/(z_0+z_1)^2$ of that subsection has full jets on $S$ and no common zero of numerator and denominator.
+
+All calculations in the two examples are checked by exact arithmetic in the run's <code>check_reduced_projection.py</code>.
+
+**Definitions.**
+
+- *Projective presentation.* $X$ is an integral scheme with a closed immersion $\iota:X\to\mathbb P^N_{\mathbb C}$ over $\mathbb C$ (<code>IsProjOver</code>). For a homogeneous polynomial $f$ of degree $n$ write $D(f)=\iota^{-1}D_+(f)$ (<code>fOpen</code>). For forms $f,g$ of the same degree the ratio $f/g$ is a regular function on $D(g)$ (<code>fRatio</code>), and $g/g=1$ (<code>fRatio_self</code>).
+- *Complex points.* A complex point is a $\mathbb C$-morphism $\operatorname{Spec}\mathbb C\to X$ (<code>CxPts</code>). For an open $U$ containing $y$, evaluation of sections is a ring map $\mathrm{ev}_y:\Gamma(X,U)\to\mathbb C$ (<code>CxPts.evHom</code>), whose kernel $\mathfrak m_y$ is a maximal ideal.
+- *Transversal zero.* Sections $\varphi_1,\ldots,\varphi_k\in\Gamma(X,U)$ have a *transversal common zero* at $y$ if every $\varphi_j(y)=0$ and $\mathfrak m_y\subset(\varphi_1,\ldots,\varphi_k)+\mathfrak m_y^2$. Equivalently, their classes span the cotangent space $\mathfrak m_y/\mathfrak m_y^2$. If $X$ is smooth of dimension $d$, this space has dimension $d$ ([Stacks Project, Lemmas 10.140.1 and 10.140.3](https://stacks.math.columbia.edu/tag/00TQ)). Then $d$ sections with a transversal common zero at $y$ form a regular system of parameters there.
+- *Affine chart cover.* Given forms $f_0,\ldots,f_d$, put $U_i=D(f_i)$ and $U_I=\bigcap_{i\in I}U_i$. Let $K=\mathbb C(X)$, with the $\mathbb C$-structure coming from $X\to\operatorname{Spec}\mathbb C$ (<code>ffAlg</code>). The cover is an *affine cover* for subalgebras $B_I\subset K$ (<code>IsAffCover</code>) if four things hold: the $U_i$ cover $X$; each $U_I$ with $I\ne\varnothing$ is affine; each $U_I$ contains the generic point; and $B_I$ is exactly the set of germs at the generic point of sections over $U_I$.
+- With $x_i=f_i/f_0\in K$ and $t_j=x_j$ for $1\le j\le d$, we use the definitions of the [preceding subsection](#from-the-finite-algebra-trace-to-the-reduced-fibre): finite cover, chart rings $A_I\subset B_I$, $\mathfrak p$, $J=\mathfrak pB_0$ and <code>RedFib</code>.
+
+**Theorem (a reduced auxiliary projection) [Lean, read].** Let $X$ be an integral scheme, smooth of relative dimension $d$ and projective over $\mathbb C$, and let $S$ be a finite set of complex points of $X$. Then there exist an integer $n\ge1$ and forms $f_0,\ldots,f_d$ of degree $n$ with the following properties. Put $x_i=f_i/f_0\in K$, let $F=\mathbb C(x_1,\ldots,x_d)\subset K$, and let $U_i=D(f_i)$.
+
+1. The tuple $(x_0,\ldots,x_d)$ is a finite cover of $K$ over $F$, and $(U_i)$ is an affine cover for the integral closures $B_I$. In particular, taking germs gives $\Gamma(X,U_0)\cong B_0$.
+2. Every $y\in S$ lies in $U_0$. If a section of $U_0$ has germ $x_j$ for some $1\le j\le d$, it vanishes at $y$.
+3. The origin fibre ring $B_0/J$ is reduced.
+
+Moreover, taking germs at the generic point induces a ring isomorphism $\Gamma(X,U_0)/(t_1,\ldots,t_d)\cong B_0/J$.
+
+These are the hypotheses of <code>exists_finiteCover_projSpace_reduced_fibre_origin</code>, and items (1)–(3) are its four conclusions: the finite cover, the affine cover, the reduced fibre and the placement of $S$. The isomorphism in the last sentence is <code>FibRed.quotEquiv_of_germ</code>, used inside the proof; it is not exported. The theorem depends on the named inputs listed at the end of this subsection, which are used at their interfaces.
+
+**Lemma 1 (finite projection by forms without common zero) [Lean, read].** Let $f_0,\ldots,f_d$ be forms of the same degree $n\ge1$ with no common zero on $X$, none vanishing at the generic point. Then the ratios $f_j/f_i$ on $D(f_i)$ glue to a finite morphism $\varphi:X\to\mathbb P^d$ with $\varphi^{-1}(D_+(T_i))=D(f_i)$. Consequently $x_i=f_i/f_0$ is a finite cover, and $(D(f_i))$ is an affine cover for the integral closures $B_I$.
+
+*Proof.* The ratios satisfy $f_i/f_i=1$. On $D(f_i)\cap D(f_j)$ they satisfy the cocycle rule $(f_j/f_i)(f_k/f_j)=f_k/f_i$, and the nonvanishing locus of $f_j/f_i$ on $D(f_i)$ lies in $D(f_j)$. These are the axioms of a coordinate family (<code>isCoordFamily_fRatio</code>). The family defines $\varphi$ over $\mathbb C$, with the stated preimages of the standard charts (<code>formMap</code>, <code>formMap_preimage</code>).
+
+The morphism $\varphi$ is affine. Because $f_i$ is homogeneous of positive degree, $D_+(f_i)$ is affine, and its preimage under the closed immersion $\iota$ is affine as well. The morphism $\varphi$ is also proper. Indeed $X\to\operatorname{Spec}\mathbb C$ is proper, being $\iota$ followed by the proper structure map of $\mathbb P^N$. Since $\mathbb P^d$ is separated, the first factor of $X\to\mathbb P^d\to\operatorname{Spec}\mathbb C$ is then proper. A morphism that is affine and proper is finite ([Stacks Project, Lemma 29.45.11](https://stacks.math.columbia.edu/tag/01WN)). <code>isFinite_formMap</code> concludes in exactly this way, through Mathlib's <code>IsFinite.iff_isProper_and_isAffineHom</code>.
+
+The chart data come from <code>exists_finCover_of_isFinite</code>. Let $x_i$ be the pulled-back coordinate ratios. They agree with the germs of $f_i/f_0$ (<code>rat_formMap</code>), and $x_0=1$. Three named inputs about finite maps to $\mathbb P^d$ say that the ratios are nonzero at the generic point, that they are algebraically independent, and that $K$ is finite over the subfield $F$ they generate. Separability of $K/F$ is automatic in characteristic zero (<code>IsFinCover.of_charZero</code>). The chart preimages cover $X$, and their finite intersections are affine (<code>projective_chart_affine_cover</code>). The germ of a section over $U_I$ is integral over $A_I$ (<code>genericGerm_chartInter_integral_coordinateRatios</code>); classically this is the finiteness of $\varphi$ over the affine chart. Conversely, an element of $K$ integral over $A_I$ is the germ of a section over $U_I$ (<code>chart_function_field_integral</code>); classically this holds because $U_I$ is smooth, hence normal. So $B_I$ is the set of germs of sections over $U_I$. In particular $B_{\{i\}}$, the coordinate ring of the smooth affine $U_i$, is smooth over $\mathbb C$ (<code>affine_germ_subalgebra_smooth</code>). $\square$
+
+**Lemma 2 (transversal forms through $S$) [Lean, read].** There exist $n\ge1$ and forms $f_0,F_1,\ldots,F_d$ of degree $n$ with three properties.
+
+- (i) They have no common zero on $X$, and none vanishes at the generic point.
+- (ii) Every $y\in S$ lies in $D(f_0)$, and all $F_j/f_0$ vanish at $y$.
+- (iii) If all $F_j/f_0$ vanish at a complex point $y\in D(f_0)$, then $y$ is a transversal common zero of $F_1/f_0,\ldots,F_d/f_0$.
+
+*Proof.* This is <code>exists_transversal_forms_first_separate</code>. <code>exists_forms_transversal</code> merely reindexes $(f_0,F)$ as a single family indexed by $0,\ldots,d$.
+
+1. *Jets on $S$.* Choose $n\ge1$ and forms $h,g_1,\ldots,g_d$ of degree $n$ with four properties (<code>EtProj.Jets.exists_jet_forms</code>, [Lean]):
+   - no $g_j$ vanishes at the generic point;
+   - every $g_j$ vanishes on $S$;
+   - the common zeros of $h,g_1,\ldots,g_d$ on $X$ lie in $S$;
+   - for every $y\in S$ and every form $f$ of degree $n$ with $f(y)\neq0$, we have $h/f\in\mathfrak m_y^2$, and $g_1/f,\ldots,g_d/f$ span $\mathfrak m_y/\mathfrak m_y^2$.
+2. *Sard.* The open $D(h)$ is affine. There is a set $E\subset\mathbb C^d$ of Lebesgue measure zero such that for $c\notin E$, every common zero in $D(h)$ of the functions $g_j/h+c_j$ is transversal (<code>AlgSard.main</code>, [Lean]). This is Sard's theorem for the holomorphic map $\gamma=(g_j/h)_j$ from $D(h)(\mathbb C)$ to $\mathbb C^d$. The common zeros of $g/h+c$ are the points of $\gamma^{-1}(-c)$. They are all transversal unless $-c$ is a critical value, and the critical values of $\gamma$ form a null set ([Sard 1942, p. 883](https://doi.org/10.1090/S0002-9904-1942-07811-6)). In the second example the parameters to avoid are the four $c$ with $c^4=-4$.
+3. *Members that vanish identically.* For each $j$ at most one $c\in\mathbb C$ makes $g_j+ch$ vanish at the generic point. If two values $c\ne c'$ did, their difference would show that $(c-c')h$, hence $h$, and then $g_j$ vanish there, which step 1 excludes. Call this value $a_j$; the proof takes $a_j=0$ when there is none. Thus the archive also avoids $c_j=0$, even where that value would be harmless, as $c=0$ is in the first example.
+4. *Choice of $c$.* The union of $E$ with the $d$ hyperplanes $\{c_j=a_j\}$ has measure zero, while $\mathbb C^d$ has positive measure, so some $c$ avoids it. Put $F_j=g_j+c_jh$. On $D(h)$ we have $F_j/h=g_j/h+c_j$. So at every complex point of $D(h)$ where all $F_j$ vanish, the $F_j/h$ have a transversal common zero.
+5. *Finitely many transversal zeros.* In the affine open $D(h)$, the transversal common zeros of $F_1/h,\ldots,F_d/h$ form a finite set $T$ (<code>TransvZeros.finite_transv_zeros</code>, [Lean]). Each of them is an isolated point of the zero scheme.
+6. *The denominator.* Choose a form $f_0$ of degree $n$ that vanishes neither at the generic point nor at any point of $S\cup T$ (<code>EtProj.exists_form_genericPoint_cxPts</code>, [Lean]). Classically this is an avoidance argument over the infinite field $\mathbb C$.
+
+Now we verify (i)–(iii).
+
+*Property (i).* Let $z$ be a complex point at which $f_0$ and all $F_j$ vanish. If $z\in D(h)$, then $z\in T$ by step 4, which contradicts the choice of $f_0$. If $h(z)=0$, then $g_j(z)=F_j(z)-c_jh(z)=0$ for all $j$, so $z\in S$ by step 1, again a contradiction. Hence the open set $D(f_0)\cup\bigcup_jD(F_j)$ contains every complex point. On a scheme of finite type over $\mathbb C$, an open set containing all complex points is the whole scheme (<code>MaxPt.eq_top_of_forall_cxPts_mem</code>, [Lean]). The generic point lies in each $D(F_j)$ because $c_j\ne a_j$.
+
+*Property (ii).* Let $y\in S$. Then $f_0(y)\ne0$, and $h/f_0\in\mathfrak m_y^2$ gives $h(y)=0$. Since also $g_j(y)=0$, we get $F_j(y)=0$.
+
+*Property (iii).* Let $z\in D(f_0)$ be a complex point at which all $F_j/f_0$ vanish. If $z\in S$, step 1 says that the $g_j/f_0$ span the cotangent space. Since $F_j/f_0=g_j/f_0+c_j\,h/f_0$ and $h/f_0\in\mathfrak m_z^2$, the $F_j/f_0$ span it as well. If $z\notin S$, then $h(z)\ne0$, since otherwise $z\in S$ as in (i). So $z\in D(h)$, and by step 4 the $F_j/h$ have a transversal zero at $z$. The ratio $h/f_0$ is a unit near $z$ and $F_j/f_0=(F_j/h)(h/f_0)$, so the $F_j/f_0$ have a transversal zero at $z$ as well (<code>EtProj.span_ratio_of_span_ratio</code>, [Lean]). $\square$
+
+**Lemma 3 (the germ quotient) [Lean, read].** Let $U$ be an open set containing the generic point. Let $t_1,\ldots,t_d\in\Gamma(X,U)$ be sections whose germs are $x_1,\ldots,x_d$, where $x_0=1$, and suppose $B_0$ is exactly the set of germs of sections over $U$. Then taking germs induces a ring isomorphism $\Gamma(X,U)/(t_1,\ldots,t_d)\cong B_0/J$.
+
+*Proof.* Because $X$ is integral, the germ map $\Gamma(X,U)\to K$ is injective (Mathlib's <code>germ_injective_of_isIntegral</code>). By hypothesis its image is $B_0$, so it is a ring isomorphism $\Gamma(X,U)\cong B_0$. It sends $t_j$ to $x_j/x_0$, hence the ideal $(t_1,\ldots,t_d)$ onto $J$. So it induces an isomorphism of the quotients (<code>Ideal.quotientEquiv</code>). $\square$
+
+The two directions of the hypothesis "$B_0$ is the set of germs" are separate facts. That sections are integral over $A$ needs the finiteness of the projection; that integral elements are sections needs normality. The function $w=y/x$ of the first example lies in $K$ and is regular on $U_0\setminus\{P_0\}$. It is neither integral over $\mathbb C[t]$ nor a section over $U_0$.
+
+**Lemma 4 (reducedness from transversality) [Lean, read].** Let $A$ be a ring and $I\subset A$ an ideal such that $A/I$ is Artinian. If $\mathfrak m\subset I+\mathfrak m^2$ for every maximal ideal $\mathfrak m\supset I$, then $A/I$ is reduced.
+
+*Proof.* Put $R=A/I$. Every maximal ideal $M$ of $R$ is the image of a maximal ideal $\mathfrak m\supset I$, and the hypothesis maps to $M\subset M^2$. Hence $M^k=M$ for all $k\ge1$. The ring $R$ has finitely many maximal ideals. They are pairwise coprime, so their product $P$ equals their intersection, which is the Jacobson radical. Therefore $P^k=P$ for all $k\ge1$. On the other hand, the Jacobson radical of an Artinian ring is nilpotent ([Stacks Project, Lemma 10.53.4](https://stacks.math.columbia.edu/tag/00J8)), so $P=0$. A nilpotent element lies in every maximal ideal, hence in $P=0$. $\square$
+
+Equivalently, each localization $R_M$ is an Artinian local ring with $M=M^2$, hence a field by Nakayama's lemma, and $R$ is the product of these fields ([Stacks Project, Lemma 10.53.5](https://stacks.math.columbia.edu/tag/00JA)). [Expository] The criterion itself is pure commutative algebra. Geometry enters only through the existence of transversal coordinates, which Lemma 2 provides.
+
+**Lemma 5 (maximal ideals are complex points) [Lean, read].** Let $X$ be locally of finite type over $\mathbb C$ and let $U\subset X$ be affine. Then every maximal ideal of $\Gamma(X,U)$ equals $\mathfrak m_y$ for some complex point $y\in U$.
+
+*Proof.* The ring $\Gamma(X,U)$ is a finitely generated $\mathbb C$-algebra. By Zariski's lemma its residue field at a maximal ideal $\mathfrak m$ is finite over $\mathbb C$ (Mathlib's <code>finite_of_finite_type_of_isJacobsonRing</code>; [Stacks Project, Theorem 10.34.1](https://stacks.math.columbia.edu/tag/00FV)). Since $\mathbb C$ is algebraically closed, that residue field is $\mathbb C$ itself. The composite $\Gamma(X,U)\to\Gamma(X,U)/\mathfrak m\cong\mathbb C$ is then a complex point of $U$ with kernel $\mathfrak m$ (<code>MaxPt.exists_cxPts_ker_eq</code>). $\square$
+
+*Proof of the theorem.* We follow <code>FibRed.exists_finCover_fibre_reduced</code>, lines 40–86.
+
+- *Setup.* Projectivity gives $\iota:X\to\mathbb P^N$. Lemma 2 gives forms $f_0,F_1,\ldots,F_d$; write $f_i=F_i$ for $i\ge1$. Lemma 1 gives $F$, $x$, the finite cover and the affine cover, with $x_i$ the germ of $f_i/f_0$; in particular $x_0=1$.
+- *The germ isomorphism.* Put $U_0=D(f_0)$ and $t_j=f_j/f_0\in\Gamma(X,U_0)$; the germ of $t_j$ is $x_j=x_j/x_0$. The affine-cover property for $I=\{0\}$ says that $B_0$ is the set of germs of sections over $U_0$. So Lemma 3 gives the isomorphism $\Gamma(X,U_0)/(t)\cong B_0/J$.
+- *Item (3).* The ring $B_0/J$ is a finite $\mathbb C$-algebra, by the argument of Lemma 5 of the preceding subsection (<code>isArtinianRing_fib_quot</code>). Hence it is Artinian, and so is $\Gamma(X,U_0)/(t)$. Let $\mathfrak m\supset(t)$ be a maximal ideal of $\Gamma(X,U_0)$. By Lemma 5, $\mathfrak m=\mathfrak m_y$ for a complex point $y\in U_0$, and $t_j\in\mathfrak m_y$ means that every $t_j$ vanishes at $y$. By Lemma 2(iii), $\mathfrak m_y\subset(t)+\mathfrak m_y^2$. Lemma 4 now shows that $\Gamma(X,U_0)/(t)$ is reduced, and the germ isomorphism transfers this to $B_0/J$.
+- *Item (2).* Let $y\in S$. Lemma 2(ii) puts $y$ in $U_0$ with $t_j(y)=0$. A section of $U_0$ whose germ is $x_j$ equals $t_j$, because germs are injective. So it vanishes at $y$.
+- *Item (1)* is Lemma 1. $\square$
+
+**Proposition (sending <code>RedFib</code> to the source) [Lean, read].** Let $c_1:Y\to Z$ be a finite étale morphism of integral schemes over $\mathbb C$, both smooth of dimension $d$, with $Z$ projective. Let $(x,U)$ be data for $Z$ as in the theorem, and view $K=\mathbb C(Z)\subset K'=\mathbb C(Y)$ via $c_1$. Then:
+
+- $x$ is a finite cover of $K'$, and $(c_1^{-1}U_i)$ is an affine cover for the integral closures $B'_I\subset K'$;
+- the source origin fibre ring $B'_0/J'$ is reduced. That is, <code>RedFib</code> holds for $K'$.
+
+*Proof.* The first statement is <code>isFinCover_pull</code> [Lean]. For the second, identify $B_0\cong\Gamma(Z,U_0)$ and $B'_0\cong\Gamma(Y,c_1^{-1}U_0)$ by germs. Under these identifications the inclusion $B_0\to B'_0$ is the pullback $c_1^\ast$ on sections over the affine $U_0$. That map is étale, in particular formally unramified (<code>upB_fu</code>). Both $J$ and $J'$ are generated by the same ratios, so $J$ generates $J'$ (<code>map_upB_span_tco</code>) and $B'_0/J'=B'_0\otimes_{B_0}B_0/J$. Both fibre rings are finite over $\mathbb C$ (<code>fin_quot</code>). The argument of <code>red_of_fu</code> then runs as follows.
+
+- A reduced finite algebra over the perfect field $\mathbb C$ is a finite product of separable field extensions, hence formally unramified over $\mathbb C$ (<code>formallyUnramified_of_isReduced</code>).
+- $B'_0/J'$ is formally unramified over $B_0$, as the composite of $B_0\to B'_0$ with a surjection, and hence also over $B_0/J$.
+- Composites of formally unramified maps are formally unramified, so $B'_0/J'$ is formally unramified over $\mathbb C$.
+- A formally unramified algebra over a field is reduced (Mathlib's <code>Algebra.FormallyUnramified.isReduced_of_field</code>). $\square$
+
+The classical statements behind the proposition are two. A ring that is smooth, in particular étale, over a reduced ring is reduced ([Stacks Project, Lemma 10.163.7](https://stacks.math.columbia.edu/tag/033B)). Étale algebras over a field are products of finite separable extensions ([Lemma 10.143.4](https://stacks.math.columbia.edu/tag/00U3)). Étaleness near the fibre cannot be dropped. Over the three-point fibre $\mathbb C[x]/(x^3-x)$ of the first example, adjoining $s$ with $s^2=x-2$ gives $\prod_{a\in\{0,\pm1\}}\mathbb C[s]/(s^2-(a-2))$, which is six copies of $\mathbb C$. Over a point with $x=2$ the same equation gives $\mathbb C[s]/(s^2)$.
+
+**The actual call [Lean, read].** In <code>holomorphic_lefschetz_finiteEtale_integral</code>, line 103 applies the theorem to the target $Z$, with $S$ the image under $c_1$ of the finite set of coincidences. Its outputs are consumed as follows.
+
+- *The finite and affine covers of $Z$.* They are passed to the chart theorem <code>exists_chart_lift_of_finite_cover</code> at line 206. At line 109 they are pulled back to $Y$ by <code>isFinCover_pull</code>.
+- *The reduced fibre of $Z$.* Line 110 sends it to $Y$ by the proposition (<code>etaleCorrespondence_fieldExtension_statement</code>). The result <code>hredY</code> is the fourth hypothesis of the chart theorem (line 207). <code>field0_of</code> stores it as the field <code>red</code> of <code>Y1</code> (<code>TraceEqZeroOfBot.lean:65</code>). In turn <code>fieldLe_of</code> passes <code>h0.red</code> to <code>ResidueOfTraceIsFiberSum</code> with $L=K'$ (<code>PFieldLe.lean:323</code>). This is the hypothesis <code>RedFib</code> of the [reduced-fibre trace theorem](#from-the-finite-algebra-trace-to-the-reduced-fibre). The same <code>hredY</code> supplies regular parameters at the fixed evaluations (line 156, <code>exists_regular_parameters_of_reduced_quotient</code>). The target's own reduced fibre supplies the generation of target maximal ideals by the ratios (line 225) and enters the conjugacy of tangent matrices (line 198).
+- *The placement of $S$ over the origin.* Lines 117–132 use it to show that every fixed evaluation on the origin chart of $Y$ kills the $t_j$: the section of $U_0$ with germ $t_j$ vanishes at $c_1(y)$, and evaluation commutes with pullback. This is the field <code>orig</code> of <code>Y1</code>. By <code>etaleCorrespondence_differentials_statement</code>, $t_j$ does not vanish at a point of $U_0\cap U_j$. Combined with the placement, this shows at lines 208–214 that no fixed evaluation lies on another chart; that is the field <code>off</code>.
+
+**Remark (where each hypothesis is used) [Expository].**
+
+- *Characteristic zero.* It enters in three places.
+  - It gives separability of $K/F$, the field <code>sep</code> of <code>IsFinCover</code> (<code>IsFinCover.of_charZero</code>).
+  - Sard's theorem in step 2 has no characteristic-$p$ analogue. On $\mathbb A^1_{\mathbb F_p}$ the function $t^p$ has no reduced fibre, since $t^p+c=(t+c^{1/p})^p$, and no translation helps.
+  - The proposition uses that $\mathbb C$ is perfect. Over the imperfect field $\mathbb F_p(s)$, the field $\mathbb F_p(s)[x]/(x^p-s)$ is reduced but not étale.
+
+  The preceding subsection's Lemma 4 uses perfectness as well.
+- *Separability.* In characteristic zero it is automatic. It is part of <code>IsFinCover</code> and of the description of reduced finite algebras as étale algebras.
+- *Smooth points.* Smoothness is used at four places.
+  - Full jets on $S$ (step 1): at a singular point the cotangent space has dimension larger than $d$, so $d$ functions cannot span it.
+  - Regular values in Sard's theorem (step 2).
+  - Normality, which gives "integral elements are sections" in Lemma 1, and smoothness of the chart rings $B_{\{i\}}$, which <code>IsFinCover</code> requires.
+  - Finite type of $B_0$, used for the Artinian fibre: <code>isArtinianRing_fib_quot</code> calls <code>h.smooth 0</code>.
+- *The base field $\mathbb C$.* Three properties are used.
+  - Algebraic closedness: in Lemma 5 and in <code>MaxPt.eq_top_of_forall_cxPts_mem</code>, complex points detect maximal ideals and open sets.
+  - Lebesgue measure on $\mathbb C^d$ in step 4, and the analytic structure for Sard's theorem in step 2.
+  - Infinitude in step 6.
+
+  Over a merely infinite algebraically closed field of characteristic zero, one would replace the Sard step by generic smoothness of $g/h$ and choose $c$ outside a proper Zariski-closed set. The archive does not take that route.
+- *Projectivity and integrality.* Projectivity supplies the forms, and the properness in Lemma 1. Integrality supplies the function field, the generic point used in step 3 and the injectivity of germs in Lemma 3.
+
+**Remark (what is and is not claimed) [Expository].**
+
+- The forms are not a general choice. They are special along $S$, where they vanish with prescribed jets, and general only in the translation parameter $c$ and in the denominator $f_0$. No Bertini-type statement about general members of a linear system is used. The genericity is the explicit Sard null set for $c$ together with finite avoidance for $f_0$.
+- Only the origin fibre is made reduced. Other fibres may be ramified, like the triple flex fibre at infinity in the first example.
+- Projection from a point outside $X$ gives finiteness alone ([Stacks Project, Lemma 43.23.1](https://stacks.math.columbia.edu/tag/0B1P)), and iterating it gives projections from linear centres. The map $(f_0:\cdots:f_d)$ is a linear projection, from a centre disjoint from the image, composed with the degree-$n$ Veronese embedding. The archive proves its finiteness directly by the affine-plus-proper criterion.
+
+**Reading the formal proof.** Paths are relative to the root of archive A2 (Lean 4.33.1, joined SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>, Mathlib pinned at <code>0df444a360eaa60ab8c11dca51a86af692955474</code>).
+
+| Node | A2 path and lines | Role and reading |
+|---|---|---|
+| <code>exists_finiteCover_projSpace_reduced_fibre_origin</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOriginStatement.lean:8–9</code> | Exported statement and delegation. R3 [Lean, read]. |
+| <code>FibRed.exists_finCover_fibre_reduced</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOrigin.lean:40–86</code> | Direct producer; proof of the theorem. R3 [Lean, read]. |
+| <code>FibRed.quotEquiv_of_germ</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOrigin.lean:17–38</code> | Lemma 3. R3 [Lean, read]. |
+| <code>EtProj.Transv.exists_forms_transversal</code>, <code>exists_transversal_forms_first_separate</code>, <code>mem_ptsIn_fOpen_iff</code>, <code>evHom_fRatio_eq_zero_iff</code>, <code>frac_smul_deg</code>, <code>fRatio_add_smul</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFormsTransversalAtComplexPoints.lean:22–75,83–226,234–258</code>; statement <code>ExistsFormsTransversalAtComplexPointsStatement.lean:7–17</code> | Lemma 2. R3 [Lean, read] for the bodies; six named inputs at statement level. |
+| <code>EtProj.isFinCover_of_forms</code>, <code>isFinite_formMap</code>, <code>isCoordFamily_fRatio</code>, <code>formMap_preimage</code>, <code>rat_formMap</code>, <code>exists_finCover_of_isFinite</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/IsSmoothFiniteCoverOfFormsNoCommonZero.lean:29–175</code>; statement <code>IsSmoothFiniteCoverOfFormsNoCommonZeroStatement.lean:8–9</code> | Lemma 1. R3 [Lean, read] for the bodies; chart inputs at statement level. |
+| <code>isReduced_quotient_of_artinian_of_maximal_le</code>, <code>quotient_maximal_le_sq</code>, <code>pow_eq_self_of_le_sq</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/IsReducedQuotientOfArtinianOfMaximalLe.lean:7–77</code> | Lemma 4. R3 [Lean, read]. |
+| <code>MaxPt.exists_cxPts_ker_eq</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsComplexPointKerEvalEqMaximal.lean:13–44</code> | Lemma 5. R3 [Lean, read]. |
+| <code>isArtinianRing_fib_quot</code>, <code>finite_quotient_of_integral</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/IsArtinianRingFibQuot.lean:7–96</code> | Artinian fibre ring. R3 [Lean, read]. |
+| <code>fOpen</code>, <code>fRatio</code>, <code>fRatio_self</code>; <code>IsAffCover</code>, <code>ffAlg</code>; <code>IsProjOver</code>, <code>PSpace</code>; <code>IsFinCover.of_charZero</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/FRatioSelf.lean:16–29</code>, <code>src/Development/AbelianVarietyTheory/Definitions/Divisors/IsAffCoverSpec.lean:64–65,79–84</code>, <code>src/ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/IsCompletedStrictHens.lean:16–23</code>, <code>src/Development/AbelianVarietyTheory/Definitions/Divisors/DlogRatioVolumeFormNeZero.lean:103–107</code> | Definitions and the characteristic-zero constructor. Read. |
+| <code>etaleCorrespondence_fieldExtension_statement</code>, <code>red_of_fu</code>, <code>fin_quot</code>, <code>upB_fu</code>, <code>map_upB_span_tco</code>; <code>SepIdem.formallyUnramified_of_isReduced</code> | <code>src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceFieldExtensionStatement.lean:9–209</code>, <code>src/Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/FormallyUnramifiedOfIsReduced.lean:7–17</code> | The proposition. R3 [Lean, read]; <code>isFinCover_pull</code>, <code>mem_rB_pull</code> and <code>rA_finite</code> at statement level. |
+| Actual call | <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleIntegral.lean:103–139,156,198,206–225</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/TraceEqZeroOfBot.lean:52–65</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/ResidueOfTraceIsFiberSum.lean:26–40</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PFieldLe.lean:216–221,323</code> | From the target fibre to <code>Y1.red</code>, <code>orig</code> and <code>off</code>, and on to <code>RedFib</code>. Prior R3 (1123n, 1124a), rechecked for these lines. |
+
+R3 covers the named bodies. The following are used at their interfaces.
+
+- The six inputs of Lemma 2: <code>EtProj.Jets.exists_jet_forms</code> (jets and base locus), <code>AlgSard.main</code>, <code>TransvZeros.finite_transv_zeros</code>, <code>MaxPt.eq_top_of_forall_cxPts_mem</code>, <code>EtProj.span_ratio_of_span_ratio</code> and <code>EtProj.exists_form_genericPoint_cxPts</code>.
+- The chart inputs of Lemma 1: <code>pulledBackProjCoordinateRatio_overlap_div</code>, <code>algebraicIndependent_pulledBackProjCoordinateRatios</code>, <code>finite_projection_function_field</code>, <code>projective_chart_affine_cover</code>, <code>chart_function_field_integral</code>, <code>genericGerm_chartInter_integral_coordinateRatios</code> and <code>affine_germ_subalgebra_smooth</code>; also <code>IsCoordFamily.toHom</code>, <code>isAffineHom_of_isAffineOpen_preimage_chart</code> and <code>isProper_str</code>.
+- The pull-back <code>isFinCover_pull</code>, and the consumers <code>exists_regular_parameters_of_reduced_quotient</code>, <code>etaleCorrespondence_local_parameters_statement</code>, <code>etaleCorrespondence_differentials_statement</code> and <code>etaleCorrespondence_sections_statement</code>.
+- The Mathlib library lemmas.
+
+The [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre), the [global boundary](#from-fixed-point-vanishing-to-a-global-čech-boundary) and the [local Koszul weights](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) keep the reading levels recorded there, as do <code>FixK_holds</code> and the group-side matching.
 
 ## 12.5 Remarks, formalization notes, and Masullo's counterpart
 
