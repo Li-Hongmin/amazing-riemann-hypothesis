@@ -359,6 +359,15 @@ All from
 | `Mathlib/Analysis/Convex/Slope.lean` | 2026-11-24T17:17Z | 15444 | `4b7252aa97b650433f2725e207accb28d4778f61653eb836864c971ef79bc65a` |
 | `Mathlib/Analysis/SpecialFunctions/Log/Basic.lean` | 2026-11-24T17:17Z | 28230 | `1f36a9802233e878953d809b16e020beaf0ace5afd4c8279d47b52af6ee186bf` |
 | `Mathlib/Analysis/Analytic/IsolatedZeros.lean` | 2026-11-24T17:17Z | 19565 | `23bb70a1bad8b88c338b504532e784a33bec653fe550442925672ff7e891b2f1` |
+| `Mathlib/Analysis/Fourier/PoissonSummation.lean` | 2026-11-23T09:49:57Z | 11968 | `6d28aec09e89b574b7f9c03badd38793901a2609feceeb061efac7d884258cbd` |
+| `Mathlib/Analysis/Fourier/AddCircle.lean` | 2026-11-23 | 28093 | `87fe0972a4370b6fdd14c327855f4e7ab98edf37e9e2ebb5182ab0f676bc16b2` |
+| `Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean` | 2026-11-25 (UTC+9) | — | `b8e3ccb1441c18375b3518ae1ec174179cd4ed036ee3f87c8a62c96925f8016a` |
+| `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean` | 2026-11-24T18:08Z | 20163 | `cfc609acec4ddfb845c07c6628ddb6b67d6114899ef6080a560144608dde245a` |
+| `Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean` | 2026-11-24T18:08Z | 42632 | `b1ecbd32e34997ddc82627f777d350abb79f4b26e107588c2eef84f46489f067` |
+| `Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean` | 2026-11-24T18:08Z | 15204 | `9418b4686f46a9e053a0e4ecde8b6dccf750dfa9a8f72b55ee27b0138510ffb4` |
+| `Mathlib/MeasureTheory/Measure/Regular.lean` | 2026-11-24T18:08Z | 64445 | `634aa0663f4d800ec62184195e4ae19ba717a90b130b844c0d9ed7483b84e230` |
+| `Mathlib/Topology/UrysohnsLemma.lean` | 2026-11-24T18:08Z | 26018 | `9a47610f0656fbf90ff9a50400b61aa70fc612f4612c580de4e039d5cb9df045` |
+| `Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean` | 2026-11-24T18:08Z | 7689 | `4145e148d2fce70236513b3063543f5b8715c33e2f9a252421bf883377bd65f1` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -413,6 +422,88 @@ re-verified 2026-11-24). The pinned Mathlib has no Haar measure instance on $\ma
 [Masullo, p. 16](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=16)
 · [Masullo, p. 518](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518)
 · [Pinned `DistribChar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
+
+**Chapter 14, §14.4.2.** David Loeffler's pinned Mathlib
+`Real.fourierCoeff_tsum_comp_add` and `Real.tsum_eq_tsum_fourier` supply the
+continuous, unit-period source correspondence. The chapter's compactly supported
+piecewise smooth midpoint formula uses Masullo A4, Proposition B.4.1.2 and its proof,
+pp. 608–610 (citing Folland, §2.2, Theorem 2.1). The NIST DLMF gives a related
+half-line Poisson formula with one-sided values in §1.8(iv), equation (1.8.15).
+Retrieved 2026-11-23.
+[Masullo, p. 608](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=608)
+· [DLMF §1.8(iv)](https://dlmf.nist.gov/1.8#iv)
+
+**Chapter 14, §14.4.2.1.** Heather Macbeth and David Loeffler's
+circle Fourier formalization at Mathlib pin
+`0df444a360eaa60ab8c11dca51a86af692955474` supplies the character algebra,
+its dense span, the Hilbert basis and the reconstruction used by Poisson.
+The subsection gives the declared proof ranges and retains the general
+library results as [Lean]. The Fejér-kernel proof of approximation and the
+sawtooth calculation are textbook exposition [Expository]. For the classical
+convergence setting, see DLMF §1.8(ii) and the Fejér kernel reference.
+[Pinned Mathlib](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean)
+· [DLMF §1.8(ii)](https://dlmf.nist.gov/1.8#ii)
+· [Fejér kernel](https://en.wikipedia.org/wiki/Fej%C3%A9r_kernel)
+
+**Chapter 14, §14.4.2.2. Community formalization.** Kim Morrison
+and Heather Macbeth are the credited authors of Mathlib's
+`StoneWeierstrass.lean`. The bodies for realification, the real
+lattice proof, and complex uniform density were read at pin
+`0df444a360eaa60ab8c11dca51a86af692955474` on 2026-11-25 (UTC+8).
+The file SHA-256 is
+`b8e3ccb1441c18375b3518ae1ec174179cd4ed036ee3f87c8a62c96925f8016a`.
+The archive manifest fixes this pin, and the earlier AddCircle
+formalization supplies the character algebra and downstream consumers.
+[Pinned Stone–Weierstrass source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean)
+
+**Chapter 14, §14.4.2.2. Classical sources.** M. H. Stone,
+*The Generalized Weierstrass Approximation Theorem*, *Mathematics
+Magazine* 21 (1948), 167–184 and 237–254, is the historical reference.
+Alex Freire's *The Weierstrass and Stone Approximation Theorems*,
+pp. 1–2, gives a modern lattice proof with two finite subcovers.
+The notes were read on 2026-11-25 (UTC+8), SHA-256
+`763483b000850c1305d7539b1b42c1f3fab72cb6d210828871f096aa03e31191`.
+[Stone, first installment](https://doi.org/10.2307/3029750) · [Freire's notes](https://web.math.utk.edu/~afreire/teaching/m562s26/Stone_Weierstrass_proof.pdf)
+
+**Chapter 14, §14.4.2.2. Textbook contribution.** The section expands
+the pinned proof in the circle setting and computes a uniform
+geometric-series approximation and the exact distance from a
+negative character to the analytic polynomials. It links the
+uniform-density result to the existing Poisson uniqueness step.
+[Chapter 14](../chapters/14-masullos-trace-formula-route.md#14422-stoneweierstrass-for-the-circle-character-algebra)
+
+**Chapter 14, §14.4.2.3. Community formalization.** Heather Macbeth is the
+credited author of Mathlib's `ContinuousMapDense.lean` (2021). The bodies of
+`exists_continuous_eLpNorm_sub_le_of_closed`,
+`MemLp.exists_boundedContinuous_eLpNorm_sub_le`,
+`Lp.boundedContinuousFunction_dense`, `BoundedContinuousFunction.toLp_denseRange`
+and `ContinuousMap.toLp_denseRange`, together with Zhouhang Zhou's
+`MemLp.induction_dense` in `SimpleFuncDenseLp.lean`, Rémy Degenne's
+`exists_eLpNorm_indicator_le` in `LpSpace/Indicator.lean`, and the regularity
+classes and two approximation lemmas of Sébastien Gouëzel's
+`Measure/Regular.lean`, were read at pin
+`0df444a360eaa60ab8c11dca51a86af692955474` on 2026-11-25 (UTC+9); file
+hashes are in the table above. Urysohn's lemma (Yury Kudryashov's
+`UrysohnsLemma.lean`), `exists_Lp_half`, the weakly-regular inner
+approximation and the density of simple functions are retained inputs.
+[Pinned source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean)
+· [Mathlib docs](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Function/ContinuousMapDense.html)
+
+**Chapter 14, §14.4.2.3. Classical sources.** Terence Tao, *245A, Notes 2: The
+Lebesgue integral* (2010), Theorem 15 (approximation of absolutely integrable
+functions by simple, step and continuous compactly supported functions) and
+Theorem 18 (Lusin's theorem), read online 2026-11-25 (UTC+9) as the classical
+statement of Littlewood's second principle; the subsection's good-sets proof
+of inner and outer regularity for finite measures on metric spaces is standard
+textbook material.
+[Tao, 245A Notes 2](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/)
+
+**Chapter 14, §14.4.2.3. Textbook contribution.** The section expands the
+pinned proof that continuous functions are dense in $L^p$, aligns each
+hypothesis with the circle, computes the exact $L^2$ error of a continuous
+cap on an arc and of a two-step function, and explains why the inequality
+$\|f\|_2\le\|f\|_\infty$ alone does not give $L^2$ density.
+[Chapter 14](../chapters/14-masullos-trace-formula-route.md#14423-continuous-functions-are-dense-in-l2-of-the-circle)
 
 ## 5. Verification reports and community guides
 
@@ -1340,6 +1431,7 @@ checks the $q$-binomial and kernel-count identities. It passes 2,001 assertions 
 
 <a id="e5"></a>
 **E5. mccorvie/riemann-masullo issue #1358: shell cutoff in the proof of Theorem 11.3.2.1.**
+- Re-checked the original issue and its four comments on 2026-11-23. The first report concerns a later cutoff acting in the same kernel variable as the shell difference, and the second concerns a point restriction in a nonatomic Haar integral. The repository maintainer's comment claims a focused Lean experiment on the first cutoff. §14.4.2 uses the issue for application context [Community] [Open].
 
 - URL: <https://github.com/mccorvie/riemann-masullo/issues/1358>
 - Author: GitHub user yikerman.

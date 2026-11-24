@@ -4,7 +4,8 @@
 > equations, and author footnotes read directly in Alessandro Maria Masullo's 940-page draft
 > *The Music of the Primes* (`sha256 e039d3f6…97bf5`); `[Paper; remark p. …]` for Alpöge's four-page
 > note; `[Lean, read]` for cross-references to declarations in Alpöge's archive verified in earlier
-> chapters; `[Community]` for public community audits, Zenodo notes, and formalization repositories
+> chapters and the specified Mathlib declarations in §14.4.2; `[Community]` for public community
+> audits, Zenodo notes, and formalization repositories
 > (`mccorvie/riemann-masullo`, Prove2Me, Lean Zulip); `[Expository]` for classical harmonic-analytic
 > background, hand-worked examples, and our own functional-analytic derivations; `[Open]` for
 > unresolved analytic gaps, unreviewed repair proposals, and unwritten sections.
@@ -599,7 +600,173 @@ which additive Fourier/Plancherel inversion ($\int f_S \overline{g_S}\,d\nu_S = 
 holds! Any other shift $a \neq \frac{1}{2}$ inserts a singular or growing power $\lvert x \rvert_{F, S}^{2a - 1}$
 that destroys additive Fourier duality at $0$ and $\infty$ [Paper; Masullo pp. 16, 517–518]!
 
-### 14.4.2 Poisson summation with jumps and vanishing of unramified orbital traces (`Prop. B.4.1.2` p. 608 & `Thm. 11.3.2.1` p. 495)
+### 14.4.2 Poisson summation and jumps on the local logarithmic lattice
+
+**Motivation.** The logarithm turns the multiplicative progression of powers of a prime norm
+$q$ into the equally spaced grid $(log q)\mathbb Z$. Reading a test function on that grid and
+reading its Mellin transform at frequencies spaced by $2\pi/\log q$ are two ways of evaluating
+the same periodization. Masullo uses this classical mechanism in Proposition B.4.1.2.
+Lemma 14.1 below gives the support cutoff for the arithmetic samples. The question here is
+how those samples agree with the frequency calculation, including what a jump does to a
+sample. [Paper; Masullo pp. 608–610] [Expository]
+
+**A smooth compactly supported example.** Over $\mathbb Q$ with trivial character, put $a=\log 2$,
+$c=3a/2$, and define the radial test by
+$$
+ B(v)=\begin{cases}\exp(1-1/(1-v^2)),& |v|<1,\\0,& |v|\ge 1,\end{cases}
+ \qquad \varphi(t)=B((\log t-c)/a).
+$$
+Every derivative at $v=\pm1$ vanishes because the exponential tends to zero faster than every
+power of $1-v^2$. Thus $\varphi$ is smooth, with support $[\sqrt{2},4\sqrt{2}]$ and
+$\varphi(1)=0$. In the norm convention of Lemma 14.1 a uniformizer has norm $p^{-1}$, so
+$k\ge 0$ contributes zero. With $j=-k>0$ a nonzero sample requires
+$$
+ \tfrac12\log 2<j\log p<\tfrac52\log 2
+ \qquad\Longleftrightarrow\qquad \sqrt{2}<p^j<4\sqrt{2}.
+$$
+The endpoints have value zero. The cutoff in Lemma 14.1 can be taken to be $R=4\sqrt{2}$.
+Since $5<4\sqrt{2}<6$, the complete list is $2,3,4,5$ (the terms following $4$ at $p=2$,
+$3$ at $p=3$ and $5$ at $p=5$ are $8,9,25$). At $2$ and $4$ the bump arguments are
+$-1/2$ and $1/2$, giving $e^{-1/3}$ in both cases. Write
+$$v_3=\log 3/a-3/2,\qquad v_5=\log 5/a-3/2.$$
+The signed contributions in the normalization of Lemma 14.1 are
+
+| $p^j$ | $(p,k)$ | $-\log(p)\,p^{-j/2}\varphi(p^j)$ |
+|---|---|---|
+| $2$ | $(2,-1)$ | $-a e^{-1/3}/\sqrt{2}$ |
+| $3$ | $(3,-1)$ | $-(\log 3)\exp(1-1/(1-v_3^2))/\sqrt{3}$ |
+| $4$ | $(2,-2)$ | $-a e^{-1/3}/2$ |
+| $5$ | $(5,-1)$ | $-(\log 5)\exp(1-1/(1-v_5^2))/\sqrt{5}$ |
+
+Each is strictly negative. The $p^{-j/2}$ factor comes from the prescribed prime-power
+weight. In this one-sided model it can be incorporated into the smooth function
+$g(u)=e^{-u/2}\varphi(e^u)$ on the logarithmic axis. This function vanishes for $u\le 0$.
+The signed contribution at $p$ is then $-h\sum_{j\in\mathbb Z} g(jh)$ with $h=\log p$.
+[Expository]
+
+**Periodization and Fourier conventions.** For a compactly supported function $g$ on
+$\mathbb R$ and $h>0$, write
+$$
+ P_hg(x)=\sum_{j\in\mathbb Z}g(x+jh),\qquad
+ \widehat g(\xi)=\int_{\mathbb R} g(u)e^{-2\pi i\xi u}\,du,\qquad
+ c_m=\frac1h\int_0^h P_hg(x)e^{-2\pi i m x/h}\,dx .
+$$
+The first sum is locally finite and reindexing makes it $h$-periodic. The factor $1/h$
+comes from the probability measure on a period of the circle. For a function $\psi$
+of the multiplicative variable, let $\Phi(s)=\int_0^\infty\psi(t)t^s\,dt/t$. Substituting
+$t=e^u$ gives $dt/t=du$ and $\widehat{\psi\circ\exp}(\xi)=\Phi(-2\pi i\xi)$.
+[Expository]
+
+**Classical Poisson lemma.** For $g\in C_c^2(\mathbb R)$ and $h>0$, the Fourier series
+below converges absolutely and uniformly in $x$, and
+$$
+ P_hg(x)=\frac1h\sum_{m\in\mathbb Z}\widehat g(m/h)e^{2\pi i m x/h}.
+$$
+
+**Proof.** On $[0,h]$ only finitely many translates intersect the support. Integrate
+each term, put $u=x+jh$, and use $e^{2\pi i mj}=1$. The intervals tile the line up to
+endpoints, so
+$$
+ h c_m=\sum_{j\in\mathbb Z}\int_{jh}^{(j+1)h}g(u)e^{-2\pi i m u/h}\,du
+       =\widehat g(m/h).
+$$
+For nonzero $\xi$, integrate by parts twice on an interval containing the support in
+its interior. Both boundary terms vanish and
+$$
+ \widehat g(\xi)=\frac{\widehat{g''}(\xi)}{(2\pi i\xi)^2},
+ \qquad |\widehat g(\xi)|\le\frac{\lVert g''\rVert_1}{(2\pi|\xi|)^2}.
+$$
+The zero-frequency term is the integral of $g$. Since $\sum_{m\ne 0}m^{-2}$ converges,
+the series with coefficients $c_m$ converges uniformly to a continuous periodic
+function. Integrating that series term by term and using orthogonality gives exactly
+the coefficients $c_m$. The [circle reconstruction theorem](#14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction)
+identifies the two continuous functions pointwise from these coefficients.
+This proves the identity. $\square$ [Expository]
+
+At $x=0$ the factor $h$ in the prime contribution cancels the factor $1/h$ in the lemma.
+For the bump above, this gives the signed frequency expression
+$$
+ -h\sum_{j\in\mathbb Z}g(jh)
+ =-\sum_{m\in\mathbb Z}\widehat g(m/h)
+ =-\sum_{m\in\mathbb Z}\mathcal M(\varphi)(-1/2-2\pi i m/h).
+$$
+Here $\mathcal M(\varphi)(s)=\int_0^\infty\varphi(t)t^s\,dt/t$. The real shift
+$-1/2$ comes from $e^{-u/2}$, the negative imaginary sign from the Fourier convention,
+and the outer minus sign from the prime contribution. Absolute convergence also
+allows $m\mapsto-m$. For example, at $p=2$ this sum is
+$-a e^{-1/3}(1/\sqrt 2+1/2)$. [Expository]
+
+**Correspondence with Mathlib.** At the archive's Mathlib pin
+`0df444a360eaa60ab8c11dca51a86af692955474`,
+`Real.fourierCoeff_tsum_comp_add` (lines 52–100) identifies the coefficient at unit
+period. Its hypothesis is summability of the sup norms of the translates on every
+compact set. The proof bounds multiplication by the unit-modulus Fourier character,
+exchanges sum and integral, and rejoins the translated intervals using integrability
+on the line. `Real.tsum_eq_tsum_fourier` (lines 103–117) assumes in addition summability
+of the sampled transforms as an unordered family. It lifts the continuous
+periodization to the circle, applies the coefficient identity, and evaluates
+`has_pointwise_sum_fourier_series_of_summable`. The latter uses the circle's
+$L^2$ Fourier basis and uniform convergence for summable coefficients. In our proof
+local finiteness supplies the first hypothesis and the derivative estimate supplies
+the second. [Section 14.4.2.1](#14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction) gives the production proof for the circle basis.
+Applying the unit-period statement to $y\mapsto g(hy)$ at $x/h$
+recovers the factor $1/h$ by change of variables. These are read classical
+declarations [Lean, read]. The imported circle $L^2$ completeness is read below [Lean, read]. General summation and
+integration machinery remain named library inputs [Lean]. The chapter
+has no corresponding Alpöge–Claude P node.
+[Mathlib, `PoissonSummation.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/PoissonSummation.lean#L52-L117)
+· [Mathlib, `AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L480-L507)
+
+**Non-smooth boundary values.** For a compactly supported piecewise $C^1$ function $g$
+with finitely many breakpoints and finite one-sided limits of the function and its
+derivative, $P_hg$ is piecewise $C^1$ on the circle. Finite periodization still gives
+$c_m=h^{-1}\widehat g(m/h)$, since changing finitely many point values leaves the
+integrals unchanged. The classical pointwise Fourier convergence theorem gives
+$$
+ \lim_{M\to\infty}\sum_{|m|\le M}c_m e^{2\pi i m x/h}
+ =\frac{P_hg(x-)+P_hg(x+)}{2}
+ =\sum_{j\in\mathbb Z}\frac{g((x+jh)-)+g((x+jh)+)}{2}.
+$$
+This is the classical literature input used in Masullo's proof at (B.4.1.11)–(B.4.1.13).
+For $\theta>1$, take $h=\log\theta$ and
+$g(u)=e^{\lambda u/h}\psi(e^u)$, where $e^\lambda=\chi(\theta)$.
+At $x=0$ the one-sided values acquire the factor $\chi(\theta)^j$ and
+$\widehat g(m/h)=\Phi((\lambda-2\pi i m)/h)$. Reversing the symmetric index
+$m\mapsto-m$ gives the plus sign in (B.4.1.7). This calculation treats the positive
+logarithmic period and compact support. The jump theorem here is a literature
+citation. [Paper; Masullo pp. 608–610]
+[Masullo, pp. 608–610](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=608)
+
+Masullo's own example (B.4.1.8)–(B.4.1.9) takes $\psi=\mathbf{1}_{[1,2]}$,
+$h=\log 2$, and trivial character. The only lattice samples with nonzero one-sided
+averages are at $1$ and $2$, each with weight $1/2$. Their sum times $h$ is $h$.
+On the frequency side $\Phi(s)=(2^s-1)/s$ takes the value $h$ at zero and vanishes at
+all other points of $2\pi i\mathbb Z/h$. Any assigned values at the two endpoints
+give the same Fourier coefficients. This particular frequency series is finite.
+In general the piecewise integration by parts bound is only $O(1/|m|)$, and the
+jump theorem uses symmetric partial sums. [Paper; Masullo p. 608] [Expository]
+
+For smooth approximations $g_\varepsilon$ tending to $g$ in $L^1$, every fixed
+Fourier coefficient converges. An $\varepsilon$-independent summable
+majorant of the sampled coefficients would justify passing to the limit in the
+whole series. For symmetric partial sums it also suffices to control their tails
+uniformly in $\varepsilon$ at the point of evaluation. On the sampling side a common
+compact support reduces passage to the limit to finitely many sample values.
+For example, take a nonnegative even smooth bump of integral one supported in
+$[-1,1]$, and dilate it to $[-\varepsilon,\varepsilon]$ preserving its integral.
+In the convolution at a jump, each half of this bump has mass $1/2$. After
+rescaling to $[-1,1]$, dominated convergence gives half the left limit and half
+the right limit. This sampling
+argument gives the limit of the smooth identities in that model. An identification
+with the symmetric Fourier limit of $g$ can then use the jump theorem directly.
+[Expository]
+
+**Application boundary.** Yi Cao's issue #1358 reports an annihilating cutoff and a
+vanishing indentation integral in the printed proof on pp. 495–496. Those concern
+the construction of the orbital trace. Applying the scalar formula there would
+require a justified reduction to a local periodization and control of the trace
+limits. The orbital-trace application of Theorem 11.3.2.1 remains [Open].
+[Issue #1358](https://github.com/mccorvie/riemann-masullo/issues/1358) [Community]
 
 **Lemma 14.1 (Why unramified primes outside the support of $\varphi$ vanish on the geometric side, `Proposition B.4.1.2` p. 608 and `Theorem 11.3.2.1` p. 495).**
 *Let $\varphi \in D(C_F)$ have compact support on $C_F$, so there exists $R > 1$ such that
@@ -619,12 +786,752 @@ $s_{m, \mathfrak p} = \frac{2\pi i m}{\log N(\mathfrak p)}$ (just as in our toy 
 14.2.1 Part B), aiming to reduce the infinite product of primes to the finite set $S$ of places where
 $N(\mathfrak p) \le R$ or $\varphi$ ramifies (`pp. 495–496, 520`). $\square$
 
-*(Audit caution on `Theorem 11.3.2.1`, `[Open]`.)* While Lemma 14.1 is elementary for a fixed smooth
-compactly supported $\varphi$, Masullo's Chapter 11 applies it after multiplying kernels by sharp
-divisorial shell indicators $\alpha_k$ and taking indentation limits; in `mccorvie/riemann-masullo`
-issue `#1358` (and the Refine audit report), Yi Cao noted two shell-cutoff and indentation steps on
-**pp. 495–496** where discontinuities created by the shell indicator must be tracked separately before
-quoting smooth Poisson vanishing `[Community]` `[Open]`.
+#### 14.4.2.1 Fourier completeness on the circle and pointwise reconstruction
+
+The coefficient calculation in §14.4.2 gives the same coefficients for
+the periodization and its uniformly convergent series. To identify the
+two functions, we need the characters to detect every nonzero difference.
+Orthonormality alone would detect only the projection onto their closed span.
+
+**An average by hand.** Let $h>0$ and $e_m(x)=\exp(2\pi i m x/h)$ on
+$X_h=\mathbb R/h\mathbb Z$. For the polynomial $1+2e_1+e_{-2}$, the
+symmetric frequency cutoffs at $0,1,2$ give $1$, $1+2e_1$, and
+$1+2e_1+e_{-2}$. Their average is $1+\frac43e_1+\frac13e_{-2}$.
+The constant occurs in all three sums, frequency $1$ occurs in two, and
+frequency $-2$ occurs in one. The uniform error is $4/3$ by the triangle
+inequality with equality at $x=0$. In general, averaging the first $N$
+cutoffs multiplies frequency $m$ by $1-|m|/N$ when $|m|<N$ and removes
+all other frequencies. This weighting produces a positive kernel.
+
+**Definitions.** Use probability Haar measure $d\mu_h=dx/h$ on one period
+and put
+$$
+ c_m(F)=\int_{X_h}F\,\overline{e_m}\,d\mu_h,\qquad
+ S_M F=\sum_{|m|\le M}c_m(F)e_m,\qquad
+ \sigma_N F=\frac1N\sum_{M=0}^{N-1}S_M F .
+$$
+These integrals exist for $F\in L^2(\mu_h)$ by Cauchy–Schwarz and depend
+only on its almost-everywhere class. The trigonometric polynomials are
+the finite complex linear combinations of the $e_m$.
+
+**Density lemma.** The trigonometric polynomials are dense in $C(X_h)$
+in the supremum norm and in $L^2(\mu_h)$ in the norm of that space.
+
+**Proof.** For $N\ge1$ define the Fejér kernel and expand its square:
+$$
+ K_N(t)=\frac1N\left|\sum_{j=0}^{N-1}e_j(t)\right|^2
+       =\sum_{|m|<N}(1-|m|/N)e_m(t).
+$$
+Indeed, there are $N-|m|$ pairs of indices with difference $m$.
+Integration over a period gives $\int e_m\,d\mu_h=0$ for $m\ne0$ by
+the exponential antiderivative and gives $1$ for $m=0$. Thus $K_N\ge0$
+and $\int K_N\,d\mu_h=1$. The geometric sum gives
+$$
+ K_N(t)=\frac{\sin^2(\pi Nt/h)}{N\sin^2(\pi t/h)}
+ \qquad (t\notin h\mathbb Z),
+$$
+with value $N$ at the origin of the circle. Translating and reversing
+the integration variable in each term of the finite expansion yields
+$\sigma_N F(x)=\int K_N(t)F(x-t)\,d\mu_h(t)$.
+
+Given continuous $F$ and $\varepsilon>0$, uniform continuity supplies
+$0<\delta<h/2$ such that $|F(x-t)-F(x)|<\varepsilon$ when the
+distance of $t$ to $h\mathbb Z$ is less than $\delta$. On the
+complement, using a representative in $[-h/2,h/2]$, the geometric
+sum formula bounds $K_N$ by $1/(N\sin^2(\pi\delta/h))$. Subtract
+$F(x)\int K_N\,d\mu_h$ and split the integral. This gives
+$$
+ \|\sigma_N F-F\|_\infty
+ \le \varepsilon+\frac{2\|F\|_\infty}{N\sin^2(\pi\delta/h)}.
+$$
+Hence the polynomial averages converge uniformly to $F$.
+
+For the second assertion, approximate an $L^2$ function by simple
+functions, using truncation followed by quantization of the real and
+imaginary parts. For a measurable set $A$, regularity of circle measure
+gives a compact $C\subset A$ and an open $U\supset A$ with
+$\mu_h(U\setminus C)<\eta$, taking a Borel representative if needed.
+There is a continuous $v$ valued in $[0,1]$ equal to $1$ on $C$ and
+$0$ outside $U$. For nonempty $C$ and $X_h\setminus U$ use
+$d(x,X_h\setminus U)/(d(x,X_h\setminus U)+d(x,C))$, with $d$ the
+circle distance to a set. If either set is empty, the corresponding
+constant $0$ or $1$ suffices. Then
+$\|\mathbf 1_A-v\|_2^2\le\mu_h(U\setminus C)<\eta$. Finite linear
+combinations give continuous approximants to simple functions.
+Finally $\|F-P\|_2\le\|F-P\|_\infty$ for continuous $F$ and a
+polynomial $P$, by the probability normalization. This transfers
+the uniform density to $L^2$. $\square$
+
+**Reconstruction theorem.** If two functions in $L^2(\mu_h)$ have the
+same Fourier coefficients, they agree almost everywhere. If both have
+continuous representatives, those representatives agree at every
+point. In particular, if $F\in C(X_h)$ and $\sum_{m\in\mathbb Z}|c_m(F)|$
+is finite, its Fourier series converges absolutely and uniformly to $F$.
+
+**Proof.** Integrating $\overline{e_j}e_k=e_{k-j}$ gives the
+orthonormality relations. If $D$ is the difference of two functions
+with identical coefficients, it is orthogonal to every polynomial.
+For polynomials $P$ tending to $D$ in $L^2$,
+$\|D\|_2^2=\langle D-P,D\rangle$ with the convention that the inner
+product is conjugate linear in its first slot. Its absolute value is
+bounded by $\|D-P\|_2\|D\|_2$. Consequently $D=0$ in $L^2$.
+If a continuous representative of $D$ had a nonzero value, continuity
+would give an open arc on which its modulus was bounded below by a
+positive constant. Every such arc has positive $\mu_h$ measure, which
+contradicts zero $L^2$ norm.
+
+In the summable case the bound $\|c_m(F)e_m\|_\infty=|c_m(F)|$ gives
+a continuous uniform sum. Integration against each character
+commutes with uniform convergence by finiteness of $\mu_h$. By
+orthonormality the sum has coefficients $c_m(F)$. Continuous
+uniqueness identifies it with $F$ at every point. For §14.4.2 take
+$F=P_hg$ and use the coefficient and summability estimates already
+proved there. Substitution of $c_m(F)=\widehat g(m/h)/h$ recovers the
+stated pointwise identity, including at $x=0$. $\square$
+
+**A sawtooth by hand.** Let $B(x)=x/h-1/2$ for $0<x<h$ and set
+$B(0)=1$ on the circle. The mean coefficient is zero. For $m\ne0$ put
+$u=x/h$ and integrate by parts:
+$$
+ \begin{aligned}
+ c_m(B)
+ &=\int_0^1 (u-\tfrac12)e^{-2\pi i m u}\,du\\
+ &=\left[-\frac{(u-\tfrac12)e^{-2\pi i m u}}{2\pi i m}\right]_0^1
+   +\frac{1}{2\pi i m}\int_0^1e^{-2\pi i m u}\,du
+ =-\frac{1}{2\pi i m}.
+ \end{aligned}
+$$
+Thus $\sum_m|c_m(B)|=\frac1\pi\sum_{m\ge1}1/m=\infty$,
+and pairing terms gives
+$$
+ S_M B(x)=-\frac1\pi\sum_{m=1}^M\frac{\sin(2\pi m x/h)}{m}.
+$$
+At the seam $x=0$ every partial sum is zero, the average of the two
+one-sided limits. For $x$ in any closed subinterval of $(0,h)$,
+geometric summation bounds the sums of $e_m(x)$ over every finite
+consecutive block by $2/|1-e_1(x)|$, uniformly on the subinterval.
+Summation by parts from $m=p$ through $q$ then bounds the exponential
+tail with weights $1/m$ by $2/(p|1-e_1(x)|)$: the bound multiplies
+$1/q+\sum_{m=p}^{q-1}(1/m-1/(m+1))=1/p$. The sine series
+therefore has a continuous limit on each such interval.
+
+To identify that limit, $S_M F$ is the orthogonal projection onto
+the span of $\{e_m:|m|\le M\}$. Its $L^2$ error is at most that of
+any polynomial in this span, by the Pythagorean identity. Density
+gives $\|F-S_M F\|_2\to0$ for every $F\in L^2$. For $B$, the
+limit on each closed subinterval of $(0,h)$ consequently agrees
+with $B$ there, by uniqueness of the restricted $L^2$ limit and
+continuity on the interior. Thus the symmetric sums converge to
+$B$ almost everywhere and fail to recover its prescribed value
+at $0$. Their everywhere pointwise limit has a jump, so convergence
+on the whole circle cannot be uniform. This example also shows why
+pointwise convergence of symmetric sums can coexist with divergence
+of the series of absolute values.
+
+**Convergence and the pinned proof.** Norm convergence in $L^2$
+concerns equivalence classes. Almost-everywhere convergence of an
+entire sequence is a pointwise assertion outside a null set and
+does not follow from the projection estimate alone. Everywhere
+pointwise convergence specifies all values, while uniform convergence
+bounds the error simultaneously at all points. The Fejér estimate
+gives uniform convergence of the averages for continuous $F$.
+The reconstruction theorem gives uniform convergence of the original
+Fourier series under the additional absolute summability hypothesis.
+
+The following declaration ranges all refer to the archive manifest's
+Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`.
+The Fejér proof and sawtooth are textbook arguments [Expository].
+The pinned proof uses the following steps.
+
+- `AddCircle.haarAddCircle` (85–90), `fourier` (123–125),
+  `fourier_coe_apply` (132–138), `fourierCoeff` (298–299), and
+  `fourierCoeff_eq_intervalIntegral` (303–310) give the probability
+  measure, positive phase in synthesis and negative phase in analysis.
+  Lean's period `T` is $h$ here. [Lean, read]
+  [`Mathlib/Analysis/Fourier/AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L84-L310)
+- `fourierSubalgebra` (199–207) adjoins the characters and uses
+  conjugation $e_m\mapsto e_{-m}$ on the generators.
+  `fourierSubalgebra_coe` (211–221) proves that the generated
+  algebra is already the span, since $e_0=1$ and
+  $e_m e_n=e_{m+n}$. In `fourierSubalgebra_separatesPoints`
+  (231–237), $e_1$ separates circle points because
+  $e_1(x)=e_1(y)$ implies $x-y\in h\mathbb Z$.
+  `fourierSubalgebra_closure_eq_top` (240–242) invokes complex
+  Stone–Weierstrass and `span_fourier_closure_eq_top` (245–248)
+  transports that closure identity to the linear span. [Lean, read]
+  [`AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L199-L248)
+- `span_fourierLp_closure_eq_top` (261–269) maps the dense span
+  through the continuous linear map taking continuous functions to
+  their $L^p$ classes. Its range is dense for finite $p$, so the
+  closure of the image contains that range. Mapping the span gives
+  precisely the span of `fourierLp` (252–253). In
+  `orthonormal_fourier` (272–283), the diagonal integral has mass
+  one. Off the diagonal, translation by $h/(2(k-j))$ negates
+  $e_{k-j}$ and preserves the integral, so the integral vanishes.
+  [Lean, read]
+  [`AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L250-L283)
+- `fourierBasis` (411–412) passes those two proofs to
+  `HilbertBasis.mk`. The resulting basis vectors are `fourierLp 2`
+  by `coe_fourierBasis` (417–418). In `fourierBasis_repr`
+  (423–430), the coordinate inner product integrates the conjugate
+  character, which agrees almost everywhere with the conjugate
+  of the continuous representative. The coordinates are therefore
+  the Fourier coefficients. `hasSum_fourier_series_L2` (433–436)
+  now applies Hilbert basis expansion, yielding $L^2$ convergence
+  over finite sets of frequencies. [Lean, read]
+  [`AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L407-L436)
+- `fourierCoeff_toLp` (485–488) preserves the coefficients under
+  passage to the $L^2$ class. `hasSum_fourier_series_of_summable`
+  (494–500) obtains a sum in the sup norm by summability of the
+  term norms. It uses `ContinuousMap.hasSum_of_hasSum_Lp`
+  (190–194) to compare that sum with the $L^2$ sum. The comparison
+  maps the uniform limit into $L^2$, uses uniqueness of the norm
+  limit there, and applies `ContinuousMap.toLp_injective`
+  (178–180) under positivity on open sets. Finally,
+  `has_pointwise_sum_fourier_series_of_summable` (504–506)
+  applies the bounded evaluation map at $x$. This is the result
+  consumed by `Real.tsum_eq_tsum_fourier` (103–117) at unit period.
+  [Lean, read]
+  [`AddCircle.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L485-L506)
+  · [`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean#L178-L194)
+  · [`Mathlib/Analysis/Fourier/PoissonSummation.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/PoissonSummation.lean#L103-L117)
+
+[§14.4.2.2](#14422-stoneweierstrass-for-the-circle-character-algebra) reads the
+general Stone–Weierstrass proof used in this chain, and
+[§14.4.2.3](#14423-continuous-functions-are-dense-in-l2-of-the-circle) reads the
+dense-range proof `ContinuousMap.toLp_denseRange`. The Hilbert-space
+machinery retains [Lean] at this reading boundary. The section gives
+the circle-specific approximation and uniqueness arguments above
+[Expository]. [`ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`, `Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`, line 401](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean#L401)
+· [`ContinuousMap.toLp_denseRange`, `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`, lines 361–365](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L361-L365)
+· [`HilbertBasis.hasSum_repr`, `Mathlib/Analysis/InnerProductSpace/l2Space.lean`, lines 446–447](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/InnerProductSpace/l2Space.lean#L446-L447)
+· [`HilbertBasis.mk`, same file, lines 540–541](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/InnerProductSpace/l2Space.lean#L540-L541)
+
+#### 14.4.2.2 Stone–Weierstrass for the circle character algebra
+
+**Motivation.** The library proof behind the circle Fourier basis starts
+in the uniform norm. Why does the finite character span approximate
+every continuous function? Its multiplication law makes it an algebra,
+and its conjugation law lets us turn a complex separator into a
+real-valued one. In the real uniform closure we can then take maxima
+and minima, which lets us patch local estimates on the compact circle.
+
+**Example 1 (a continuous function of infinite Fourier support).**
+Write $X=\mathbb R/h\mathbb Z$ with $h>0$ and $z=e^{2\pi i x/h}$ for the
+unit-circle coordinate. Take $F(x)=(2-z^{-1})^{-1}$. This is continuous
+since $|2-z^{-1}|\ge 1$. Let $P_N=\frac12\sum_{j=0}^N (z^{-1}/2)^j$.
+Multiplying by $2-z^{-1}$ telescopes to give
+$F-P_N=(z^{-1}/2)^{N+1}/(2-z^{-1})$. Hence
+$\|F-P_N\|_\infty=2^{-(N+1)}$, with equality at $z=1$.
+To see why the series never terminates, suppose $(2-z^{-1})P=1$ for
+a nonzero Laurent polynomial $P$ whose least and greatest exponents
+are $a$ and $b$. The product has a nonzero term of degree $a-1$ from
+$-z^{-1}P$ and one of degree $b$ from $2P$. The powers are linearly
+independent on the circle: integrating $z^k$ over one period gives zero
+for $k\ne 0$ and one for $k=0$ with normalized measure. Thus both
+extreme degrees would have to be zero, forcing $a=1>b=0$.
+
+**Example 2 (analytic polynomials and a missing frequency).**
+Let $Q(z)=\sum_{j=0}^N a_jz^j$. These polynomials contain the constants,
+are closed under multiplication and separate points via $z$, but
+conjugation takes $z$ to $z^{-1}$. Here is the uniform obstruction.
+For $m\ge1$ put $L_m(G)=h^{-1}\int_0^h z^m G(x)\,dx$. Then
+$|L_m(G)|\le\|G\|_\infty$ and $L_m(Q)=0$, since
+$h^{-1}\int_0^h e^{2\pi i (m+j)x/h}\,dx=0$ for every $j\ge0$.
+On the other hand $L_m(z^{-m})=1$. Therefore
+$\|z^{-m}-Q\|_\infty\ge1$, and $Q=0$ attains the bound. Every uniform
+limit of analytic polynomials still has $L_m=0$ for each $m\ge1$.
+For the first example the same calculation on $P_N$ and uniform
+convergence give $L_m(F)=2^{-(m+1)}$ for every $m\ge1$. So the obstruction
+also applies to that continuous function of infinite Fourier support.
+
+**Definition (the star algebra and its real part).**
+Let $K$ be a compact Hausdorff space. A unital complex star subalgebra
+$A$ of $C(K,\mathbb C)$ contains the constant $1$ and is closed under
+complex linear combinations, pointwise multiplication and pointwise
+conjugation. It separates points if for each $x\ne y$ some $f\in A$
+satisfies $f(x)\ne f(y)$. Write $I(u)(x)=u(x)$, viewed as a complex
+number, for the real-to-complex inclusion and set
+$B=\{u\in C(K,\mathbb R): I(u)\in A\}$. This is a unital real
+subalgebra. In the pinned proof, $B$ is obtained by restricting scalars
+to $\mathbb R$ and then taking the comap, or inverse image, along the
+continuous algebra homomorphism induced by the scalar inclusion.
+The complex theorem also uses the same inclusion as a continuous
+real-linear map.
+
+**Lemma (real separators and uniform approximation).** If $A$ separates
+points, so does $B$. Every unital point-separating real subalgebra of
+$C(K,\mathbb R)$ is uniformly dense. Consequently, $A$ is uniformly dense
+in $C(K,\mathbb C)$.
+
+**Proof.** Given $x\ne y$, choose a complex separator $f\in A$ and put
+$g=f-f(y)1$. The constant is available by unitality and complex scalar
+multiplication. Conjugation gives $\overline g\in A$, and multiplication
+gives $g\overline g\in A$. Its real-valued function $|g|^2$ belongs
+to $B$, is zero at $y$, and is strictly positive at $x$. This is the
+norm-square construction in the pinned realification lemma.
+
+Let $B$ now be any unital point-separating real subalgebra and set
+$D=\overline B$ for the sup norm. Continuity of the algebra operations
+makes $D$ a closed real subalgebra. For $u\in D$, its range lies
+in $[-\|u\|_\infty,\|u\|_\infty]$. By ordinary interval Weierstrass,
+for any $\eta>0$ there is a real polynomial $p$ uniformly within
+$\eta$ of $|t|$ on that interval. The zero-norm case gives $|u|=0$
+directly. Substituting $u$ into $p$ gives $p(u)\in D$ using constants
+and multiplication, and $\|p(u)-|u|\|_\infty<\eta$. Thus $|u|\in D$.
+In the source this substitution is expressed by bounding the codomain
+of $u$, approximating on that interval, and pulling the polynomial
+approximants back along the bounded continuous map. Now $D$ contains
+both pointwise extrema of $u,v\in D$, since the minimum and maximum
+are $(u+v-|u-v|)/2$ and $(u+v+|u-v|)/2$, respectively.
+
+Take $w\in C(K,\mathbb R)$ and $\varepsilon>0$. The empty-space case
+is immediate since it has only one function. For each $x,y\in K$
+choose $g_{xy}\in B$ interpolating $w$ at $x$ and $y$. When $x=y$ use
+the constant $w(x)$. When $x\ne y$, choose $s\in B$ separating them
+and take
+$g_{xy}=w(y)1+\frac{w(x)-w(y)}{s(x)-s(y)}(s-s(y)1)$.
+This is the strong separation condition used by the lattice proof.
+
+For fixed $x$, the open sets
+$U_{xy}=\{t:g_{xy}(t)>w(t)-\varepsilon\}$ cover $K$, because
+$y\in U_{xy}$. Choose a finite nonempty subcover indexed by $Y_x$.
+The pointwise maximum $H_x=\max_{y\in Y_x}g_{xy}$ belongs to $D$,
+satisfies $H_x(x)=w(x)$ and is strictly above $w-\varepsilon$
+everywhere. Next the open sets $V_x=\{t:H_x(t)<w(t)+\varepsilon\}$
+cover $K$, since each contains $x$. Choose a finite nonempty subcover
+indexed by $E$. The pointwise minimum $P=\min_{x\in E}H_x$ is in $D$.
+At any $t$ every term in this minimum is above $w(t)-\varepsilon$, and
+at least one term is below $w(t)+\varepsilon$. Hence
+$|P(t)-w(t)|<\varepsilon$ at every point. Its continuous error attains
+its maximum by compactness, so $\|P-w\|_\infty<\varepsilon$. Varying
+$\varepsilon$ and using closedness gives $w\in D$. This explains why
+the finite maximum comes first and the finite minimum second.
+
+Returning to the real part $B$ of $A$, its density means
+$I(C(K,\mathbb R))\subseteq\overline A$: the inclusion is isometric
+and sends each approximant in $B$ into $A$. For $F=u+iv$, choose
+$b,c\in B$ within $\varepsilon/2$ of $u,v$ respectively. Then
+$I(b)+iI(c)\in A$ and its distance from $F$ is less than
+$\varepsilon$. In the source, continuity of $I$ gives the closure
+inclusion through the image of the comap, followed by addition and
+scalar multiplication of the two real-valued parts in the closure. $\square$
+
+**Corollary (circle character density).** For $h>0$, any
+$F\in C(\mathbb R/h\mathbb Z,\mathbb C)$ and $\varepsilon>0$ admit a
+finite sum $P=\sum_{m\in S}a_m e_m$, where $e_m(x)=e^{2\pi i m x/h}$
+and $S\subset\mathbb Z$, with $\|F-P\|_\infty<\varepsilon$.
+
+**Proof.** The quotient is compact, as the image of $[0,h]$, and
+Hausdorff, since $h\mathbb Z$ is closed. The span is the unital
+algebra generated by the characters: $e_0=1$ and
+$e_me_n=e_{m+n}$, so products introduce only other characters.
+Conjugation sends $e_m$ to $e_{-m}$ and conjugates the coefficients.
+Finally $e_1(x)=e_1(y)$ implies that representatives differ by
+a multiple of $h$, so $e_1$ separates the quotient points. Apply
+the lemma to this star subalgebra. In particular, the real separator
+built from $e_1$ at $y$ is
+$|e_1(x)-e_1(y)|^2=2-e_1(x)\overline{e_1(y)}-e_{-1}(x)e_1(y)$,
+an explicit real trigonometric polynomial. $\square$
+
+**Notes on the proof and its consumer.** The finite-cover argument
+is textbook exposition [Expository]. The proof-body correspondence
+below is [Lean, read] at Mathlib pin
+`0df444a360eaa60ab8c11dca51a86af692955474`, fixed by the archive
+manifest. The archive bundle SHA-256 is
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+| File and lines at the pin | Role | Reading |
+|---|---|---|
+| [`Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean:64–160`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean#L64-L160) | `attachBound`, polynomial substitution, pullback into the closure and the absolute-value formulas for the extrema. | Read here |
+| [`StoneWeierstrass.lean:165–279`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean#L165-L279) | `sublattice_closure_eq_top` uses two finite subcovers. `subalgebra_topologicalClosure_eq_top_of_separatesPoints` applies it to the closed real algebra. | Read here |
+| [`StoneWeierstrass.lean:369–437`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean#L369-L437) | `Subalgebra.SeparatesPoints.rclike_to_real` uses the shifted norm square. `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints` transports the real closure through the inclusion and recombines the two parts over an `RCLike` scalar field. | Read here |
+| [`Mathlib/Analysis/Fourier/AddCircle.lean:199–269`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L199-L269) | The character star algebra, its equality with the span, separation by `fourier 1`, the actual complex Stone–Weierstrass call, and transfer of the dense span into $L^p$. | Inherited from §14.4.2.1 |
+| [`Mathlib/Topology/ContinuousMap/Weierstrass.lean:83–86`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/Weierstrass.lean#L83-L86) | `continuousMap_mem_polynomialFunctions_closure` and its interval Weierstrass supply. The algebraic strong-separation helper, submodule closure-map lemmas and general measure and Hilbert machinery are library inputs as well. | Retained inputs [Lean] |
+
+For the connection to Poisson, use the
+[preceding $L^2$ and pointwise consumer](#14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction).
+Its dense-range step sends the uniform result into $L^2$ of normalized
+Haar measure, using $\|P-F\|_2\le\|P-F\|_\infty$ on continuous
+functions. Thus a continuous difference with zero Fourier coefficients
+is orthogonal to a dense span, vanishes in $L^2$, and vanishes
+everywhere by positivity of Haar measure on nonempty open arcs.
+In the existing Poisson argument, the difference is the
+periodization minus the continuous sum of its absolutely summable
+Fourier series. This gives precisely the uniqueness used there.
+The pinned consumer passes through `ContinuousMap.toLp_denseRange`
+and `HilbertBasis.hasSum_repr` before identifying the continuous
+representative. The measure-density proof is read in
+[§14.4.2.3](#14423-continuous-functions-are-dense-in-l2-of-the-circle); the
+Hilbert-expansion proof remains a named input [Lean]. The real-strip trace application
+retains its [Open] status.
+
+#### 14.4.2.3 Continuous functions are dense in $L^2$ of the circle
+
+**Motivation.** The uniqueness argument that closes the Poisson proof in
+§14.4.2.1 needs the trigonometric polynomials to be dense in $L^2(\mu_h)$,
+not only in $C(X_h)$. [§14.4.2.2](#14422-stoneweierstrass-for-the-circle-character-algebra)
+proved uniform density. The passage from uniform to $L^2$ density has two
+parts. The first is the one-line inequality $\|F\|_2\le\|F\|_\infty$ for a
+probability measure. The second is the statement that every $L^2$ function
+is an $L^2$ limit of continuous functions. The second part is where
+measure theory enters, and it was left as a named library input in both
+preceding subsections. This subsection expands it, following the pinned
+Mathlib proof of `ContinuousMap.toLp_denseRange` step by step, and checks
+each topological and measure-theoretic hypothesis against the circle.
+
+**Why the norm inequality alone is not enough.** Write $X_h=\mathbb R/h\mathbb Z$
+with probability Haar measure $\mu_h$, and let $A\subset X_h$ be a closed
+arc of length $h/2$. For any continuous $v$, the two one-sided limits of
+$\mathbf 1_A$ at an endpoint of the arc are $0$ and $1$, while $v$ has a
+single value there. Hence $\|\mathbf 1_A-v\|_\infty\ge\frac12$. No uniform
+approximation argument, and in particular no consequence of
+$\|F\|_2\le\|F\|_\infty$, can reach $\mathbf 1_A$. The inequality shows
+that the $L^2$ closure of the trigonometric polynomials contains $C(X_h)$,
+and nothing more. The claim that $C(X_h)$ is itself $L^2$ dense is a
+statement about the measure. The Mathlib file header records the same
+obstruction for $p=\infty$: the indicator of $[0,\infty)$ on $\mathbb R$
+has no continuous approximants in $L^\infty$ [Lean, read].
+
+**Example 1 (a continuous cap on an arc).** Take $h=1$, so $\mu_1$ is
+Lebesgue measure on $[0,1)$, and $A=[\frac14,\frac34]$. For
+$0<\delta<\frac18$ define the cap $v_\delta$ to be $1$ on
+$[\frac14+\delta,\frac34-\delta]$, to be $0$ outside
+$(\frac14-\delta,\frac34+\delta)$, and to be linear on the two ramps of
+width $2\delta$ in between. This is the Urysohn function for the closed
+set $s=[\frac14+\delta,\frac34-\delta]$ inside the open set
+$u=(\frac14-\delta,\frac34+\delta)$. On the outer half of each ramp the
+error is $v_\delta$ itself, which runs linearly from $0$ to $\frac12$, and
+on the inner half the error is $1-v_\delta$, which runs from $\frac12$ to
+$0$. Each of the four half-ramps has length $\delta$ and contributes
+$$
+ \int_0^{\delta}\Bigl(\frac{t}{2\delta}\Bigr)^2dt=\frac{\delta}{12},
+ \qquad\text{so}\qquad
+ \|\mathbf 1_A-v_\delta\|_2^2=\frac{\delta}{3}.
+$$
+The proof below bounds this error by $\mu_1(u\setminus s)^{1/2}=(4\delta)^{1/2}$,
+since $|\mathbf 1_A-v_\delta|\le\mathbf 1_{u\setminus s}$ pointwise. For
+$\delta=\frac1{48}$ the exact error is $\frac1{12}$ and the bound is
+$\frac1{\sqrt{12}}\approx0.289$. A midpoint quadrature with $2\cdot10^5$
+cells reproduces $\frac1{144}$ for the squared error. The uniform error
+stays at $\frac12$ for every $\delta$.
+
+**Example 2 (a two-step function).** Still with $h=1$, let
+$f=2\cdot\mathbf 1_{[0,\frac14)}-\mathbf 1_{[\frac12,\frac34)}$, a simple
+function with two disjoint steps. Approximate each indicator by a cap
+with ramp half-width $\delta<\frac18$ as in Example 1 and add the results
+with the coefficients $2$ and $-1$. The ramps of the two caps are disjoint,
+so the two errors are orthogonal in $L^2$, and
+$$
+ \|f-g_\delta\|_2^2=4\cdot\frac{\delta}{3}+1\cdot\frac{\delta}{3}=\frac{5\delta}{3}.
+$$
+The triangle inequality alone gives the weaker bound
+$2\sqrt{\delta/3}+\sqrt{\delta/3}=\sqrt{3\delta}$. For $\delta=\frac1{300}$
+the exact error is $\sqrt{1/180}\approx0.0745$ and the triangle bound is
+$0.1$. To bring the error below $\frac1{10}$ it suffices to take
+$\delta<\frac{3}{500}$. The pinned proof does not use orthogonality. It
+halves the target error at each addition, which is what the triangle
+estimate records.
+
+**Definitions (the hypotheses of the pinned theorem).** Let $\alpha$ be a
+topological space with its Borel $\sigma$-algebra and let $\mu$ be a
+measure on it. The space is *normal* if any two disjoint closed sets have
+disjoint open neighbourhoods. The measure is *outer regular* if for every
+Borel $A$ and $r>\mu(A)$ there is an open $U\supseteq A$ with $\mu(U)<r$.
+It is *weakly regular* if in addition every open $U$ satisfies
+$\mu(U)=\sup\{\mu(F):F\subseteq U\text{ closed}\}$. It is *regular* if it
+is finite on compact sets, outer regular, and every open $U$ satisfies
+$\mu(U)=\sup\{\mu(K):K\subseteq U\text{ compact}\}$. In an
+$\mathrm R_1$ space, where the closure of a compact subset of an open set
+stays inside that open set, a regular measure is weakly regular, because
+the closure of an inner compact is an inner closed set of no smaller
+measure. These are the classes `OuterRegular`, `WeaklyRegular` and
+`Regular` of the pinned `Mathlib/MeasureTheory/Measure/Regular.lean`,
+lines 308–326, and the instance `Regular.weaklyRegular` at lines 341–346
+[Lean, read].
+
+For a normed space $E$ and $p\in[1,\infty)$, write $\mathcal L^p$ for the
+strongly measurable functions $f\colon\alpha\to E$ with
+$\int\|f\|^p\,d\mu<\infty$ and $L^p$ for its quotient by almost-everywhere
+equality. The map `ContinuousMap.toLp` sends a continuous function on a
+compact space to its $L^p$ class, and `BoundedContinuousFunction.toLp`
+does the same for bounded continuous functions on an arbitrary space.
+Both are continuous linear maps.
+
+**The circle satisfies every hypothesis.** The following table aligns the
+instance arguments of `ContinuousMap.toLp_denseRange` with the circle
+$X_h$, the field $E=\mathbb C$, the exponent $p=2$ and the measure
+$\mu_h=$ `haarAddCircle`.
+
+| Hypothesis in Lean | Where it holds for the circle |
+|---|---|
+| `[CompactSpace α]` | `AddCircle.compactSpace` (`Mathlib/Topology/Instances/AddCircle/Real.lean:33`): the quotient is the image of a compact interval. |
+| `[NormalSpace α]` | $X_h$ is Hausdorff because $h\mathbb Z$ is closed in $\mathbb R$, and a compact Hausdorff space is normal: `NormalSpace.of_compactSpace_r1Space` (`Mathlib/Topology/Separation/Regular.lean:523–525`) separates two disjoint compact sets. |
+| `[MeasurableSpace α] [BorelSpace α]` | The Borel structure of the circle. Instance supply retained [Lean]. |
+| `[μ.WeaklyRegular]` | Two routes. `haarAddCircle` is `addHaarMeasure ⊤` (`AddCircle.lean:85–87`), and Haar measure is regular (`regular_haarMeasure`, additive version by `to_additive`, `Mathlib/MeasureTheory/Measure/Haar/Basic.lean:550–557`), hence weakly regular by the instance above. Alternatively, any finite measure on a metrizable space is weakly regular (`WeaklyRegular.of_pseudoMetrizableSpace_of_isFiniteMeasure`, `Regular.lean:1072–1076`). The statement of either instance is read; the bodies are retained [Lean]. |
+| `[IsFiniteMeasure μ]` | `haarAddCircle` is a probability measure (`AddCircle.lean:89–90`). |
+| `[SecondCountableTopologyEither α E]` | $E=\mathbb C$ is second countable. |
+| `[Fact (1 ≤ p)]`, `hp : p ≠ ∞` | $p=2$. |
+
+Only the `NormalSpace`, `OuterRegular` and `WeaklyRegular` hypotheses are
+used in the proof bodies below, together with finiteness of the measure
+of the set being approximated. The compactness hypothesis enters only to
+make every continuous function bounded, so that `ContinuousMap.toLp` is
+defined.
+
+**Lemma A (small sets have small indicator norm).** Let $p\in(0,\infty)$,
+$c\in E$ and $\varepsilon>0$. There is $\eta>0$ such that every measurable
+$s$ with $\mu(s)\le\eta$ satisfies $\|c\,\mathbf 1_s\|_{L^p}\le\varepsilon$.
+
+**Proof.** The norm equals $\|c\|\,\mu(s)^{1/p}$, and $t\mapsto\|c\|t^{1/p}$
+is continuous at $0$ with value $0$. Choose $\eta$ so that
+$\|c\|\eta^{1/p}\le\varepsilon$ and use monotonicity in $\mu(s)$. This is
+`exists_eLpNorm_indicator_le` (`Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean:39–59`),
+which handles $p=0$ separately and proves the continuity claim from the
+continuity of real powers at zero [Lean, read]. $\square$
+
+**Lemma B (inner approximation by closed sets).** Let $\mu$ be a finite
+measure on a metric space with its Borel $\sigma$-algebra. For every Borel
+set $A$ and $\eta>0$ there is a closed $F\subseteq A$ with
+$\mu(A\setminus F)<\eta$ and an open $U\supseteq A$ with
+$\mu(U\setminus A)<\eta$.
+
+**Proof.** Call a Borel set *good* if it has both properties for every
+$\eta$. A closed set $F$ is good: take $F$ itself inside, and outside take
+$U_n=\{x:d(x,F)<1/n\}$, open with $\bigcap_nU_n=F$ because $F$ is closed.
+Continuity from above for the finite measure $\mu$ gives $\mu(U_n)\to\mu(F)$.
+The complement of a good set is good, since complements exchange closed
+with open and $A^c\setminus U^c=U\setminus A$. For a countable union
+$A=\bigcup_nA_n$ of good sets, choose closed $F_n\subseteq A_n$ and open
+$U_n\supseteq A_n$ with errors below $\eta2^{-n-1}$. Then $U=\bigcup U_n$
+is open and $\mu(U\setminus A)\le\sum\mu(U_n\setminus A_n)<\eta/2$. The
+union $\bigcup F_n$ need not be closed, but $\mu(A\setminus\bigcup_{n\le N}F_n)$
+decreases to $\mu(A\setminus\bigcup F_n)<\eta/2$ as $N\to\infty$ by
+continuity from above, so a finite union of the $F_n$ serves as the closed
+inner set. Good sets therefore form a $\sigma$-algebra containing the
+closed sets, hence all Borel sets. $\square$
+
+In the pinned library this is split. Outer approximation is
+`MeasurableSet.exists_isOpen_sdiff_lt` (`Regular.lean:385–390`), which takes
+an open $U$ with $\mu(U)<\mu(A)+\eta$ from outer regularity and subtracts
+the finite measure of $A$ [Lean, read]. Inner approximation is
+`MeasurableSet.exists_isClosed_sdiff_lt` (`Regular.lean:1036–1041`), which
+assumes only `WeaklyRegular` and finite $\mu(A)$ and quotes the lemma
+`exists_isClosed_lt_add` from the inner regularity of measurable sets by
+closed sets. That inner regularity is produced from weak regularity by
+`InnerRegularWRT.weaklyRegular_of_finite`, the general form of the
+good-sets argument above. Its body is retained [Lean]. The metric proof
+given here covers the circle, whose quotient metric is the distance to
+$h\mathbb Z$. The Lean theorem has no metric hypothesis.
+
+**Lemma C (the continuous cap for a closed set).** Let $\alpha$ be normal
+with $\mu$ outer regular, let $s\subseteq u$ with $s$ closed, $u$ open and
+$\mu(s)<\infty$, let $c\in E$, $p\in(0,\infty)$ and $\varepsilon>0$. There
+is a continuous $f\colon\alpha\to E$ with $\|f(x)\|\le\|c\|$ for all $x$,
+support contained in $u$, $f\in\mathcal L^p$, and
+$\|f-c\,\mathbf 1_s\|_{L^p}\le\varepsilon$.
+
+**Proof.** Take $\eta$ from Lemma A for $c$ and $\varepsilon$. Outer
+regularity gives an open $V\supseteq s$ with $\mu(V)<\infty$ and
+$\mu(V\setminus s)<\eta$. Put $v=u\cap V$, which is open, contains $s$ and
+has finite measure. The sets $v^c$ and $s$ are closed and disjoint, so
+Urysohn's lemma for the normal space $\alpha$ gives a continuous
+$g\colon\alpha\to[0,1]$ with $g=0$ on $v^c$ and $g=1$ on $s$. Set
+$f(x)=g(x)\,c$. Then $\|f(x)\|=g(x)\|c\|\le\|c\|$, and the support of $f$
+lies in $v\subseteq u$.
+
+The key estimate is pointwise. If $x\in s$, then $f(x)=c=c\mathbf 1_s(x)$,
+so the difference vanishes. If $x\in v\setminus s$, then
+$\|f(x)-0\|\le\|c\|=\|c\,\mathbf 1_{v\setminus s}(x)\|$. If $x\notin v$,
+then $f(x)=0$ and $x\notin s$, so both sides vanish. Hence
+$\|f-c\,\mathbf 1_s\|\le\|c\,\mathbf 1_{v\setminus s}\|$ at every point,
+and monotonicity of the $\mathcal L^p$ norm with
+$\mu(v\setminus s)\le\mu(V\setminus s)<\eta$ gives the bound
+$\varepsilon$ by Lemma A. Finally $f$ is the product of the bounded
+function $g$ with the constant $c$, and $\|f\|\le\|c\|\mathbf 1_v$ with
+$\mu(v)<\infty$, so $f\in\mathcal L^p$. $\square$
+
+This is `exists_continuous_eLpNorm_sub_le_of_closed`
+(`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean:79–131`) [Lean, read].
+The proof obtains $\eta$ at lines 86–88, the open $V$ at lines 90–91,
+the Urysohn function at lines 95–97 with the disjointness of $v^c$ and $s$
+supplied by $s\subseteq v$, the three pointwise cases at lines 106–115,
+the support at lines 116–118, the $\mathcal L^p$ membership at lines
+119–128, and the final monotonicity step at lines 129–131. Urysohn's
+lemma itself, `exists_continuous_zero_one_of_isClosed`
+(`Mathlib/Topology/UrysohnsLemma.lean:322`), is used as a named input:
+its statement was read, its construction by iterated midpoint
+interpolation was not [Lean].
+
+**Lemma D (the indicator of a measurable set).** Let $\alpha$ be normal
+and $\mu$ weakly regular. For every measurable $t$ with $\mu(t)<\infty$,
+every $c\in E$ and $\varepsilon>0$ there is a bounded continuous
+$f\colon\alpha\to E$ in $\mathcal L^p$ with
+$\|f-c\,\mathbf 1_t\|_{L^p}<\varepsilon$.
+
+**Proof.** Choose $\delta>0$ such that any two functions of
+$\mathcal L^p$ norm at most $\delta$ have a sum of norm less than
+$\varepsilon$. For $p\ge1$ the triangle inequality allows
+$\delta=\varepsilon/3$. Take $\eta$ from Lemma A for $c$ and $\delta$, and
+a closed $s\subseteq t$ with $\mu(t\setminus s)<\eta$ from inner
+approximation. Then $c\mathbf 1_s-c\mathbf 1_t=-c\mathbf 1_{t\setminus s}$
+has norm at most $\delta$. Apply Lemma C with $u=\alpha$ to get a
+continuous $f$ with $\|f\|\le\|c\|$ and $\|f-c\mathbf 1_s\|_{L^p}\le\delta$.
+Writing $f-c\mathbf 1_t=(f-c\mathbf 1_s)+(c\mathbf 1_s-c\mathbf 1_t)$
+gives the claim. $\square$
+
+In Example 2, the sets $t$ are the two intervals, the closed inner sets
+are the intervals shrunk by $\delta$, and the Urysohn functions are the
+caps. The halving device is `exists_Lp_half`
+(`Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean:81–85`),
+which covers $p<1$ through the constant in the quasi-triangle inequality.
+Its statement was read and its body is retained [Lean].
+
+**Lemma E (from simple functions to all of $\mathcal L^p$).** Let
+$p\in(0,\infty)$ and let $P$ be a class of almost-everywhere strongly
+measurable functions $\alpha\to E$ that is closed under addition and
+satisfies Lemma D in the form: for every $c\in E$, measurable $t$ with
+$\mu(t)<\infty$ and $\varepsilon>0$ there is $g\in P$ with
+$\|g-c\mathbf 1_t\|_{L^p}\le\varepsilon$. Then for every
+$f\in\mathcal L^p$ and $\varepsilon>0$ there is $g\in P$ with
+$\|f-g\|_{L^p}\le\varepsilon$.
+
+**Proof.** First, every $f\in\mathcal L^p$ is within $\eta$ of a simple
+function $f'\in\mathcal L^p$. On the circle with $E=\mathbb C$ and
+$p=2$ one can see this directly. Let $f_n$ round the real and imaginary
+parts of $f$ towards zero to the nearest multiple of $2^{-n}$ and set
+the result to $0$ where $|f|>n$. Then $f_n$ takes finitely many values,
+$|f_n|\le|f|$, and $f_n\to f$ pointwise. Dominated convergence with the
+integrable dominator $4|f|^2$ gives $\|f-f_n\|_2\to0$. Fix such an $f'$
+with $\|f-f'\|_{L^p}\le\eta$, where $\eta$ is chosen so that two norms at
+most $\eta$ add to less than $\varepsilon$.
+
+Second, argue by induction on the simple function $f'$. A simple function
+is a finite sum of terms $c\mathbf 1_s$ with pairwise disjoint supports.
+If $c=0$ the term is zero and the hypothesis applied to $0\cdot\mathbf 1_\emptyset$
+gives an approximant. If $c\ne0$ and $c\mathbf 1_s\in\mathcal L^p$, then
+$\mu(s)<\infty$, so Lemma D applies directly. For a sum $f_1+f_2$ with
+disjoint supports and $f_1+f_2\in\mathcal L^p$, both summands lie in
+$\mathcal L^p$ because $\|f_1+f_2\|^p=\|f_1\|^p+\|f_2\|^p$ pointwise.
+Halve the target, approximate each summand by $g_1,g_2\in P$, and use
+$g_1+g_2\in P$ with the triangle estimate. $\square$
+
+This is `MemLp.induction_dense`
+(`Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean:847–894`) [Lean, read].
+The proof dismisses $p=0$ at lines 855–858, reduces to simple functions
+at lines 859–868 through `exists_Lp_half` and
+`MemLp.exists_simpleFunc_eLpNorm_sub_lt`, and runs
+`SimpleFunc.induction` (`Mathlib/MeasureTheory/Function/SimpleFunc.lean:1260`)
+at lines 869–894 with the two cases above. The zero case at lines
+871–878, the finite-measure deduction `measure_lt_top_of_memLp_indicator`
+(`SimpleFuncDenseLp.lean:343`) at line 879, and the disjoint splitting
+`memLp_add_of_disjoint` at lines 885–886 are the places where the
+hypotheses are consumed. The density of simple functions in $L^p$ behind
+`exists_simpleFunc_eLpNorm_sub_lt` and `Lp.simpleFunc.denseRange`
+(`SimpleFuncDenseLp.lean:671–673`) is a retained input; the dominated
+convergence proof above covers the circle case [Lean].
+
+**Theorem (continuous functions are dense in $L^p$).** Let $\alpha$ be a
+normal space with its Borel $\sigma$-algebra, $\mu$ a weakly regular
+measure, $E$ a normed space, and $1\le p<\infty$. Then the classes of
+bounded continuous functions are dense in $L^p(\mu;E)$. If $\alpha$ is
+compact and $\mu$ is finite, the continuous linear map
+$C(\alpha,E)\to L^p(\mu;E)$ has dense range. In particular, for every
+$h>0$, $C(X_h,\mathbb C)$ is dense in $L^2(\mu_h)$.
+
+**Proof.** Take $P$ to be the class of bounded continuous functions in
+$\mathcal L^p$. It is closed under addition and consists of measurable
+functions. Lemma D supplies the indicator step: the function produced
+there is bounded by $\|c\|$. Lemma E then gives, for any representative
+$f$ of a class in $L^p$ and any $\varepsilon>0$, a bounded continuous
+$g$ with $\|f-g\|_{L^p}\le\varepsilon$. The distance in $L^p$ between the
+class of $f$ and the class of $g$ is this norm, so the classes with
+bounded continuous representatives are dense. For compact $\alpha$ every
+continuous function is bounded, so the range of $C(\alpha,E)\to L^p$
+contains the range of the bounded continuous map, and a superset of a
+dense set is dense. The circle case follows from the alignment table. $\square$
+
+The pinned chain is `MemLp.exists_boundedContinuous_eLpNorm_sub_le`
+(`ContinuousMapDense.lean:233–280`), which applies `induction_dense` to the
+class of bounded continuous functions and proves the indicator step at
+lines 255–280 exactly as in Lemma D; `Lp.boundedContinuousFunction_dense`
+(lines 321–330), which passes from the representative to the $L^p$ class
+through `Lp.edist_toLp_toLp`; `BoundedContinuousFunction.toLp_denseRange`
+(lines 349–352), which identifies the subgroup with the range of `toLp` by
+`range_toLp` (`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean:108`);
+and `ContinuousMap.toLp_denseRange` (lines 361–365), which uses
+`DenseRange.mono` with the inclusion of ranges given by
+`f.toContinuousMap`. All four bodies are read [Lean, read]. The identity
+`Lp.edist_toLp_toLp` and the general `DenseRange.mono` are named inputs
+[Lean].
+
+**Remark (where regularity is really used).** Lemma C uses only outer
+regularity, and Lemma D adds the inner approximation by closed sets. On
+the circle both come for free from Lemma B, because the measure is finite
+and the space is metric. The library hypothesis `WeaklyRegular` is the
+abstract form of exactly these two approximations, and nothing stronger
+is consumed: the inner-by-compact clause of `Regular` is never invoked in
+the compact-space theorem, although the Haar instance provides it. The
+version with compactly supported approximants,
+`MemLp.exists_hasCompactSupport_eLpNorm_sub_le` (lines 135–185), does use
+`Regular` together with local compactness, inserting a compact $k$ with
+$s\subseteq\operatorname{int}k$ at lines 169–170. The circle does not
+need it.
+
+**Remark (Lusin and Urysohn are not the same lemma).** Urysohn's lemma
+is purely topological and produces one function between two disjoint
+closed sets. Lusin's theorem states that a measurable function agrees
+with a continuous function outside a set of small measure. The pinned
+proof uses Urysohn, applied once per indicator, and never Lusin. The
+textbook route through Lusin would also prove the theorem, but it is a
+different argument, with a different dependency on the measure, and it is
+not what the archive's Mathlib pin does.
+
+**Consumer (back to Poisson).** The Lean chain
+`span_fourier_closure_eq_top` $\to$ `span_fourierLp_closure_eq_top`
+(`AddCircle.lean:261–269`) maps the uniformly dense character span through
+`ContinuousMap.toLp` and uses the dense range just proved: the closure of
+the image of a dense submodule under a continuous linear map with dense
+range is everything. With this supply, the density lemma of §14.4.2.1 is
+complete without named gaps on its measure-theoretic side: uniform density
+of trigonometric polynomials (§14.4.2.2), the inequality
+$\|P-F\|_2\le\|P-F\|_\infty$ on continuous functions, and the present
+theorem together give $L^2$ density of the trigonometric polynomials.
+The reconstruction theorem of §14.4.2.1 then yields the uniqueness of
+Fourier coefficients used at the end of the Poisson proof. The Hilbert
+basis machinery `HilbertBasis.mk` and `HilbertBasis.hasSum_repr` remains a
+named input for the $L^2$ expansion, and the real-strip trace application
+keeps its [Open] status.
+
+**Notes on the reading.** The pinned Mathlib commit is
+`0df444a360eaa60ab8c11dca51a86af692955474`, fixed by the archive manifest
+(`lean/lake-manifest.json:6–13`) of the bundle with SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The
+file `ContinuousMapDense.lean` at that pin has SHA-256
+`cfc609acec4ddfb845c07c6628ddb6b67d6114899ef6080a560144608dde245a`. The
+two hand calculations and the metric good-sets proof of Lemma B are
+textbook exposition [Expository]. Reading the source and building this
+book do not constitute a kernel check.
+
+| File and lines at the pin | Role | Reading |
+|---|---|---|
+| [`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean:79–131`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L131) | Lemma C: outer open set, Urysohn cap, three pointwise cases, support and membership. | Read here |
+| [`ContinuousMapDense.lean:233–280`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L233-L280) | Lemma D inside the bounded continuous version of the density theorem: halving, inner closed set, the cap, the triangle step. | Read here |
+| [`ContinuousMapDense.lean:321–336,349–352,361–365`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L321-L365) | From representatives to $L^p$ classes, to the range of `toLp`, to the compact-space statement. | Read here |
+| [`Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean:847–894`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L847-L894) | Lemma E: reduction to simple functions and the two-case induction. | Read here |
+| [`Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean:39–59`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean#L39-L59) | Lemma A. | Read here |
+| [`Mathlib/MeasureTheory/Measure/Regular.lean:308–346,385–390,1036–1041`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Regular.lean#L308-L346) | Regularity classes, regular implies weakly regular, and the two approximation statements of Lemma B. | Classes and the two short bodies read; `exists_isClosed_lt_add` and `weaklyRegular_of_finite` retained |
+| [`Mathlib/Topology/Separation/Regular.lean:523–525`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L523-L525) · [`Mathlib/Topology/Instances/AddCircle/Real.lean:33`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Instances/AddCircle/Real.lean#L33) · [`Mathlib/MeasureTheory/Measure/Haar/Basic.lean:550–557`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L550-L557) | The circle instances of the alignment table. | Statements read; bodies retained [Lean] |
+| [`Mathlib/Topology/UrysohnsLemma.lean:322`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L322) · [`Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean:81–85`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81-L85) · [`SimpleFuncDenseLp.lean:343,671–673`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L671-L673) | Urysohn's lemma, the halving constant, the finite-measure deduction and the density of simple functions. | Retained inputs [Lean] |
+| [`Mathlib/Analysis/Fourier/AddCircle.lean:261–269`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L261-L269) | The consumer `span_fourierLp_closure_eq_top`. | Inherited from §14.4.2.1 |
+
+For the classical background see Terence Tao's 245A notes, where Theorem
+15 lists simple functions, step functions and continuous compactly
+supported functions as dense in $L^1$ and Theorem 18 is Lusin's theorem
+[Tao, 245A Notes 2](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/).
+The Mathlib file is by Heather Macbeth (2021) and its header describes
+the same three-step plan followed here
+[Mathlib docs](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Function/ContinuousMapDense.html).
 
 ### 14.4.3 Surgical anatomy of the Chapter 10 gap, Pei's $I = \{0\}$ window note, and why $I = [-\alpha, \alpha]$ remains `[Open]`
 

@@ -221,6 +221,7 @@ compared line by line.
 | Ch. 13 (pp. 521–522) | intended deduction of GRH for Hecke L-functions from 12.5.1.1; only Theorem 13.3.1.1 (restatement of the trace formula) is written | P0 (same type of conclusion, larger scope) |
 | Ch. 14 | multiplicities of zeros, function fields, higher rank | none; §14.2 (function fields) is relevant to the Stepanov motivation of P7–P8 |
 | App. B | convexity bound, explicit formulas, zero-free regions | P5 and P13 (classical analytic inputs) |
+| App. B, Prop. B.4.1.2 (pp. 608–610) | Logarithmic periodization and midpoint samples at jumps (§14.4.2) | Classical Mathlib correspondence [Lean, read] for `Real.fourierCoeff_tsum_comp_add` and `Real.tsum_eq_tsum_fourier` at the fixed pin. Jump convergence is a literature input. The application to Ch. 11 orbital traces is [Open]. |
 | §1.2.3 (1), p. 16; §12.4.1, (12.4.1.16)–(12.4.1.23), p. 518 | the diagonal weight $\lvert x\rvert_{F,S}^{2a}$ against the multiplicative Tamagawa measure $\mu_S=c_S\lvert\cdot\rvert_{F,S}^{-1}\nu_S$; $a=1/2$ returns the additive measure (§15.4.3.1) | Classical Mathlib correspondence [Lean, read] for `distribHaarChar`, `Real.map_volume_mul_left`, `addHaar_smul`, `integral_comp_mul_left_Ioi`, `mellin_comp_mul_left`, `IsHaarMeasure.isInvInvariant_of_regular`, `IsHaarMeasure.nullSingletonClass` at the fixed pin. Local only: no bearing on the $\alpha$-independence of Theorem 12.5.1.1 [Open]. |
 
 The two arguments share only the classical frame (functional equations, explicit-formula-type
@@ -554,3 +555,43 @@ classical); a Haar measure instance on $\mathbb Q_p$ (absent at the pin; the $\m
 is a hand normalization); Masullo's diagonal smoothing (pp. 15, 517). The subsection is local
 measure theory; the Chapter 14 `[Open]` items are unchanged.
 [Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
+
+### Chapter 14 classical circle uniform density
+
+[§14.4.2.2](../chapters/14-masullos-trace-formula-route.md#14422-stoneweierstrass-for-the-circle-character-algebra) follows the Mathlib supply
+at pin `0df444a360eaa60ab8c11dca51a86af692955474`. R3 covers
+`Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean:64–160,165–279,369–393,401–437`
+and `Mathlib/Topology/Algebra/StarSubalgebra.lean:63–84`. Realification
+uses a shifted norm square. The real closure acquires pointwise
+extrema by interval polynomial approximation, then two finite covers
+give uniform approximation. The complex proof transports the real
+closure through the inclusion and recombines real and imaginary parts.
+`Mathlib/Analysis/Fourier/AddCircle.lean:199–269,411–436,485–506` carries
+the inherited circle algebra and consumers through density and
+pointwise Fourier reconstruction to Poisson. The ordinary interval
+Weierstrass supply, general closure transport, measure density
+(`ContinuousMap.toLp_denseRange`) and Hilbert expansion
+(`HilbertBasis.hasSum_repr`) are retained inputs. [Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean)
+
+### Chapter 14 continuous functions dense in $L^2$
+
+[§14.4.2.3](../chapters/14-masullos-trace-formula-route.md#14423-continuous-functions-are-dense-in-l2-of-the-circle) follows the Mathlib supply
+of `ContinuousMap.toLp_denseRange` at pin `0df444a360eaa60ab8c11dca51a86af692955474`.
+R3 covers `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean:79–131,233–280,321–336,349–352,361–365`
+(Urysohn cap for a closed set with the three pointwise cases; the
+indicator step with halving and an inner closed set; passage from
+representatives to $L^p$ classes, to the range of `toLp`, to the
+compact-space statement), `Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean:847–894`
+(`MemLp.induction_dense`: reduction to simple functions and the two-case
+induction), `Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean:39–59`
+(small sets give small indicator norms) and
+`Mathlib/MeasureTheory/Measure/Regular.lean:308–346,385–390,1036–1041`
+(regularity classes, regular implies weakly regular, outer and inner
+approximation statements). The circle instances `AddCircle.compactSpace`,
+`NormalSpace.of_compactSpace_r1Space`, `regular_addHaarMeasure` and the
+probability instance are aligned at statement level. Retained inputs:
+Urysohn's lemma `exists_continuous_zero_one_of_isClosed`, `exists_Lp_half`,
+`InnerRegularWRT.weaklyRegular_of_finite` with `exists_isClosed_lt_add`,
+`Lp.simpleFunc.denseRange`, `Lp.edist_toLp_toLp`, `DenseRange.mono` and the
+Hilbert basis expansion. The consumer is `span_fourierLp_closure_eq_top`
+(`AddCircle.lean:261–269`). [Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L365)
