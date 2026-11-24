@@ -325,6 +325,7 @@ All from
 | `Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean` | 2026-11-23 UTC | 12403 | `1f1ac074643b510181a749184849d8e7ee4bf6826bbac8b81e37a990f4e91f2a` |
 | `Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean` | 2026-11-23 UTC | 17746 | `96a282f317e96505e89e51553f8129e52f381953dd142ee269f2525cb00f6197` |
 | `Mathlib/Analysis/SpecialFunctions/Complex/LogBounds.lean` | 2026-11-23 UTC | 20585 | `5555dbaa4313f7590501bc8b6ea0d0a387de82ae40d9aa235e9c58ba0472cc85` |
+| `Mathlib/Analysis/Convolution.lean` | 2026-11-25 UTC | 49907 | `2e02a96b2ee6de4b52b6414aa938fd46f89690939d5c86964071b73a88dbd184` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -346,6 +347,8 @@ Proof,” *College Mathematics Journal* 49 (2018), 126–135. Crossref verifies 
 record. DLMF supplies the classical exact statements on the Euler integral, poles, half-value,
 reflection, and both Euler and Weierstrass formulas. The book adds the explicit error estimates
 and classroom examples. [Mathlib attribution](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L11-L20) · [Salwinski DOI](https://doi.org/10.1080/07468342.2018.1419703)
+
+**Chapter 2, §2.3.2.2.** The Beta–Gamma identity in the pinned Mathlib is Loeffler's `Gamma_mul_Gamma_eq_betaIntegral`, which rests on van Doorn's convolution file: the forward convolution on $(0,\infty)$, its identification with the two-sided convolution of the zero extensions, the slice integrability argument and the Fubini exchange with translation invariance. `Convolution.lean` was fetched from the pinned revision on 2026-11-25 (SHA-256 in the table). DLMF 5.12.1 and 5.12.2 give the classical quotient and the trigonometric form used in the $a=b=1/2$ example; the DLMF page was retrieved on 2026-11-25 (SHA-256 `0a5b637be728bb03c53fcd035059aef105e7aef2aa09d226e72fe1a6d7e19a9f`). The two archive consumers are `src/Development/AbelianVarietyTheory/Definitions/Divisors/ChernFormSecondChernClass.lean` and `src/GroundTheory/HeightsAndTheta/Heights/HilbertSamuel/PBetaSum.lean` in archive A2. The book adds the composite Jacobian remark and the sharpness example. [Convolution.lean:944–998](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Convolution.lean#L944-L998) · [DLMF 5.12](https://dlmf.nist.gov/5.12)
 
 | Classical source snapshot | Retrieved | Bytes | sha256 |
 |---|---|---:|---|
