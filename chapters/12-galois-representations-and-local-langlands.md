@@ -479,6 +479,613 @@ number-theoretic map of what is formalized inside that cone:
 
 ---
 
+The P14 calculation proceeds through the
+[finite étale correspondence](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed),
+the [local Lefschetz weight](#from-a-finite-étale-chart-to-the-local-lefschetz-weight),
+and the [global Čech comparison](#from-fixed-point-vanishing-to-a-global-čech-boundary).
+
+#### The holomorphic Lefschetz input to the odd-rank seed
+
+**Motivation.** A Hecke correspondence has two legs. One pulls a form back
+and the other traces it down. At a point of the correspondence space where
+the legs agree, their first-order difference supplies a local weight.
+The fixed-point formula equates the sum of these weights to a cohomological trace.
+
+**Example (four points) [Expository].** Take $Y=Z$ to be four copies of
+$\operatorname{Spec}\mathbb C$, labelled $1,2,3,4$. Set $c_1=\mathrm{id}$
+and let $c_2=\sigma=(1\;2)$ fix $3,4$. On $H^0(Z,\mathcal O_Z)=\mathbb C^4$,
+pullback sends the indicator function $e_i$ to $e_{\sigma^{-1}(i)}$.
+The identity transfer leaves it there. Thus
+$$
+T=\begin{pmatrix}0&1&0&0\\1&0&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix},
+\qquad \operatorname{Tr}(T)=0+0+1+1=2.
+$$
+The equalizer is $\{3,4\}$. Since $d=a=b=0$, both empty determinants
+in the formula below are $1$, and the two local terms are $1+1$.
+For arbitrary maps of finite sets, $(Tf)(z)=\sum_{c_1(y)=z}f(c_2(y))$.
+Each diagonal entry counts exactly the coincidence points above that $z$.
+Several such points can have the same image in $Z$.
+
+**Definitions.** The space denoted `hodgeH s a b` is the coherent cohomology
+$H^b(Z,\Omega^a_{Z/\mathbb C})$ of exterior differential forms. Here $a$ is
+form degree and $b$ is sheaf-cohomology degree. On affine opens of the
+target of a finite étale map, forms upstairs are obtained by base change.
+The map `omegaTrace` applies the algebra trace to the upstairs coefficient
+of a pulled-back form and keeps the downstairs form. The map `hodgeTrace`
+then uses the finite pushforward equivalence and the induced map on
+cohomology. In particular the transfer is unnormalized: on functions the
+trace of $1$ is the local degree of the cover. [Lean, read]
+
+At a coincidence $y$ with common image $z$, `IsTan` gives affine neighborhoods
+and functions $t_l$ downstairs. Its evaluation-linear map on differentials
+is an isomorphism on the cotangent fiber upstairs: the $d(c_1^*t_l)$ go to
+the standard basis and the kernel consists of combinations with coefficients
+vanishing at $y$. The coordinates of $d(c_2^*t_j)$ are $(A_{jl})_l$.
+These are the rows of the derivative of the local branch $c_2\circ c_1^{-1}$
+in the $t_l$ coordinates. Cotangent columns give the transpose and hence
+the same determinants. [Lean, read]
+
+**Proposition (conditional holomorphic trace formula) [Lean, read].**
+Let $s:Z\to\operatorname{Spec}\mathbb C$ be projective and smooth of relative
+dimension $d$. Let $Y$ have structure map $s'$ and two finite étale maps
+$c_1,c_2:Y\to Z$ over $\mathbb C$. Supply a finite set $F$ of complex points
+of $Y$ whose membership is equivalent to $c_1(y)=c_2(y)$, and an assignment
+$y\mapsto A_y$ of $d$-by-$d$ matrices on the complex points of $Y$.
+Assume `IsTan` and $\det(I-A_y)\ne0$ for every $y\in F$. Then for every
+$a\ge0$ all spaces $H^b(Z,\Omega^a)$ are finite dimensional for every
+$b\ge0$, and
+$$
+\sum_{b=0}^d(-1)^b\operatorname{Tr}
+ \bigl(\operatorname{Tr}_{c_1}\circ c_2^*\mid H^b(Z,\Omega^a)\bigr)
+ =\sum_{y\in F}\frac{[t^a]\det(I+tA_y)}{\det(I-A_y)}.
+$$
+The sign alternates in $b$ at fixed $a$. The numerator is the trace on
+the $a$th exterior power. Both the sheaf and the coefficient vanish for
+$a>d$. The scheme $Z$ is proper by projectivity and $Y$ is proper by
+finiteness over $Z$. The formula uses ordinary algebraic coherent
+cohomology. On the compact analytifications, compact supports impose
+no additional restriction. The projective hypothesis places this
+trace calculation on the spaces themselves, without a boundary term.
+
+**Block trace lemma.** For a finite family of finite-dimensional spaces $M_j$ and blocks
+$T_{jk}:M_k\to M_j$, the trace on $\prod_j M_j$ equals the sum of the
+diagonal block traces. If $p_k$ and $i_j$ denote projection and
+inclusion, write the endomorphism as $\sum_{j,k}i_jT_{jk}p_k$.
+Cycling the two factors in the trace inserts $p_ki_j$, which is zero
+off the diagonal and the identity on it. A linear isomorphism to this
+finite product also transports finite dimensionality and preserves trace.
+
+**Proof (following the archive).**
+
+1. Projectivity gives quasi-compactness and the smooth clopen decomposition
+   gives a finite disjoint cover by integral opens $V_j$. The complement
+   of each is the union of the others. Put
+   $W_{jk}=c_1^{-1}V_j\cap c_2^{-1}V_k$. These clopen pieces partition $Y$,
+   and the restricted legs to $V_j,V_k$ are finite étale. At a coincidence
+   the common image forces $j=k$. The point lifts uniquely to $W_{jj}$,
+   and restriction preserves the equality of the two images and `IsTan`.
+   Conversely a coincidence on $W_{jj}$ maps into $F$. The block theorem
+   uses the clopen restriction of projectivity on $V_j$.
+2. Restriction gives a linear isomorphism from global Hodge cohomology to
+   the product over $V_j$, by open-restriction comparison and disjoint-cover
+   cohomology. Restrict the trace to $V_j$ and split it over the clopen
+   cover $\{W_{jk}\}_k$ of $c_1^{-1}V_j$. Functoriality of pullback identifies
+   the $(j,k)$ block as pullback from $V_k$ to $W_{jk}$ followed by transfer
+   to $V_j$. The component formula gives finite dimensionality for each
+   $b$. Apply the block trace lemma and exchange the finite sums over
+   $b$ and $j$. The diagonal fixed sets partition $F$, with the same weights.
+3. For an integral target, the proof of the component formula splits $Y$
+   into integral clopens using smoothness by étaleness and quasi-compactness
+   by finiteness. Clopen inclusions are open and closed immersions, so
+   their composites with both legs retain finiteness and étaleness.
+   The fixed sets pull back along injective point maps. Restriction
+   transports `IsTan` via the top open of the target and its isomorphism
+   with the target. Apply the integral formula on each piece. One such
+   application gives finite dimensionality for every $b$ if there is a
+   source component. If the source has no components, use smooth
+   projective Hodge finiteness directly. Add the source transfers and
+   compose the pullbacks. Unique point lifts identify the sum of the
+   component sums with the sum over $F$.
+4. For integral source and target, establish Hodge finiteness first and
+   take the two function-field embeddings. The first supplies the extension
+   used for the field trace. The proof chooses a finite projective-space
+   presentation placing the images of $F$ over the coordinate origin with
+   reduced fiber there. Pull the affine cover back along $c_1$. In the
+   origin chart the affine point comparison and evaluation of pulled-back
+   sections identify the coincidence points with the fixed evaluations
+   of the normalized coordinate rings in the fiber. The regular-parameter
+   lemma expresses each pulled-back coordinate of the second leg as a
+   linear combination of first-leg parameters after clearing a denominator
+   nonzero at the point. Evaluate the coefficients and divide by that
+   denominator to obtain a matrix $M_y$. The local-parameter comparison
+   supplies $M_y=P A_y P^{-1}$. Both determinant polynomials are invariant
+   under that conjugation.
+5. Use the Hodge-to-Čech linear equivalence and the chart calculation
+   `exists_chart_lift_of_finite_cover` [Lean]. Its inputs include the
+   section comparison, the reduced origin fiber, the absence of fixed
+   evaluations on the other standard charts, the first-order equations,
+   and determinant nonvanishing. The comparison for the operator uses
+   a common Čech cover on $Y$ made from both families of inverse images.
+   For a cocycle downstairs, a cocycle on this combined cover restricts
+   on the second-leg part to the pulled-back cocycle. On the first-leg
+   part, taking its field trace represents the transferred class.
+   This realizes the conjugated pull–trace operator on Čech cohomology.
+   Finiteness transports to the Čech groups.
+   Trace is invariant under this equivalence, so the calculated
+   alternating trace is the original trace. Reindex the fixed evaluations
+   by the injective map from $F$ and replace the determinants of $M_y$
+   by those of $A_y$. Together with the two clopen arguments this proves
+   the proposition. $\square$
+
+**Local intersection and comparison [Expository].** In the completed
+local ring at $y$, the equalizer is cut out by $c_1^*t_j-c_2^*t_j$.
+Their linear terms give $I-A_y$. Invertibility makes these differences
+a regular system of parameters, so the pullback of the diagonal has
+local length one. The holomorphic local term still has a Jacobian
+denominator and a cotangent numerator. For $a=0$ in positive dimension
+the term is $1/\det(I-A_y)$. The finite set calculation only illustrates
+dimension zero. The analytic graph case belongs to Atiyah–Bott's
+elliptic-complex formula. GAGA gives the coherent algebraic-to-analytic
+comparison for projective schemes. The archive calculation itself uses
+the algebraic Čech equivalence and its compatibility with pullback
+and transfer. [Atiyah–Bott, I, Theorem A, pp. 377–378](https://annals.math.princeton.edu/1967/86-2/p07) · [Serre, GAGA, no. 12, Théorème 1, p. 19](https://www.numdam.org/item/AIF_1956__6__1_0/)
+
+**Consumption by `geoOne` [Lean, read].** `weight_one_geometric_realization`
+unfolds `HolomorphicLefschetzFormula` and supplies exactly this proposition.
+In `geoStep_of`, $Z$ is the Kuga–Sato space at level $N$ and $Y$ is its space
+at a deeper level $N'$ with $N\mid N'$. The first leg is the identity
+transition. The second is the Hecke transition followed by the diagonal
+fiber endomorphism indexed by $\alpha$. `KSProj` supplies projectivity,
+the tower supplies the first finite étale leg, and `FixK` supplies the
+second leg's finiteness and étaleness, $F$, $A$, the fixed-point hypotheses
+and the weighted group-side count. The equality projection at each $a$
+is inserted into the normalized Hecke trace, which divides by the nonzero
+relative level index. Summing against $(-u)^a$ gives local factors
+$\det(I-uA_y)/\det(I-A_y)$. The level index cancels the factor in `FixK`.
+The definite-pair and automorphic-trace comparisons then supply the
+group-side input for `HodgeTr`. The assembly goes from `HodgeTr` to
+`HodgeEig`, using the formula's finiteness projection via `hodgeFin_of`,
+and then obtains `KSHodge`. This is the last field of `KSAll`, supplied by
+`ksHodge_of_geo`. The final `geoOne_of_parts` takes `KSAll` together with
+`steps_holds` and `Pl.planEx_holds`. The geometric construction of those
+packages, the group-side comparisons and the separate crystalline/Hodge–Tate
+comparison with $\ell$-adic cohomology remain [Lean]/[Open] here.
+
+**Source map.** All archive paths below use A2 with Lean 4.33.1 and joined
+SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The LUMI guide previously outlined the algebraic proof and the complex
+trace comparison [Community]. [LUMI guide, lines 89–103](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/05-galois-representations.md#L89-L103)
+
+| Source | Step in the text |
+|---|---|
+| `src/Development/AbelianVarietyTheory/Definitions/GaloisGeometry/CoeEqAlgebraMapZeroEquiv.lean:50,161–165`, `src/Development/AbelianVarietyTheory/Definitions/GaloisGeometry/OmegaPullOmegaTraceOfSecTraceOne.lean:182–195,218–221`, `src/Development/AbelianVarietyTheory/Definitions/Divisors/IsGaloisCover.lean:14–23` | Hodge groups, pullback and transfer, and the tangent predicate. |
+| `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/LefschetzFixedPointFiniteEtaleCorrespondence.lean:8–15` | Statement of the proposition and delegation to the next theorem. |
+| `src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/LefschetzFixedPointFiniteEtaleCorrespondence.lean:22–251,255–358` | Block trace lemma and Steps 1–2. Clopen restriction, comparison, point partition and final summation. |
+| `src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleCorrespondence.lean:15–155` | Step 3, including tangent transport and the empty-index case. |
+| `src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleIntegral.lean:25–70,74–245` | Steps 4–5. Presentation and fixed evaluations at lines 93–156, local matrix and conjugacy at 158–204, Čech calculation and return to the scheme formula at 205–245. |
+| `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsHodgeCohomologyEquivCechDifferentials.lean:9–20`, `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsChartLiftOfFiniteCover.lean:7–30` | Comparison and chart calculation as named inputs [Lean]. The [local chart calculation](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) below gives the scoped R3 reading. |
+| `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsFiniteCoverProjSpaceReducedFibreOriginStatement.lean:8–9`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceLocalParametersStatement.lean:162–163`, `src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceFamilyStatement.lean:160–165` | Named inputs for the reduced fiber, matrix conjugacy and cocycle-level pull–trace comparison [Lean]. |
+| `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/HodgeTraceFromLefschetzAndGroupSide.lean:92–111,121–140,167`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/PGeoStep.lean:16–85` | Exact input contract, correspondence legs, specialization and level normalization. |
+| `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/KsHodgeOfGeo.lean:7–8`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/HodgeTraceOfLefschetzAndGroupSide.lean:42–55` | Passage through group-side inputs to `KSHodge`. |
+| `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/GeometricRealizationOfWeightOne.lean:18–25`, `src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/GeometricFlagBases/WeightOneGeometricRealization.lean:7–11` | `KSAll`, the exact theorem application, and `geoOne_holds`. |
+
+#### From a finite étale chart to the local Lefschetz weight
+
+The [finite étale trace formula](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed) computes a global trace from local coincidences. Two calculations connect them. First, pullback and transfer must act on the same Čech representative. Second, the fixed-point equations change the normalization of a local top-degree class. The same Jacobian occurs in the second calculation even
+when the fixed-point scheme has length one.
+
+**Example (a scaling on the affine line) [Expository].** Take
+$c_1(z)=z$ and $c_2(z)=2z$. Both are finite étale of degree one. The only
+coincidence is $z=0$. With $t=z$, the difference is $t-2t=-t$, so the
+quotient of $\mathbb C[z]_{(z)}$ by the difference is $\mathbb C$ and
+the local intersection length is one. The maps on $\Omega^0$ and on
+the cotangent line have traces $1$ and $2$. The coefficient of $z^{-1}dz$
+in $dz/(z-2z)$ is $-1$. Multiplying by the two traces gives
+$L_0=-1$ and $L_1=-2$. Equivalently the two values are the coefficients
+of $(1+2s)/(1-2)$. These are local contributions. In fact the same
+automorphism extends to $\mathbb P^1$, where the chart at infinity has
+multiplier $1/2$. Its contributions $2$ and $1$ give global sums $1$
+and $-1$, respectively, as expected from $H^0(\mathcal O)$ and
+$H^1(\Omega^1)$.
+
+**Example (two diagonal multipliers) [Expository].** On
+$\mathbb A^2_{\mathbb C}$ let $c_1$ be the identity and set
+$c_2(z,w)=(2z,3w)$. At $(0,0)$ the equations are $-z=0$ and $-2w=0$.
+Their quotient local ring is $\mathbb C$. In the ordered basis
+$dz,dw$ the degree-one pullback is diagonal with eigenvalues $2,3$.
+On $1$ and $dz\wedge dw$ the eigenvalues are $1$ and $6$. The Jacobian
+of the pair of differences is $\operatorname{diag}(-1,-2)$, of
+determinant $2$. The coefficient of $z^{-1}w^{-1}dz\wedge dw$ in
+$dz\wedge dw/((-z)(-2w))$ is $1/2$. The three local contributions are
+$1/2,5/2,3$, obtained by dividing $1,2+3,2\cdot3$ by $2$. The alternating
+sum in form degree is $1/2-5/2+3=1$. This last cancellation expresses
+the identity $\det(1-A)/\det(1-A)=1$. For each individual form degree
+the local weight can differ from the intersection length.
+
+**Definition (local branch).** Let $Y$ and $Z$ be smooth of dimension
+$d$ over $\mathbb C$. Write $c_1,c_2:Y\to Z$ for finite étale morphisms,
+with pullback along $c_2$ and transfer along $c_1$. At a coincidence
+$y$ above $z$, the analytic inverse function theorem gives a germ
+$s_y:(Z,z)\to(Y,y)$ inverse to $c_1$. Put $\phi_y=c_2\circ s_y$ and
+$A_y=d\phi_y|_z$. We call $y$ nondegenerate when
+$\det(1-A_y)\ne 0$. The local branch is a germ **through the specified
+point**. Algebraically the corresponding statement is that $c_1$
+identifies the completed local rings at the two complex points. An
+étale cover can have several sheets and need not have a section over
+a Zariski neighbourhood.
+
+**Lemma (the local calculation) [Expository].** At a nondegenerate
+coincidence, the local intersection of $(c_1,c_2):Y\to Z\times Z$ with
+the diagonal has length one. The local top-degree residue with
+insertion of the trace on $a$-forms is
+$$
+L_a(y)=\frac{\operatorname{Tr}(\bigwedge^a A_y^\vee)}
+                 {\det(1-A_y)}
+      =\frac{[s^a]\det(1+sA_y)}{\det(1-A_y)}.
+$$
+Here $A_y^\vee$ is the dual linear map on covectors and the determinant
+of the empty matrix is one.
+
+*Proof.* Choose coordinates $t=(t_1,\ldots,t_d)$ at $z$ centred at
+zero, and use $c_1^*t$ as coordinates at $y$. In these coordinates
+the second leg is $\phi(t)$, with $\phi(0)=0$. Write
+$\phi(t)=G(t)t$ with regular analytic coefficients, for instance by
+integrating its derivative along the line from $0$ to $t$. In the
+algebraic local ring the parameters generate the maximal ideal by
+étaleness of the first leg, and each second-leg coordinate lies in
+that ideal, so the same expansion exists with local-ring coefficients.
+Then $G(0)=A_y$ in the chosen tangent basis. Set
+$r=t-\phi(t)=N(t)t$, where $N=1-G$. This matrix is invertible in
+the local ring, so the ideal of differences is the maximal ideal.
+The quotient has length one and the point is isolated. The forms
+$d\phi_i$ reduce modulo the maximal ideal to
+$\sum_j (A_y)_{ij}dt_j$. In exterior degree $a$, the coefficient from the
+basis wedge indexed by $T$ to the wedge indexed by $S$ is the minor
+with rows $T$ and columns $S$. Taking the diagonal sum gives the
+coefficient of $s^a$ in $\det(1+sA_y)$ by multilinearity in its columns.
+
+For a germ $f$, integrate $f(t)\,dt_1\wedge\cdots\wedge dt_d/(r_1\cdots r_d)$
+over a small positively oriented product of circles in the $r$ coordinates
+and divide by $(2\pi i)^d$. In the coordinates $r$ this is the constant
+term of $f(t(r))\det(\partial t/\partial r)$ by repeated Cauchy
+integration. It is $f(0)/\det N(0)$. Taking the exterior trace as
+$f(0)$ gives the formula. The algebraic version uses the same determinant.
+The comparison of Koszul complexes on $r$ and $t$ sends the
+generators for $r$ to the combinations of the generators for $t$
+given by $N$. The top exterior map multiplies by $\det N$.
+Consequently a coefficient representing the class in the
+$t$ normalization must be multiplied by $\det N(0)$ to represent
+the coefficient in the $r$ normalization. Division by this unit is
+the origin of the denominator. For $d=0$ the local ring at a complex
+point is $\mathbb C$ and the empty residue convention gives the same
+conclusion. $\square$
+
+**Theorem (conditional finite étale holomorphic trace) [Lean].** Suppose
+$Z$ is smooth projective of pure dimension $d$ over $\mathbb C$,
+both legs above are finite étale, and $F$ is the set of all complex
+coincidences on $Y$. Assume every member is nondegenerate. For the
+following chart proof also assume these named supplies for each integral
+piece of the preceding assembly.
+
+- The finite projective chart and fixed-evaluation data (<code>Y1</code>),
+  Hodge–Čech comparison and its pullback and transfer naturality, and
+  the common-representative lift of step 1.
+- The diagonal data <code>ZFam</code>, <code>ZEx</code>, <code>ZId</code>,
+  <code>PrB</code> and <code>ZF</code>, and the compatibility of the
+  pulled diagonal <code>GMap</code>.
+- The combined cocycle <code>YBig</code>, the $T$ comparison
+  <code>YCmpT</code> and the $G$ comparison <code>YCmpG</code> under
+  the named chart, column and local conditions in the
+  [global comparison theorem](#from-fixed-point-vanishing-to-a-global-čech-boundary).
+- The cup and edge boundary comparisons <code>LCupRel</code> and
+  <code>EdgeB</code>, top trace and linearity <code>TrTop</code> and
+  <code>TrLin</code>, and the reduced-fibre evaluation supplied by
+  <code>ResidueOfTraceIsFiberSum</code> through
+  <code>trace_cechCochain_fraction_eq_sum_fibre</code>.
+
+For
+$T_{a,b}=\operatorname{Tr}_{c_1}\circ c_2^*$ on
+$H^b(Z,\Omega_Z^a)$, the spaces are finite dimensional and
+$$
+\sum_{b=0}^d(-1)^b\operatorname{Tr}(T_{a,b})
+   =\sum_{y\in F}L_a(y).
+$$
+Here $\operatorname{Tr}_{c_1}$ is the ordinary sheaf transfer
+induced from the algebra trace via
+$\Omega_Y^a\simeq c_1^*\Omega_Z^a$. The empty sum is zero. Properness
+of $Y$ follows from finiteness over $Z$. The coincidence scheme is
+closed in $Y$, and the local calculation shows that its local rings
+at complex points are reduced of dimension zero. Hence the set $F$
+is finite. In the formal statement a finite set and the proof that
+it lists precisely these points are supplied explicitly.
+
+*Proof (the chart input to the preceding assembly).* Use the clopen
+reductions and the integral Čech comparison of the preceding subsection.
+The integral calculation takes $K=\mathbb C(Z)$, $K'=\mathbb C(Y)$,
+the field inclusion from $c_1$, and the separate map $j_2$ from $c_2$.
+It uses a finite projective coordinate cover with function field $F_0$
+and $d+1$ homogeneous coordinates $x_i$. In the distinguished chart
+the ratios $t_j=x_j/x_0$ cut out the origin fibre. The chart theorem
+assumes the two finite-cover structures, availability of second-leg
+charts locally after clearing denominators, a reduced source origin
+fibre, absence of fixed evaluations on charts other than zero, and
+that fixed evaluations on chart zero lie over the origin. It requires
+an exact finite list of those evaluations in that fibre, generation
+of the target maximal ideals by the ratios after localization,
+the second-leg coordinate expansion with denominators nonvanishing
+at the point, and the determinant condition. Its remaining
+hypotheses are the cochain lifting property below and finite
+dimensionality of the target Čech groups. The integral assembly
+supplies these inputs and transports both determinant polynomials
+back to the original tangent matrices.
+
+1. **Lift the given representative.** Let $b$ be a target Čech
+   cocycle. Use the ordered union of the two inverse-image covers of
+   $Y$, with left indices from $c_1$ and right indices from $c_2$,
+   and take a cocycle $c_0$ representing $c_2^*[b]$ there.
+   Its restriction to the right differs from the componentwise
+   pullback of $b$ by a boundary $\delta e$. Extend $e$ to a cochain
+   on the union by zero on all indices containing a left index.
+   This is a cochain because on right-only intersections it has
+   exactly the required coefficients. Right restriction commutes
+   with $\delta$, so $c=c_0-\delta\widetilde e$ restricts to the
+   given componentwise pullback, and still represents the same
+   class. Restrict $c$ to the left and apply the field trace on
+   forms coefficientwise. Naturality of the comparison under
+   transfer gives exactly the Čech representative of $T_{a,b}[b]$.
+   This proves the lifting hypothesis in the chart theorem. It is
+   a cochain construction distinct from the inverse branch germ.
+
+2. **Compute the coefficient before changing equations.** In
+   chart zero, evaluate at a fixed point $e$. The two evaluations
+   from $K$ coincide there. The diagonal cocycle carries an identity
+   pairing on exterior degree $a$. In the local wedge bases,
+   its coefficient arrays $\alpha_{kS},\beta_{kT}$ satisfy
+   $\sum_k\alpha_{kS}\beta_{kT}=\delta_{ST}$. The archive proves this
+   by acting with the diagonal tensor on a basis wedge multiplied
+   by a fibre idempotent representative, taking trace, and evaluating
+   on that sheet. Differentiating the second-leg expansion contributes
+   terms involving $t_j\,dg_{ij}$, which vanish at the origin.
+   Thus the evaluated pullback coefficients are precisely the minors
+   $\mu_{TS}$ of $A_e$. Contracting with the identity pairing leaves
+   $\sum_{S,T,k}\beta_{kT}\mu_{TS}\alpha_{kS}=\sum_S\mu_{SS}$.
+   This is the numerator, obtained without assuming diagonalizability.
+
+3. **Compare the two local top classes.** The algebraic comparison
+   uses the localized chart ring. The relation $r=Nt$ there has
+   $\det N(e)=\det(1-A_e)$. The adjugate gives the inverse matrix
+   and shows that the two sequences generate the same ideal.
+   The numerator from step 2 is the value of a coefficient $s$
+   in the coincidence calculation. Choose a chart function $h$
+   taking value $L_a(e)$ at each fixed evaluation and zero at the
+   other points of the reduced origin fibre, using Chinese
+   remaindering. At each fixed evaluation the difference
+   $s-(\det N)h$ has value zero and hence lies in the parameter
+   ideal. This is the boundary test in the comparison of the
+   two top Koszul components. The next subsection proves
+   <code>YCmpG</code> using affine detection in the origin column,
+   exactness in the other columns and a total-complex primitive.
+   The separately supplied <code>YCmpT</code> gives the comparison
+   with the top representative of $h\,d\log t_1\wedge\cdots
+   \wedge d\log t_d$. Their sum gives the boundary used in step 4.
+
+4. **Take the trace and evaluate the fibre.** In the proof of
+   the chart formula, the diagonal identity splits into
+   complementary Čech classes of degrees $d-b$ and $b$. Pairing
+   each first class with the traced lift of its second class
+   computes the matrix trace by contraction, with sign $(-1)^b$.
+   The projection formula moves the field trace through this
+   pairing. The top functional kills the boundary from step 3.
+   On the remaining representative it takes the coefficient in
+   the logarithmic volume form, applies the field trace to $F_0$,
+   and extracts the constant term. On the reduced origin fibre
+   this gives $\sum_e e(h)$, so only the listed fixed points
+   enter the answer. For $a>d$ the exterior powers and the
+   determinant coefficients both vanish. The preceding integral
+   and clopen assembly identifies this alternating Čech trace
+   with the desired Hodge trace. $\square$
+
+**Choices, degree, and scope.** A different coordinate system at $z$
+conjugates $A_y$ by the derivative of the change of coordinates.
+Using different source parameters changes both leg matrices and
+cancels in $dc_2(dc_1)^{-1}$. The exterior trace and $\det(1-A_y)$
+are therefore intrinsic. For every finite projective cover satisfying the chart hypotheses,
+the integral comparison identifies the resulting sum with the same
+intrinsic point weights and the same cohomological operator. A
+change of Čech representative changes the corresponding images
+by boundaries, as in step 1.
+
+On a small analytic neighbourhood the first leg is a disjoint
+union of sheets. The transfer is their sum, because multiplication
+in a split finite algebra is diagonal. Each coincidence is counted
+on its own sheet, even if two coincidences lie above the same
+target point. For degree $m$ on a connected component,
+$\operatorname{Tr}_{c_1}(1)=m$ and
+$\operatorname{Tr}_{c_1}c_1^*=m\,\mathrm{id}$ there. With $m$ disjoint
+copies of the scaling example, the local contributions over zero
+are $-m$ and $-2m$, while each local quotient still has length one.
+The reduced origin fibre used in the proof pertains to the
+auxiliary projective coordinate map and also enters with its
+ordinary trace. Neither cover introduces a degree average.
+
+When $\det(1-A_y)=0$, the change of coordinates and the unit
+comparison fail. The fixed locus may be positive dimensional, as
+for the identity, or isolated with multiplicity, as for the germ
+$t\mapsto t+t^2$, whose difference generates $(t^2)$ in dimension
+one. The latter germ is locally invertible at zero. An isolated
+point alone does not justify the simple fraction. The theorem
+uses neither limiting fractions at individual degenerate points
+nor a formula for fixed components.
+
+**The Kuga–Sato consumer.** In <code>geoStep_of</code> the target is
+the level-$N$ Kuga–Sato space of the tower $T$, with structure map
+<code>qAt T N</code>. The first leg is the level projection with
+<code>T.X.tr</code> at $1$ from $N'$ to $N$. The second is
+<code>leg T N' N h b₀ α</code>, incorporating the Hecke element and the
+automorphism. <code>FixK</code> supplies the finite coincidence set,
+the cotangent data, and the group-side sum identity. The formula
+above supplies the alternating trace in $b$ at each fixed $a$.
+Only then does the proof multiply by the inverse relative level
+index $[\operatorname{lev}(K_N,h):K_{N'}]$, the index of the deeper
+level subgroup in the intersection level of the Hecke correspondence.
+This scalar relates the raw operator to the normalized Hecke operator.
+Summing in form degree with weights $(-u)^a$ gives
+$\det(1-uA_y)/\det(1-A_y)$.
+The index cancels using the sum identity supplied by <code>FixK</code>.
+The preceding subsection records the use in <code>KSHodge</code>
+and <code>GeoOne</code>. The construction and group matching behind
+<code>FixK</code>, <code>MarkWeightedFixedPointEqDefinitePairOdd</code>,
+<code>TraceDefinitePairsEqAutomorphicTrace</code> remain [Lean] / [Open].
+The separate crystalline and Hodge–Tate inputs in the geometric seed
+include <code>Seam.crysStep_holds</code>,
+<code>UpperTheory.Ru.crystallineComparison.phiStep</code>, and
+<code>Seam.HT.htSpecGood</code>. Their comparison proofs retain the
+same reading boundary.
+
+For a single holomorphic self-map, apply Atiyah–Bott’s Theorem A
+to the Dolbeault complex of $\Omega^a$. In antiholomorphic degree $b$,
+the fibre trace is the holomorphic exterior trace times the trace on
+the $b$th exterior power of the conjugate cotangent map. The alternating
+sum over $b$ gives the factor $\overline{\det(1-A)}$. The absolute real
+Jacobian in Theorem A is $|\det(1-A)|^2$, so their quotient leaves the
+complex denominator $\det(1-A)$. Serre’s GAGA comparison identifies
+algebraic and analytic coherent cohomology on the projective target.
+The two-leg proof above uses algebraic pullback and transfer.
+[Atiyah–Bott I, Theorem A, pp. 377–378](https://annals.math.princeton.edu/1967/86-2/p07)
+[Serre, GAGA, §3, no. 12, Théorème 1, p. 19](https://www.numdam.org/article/AIF_1956__6__1_0.pdf)
+
+**Reading the formal proof.** The table gives the new local reading
+and the interfaces used to transport its result. Paths start at the
+root of archive A2 (Lean 4.33.1, joined archive SHA-256
+<code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>).
+
+| Node | Archive path and lines | Role and reading |
+|---|---|---|
+| <code>exists_chart_lift_of_finite_cover</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ExistsChartLiftOfFiniteCover.lean:7–30</code> | Exported statement and delegation. The conclusion is an alternating trace equality. The representative lift is a hypothesis. R3 [Lean, read]. |
+| <code>field0</code>, <code>UpperTheory.Cb.exists_chart_lift_of_finite_cover</code> | <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/ExistsChartLiftOfFiniteCover.lean:101–223</code> | Wires the diagonal, local comparison and trace packages into <code>FieldLe</code>, then <code>Field0</code>. R3 for the assembly body [Lean, read]. |
+| <code>etaleCorrespondence_family_statement</code> and <code>lift_cocycle</code> | <code>src/Development/AutomorphicArithmetic/CommutativeAlgebra/EtaleCorrespondenceFamilyStatement.lean:22–244</code> | Step 1. It uses pullback naturality twice on the right and once on the left via the identity of the source, and transfer naturality for the first leg. R3 [Lean, read]. |
+| <code>field0_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/TraceEqZeroOfBot.lean:8–89</code> | Packages the two covers and the localized fractions into <code>Y1</code> for <code>a ≤ d</code>. Above dimension both traces and minors vanish. The target generation and finite-dimensionality arguments are among the hypotheses introduced at line 52, but the proof does not use those two arguments explicitly. R3 [Lean, read]. |
+| <code>dtPull_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PDtPull.lean:93–156</code> | Leibniz rule and exterior minors by alternating expansion. R3 for the theorem body [Lean, read]. |
+| <code>idVal_of</code>, <code>valG_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PIdVal.lean:79–196</code> and <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PullbackKahlerDegree.lean:102–206</code> | Step 2. Evaluation of the diagonal action yields the Kronecker delta and <code>sum_delta</code> contracts the wedge matrix. R3 for these bodies [Lean, read]. |
+| <code>fixLoc_of</code>, <code>pyc_local</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PFixLoc.lean:6–87</code> and <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYCmpG.lean:12–165</code> | Step 3. The first result builds and inverts the difference matrix. The second uses the vanishing of <code>s − det N · h</code> in the residue field and applies the Koszul boundary criterion. R3 for these bodies [Lean, read]. |
+| <code>yMain_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYMain.lean:110–239</code> | Interpolates the local quotients, removes the chart's powers of the homogenizing coordinates, and adds the two supplied boundary comparisons <code>YCmpG</code> and <code>YCmpT</code>. R3 for this body [Lean, read]. |
+| <code>fieldLe_of</code>, <code>trTop_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PFieldLe.lean:216–336</code> and <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PTrTop.lean:11–70</code> | Step 4. Signed cup products form the cocycle <code>Λ</code>. The edge test gives a Čech boundary, transitivity combines the field traces, and <code>alt_trace'</code> identifies the signed pairing with the alternating operator trace. R3 for the named bodies [Lean, read]. |
+| <code>deRham_restriction_trace_degree_one</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/DeRhamRestrictionTraceDegreeOne.lean:8–16</code> | Rewrites the top trace as a constant-term evaluation of the ordinary field trace and uses the reduced-fibre sum. R3 for the wrapper [Lean, read]. |
+| Chart transport and actual two-leg call | <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/HolomorphicLefschetzFiniteEtaleIntegral.lean:197–245</code> and <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/PGeoStep.lean:16–85</code> | The integral proof applies the chart theorem at fixed form degree and transports trace and local weight. The second file normalizes and sums the result for the Kuga–Sato space. See the preceding subsection for the existing R3 reading. |
+
+The R3 entries cover the indicated proof bodies. The imported constructions
+of the finite projective cover, reduced origin fibres, regular parameters
+and tangent conjugacy, and the natural comparison
+<code>exists_hodge_cohomology_equiv_cech_differentials</code> are used at
+their interfaces. The diagonal supplies <code>ZFam</code>, <code>ZEx</code>,
+<code>ZId</code> and <code>PrB</code>, while <code>GMap</code>,
+<code>LCupRel</code>, <code>EdgeB</code> and <code>TrLin</code>
+supply the join, boundary and trace comparisons. Their inner proofs,
+the producers <code>yBig_of</code> and <code>yCmpT_of</code>,
+the imported Koszul exactness and local form bases
+(<code>koszulExactBelowLengthOfWeaklyRegular_of_htpy</code>,
+<code>koszulTwoInjective_of_gl1</code>, <code>koszulThree_of_det</code>,
+<code>locForms_of</code>), and the supplier
+<code>trace_cechCochain_fraction_eq_sum_fibre</code> are further [Lean]
+inputs. The following subsection proves the <code>yCmpG_of</code> comparison under its named chart and column supplies.
+
+---
+
+#### From fixed-point vanishing to a global Čech boundary
+
+The preceding chart proof compares two cocycles representing a pulled diagonal and a logarithmic top form. A fixed-point evaluation tests a coefficient of a localized Koszul cocycle. The desired conclusion concerns a boundary in the mixed Čech complex of the two covers. The proof passes through an affine Koszul column and then through the total complex. The first passage detects a class by localization. The second constructs a primitive by removing successive Koszul degrees.
+
+**A two-cover calculation [Expository].** Cover $\mathbb A^1_{\mathbb C}$ twice by $U_0=D(t-1)$ and $U_1=D(t)$, keeping the labels of the two copies distinct. Use the regular differential $dt$ as a basis and suppress it in the coefficients. At an intersection indexed by $(I,J)$ use its coordinate ring as coefficients. In this normalized model the $G$ equation is $2t$ and the appended $T$ equation is $t$. Write the total differential as
+$$
+D=\delta_U+(-1)^{|I|}\delta_V+(-1)^{|I|+|J|}d_K,
+$$
+with each sign read on the source bidegrees for that summand. Here $d_K$ is exterior multiplication by the equation vector.
+
+Take the combined cocycle $v$ in total degree $3$ with normalized Koszul degree-one component $(2,1)$ on every singleton pair and zero elsewhere. Its Čech differences vanish and its Koszul differential in degree two is $2t\cdot 1-t\cdot2=0$. Restriction to $G$ gives the component $2$ at every singleton pair. In the $G$ complex put a primitive $u$ in Koszul degree zero at the singleton pairs, with
+$$
+(u_{00},u_{01},u_{10},u_{11})=(1,2,3,4).
+$$
+Set $c'=\operatorname{res}_Gv+Du$. Its Koszul degree-one coefficients are $2+2t\,u_{ij}$. At $(0,0)$ the coefficients are $s=2+2t$ and $h=1$ after suppressing the common orientation sign, with $s-2h=2t$ vanishing at the origin. The differences in Koszul degree one are $2t,4t,6t,8t$. In the origin column the first is the equation times $1$. In the other three columns $t$ is invertible and division by $2t$ recovers $2,3,4$.
+
+In Koszul degree zero the defect has components $3-1=2$ and $4-2=2$ on the two left edges, and $-(2-1)=-1$ and $-(4-3)=-1$ on the two right edges. At each edge the signed Čech difference of $2t\,u_{ij}$ is canceled by $-2t$ times the edge coefficient, since $|I|+|J|=3$ there. Its Čech differential at the square is $(-1)-(-1)+(2-2)=0$. The signed lift of the four column primitives is exactly $u$, because $|I|+|J|=2$ there. Subtracting $Du$ removes the four singleton components and the four edge components, leaving zero. In particular the four nonzero edge values form the mixed Čech boundary $\operatorname{top}(Du)=\delta u$. This example uses compatible cochains on all mixed intersections, with restrictions in both directions.
+
+**The chart and the columns.** Write $x_0,\ldots,x_d$ for the homogeneous coordinates on the auxiliary projective cover. In the notation of the preceding subsection use $K=\mathbb C(Z)$, $K'=\mathbb C(Y)$ and $j_2$ for the second field map. The two labelled source covers are pulled back from the projective charts through the two legs. For nonempty $I,J$, intersect the charts indexed by $I$ on the first leg and those indexed by $J$ on the second leg. The comparison ring $R_{IJ}$ is the subalgebra of $K'$ generated by the two chart rings, the first-leg chart ring in $K'$ and the integral closure in $K'$ of the second chart ring transported through $j_2$. The coefficient module $M_{IJ}$ consists of regular $d$-forms in the archive's field-form model. Both inclusions under enlargement of $I,J$ are part of the coordinate system. The mixed Čech complex uses both nonempty label sets. In the archive's grading a Čech component here has degree $p=|I|+|J|$, two above the usual double Čech degree.
+
+A further ordered index set labels equations. The $G$ list comprises the pulled diagonal minors $X_iY_j-X_jY_i$ followed by the pulled auxiliary equations from the diagonal representative. The $T$ list uses the $d$ coordinates $X_1,\ldots,X_d$ of the first leg. Here $X_i,Y_j$ are the images of $x_i,x_j$ under the respective field maps. For bidegree $(a_\ell,b_\ell)$ the normalized equation on a chart pair with pivot $(i,j)$ is $\rho_\ell=z_\ell/u_\ell$, where $u_\ell=X_i^{a_\ell}Y_j^{b_\ell}$. The minima of the two label sets give the archive's pivots. The twisted coefficient of a Koszul subset $L$ is in $(\prod_{\ell\in L}u_\ell)M_{IJ}$. Dividing by that product on each fixed column conjugates the differential using $z_\ell$ to exterior multiplication by the normalized equations $\rho_\ell$. This is the equivalence supplied by <code>RS</code>. In the global construction we use the twisted complex, where restriction in the Čech directions is defined on these submodules. An empty label set on either side has zero coefficient module. Projection to the component $L=\varnothing$, called <code>top</code>, is a cochain map to the mixed Čech complex, since the Koszul differential increases $|L|$.
+
+**Theorem (conditional global comparison) [Lean, read].** Assume the finite chart and diagonal data <code>Y1</code> and <code>ZF</code> of the preceding theorem and the following supplies for this chart system.
+
+- <code>RYBasic</code>, <code>SysOk</code>, <code>SysBasic</code> and <code>WdUni</code> supply the compatible total complexes, restrictions to ordered equation subsets, finite-set and sign identities, and the boundary map <code>top</code>. <code>RS</code> supplies the normalized column isomorphisms.
+- <code>YCols</code> supplies admissibility for the $G$, $T$, and combined lists, exactness in each Koszul degree strictly below $d$ on every mixed intersection, and exactness in all degrees away from $(I,J)=(\{0\},\{0\})$ for $G$ and for the combined list. <code>PtG</code> locates every common zero of the $G$ equations over a listed fixed evaluation, with the stated identification of local rings. <code>YKE</code> detects column boundaries from their localizations at all common zeros. The coefficient inclusions and evaluation in those localizations use <code>OmLoc</code> and <code>ValBasic</code>.
+- At the fixed evaluations, <code>FixLoc</code>, <code>LocReg</code>, <code>LocMax</code>, <code>LocForms</code>, <code>K1</code>, <code>K3</code> and <code>KoszulBoundaryOfComponentMemIdeal</code> supply the local coordinate change, regularity, parameter ideal and Koszul tests used in the preceding subsection. The total boundary construction uses <code>CechKoszulSystemBoundaryCriterion</code>, proved below from the column hypotheses and the compatible total differential.
+
+Let $v$ be a total degree $d+2$ cocycle for the combined list, and $c'$ one for $G$. In the origin singleton column assume that the distinguished $T$ component of $v$ normalizes to $(-1)^d h\omega$, and the distinguished $G$ component of $c'$ normalizes to $(-1)^d s\omega$, where $\omega=dt_0\wedge\cdots\wedge dt_{d-1}$ and $t_\ell=X_{\ell+1}/X_0$ for $0\leq\ell<d$. Here $h$ is regular on the first origin chart and $s\in K'$ is regular at the listed fixed evaluations. The distinguished $G$ indices are the minors with second index $0$ and first index different from $0$. Suppose $s(e)=h(e)\det(1-A_e)$ at every listed fixed evaluation $e$. Then
+$$
+\operatorname{top}c'-\operatorname{top}v
+$$
+is a boundary of degree $d+2$ in the mixed Čech complex. This is <code>YCmpG</code>. The two normalization factors removed from the raw components are $X_0^d$ and $(X_0Y_0)^d$, respectively.
+
+**Lemma (lifting column primitives).** Let $D=D_C+D_K$ on a finite total complex graded by $(p,q)$, with $D_C$ raising $p$, $D_K$ raising $q$, $D^2=0$, and $D_K=(-1)^p d_K$ in each column. Suppose a total degree $n$ cocycle $w$ has no components in $q>d$. Assume $H^q(d_K)=0$ in every column for $q<d$, and that the $q=d$ component in each column of degree $p=n-d$ is a $d_K$-boundary. Then $w$ is a total boundary.
+
+*Proof.* Choose column primitives $u_b$ of Koszul degree $d-1$ for the degree $d$ components, where $b$ is the combined left and right chart index. Extend them by zero to all other degrees and set $y_d(b,L)=(-1)^{|b|}u_b(L)$. The two signs cancel in $D_K y_d$, which equals the degree $d$ part of $w$. The term $D_C y_d$ has Koszul degree $d-1$, so $w-Dy_d$ is a cocycle supported in degrees at most $d-1$. In general, for a remaining cocycle supported in degrees at most $k<d$, its component in degree $k$ is $D_K$-closed. Indeed its total differential in degree $k+1$ is exactly $D_K$ on that component. Column exactness supplies a primitive of degree $k-1$. Apply the same signed extension and subtraction. At $k=0$ exactness means that the kernel is zero, because degree $-1$ is zero. The sum of all chosen cochains is a total primitive. If $d=0$, the top-degree boundary hypothesis already forces the degree-zero component to vanish. In the archive <code>localOne_of_gl1</code> constructs the first signed cochain in the coordinate system, <code>colQEx_of</code> assembles the subsequent column primitives, and <code>filtrationBoundaryCriterion_of_wdBasic</code> performs the downward induction. The wrapper <code>coordinateSystem_degree_one_of_universalDerivation</code> matches the columns with <code>colCx</code> and handles empty index sets. $\square$
+
+*Proof of the theorem.* Restrict $v$ to the ordered $G$ indices. This preserves the cocycle condition since the differential at a subset uses only its own faces. The difference $w=c'-\operatorname{res}_Gv$ is thus a total cocycle. In degree $d+2$ the Koszul degree is at most $d$, since each nonzero component has $|I|,|J|\geq1$. At $q=d$ precisely the singleton pairs occur. Their columns are cocycles, since no Čech terms arrive from a smaller allowed pair. This is <code>pyc_colZ</code>.
+
+In the origin column, apply <code>RS</code> before localizing. If $v_G,v_T$ denote the two distinguished components of the normalized combined column, and $y=(-1)^d s\omega$, the distinguished defect is $y-v_G$. At each common zero the local relation $r=Nt$ and the local Koszul comparison of the preceding subsection give
+$$
+v_G-(\det N)v_T\in (t_0,\ldots,t_{d-1})M_e,
+\qquad
+y-(\det N)v_T=(-1)^d(s-(\det N)h)\omega\in(t_0,\ldots,t_{d-1})M_e.
+$$
+Here $M_e$ denotes the localized module. The second inclusion uses both zero residue and generation of the maximal ideal by the $t_\ell$. Subtracting the two expressions and using $(t)=(r)$ gives the distinguished-component ideal condition for $w$. The local boundary test applies to the entire normalized column cocycle. This is the use of <code>pyc_local</code> inside <code>collapsed_column_origin</code>.
+
+For the affine column, consider the class of $w$ in the quotient of cochains by Koszul boundaries. Localization commutes with this quotient. At a maximal ideal where some equation $\rho_\ell$ is a unit, the Koszul complex contracts. Explicitly, contraction $\iota_\ell$ deletes the basis vector for $\ell$ with its alternating position sign. For a wedge element $\alpha$, the rule $\iota_\ell(\rho\wedge\alpha)=\rho_\ell\alpha-\rho\wedge\iota_\ell\alpha$ gives $d_K\iota_\ell+\iota_\ell d_K=\rho_\ell$. Thus $\rho_\ell^{-1}\iota_\ell w$ is a local primitive. At a common zero the preceding calculation applies by <code>PtG</code>. Every maximal ideal of the finite-type complex chart algebra gives a complex evaluation. If the quotient class were nonzero, its annihilator would be proper and contained in a maximal ideal. The class could not vanish in that localization, since any element clearing it there would lie outside that maximal ideal. This proves the affine detection used by <code>YKE</code> via <code>LG</code>. Convert the resulting normalized boundary back by <code>RS</code>.
+
+At every other singleton pair use the all-degree exactness supplied by <code>YCols</code>. Its producer rules out a common zero on every mixed intersection other than the origin singleton pair: <code>PtG</code> forces both label sets to be $\{0\}$, and a zero for the combined list would also be a zero for $G$. The producer uses the same unit contraction and affine detection there. For the below-$d$ exactness, its common-zero branch uses that the equations generate the regular parameters locally, via <code>PtG</code>, <code>PtT</code> and <code>FixLoc</code> as appropriate. These are separate obligations from the residue identity at the origin.
+
+The lemma now applies to $w$. If $D y=w$, taking $L=\varnothing$ gives $\delta(\operatorname{top}y)=\operatorname{top}c'-\operatorname{top}v$. The restriction discarded only equation labels, so it preserves the empty-subset component. This proves the comparison. $\square$
+
+**Why the hypotheses matter [Expository].** On $\mathbb P^1$, take the two standard affine charts with coordinates $t$ and $u=1/t$. The overlap cocycle $\eta=dt/t$ has zero class on restriction to each single chart. For a two-chart cover a boundary has the form $f(u)\,du-g(t)\,dt$. Written in $t$, this is $-f(1/t)t^{-2}dt-g(t)dt$. The first term has powers at most $-2$ and the second powers at least $0$. The coefficient of $t^{-1}dt$ therefore distinguishes $\eta$ from every boundary. Conversely all other Laurent monomials lie in the image, so this quotient is one-dimensional. The affine cover computes $H^1(\mathbb P^1,\Omega^1)$ by the affine-intersection Čech comparison. Even a test by the representative's value at an origin can miss this class: use the chart in $\mathbb P^1$ obtained by removing the point $t=1$, together with the chart obtained by removing $t=0$. With $z=t/(t-1)$, these are the $z$ and $1/z$ affine charts. The same class generator $dz/z$ on the overlap has representative $(z-1)dz/z=dz-dz/z$ whose value at $z=1$ is zero, and whose Laurent coefficient at $z^{-1}dz$ is $-1$. Thus local exactness of restrictions and even a vanishing value on the overlap leave a global obstruction. The lifting lemma removes it only for a compatible total cocycle with the specified column exactness and a primitive at the highest Koszul degree. [Stacks Project, Lemma 30.2.6](https://stacks.math.columbia.edu/tag/01XD)
+
+**The actual consumer.** In <code>yMain_of</code>, Chinese remaindering gives $h$ with values equal to the local quotient at the fixed evaluations and zero elsewhere on the origin fibre. The pulled diagonal is $c'=gY(j_2)(c)$, where $c$ is the chosen diagonal-system cocycle. The test for $s$ comes from <code>ValG</code>; the specialization <code>hsv</code> multiplies the chosen values of $h$ by the nonzero determinants. The combined cocycle $v$ is the <code>c1</code> returned by <code>hBig</code>. At the actual <code>hCG</code> call, the arguments are $h$, $s$, that valuation identity, the combined cocycle and its prescribed component, and the pulled diagonal and its prescribed component. The second boundary is supplied by <code>hCT</code> on restriction to the $T$ indices. Its singleton support condition uses the support of $v$ supplied by <code>YBig</code>. Adding the two boundaries cancels $\operatorname{top}v$ and compares the pulled diagonal to the edge image of the logarithmic representative from the preceding subsection. The reduced-fibre trace and the actual geometric and group-side matching enter later, through the named supplies recorded above.
+
+**Reading and sources.** The proof follows A2, joined archive SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>. See the path and reading-level table below. For the commutative-algebra steps, the Stacks Project gives maximal-ideal localization detection and the Koszul homotopy in homological indexing. The archive uses cochain indexing and checks the twisted coefficients and the two Čech directions explicitly. [Stacks Project, Lemma 10.23.1](https://stacks.math.columbia.edu/tag/00HN) · [Lemma 15.29.5](https://stacks.math.columbia.edu/tag/0626)
+
+| Declaration | A2 source | Reading |
+|---|---|---|
+| <code>yMain_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYMain.lean:111–239</code> | Actual consumer. Lines 209–239 apply <code>hCG</code> and <code>hCT</code> and cancel the middle mixed cochain. Prior R3, rechecked. |
+| <code>pyc_local</code> and its local helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYCmpG.lean:11–163</code> | Prior R3, rechecked. Compares normalized degree-$d$ components modulo the parameter ideal. |
+| <code>pyc_colZ</code>, <code>collapsed_column_origin</code> and <code>yCmpG_of</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYCmpG.lean:170–366</code> | R3. Normalizes by the homogeneous units, invokes affine detection, checks all singleton pairs, and projects the total boundary. |
+| <code>yCols_of</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYCols.lean:7–151</code> | R3. Assembles admissibility, below-$d$ exactness and all-degree exactness off the origin column. |
+| <code>yKE_of</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/ExistsInv.lean:16–117</code> | R3. Splits the common-zero and invertible-equation cases and descends the local boundary. |
+| <code>lG_of</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/ExistsPt.lean:19–180</code> | R3. Clears local denominators in a finite tuple and detects the boundary by the annihilator ideal. |
+| <code>htpy_of</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/WdApply.lean:8–114</code> | R3. Signed insertion on subset cochains implements contraction on the exterior algebra. |
+| <code>coordinateSystem_degree_one_of_universalDerivation</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/CoordinateSystemDegreeOneOfUniversalDerivation.lean:7–58</code> | R3. Matches the abstract filtered boundary criterion to the twisted chart coefficients. |
+| <code>localOne_of_gl1</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PoincareLelong.lean:6–122</code> | R3. Extends the highest Koszul column primitives with the sign of the Čech degree. |
+| <code>colQEx_of</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PColQEx.lean:7–165</code> | R3. Assembles column primitives in lower Koszul degrees. |
+| <code>filtrationBoundaryCriterion_of_wdBasic</code> and its helpers | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/FiltrationBoundaryCriterionOfWdBasic.lean:9–210</code> | R3. Subtracts the differential of the signed primitive and descends in Koszul degree. |
+| <code>PtG</code>, <code>YKE</code>, <code>YCols</code>, <code>YCmpG</code>, <code>GMap</code> and related interfaces | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/ResidueOfTraceIsFiberSum.lean:34–218</code> | Definitions. |
+| <code>top</code>, <code>Sys</code>, and <code>sysY</code> | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/MonoM.lean:46–176</code> | Definitions for the mixed complex, normalization and coefficients. |
+| <code>RS</code>, <code>L1</code>, and the system boundary criterion | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/LiftFactorization.lean:61–139</code> | Definitions. |
+| <code>R2</code>, <code>RY</code>, <code>gY</code> and <code>Val</code> | <code>src/Development/AbelianVarietyTheory/Definitions/GaloisGeometry/Edge1.lean:108–128</code> | Definitions of the join, coefficient pullback and evaluation. |
+| Chart assembly | <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/ExistsChartLiftOfFiniteCover.lean:123–197</code> | Prior R3 for the assembly body. Lines 175–188 wire <code>yKE_of</code>, <code>yCols_of</code>, <code>yCmpG_of</code> and <code>yMain_of</code> together. |
+
+R3 applies to the named proof bodies. The remaining geometric chart inputs and
+the suppliers <code>ptG_of</code>, <code>ptT_of</code>, <code>locEq_of</code>,
+<code>rYFT_of</code>, <code>rYBasic_of</code>, <code>sysOk_of</code>,
+<code>sysBasic_of</code>, <code>rS_of</code>, <code>wdUni_of</code>,
+<code>WdBasic</code>, <code>OmLoc</code>, <code>ValBasic</code>,
+<code>LocReg</code>, <code>LocMax</code>, <code>LocForms</code>,
+<code>K1</code>, <code>koszulTwoInjective_of_gl1</code>,
+<code>koszulThree_of_det</code>, <code>yBig_of</code>, <code>yCmpT_of</code>,
+<code>GMap</code>, <code>ZFam</code>, <code>ZEx</code>, <code>ZId</code>,
+<code>PrB</code>, <code>LCupRel</code>, <code>EdgeB</code> and <code>TrLin</code>
+are used through their interfaces in this subsection. The separate
+<code>trace_cechCochain_fraction_eq_sum_fibre</code> proof, the geometry of
+<code>FixK_holds</code> and the group-side matching
+<code>MarkWeightedFixedPointEqDefinitePairOdd</code> and
+<code>TraceDefinitePairsEqAutomorphicTrace</code> retain their [Lean] / [Open] status.
+
 ## 12.5 Remarks, formalization notes, and Masullo's counterpart
 
 ### 12.5.1 Comparison with Harris–Taylor, Henniart, Shin, and Caraiani
