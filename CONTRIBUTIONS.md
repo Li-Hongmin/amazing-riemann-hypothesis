@@ -311,7 +311,13 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 **Levent Alpöge with Claude** authored the archive A2 proofs of StepZero_of, LamModule_of, FirstDeriv_of, CobLin_of and StepI_of. The Mathlib substitution and derivative infrastructure credited in the §8.4.17 record also supports these proofs. [Source record](sources/SOURCES.md#chapter-8-8418--projection-and-first-derivatives-for-betaisg)
 
+### Chapter 8 slice-coboundary classification (LemmaOne)
+
+**Levent Alpöge with Claude** authored the archive A2 wrapper `Top.lemmaOne` (`FinalS.lean:48`), the one-variable coboundary classification proof `LemmaOne_of` (`NotDvdChoosePowMul.lean:1–540`), and the ultrametric integer-cast norm lemmas (`NormNatCastEqOneOfNotDvd.lean`, `NormNatCastEqPowPadicValNat.lean`). **Gareth Ma, Chris Hughes, Robert Y. Lewis, Matthew Robert Ballard, Antoine Chambert-Loir, María Inés de Frutos-Fernández, Sébastien Gouëzel, Johannes Hölzl, Yury Kudryashov, Patrick Massot, and Mario Carneiro** authored the pinned Mathlib Lucas, multiplicity, power-series order/substitution, and Cauchy-completeness lemmas used at statement level; **Michel Lazard** (1955), **Taira Honda** (1970), and **Michiel Hazewinkel** (1978) established the classical formal-group binomial and functional-equation background. [Source record](sources/SOURCES.md#chapter-8-8419--classifying-slice-coboundaries-and-the-lemmaone-supply)
+
 ## Our contributions
+
+**Hongmin Li with AI assistance** located `Top.lemmaOne` in `UniformThetaSubstitution/FinalS.lean:48`, read `LemmaOne_of` and its binomial, order, and Cauchy-approximation supply in `NotDvdChoosePowMul.lean:1–540` at local R3, reconnected congruence elimination of $\beta\,\ell$ in `StepI_of`, and wrote the $p=5$ Frobenius-twisted all-orders approximation example, the coexisting integral-remainder and unbounded-$\beta\,\ell$ all-orders example, and the completeness and congruence-support deletion counterexamples. [Chapter 8 §8.4.19](chapters/08-divisibility-at-inert-primes.md#8419-classifying-slice-coboundaries-and-the-lemmaone-supply)
 
 **Hongmin Li with AI assistance** read the two production steps, wrote the conditional proofs and supplied two all-orders BeProp checks and a deletion example. [Chapter 8 §8.4.18](chapters/08-divisibility-at-inert-primes.md#8418-projection-and-first-derivatives-for-betaisg)
 
