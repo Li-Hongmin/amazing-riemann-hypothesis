@@ -8,7 +8,8 @@
 > `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean` (`OpenImageCondition`) (`R3`), and, in Section 13.4.4, the producer of
 > `GreenRegularCharacters` (`ExistsCuspidalCharacterOfRegularCharacterGLn.lean`,
 > `IsCharacterCuspidalRootSumRegular.lean`, `GreenCuspidalCharsByRegularCharsProof.lean` and the
-> definitions they unfold, `R3`); `[Lean]` for the existence
+> definitions they unfold, `R3`), and, in Sections 13.4.5–13.4.10, the conditional production proofs
+> for inputs `(I1)`, `(I2)`, `(I4)`–`(I8)`, and `(I9)` at their stated interfaces (`R3`); `[Lean]` for the existence
 > and proved status of individual `UpperTheory.LiteratureTheorems.*` and `GlobalTheory.Published.*`
 > declarations (`R1` / `R2`); `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft;
 > `[Community]` for public statement-fidelity reviews (notably LUMI's four-batch review of 105
@@ -506,7 +507,7 @@ Three headline takeaways emerge from this community audit (`[Community]`):
 > `GlobalTheory.ParamLabel.isCusp_psi` and `GlobalTheory.CuspGL.isChar_psi_rootSum_of_regular`, its one
 > direct consumer `GlobalTheory.greenRegularCharacters_holds`, the definitions they unfold, and the
 > elementary Lemmas 13.4, 13.5 and 13.7; `R2` / [Lean] (statement and call site read, proof not read)
-> for the inputs (I1)–(I9) listed before Proposition 13.6. Paths are relative to `lean/` in the pinned
+> for (I3) (with (I4)–(I5) read in §13.4.6 and (I7) read in §13.4.7). Section 13.4.5 reads (I6), Section 13.4.8 reads (I9), Section 13.4.9 reads (I1) and its `ParamLabel` / choice-of-embedding bridges, and Section 13.4.10 reads (I2) and (I8), each at its stated conditional depth. Paths are relative to `lean/` in the pinned
 > `lean.tar.gz` (sha256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`).
 
 **Motivation.** Proposition 13.1 turned `GlobalTheory.Published.GreenRegularCharacters` into polynomial
@@ -699,11 +700,12 @@ proof establishes what its classical counterpart says is part of what remains [O
 - (I1) A multiplicative $\theta_0 : \overline F \to \mathbb C$ injective on nonzero elements exists
   (`T.exists_teichmuller_map_algebraicClosure_finiteField`,
   `…/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteFieldStatement.lean:7`; lemma
-  `CuspGL.TeichEmb.exists_teichmuller`, `…/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24`).
+  `CuspGL.TeichEmb.exists_teichmuller`, `…/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24`). Section 13.4.9 reads this Witt-vector production proof, its zero-extension and `ParamLabel` bridges, and how changing the embedding permutes labels.
 - (I2) If $\dim V > 0$ and $s((X - 1)^j) = j$ for all $j$, then
   $\psi_s(V, 1) = \prod_{i \in [1, \dim V)}(1 - q^i)$ (`T.invariantSubspaceMobiusInverse_one_prod_Ico`,
   `…/CharacterTheory/InvariantSubspaceMobiusInverseOneProdIcoStatement.lean:6`; lemma `CuspGL.psi_one`,
-  `…/CharacterTheory/InvariantSubspaceMobiusInverseOneProdIco.lean:74`).
+  `…/CharacterTheory/InvariantSubspaceMobiusInverseOneProdIco.lean:74`). Section 13.4.10 reads its
+  production proof, a count over the subspace lattice (Lemmas 13.26 and 13.27).
 - (I3) For additive $s$, $\psi_s$ is primitive (`T.isPrimitiveEndClassFunction_invariantSubspaceMobiusInverse`,
   `…/CharacterTheory/IsPrimitiveEndClassFunctionInvariantSubspaceMobiStatement.lean:6`; lemma
   `CuspGL.isPrimitive_psi`, `…/CharacterTheory/IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean:188`),
@@ -733,11 +735,11 @@ proof establishes what its classical counterpart says is part of what remains [O
   whose file imports a Brauer-type induction package (`OneMemClosureInducedCentralByPrimePower`,
   `IsCharacterBrauerLiftAbelianByPrimePower`), elementary symmetric functions of the roots
   (`IsCharacterEsymmRootsCharpoly`) and Newton's identities (`MultisetPowerSumNewtonIdentity`)). This is a
-  special case of Green's Theorem 1 (Remark 13.4.4(1)).
+  special case of Green's Theorem 1. Section 13.4.5 reads the production proof and its Brauer-type induction supplier.
 - (I7) Parabolic induction preserves virtual characters (`ParabVirt.parab_virt`,
   `…/CharacterTheory/ParabolicInductionTrivialPreservesVirtualCharact.lean:193`): if $\Phi$ is invariant under
   transport by linear isomorphisms and $x \mapsto \Phi(F^a, x)$ is virtual on $\mathrm{GL}_a(F)$, then
-  $x \mapsto \sum_{W\ x\text{-invariant},\ \dim W = a}\Phi(W, x|_W)$ is virtual on $\mathrm{GL}_n(F)$.
+  $x \mapsto \sum_{W\ x\text{-invariant},\ \dim W = a}\Phi(W, x|_W)$ is virtual on $\mathrm{GL}_n(F)$. See §13.4.7 for its proof and use in the subtraction.
 - (I8) A virtual character of norm one is $\pm$ an irreducible character, and a character of norm one is
   irreducible of positive degree (`T.irreducible_of_virtualCharacter_norm_one`,
   `…/CharacterTheory/IrreducibleOfVirtualCharacterNormOneStatement.lean:7`; lemma `BI.irr_of_norm_one`,
@@ -751,16 +753,15 @@ proof establishes what its classical counterpart says is part of what remains [O
   Mathlib's criterion `FDRep.simple_iff_char_is_norm_one`
   (`Mathlib/RepresentationTheory/FinGroupCharZero.lean:121` at the pinned commit): for a finite group $G$
   and an algebraically closed field of characteristic $0$, a finite-dimensional representation $V$ is
-  simple if and only if $\sum_{g \in G}\chi_V(g)\chi_V(g^{-1}) = \lvert G\rvert$.
+  simple if and only if $\sum_{g \in G}\chi_V(g)\chi_V(g^{-1}) = \lvert G\rvert$. Section 13.4.10 reads the
+  production proofs of these four statements (Lemmas 13.28–13.30 and Theorem 13.31).
 - (I9) (exhaustion only) A finite set of distinct multisets of cuspidal characters of total degree $n$ has at
   most $g^n - g^{n-1}$ elements (`T.card_cuspidal_multisets_total_degree_le`,
   `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardCuspidalMultisetsTotalDegreeLeStatement.lean:8`).
   We read its assembly `CuspMultisetCount.card_le` (`…/InertiaEigenvalues/CardCuspidalMultisetsTotalDegreeLe.lean:30–61`):
   each multiset is sent to an irreducible constituent of its Harish-Chandra induction with a nonzero
   Whittaker functional, distinct multisets give distinct constituents, and there are at most
-  $g^n - g^{n-1}$ such generic irreducible characters. Its main inputs
-  (`T.exists_generic_constituent_harishChandra_cuspidal`, `IpCuspProd.ip_hcL_cusp`,
-  `T.ncard_generic_irreducible_characters_GLn_le`) are unread [Open].
+  $g^n - g^{n-1}$ such generic irreducible characters. See Theorem 13.17 and its three preceding lemmas for the production proof and its named inputs.
 
 **Proposition 13.6 (the existence supplier `exists_cusp_of_regular`).** [Lean, read], conditional on
 (I1)–(I8). Let $g$ be prime, $d > 0$ and $K$ a field with an $\mathbb F_g$-algebra structure and
@@ -804,7 +805,7 @@ $\sum_x \lvert\chi(x)\rvert^2 = \lvert G\rvert$ by Step 2 and the bookkeeping id
 $\chi(1) = \prod_{i=1}^{d-1}(g^i - 1) > 0$ by (I2) and Lemma 13.4(1) (`:145–165`). By (I8) $\chi$ or $-\chi$ is
 an irreducible character. If $-\chi$ were, (I8) would give a natural number $n > 0$ with $-\chi(1) = n$,
 that is $n + \prod(g^i - 1) = 0$ in $\mathbb N$, which is impossible (`:173–184`). So $\chi$ is the character of
-some $\rho : G \to \mathrm{GL}_n(\mathbb C)$. This is `isChar_psi_rootSum_of_regular` (`:92–184`; statement
+some $\rho : G \to \mathrm{GL}_n(\mathbb C)$ (Theorem 13.31(B) in §13.4.10 gives the complete argument). This is `isChar_psi_rootSum_of_regular` (`:92–184`; statement
 wrapper `T.isCharacter_cuspidal_rootSum_regular`,
 `…/CharacterTheory/IsCharacterCuspidalRootSumRegularStatement.lean:7–8`).
 
@@ -813,7 +814,7 @@ wrapper `T.isCharacter_cuspidal_rootSum_regular`,
 Irreducibility (`:25–38`): the representation `FDRep.of ρ` has character $\tau_\theta$; by Mathlib's
 criterion (I8) it is simple if and only if $\sum_x \tau_\theta(x)\tau_\theta(x^{-1}) = \lvert G\rvert$; since
 $\overline{\tau_\theta(x)} = \tau_\theta(x^{-1})$ for virtual characters (I8) and $((-1)^{d-1})^2 = 1$, this is
-Step 2, rewritten as a sum over $G$ by the bookkeeping identity of (I8). Jacquet vanishing
+Step 2, rewritten as a sum over $G$ by the bookkeeping identity of (I8) (Theorem 13.31(B)(4)). Jacquet vanishing
 (`:39–48`): by (I3) and Lemma 13.4(4), $\sum_{u \in U_{a,d-a}}\psi_k(u) = 0$, and
 `GreenExists.mem_grUnipBlock_iff`
 (`…/InertiaEigenvalues/CuspidalCharExistsOfGreen.lean:17–58`) identifies $U_{a,d-a}$ with the matrices summed
@@ -953,8 +954,7 @@ cuspidal multisets (I9).
 4. *What the route avoids, and where the difficulty went.* In the files read, neither Deligne–Lusztig
    induction nor Green's $S$-functions and degeneracy rule appear. Cuspidality comes from the Möbius
    inversion (I3), irreducibility from a norm computation (I4)–(I5) plus virtuality (I6)–(I7), and
-   exhaustion from counting (I9). The difficulty of the textbook theorem now sits in (I6) and (I9), both
-   unread [Open].
+   exhaustion from counting (I9). Section 13.4.5 reads the supply of (I6) conditional on its named lifting inputs, Section 13.4.8 reads the (I9) producers, and Section 13.4.9 reads (I1) and its label-transport bridges at their stated conditional depths.
 5. *Other readers of the producer.* Besides the two main-path read sites of the Motivation,
    `PM.greenRegularCharacters` is called directly in the partial local Langlands construction (`nameLaws`,
    `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/NameLaws.lean:81`,
@@ -978,10 +978,1027 @@ cuspidal multisets (I9).
 | `ParamLabel.isCusp_psi` | `…/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–48` | Proposition 13.6, Step 4 | [Lean, read] |
 | `PrimeLabOrbit.primeLab_to_regularChar` | `…/InertiaEigenvalues/MonicIrreducibleInjectRegularCharacterOrbits.lean:12–151` | Lemma 13.7 | [Lean, read] |
 | `greenRegularCharacters_holds`, `family`, `factor_lab`, `prod_factors`, `count`; `GrPolys.card_monic_coeff_zero_ne_zero` | `…/InertiaEigenvalues/GreenCuspidalCharsByRegularCharsProof.lean:18–168`; `…/NcardMonicNatDegreeCoeffZeroNeZero.lean:8–63` | Proposition 13.8 | [Lean, read] |
-| inputs (I1)–(I8): `T.*` statement wrappers and the `CuspGL`/`BI`/`ParabVirt` lemmas they name; `card_cuspidal_multisets_total_degree_le` (I9; assembly `card_le` read) | files listed with (I1)–(I9) before Proposition 13.6 | Propositions 13.6 and 13.8 | [Lean] statement; proofs [Open] |
-| `FDRep.simple_iff_char_is_norm_one` (Mathlib) | `Mathlib/RepresentationTheory/FinGroupCharZero.lean:121` (commit `0df444a`) | Proposition 13.6, Step 4 | [Lean] (Mathlib; statement read) |
+| inputs (I2)–(I3) and (I8) (with (I1), (I4)–(I5), and (I7) read conditionally in §§13.4.9, 13.4.6, and 13.4.7, and (I2) and (I8) read in §13.4.10): `T.*` statement wrappers and the `CuspGL`/`BI`/`ParabVirt` lemmas they name | files listed with (I1)–(I8) before Proposition 13.6 | Propositions 13.6 and 13.8 | [Lean] statement; for (I2) and (I8) see Table 13.4.10; other unread deeper proofs [Open] |
+| `FDRep.simple_iff_char_is_norm_one` (Mathlib) | `Mathlib/RepresentationTheory/FinGroupCharZero.lean:121` (commit `0df444a`) | Proposition 13.6, Step 4 | [Lean] (Mathlib; statement and proof read in §13.4.10) |
 
 ---
+
+### 13.4.5 Why lifted power sums are virtual characters
+
+**Motivation.** Lifting the eigenvalues of a finite-field matrix to complex roots of unity and adding their powers gives a class function. In (I6) we need its coefficients in the irreducible-character basis to be integers, so that we can subtract virtual characters in the Möbius recursion.
+
+**Example 13.9 (positive degree and a negative multiplicity).** Let $G=\mathrm{GL}_2(\mathbb F_3)$ and let $S_4(g)$ be the sum of fourth powers of its two lifted eigenvalues under an injective multiplicative lift. The action on the four lines of $\mathbb F_3^2$ identifies $\mathrm{PGL}_2(\mathbb F_3)$ with $\mathfrak S_4$. A matrix fixing every line is scalar, and the quotient has order $(9-1)(9-3)/2=24$.
+
+For split characteristic polynomials the fourth powers both equal $1$. Scalars act trivially, nonscalar repeated-root matrices act projectively with order three, and distinct roots in $\mathbb F_3$ give two fixed lines and a transposition. For an irreducible polynomial the roots are $z^a,z^{3a}$ with $z$ a generator of $\mathbb F_9^\times$ and $a\notin\{0,4\}$ modulo $8$. Since the lift of $z$ has order eight, both fourth powers equal $(-1)^a$. Multiplication by $z^a$ on $\mathbb F_9$ fixes no line and has projective order equal to the order of $a$ modulo four. Even $a$ gives a double transposition and odd $a$ a four-cycle.
+
+Let $T$ be the character of the sum-zero subspace of the complex permutation representation on the lines, and let $\epsilon$ be the sign of the action.
+
+| Cycle type | $1^4$ | $2\,1^2$ | $2^2$ | $3\,1$ | $4$ |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Class size in $\mathfrak S_4$ | 1 | 6 | 3 | 8 | 6 |
+| $S_4$ | 2 | 2 | 2 | 2 | $-2$ |
+| $T$ (fixed lines minus one) | 3 | 1 | $-1$ | 0 | $-1$ |
+| $\epsilon$ | 1 | $-1$ | 1 | 1 | $-1$ |
+
+Thus $S_4=1+\epsilon+T-\epsilon T$. The norm squared of $T$ is $(9+6+3+0+6)/24=1$. Hence $T$ and its sign twist are irreducible and they differ on a transposition. Pullback along the surjection preserves irreducibility and distinctness. Both have degree three, so they are distinct from the two displayed linear characters. The coefficient $-1$ of $\epsilon T$ precludes a genuine character even though $S_4(1)=2$.
+
+**Definition 13.4.** For a finite group $G$ let $R(G)$ be the additive subgroup of complex functions generated by genuine representation characters. Complete reducibility and character orthogonality identify it with the integer span of the irreducible characters. Tensor products give pointwise multiplication, and restriction, pullback along a group homomorphism, and induction preserve virtuality by the corresponding operations on representations. Call $E\le G$ *admissible* here if $E/Z(E)$ is an $\ell$-group for some prime $\ell$. Equivalently, for a single prime $\ell$ each $y\in E$ has an $\ell$-power $y^{\ell^j}$ in the center. The archive's `AbByP` replaces the center by an abelian normal subgroup. Admissibility implies `AbByP`, which passes to subgroups by intersection with the chosen normal subgroup.
+
+**Lemma 13.10 (induction and the unit).** Let $A$ consist of the functions $\operatorname{Ind}_E^G v$ with $E$ admissible and $v\in R(E)$. Then $1$ belongs to the integer span of $A$. Consequently a class function $\chi$ belongs to $R(G)$ if its restrictions to all admissible subgroups are virtual.
+
+*Proof.* First construct an integer-valued witness for each $x\in G$ and prime $\ell$. Write $x=cu=uc$ with $c,u$ powers of $x$, the order $m$ of $c$ prime to $\ell$ and the order of $u$ an $\ell$-power. Such powers follow from the Chinese remainder theorem in $\langle x\rangle$. Put $Z=C_G(c)$ and choose a Sylow $\ell$-subgroup $P$ of $Z$ containing $u$. Then $E=\langle c\rangle\times P$ is admissible. Choose an integer $a\equiv 1$ modulo $m$ and $a\equiv 0$ modulo $|P|$. On $E$, $e\mapsto e^a$ is projection onto $\langle c\rangle$. Choose a primitive $m$th root $\zeta$ and the linear character $\lambda$ sending $c$ to $\zeta$ and trivial on $P$. The geometric sum $\sum_{j=0}^{m-1}\zeta^{-j}\lambda(e)^j$ equals $m$ if $e^a=c$ and zero otherwise. By the induction formula, the function $f=\sum_j\zeta^{-j}\operatorname{Ind}_E^G(\lambda^j)$ has value $|D_g|/|P|$ at $g$, where
+$$D_g=\{t\in G:t^{-1}gt\in E,\ (t^{-1}gt)^a=c\}.$$
+Indeed the sum over $t$ has normalization $1/|E|=1/(m|P|)$. Right multiplication by $P$ preserves $D_g$ since $P$ centralizes $c$, so $f(g)$ is an integer. At $g=x$, the power condition forces $t\in Z$ because $x^a=c$. The remaining condition is $t^{-1}ut\in P$. Thus $f(x)$ counts fixed cosets for $\langle u\rangle$ on $Z/P$, and is congruent to $[Z:P]$ modulo $\ell$ by orbit sizes. This is nonzero modulo $\ell$. The coefficients of $f$ in the displayed induced sum are algebraic integers.
+
+Now for any class function $\phi$,
+$$\operatorname{Ind}_E^G(v)\phi=\operatorname{Ind}_E^G(v\,\phi|_E).$$
+Every contributing term in the induction sum evaluates $\phi$ on a conjugate of $g$, so the common factor $\phi(g)$ can be taken out. In particular $A$ is multiplicatively closed. Let $J$ be its span over the complex algebraic integers and $B=J\cap\mathbb Z^G$. Both are closed under pointwise multiplication. The value subgroup $B(x)\le\mathbb Z$ is all of $\mathbb Z$ since the witnesses show that no prime divides its generator. Choose $f_x\in B$ with $f_x(x)=1$. The expression $1-\prod_{x\in G}(1-f_x)$ lies in $B$ by induction, starting with zero and changing the current expression $b$ to $b+f_x-bf_x$. The product vanishes at each point, so $1\in J$.
+
+Write $1=\sum_i r_i a_i$ with $r_i$ algebraic integers and $a_i\in A$. In the additive group $M$ generated by $1$ and the $r_i$, the quotient $M/\mathbb Z$ is torsion-free because a rational algebraic integer is an integer. It is finitely generated, hence free. Lifting a basis furnishes an additive retraction $M\to\mathbb Z$ fixing $1$. Let $c_i\in\mathbb Z$ be the images of $r_i$. Put $b=\sum_i c_i a_i-1$. Since $b,a_i,1$ are virtual, $m_i=\langle a_i,b\rangle$ and $d=\langle 1,b\rangle$ are integers. The inner product is linear in its first argument. Pairing the original relation with $b$ gives $\sum_i r_i m_i=d$. Retraction gives $\sum_i c_i m_i=d$, whence $\langle b,b\rangle=0$ and $b=0$. This proves $1=\sum_i c_i a_i$ in the integer span. Multiplying this relation by $\chi$ shows $\chi\in R(G)$ since each term $a_i\chi$ is virtual by the projection formula and the restriction hypothesis. $\square$
+
+**Proposition 13.11 (the virtuality input (I6)).** Let $F$ be a finite field of characteristic $p$, let $n,k\ge 0$, and let $\theta:\overline F\to\mathbb C$ be a multiplicative monoid homomorphism injective on nonzero elements. For $g\in\mathrm{GL}_n(F)$ put $S_k(g)=\sum_\alpha\theta(\alpha)^k$, summing over the roots of the characteristic polynomial in $\overline F$ with multiplicity. Then $S_k\in R(\mathrm{GL}_n(F))$, conditional in this reading on two named inputs.
+
+1. **Monomial basis.** Over an algebraically closed field $K$, every finite-dimensional representation of a finite `AbByP` group $H$ with $|H|\ne 0$ in $K$ has a basis which each group element permutes up to scalar. This is `CuspGL.exists_monomial_basis_of_abByP` [Lean]/[Open].
+2. **Trace comparison.** For a monomial matrix $M$ over $K$, form $M_\theta$ by lifting its nonzero entries, where $\theta:K\to\mathbb C$ satisfies the same multiplicativity and injectivity assumptions. If $M^N=M_\theta^N=1$ and $N\ne 0$ in $K$, then $\operatorname{tr}(M_\theta)$ equals the sum of lifted eigenvalues of $M$, with multiplicity. This is `MonoTrace.trace_lift_monomial` [Lean]/[Open].
+
+*Proof.* Take an admissible subgroup $E$ and its prime $\ell$. An element of order prime to $\ell$ is central because it is a power of its own central $\ell^j$th power. For a Sylow $p$-subgroup $Q$ of $E$, if $\ell=p$, the index of $Z(E)Q$ divides both $[E:Z(E)]$ and $[E:Q]$, which are coprime. Thus $E=Z(E)Q$ and $Q$ is normal. If $\ell\ne p$, $Q$ is central and again normal. Schur–Zassenhaus gives a complement $H$ of order prime to $p$. The two factors commute because $H$ is central in the first case and $Q$ is central in the second. The quotient $E/Q$ identifies with $H$, giving a homomorphism $\pi:E\to H$.
+
+Write $g=\pi(g)s$ with $s\in Q$, and choose $m$ with $s^{p^m}=1$. Then $g^{p^m}=\pi(g)^{p^m}$. Over $K=\overline F$, the multiset of roots of a matrix power is obtained by raising the original roots individually to that power, as is seen in a triangular basis. Raising to $p^m$ is injective on $K$, so the original root multisets coincide. Base extension simply maps the characteristic polynomial into $K[X]$. Hence $S_k|_E=(S_k|_H)\circ\pi$.
+
+The group $H$ has `AbByP` and order invertible in $K$. Apply input 1 to the base-changed representation on $H$. Write $h b_i=c(h,i)b_{\sigma_h(i)}$ with nonzero $c(h,i)$. Invertibility makes $\sigma_h$ a permutation. Composition gives $\sigma_{ht}=\sigma_h\sigma_t$ and $c(ht,i)=c(h,\sigma_t(i))c(t,i)$. Applying $\theta$ preserves these identities and the identity matrix, producing a complex representation $\rho$. Both the original and lifted matrices have $|H|$th power the identity, so input 2 gives $\operatorname{tr}\rho(h)=S_1(h)$. Evaluating at $h^k$ and using the power rule on roots gives $S_k(h)=\operatorname{tr}(\rho(h)^k)$.
+
+Let $P_r$ be the $r$th power sum of the complex roots of $\rho(h)$ as a function of $h$ and $e_i$ their elementary symmetric functions. Each $e_i$ is the character of the $i$th exterior power, represented in the archive by the compound matrix. In a triangular basis its trace sums products over $i$ distinct diagonal indices. This includes $e_0=1$ and $e_i=0$ above the dimension. Also $P_0=\dim(\rho)\,1$. Comparing coefficients in $tE'(t)=E(t)\sum_{r\ge1}(-1)^{r-1}P_rt^r$ for $E(t)=\prod_j(1+\alpha_j t)$ gives
+$$P_r=(-1)^{r+1}r e_r-\sum_{0<i<r}(-1)^i e_iP_{r-i}\qquad(r>0).$$
+Induction in $r$ using the ring operations in $R(H)$ gives $P_k\in R(H)$. The pullback along $\pi$ gives $S_k|_E\in R(E)$. This holds for every admissible $E$. Since conjugation preserves the characteristic polynomial, $S_k$ is a class function and Lemma 13.10 applies. $\square$
+
+**Remarks.**
+
+1. The restrictions in the global test are to subgroups with prime-power central quotient. Its witnesses come from the elementary subgroups $\langle c\rangle\times P$. Cyclic subgroups enter in the element decomposition and the geometric sum. Cyclic restrictions alone are insufficient in general. On $C_2\times C_2$, half the regular character restricts on each order-two subgroup to its regular character, yet its four global irreducible coefficients are all $1/2$.
+2. Algebraic integrality is used for the coefficients of the induced linear characters. Integer inner products of **already virtual** characters descend the unit relation. The values of $S_k$ are themselves algebraic integers because the lifted eigenvalues are roots of unity. Pointwise integrality plays no role in the global test, and the proof does not compute the inner products of $S_k$ with individual irreducibles.
+3. Green proves a symmetric-function result, invoking Brauer's characterization via elementary subgroups. Green cites Brauer’s 1953 paper for that characterization [Paper]. Its original proof stays [Open] in this reading. Green's characteristic-zero lifting on a group of order prime to $p$ and the deletion of the $p$-part in equation (5) serve the corresponding local purpose. The archive uses a monomial basis and a trace comparison, and obtains the global test by proving the induced-unit identity above. This comparison concerns virtuality. [Green 1955, pp. 403–404 and §3, pp. 413–415](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+4. In Proposition 13.6, Step 1, (I6) supplies exactly the unsigned first term of the subtraction. After rewriting with `heq`, `psi_rootSum_charpoly_mem_virt` uses `rootSum_charpoly_mem_virt F θ hθ d k` as the first argument of `sub_mem` at line 84. For the second argument, line 86 applies (I7) with the induction hypothesis in dimension $a<d$. Line 125 uses the resulting auxiliary virtuality inside `isChar_psi_rootSum_of_regular`. The `T` wrapper exposes the same statement, and line 84 calls the producer directly. The inputs are $n=d$ and the same $\theta,k$. The regularity and sign conditions belong to subsequent steps.
+
+**Source map.** All paths are relative to the unpacked archive pinned by `lean.tar.gz` SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The hand calculation is [Expository]. The R3 reading of the archive is conditional at the depth marked below.
+
+| Role | Archive path and lines | Reading |
+| --- | --- | --- |
+| `IsChar`, `Virt`, `ind`, `AbByP` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5–25` | Definitions |
+| `rootSum` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:65–66` | Definition |
+| Virtual-character operations and projection formula | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharactersMulComapConjIndLinear.lean:62–108` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IndMulClassFunEqIndMulRestrict.lean:9–21` | [Lean, read] |
+| Local witness | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsInducedIntPrimeTo.lean:68–351` | [Lean, read] |
+| Integer-valued unit, descent and induced unit | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/OneMemOfMulMemOfForallPrimeNotDvd.lean:5–44`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/OneMemVirtualCharactersOfIntegralCombination.lean:9–53` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/OneMemClosureInducedCentralByPrimePower.lean:13–67` | [Lean, read] |
+| Monomial lift and trace interface | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterBrauerLiftAbelianByPrimePower.lean:10–74` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/MatrixTraceIffIsCharacterOverSubfieldComplex.lean:7–28` | [Lean, read] conditional on inputs 1 and 2 |
+| Monomial basis and trace comparison | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsMonomialBasisAbelianByPrimePower.lean:39` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/TraceLiftMonomialMatrixEqSumEigenvalues.lean:42` | [Lean]/[Open], inputs 1 and 2 |
+| Compound characters, power maps on roots and Newton identity | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterEsymmRootsCharpoly.lean:10–83`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/RootsCharpolyPowEqMapPow.lean:10–79` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/MultisetPowerSumNewtonIdentity.lean:8–37` | [Lean, read] |
+| Local splitting, Newton recursion and global virtuality | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/RootPowerSumCharpolyMemVirtualCharactersGL.lean:14–233` | [Lean, read] conditional as above |
+| `T.rootPowerSum_charpoly_mem_virtualCharacters_GL` and direct use of (I6) | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/RootPowerSumCharpolyMemVirtualCharactersGLStatement.lean:7–8` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:55–88` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:125` | Wrapper and call sites |
+
+The Lean bodies behind `T.exists_int_relation_of_isIntegral_relation` (`src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsIntRelationOfIsIntegralRelationStatement.lean:7–8`) and `T.virtualCharacter_inner_eq_int_mul_card` (`src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharacterInnerEqIntMulCardStatement.lean:7–8`) stay [Lean]/[Open] at statement level. Lemma 13.10 gives the corresponding retraction and orthogonality proofs in prose. The new R3 reading covers the mapped proof bodies supplying (I6).
+
+### 13.4.6 The Gram matrix and Fourier expansion of primitive class functions
+
+The invariant-subspace recursion supplies a function on every endomorphism of a finite vector space. Its pairings on the invertible elements serve two purposes. They measure the size of the function, and they determine whether two labels give the same function on the group. The production proof goes through characteristic-polynomial fibers and then through Fourier analysis on a single finite-field torus.
+
+**Example (rank two, by hand) [Expository].** Take $F=\mathbb F_3$, $K=F[i]$ with $i^2=-1$, and $z=1+i$. Since $z^2=-i$ and $z^4=-1$, $z$ generates $K^\times$. Write $\omega=\theta(z)$, a primitive eighth root. Let $R_k$ be the sum of the $k$th powers of the lifted roots and let $\psi_k$ be its invariant-subspace inverse. On a line with eigenvalue $a$ this inverse is $\theta(a)^k$. In rank two the recursion subtracts one such term per invariant line.
+
+| Type | Class size (per label) | $R_k$ | $\psi_k$ |
+|---|---:|---|---|
+| Scalar $aI$, two choices | 1 | $2\theta(a)^k$ | $-2\theta(a)^k$ |
+| One Jordan block with eigenvalue $a$, two choices | 8 | $2\theta(a)^k$ | $\theta(a)^k$ |
+| Distinct eigenvalues $1,-1$ | 12 | $1+(-1)^k$ | $0$ |
+| Irreducible characteristic polynomial, $j=1,2,5$ | 6 | $\omega^{jk}+\omega^{3jk}$ | $\omega^{jk}+\omega^{3jk}$ |
+
+There are four, one, two and zero invariant lines in the four rows. The centralizers have orders $48$, $3(3-1)$, $(3-1)^2$ and $3^2-1$ respectively. In the last case a commuting map is multiplication by an element of $K$, since the matrix generates the field algebra. The class sizes sum to $48$. The last row labels are representatives of the exponent pairs $(1,3),(2,6),(5,7)$.
+
+Put $t_k(j)=\omega^{jk}+\omega^{3jk}$. The scalar and Jordan contributions to the unnormalized mixed pairing are $(-2+8)2\theta(a)^k\overline{\theta(a)^l}$ for each $a$. At $j=0,4$ this is $3t_k(j)\overline{t_l(j)}$. Each irreducible pair contributes $6t_k(j)\overline{t_l(j)}$, or $3$ times the summand at each of its two roots. Thus the pairing is $3\sum_{j=0}^7 t_k(j)\overline{t_l(j)}$. Summing the four geometric series gives $48(\mathbf 1_{k=l}+\mathbf 1_{3k=l})$, with labels taken modulo eight. Here $\theta(-1)=\omega^4=-1$. The same answer holds for the self-family pairing: the scalar and Jordan contributions there are $(4+8)\theta(a)^k\overline{\theta(a)^l}$. In the order $0,1,2,3,4,5,6,7$, the **normalized Gram matrix** is
+
+$$
+\begin{pmatrix}
+2&0&0&0&0&0&0&0\\
+0&1&0&1&0&0&0&0\\
+0&0&1&0&0&0&1&0\\
+0&1&0&1&0&0&0&0\\
+0&0&0&0&2&0&0&0\\
+0&0&0&0&0&1&0&1\\
+0&0&1&0&0&0&1&0\\
+0&0&0&0&0&1&0&1
+\end{pmatrix}.
+$$
+
+Multiply by $48$ for the archive pairing. The trivial torus character $k=0$ is nonregular. Both Frobenius indices fix it, so its normalized squared norm is $2$ and the norm-one input to the character argument is unavailable. The Gram formula and expansion still apply. Even this one label exhibits the role of the primary reducible fibers: the scalar and Jordan elements contribute $24$ to its squared norm before normalization.
+
+In rank one over the same field, $\psi_0=R_0$ takes values $(1,1)$ on $(1,-1)$ and $\psi_1=R_1$ takes $(1,-1)$. The two sums of squares are $2$ and the cross sum is $1-1=0$. The unnormalized matrix is $2I_2$, and for $\varphi$ taking values $(u,v)$ the expansion is $2\varphi=(u+v)\psi_0+(u-v)\psi_1$. There are no proper nonzero subspaces and every invertible class is elliptic.
+
+**Definitions.** Let $F=\mathbb F_q$, let $V$ be finite-dimensional, and put $G=\mathrm{GL}(V)$ and $E=\operatorname{End}_F(V)$. Write $P_x=\operatorname{charpoly}(x)$. For $A\subseteq V$, put $H_A=\{h\in E:h(V)\subseteq A,\ h(A)=0\}$. A function $\varphi:E\to\mathbb C$ is primitive if $\sum_{h\in H_A}\varphi(x+h)=0$ whenever $0<A<V$ and $xA\subseteq A$. Class invariance means invariance under $G$-conjugation on all of $E$. The mass $M_\varphi(P)$ sums $\varphi$ over all $x\in E$ with $P_x=P$. A polynomial function $s$ is additive if $s(PQ)=s(P)+s(Q)$ on monic factors. The recursion is
+$\psi_s(V,x)=s(P_x)-\sum_{W<V,\ xW\subseteq W}\psi_s(W,x|_W)$.
+Write $B(\varphi,\eta)=\sum_{x\in G}\varphi(x)\overline{\eta(x)}$ for the archive's $\mathrm{ipGL}$, linear in its first variable. The normalized Hermitian pairing is $B/|G|$. A conjugacy-class sum for $B$ has weight $|G|/|C_G(x)|$ per representative. A polynomial fiber sum can contain several such classes.
+
+Given a multiplicative monoid map $\theta:\overline F\to\mathbb C$ injective on nonzero elements, let $s_k(P)=\sum_\alpha\theta(\alpha)^k$, over roots with multiplicity, $R_k(x)=s_k(P_x)$ and $\psi_k=\psi_{s_k}(V,\cdot)$. These are defined on $E$. Root multiset addition under monic multiplication makes $s_k$ additive. Transport by a linear isomorphism preserves the recursion, by induction on dimension and the bijection of invariant subspaces.
+
+**Lemma (replacement in the pairing).** For additive $s$ and primitive $\varphi:E\to\mathbb C$, one has $B(\varphi,\psi_s)=B(\varphi,s\circ P)$ in every dimension. Here $s\circ P$ means $x\mapsto s(P_x)$.
+
+*Proof.* For $W<V$, denote the summand of the recursion by $r_W(x)$, extended by zero when $W$ is not stable. The term for $W=0$ is zero since $s(1)=s(1)+s(1)$. For $0<W<V$, let $b(x)=\mathbf 1_G(x)\overline{r_W(x)}$. Translation by $h\in H_W$ preserves stability of $W$, and for stable $W$ it preserves the diagonal blocks of $x$, hence invertibility and restriction to $W$. Therefore $b(x+h)=b(x)$. Translation in the finite set $E$ gives
+$|H_W|\sum_{x\in E}\varphi(x)b(x)=\sum_{x\in E}b(x)\sum_{h\in H_W}\varphi(x+h)=0$.
+For stable $W$ the inner sum is zero by primitivity, and otherwise $b(x)=0$. The cardinality is positive because $0\in H_W$, and its complex cast is nonzero. This disposes of each correction term. Class invariance and positive ambient dimension are unnecessary for this identity. $\square$
+
+**Proposition (Gram and expansion).** Suppose $d=\dim_F V>0$ and $\theta$ is as in the definitions. Set $N=q^d-1$ and $m_{kl}=\#\{0\le i<d:kq^i\equiv l\pmod N\}$. For all nonnegative integers $k,l$,
+$B(\psi_k,R_l)=B(\psi_k,\psi_l)=|G|m_{kl}$.
+For every primitive class function $\varphi$ on $E$ and every $x\in G$,
+$$
+|G|d\,\varphi(x)=\sum_{k=0}^{N-1} B(\varphi,R_k)\psi_k(x).
+$$
+The statement uses arbitrary finite fields and imposes no regularity condition on $k$. The injectivity of $\theta$ and the full endomorphism hypotheses on $\varphi$ are retained from the producers.
+
+*Proof.* We develop the polynomial and Fourier steps in the order needed by the Gram calculation and the expansion.
+
+**Primitivity of the inverse.** The archive's dimension induction can be seen by summing the recursion over $x+H_A$ for stable $A$. Subspaces contained in $A$ contribute $|H_A|s(P_{x|_A})$ in total. For subspaces disjoint from $A$, fix their image $U\subseteq V/A$. Only quotient-stable $U$ can occur. Its lifts disjoint from $A$ are graphs of maps $U\to A$ after a splitting. For each graph, stability prescribes the restriction of $h:V/A\to A$ to $U$, leaving $|H_A|/q^{\dim A\,\dim U}$ choices. These choices all induce the quotient action on the graph. Counting the $q^{\dim A\,\dim U}$ graphs and summing over $U$ gives $|H_A|s(P_{x_{V/A}})$. For a proper $W$ with $0<W\cap A<W$, the stabilizing translations, if nonempty, form an affine space. Restricting its direction space to $W$ surjects onto $\operatorname{Hom}(W/(W\cap A),W\cap A)$ by extension from the image of $W$ in $V/A$. The fibers have equal size and the smaller-dimensional primitivity sum is zero. The zero subspace contributes zero in both sums. Since $P_x=P_{x|_A}P_{x_{V/A}}$ and all translations have the same characteristic polynomial, the two surviving contributions cancel the leading term. This proves primitivity for additive $s$.
+
+**Polynomial support and the torus.** The condition $P(0)\ne0$ makes the entire fiber invertible by the determinant formula. Thus $B(\varphi,R_l)$ first groups into $M_\varphi(P)\overline{s_l(P)}$ over monic $P$ of degree $d$ with $P(0)\ne0$. An empty fiber has mass zero.
+
+If $P_x=f^m Q$ with $f$ monic irreducible, $m>0$, $Q$ nonconstant and coprime to $f$, choose $A=\ker f(x)^m$. Bézout and Cayley–Hamilton give the primary splitting with complementary kernel $\ker Q(x)$. Both summands are nonzero, since each irreducible divisor of $P_x$ divides every annihilating polynomial, as seen by evaluating on a corresponding eigenvector over a splitting field. On the off-diagonal space $H_A$, the map $u\mapsto ux-xu$ is injective. A commuting $u$ induces an intertwiner from $V/A$ into $A$, which is zero by Bézout for their coprime annihilators. The map is consequently surjective. As $u^2=uxu=0$, conjugation by $1+u$ sends $x$ to $x+ux-xu$. The primitive sum is therefore $|H_A|\varphi(x)$, forcing pointwise vanishing.
+
+The remaining polynomials have the form $P=f^m$ with $f(0)\ne0$. This includes the elliptic classes where $f$ is irreducible of degree $d$ and $m=1$. There the fiber is a single class with centralizer of order $N$, and $\psi_k(x)=R_k(x)$ by the absence of proper nonzero invariant subspaces. The primary powers with $m>1$ retain their full fiber mass. For $T=\mathbb F_{q^d}^{\times}\subset\overline F$, let $f_\alpha$ be the minimal polynomial of $\alpha\in T$, $e_\alpha=\deg f_\alpha$ and $m_\alpha=d/e_\alpha$. The positive integer $e_\alpha$ divides $d$. The roots of $f_\alpha$ are the distinct points in its length-$e_\alpha$ Frobenius orbit. The fiber of $\alpha\mapsto f_\alpha^{m_\alpha}$ over $f^m$ consists precisely of the roots of $f$. Each root occurs $m$ times in $f^m$, so the grouped pairing becomes
+$$
+B(\varphi,R_l)=\sum_{\alpha\in T}m_\alpha M_\varphi(f_\alpha^{m_\alpha})\overline{\theta(\alpha)^l}.
+$$
+This is the torus identity for any primitive class function. In particular the torus includes subfield points. Excluding them would lose the primary powers.
+
+**Computing the mass of the inverse.** For monic $P$ let $\mu(P)=M_1(P)/|\mathrm{GL}_{\deg P}(F)|$ in the space of dimension $\deg P$. Use convolution $(a*b)(P)=\sum_{DE=P}a(D)b(E)$ over ordered monic factors, and write $\mathbf 1$ for the constant function on monic polynomials. Counting invariant $W$ together with $x$ implements convolution. In dimensions $\deg D=a$, $\deg E=b$, the two diagonal blocks have polynomials $D,E$ and the off-diagonal block has $q^{ab}$ choices. The number of $a$-planes times $q^{ab}$ is $|\mathrm{GL}_{a+b}(F)|/(|\mathrm{GL}_a(F)||\mathrm{GL}_b(F)|)$ by the stabilizer formula. Thus for a transport-invariant family $\Phi(W,x|_W)$, the normalized mass of its sum over stable $W$ is the convolution of the normalized masses of $\Phi$ with $\mu$. All group orders are positive, including the order one in dimension zero.
+
+Apply the same count with $\Phi$ equal to the number of cyclic vectors for the restriction. For each $x$ every vector generates one stable subspace on which it is cyclic, so the sum over stable subspaces is $q^{\deg P}$. For fixed monic $D$ of degree $a$, pairs $(y,v)$ with $P_y=D$ and $v$ cyclic are in bijection with bases $(v,yv,\ldots,y^{a-1}v)$, since $D$ specifies the last column. This gives normalized mass one, including the empty basis for $a=0$. Hence $\mu(1)=1$ and $\sigma\mu=\mathbf 1*\mu$, where $(\sigma b)(P)=q^{\deg P}b(P)$.
+
+Define $\Lambda_s(f^m)=s(f)$ for monic irreducible $f$ and $m>0$, and set it to zero elsewhere. By unique factorization, $s=\Lambda_s*\mathbf 1$ on monic polynomials. Set $L(P)=\Lambda_s(P)/(q^{\deg P}-1)$ for positive degree and $L(1)=0$. This last value is the zero value used in the archive's totalized division. The multiplier $\sigma$ distributes over convolution and multiplication by $s$ obeys the Leibniz rule for convolution, because degrees and $s$ add on factors. Write $U=s\mu$ pointwise and $W=L*\mu$. Then
+$$
+\sigma U=(\Lambda_s*\mathbf 1)*\mu+\mathbf 1*U,\qquad
+\sigma W=(\Lambda_s*\mathbf 1)*\mu+\mathbf 1*W.
+$$
+The second identity uses $\sigma L=L+\Lambda_s$. Both functions vanish at $1$. By induction on $\deg P$, the difference satisfies $(q^{\deg P}-1)(U-W)(P)=0$ for $\deg P>0$: in $\mathbf 1*(U-W)$ the other terms have smaller degree. Every such divisor is positive. The recursion and stable-subspace count give $U=A*\mu$ where $A$ is the normalized mass of $\psi_s$. Comparing with $L*\mu$ and isolating the term with second factor $1$ gives $A=L$ by degree induction, since $\mu(1)=1$. In particular
+$$
+M_{\psi_s}(f^m)=\frac{|G|}{q^d-1}\,s(f)\quad\text{when }\deg(f^m)=d.
+$$
+
+**Gram calculation.** Insert this mass in the torus identity for $\psi_k$. The factor $m_\alpha$ repeats each of the $e_\alpha$ roots exactly $d/e_\alpha$ times. Hence
+$$
+B(\psi_k,R_l)=\frac{|G|}{N}\sum_{i=0}^{d-1}\sum_{\alpha\in T}
+  \theta(\alpha)^{kq^i}\overline{\theta(\alpha)^l}.
+$$
+The multiplicative group of $K=\mathbb F_{q^d}$ is cyclic of order $N$. The integer $N$ is nonzero in $F$ (its image is $-1$) and in $\mathbb C$ (it is positive). A generator maps under $\theta$ to a primitive $N$th root, since injectivity on $T$ preserves its order. Values on $T$ have modulus one. With generator image $\omega$, the inner sum is the geometric series with ratio $\omega^{kq^i-l}$. The ratio-one branch gives $N$ and the other branch divides by a nonzero $1-\omega^{kq^i-l}$ and gives zero. Cancelling $N$ proves the mixed Gram formula. The replacement lemma gives the self-family formula. For a label orbit of length $r$, each reachable label occurs $d/r$ times in the $d$ indices. This is a count on exponents modulo $N$, independent of the earlier orbit length $e_\alpha$ of a field element.
+
+**Why the pairings determine a function.** Fourier inversion recovers each $m_\alpha M_\varphi(f_\alpha^{m_\alpha})$ from $B(\varphi,R_l)$. In fact, multiply the torus identity by $\theta(\beta)^l$ and sum over $0\le l<N$. The ratio $\theta(\beta)\overline{\theta(\alpha)}$ is one exactly when $\beta=\alpha$, by injectivity. Every other geometric sum is zero and the diagonal gives $N$. Thus zero pairings imply zero primary mass, since each admissible $f^m$ has a root in $T$ and the positive integer $m=d/\deg f$ has nonzero complex cast.
+
+To pass from mass zero to pointwise zero on a primary fiber, first consider a primitive class function vanishing on that fiber's semisimple points, the endomorphisms killed by $f$. Such vanishing propagates by induction on the codimension of $A=\ker f(x)$. For a nonsemisimple $x$, the subspace $A$ is proper and nonzero by nilpotence of $f(x)$. Every $x+h$ for $h\in H_A$ has the same characteristic polynomial and has $\ker f(x+h)\supseteq A$. Polynomial evaluations at $x+h$ and $x$ agree on $A$ and modulo $A$. When the kernels of $f$ agree, the kernels of every $f^j$ agree: for $j\ge1$, membership is tested by whether the evaluation of $f^{j-1}$ lands in $A$. Equal kernel dimensions give conjugacy, since on a cyclic block $F[X]/(f^b)$ the dimension for $f^j$ is $\deg(f)\min(j,b)$. Divide by $\deg f>0$ and take successive differences to recover the number of blocks of each size. In the primitive sum, the terms with strictly larger kernel vanish by induction, while the same-kernel terms equal the original value. Their count is positive by $h=0$, so the value is zero.
+
+For a general $\varphi$, take $\pi=\psi_s$ for $s(P)=\deg P$. Its mass on this fiber is $|G|\deg f/N\ne0$. Consequently its value at a semisimple point $x_0$ is nonzero, by the preceding propagation argument. The semisimple points with polynomial $f^m$ form one conjugacy class, since their $F[X]$-module is $(F[X]/(f))^m$. The function $\pi(x_0)\varphi-\varphi(x_0)\pi$ is primitive and vanishes on this class, hence on the entire fiber. Taking the mass and using $M_\varphi(P)=0$ gives $\varphi(x_0)=0$, then $\pi(x_0)\ne0$ gives $\varphi=0$ on the fiber. Together with nonprimary vanishing, this proves the required injectivity on $G$.
+
+**Expansion.** Write $a_k=B(\varphi,R_k)$. If $kq^i\equiv l\bmod N$, reindex the torus identity by $\alpha\mapsto\alpha^{q^i}$. The minimal polynomial and its multiplicity stay the same, so $a_k=a_l$. For fixed $l,i$, multiplication by $q^i$ permutes the residues modulo $N$ because $q$ is coprime to $N$. Summing over $k$ first at each $i$ gives $\sum_{k<N}a_k m_{kl}=d a_l$. The full-endomorphism function $D=|G|d\,\varphi-\sum_{k<N}a_k\psi_k$ is primitive and conjugation-invariant. By the mixed Gram formula $B(D,R_l)=|G|d\,a_l-|G|\sum_{k<N}a_km_{kl}=0$ for all $l$. Injectivity on $G$ proves the expansion there. The factors $|G|$ and $d$ are nonzero in $\mathbb C$. With the normalized pairing, the expansion reads $\varphi=d^{-1}\sum_{k<N}\langle\varphi,\psi_k\rangle_G\psi_k$ on $G$. $\square$
+
+**Remark (use in the chapter).** Proposition 13.6 uses the replacement and diagonal Gram identities in Step 2. A regular label has orbit length $d$, so the normalized squared norm is one. Its Step 7 uses the mixed Gram coefficients to detect a common orbit, and the expansion to turn equality of coefficients into equality on $G$. Proposition 13.8 consumes that orbit distinction through the injective labeling used in its count. The other inputs of those propositions retain their existing status. In particular, the count (I9), parabolic virtual-character preservation (I7), and the existence of the lifting map (I1, read in §13.4.9) remain separate inputs to this reading.
+
+**Remark (classical source).** Green's original Lemma 6.3 gives an inner product for his uniform functions using torus conjugacy. In the proof of Lemma 8.3 he identifies the local multiplicity as $d/s$ for a simplex of degree $s$, and Lemma 7.6 states the distinct-residue condition for the degree-$s$ primary character. The orbit count above is the same finite-field mechanism. The endomorphism mass, convolution, and reconstruction argument written here follows the pinned Lean production path. [Green 1955, pp. 435, 438–439, 442–443](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+
+**Source map [Lean, read].** The following bodies were read against the archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Paths start at the archive root.
+
+| Proof step | Archive location |
+|---|---|
+| Definitions | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:11–84` |
+| Root additivity and transport | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/RootPowerSumCharacterAdditiveAndXSubOnePow.lean:9–20`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvariantSubspaceMobiusInverseCharpolyLinearEqui.lean:10–51` |
+| Primitivity induction | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean:62–199` |
+| Pairing replacement | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvertibleEndomorphismInnerProductPrimitiveMobiu.lean:10–161` |
+| Nonprimary vanishing | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/EqZeroOfNotPrimary.lean:9–123`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsConjEqAddOfIsCoprime.lean:8–84` |
+| Polynomial fibers and torus regrouping | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsUnitIffCharpolyCoeffZeroNe.lean:11–69`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/FiniteMonicNatDegree.lean:8–99`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvertibleEndInnerProductRootPowerSumEqTorusSum.lean:12–24` |
+| Mass and convolution | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/EndomorphismMassMobiusInverseMonicEq.lean:15–52`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/EndomorphismMassMulParabolicInductionTrivial.lean:83–162`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/CharpolyEndomorphismDensityGLRecursion.lean:72–95`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/AdditiveEqPolynomialVonMangoldtConvolutionOne.lean:10–129`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/AdditiveMulEqVonMangoldtConvolution.lean:14–144`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/MonicFactorizationConvolutionCancelOfOne.lean:18–49` |
+| Frobenius and orthogonality | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/FrobeniusTorusMinpolyDegreeRootPowerSum.lean:14–124`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/FrobeniusTorusCharacterOrthogonality.lean:9–92` |
+| Gram production | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvertibleEndInnerProductRootPowerSumMobius.lean:17–96` |
+| Fourier injectivity and mass detection | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/EqZeroOfFinsumMulStarPowEqZero.lean:8–68`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimitiveEndClassFunctionZeroOfCharpolyMassZero.lean:18–98`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimitiveEndClassFunctionEqZeroOfPrimary.lean:11–73` |
+| Kernel comparison and primary conjugacy | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/KerAevalAddStabilizerNilradicalSocle.lean:10–81`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ConjOfPrimaryFinrankKerPowEq.lean:9–37` |
+| Frobenius covariance and expansion | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InnerProductRootPowerSumEqOfFrobeniusModEq.lean:10–50`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimitiveClassFunctionExpansionRootSums.lean:18–220` |
+
+The norm call is in `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:101–111`. The orbit calls are in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:175–225`.
+
+The following deeper suppliers remain [Lean] with their source-body comparison [Open]. The mixed, transversal and contained-subspace counts use `sum_primitiveEndClassFunction_restrict_mixed_subspace`, `finsum_mobiusInverseCharpoly_transversal_subspaces` and `finsum_mobiusInverseCharpoly_invariant_le`. The cyclic-vector recurrence uses `finsum_card_cyclic_vectors_invariant_subspaces` and `endomorphismMassOfCharpoly_card_cyclic_vectors`. The normalized block count uses `finsum_subspaceStabilizer_mul_block_functions` and `card_subspaces_mul_generalLinearGroupCard`. The primary conjugacy proof uses `primary_endomorphism_cyclic_decomposition_finrank_ker` and `exists_perm_of_sum_min_eq_positive_family`. The elementary counting and module arguments in this section explain the interfaces supplied by these lemmas.
+
+### 13.4.7 Parabolic induction and the virtual-character subtraction
+
+The Green candidate is defined by subtracting its values on proper invariant subspaces from a root power sum. A trace in a smaller dimension supplies a value on each subspace, but the sum is a function on the large group. The stabilizer of a single subspace yields a representation whose trace is the whole sum. This puts the subtraction in the integer lattice needed for the norm-one argument.
+
+**First example.** Over $F=\mathbb F_3$, let $\varepsilon$ be the sign character of $F^\times$. In $G=\mathrm{GL}_2(F)$ the stabilizer $P$ of the first coordinate line consists of upper triangular matrices. Inflate the character that reads $\varepsilon$ on the first diagonal entry, and induce to $G$. The group has order $(9-1)(9-3)=48$, the stabilizer has order $2\cdot2\cdot3=12$, and there are four lines. Each fixed line contributes the sign of its eigenvalue. At $I,-I,\operatorname{diag}(1,-1)$, a nonidentity unipotent Jordan block, and an element with irreducible characteristic polynomial, the induced values are respectively $4,-4,0,1,0$. The split element's two fixed lines contribute opposite signs. The Jordan element fixes just its eigenline. For exponent $k=1$ the lift restricts to $\varepsilon$, and the dimension-one Möbius candidate equals $\varepsilon$. At the first four elements the raw root sums are $2,-2,0,2$, so subtraction gives the unsigned dimension-two values $-2,2,0,1$. At the irreducible element the correction is zero. The dimension-two sign reverses all the unsigned values.
+
+**Definitions.** For a finite group $H$, let $R(H)$ be the additive group generated by complex representation characters. Complete reducibility and character orthogonality identify it with the free abelian group on the irreducible characters, embedded in the space of complex class functions. Use the pairing linear in the first variable,
+
+$$
+\langle f,h\rangle_H=\frac1{|H|}\sum_{y\in H} f(y)\overline{h(y)}.
+$$
+
+The archive's bilinear pairing uses $h(y^{-1})$ in place of $\overline{h(y)}$. These agree for virtual $h$ by unitarizing representations using a group average. The archive's $\mathrm{ipGL}$ is the unnormalized Hermitian sum over the invertible endomorphisms, hence gives $|\mathrm{GL}_n(F)|$ times the normalized pairing in dimension $n$.
+
+For $H\le G$, let $\widetilde f$ extend $f$ by zero. Finite-group induction is
+
+$$
+(\operatorname{Ind}_H^G f)(x)=\frac1{|H|}\sum_{t\in G}\widetilde f(t^{-1}xt).
+$$
+
+For an $a$-plane $W_0$ in $V=F^n$, put $P=\operatorname{Stab}_{\mathrm{GL}(V)}(W_0)$. A complement gives upper block triangular coordinates. The map $\pi:P\to L=\mathrm{GL}(W_0)\times\mathrm{GL}(V/W_0)$ sends an element to its two diagonal actions. Its kernel $U$, the unipotent radical, has identity diagonal blocks and arbitrary upper-right block. The block diagonal section identifies $L$ with a Levi subgroup. Inflation of $\lambda$ is the composite $\lambda\circ\pi$. The archive uses the restriction map $p\mapsto p|_{W_0}$, which inflates $\alpha\boxtimes 1$ by taking the first component of $\pi$.
+
+**Lemma 13.12 (induction on the lattice and Frobenius reciprocity).** Pullback along a group homomorphism preserves virtual characters. For $H\le G$ finite, induction maps $R(H)$ into $R(G)$, and for class functions $f$ on $H$ and $h$ on $G$,
+
+$$
+\langle\operatorname{Ind}_H^G f,h\rangle_G=\langle f,h|_H\rangle_H.
+$$
+
+For a Levi class function $\lambda$ this gives
+
+$$
+\langle\operatorname{Ind}_P^G(\lambda\circ\pi),h\rangle_G
+=\langle\lambda,h_U\rangle_L,\qquad
+h_U(\ell)=\frac1{|U|}\sum_{u\in U}h(\dot\ell u).
+$$
+
+Here $\dot\ell$ is any lift in $P$. For a character, $h_U$ is the character of the action of $L$ on the $U$-fixed space.
+
+*Proof.* Pullback composes the representation with the homomorphism and then takes its trace. For induction, choose representatives $r_C$ for the cosets $C=tH$. Given an $H$-representation $\sigma$ on $E$, use one copy of $E$ per coset with action
+
+$$
+(gv)_C=\sigma(r_C^{-1}g r_{g^{-1}C})v_{g^{-1}C}.
+$$
+
+The argument of $\sigma$ lies in $H$ because $g r_{g^{-1}C}H=r_CH$. The group law follows by inserting $r_{g^{-1}C}r_{g^{-1}C}^{-1}$ in the product for a pair of group elements. Only the fixed cosets contribute diagonal blocks to the trace. The block on such a coset contributes $f(r_C^{-1}gr_C)$ for $f=\chi_\sigma$. For the full sum over $t$, replacing $r_C$ by $r_C h_0$ for $h_0\in H$ conjugates the argument by $h_0$, preserving both membership in $H$ and the value of the extended class function. Thus each contributing block occurs $|H|$ times before division. Additivity of extension by zero and summation now carries integer linear combinations of characters into $R(G)$. This is the archive's closure induction under zero, addition and negation.
+
+For reciprocity substitute the induction definition into the pairing and set $x=tyt^{-1}$ in the inner sum. Then $h(x)=h(y)$ and only $y\in H$ survives. The sum over $t$ cancels $|G|^{-1}$, leaving $|H|^{-1}\sum_{y\in H}f(y)\overline{h(y)}$. For the Levi formula group the remaining sum over $P$ by fibers of $\pi$. Each fiber is a coset of $U$, and $|P|=|L||U|$. Changing the lift permutes that fiber. For a representation $\rho$, the operator $|U|^{-1}\sum_{u\in U}\rho(u)$ projects onto the fixed vectors and commutes with $\rho(P)$ by normality. Composing with $\rho(\dot\ell)$ gives the claimed trace. ∎
+
+**Theorem 13.13 (the conditional supply of (I7)).** [Lean, read] Let $F$ be finite, $a,n\ge 0$, and let $\Phi_V:\operatorname{End}_F(V)\to\mathbb C$ be a family on finite-dimensional $F$-spaces. Assume $\Phi_{V'}(e y e^{-1})=\Phi_V(y)$ for every linear isomorphism $e:V\to V'$ and endomorphism $y$. Assume $\alpha:z\mapsto\Phi_{F^a}(z)$ belongs to $R(\mathrm{GL}_a(F))$. Then on $\mathrm{GL}_n(F)$ the function
+
+$$
+T_{a,n}\Phi(x)=\sum_{\substack{W\subset F^n,\ \dim W=a\\xW=W}}\Phi_W(x|_W)
+$$
+
+is virtual. For $a\le n$ it equals $\operatorname{Ind}_P^G((\alpha\boxtimes1)\circ\pi)$ after identifying $W_0$ with $F^a$.
+
+*Proof.* If $a>n$, the sum is empty. Otherwise choose $W_0$ and an isomorphism $e_0:W_0\to F^a$. A stable subspace of an invertible map is preserved with equality by injectivity and dimension. The restriction $p\mapsto e_0(p|_{W_0})e_0^{-1}$ is therefore a homomorphism to $\mathrm{GL}_a(F)$. Transport identifies the pullback of $\alpha$ with $\beta(p)=\Phi_{W_0}(p|_{W_0})$, so $\beta$ is virtual.
+
+Every $a$-plane is $tW_0$ for some $t$, by extending bases to the ambient space. Two elements $s,t$ give the same plane exactly when $s^{-1}t\in P$. Each fiber of $t\mapsto tW_0$ consequently has $|P|$ elements. The plane $tW_0$ is fixed by $x$ exactly when $t^{-1}xt\in P$. In that case the restriction of $t$ intertwines $(t^{-1}xt)|_{W_0}$ and $x|_{tW_0}$, so the summand equals $\Phi_{tW_0}(x|_{tW_0})$. Otherwise the extended summand is zero. Grouping by fibers cancels $|P|$, giving coefficient one per fixed plane and proving the asserted identity and virtuality. For $a=0$ the sole summand is constant, and for $a=n$ the sole summand is $\Phi_{F^n}(x)$. ∎
+
+**The subtraction in the candidate.** Fix the lift $\theta$ and exponent $k$ of (I6). Let $s(P)$ be the corresponding root power sum, with roots counted with multiplicity, and take $\Phi_V(y)=\psi_s(V,y)$ on all endomorphisms. The recurrence subtracts the lower-dimensional values over all proper stable subspaces. Transport preserves the characteristic polynomial and bijects those subspaces, and the corresponding restricted maps are conjugate. Induction on dimension proves the transport identity. The Lean proof uses induction on the recursion depth followed by specialization to depth $\dim V+1$.
+
+Write $S_d(x)=s(\operatorname{charpoly}x)$ and $\psi_d(x)=\Phi_{F^d}(x)$ on $\mathrm{GL}_d(F)$. Sorting the proper stable subspaces by dimension gives
+
+$$
+\psi_d=S_d-\sum_{0\le a<d}T_{a,d}\Phi .
+$$
+
+The rank-zero value is $S_0=s(1)=0$ and the outer sum is empty. Assume (I6) through rank $d$. Strong induction supplies virtuality of the unsigned $\psi_a$ for each $a<d$. After the field argument, the actual Lean call passes the family $\Phi$, its transport proof, the dimensions $a,d$, and the witness from the strong induction hypothesis evaluated at $a$ with $a<d$. Theorem 13.13 places each inner sum in $R(\mathrm{GL}_d(F))$. With the leading term supplied by (I6), the subtraction stays in the integer lattice. This step applies to every exponent covered by (I6). The dimension sign $(-1)^{d-1}$ acts by an integer scalar. For $d>0$ and a regular exponent, the existing Gram step gives normalized squared norm one. The signed candidate then has integer coordinates in the orthonormal irreducible basis, and their squares sum to one. Its positive value at the identity selects the positive irreducible, as in Proposition 13.6.
+
+**A rank-three calculation.** Over $\mathbb F_3$ take the $(2,1)$ Levi $\mathrm{GL}_2(F)\times F^\times$ and inflate $\psi_2\boxtimes 1$ from the first example. Here $|G|=26\cdot24\cdot18=11232$ and $|P|=48\cdot2\cdot3^2=864$, so the index is $13$. This is the number $(27-1)/(3-1)$ of planes, counted by nonzero defining forms modulo scalars. At the identity the plane correction is $13(-2)=-26$, the line correction is $13$, and $\psi_3(I)=3-13-(-26)=16$.
+
+For a noncentral check let $xe_1=e_1$, $xe_2=e_2+e_1$, $xe_3=-e_3$. Stable planes are kernels of eigenforms. The $+1$ eigenforms are multiples of the second coordinate form and the $-1$ eigenforms multiples of the third. The two planes are therefore $\langle e_1,e_3\rangle$ and $\langle e_1,e_2\rangle$. Their restrictions are split with eigenvalues $1,-1$ and unipotent Jordan, respectively. The plane correction is $0+1=1$. The Jordan plane thus contributes $864$ identical unit terms before division. The stable lines $\langle e_1\rangle,\langle e_3\rangle$ have total weight $1-1=0$. The raw root sum is $1+1-1=1$, so $\psi_3(x)=0$.
+
+**Remarks.** Green's fixed-flag product weights each fixed flag once by the product of characters on its successive quotients. The two-block specialization with trivial quotient character gives the formula above. Green uses right cosets $Pt$ with conjugation $txt^{-1}$. Inversion gives the convention $tP$, $t^{-1}xt$ used here. [Green1955, p. 410, Theorem 2 and equations (2)–(4)](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+
+The I7 supply assumes transport invariance and lower-dimensional virtuality. The Green subtraction additionally consumes (I6). Norm and orbit arguments retain (I4)/(I5). Section 13.4.8 supplies the conditional (I9) bound used in Proposition 13.8, and Section 13.4.9 reads the conditional supply of the lift (I1), `CuspGL.TeichEmb.exists_teichmuller`.
+
+**Source map.** Paths are relative to the pinned A2 archive’s `lean/` directory (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). R3 marks the bodies used and read here. The two closure clauses on pullback and induction are at lines 84–91 and 98–106 of their file. The Green entry at line 136 calls the cuspidality supplier, which reaches the regular-character consumer through its statement wrapper. The Frobenius pairing calculation above is a textbook derivation.
+
+| Reading | Role | A2 path and lines |
+|---|---|---|
+| R3 | I7 producer and all its local helpers | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ParabolicInductionTrivialPreservesVirtualCharact.lean:11–289` |
+| R3 | Pullback and induction closure clauses, including additivity | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharactersMulComapConjIndLinear.lean:47–106` |
+| R3 | Pullback of traces | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldRestrictClassFunctionOne.lean:6–22` |
+| R3 | Ordinary character induction assembly | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldInducedClassFunction.lean:9–17` |
+| R3 | Group sum to coset sum | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InducedClassFunctionFromSubgroupEqFinsumCosets.lean:7–64` |
+| R3 | Coset cocycle, representation and diagonal trace | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterFinsumConjSubgroupFunctionExtendByZer.lean:8–108` |
+| R3 | Recursion depth, stable-subspace formula and root-sum definition | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:24–66` |
+| R3 | Transport of the candidate | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvariantSubspaceMobiusInverseCharpolyLinearEqui.lean:10–51` |
+| R3 | Rank grouping, strong induction and concrete I7 application | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:19–88` |
+| R3 | Regular character consumer, sign, norm and positivity assembly | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:92–184` |
+| R3 | Cuspidality assembly entering regular character consumer | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–48` |
+| R3 | Choice of exponent and path through cuspidality | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:65–136` |
+| Definition | Virtual lattice, extension, induction and inverse pairing | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5–22` |
+| Definition | Unnormalized Hermitian sum | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:83–84` |
+| R2 | Coordinate realization of representation traces | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldOfRepresentation.lean:51` |
+| R3 (§13.4.9) | I1 lift existence | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24` |
+| R3 (§13.4.8) | I9 counting assembly and named direct producers | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardCuspidalMultisetsTotalDegreeLeStatement.lean:8` |
+
+The R3 entries for the character consumer and cuspidality concern the assembly, using the norm, identity-value and primitive-radical results at their stated interfaces. The present reading invokes `GlobalTheory.BI.irr_of_norm_one` at its interface, together with `CuspGL.extZero_spec`, `CuspGL.psi_one` and `T.finsum_unipotent_radical_eq_zero_of_isPrimitive`. Section 13.4.10 reads the first three. The I4/I5 and I6 production readings are recorded in §§13.4.6 and 13.4.5.
+
+### 13.4.8 Why the cuspidal count exhausts Green's list
+
+A list of cuspidal characters can induce a reducible character. Proposition 13.8 needs one place in a finite counting set for each **multiset** of cuspidal characters, even when the same character occurs several times. A Whittaker functional singles out a constituent that can occupy such a place. Harish–Chandra orthogonality prevents two multisets from using the same place, and the Gelfand–Graev norm bounds the number of places.
+
+Consider the permutation representation of $G_2=\mathrm{GL}_2(\mathbb F_3)$ on the four lines. It comes from the multiset containing two copies of the trivial character of $G_1$. The upper unitriangular subgroup fixes one line and acts regularly on the other three. A nontrivial character of this subgroup therefore occurs once. The trivial summand of the permutation representation has no such functional, so the three-dimensional complement supplies the desired constituent. The whole permutation character has squared norm $2$, since the action has two orbits on ordered pairs of lines. This is the first instance where the count must permit repeated factors.
+
+**Definitions.** Let $g$ be prime, $G_j=\mathrm{GL}_j(\mathbb F_g)$, and fix a nontrivial additive character $\psi$ of $\mathbb F_g$. Write $U_j$ for the upper unitriangular group and $\lambda_j(u)=\psi(\sum_{i=1}^{j-1}u_{i,i+1})$. Use the trivial group and its trivial character in rank zero. For class functions put
+
+$$
+ B_H(f,h)=\frac{1}{|H|}\sum_{x\in H}f(x)h(x^{-1}),\qquad
+ W_j(f)=\frac{1}{|U_j|}\sum_{u\in U_j}\lambda_j(u)^{-1} f(u).
+$$
+
+The bilinear form $B_H$ agrees with the usual Hermitian pairing on pairs of genuine characters. The first superdiagonal adds under multiplication, so $\lambda_j$ is a character. The weighted average defining $W_j$ is the trace of the projection onto the $\lambda_j$-eigenspace. Hence $W_j(\rho)$ is a nonnegative integer for every character $\rho$. Call an irreducible character generic if this integer is positive. Let $\Gamma_j=\operatorname{Ind}_{U_j}^{G_j}\lambda_j$. These conventions give $\Gamma_j(1)=|G_j|/|U_j|$ and $B_{G_j}(f,\Gamma_j)=W_j(f)$. In fact the ordinary induction sum has denominator $|U_j|$, and reindexing the pairing by conjugation cancels its denominator $|G_j|$ and replaces $\lambda_j(u^{-1})$ by $\lambda_j(u)^{-1}$.
+
+A cuspidal entry is a pair $p=(a,\sigma)$ with $a>0$ and $\sigma$ an irreducible character of $G_a$ with zero fixed space for each proper two-block parabolic radical. Write $H_L$ for iterated Harish–Chandra induction along the list $L$ of such entries, with the empty product equal to $1$ on $G_0$. At each two-block step, inflate the tensor product to the upper block parabolic $P$ and induce with denominator $|P|$. This gives a genuine character. The adjoint operation $r_{a,b}$ on characters is trace on invariants under the radical of order $g^{ab}$. Its formula averages over the radical, so cuspidality at the identity gives zero restriction as a character. On central scalars $zI$, every constituent of $H_L$ has central character $\prod_{(a,\sigma)\in L}\omega_\sigma(z)$, with each entry contributing separately. This follows in the induced model because a scalar belongs to $P$ and commutes with every coset representative.
+
+**Lemma 13.14 (existence of a generic constituent).** [Lean, read] Assume the cuspidal Whittaker positivity input $W_a(\sigma)>0$ for every cuspidal entry and the two-block Whittaker product identity
+
+$$
+ W_{a+b}(\alpha\circ\beta)=W_a(\alpha)W_b(\beta),
+$$
+
+where $\circ$ denotes Harish–Chandra induction. Then every $H_L$ contains a generic irreducible constituent.
+
+**Proof.** Induct on the list, applying the two-block identity to its head and induced tail. The empty list gives $W_0(1)=1$. The resulting product of Whittaker dimensions is positive because every factor is positive.
+
+Write the induced character as a sum of irreducible characters with repetitions. By linearity some term has a positive Whittaker dimension. Its pairing with the induced character counts its occurrences by irreducible orthogonality, so that pairing is also positive.
+
+The two-block supplier organizes the Whittaker sum over double cosets of the unitriangular group and the parabolic. A shuffle placing a first-block coordinate immediately before a second-block coordinate contributes zero by nontrivial additive-character cancellation on the corresponding radical root subgroup. In the surviving shuffle the second block precedes the first, and the intersection is the product of the two block unitriangular groups. The normalized average there is the product displayed above. $\square$
+
+**Lemma 13.15 (pairing the induced characters).** [Lean, read] Use the Harish–Chandra restriction formula for a cuspidal product. For $L,L'$ of the same total rank,
+
+$$
+ B(H_L,H_{L'})=0
+$$
+
+if their multisets differ. If their multisets agree, the pairing is $\prod_p m_p!$, with $m_p$ the multiplicity of $p$ in $L$. In particular the squared norm is $1$ when all entries are distinct.
+
+**Proof.** The restriction formula for the split $a+b$ is a sum over subsets $I$ of the **positions** in $L$ whose ranks sum to $a$, with term $H_{L_I}\boxtimes H_{L_{I^c}}$. One way to understand the formula is to compare the $a$-plane with the input flag. Each input block is split according to the successive intersection dimensions. A split into two positive ranks imposes proper radical invariants on that cuspidal character and contributes zero. An unsplit block is assigned to one side, accounting for the indexed subsets and the two products.
+
+For $L'=(a,\sigma)::K$, reciprocity, the restriction formula, and the pairing on a direct product give
+
+$$
+ B(H_L,H_{L'})=\sum_{I} B(H_{L_I},\sigma) B(H_{L_{I^c}},H_K).
+$$
+
+The first pairing is zero for two or more entries, by reciprocity at the first split and cuspidality of $\sigma$. The empty subset cannot have rank $a>0$. For a singleton, the first pairing is $1$ exactly when its entry is $(a,\sigma)$ and is $0$ otherwise. Thus the recurrence removes one matching position and pairs the remaining lists. For the empty right list, rank zero forces the left list to be empty and the pairing is $1$. Iteration counts bijections of positions preserving the entries. Unequal multisets admit none, while equal ones give $m_p!$ independent choices for the matching among copies of each $p$. The archived theorem states the vanishing and the multiplicity-free diagonal, and its consumer uses the vanishing alone. The factorial formula follows from the same recurrence. $\square$
+
+**Lemma 13.16 (the generic count).** [Lean, read] Use the two-block Whittaker product identity from Lemma 13.14 and assume the mirabolic restriction identity and twisted derivative formula specified below. In rank $n>0$ the number of generic irreducible characters is at most $g^n-g^{n-1}$.
+
+**Proof.** Set $a_j=W_j(\Gamma_j)$ and $t_j=j(j-1)/2$. Denote by $\delta_j$ the indicator of the identity on $G_j$. The numerical step in the archive applies the mirabolic restriction identity to $\delta_{k+1}$, restricted to $\operatorname{diag}(h,1)$ with $h\in G_k$. In its derivative convention $D_i f$ is a function on $G_i$, obtained by Harish–Chandra restriction to $G_i\times G_{k+1-i}$ followed by Whittaker averaging in the second variable. The identity reads
+
+$$
+ \delta_k=\sum_{i=0}^k (D_i\delta_{k+1})\circ\Gamma_{k-i}.
+$$
+
+In the derivative average only the identity matrix contributes, and only at $h=1$. Its weight is $g^{-i(k+1-i)-t_{k+1-i}}$, from the radical and the lower-rank Whittaker subgroup. Also $W_i(\delta_i)=g^{-t_i}$, including $i=0$. Apply $W_k$ and the two-block product identity. Since $t_i+i(k+1-i)+t_{k+1-i}=t_{k+1}=t_k+k$, every summand has the same scalar factor:
+
+$$
+ g^{-t_k}=g^{-t_{k+1}}\sum_{j=0}^k a_j,
+ \qquad \sum_{j=0}^k a_j=g^k.
+$$
+
+Subtract the identity for $k=n-1$ from that for $k=n$ to get $a_n=g^n-g^{n-1}$. By reciprocity $a_n=B(\Gamma_n,\Gamma_n)$. Expanding in the orthonormal basis of irreducible characters gives
+
+$$
+ a_n=\sum_{\rho\in\operatorname{Irr}(G_n)}W_n(\rho)^2.
+$$
+
+The expansion can also be obtained by applying $W_n$ to the class-function expansion of $\Gamma_n$. Each positive integer coefficient contributes at least one to the sum of squares, proving the bound. This argument uses neither a multiplicity-one theorem nor any count of cuspidal labels. $\square$
+
+**Theorem 13.17 (conditional count of cuspidal multisets, input (I9)).** [Lean, read] Let $n>0$ and let $S$ be a finite set of distinct multisets of cuspidal entries of total rank $n$. Under the inputs of Lemmas 13.14–13.16, one has $|S|\le g^n-g^{n-1}$.
+
+**Proof.** Fix the same $\psi$ for every multiset. For each $M\in S$ choose a list of its occurrences and then choose any generic constituent $\rho_M$ of the induced character using Lemma 13.14. If the choices for $M$ and $M'$ agree, write both induced characters as genuine sums, with multiplicities $b_\rho$ and $b'_\rho$. Their pairing is $\sum_\rho b_\rho b'_\rho$, a sum of nonnegative integers with a positive term at the common constituent. Lemma 13.15 forces the lists to be permutations of one another, hence $M=M'$. This works for any choices and even if the central characters agree. The finite set of irreducible characters contains the image. Lemma 13.16 bounds its generic subset as required. In Lean the fixed additive character is `ZMod.stdAddChar`. Its values at $0$ and $1$ differ by injectivity, so it is nontrivial. The list `M.toList` has the same rank sum as $M$, and permutation of two lists is equality of their multiset images. $\square$
+
+**Hand calculation in $\mathrm{GL}_2(\mathbb F_3)$.** The group has order $48$, and $U_2$ has order $3$. Its two nonidentity elements are conjugate. The centralizer of a nonidentity unipotent consists of invertible $aI+bN$, where $N$ is its nonzero nilpotent part, and has order $6$. Therefore the induced character has value $16$ at the identity and $6(-1)/3=-2$ on this unipotent class, using $\psi(1)+\psi(2)=-1$. It vanishes outside those classes. The normalized norm is $16^2/48+(-2)^2/6=6$.
+
+The polynomial labels give three quadratic singleton entries, with exponent orbits $\{1,3\},\{2,6\},\{5,7\}$ modulo $8$. The two linear characters are $1$ and $\epsilon$, the sign on $\mathbb F_3^\times$. The remaining supports are $[1,1]$, $[1,\epsilon]$, and $[\epsilon,\epsilon]$. The double copies give squared norm $2$ each, and the mixed pair has norm $1$. The repeated sign case is the repeated trivial case twisted by $\epsilon\circ\det$, which is trivial on $U_2$. The repeated pairs have trivial central character, and the mixed pair has central character $\epsilon$. On $-I$ the quadratic entries act by $(-1)^k$ for exponent $k$, since $-1$ is the fourth power of a generator of $\mathbb F_9^\times$. Thus both central characters occur on several supports. Orthogonality across supports accounts for all six places and explains why matching central characters alone would be insufficient.
+
+**Hand calculation in $\mathrm{GL}_3(\mathbb F_2)$.** Write $u\in U_3$ using upper entries $u_{12}=a$, $u_{23}=b$, $u_{13}=c$. Then $\lambda_3(u)=(-1)^{a+b}$ and $(u-I)^2=abE_{13}$. There are two regular unipotents in $U_3$, both with weight $+1$. Of the five transvections one has weight $+1$ and four have weight $-1$. A transvection is specified by a nonzero image vector $v$ and a nonzero functional vanishing on $v$, giving $7\cdot3=21$ elements in its conjugacy class. Its centralizer has order $168/21=8$. A regular unipotent has centralizer of order $4$, since every commuting operator is a polynomial in its cyclic nilpotent part and the constant term must be $1$. Induction gives $\Gamma_3$ values $21,-3,1$ on the identity, the transvections, and the regular unipotents, respectively. The norm is
+
+$$
+ 21^2/168+(-3)^2/8+1^2/4=4.
+$$
+
+The four multisets supplied by polynomial labels correspond to $(X+1)^3$, $(X+1)(X^2+X+1)$, $X^3+X+1$, and $X^3+X^2+1$. The two cubics are irreducible because neither has a root in $\mathbb F_2$. The first multiset has three identical entries. Its induced character acts on complete flags and its squared norm is $6$, the number of relative permutations of two flags. Its values on the three unipotent classes above are $21,5,1$. A transvection has three invariant lines in its kernel and three invariant planes containing its image. The image line lies in all three planes, while each of the other two invariant lines determines just the kernel plane. A regular unipotent fixes only its Jordan flag. Hence the Whittaker average for the complete-flag character is $(21+(1-4)5+2)/8=1$. The second multiset has one rank-one and one rank-two entry, with squared norm $1$ by Lemma 13.15. The center is trivial in this field. The norm $4$ counts the available generic constituents with squared Whittaker multiplicities, so the repeated triple still costs only one of the four places.
+
+**Return to Proposition 13.8.** Use the injective cuspidal labeling in every positive rank supplied by Proposition 13.6 and Lemma 13.7. Factor each monic polynomial of degree $d$ with nonzero constant term into monic irreducibles and label its factors with their multiplicities. The resulting support determines the factor multiset by injectivity in each rank and therefore determines the polynomial. These polynomials number $(g-1)g^{d-1}$ by independent choices of their coefficients. A missing degree-$d$ cuspidal character would give a new singleton multiset. If that singleton already came from a polynomial, the polynomial would have a single irreducible factor of degree $d$ with multiplicity one, and its label would give the supposedly missing character. Adjoining the singleton therefore contradicts Theorem 13.17. The argument still depends on the construction of the cuspidal labels, including (I1), and on the named inputs below.
+
+**Reading notes.** The two-block product proof is `GlobalTheory.GLq.WhMul.wh_hcT`. Its deeper inputs include `Shuffle.existsUnique_shuffle`, `mackey_doubleCoset_pairing`, `OpenCell.openCell` and `NonOpenCell.whittaker_term_eq_zero`. Cuspidal positivity enters as `T.whittakerDimension_pos_of_cuspidal_character`. The pairing recurrence uses `T.harishChandraRestriction_cuspidal_product_sum_subsets`, `T.harishChandra_frobenius_reciprocity` and `T.harishChandraRestrictionTwoBlock_cuspidal_eq_zero`. The cumulative Gelfand–Graev calculation uses `T.mirabolicClassFun_blockDiagonal_eq_sum_derivatives` and `T.bernsteinZelevinskyDerivativeGLn_eq_twisted_sum`. These named inputs are [Lean] at their interfaces, with deeper proof readings [Open] here. The Whittaker idempotent, character decomposition and finiteness, and orthogonality also enter through the interfaces recorded in the source map. Section 13.4.9 reads the lifting input `CuspGL.TeichEmb.exists_teichmuller` at its stated Witt-vector interface.
+
+Green's Lemma 7.7 matches degree-$s$ simplexes with irreducible polynomial labels. His Theorem 13 and the argument opening its proof count partition-valued labels against conjugacy classes. Here the multiset retains only the multiplicity at each cuspidal label, and the proof uses the squared Whittaker multiplicities instead of the full conjugacy-class count. [Green 1955, pp. 439–440](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+
+**Source map.** Paths start at `lean/` in A2. The archive SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. R3 covers the indicated proof bodies at the stated interface depth. R2 marks inputs used at statement level.
+
+| Reading | Use | Archive path and lines |
+| --- | --- | --- |
+| R3 | Proposition 13.8, exhaustion consumer and call at line 125 | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GreenCuspidalCharsByRegularCharsProof.lean:56–168` |
+| R3 | I9 wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardCuspidalMultisetsTotalDegreeLeStatement.lean:8–9` |
+| R3 | Theorem 13.17 | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardCuspidalMultisetsTotalDegreeLe.lean:16–61` |
+| R3 | Existence wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsGenericConstituentHarishChandraCuspidalStatement.lean:8–9` |
+| R3 | Lemma 13.14 | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsGenericConstituentHarishChandraCuspidal.lean:20–125` |
+| R3 | Two-block product proof using cell inputs | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/WhittakerDimensionHarishChandraInductionMul.lean:65–184` |
+| R3 | Lemma 13.15, vanishing and distinct-entry diagonal | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CharacterPairingHarishChandraCuspidalMackey.lean:19–263` |
+| R3 | Common constituent implies nonzero pairing | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraSeriesLabelExistsUniqueGLn.lean:16–71` |
+| R3 | Generic count wrapper | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NcardGenericIrreducibleCharactersGLnLeStatement.lean:8–9` |
+| R3 | Lemma 13.16, finite sum of squares | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NcardGenericIrreducibleCharactersGLnLe.lean:18–88` |
+| R3 | Reciprocity and difference of cumulative sums | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GelfandGraevCharacterGLnNormAndReciprocity.lean:16–91` |
+| R3 | Identity indicator and cumulative sum | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/BlockDiagonalWithIdentityGLEqOneIff.lean:17–171` |
+| Definitions | Pairing, induction, restriction, and Whittaker conventions | `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:11–75` |
+| R2 | Cuspidal Whittaker positivity | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/WhittakerDimensionPosOfCuspidalCharacterStatement.lean:8–9` |
+| R2 | Restriction sum indexed by subsets | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraRestrictionCuspidalProductSumSubsetStatement.lean:8–9` |
+| R2 | Cuspidal restriction vanishing | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraRestrictionTwoBlockCuspidalEqZeroStatement.lean:8–9` |
+| R2 | Parabolic reciprocity | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraFrobeniusReciprocityStatement.lean:8–9` |
+| R2 | Mirabolic restriction identity | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/MirabolicClassFunBlockDiagonalEqSumDerivativesStatement.lean:7–8` |
+| R2 | Twisted derivative formula | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/BernsteinZelevinskyDerivativeGLnEqTwistedSumStatement.lean:7–8` |
+| R2 | Shuffle double cosets | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/ExistsUniqueShuffle.lean:104` |
+| R2 | Shuffle characterization, file reference | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/ShuffleNoDescentIffOpen.lean:25` |
+| R2 | Double coset pairing | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/CardDoubleCosetMulCardInter.lean:81` |
+| R2 | Open cell evaluation | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/IsUnitOfUniUp.lean:384` |
+| R2 | Other cell cancellation | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/WhittakerTermEqZero.lean:118` |
+| R2 | Idempotence and identity coefficient | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/WhittakerJacquetIdempotentsPropertiesPrimeFieldStatement.lean:8` |
+| R2 | Integral projection traces | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GroupAlgebraTraceIdempotentAndIrreducibleDegreeStatement.lean:8` |
+| R2 | Finiteness of irreducibles | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FiniteIrrCharactersAndFinsumCentralIdempotentsEqStatement.lean:8` |
+| R2 | Decomposition and expansion | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CharacterDecompositionAndClassFunctionExpansionStatement.lean:8` |
+| R2 | Orthogonality | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CentralIdempotentOfIrrCharacterOrthogonalCentralStatement.lean:8` |
+| R2 | Genuine list product | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraProductListIsCharacterAndPermInvari.lean:74` |
+| R2 | Rank-zero Whittaker value | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BernsteinZelevinskyDerivativeHarishChandraProduct.lean:42` |
+| R3 (§13.4.9) | I1 lift | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24` |
+
+
+### 13.4.9 Teichmüller lifts, Frobenius orbits, and choice of labels
+
+> **Reading levels.** The common finite-layer comparison in Proposition 13.23
+> is an expository proof using (I4) and (I5). The source table identifies the
+> formal proof bodies used here and the interfaces on which they depend. The
+> Witt-vector and parameter constructions in Theorem 13.21 and Lemma 13.22
+> incorporate the preceding exposition at its stated conditional depth.
+
+**Motivation.** Every matrix $x \in \mathrm{GL}_d(F)$ over a finite field $F$ of characteristic $p$ has eigenvalues in an algebraic closure $\overline{F}$ of characteristic $p$, whereas ordinary complex characters take values in $\mathbb C$ of characteristic $0$. Because $p \cdot 1_{\overline{F}} = 0 \neq p \cdot 1_{\mathbb C}$, **no ring homomorphism $\overline{F} \to \mathbb C$ exists**; addition cannot be preserved across the characteristic barrier. What can be lifted is the **multiplicative structure** alone: every nonzero element of $\overline{F}$ generates a finite subfield of cardinality $q^m = p^{fm}$, so its multiplicative order divides $q^m - 1$, an integer coprime to $p$. Embedding the prime-to-$p$ torsion group $\overline{F}^\times = \bigcup_{m \ge 1} \mu_{q^m - 1}(\overline{F})$ into $\mathbb C^\times$ and extending by $0 \mapsto 0$ turns eigenvalues into complex roots of unity, from which Sections 13.4.4–13.4.7 form the root power sums $s_k$ and their invariant-subspace Möbius inverses $\psi_{s_k}$.
+
+Two structural questions immediately govern how such a lift enters node `P16`:
+
+1. *Existence and zero conventions:* How does the archive construct an injective multiplicative map $\theta_0 : \overline{F} \to \mathbb C$ without hand-picking compatible generators level by level, and why do some interfaces type $\theta_0$ as a bare multiplicative homomorphism (`AlgebraicClosure F →* ℂ`, injective on nonzero elements) while the parameter-label layer requires a zero-preserving embedding (`Fbar p →*₀ ℂ`)?
+2. *Non-canonical choice and label permutation:* Choosing $\theta_0$ requires a non-canonical comparison between characteristic-$p$ roots of unity and complex roots of unity. When we replace one valid embedding $\theta_0$ by another $\theta_0'$, the *set* of cuspidal characters of $\mathrm{GL}_d(\mathbb F_g)$ cannot change, yet individual polynomial labels $P \in \mathbb F_g[X]$ and exponent coordinates $k \bmod (g^d - 1)$ can shift! How does arithmetic Frobenius interact with $\theta_0$, how are the resulting parameters wired into `GlobalTheory.ParamLabel`, and what exact group permutes the polynomial labels when the lift changes?
+
+Before proving the general theorems, we compute every piece by hand over $\mathbb F_9 / \mathbb F_3$ (degree $d = 2$, characteristic $3$) and $\mathbb F_{16} / \mathbb F_2$ (degree $d = 4$, characteristic $2$).
+
+**Example 13.18 ($\mathbb F_9 / \mathbb F_3$: zero extension, $3$-adic vs. complex choice, and label permutation on $\mathrm{GL}_2(\mathbb F_3)$).** [Expository]
+Take $F = \mathbb F_3$ ($p = g = 3$), $d = 2$, and $K = \mathbb F_9 = \mathbb F_3[\zeta]/(\zeta^2 + \zeta + 2)$ as in Section 13.2.1(4) and Example 13.3. Here $\lvert K \rvert = 9$ and $N = \lvert K^\times \rvert = 3^2 - 1 = 8$.
+
+1. *Characteristic and divisibility:* Since $\gcd(8, 3) = 1$ ($8 \equiv 2 \not\equiv 0 \pmod 3$), $X^8 - 1$ has derivative $8X^7 = 2X^7$ coprime to $X^8 - 1$ over $\mathbb F_3$, so $K^\times \cong C_8$ consists of $8$ distinct $8$-th roots of unity ($\zeta^2 = 2\zeta + 1$, $\zeta^4 = 2 = -1$, $\zeta^8 = 1$). Conversely, complex $3$-power roots of unity such as $e^{2\pi i/3} \in \mathbb C^\times$ never occur in $\theta_0(\overline{\mathbb F}_3^\times)$, because $x^3 = 1$ in characteristic $3$ forces $(x - 1)^3 = x^3 - 1 = 0$, hence $x = 1$.
+2. *Zero extension:* Any multiplicative homomorphism $\theta_0 : \mathbb F_9 \to \mathbb C$ that is injective on $\mathbb F_9^\times$ satisfies $\theta_0(-1) = -1 \neq 1$, whence $\theta_0(0) = \theta_0(0 \cdot (-1)) = \theta_0(0)(-1)$ forces $\theta_0(0) = 0$ automatically. In `rootSum θ₀ k P` (`src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:65–66`), a zero root of a singular $2 \times 2$ matrix contributes $\theta_0(0)^k = 0^k = 0$ for every $k \ge 1$, while Lean's convention $0^0 = 1$ gives $\theta_0(0)^0 = 1$ so that $s_0(P) = \deg P$ remains additive across singular endomorphisms.
+3. *Why the complex choice is non-canonical:* Inside the Witt ring $W_3(\mathbb F_9) \cong \mathbb Z_3[\xi]/(\xi^2 + \xi + 2)$, Hensel's lemma (or `WittVector.teichmuller 3`) singles out a *unique* $8$-th root of unity $\tau_3(\zeta) = (\zeta, 0, 0, \dots)$ reducing to $\zeta \bmod 3$. Passing to $\mathbb C$, however, requires embedding $\mathbb Q(\omega_8)$ ($\omega_8 = e^{2\pi i/8}$, minimal polynomial $\Phi_8(X) = X^4 + 1$). Modulo $3$, $\Phi_8$ splits into two quadratic factors:
+   $$X^4 + 1 \equiv (X^2 + X + 2)(X^2 + 2X + 2) \pmod 3,$$
+   corresponding to the two prime ideals $\mathfrak p_1 = (3, \omega_8^2 + \omega_8 + 2)$ and $\mathfrak p_2 = (3, \omega_8^2 + 2\omega_8 + 2)$ of $\mathbb Z[\omega_8]$ above $3$, each with residue field $\mathbb F_9$. Each ideal has two $\mathbb F_3$-identifications with $\mathbb F_9$ related by Frobenius $u \mapsto u^3$, giving all $\varphi(8) = 4$ injective multiplicative lifts $\theta_0^{(a)} : \zeta^n \mapsto \omega_8^{an}$ for $a \in (\mathbb Z/8\mathbb Z)^\times = \{1, 3, 5, 7\}$.
+4. *Frobenius orbits and label permutation:* Under Frobenius $u \mapsto u^3$, exponents multiply by $3 \bmod 8$: the non-regular exponents $\{0\}$ and $\{4\}$ factor through $\operatorname{Nm}_{\mathbb F_9/\mathbb F_3}(u) = u^4$, while the $6$ regular exponents form the $3$ length-$2$ orbits $\{1, 3\}$, $\{5, 7\}$, and $\{2, 6\}$, matching $P_1(X) = X^2 + X + 2$ (roots $\{\zeta, \zeta^3\}$), $P_2(X) = X^2 + 2X + 2$ (roots $\{\zeta^5, \zeta^7\}$), and $P_3(X) = X^2 + 1$ (roots $\{\zeta^2, \zeta^6\}$). Fix `L.gen 2 = ζ` and compare `L_a` (built with $\theta_0^{(a)}$) against the baseline $L_1$ ($a = 1$) from Section 13.2.1(4). A fixed character $\chi$ with baseline root $x$ acquires the new root $x' = x^{a^{-1}} = x^a$ (since $a^2 \equiv 1 \pmod 8$ for every odd $a$):
+   - For $a \in \{1, 3\} = \langle 3 \rangle$ (the Frobenius coset of $\mathfrak p_1$), $\zeta \mapsto \zeta$ or $\zeta^3$, so **all three polynomial labels $(P_1, P_2, P_3)$ stay unchanged**.
+   - For $a \in \{5, 7\}$ (the coset of $\mathfrak p_2$; $a = 7$ is complex conjugation $\omega_8 \mapsto \overline{\omega}_8 = \omega_8^7$), $\zeta \mapsto \zeta^5$ or $\zeta^7$ while $\zeta^2 \mapsto \zeta^{10} = \zeta^2$ or $\zeta^{14} = \zeta^6$. Thus **changing the lift by $a \in \{5, 7\}$ swaps $P_1 \leftrightarrow P_2$ and fixes $P_3$**, matching the exchange of elliptic character values $\mp i\sqrt{2} \leftrightarrow \pm i\sqrt{2}$ between the $P_1$ and $P_2$ rows of the table in Section 13.2.1(4) while leaving the real-valued row $P_3$ untouched!
+
+**Example 13.19 ($\mathbb F_{16} / \mathbb F_2$: degree-$4$ subfield strata, regular order-$5$ roots, and label permutation).** [Expository]
+Now change both the characteristic and the extension degree: take $F = \mathbb F_2$ ($p = g = 2$), $d = 4$, and $K = \mathbb F_{16} = \mathbb F_2[\alpha]/(\alpha^4 + \alpha + 1)$, of cardinality $16$ and unit group order $N = 2^4 - 1 = 15 = 3 \times 5$.
+
+1. *Characteristic, zero extension, and norm tower:* Because $15$ is odd ($\gcd(15, 2) = 1$), $X^{15} - 1$ is separable over $\mathbb F_2$; by contrast, $-1 \in \mathbb C^\times$ has order $2 = p$ and cannot lie in $\theta_0(\overline{\mathbb F}_2^\times)$ ($x^2 = 1 \implies (x + 1)^2 = 0 \implies x = 1$). Even without $-1$, $\alpha \neq 1$ gives $\theta_0(\alpha) \neq 1$, so $\theta_0(0) = \theta_0(0 \cdot \alpha) = \theta_0(0)\theta_0(\alpha)$ still forces $\theta_0(0) = 0$. Along the subfield tower $\mathbb F_2 \subset \mathbb F_4 \subset \mathbb F_{16}$ ($1 \mid 2 \mid 4$), $(2^1 - 1) = 1 \mid (2^2 - 1) = 3 \mid (2^4 - 1) = 15$; setting $\mathrm{gen}(4) = \alpha$ (order $15$), the norm-compatibility law `gen_norm` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:86`) forces $\mathrm{gen}(2) = \alpha^{(15)/3} = \alpha^5$ (order $3$, minimal polynomial $X^2 + X + 1$ over $\mathbb F_2$) and $\mathrm{gen}(1) = \alpha^{15} = 1$.
+2. *Three Frobenius orbit-length strata and why regularity is weaker than primitivity:* Arithmetic Frobenius $u \mapsto u^2$ multiplies exponents modulo $15$ by $2$, partitioning $\mathbb Z/15\mathbb Z$ into five orbits:
+   - $k = 0$: $\{0\}$ (size $1$, trivial character, root $1$ of $X + 1$);
+   - $k \in \{5, 10\}$: orbit $\{5, 10\}$ of **size $2 \lt 4$**, factoring through $\operatorname{Nm}_{\mathbb F_{16}/\mathbb F_4}(u) = u^5$ (roots $\{\alpha^5, \alpha^{10}\}$ of $X^2 + X + 1$). Notice that $5 \cdot 2^1 = 10 \not\equiv 5 \pmod{15}$ passes the $i = 1$ test, yet $5 \cdot 2^2 = 20 \equiv 5 \pmod{15}$ fails `IsRegularChar 2 4` at $i = 2 \lt 4$!
+   - $12$ regular exponents forming **three orbits of full length $4$**, which produce the three cuspidal irreducible characters of $\mathrm{GL}_4(\mathbb F_2)$ of degree $\prod_{i=1}^{3}(2^i - 1) = 1 \cdot 3 \cdot 7 = 21$:
+     $$\begin{aligned}
+     \{1, 2, 4, 8\} &\longleftrightarrow P_1(X) = X^4 + X + 1 \quad (\text{roots }\alpha, \alpha^2, \alpha^4, \alpha^8\text{ of order }15),\\
+     \{7, 14, 13, 11\} &\longleftrightarrow P_2(X) = X^4 + X^3 + 1 \quad (\text{roots }\alpha^7, \alpha^{14}, \alpha^{13}, \alpha^{11}\text{ of order }15),\\
+     \{3, 6, 12, 9\} &\longleftrightarrow P_3(X) = X^4 + X^3 + X^2 + X + 1 = \Phi_5(X) \quad (\text{roots }\alpha^3, \alpha^6, \alpha^{12}, \alpha^9\text{ of order }5).
+     \end{aligned}$$
+   Observe the third row: $\alpha^3$ has multiplicative order $5 \lt 15$, so it **does not generate $\mathbb F_{16}^\times$**, yet its minimal polynomial over $\mathbb F_2$ still has degree $4$ (because $2$ has multiplicative order $4$ modulo $5$, so $\mathbb F_2(\alpha^3) = \mathbb F_{16}$), making $\theta_3$ a genuine regular character!
+3. *Changing the embedding:* Fix $\zeta_{15} = e^{2\pi i/15} \in \mathbb C^\times$. There are $\varphi(15) = 8$ injective lifts $\theta_0^{(a)} : \alpha^n \mapsto \zeta_{15}^{an}$ indexed by $(\mathbb Z/15\mathbb Z)^\times = \{1, 2, 4, 7, 8, 11, 13, 14\}$, corresponding to the modulo-$2$ factorization of the $15$-th cyclotomic polynomial:
+   $$\Phi_{15}(X) = X^8 - X^7 + X^5 - X^4 + X^3 - X + 1 \equiv (X^4 + X + 1)(X^4 + X^3 + 1) \pmod 2.$$
+   The Frobenius subgroup $\langle 2 \rangle = \{1, 2, 4, 8\}$ has index $2$ in $(\mathbb Z/15\mathbb Z)^\times$, with non-trivial coset $-\langle 2 \rangle = \{7, 14, 13, 11\}$. At fixed generator $\mathrm{gen}(4) = \alpha$, replacing $a = 1$ by $a \in \{1, 2, 4, 8\}$ fixes $(P_1, P_2, P_3)$, whereas any $a \in \{7, 14, 13, 11\}$ sends $x \mapsto x^{a^{-1}} \in \{x^7, x^{14}, x^{13}, x^{11}\}$, which **swaps $P_1 \leftrightarrow P_2$ and fixes $P_3 = \Phi_5$** (since $3 \cdot 13 = 39 \equiv 9 \in \{3, 6, 12, 9\} \pmod{15}$; indeed no multiplicative automorphism can carry an order-$5$ root of $P_3$ to an order-$15$ root of $P_1$ or $P_2$!).
+
+**Three boundary calculations.** [Expository]
+
+1. In $\mathbb F_3^\times=\{1,2\}$ take $u=2=-1$. Its order is two. For a unital multiplicative map $\theta_0$ injective on units, $\theta_0(2)^2=1$ and $\theta_0(2)\ne1$, so $\theta_0(2)=-1$. Then $0\cdot2=0$ gives $\theta_0(0)=-\theta_0(0)$ and hence $\theta_0(0)=0$. In characteristic three, $X^3-1=(X-1)^3$ and $X^2+X+1=(X-1)^2$. Both have only the root $1$.
+2. Over $\mathbb F_2$, let $C=\begin{pmatrix}0&1\\1&1\end{pmatrix}$ and $M=\operatorname{diag}(1,C)$. We have $\det C=1$ and $\det(XI-C)=X^2+X+1$. A root $\xi$ satisfies $\xi^2=\xi+1$ and $\xi^3=1$. Hence $\xi^7=\xi\ne1$, although the whole invariant space has dimension three. The root has degree two and lies in $\mathbb F_{2^{3!}}$ since $2\mid6$. Its order divides $63$. If $\omega(\xi)=\zeta_3$, the root sum on $M$ is $1+\zeta_3+\zeta_3^2=0$ at exponent one and $3$ at exponent zero. At exponent seven the root sum is again $0$, so even on this invertible matrix the period $2^3-1$ fails for the root sum. The proper invariant subspaces are zero, the first coordinate line, and the companion plane. Indeed, the coprime factors of the characteristic polynomial give projections polynomial in $M$, and each summand is simple. At exponent one the recursive values on those subspaces are $0,1,-1$, since the two nonzero summands are simple. Thus the recursive value on $M$ is $0-1-(-1)=0$. At exponent zero the subspace values are $0,1,2$, and the recursive value is $3-1-2=0$.
+3. On a one-dimensional space let $T=0$. The characteristic polynomial is $X$ with one root $0$. Lean's natural powers give $0^0=1$, so the root sum is $1$ at exponent zero and $0$ at every positive exponent. The sole proper invariant space is zero, with characteristic polynomial $1$ and recursive value zero. Thus $\psi$ also takes values $1$ and $0$, respectively. Both functions fail to have a positive additive exponent period on all endomorphisms. In particular a zero exponent cannot always be replaced by a positive representative.
+
+---
+
+**Definition 13.5 (Teichmüller lifts, finite-level tori, and parameter-label predicates).** [Lean, read]
+
+1. *Multiplicative vs. zero-preserving Teichmüller maps:* For any finite field $F$, an *(unpointed) multiplicative Teichmüller map* is a monoid homomorphism $\theta_0 : \overline{F} \to^* \mathbb C$ injective on nonzero elements (`∀ x y, x ≠ 0 → y ≠ 0 → θ₀ x = θ₀ y → x = y`, as in `GlobalTheory.T.exists_teichmuller_map_algebraicClosure_finiteField`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteFieldStatement.lean:7`, and `LabelDatum.teich`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:82–83`). Over `Fbar g := AlgebraicClosure (ZMod g)` (`src/Formalism/CyclotomicNorms/StatementT.lean:14`, $g$ prime), a *zero-preserving Teichmüller embedding* is an injective `MonoidWithZeroHom` $\omega : \mathrm{Fbar}\,g \to^{*_0} \mathbb C$; for $\iota : (\mathrm{Fbar}\,g)^\times \to^* \mathbb C^\times$, `GlobalTheory.GoodCharsCompare.Ext ι ω` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:308`) states that `(ι u : ℂ) = ω u` for every unit $u \in (\mathrm{Fbar}\,g)^\times$.
+2. *Torsion subgroups and norm maps (`LevelCuspCharacters.lean`):* For prime $p$ and $d \in \mathbb N$, `Tor p d := rootsOfUnity (p ^ d - 1) (Fbar p)` (`src/Development/AbelianVarietyTheory/BlockTheory/HeightDefect/LevelCuspCharacters.lean:100`) is the subgroup of $(p^d - 1)$-th roots of unity in $(\mathrm{Fbar}\,p)^\times$; when $d \mid D$, `torNorm p h : Tor p D →* Tor p d` (`:102–108`) raises $u$ to $(p^D - 1)/(p^d - 1)$. Given $\theta : \mathrm{Tor}\,p\,d \to^* \mathbb C^\times$, `torVal θ : Fbar p → ℂ` (`:142–143`) extends $\theta$ by $0$ outside $\mathrm{Tor}\,p\,d$, and `cuspOn θ : Gn p d → ℂ` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/LabelsCharOne.lean:29–32`, unfolding `cuspChar` at `src/Development/AbelianVarietyTheory/BlockTheory/HeightDefect/LevelCuspCharacters.lean:147–153`) evaluates the explicit primary-eigenvalue character formula on $\mathrm{GL}_d(\mathbb F_p)$.
+3. *`ParamLabel` and `GoodCharsCompare` labelings:*
+   - Given `L : LabelDatum p`, `GlobalTheory.ParamLabel.LabelsChar L θ x` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/LabelsCharOne.lean:13–14`) holds for $\theta : \mathrm{Tor}\,p\,d \to^* \mathbb C^\times$ and $x \in \mathrm{Fbar}\,p$ if $x^{p^d - 1} = 1$ and $\theta(u) = \mathrm{thetaOf}(L, d, x, u)$ for every $u \in \mathrm{Tor}\,p\,d$ (recalling from Definition 13.1(2) that `thetaOf L d x z` sends $z = (\mathrm{L.gen}\,d)^n$ to $(\mathrm{L.teich}\,x)^n$).
+   - Without fixing finite-field generators, `rootC n := exp(2πi / n)` (`src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/CuspValueComparison.lean:18`) fixes the standard primitive $n$-th root of unity in $\mathbb C$, and `labelChar ω d x y := ω x ^ sInf {a : ℕ | ω y = rootC (g ^ d - 1) ^ a}` (`:20–21`) pairs $x, y \in \mathrm{Fbar}\,g$ through $\omega : \mathrm{Fbar}\,g \to^{*_0} \mathbb C$ alone.
+   - For a multiplicative automorphism $\beta : \mathrm{Fbar}\,g \simeq^* \mathrm{Fbar}\,g$ and polynomials $f, f' \in (\mathbb F_g)[X]$, `GlobalTheory.GoodCharsCompare.Tr β f f'` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:137–138`) means that $f'$ is monic and its multiset of algebraic-closure roots satisfies `rootsBar f' = (rootsBar f).map β`.
+
+**Lemma 13.20 (Torsion order, prime-to-$p$ separability, and zero extension).** [Lean, read] for the finite-order, preimage and `exists_ext` arguments. Automatic zero preservation for the bare multiplicative map is [Expository].
+
+Let $F$ be a finite field of characteristic $p$ and cardinality $q$.
+
+1. Every nonzero $x \in \overline{F}$ generates a finite extension $F(x)/F$ and satisfies $x^n = 1$ for some $n \gt 0$ coprime to $p$; when $F = \mathbb F_g$ ($g$ prime) and $d_x := \deg \operatorname{minpoly}_{\mathbb F_g}(x)$, one has $d_x \gt 0$ and $x^{g^{d_x} - 1} = 1$ (`exists_pow_eq_one_algebraicClosure_of_finite`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:9–20`; `dg_pos`, `pow_dg`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:67–68, 204–206`).
+2. For every prime $g$ and $d \gt 0$, the integer $g^d - 1 \gt 0$ casts to $-1 \neq 0$ in $\overline{\mathbb F}_g$, so $X^{g^d - 1} - 1$ is separable with exactly $g^d - 1$ distinct roots in $\overline{\mathbb F}_g$; consequently, every injective $\omega : \overline{\mathbb F}_g \to^{*_0} \mathbb C$ restricts to a bijection from $\{y \in \overline{\mathbb F}_g : y^{g^d - 1} = 1\}$ onto $\{z \in \mathbb C : z^{g^d - 1} = 1\}$ (`exists_preimage`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:272–305`).
+3. Every multiplicative monoid homomorphism $\theta_0 : \overline{F} \to^* \mathbb C$ injective on $\overline{F} \setminus \{0\}$ automatically satisfies $\theta_0(0) = 0$ and is globally injective on all of $\overline{F}$. Conversely, for every injective unit-group homomorphism $\iota : (\overline{\mathbb F}_g)^\times \to^* \mathbb C^\times$, setting $\omega(0) := 0$ and $\omega(x) := \iota(x)$ for $x \neq 0$ defines an injective $\omega : \overline{\mathbb F}_g \to^{*_0} \mathbb C$ satisfying `Ext ι ω` (`exists_ext`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:312–351`).
+
+*Proof.* (1) Every $x \in \overline{F}$ is integral over $F$, so $F(x)$ is finite-dimensional over $F$ (`IntermediateField.adjoin.finiteDimensional`, `:12`), hence a finite field (`Module.finite_of_finite F`, `:13`). If $x \neq 0$, then $x \in F(x)^\times$ is an element of a finite group, so $x^n = 1$ for $n = \lvert F(x)^\times \rvert = q^{[F(x):F]} - 1 \gt 0$ (`isOfFinOrder_of_finite`, `:17`), which is congruent to $-1 \pmod p$ and hence coprime to $p$. Over $\mathbb F_g$, $[ \mathbb F_g(x) : \mathbb F_g ] = d_x \gt 0$ gives $x^{g^{d_x}} = x$, and cancelling $x \neq 0$ yields $x^{g^{d_x} - 1} = 1$ (`pow_sub_one_eq_one_of_pow_pow_eq`, `pow_dg`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:197–206`).
+
+(2) In characteristic $g$, $(g^d - 1 : \overline{\mathbb F}_g) = g^d - 1 = 0 - 1 = -1 \neq 0$ (`hnF`, `:278–281`), so `separable_X_pow_sub_C` (`:282–283`) makes $X^{g^d - 1} - 1$ separable with $g^d - 1$ distinct roots in the algebraically closed field $\overline{\mathbb F}_g$ (`:284–287`). Injectivity of $\omega$ sends those $g^d - 1$ roots injectively into the $(g^d - 1)$-th roots of $1$ in $\mathbb C$, which have cardinality at most $g^d - 1$ (`card_nthRoots`, `:294–295`); by the pigeonhole principle (`Finset.eq_of_subset_of_card_le`, `:296–297`), the image is the entire complex group $\mu_{g^d - 1}(\mathbb C)$.
+
+(3) If $p\ne2$, choose $u=-1$. If $p=2$, choose a root of $X^2+X+1$ in $\overline F$. Its values at both zero and one are $1$, so $u$ is a nonidentity unit in either case. Injectivity on nonzero elements gives $\theta_0(u)\ne1$. From $\theta_0(0)=\theta_0(0)\theta_0(u)$ we get $\theta_0(0)=0$. Also $\theta_0(x)\theta_0(x^{-1})=1$ for every $x\ne0$. This proves global injectivity. For the converse, the proof of `exists_ext` begins with the piecewise function at line 316. A product with a zero factor maps to zero. For two nonzero factors, `Units.mk0_mul` turns the required equality into multiplicativity of the original homomorphism. The image of a unit has nonzero complex value, so a collision between zero and a unit is impossible. On two units, equality of complex values gives equality of complex units, then injectivity of the original homomorphism gives equality of the arguments. Agreement on units follows by evaluating the nonzero branch. This proves `Ext` as well as uniqueness of the zero-preserving extension. $\square$
+
+**Theorem 13.21 (Conditional supply of `(I1)` via Witt vectors, and the `LabelDatum` reduction model).** [Lean, read], conditional on Mathlib's Witt-ring domain, $p$-adic comparison, and algebraically-closed lifting instances (`WittVector.instIsDomain`, `WittVector.equiv`, `IsAlgClosed.lift`, [Lean]).
+
+1. *(The `(I1)` producer `exists_teichmuller`)* For every finite field $F$, there exists a multiplicative monoid homomorphism $\theta_0 : \overline{F} \to^* \mathbb C$ injective on nonzero elements (and in fact satisfying $\theta_0(0) = 0$ and global injectivity on $\overline{F}$). *(Lean: `WittVector.teichmuller`, `Mathlib/RingTheory/WittVector/Teichmuller.lean:93`; `GlobalTheory.CuspGL.TeichEmb.exists_teichmuller`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24–77`; statement wrapper `GlobalTheory.T.exists_teichmuller_map_algebraicClosure_finiteField`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteFieldStatement.lean:7–8`.)*
+2. *(Inhabiting `LabelDatum g` via algebraic-integer reduction)* For every prime $g$, let $\overline{\mathbb Z} := \mathrm{integralClosure}\,\mathbb Z\,\mathbb C$ (`ZC`), choose a maximal ideal $Q \subset \overline{\mathbb Z}$ lying over $(g) \subset \mathbb Z$ to form a ring homomorphism $\mathrm{red}_g : \overline{\mathbb Z} \to \overline{\mathbb F}_g$, and put $\mathrm{ez}(n) := e^{2\pi i/n} \in \overline{\mathbb Z}$. Then $\mathrm{gen}(d) := \mathrm{red}_g(\mathrm{ez}(g^d - 1))$ has exact multiplicative order $g^d - 1$ for all $d \gt 0$ and satisfies $\mathrm{gen}(de)^{(g^{de}-1)/(g^d-1)} = \mathrm{gen}(d)$ for all $d, e \gt 0$; pairing $\mathrm{gen}$ with *any* `(t, ht)` as in (1) (or with the reduction-inverse lift `teichM g`) constructs a term `datumOf g t ht : LabelDatum g`. *(Lean: `exists_red`, `gen_prim`, `ez_pow`, `teichM`, `datumOf`, `datum`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MemRootsBarXSubC.lean:12–220`.)*
+
+*Proof.* **Part 1 (the Witt-vector production body).** First inspect Mathlib's `WittVector.teichmuller` (`Mathlib/RingTheory/WittVector/Teichmuller.lean:44–126`) for any prime $p$ and commutative ring $R$. Set $\tau_p(r) := (r, 0, 0, \dots) \in W_p(R)$ (`teichmullerFun`, `:44–45`). Evaluating the $n$-th Witt polynomial $W_n(X_0, \dots, X_n) = \sum_{i=0}^n p^i X_i^{p^{n-i}}$ at $\tau_p(r)$ kills every $i \gt 0$ term (since $0^{p^{n-i}} = 0$ for $p \gt 0$) and leaves $w_n(\tau_p(r)) = r^{p^n}$ (`ghostComponent_teichmullerFun`, `:62–69`), while ring homomorphisms $f : R \to S$ commute componentwise with $\tau_p$ because $f(0) = 0$ (`map_teichmullerFun`, `:71–75`). To prove $\tau_p(xy) = \tau_p(x)\tau_p(y)$ without assuming $p$ invertible in $R$, Mathlib runs Witt's three-step universal-polynomial argument:
+
+- Over $R_{\mathbb Q} := \mathbb Q[X_r : r \in R]$, $p$ is invertible so the ghost map $W_p(R_{\mathbb Q}) \to (R_{\mathbb Q})^{\mathbb N}$ is bijective (`ghostMap.bijective_of_invertible`), and $(xy)^{p^n} = x^{p^n} y^{p^n}$ in every ghost coordinate proves $\tau_p(xy) = \tau_p(x)\tau_p(y)$ on $R_{\mathbb Q}$ (`teichmuller_mul_aux₁`, `:77–82`);
+- Injecting $R_{\mathbb Z} := \mathbb Z[X_r : r \in R] \hookrightarrow R_{\mathbb Q}$ transfers multiplicativity to $R_{\mathbb Z}$ via `WittVector.map_injective` (`teichmuller_mul_aux₂`, `:84–88`, using `Mathlib/RingTheory/WittVector/Basic.lean:260`);
+- Surjectivity of tautological evaluation $R_{\mathbb Z} \twoheadrightarrow R$ (`counit_surjective`) descends multiplicativity to arbitrary $R$, while $\tau_p(1) = (1, 0, 0, \dots) = 1_{W_p(R)}$ and $\tau_p(0) = (0, 0, 0, \dots) = 0_{W_p(R)}$ hold coordinate by coordinate (`teichmuller`, `:93–104`; `teichmuller_zero`, `:114–115`), with $0$-th coordinate projection $(\tau_p(r))_0 = r$ (`teichmuller_coeff_zero`, `:106–107`).
+
+Now follow `exists_teichmuller` (`src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24–77`) for a finite field $F$. Let $p := \operatorname{ringChar} F$; since $F$ is finite, $p \neq 0$, so $p$ is prime (`:28–30`), and the injective structure map $F \hookrightarrow \overline{F}$ gives $\overline{F}$ characteristic $p$ and makes it a perfect integral domain (`:31–33`). Form $W := W_p(\overline{F})$ (`:34`):
+
+1. *Domain and characteristic zero (`:35–43`):* Because $\overline{F}$ is a characteristic-$p$ integral domain, $W$ is an integral domain (`IsDomain W`, `:35`, supplied by Mathlib's `WittVector.instIsDomain` at `Mathlib/RingTheory/WittVector/Domain.lean:117`). Composing the inverse of Mathlib's ring isomorphism $W_p(\mathbb Z/p\mathbb Z) \simeq \mathbb Z_p$ (`WittVector.equiv p`, `Mathlib/RingTheory/WittVector/Compare.lean:199`) with functoriality `WittVector.map` along $\mathbb Z/p\mathbb Z \hookrightarrow \overline{F}$ embeds $\mathbb Z_p \hookrightarrow W$ injectively (`:38–42`); since $\mathbb Z_p$ has characteristic $0$, so does $W$ (`hW : CharZero W`, `:43`)!
+2. *Injective multiplicative lift into an algebraically closed overfield (`:44–55`):* Let $\Omega := \overline{\operatorname{Frac}(W)}$ (`:44`), which inherits characteristic $0$ via the injective ring map $g : W \hookrightarrow \operatorname{Frac}(W) \hookrightarrow \Omega$ (`:45–50`). Define $\iota := g \circ \tau_p : \overline{F} \to^* \Omega$ (`:51`). If $\iota(x) = \iota(y)$, injectivity of $g$ gives $\tau_p(x) = \tau_p(y)$ in $W$, and reading Witt coordinate $0$ recovers $x = y$ (`hι : Function.Injective ι`, `:52–55`).
+3. *Landing inside $\overline{\mathbb Q}^{\,\Omega}$ and lifting to $\mathbb C$ (`:56–76`):* The construction needs only the elements algebraic over $\mathbb Q$. Lines `:56–67` verify that **every image $\iota(x)$ lies in the relative algebraic closure $\overline{\mathbb Q}^{\,\Omega}$ of $\mathbb Q$ in $\Omega$** (`hmem`): if $x = 0$, then $\iota(0) = g(\tau_p(0)) = g(0) = 0$ is algebraic over $\mathbb Q$ (`:59–64`); if $x \neq 0$, Lemma 13.20(1) supplies $n \gt 0$ with $x^n = 1$, whence $\iota(x)^n = \iota(x^n) = 1$ is integral (hence algebraic) over $\mathbb Q$ (`:65–67`). Because $\overline{\mathbb Q}^{\,\Omega}$ is algebraic over $\mathbb Q$ (`:68`) and $\mathbb C$ is algebraically closed of characteristic $0$, `IsAlgClosed.lift` produces a $\mathbb Q$-algebra embedding $\varphi : \overline{\mathbb Q}^{\,\Omega} \hookrightarrow \mathbb C$ (`:69`). Setting $\theta_0(x) := \varphi(\iota(x))$ preserves $1$ and multiplication (`:70–74`), maps $0 \mapsto \varphi(0) = 0$, and is injective because both $\varphi$ and $\iota$ are injective (`:75–76`).
+
+**Part 2 (the reduction model `datumOf` and `teichM`).** In `MemRootsBarXSubC.lean:12–220`, since $(g)$ is maximal in $\mathbb Z$ and $\mathbb Z \hookrightarrow \overline{\mathbb Z}$ is an integral extension, going-up (`Ideal.exists_ideal_over_maximal_of_isIntegral`, `:21–22`) furnishes a maximal ideal $Q \subset \overline{\mathbb Z}$ contracting to $(g)$. The quotient field $\overline{\mathbb Z}/Q$ is algebraic over $\mathbb Z/g\mathbb Z$, so `IsAlgClosed.lift` embeds $\overline{\mathbb Z}/Q \hookrightarrow \overline{\mathbb F}_g$, giving $\mathrm{red}_g : \overline{\mathbb Z} \to \overline{\mathbb F}_g$ (`:23–42`). For $d \gt 0$, $X^{g^d - 1} - 1$ splits into distinct linear factors $\{X - \mathrm{ez}(g^d - 1)^i : 0 \le i \lt g^d - 1\}$ over $\overline{\mathbb Z}$ (`:71–79`) and remains separable over $\overline{\mathbb F}_g$ (`N_ne`, `:46–52, 81–82`), so $\mathrm{red}_g$ injects the $(g^d - 1)$-th roots of unity and $\mathrm{gen}(d) := \mathrm{red}_g(\mathrm{ez}(g^d - 1))$ has exact order $g^d - 1$ (`gen_prim`, `:67–100`). Because $\mathrm{ez}(m k)^k = e^{(2\pi i/(mk))\cdot k} = \mathrm{ez}(m)$ in $\mathbb C$ (`ez_pow`, `:101–116`) and $(g^d - 1) \mid (g^{de} - 1)$ (`N_dvd`, `:117–118`), applying $\mathrm{red}_g$ immediately gives `gen_norm` (`:214–215`), so `datumOf g t ht` (`:209–216`) turns any `(t, ht)` from Part 1 into a `LabelDatum g`! (Lines `:120–208` also construct a standalone lift `teichM g` directly from $\mathrm{red}_g$ by sending $x \neq 0$ of level $x^{g^d - 1} = 1$ to the unique prime-to-$g$ root of unity $\omega \in \overline{\mathbb Z}$ with $\mathrm{red}_g(\omega) = x$, checking uniqueness and multiplicativity on a common multiple level $d d'$ via `lifts_unique` and `lifts_mul`.) $\square$
+
+**Lemma 13.22 (Frobenius equivariance, regular orbits, and argument-by-argument wiring into `ParamLabel`).** [Lean, read] (with item 3's primary-matrix identification `cuspOn_eq_psi` using the conditional primary-formula bridge `GlobalTheory.CuspFormula.cuspVal_eq_psi`, and cuspidality conditional on `isCharacter_cuspidal_rootSum_regular` at the depth of Sections 13.4.4–13.4.7).
+
+1. *(Frobenius equivariance and exact orbit size)* For any multiplicative map $\theta_0 : \overline{F} \to^* \mathbb C$ and any $m \in \mathbb N$, $\theta_0(x^m) = \theta_0(x)^m$; in particular, for arithmetic Frobenius $\mathrm{Frob}_q(x) = x^q$, $\theta_0(\mathrm{Frob}_q^i(x)) = \theta_0(x)^{q^i}$. Over $\mathbb F_g$ ($g$ prime), every $y \in \overline{\mathbb F}_g$ satisfies $y^{g^{d_y}} = y$ and has $d_y = \deg \operatorname{minpoly}_{\mathbb F_g}(y)$ pairwise distinct Frobenius conjugates $y, y^g, \dots, y^{g^{d_y - 1}}$ (`frobenius_orbit_degreeOverPrimeFieldFbar`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:72–138`). Consequently, if $\zeta \in \overline{F}$ has multiplicative order $\lvert F \rvert^d - 1$ ($d \gt 0$) and $\deg \operatorname{minpoly}_F(\zeta^k) = d$, then $k \lvert F \rvert^i \not\equiv k \pmod{\lvert F \rvert^d - 1}$ for all $0 \lt i \lt d$ (`exponent_regular_of_natDegree_minpoly_pow`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExponentRegularOfNatDegreeMinpolyGeneratorPow.lean:8–20`).
+2. *(Exact argument wiring into `exists_cusp_of_regular` and `ParamLabel.isCusp_psi`)* In `GlobalTheory.GreenRegular.exists_cusp_of_regular` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:65–226`), given prime $g$, $d \gt 0$, and $[K : \mathbb F_g] = d$:
+   - line `:85` calls Theorem 13.21(1) at $F = \mathbb Z/g\mathbb Z$ (`ZMod g`) to obtain $(\theta_0, h\theta_0)$;
+   - lines `:86–130` choose $\iota : K \hookrightarrow_{\mathbb F_g} \overline{\mathbb F}_g$ via `IsAlgClosed.lift`, form the injective character $\lambda := (\mathrm{Units.map}\,\theta_0) \circ (\mathrm{Units.map}\,\iota) : K^\times \to^* \mathbb C^\times$ mapping a generator $\gamma \in K^\times$ to a primitive $(g^d - 1)$-th root of unity, represent each $\theta : K^\times \to^* \mathbb C^\times$ as $\lambda^{k(\theta)}$ (`kOf θ`), and translate `IsRegularChar g d θ` into `hreg θ hθ : ∀ i, 0 < i → i < d → ¬ kOf θ * Nat.card (ZMod g) ^ i ≡ kOf θ [MOD Nat.card (ZMod g) ^ d - 1]`;
+   - line `:136` invokes `GlobalTheory.ParamLabel.isCusp_psi θ₀ hθ₀ hd (hreg θ hθ)` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–49`), passing the exact tuple `(θ := θ₀, hθ := hθ₀, {d := d}, {k := kOf θ}, hd, hk := hreg θ hθ)`, which line `:23` forwards to `T.isCharacter_cuspidal_rootSum_regular (ZMod p) θ hθ d k hd hk` while lines `:179, 214` pass `(θ₀, hθ₀)` directly into `(I4)` and `(I5)`!
+3. *(Connecting `LabelDatum` and torus parameters to `ParamLabel.isCuspOf_cuspOn`)* Let $p$ be prime, `L : LabelDatum p`, $\iota$ a finite index type of cardinality $d \gt 0$, $\theta : \mathrm{Tor}\,p\,d \to^* \mathbb C^\times$, and $x \in \mathrm{Fbar}\,p$ satisfying `LabelsChar L θ x` and $\deg \operatorname{minpoly}_{\mathbb F_p}(x) = d$. Then:
+   - writing $x = (\mathrm{L.gen}\,d)^k$, one has $\mathrm{thetaOf}(L, d, (\mathrm{L.gen}\,d)^k, z) = (\mathrm{L.teich}\,z)^k$ for all $z^{p^d - 1} = 1$ (`thetaOf_gen`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:50–56`);
+   - extending `Units.map L.teich` by zero via Lemma 13.20(3) produces an injective $\omega : \mathrm{Fbar}\,p \to^{*_0} \mathbb C$ agreeing with `L.teich` on $\mu_{p^d - 1}(\mathrm{Fbar}\,p)$, under which `cuspOn θ` equals $y \mapsto (-1)^{d-1}\psi(\mathrm{rootSum}\,\omega\,k)(\mathbb F_p^d, y)$ (`cuspOn_eq_psi`, `:70–100`) and satisfies `IsCuspOf L (minpoly (ZMod p) x) (cuspOn θ)` (`isCuspOf_cuspOn`, `:102–153`, wrapped as `isCuspOf_cuspOn_of_green` at `:154–155` and `T.greenCuspidalChar_isCuspidalOfMinpoly_of_param` at `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParamStatement.lean:10–11`).
+   Moreover, for every $d \gt 0$ and $\theta : \mathrm{Tor}\,p\,d \to^* \mathbb C^\times$, some $x \in \mathrm{Fbar}\,p$ satisfies `LabelsChar L θ x` (`exists_labelsChar_of_pos`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabelsSemisimpleParameterGLFiniteField.lean:12–36`), `LabelsChar` makes $\theta^m = (\theta')^m \iff x^m = (x')^m$ (`Congr.pow_eq_iff`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/LabelledCharactersEqAndCongrPrimeToPart.lean:85–118`), and norm composition `torNorm p h` ($d \mid N$) carries label $x$ of $\theta$ to label $x^n$ of $(\theta \circ \mathrm{torNorm})^n$ (`LabelNorm.labels_norm_pow`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteFieldCharacterLabelsCompatNormPowInv.lean:40–55`).
+
+*Proof.* (1) $\theta_0(x^m) = \theta_0(x)^m$ is `map_pow`. In `frobenius_orbit_degreeOverPrimeFieldFbar` (`:76–138`), $\mathbb F_g(y)$ has cardinality $g^{d_y}$ (`:82–85`), so $y^{g^{d_y}} = y$ (`:121–123`). Conversely, if $y^{g^k} = y$ for $k \gt 0$, then the $k$-th iterate of Frobenius fixes $\mathbb F_g(y)$ elementwise (`:88–97`), so every element of $\mathbb F_g(y)$ is a root of $X^{g^k} - X$, forcing $g^{d_y} \le g^k$ and $d_y \le k$ (`:98–119`); if $y^{g^i} = y^{g^j}$ with $0 \le i \lt j \lt d_y$, injectivity of Frobenius gives $y^{g^{j-i}} = y$ with $0 \lt j - i \lt d_y$, a contradiction (`:124–137`). In `exponent_regular_of_natDegree_minpoly_pow` (`:8–20`), if $k q^i \equiv k \pmod{q^d - 1}$ with $0 \lt i \lt d$ and $\zeta^{q^d - 1} = 1$, then $(\zeta^k)^{q^i} = \zeta^{k q^i} = \zeta^k$, so $\operatorname{minpoly}_F(\zeta^k) \mid X^{q^i} - X$, forcing $d = \deg \operatorname{minpoly}_F(\zeta^k) \mid i$ and hence $d \le i$, contradicting $i \lt d$.
+
+(2) Each line in `ExistsCuspidalCharacterOfRegularCharacterGLn.lean:85–136` and `GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–49` was verified in Proposition 13.6; here `(I1)` is discharged at `:85` by Theorem 13.21(1), and the only properties of $\theta_0$ consumed anywhere in `exists_cusp_of_regular` or `isCusp_psi` are monoid multiplicativity (`map_one`, `map_mul`, `map_pow`) and nonzero injectivity `hθ₀`.
+
+(3) Fix `L : LabelDatum p` and $d = \lvert \iota \rvert \gt 0$. Because `L.gen d` has order $p^d - 1$, every $z$ with $z^{p^d - 1} = 1$ is $(\mathrm{L.gen}\,d)^n$ for some $n$; `Model.thetaOf_gen_pow` (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MemRootsBarXSubC.lean:224–244`) checks that `thetaOf` does not depend on the representative $n$ modulo $p^d - 1$, giving $\mathrm{thetaOf}(L, d, (\mathrm{L.gen}\,d)^k, (\mathrm{L.gen}\,d)^n) = (\mathrm{L.teich}((\mathrm{L.gen}\,d)^k))^n = (\mathrm{L.teich}((\mathrm{L.gen}\,d)^n))^k = (\mathrm{L.teich}\,z)^k$ (`thetaOf_gen`, `:50–56`). Extending `Units.map L.teich` by zero via `exists_ext` (`:111–119`) yields an injective $\omega : \mathrm{Fbar}\,p \to^{*_0} \mathbb C$ with $\omega(z) = \mathrm{L.teich}(z)$ whenever $z^{p^d - 1} = 1$, so $\theta(u) = \omega(u)^k$ on `Tor p d`. In `cuspOn_eq_psi` (`:70–100`), Lemma 13.20(2) (`exists_preimage`, `:77`) picks $x_1 \in \mu_{p^d - 1}(\mathrm{Fbar}\,p)$ with $\omega(x_1) = \mathrm{rootC}(p^d - 1)^k$, rewrites `torVal θ z = ω z ^ k = labelChar ω d x_1 z` on primary eigenvalues (`:82–93`), and applies `CuspFormula.cuspVal_eq_psi` (`:94`) plus basis reindexing `Fintype.equivFin ι` (`:95–100`). In `isCuspOf_cuspOn` (`:102–153`), writing $x = (\mathrm{L.gen}\,d)^k$ (`:110`) and applying part (1)'s `exponent_regular_of_natDegree_minpoly_pow` (`:129`) feeds `isCusp_psi` (`:128`) for cuspidality; for any root $x_0 = x^{p^j}$ of $\operatorname{minpoly}_{\mathbb F_p}(x)$ (`:131`) and any root $z$ of an irreducible $\operatorname{charpoly}(y)$, cyclic shift invariance $\sum_{i \lt d} (\omega(z)^{p^j})^{k p^i} = \sum_{i \lt d} \omega(z)^{k p^i}$ (`sum_shift`, `:144–145`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:443–470`) identifies the root power sum with $\sum_{i \lt d} \mathrm{thetaOf}(L, d, x^{p^j}, z^{p^i})$ (`:146–152`). Finally, `exists_labelsChar_of_pos` (`:18–35`) uses primitivity of `L.teich (L.gen d)` in $\mu_{p^d - 1}(\mathbb C)$ to solve $\theta(\mathrm{L.gen}\,d) = \mathrm{L.teich}(\mathrm{L.gen}\,d)^k$ and sets $x := (\mathrm{L.gen}\,d)^k$; `Congr.pow_eq_iff` (`:85–118`) evaluates at `L.gen d` and cancels via `L.teich_inj`; and `labels_norm_pow` (`:40–55`) uses `L.gen_norm` so `torNorm` sends $(\mathrm{L.gen}\,N)^k \mapsto (\mathrm{L.gen}\,d)^k$. $\square$
+
+**Proposition 13.23 (Choice of lift, coordinates, and the resulting character).** [Expository] for the common finite layer argument. The formal comparison lemmas used below are [Lean, read] at the scope recorded in the source table.
+
+Let $g$ be prime, $d\ge1$, $F=\mathbb F_g$, and $[K:F]=d$. Write $N=g^d-1$. A lift $\omega$ means an injective zero-preserving multiplicative map from $\overline F$ to $\mathbb C$. Write $\psi_{\omega,k}(V,T)$ for the inverse on invariant subspaces with input $s_{\omega,k}(P)=\sum_{\xi\in\operatorname{roots}(P)}\omega(\xi)^k$, counting roots in $\overline F$ with multiplicity. For an $F$-embedding $\iota:K\hookrightarrow\overline F$ put $\lambda=\omega\circ\iota$ on $K^\times$. There is a unique exponent class $k$ modulo $N$ with $\theta=\lambda^k$. The value assigned to $\theta$ at $T\in\mathrm{GL}_d(F)$ is $(-1)^{d-1}\psi_{\omega,k}(F^d,T)$. This function is independent of the lift, the embedding, and the natural-number representative of $k$. For regular $\theta$, the preceding character theorem identifies it as cuspidal.
+
+*Comparison on a common finite layer.* A lift maps the units of each $\mathbb F_{g^e}$ bijectively onto the $(g^e-1)$-st complex roots of unity by injectivity and equality of cardinalities. Every element of $\overline F^\times$ lies in one of these groups. Conversely each order prime to $g$ divides $g^e-1$ for some $e\ge1$, since $g$ is invertible modulo that order. Thus any two lifts have the same image. The map $\alpha=\omega^{-1}\circ\omega'$ is the unique multiplicative bijection with $\omega\circ\alpha=\omega'$. It preserves multiplicative orders and acts on each finite cyclic layer by a unit power, since it takes a generator to a generator. These are the comparisons in `exists_alpha` and `exists_exp`.
+
+Set $D=d!$, $L=\mathbb F_{g^D}\subset\overline F$, and $B=g^D-1$. Let $R$ be the exponent of $\alpha$ on $L^\times$, a unit modulo $B$. For any $T$-invariant subspace $W$ of dimension $a$, the restriction $T|_W$ is injective and hence bijective. A root $\xi$ of its characteristic polynomial is nonzero and its minimal polynomial divides that characteristic polynomial. Thus $e=\deg\operatorname{minpoly}_F(\xi)$ satisfies $1\le e\le a\le d$. The zero-dimensional restriction has no roots. Since $e\mid d!$, $\xi$ belongs to $\mathbb F_{g^e}\subset L$ and has order dividing $B$. In the primary case the polynomial is a power of one irreducible and $e\mid a$; this is the case in which `root_pow` gives the smaller period $g^a-1$.
+
+Choose natural exponents $k,m$ with $Rm\equiv k\pmod B$. For every root at every restriction,
+$$\omega'(\xi)^m=\omega(\xi)^{Rm}=\omega(\xi)^k.$$
+Summing over the unchanged multiset gives equality of the polynomial inputs on each restriction. The equality includes an empty multiset and includes exponent zero under the stated congruence.
+
+In Lean, `invariantSubspaceMobiusInverseRec` starts at zero at depth zero. At depth $n+1$ it takes the input at the current characteristic polynomial and subtracts the sum of depth-$n$ values on all proper invariant subspaces. Induct on common depth, simultaneously for all $T|_W$. At depth zero both values vanish. At depth $n+1$ the polynomial inputs agree. A proper invariant subspace for $T|_W$ is itself $T$-invariant and its iterated restriction acts by the same operator as its direct restriction. Every summand agrees by the induction hypothesis. Taking depth $d+1$, the depth defining `psi` on $F^d$, gives $\psi_{\omega',m}(F^d,T)=\psi_{\omega,k}(F^d,T)$.
+
+*Descent to the intrinsic parameter.* Both embeddings of $K$ have image the unique degree-$d$ subfield, and $\iota'=\operatorname{Frob}_g^j\circ\iota$ for some $0\le j\lt d$. Thus $\lambda'=\lambda^{Rg^j}$. If $\theta=(\lambda')^{k'}=\lambda^k$ then $Rg^j k'\equiv k\pmod N$. Choose $m$ with $Rm\equiv k\pmod B$. Since $N\mid B$, cancellation gives $m\equiv g^j k'\pmod N$. To pass from $m$ to $k'$ with the lift $\omega'$ fixed, use (I4) and (I5) of §13.4.6. For a test exponent $l$, the Gram pairing is the order of the group times the number of $0\le i\lt d$ with $mg^i\equiv l\pmod N$. This count equals that for $k'$ because $i\mapsto i+j\bmod d$ permutes the indices and $g^d\equiv1\pmod N$. The primitive class-function expansion uses the same test functions for both exponents. All coefficients agree and the common normalization is nonzero. Hence the functions agree pointwise on $\mathrm{GL}_d(F)$, and the sign is the same in both constructions. With $j=0$ this also proves independence of representatives. For $k=0$ take $m=0$, even if $k'$ was chosen positive. This reasoning includes $N=1$, whose exponent group has one class. The archive's fixed-lift orbit step is in `exists_cusp_of_regular`, lines 206–225. The common-layer comparison applies its formula across different choices.
+
+For the elliptic trace, replacing a root $z$ of an irreducible degree-$d$ characteristic polynomial by $z^{g^j}$ rotates the list in $\sum_{i=0}^{d-1}\theta(z^{g^i})$. With a fixed lift the reverse implication on regular parameters follows from testing equality of GL functions against the second exponent in (I4). Its self-count contains $i=0$, so the first exponent has a Frobenius iterate equal to the second modulo $N$. This is the argument at lines 184–205.
+
+*Explicit generators and polynomial labels.* For a label datum $(\omega,v)$ in degree $d$, the label $x$ denotes the character sending $z=v^n$ to $\omega(x)^n$. Thus $x=v^k$ denotes the $k$-th power of the lift on the layer. Frobenius sends $x$ to $x^g$ and raises the character to its $g$-th power. The regular labels are exactly the roots of degree $d$ by Lemma 13.22. If $\omega'(u)=\omega(u^a)$ on this layer and $v'=v^b$, then $z=(v')^{b^{-1}n}$. Substitution yields
+$$\mathrm{thetaOf}(L',d,x',z)=\mathrm{thetaOf}(L,d,(x')^{ab^{-1}},z).$$
+A fixed character therefore has $x'=x^{a^{-1}b}$. This power bijection commutes with Frobenius and so transports the polynomial label to $\operatorname{minpoly}_F(x')$. It also compares the elliptic traces in `IsCuspOf` term by term over the corresponding label roots. With the generator fixed, the kernel on primitive polynomial labels is exactly $\langle g\rangle$, since a primitive $x$ satisfies $x^{a^{-1}}=x^{g^j}$ precisely when $a^{-1}\equiv g^j\pmod N$. With norm-compatible generators, the pulled-back character takes on the large generator the original value on the small generator. Its label is the same element viewed in the larger field. In exponent coordinates the multiplier from degree $d$ to degree $D$ is $(g^D-1)/(g^d-1)$.
+
+*Fixed complex reference root and the square.* Let $c_N=\exp(2\pi i/N)$ as in `rootC`. The implicit generator of `labelChar` is $\omega^{-1}(c_N)$. Write $\omega(y)=c_N^n$ and $\omega(x')=c_N^s$. Under $\omega'$ the same elements have logarithms $an$ and $as$, so
+$$\mathrm{labelChar}(\omega',d,x',y)=c_N^{a^2sn}
+ =\mathrm{labelChar}(\omega,d,\beta(x'),y),\qquad \beta=\alpha\circ\alpha.$$
+This is `exists_beta`. The same direction is visible in the recursive formula. The exponent of $x'$ relative to the reference root and $\omega'$ is $as\bmod N$, while the exponent of $\beta(x')$ relative to $\omega$ is $a^2s\bmod N$. With the field embedding fixed, these exponents give the same intrinsic character since $\omega'(y)^{as}=\omega(y)^{a^2s}$ on the degree-$d$ torus. Proposition 13.23 gives equality on the whole general linear group, and `cuspVal_eq_psi` identifies these pointwise values with the two primary formulas. The explicit-generator rule gives the same result because the implicit generator moves by $b=a^{-1}$, so the label of a fixed character moves by $a^{-2}$. In degree one the same pairing transports tame labels on base-field units. Evaluation at the preimage of $c_{g-1}$ recovers the label by injectivity, and inversion of the character sends the label to its inverse.
+
+The map $\beta$ carries the full root orbit of $\operatorname{minpoly}_F(x')$ to that of $\operatorname{minpoly}_F(\beta(x'))$. Factoring a monic polynomial and carrying each orbit with its multiplicity gives the unique monic polynomial with the transported root multiset. This is `Tr`, with inverse given by $\beta^{-1}$. It preserves degrees, divisibility, squarefreeness and the absence of a zero root. The prime-to-$\ell$ part commutes with transport since it uses only multiplicative order and exponentiation.
+
+For an invertible matrix with primary characteristic polynomial, all its distinct roots lie in the torsion layer of the matrix size by `root_pow`. The coefficient outside the sum in `cuspVal` depends only on the matrix, so `exists_beta` compares the summands with that coefficient fixed. On the other branch `cuspVal` is zero for both labels. This gives `cuspVal_congr`. In `isTypeChar_tr` apply it in every diagonal block, transporting the root and polynomial labels and preserving the block representation and its induced character. The displayed direction in `FullGood.change` is from the primed datum to the unprimed datum. Transport the matching base-field labels by the same root bijection. Degree and squarefree conditions survive, equalities of prime-to-$\ell$ parts pull back by injectivity, and both remaining factor conditions follow by divisibility and inverse transport. A forbidden divisor of prescribed degree would pull back to a forbidden divisor of the same degree, while the required large prime-degree irreducible factor maps to another irreducible of that degree.
+
+*The conditional block-formula interface.* The identifier `CuspidalCharacterFormula` is a proposition. For a specified lift and cuspidal block datum it supplies nonzero labels of degree the corresponding block size and expresses the character as the product of the `cuspVal` functions. The proof `typeChar_full_of_torus` takes this proposition as $H$ and uses `Ext` to compare the unit-group lift with the zero-preserving lift. For a fixed block choose a root of its prescribed torus polynomial. Vary the torus element in that block through preimages of all powers of the reference root, with the other blocks at the unit. The proof constructs these test matrices by `exists_block`. The other blocks give identical nonzero factors on both sides, and `torus_coef_ne` gives the nonzero scalar in the active block. After cancellation and use of `sum_period` to extend the test sums to the full block degree, sums of powers for the two complex Frobenius orbits agree. The supplied `mem_orbit_of_sums` gives orbit membership. Injectivity then gives the desired equality of finite-field minimal polynomials. The consumer uses $H$ as input. The separate `CuspFormula.cuspVal_eq_psi` bridge compares the primary formula with the recursion on invertible matrices. Its hypothesis on the label is $\omega(x)=c_N^k$ with $x$ in the degree-$d$ torsion layer. In the primary branch, choose a root $y$ of the irreducible factor and write the characteristic polynomial as $P^m$ for $P=\operatorname{minpoly}_F(y)$. The distinct roots are exactly the roots of $P$, and their number is $e=\deg P$. The kernel-dimension input gives the dimension of $\ker P(T)$ as $e$ times the eigenspace dimension, for every root of $P$. Thus the eigenspace dimensions agree. The primary Möbius identity now gives $\psi_{\omega,k}=s_{\omega,k}(P)\prod_{1\le i<t}(1-g^{ei})$, where $t$ is that eigenspace dimension. For a root $z$ of $P$, write $\omega(z)=c_N^n$ using the primary root bound. The term $\mathrm{labelChar}(\omega,d,x,z)$ is $(c_N^k)^n=\omega(z)^k$. The distinct-root sum and the factors therefore agree after inserting the sign $(-1)^{d-1}$. In the nonprimary branch the supplied vanishing theorem for primitive class functions gives zero, matching the definition of `cuspVal`.
+
+**Remarks 13.4.9.**
+
+1. *Comparison with Green (1955) and Witt-vector formalization.* For matrices of fixed size $n$ over $\mathrm{GF}(q)$, Green works inside the finite universal splitting field $\mathfrak F^\ast = \mathrm{GF}(q^{n!})$ ([Green1955, §1, p. 405]). In his proof of Theorem 1 ([Green1955, §3, p. 414]), Green explicitly notes that any two multiplicative isomorphisms $\theta, \phi : M(\mathfrak F^\ast) \hookrightarrow \mathbb C^\times$ satisfy $\theta = \phi^r$ for some integer $r$ (matching Proposition 13.23(1)), and constructs one such $\phi$ by reducing the $(p^a - 1)$-th roots of unity of $\mathbb Q(\zeta_{p^a - 1})$ modulo a prime ideal $\mathfrak p \mid p$ and inverting the reduction map. In the archive, `GlobalTheory.GLq.Model.teichM` (`MemRootsBarXSubC.lean:12–208`, Theorem 13.21(2)) globalizes Green's reduction method to $\overline{\mathbb Z}/Q \hookrightarrow \overline{\mathbb F}_g$ across all degrees at once, whereas the `(I1)` supplier `TeichEmb.exists_teichmuller` (`ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24–77`, Theorem 13.21(1)) goes in the opposite direction via $p$-typical Witt vectors $W_p(\overline{F})$ ([Hazewinkel2009]; [CommelinLewis2021]) and `IsAlgClosed.lift`, working uniformly for every finite field $F$ without choosing compatible roots of unity in $\mathbb C$ beforehand.
+2. *Where the condition $5 \le p$ enters — and where it does not.* Theorem 13.21, Lemma 13.22, and Proposition 13.23 hold for **every** prime ($p = 2, 3$ included, as in Examples 13.18–13.19). In `GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:154–155`, the wrapper `isCuspOf_cuspOn_of_green` takes both `Green` and `5 ≤ p` as unused hypotheses (`fun _ _ _ L _ ... => isCuspOf_cuspOn L θ x hd hL hx`), matching the interface expected by `Labels.series` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/PrimeToPartFrob.lean:144, 159`). In `PrimeToPartFrob.lean`, the assumption `5 ≤ p` is actually used in `good_iff` (`:92, 133–134`, to ensure the auxiliary prime $\ell = 2$ satisfies $2 \neq p$) and in `GLq.Label.lab_eq` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HarishChandraSeriesLabelExistsUniqueGLn.lean:78–83`, via `cuspidalCharacter_label_unique_GLn`). Besides `ExistsCuspidalCharacterOfRegularCharacterGLn.lean:85` and `CuspidalCharacterFormula.lean:3`, `(I1)` is also imported by `EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:220` (proving primitive irreducible characters of $\mathrm{GL}_d(F)$ are determined by their elliptic values), `PResEmbEx.lean:3`, and `IsIrreducibleTransportRep.lean:5` [Lean].
+3. *Scope of the reading.* The primary bridge proof and the conditional block consumer are read at their stated interfaces. The source table names the deeper primary and block inputs. The supply of (I2), (I8), and the deeper hypotheses of §§13.4.4–13.4.8 retain their earlier reading levels here; §13.4.10 reads (I2) and (I8). For singular endomorphisms the termwise common-layer comparison also works when both exponents are positive (zero roots contribute zero), or both are zero. The example with characteristic polynomial $X$ precludes the unrestricted claim with one exponent zero and the other positive.
+
+**Table 13.4.9 (source-to-text map).** Paths are relative to `lean/` in the pinned archive `lean.tar.gz` (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`), or to Mathlib at commit `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| Reading | Role in §13.4.9 | Archive / Mathlib path and lines |
+|---|---|---|
+| R3 / [Lean, read] | `(I1)` statement wrapper `T.exists_teichmuller_map_algebraicClosure_finiteField` | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteFieldStatement.lean:7–8` |
+| R3 / [Lean, read] | Finite-order helper and `(I1)` Witt-vector producer `CuspGL.TeichEmb.exists_teichmuller` | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:9–77` |
+| R3 / [Lean, read] | `WittVector.teichmuller`, ghost components, polynomial reduction, `teichmuller_coeff_zero`, `teichmuller_zero` | `Mathlib/RingTheory/WittVector/Teichmuller.lean:44–126` (commit `0df444a`) |
+| R3 / [Lean, read] | Parallel algebraic-integer reduction model `exists_red`, `gen_prim`, `ez_pow`, `teichM`, `datumOf`, `thetaOf_gen_pow`, `thetaOf_norm` | `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MemRootsBarXSubC.lean:12–254` |
+| R3 / [Lean, read] | Main-path `(I1)` call site, $\lambda = \theta_0 \circ \iota$, exponent `kOf`, regularity `hreg`, call to `ParamLabel.isCusp_psi` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:65–225` |
+| R3 / [Lean, read] | `ParamLabel.isCusp_psi`, `thetaOf_gen`, `torVal_eq`, `cuspOn_eq_psi` (cond. on `cuspVal_eq_psi`), `isCuspOf_cuspOn`, `isCuspOf_cuspOn_of_green` + wrapper | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–156`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParamStatement.lean:10–11` |
+| R3 / [Lean, read] | Regularity of generator-power exponents `CuspGL.exponent_regular_of_natDegree_minpoly_pow` + wrapper | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExponentRegularOfNatDegreeMinpolyGeneratorPow.lean:8–20`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExponentRegularOfNatDegreeMinpolyGeneratorPowStatement.lean:7–8` |
+| R3 / [Lean, read] | Frobenius orbit size `frobenius_orbit_degreeOverPrimeFieldFbar`, `pow_dg`, `exists_prim`, `labelChar_eq`, `exists_preimage`, `sum_shift` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:63–305` |
+| R3 / [Lean, read] | Change-of-embedding automorphisms `exists_alpha`, `exists_exp`, `exists_beta`, polynomial transport `Tr`, `tr_minpoly`, `exists_tr`, `isGood_tr`, `isTypeChar_tr`, zero extension `exists_ext`, and `FullGood.change` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:52–85, 126–351`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GoodFamilyOfRealised.lean:43–67` |
+| R3 / [Lean, read] | `LabelsChar` existence, power/congruence equivalence, and norm compatibility | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabelsSemisimpleParameterGLFiniteField.lean:12–71`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/LabelledCharactersEqAndCongrPrimeToPart.lean:73–127`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteFieldCharacterLabelsCompatNormPowInv.lean:15–83` |
+| Definitions | `Fbar`, `rootsBar`; `LabelDatum`, `thetaOf`, `IsCuspOf`; `Tor`, `torNorm`, `torVal`, `cuspChar`; `LabelsChar`, `cuspOn`; `rootC`, `labelChar`, `IsTypeChar` | `src/Formalism/CyclotomicNorms/StatementT.lean:14–18`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:81–97`; `src/Development/AbelianVarietyTheory/BlockTheory/HeightDefect/LevelCuspCharacters.lean:98–154`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/LabelsCharOne.lean:13–33`; `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/CuspValueComparison.lean:18–46` |
+| R2 / [Lean] | Mathlib Witt-vector functoriality, domain, and $p$-adic ring isomorphism (`map_injective`, `instIsDomain`, `equiv`) | `Mathlib/RingTheory/WittVector/Basic.lean:253, 260`; `Mathlib/RingTheory/WittVector/Domain.lean:117`; `Mathlib/RingTheory/WittVector/Compare.lean:199` (commit `0df444a`) |
+| Definitions and R3 | `rootSum`, finite-depth recursion, stabilization and `psi_eq` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:24–66` |
+| R3 / [Lean, read] | Primary root bound and pointwise transport, `root_pow` and `cuspVal_congr` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:88–135` |
+| Definition and conditional R3 | Block formula hypothesis and its consumer, `CuspidalCharacterFormula` and `typeChar_full_of_torus` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:380–502` |
+| Conditional R3 | Primary and nonprimary branches of `CuspFormula.cuspVal_eq_psi` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:132–185` |
+| R2 / [Lean] | Inputs to the primary branch, `T.finrank_ker_aeval_eq_natDegree_mul_finrank_eigenspace'` and `T.invariantSubspaceMobiusInverseCharpoly_primary_eq` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinrankKerAevalEqNatDegreeMulFinrankEigenspaceAlStatement.lean:5`, `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/InvariantSubspaceMobiusInverseCharpolyPrimaryEqStatement.lean:7` |
+| R2 / [Lean] | Input to the zero branch, `T.classFn_eq_zero_of_charpoly_not_irreducible_pow` | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/EqZeroOfNotPrimaryStatement.lean:6` |
+| R2 / [Lean] | Block-test inputs `exists_matrix`, `cuspVal_eq_torusValue`, `sum_period`, `period_of`, `mem_orbit_of_sums` | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusOrbitDegreeOverPrimeFieldFbar.lean:306,393,472,484,489` |
+| Interfaces consumed from §13.4.6 | Gram and primitive expansion identities (I4)/(I5) | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvertibleEndInnerProductRootPowerSumMobiusStatement.lean:7`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimitiveClassFunctionExpansionRootSumsStatement.lean:7` |
+
+### 13.4.10 From a norm-one virtual character to a positive irreducible character
+
+> **Reading levels.** `R3` / [Lean, read] for the last steps of `CuspGL.isChar_psi_rootSum_of_regular`
+> (`IsCharacterCuspidalRootSumRegular.lean:119–184`), the simplicity branch of `ParamLabel.isCusp_psi`
+> (`GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:22–38`), the degree step of `exists_cusp_of_regular`
+> (`ExistsCuspidalCharacterOfRegularCharacterGLn.lean:137–142`), and the production proofs of (I2)
+> `CuspGL.psi_one` and of (I8) `BI.irr_of_norm_one`, `CuspGL.star_virt_eq_inv` and `CuspGL.extZero_spec`,
+> down to the interfaces listed in Table 13.4.10. The deeper inputs named in the last rows of that table are
+> `R2` / [Lean]. The inputs (I1), (I3)–(I7) and (I9) are used at the reading levels recorded in
+> §§13.4.5–13.4.9 and are not reopened here. Paths are relative to `lean/` in the pinned `lean.tar.gz`
+> (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). Mathlib paths are at commit
+> `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+**Motivation.** Let $F=\mathbb F_q$, $d>0$ and $G=\mathrm{GL}_d(F)$. For a regular exponent $k$ write
+$\psi_k(x)=\psi_{s_k}(F^d,x)$ for the Möbius inverse of Definition 13.3. Steps 1 and 2 of Proposition 13.6
+supply two facts. First, $\psi_k$ is an integer combination of irreducible characters, by (I6) and (I7)
+(§§13.4.5 and 13.4.7). Second, $\sum_{x\in G}\lvert\psi_k(x)\rvert^2=\lvert G\rvert$, by (I3)–(I5) (§13.4.6).
+Neither fact makes $\psi_k$ a character, and for $d\ge2$ it is not one: it is minus one. Three more
+ingredients are needed, and the archive supplies each by a short proof.
+
+1. *A lattice fact.* In the lattice $R(G)$ with its orthonormal basis of irreducible characters, a vector
+   of length one is plus or minus a basis vector.
+2. *A sign.* A genuine character takes the value $\dim V>0$ at the identity. So the sign is decided by
+   $\psi_k(1)$. At the identity every subspace is invariant, and the recursion becomes a count over the
+   whole subspace lattice.
+3. *An interface.* `BI.IsChar` asks for a matrix representation $G\to\mathrm{GL}_n(\mathbb C)$ with the
+   given trace, while `IsCusp` asks for a simple object of the category `FDRep ℂ G`. The archive passes
+   from one to the other through Mathlib's norm criterion, which needs
+   $\overline{\chi(x)}=\chi(x^{-1})$.
+
+The two examples show each ingredient at work. They also show that the norm condition and the positivity of
+the degree each do real work.
+
+**Example 13.24 ($\mathrm{GL}_1(\mathbb F_q)$ and the empty case).** [Expository; the cases $q=2,3,5,7$ are
+checked by `check_positive_sign.py`, see Table 13.4.10] Take $d=1$, so $G=F^\times$ and $V=F$. The only proper
+subspace of $V$ is $0$, where the recursion gives $\psi(0,\cdot)=s_k(1)=0$. Hence for $x\in F^\times$
+$$\psi_k(x)=s_k(X-x)-\psi(0,\cdot)=\theta_0(x)^k .$$
+Since $x^{q-1}=1$, the value $\theta_0(x)$ is a $(q-1)$-st root of unity, and $\psi_k$ is the linear
+character $x\mapsto\theta_0(x)^k$. Every exponent is regular, because the condition of Lemma 13.5(iv) is
+empty when $d=1$.
+
+- *Value at $1$.* Both subspaces are invariant under $1$, and $\psi_k(1)=s_k(X-1)-\psi(0,1)=1-0=1$. This
+  is the empty product $\prod_{1\le i<1}(1-q^i)$ of (I2). The sign $(-1)^{d-1}$ is $+1$.
+- *Norm.* $\sum_{x\in F^\times}\theta_0(x)^k\,\overline{\theta_0(x)^k}=q-1=\lvert G\rvert$, because
+  $\lvert\theta_0(x)\rvert=1$.
+- *Inverse and conjugate.* $\theta_0(x)\theta_0(x^{-1})=\theta_0(1)=1$ and $\lvert\theta_0(x)\rvert=1$ give
+  $\overline{\theta_0(x)^k}=\theta_0(x^{-1})^k$. So Mathlib's sum $\sum_x\chi(x)\chi(x^{-1})$ is
+  $\sum_x1=q-1$, and the one-dimensional representation $\rho_k(x)=(\theta_0(x)^k)$ gives a simple object
+  $\mathrm{FDRep.of}\,\rho_k$.
+- *Norm one leaves the sign open.* The function $-\psi_k$ also lies in $R(G)$ and has the same norm
+  $q-1$. Its value at $1$ is $-1$, and no representation has dimension $-1$. Two candidates have norm
+  one, and only the value at $1$ separates them.
+- *The empty case $d=0$.* Here $V=0$ and $\mathrm{GL}_0(F)=\{1\}$, and $\psi(0,1)=s_k(1)=0$. The candidate
+  is the zero function. Its norm is $0\ne1=\lvert\mathrm{GL}_0(F)\rvert$, and its value at $1$ is $0$, not
+  the empty product $1$. This is why (I2) assumes $\dim V>0$, and why the consumer and `IsCusp` assume
+  $d>0$.
+- *Outside the group.* At the singular endomorphism $x=0$ of $V$ the recursion gives $\theta_0(0)^k$. This
+  is $1$ for $k=0$, by Lean's convention $0^0=1$, and $0$ for $k>0$. The value never enters the argument
+  below, which evaluates $\psi_k$ only at invertible arguments (Remark 13.4.10(2)).
+
+**Example 13.25 ($\mathrm{GL}_2(\mathbb F_3)$ with a regular and a nonregular exponent).** [Expository;
+every number below is checked in exact arithmetic in $\mathbb Q(\zeta_8)$ by `check_positive_sign.py`]
+Keep the notation of Example 13.3: $q=3$, $\mathbb F_9=\mathbb F_3[\zeta]$ with $\zeta^2+\zeta+2=0$, and
+$\theta_0(\zeta^n)=\omega^n$ with $\omega=e^{2\pi i/8}$. Then $\theta_0(1)=1$ and
+$\theta_0(2)=\theta_0(\zeta^4)=-1$. The group has order $(9-1)(9-3)=48$.
+
+*(a) The identity value by counting subspaces.* The space $V=\mathbb F_3^2$ has one zero subspace,
+$(9-1)/(3-1)=4$ lines and one plane, all invariant under $1$. The recursion gives $\psi(0,1)=0$ and
+$\psi(L,1)=s_k(X-1)-0=1$ on each line $L$, and then
+$$\psi_k(1)=s_k\bigl((X-1)^2\bigr)-\bigl(\psi(0,1)+4\,\psi(L,1)\bigr)=2-4=-2=1-q .$$
+In the notation of Lemma 13.26 this is $\sum_{W}\omega_3(\dim W)=0+4\cdot1+1\cdot(-2)=2=\dim V$. The
+counts come from Lemma 13.26(1) with every factor displayed: $N_1\,(3-1)=9-1$ gives $N_1=4$, and
+$N_2\,(9-1)(9-3)=(9-1)(9-3)$ gives $N_2=1$. The value $-2$ is the same for all $k$. With the sign,
+$\tau_k(1)=(-1)^{2-1}(-2)=2=3-1>0$.
+
+*(b) Values.* By the class computation of Example 13.3(2), $\tau_k=-\psi_k$ takes the following values. Here
+$a\in\mathbb F_3^\times$, and an elliptic element has the roots $\zeta^j,\zeta^{3j}$ with $j\in\{1,2,5\}$.
+
+| Type | Number of elements | Value of $\tau_k$ |
+|---|---:|---|
+| scalar $aI$ | $1+1$ | $2\theta_0(a)^k$ |
+| one Jordan block, eigenvalue $a$ | $8+8$ | $-\theta_0(a)^k$ |
+| $\mathrm{diag}(1,2)$ and its conjugates | $12$ | $0$ |
+| elliptic, $j=1,2,5$ | $6+6+6$ | $-(\omega^{jk}+\omega^{3jk})$ |
+
+The counts add up to $2+16+12+18=48$.
+
+*(c) The regular exponent $k=1$.* Here $\omega+\omega^3=i\sqrt2$, $\omega^2+\omega^6=0$ and
+$\omega^5+\omega^7=-i\sqrt2$. So $\tau_1$ takes the elliptic values $-i\sqrt2$, $0$ and $i\sqrt2$ for
+$j=1,2,5$, and
+$$\sum_{x\in G}\lvert\tau_1(x)\rvert^2=2\cdot4+16\cdot1+12\cdot0+6\,(2+0+2)=48 .$$
+This agrees with the Gram count $m_{11}=\#\{i<2:3^i\equiv1\pmod 8\}=1$ of §13.4.6. The inverse of an
+elliptic element of type $j=1$ has the roots $\zeta^{-1}=\zeta^7$ and $\zeta^{-3}=\zeta^5$, so it has type
+$j=5$. Its value $i\sqrt2$ is the conjugate of $-i\sqrt2$, as Lemma 13.28 predicts, and Mathlib's sum
+$\sum_x\tau_1(x)\tau_1(x^{-1})$ is also $48$. By Theorem 13.31, $\tau_1$ is an irreducible character of
+degree $2$. The unsigned function $\psi_1=-\tau_1$ has norm one as well, but its value at $1$ is $-2$. Norm
+one does not make $\psi_1$ a character. The sign $(-1)^{d-1}$, read off from the identity value, is needed.
+
+*(d) The nonregular exponent $k=0$.* Now $\theta_0(a)^0=1$, and $\tau_0$ takes the values $2,-1,0,-2$ on the
+four types. Thus
+$$\sum_{x\in G}\lvert\tau_0(x)\rvert^2=2\cdot4+16\cdot1+12\cdot0+18\cdot4=96=2\cdot48,$$
+in agreement with $m_{00}=2$. Let $\mathrm{St}(x)$ be the number of $x$-invariant lines minus one; its values
+on the four types are $3,0,1,-1$. So $\tau_0=\mathrm{St}-1$. The function $\mathrm{St}$ is the permutation
+character on the four lines minus the trivial character, with squared norm $(2\cdot9+0+12+18)/48=1$, so it
+is irreducible. The coordinates of $\tau_0$ in the irreducible basis are $+1$ at $\mathrm{St}$ and $-1$ at the
+trivial character. Their squares sum to $2$. So $\tau_0$ is a virtual character with positive degree $2$
+that is not a character. Positivity of the degree without norm one does not suffice. The exponent $k=4$
+behaves in the same way, with $\tau_4=(\mathrm{St}-1)\cdot(\mathrm{sgn}\circ\det)$ (Example 13.3(4)).
+
+The example only fixes what the symbols mean. The general statements are proved below.
+
+**Definition 13.6 (two character predicates, three pairings, and a zero extension).** Let $H$ be a finite
+group.
+
+1. *Coordinate characters* (`BI.IsChar`, `BI.IsIrrChar`, `BI.Virt`, `AbByPOfComm.lean:5–12`). A function
+   $\chi:H\to\mathbb C$ is a *character* if $\chi(h)=\operatorname{tr}\rho(h)$ for some $n\ge0$ and some
+   representation $\rho$ of $H$ on $\mathbb C^n$ (in Lean, `Representation ℂ H (Fin n → ℂ)`). It is an
+   *irreducible character* if moreover $\rho$ is irreducible in Mathlib's sense
+   `Representation.IsIrreducible`: the subrepresentations form a simple order, so $\mathbb C^n\ne0$ and no
+   subrepresentation lies strictly between $0$ and $\mathbb C^n$ (`Mathlib/RepresentationTheory/Irreducible.lean:30–31`).
+   $R(H)$ is the additive subgroup of $\mathbb C^H$ generated by the characters.
+2. *Categorical irreducibility* (`GLq.IsIrr`, `LabelDatum.lean:19–20`). For $H=\mathrm{GL}_d(\mathbb F_g)$ the
+   predicate `IsCusp` (`LabelDatum.lean:64–65`) asks instead for an object $V$ of `FDRep ℂ H` that is simple
+   in the sense of `CategoryTheory.Simple` and has character $\chi$.
+3. *Three pairings.* The Hermitian sum $\sum_h\varphi(h)\overline{\varphi'(h)}$ appears in (I8). Restricted
+   to the units of $\operatorname{End}_F(F^d)$, it is the archive's `ipGL`
+   (`InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:83–84`). Mathlib's criterion uses the sum
+   $\sum_h\chi(h)\chi(h^{-1})$. The archive's `BI.pair` is $\lvert H\rvert^{-1}\sum_ha(h)b(h^{-1})$
+   (`AbByPOfComm.lean:21–22`). For virtual characters the three agree up to the factor
+   $\lvert H\rvert$ once Lemma 13.28 is known.
+4. *Zero extension* (`extZero`, `InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:86–87`). For
+   $\chi:\mathrm{GL}_d(F)\to\mathbb C$ and $g\in\operatorname{End}_F(F^d)$, the value $\mathrm{extZero}\,\chi\,g$
+   is the sum of $\chi(x)$ over the matrices $x$ whose linear map $\iota x=\operatorname{toLin'}x$ is $g$.
+
+**Lemma 13.26 (subspace count and a $q$-binomial identity).** [Lean, read] Let $F$ have $q$ elements, let
+$\dim V=n$, and let $N_a$ be the number of $a$-dimensional subspaces of $V$. Put $\omega_q(0)=0$ and
+$\omega_q(a)=\prod_{i=1}^{a-1}(1-q^i)$ for $a\ge1$.
+
+1. For $0\le a\le n$, $N_a\prod_{i=0}^{a-1}(q^a-q^i)=\prod_{i=0}^{a-1}(q^n-q^i)$
+   (`SubspaceNumber.card_subspaces_mul`, `CardSubspacesOfFinrankMulCardBases.lean:32–60`).
+2. $\sum_{a=1}^{n}N_a\,\omega_q(a)=n$; equivalently $\sum_{W\le V}\omega_q(\dim W)=n$
+   (`QBinomialSum.sum_gaussian_mul_prod`, `SumGaussianMulProd.lean:63–91`; `sum_oneValue_finrank`,
+   `InvariantSubspaceMobiusInverseOneProdIco.lean:13–43`).
+
+*Proof.* (1) Send a linearly independent $a$-tuple in $V$ to its span. The fibre over an $a$-dimensional $W$
+is the set of linearly independent $a$-tuples in $W$, that is, of ordered bases of $W$ (`card_fibre`,
+`:7–30`). Mathlib's `card_linearIndependent` (`Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean:39–41`)
+counts $\prod_{i<a}(q^m-q^i)$ linearly independent $a$-tuples in a space of dimension $m\ge a$: the
+$(i+1)$-st vector must avoid the $q^i$ vectors spanned by the first $i$. Use $m=a$ for each fibre and $m=n$
+for the total.
+
+(2) Put $A_{n,a}=\prod_{i<a}(q^n-q^i)$ and $D_a=A_{a,a}$. The factors of $D_a$ are $q^i(q^{a-i}-1)$ with
+$q\ge2$, so $D_a\ne0$ (`den_ne`, `:15–21`; the input is $q^{j+1}-1\ne0$ for every $j$, `:66–71`). Write
+$[n,a]=A_{n,a}/D_a$; by (1), $N_a=[n,a]$. Splitting off the factor $i=0$ and pulling $q$ out of the other
+factors gives $A_{n+1,a+1}=(q^{n+1}-1)q^aA_{n,a}$ (`prod_succ_succ`, `:7–13`), and $A_{n,a+1}=A_{n,a}(q^n-q^a)$.
+Hence
+$$[n+1,a+1]=[n,a]\,\frac{q^{n+1}-1}{q^{a+1}-1},\qquad
+[n,a]+q^{a+1}[n,a+1]=[n,a]\Bigl(1+\frac{q^{n+1}-q^{a+1}}{q^{a+1}-1}\Bigr)=[n+1,a+1].$$
+Set $P_a=\prod_{i=1}^{a}(1-q^i)$, $c_n(a)=[n,a]P_a$ and $t_n(a)=[n,a+1]P_a$. The sum in (2) is
+$S(n)=\sum_{a=0}^{n-1}t_n(a)$. Because $P_{a+1}=P_a(1-q^{a+1})$, the Pascal rule above becomes
+$$t_{n+1}(a)=t_n(a)+c_n(a)-c_n(a+1)$$
+(`key`, `:34–52`). Sum over $0\le a\le n$. The extra term $t_n(n)$ is zero, because $A_{n,n+1}$ contains
+the factor $q^n-q^n$. The differences telescope to $c_n(0)-c_n(n+1)=1-0$. So $S(n+1)=S(n)+1$ with $S(0)=0$
+(`sum_eq`, `:23–61`). Finally, the sum over all subspaces groups by dimension, and the term $a=0$ vanishes
+because $\omega_q(0)=0$ (`sum_oneValue_finrank`, `InvariantSubspaceMobiusInverseOneProdIco.lean:13–43`). $\square$
+
+**Lemma 13.27 (input (I2): the value at the identity).** [Lean, read] Let $s:F[X]\to\mathbb C$ satisfy
+$s((X-1)^j)=j$ for all $j\ge0$. Then $\psi_s(V,1)=\omega_q(\dim V)$ for every finite-dimensional $V$
+(`psi_one_eq_oneValue`, `InvariantSubspaceMobiusInverseOneProdIco.lean:45–72`). In particular, if
+$\dim V=n>0$,
+$$\psi_s(V,1)=\prod_{i=1}^{n-1}(1-q^i)=(-1)^{n-1}\prod_{i=1}^{n-1}(q^i-1),\qquad
+(-1)^{n-1}\psi_s(V,1)=\prod_{i=1}^{n-1}(q^i-1)\ge1$$
+(`psi_one`, `:74–77`; statement wrapper `T.invariantSubspaceMobiusInverse_one_prod_Ico`,
+`InvariantSubspaceMobiusInverseOneProdIcoStatement.lean:6–7`). The hypothesis holds for $s=s_k$ by
+Lemma 13.4(1). Additivity of $s$ is not used.
+
+*Proof.* Use strong induction on $n=\dim V$. The characteristic polynomial of $1_V$ is $(X-1)^n$, so the
+leading term of the recursion is $n$ (`:55–57`). Every subspace $W$ is invariant under $1$, the restriction
+of $1_V$ to $W$ is $1_W$, and $\dim W<n$ when $W\ne V$ (`:58–65`). By `psi_eq` and the induction hypothesis,
+$$\psi_s(V,1)=n-\sum_{W<V}\omega_q(\dim W).$$
+By Lemma 13.26(2) the sum over all $W\le V$ is $n$, and its term $W=V$ is $\omega_q(n)$. So the displayed sum
+is $n-\omega_q(n)$, and $\psi_s(V,1)=\omega_q(n)$ (`:66–72`). For $n=0$ both sides vanish. For the sign, each
+factor $1-q^i$ with $1\le i\le n-1$ is $-(q^i-1)$, and $q^i-1\ge q-1\ge1$. $\square$
+
+**Lemma 13.28 (inverse equals conjugate).** [Lean, read] Let $H$ be a finite group and $\chi\in R(H)$. Then
+$\overline{\chi(h)}=\chi(h^{-1})$ for every $h\in H$ (`CuspGL.star_virt_eq_inv`,
+`StarVirtualCharacterEqApplyInv.lean:10–24`).
+
+*Proof.* Both sides are additive in $\chi$ and change sign with $\chi$. By induction over the generators of
+$R(H)$ (`AddSubgroup.closure_induction`, `:15–24`) it suffices to treat $\chi=\operatorname{tr}\rho$. Let $B$
+be the matrix of $\rho(h)$ in a basis and $C$ that of $\rho(h^{-1})$, and put $N=\lvert H\rvert$. Then
+$B^N=1$ and $CB=1$ (`character_inv`, `CentralIdempotentIrreducibleCharacterProps.lean:12–19`). Average the
+standard Hermitian form over the powers of $B$:
+$$K=\sum_{j=0}^{N-1}(B^j)^{\dagger}B^j .$$
+The term $j=0$ is the identity and the other terms are positive semidefinite, so $K$ is positive definite and
+invertible. Shifting the index and using $B^N=1$ gives $B^{\dagger}KB=K$. Hence $B^{-1}=K^{-1}B^{\dagger}K$,
+and
+$$\operatorname{tr}C=\operatorname{tr}\bigl(K^{-1}B^{\dagger}K\bigr)=\operatorname{tr}B^{\dagger}=\overline{\operatorname{tr}B}$$
+(`trace_inv_of_pow_eq_one`, `src/Formalism/LocalToGlobal/Divisibility/ProjLemmas.lean:699–729`). $\square$
+
+**Lemma 13.29 (input (I8): integral expansion and norm one).** [Lean, read] Let $H$ be a finite group and
+$\varphi\in R(H)$.
+
+1. There are integers $c_\chi$, almost all zero and indexed by the irreducible characters $\chi$ as
+   functions, with $\varphi=\sum_\chi c_\chi\chi$ and
+   $\sum_{h}\varphi(h)\overline{\varphi(h)}=\bigl(\sum_\chi c_\chi^2\bigr)\lvert H\rvert$
+   (`BI.virt_expand`, `VirtualCharacterIrreducibleExpansionNormSq.lean:67–98`; statement wrapper
+   `T.virtualCharacter_irreducible_expansion_normSq`).
+2. If $\sum_h\varphi(h)\overline{\varphi(h)}=\lvert H\rvert$, then $\varphi$ or $-\varphi$ is an irreducible
+   character.
+3. If, in addition, $\varphi$ is a character, then $\varphi$ is irreducible and $\varphi(1)$ is a positive
+   integer.
+
+Parts (2) and (3) are `BI.irr_of_norm_one` (`IrreducibleOfVirtualCharacterNormOne.lean:57–87`; statement
+wrapper `T.irreducible_of_virtualCharacter_norm_one`).
+
+*Proof.* (1) Every element of $R(H)$ is a difference $a-b$ of two characters (`mem_virt_iff_sub`,
+`MemVirtualCharactersIffSubCharacters.lean:7–24`). The set of such differences contains the generators and
+$0$, and it is closed under sums and negation because sums of characters are characters. Every character is a
+finite sum of irreducible characters (`isChar_induction`, `IsCharacterOverSubfieldInductionIrreducible.lean:7–50`).
+The proof inducts on the degree, which is a natural number for a character and positive for an irreducible one.
+At each step it peels off an irreducible constituent with the input `exists_irrChar_add`. This gives the
+integer expansion (`VirtualCharacterIrreducibleExpansionNormSq.lean:14–46`). For the norm, replace
+$\overline{\varphi(h)}$ by $\varphi(h^{-1})$ using Lemma 13.28 (`:82`) and expand both factors. The orthogonality
+relation $\sum_h\chi(h)\chi'(h^{-1})=\lvert H\rvert$ if $\chi=\chi'$, and $0$ otherwise, for irreducible
+$\chi,\chi'$ (`:49–63`), comes from Mathlib. On the diagonal, Schur's lemma gives a one-dimensional space of
+intertwiners (`pair_self_of_isIrrChar_algClosed`, `FiniteGroupFunctionPairingSelfIrreducibleAlgClos.lean:6–20`).
+Distinct characters come from non-isomorphic representations, which are orthogonal
+(`pair_eq_zero_of_isIrrChar_ne`, `FiniteGroupFunctionPairingEqZeroOfDistinctIrredu.lean:7–26`). The double sum
+collapses to $\sum_\chi c_\chi^2\,\lvert H\rvert$ (`:84–98`).
+
+(2) Cancel $\lvert H\rvert\ne0$ in (1). Since $\mathbb Z\to\mathbb C$ is injective, $\sum_\chi c_\chi^2=1$ in
+$\mathbb Z$ (`IrreducibleOfVirtualCharacterNormOne.lean:59–65`). Every nonzero $c_\chi$ has $c_\chi^2\ge1$, so at most one coefficient is nonzero. The sum is
+not $0$, so exactly one is, and it is $\pm1$ (`finsupp_eq_single_of_sum_sq_eq_one`, `:10–39`). Thus
+$\varphi=\pm\chi$ for an irreducible $\chi$.
+
+(3) An irreducible $\rho$ on $\mathbb C^n$ makes $\mathbb C^n$ a simple module over the group algebra. A simple
+module is nonzero, so $n>0$, and $\chi(1)=\operatorname{tr}1=n$ (`exists_pos_nat_apply_one_of_isIrrChar`,
+`:41–55`). If $\varphi=\chi$ we are done. If $\varphi=-\chi$ and $\varphi$ is a character, then $\varphi(1)$ is
+the dimension $m$ of its representation (`isChar_restrict_conj_one`,
+`IsCharacterOverSubfieldRestrictClassFunctionOne.lean:6–22`). So $m=-n$ and $m+n=0$ in $\mathbb N$,
+contradicting $n>0$ (`:79–87`). $\square$
+
+**Lemma 13.30 (`extZero_spec`: the bookkeeping identity).** [Lean, read] Let $F$ be finite, $d\ge0$ and
+$\chi:\mathrm{GL}_d(F)\to\mathbb C$. Write $\iota x=\operatorname{toLin'}x$ for the linear map of a matrix. Line
+numbers refer to `GeneralLinearFunctionExtendZeroEndProperties.lean`.
+
+1. $\mathrm{extZero}\,\chi\,(\iota x)=\chi(x)$ for $x\in\mathrm{GL}_d(F)$ (`:23–31`).
+2. $\mathrm{extZero}\,\chi\,g=0$ if $g$ is not a unit of $\operatorname{End}_F(F^d)$ (`:33–41`).
+3. $\mathrm{ipGL}(\varphi,\varphi')=\sum_{x\in\mathrm{GL}_d(F)}\varphi(\iota x)\overline{\varphi'(\iota x)}$ for all
+   $\varphi,\varphi':\operatorname{End}_F(F^d)\to\mathbb C$ (`:43–51`).
+4. If $\chi$ is a class function, then $\mathrm{extZero}\,\chi$ is invariant under conjugation by every linear
+   automorphism of $F^d$ (`:53–85`).
+
+The four parts are bundled as `extZero_spec` (`GeneralLinearFunctionExtendZeroEndProperties.lean:87–90`).
+
+*Proof.* The map $\iota$ is injective (`:11–12`), and its image is exactly the set of units of
+$\operatorname{End}_F(F^d)$ (`:14–21`). So the fibre of $\iota$ over $\iota x$ is $\{x\}$, which gives (1), and
+the fibre over a non-unit is empty, which gives (2). For (3), `ipGL` sums over the units, which form the range
+of the injective map $\iota$, and the sum can be reindexed along $\iota$. For (4), a unit $g=\iota y$
+conjugated by $e$ is $\iota(EyE^{-1})$ for the matrix $E$ of $e$, and a non-unit stays a non-unit. $\square$
+
+Only part (3) is used in this section. It is used twice, at `IsCharacterCuspidalRootSumRegular.lean:140` and
+at `GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:33`, and at both places the function $\chi$ is a
+placeholder ($\psi$ itself, respectively the zero function), since part (3) does not involve $\chi$. Part (3)
+turns the Gram norm of Step 2, a sum over the invertible endomorphisms of $F^d$, into a sum over the finite
+group $\mathrm{GL}_d(F)$, where `Virt`, `IsChar` and `FDRep` live. Parts (1), (2) and (4), the zero extension
+proper, are not used on this path (Remark 13.4.10(4)).
+
+**Theorem 13.31 (from a norm-one virtual character to a positive irreducible character).** [Lean, read],
+part (B) conditional on (I3)–(I7) at their recorded reading levels.
+
+*(A) General form.* Let $H$ be a finite group and $\varphi\in R(H)$ with
+$\sum_{h\in H}\lvert\varphi(h)\rvert^2=\lvert H\rvert$. Exactly one of $\varphi$ and $-\varphi$ is a character,
+namely the one with positive value at $1$, and it is irreducible. If $\varphi(1)$ is a natural number, then
+$\varphi$ is the character of an irreducible representation $\rho$ of $H$ on $\mathbb C^n$ with
+$n=\varphi(1)>0$, and $\mathrm{FDRep.of}\,\rho$ is a simple object of `FDRep ℂ H` with character $\varphi$.
+
+*(B) The instance in Proposition 13.6.* Let $F$ be a finite field with $q$ elements, $\theta_0$ multiplicative
+and injective on nonzero elements as in (I1), $d>0$, and $k$ regular in the sense of Lemma 13.5(iv). Put
+$\psi(x)=\psi_{s_k}(F^d,\iota x)$ on $G=\mathrm{GL}_d(F)$ and $\tau=(-1)^{d-1}\psi$. Then:
+
+1. $\tau\in R(G)$ and $\sum_{x\in G}\tau(x)\overline{\tau(x)}=\lvert G\rvert$;
+2. $\tau(1)=\prod_{i=1}^{d-1}(q^i-1)\ge1$;
+3. $\tau$ is an irreducible character, and $\psi$ is a character only for $d=1$;
+4. for $F=\mathbb Z/g\mathbb Z$, the representation $\rho$ with character $\tau$ gives a simple object
+   $\mathrm{FDRep.of}\,\rho$ with character $\tau$. This is the `IsIrr` clause of `IsCusp τ`.
+
+*Proof.* (A) By Lemma 13.29(2) there is an irreducible character $\chi$ with $\varphi=\pm\chi$, and
+$\chi(1)=n>0$ by Lemma 13.29(3). The value of a character at $1$ is a natural number, its dimension. So $-\chi$,
+whose value at $1$ is $-n$, is not a character. This proves the first claim. If $\varphi(1)=m\in\mathbb N$ and
+$\varphi=-\chi$, then $m+n=0$, which is impossible. So $\varphi=\chi$ and $m=n>0$. Write
+$\chi=\operatorname{tr}\rho$ with $\rho$ on $\mathbb C^n$. Mathlib's `FDRep.simple_iff_char_is_norm_one`
+(`Mathlib/RepresentationTheory/FinGroupCharZero.lean:121–128`) says that, over an algebraically closed field of
+characteristic zero and for a finite group, $\mathrm{FDRep.of}\,\rho$ is simple if and only if
+$\sum_h\chi(h)\chi(h^{-1})=\lvert H\rvert$. Lemma 13.28 gives $\chi(h^{-1})=\overline{\chi(h)}$, so this is the
+hypothesis.
+
+(B) We follow `IsCharacterCuspidalRootSumRegular.lean:92–184`.
+
+*Norm* (`:98–118`, Step 2 of Proposition 13.6). By (I3), (I5) and (I4),
+$\mathrm{ipGL}(\psi_{s_k},\psi_{s_k})=\lvert G\rvert\cdot\#\{0\le i<d:kq^i\equiv k\pmod{q^d-1}\}$, and regularity
+reduces the set to $\{0\}$.
+
+*Virtuality* (`:124–131`). $\psi\in R(G)$ by Step 1 of Proposition 13.6, and $\tau=(-1)^{d-1}\cdot\psi$ is an
+integer multiple of it.
+
+*Norm on the group* (`:132–143`). Since $(-1)^{d-1}\,\overline{(-1)^{d-1}}=1$, the products
+$\tau\overline\tau$ and $\psi\overline\psi$ agree pointwise. Lemma 13.30(3) turns
+$\mathrm{ipGL}(\psi_{s_k},\psi_{s_k})=\lvert G\rvert$ into $\sum_{x\in G}\tau(x)\overline{\tau(x)}=\lvert G\rvert$. The
+same identity holds for $-\tau$. This proves (1).
+
+*Degree* (`:144–165`). Lemma 13.27 with $s=s_k$ and $\dim F^d=d>0$ (`:146–148`) gives
+$\psi(1)=\prod_{1\le i<d}(1-q^i)$. Write $(-1)^{d-1}=\prod_{1\le i<d}(-1)$ and multiply factor by factor. This gives
+$\tau(1)=\prod_{1\le i<d}(q^i-1)$ as the image of a natural number; the subtraction is exact in $\mathbb N$ because
+$q^i\ge1$ (`:149–158`). The product is positive because $q\ge2$ (`:159–165`). This proves (2).
+
+*Case split* (`:166–184`). By Lemma 13.29(2), $\tau$ or $-\tau$ is an irreducible character. In the second
+case $-\tau$ is a character, and Lemma 13.29(3) applied to $-\tau$ gives $n>0$ with $-\tau(1)=n$. Then
+$n+\prod_{1\le i<d}(q^i-1)=0$ in $\mathbb N$, a contradiction. Hence $\tau$ is an irreducible character, and in
+particular `IsChar τ` holds. For $d\ge2$, $\psi(1)=-\tau(1)<0$, so $\psi$ is not a character, while $\psi=\tau$ for
+$d=1$. This proves (3). It is part (A) with $\varphi=\tau$.
+
+*The `FDRep` interface* (`GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:22–38`). `isCusp_psi` calls the
+theorem through its statement wrapper (`:23`) and keeps only `IsChar τ` and the Gram norm. It extracts
+$\rho$ on $\mathbb C^n$ (`:27`), forms $\mathrm{FDRep.of}\,\rho$ with character $\tau$ (`:28–31`), and applies
+Mathlib's criterion (`:32`). It then rewrites the Gram norm as a finite sum over
+$\mathrm{GL}_d(\mathbb Z/g\mathbb Z)$ by Lemma 13.30(3) (`:33`). The summands match because
+$\tau(x^{-1})=\overline{\tau(x)}$, by Lemma 13.28 applied to $\tau\in R(G)$ (`:26`), and because
+$((-1)^{d-1})^2=1$ (`:34–38`). This proves (4). The irreducibility returned by (I8) is not used here; the
+simplicity of $\mathrm{FDRep.of}\,\rho$ is derived again from the norm. $\square$
+
+The degree clause of Proposition 13.6(2) is the same computation in a separate proof term
+(`ExistsCuspidalCharacterOfRegularCharacterGLn.lean:137–142`). It applies Lemma 13.27 through its statement
+wrapper (`:138`) and multiplies by $(-1)^{d-1}=\prod_{1\le i<d}(-1)$ factor by factor (`:139–142`).
+
+**Remarks 13.4.10.**
+
+1. *Integrality is essential.* Over $\mathbb Q$ the lattice fact fails. In $\mathrm{GL}_2(\mathbb F_3)$ take
+   $\varphi=\tfrac35\,\mathrm{St}+\tfrac45\,\mathrm{Ind}_B^G(1\otimes\mathrm{sgn})$, a combination of two of the
+   orthonormal irreducible characters listed in Example 13.3(5). It has norm $\tfrac9{25}+\tfrac{16}{25}=1$ and
+   degree $\tfrac35\cdot3+\tfrac45\cdot4=5$, a positive integer, but it is not $\pm$ an irreducible character. In
+   the archive the integrality of $\psi_k$ comes from (I6) and (I7).
+2. *The boundary between $\mathrm{GL}$ and $\operatorname{End}$.* The function $\psi_{s_k}(F^d,\cdot)$ is defined on
+   all of $\operatorname{End}_F(F^d)$. This section evaluates it only at units: the Gram norm sums over units
+   (`ipGL`), the identity is a unit, and Lemma 13.30(3) moves the sum to the matrix group. The character
+   statements are statements about $\mathrm{GL}_d(F)$. On singular endomorphisms the recursion depends on Lean's
+   conventions $\theta_0(0)=0$ and $0^0=1$ (Example 13.24 and Remark 13.4.9(3)). Nothing here asserts
+   character-like behaviour there. This is the boundary adopted in §13.4.9.
+3. *Green's argument.* Green defines the degree of a character $\chi$ as $\chi(1)$, "even if $\chi$ is not a
+   proper character", and records $J_d(k)(1)=\varphi_{d-1}(q)=(1-q)(1-q^2)\cdots(1-q^{d-1})$
+   [Green1955, p. 437], the value of Lemma 13.27. His Lemma 7.5 states that the degree of $I_s^k[\lambda]$ has
+   the sign of $(-1)^{(s-1)v}=(-1)^{n-v}$, and his Lemma 7.6 that $\lVert I_s^k[\lambda]\rVert=1$ if
+   $k,kq,\dots,kq^{s-1}$ are $s$ distinct residues modulo $q^s-1$ (p. 438). He then writes
+   $(g^\lambda)=(-1)^{(s-1)v}I_s^k[\lambda]$ and, after "The lemmas in this section allow us to deduce",
+   states in Theorem 12 that $(g^\lambda)$ is an irreducible character of degree
+   $(-1)^{(s-1)v}\varphi_{sv}(q)\{\lambda:q^s\}$ (p. 439). For $v=1$ and $\lambda=\{1\}$ this is
+   $(-1)^{s-1}J_s(k)$, of degree $\prod_{i=1}^{s-1}(q^i-1)$: the archive's $\tau$. Green leaves the passage from
+   norm one and signed degree to irreducibility implicit. Lemma 13.29 and Theorem 13.31(A) write it out. Green
+   obtains integrality from his Theorem 1 and Brauer's characterization (Remarks 13.4.4(1)); the archive
+   obtains it from (I6) and (I7).
+4. *Where the zero extension and the inverse-conjugate identity are used.* On the path of
+   Proposition 13.6, `extZero_spec` enters only through part (3) of Lemma 13.30, twice. Lemma 13.28 enters inside
+   (I8) (`VirtualCharacterIrreducibleExpansionNormSq.lean:82`) and in `isCusp_psi`
+   (`GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:26, 38`). The zero extension proper, parts (1), (2) and
+   (4), is used elsewhere in the archive. Examples are the converse statement `exists_regular`
+   (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:50–58`), which concerns an
+   irreducible character whose zero extension is primitive, and the files
+   `IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`, `ExistsIntCoeffPrimitiveGLCharacter.lean:26` and
+   `EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` in `…/Proofs/CharacterTheory/`. We located these
+   calls but did not read them [Lean]. The zero extension of a function on $\mathrm{GL}_d(F)$ is unrelated to
+   the convention $\theta_0(0)=0$ for a Teichmüller map in Lemma 13.20(3).
+5. *A second proof of Lemma 13.26(2).* [Expository] Count the linear maps $F^n\to F^m$ by their kernels. A map
+   with $a$-dimensional image is given by its kernel, of codimension $a$ ($[n,a]$ choices), and an injective map
+   from the $a$-dimensional quotient into $F^m$ ($\prod_{i<a}(q^m-q^i)$ choices). So
+   $q^{mn}=\sum_{a=0}^{n}[n,a]\prod_{i=0}^{a-1}(q^m-q^i)$ for every $m\ge0$. Both sides are polynomials in
+   $x=q^m$ that agree at infinitely many points, so
+   $x^n=\sum_{a=0}^{n}[n,a](x-1)(x-q)\cdots(x-q^{a-1})$. Differentiate at $x=1$. The term $a=0$ is constant, and
+   the term $a\ge1$ contributes $[n,a]\prod_{i=1}^{a-1}(1-q^i)$. The result is Lemma 13.26(2). The archive's proof is
+   the telescoping recurrence given above.
+6. *Two irreducibility predicates.* `BI.IsIrrChar` uses `Representation.IsIrreducible`, while `IsCusp` uses
+   `CategoryTheory.Simple` in `FDRep ℂ G`. The archive does not prove the two equivalent on this path.
+   Lemma 13.29 uses the first only to know that the degree is positive. `isCusp_psi` then obtains the second
+   directly from the norm, through Mathlib. The norm identity is used twice, once for each predicate.
+
+**Table 13.4.10 (source-to-text map).** Paths in the third column are relative to `lean/` in the pinned
+archive (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`), unless they start with
+`Mathlib/` (commit `0df444a360eaa60ab8c11dca51a86af692955474`). The prefix `CT/` stands for
+`src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/`.
+
+| Reading | Role in §13.4.10 | Path and lines |
+|---|---|---|
+| R3 / [Lean, read] | Norm, virtuality, sign, degree and case split in `isChar_psi_rootSum_of_regular` | `CT/IsCharacterCuspidalRootSumRegular.lean:92–184` |
+| R3 / [Lean, read] | `isCusp_psi`: `FDRep.of ρ`, Mathlib criterion, Gram rewrite, inverse-conjugate matching | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18–38` |
+| R3 / [Lean, read] | Degree clause of Proposition 13.6 | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:137–142` |
+| R3 / [Lean, read] | (I2): `oneValue`, `sum_oneValue_finrank`, `psi_one_eq_oneValue`, `psi_one`; wrapper | `CT/InvariantSubspaceMobiusInverseOneProdIco.lean:10–77`; `CT/InvariantSubspaceMobiusInverseOneProdIcoStatement.lean:6–7` |
+| R3 / [Lean, read] | $q$-binomial identity: `prod_succ_succ`, `den_ne`, `sum_eq`, `sum_gaussian_mul_prod` | `CT/SumGaussianMulProd.lean:7–91` |
+| R3 / [Lean, read] | Subspace count: `card_fibre`, `card_subspaces_mul`; wrapper | `CT/CardSubspacesOfFinrankMulCardBases.lean:7–60`; `CT/CardSubspacesOfFinrankMulCardBasesStatement.lean:6–7` |
+| R3 / [Lean, read] | (I8): `finsupp_eq_single_of_sum_sq_eq_one`, `exists_pos_nat_apply_one_of_isIrrChar`, `irr_of_norm_one`; wrapper | `CT/IrreducibleOfVirtualCharacterNormOne.lean:10–87`; `CT/IrreducibleOfVirtualCharacterNormOneStatement.lean:7–8` |
+| R3 / [Lean, read] | Integer expansion and norm formula `virt_expand`; wrapper | `CT/VirtualCharacterIrreducibleExpansionNormSq.lean:14–98`; `CT/VirtualCharacterIrreducibleExpansionNormSqStatement.lean:7–8` |
+| R3 / [Lean, read] | Characters as sums of irreducibles, differences, orthogonality, degree of a character | `CT/IsCharacterOverSubfieldInductionIrreducible.lean:7–50`; `CT/MemVirtualCharactersIffSubCharacters.lean:7–24`; `CT/FiniteGroupFunctionPairingSelfIrreducibleAlgClos.lean:6–20`; `CT/FiniteGroupFunctionPairingEqZeroOfDistinctIrredu.lean:7–26`; `CT/IsCharacterOverSubfieldRestrictClassFunctionOne.lean:6–22` |
+| R3 / [Lean, read] | Inverse equals conjugate: `star_virt_eq_inv`, `character_inv`, `trace_inv_of_pow_eq_one`; wrapper | `CT/StarVirtualCharacterEqApplyInv.lean:10–24`; `src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/CentralIdempotentIrreducibleCharacterProps.lean:12–19`; `src/Formalism/LocalToGlobal/Divisibility/ProjLemmas.lean:699–729`; `CT/StarVirtualCharacterEqApplyInvStatement.lean:7–8` |
+| R3 / [Lean, read] | `extZero_spec` and its four parts; wrapper | `CT/GeneralLinearFunctionExtendZeroEndProperties.lean:11–90`; `CT/GeneralLinearFunctionExtendZeroEndPropertiesStatement.lean:7–8` |
+| Definitions | `IsChar`, `IsIrrChar`, `Virt`, `pair`; `IsClassFn`, `psi`, `psi_eq`, `rootSum`, `glCard`, `ipGL`, `extZero`; `GLq.IsIrr`, `IsCusp` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5–22`; `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:14–15, 24–66, 72, 83–87`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:17–20, 64–65` |
+| [Lean] (Mathlib; statement and proof read) | `FDRep.simple_iff_char_is_norm_one`, with `simple_iff_end_is_rank_one` | `Mathlib/RepresentationTheory/FinGroupCharZero.lean:90–128` |
+| [Lean] (Mathlib; statements read) | `Representation.char_one`, `card_inv_mul_sum_char_mul_char_eq_finrank`, `char_orthonormal`, `FDRep.scalar_product_char_eq_finrank_equivariant`; `IsIrreducible`, `irreducible_iff_isSimpleModule_asModule`, `finrank_intertwiningMap_self`; `card_linearIndependent` | `Mathlib/RepresentationTheory/Character.lean:64, 115, 134, 211`; `Mathlib/RepresentationTheory/Irreducible.lean:30–35, 81`; `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean:39–41` |
+| R2 / [Lean] | `exists_irrChar_add` (body read at `:47–66`) and its inputs `exists_irreducible_subrepresentation`, `T.exists_character_quotient_of_injective_intertwining`, `T.isCharacterOverSubfield_of_representation`; `T.isCharacterOverSubfield_zero_and_add` | `CT/ExistsIrrCharAdd.lean:8, 47`; `CT/IsCharacterOverSubfieldZeroAndAddStatement.lean:6` |
+| Located, not read | Other consumers of the zero extension and of Lemmas 13.28–13.29 | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:50–125`; `CT/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`; `CT/ExistsIntCoeffPrimitiveGLCharacter.lean:26`; `CT/EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` |
+| Our check | `check_positive_sign.py`: Examples 13.24–13.25, Lemma 13.26 and the identity in Remark 13.4.10(5) in exact arithmetic | not in the repository; see `sources/SOURCES.md`, Part I §7 |
 
 ## 13.5 Remarks, formalization notes, and Masullo's counterpart
 
@@ -1036,8 +2053,10 @@ what it proved!
 | `Gn`, `Mt`, `ip`, `zOf`, `InPar`, `hc`, `res`, `hcL`, `IsCusp`, `LabelDatum`, `thetaOf`, `IsPrimeLab`, `IsCuspOf`, `HasLabel`, `eSerC`, `GlobalTheory.GLq.Green`, `ESerTie` | `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:11,13,22,27,36,45,47,55,64,81,88,91,93,98,102,108,114` | Definition 13.1: finite $\mathrm{GL}_n(\mathbb F_g)$ Harish-Chandra induction, Jacquet restriction, cuspidality, Teichmüller labels, and Green's classification predicate `Green` (import cone 199). | [Lean, read] |
 | `IsRegularChar`, `GlobalTheory.Published.GreenRegularCharacters` | `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean:10,13` | Section 13.2.2 & Proposition 13.1: regular characters $\theta : \mathbb F_{g^d}^\times \to \mathbb C^\times$ ($\theta^{g^i} \neq \theta^{g^j}$) and Green's cuspidal character parameterization over $\mathbb F_g$ (cone 200). | [Lean, read] |
 | `exists_unit_gen`, `orderOf_uu`, `th`, `th_pow`, `th_inj`, `th_surj`, `pow_inj`, `rootOf`, `root_unit`, `regular_iff`, `sum_range_eq_roots`, `thetaOf_pow`, `GlobalTheory.GreenBridge.green_of_regular` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean:53,83,119,137,142,148,180,187,197,207,213,218,225` | Proposition 13.1: complete formal proof deriving polynomial-labeled `Green` from `GreenRegularCharacters` via Galois-orbit symmetry (cone 232). | [Lean, read] |
-| `GlobalTheory.greenRegularCharacters_holds`, `family`, `factor_lab`, `prod_factors`, `count` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GreenCuspidalCharsByRegularCharsProof.lean:18,23,35,48,56,137` | Proposition 13.8: the producer of `GreenRegularCharacters`; exhaustion by counting cuspidal multisets against the $g^d - g^{d-1}$ monic polynomials with nonzero constant term (the bound `card_cuspidal_multisets_total_degree_le` is [Lean], its inputs [Open]). | [Lean, read] |
-| `GlobalTheory.GreenRegular.exists_cusp_of_regular`; `GlobalTheory.ParamLabel.isCusp_psi`; `GlobalTheory.CuspGL.isChar_psi_rootSum_of_regular` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:65`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:92` | Proposition 13.6: $\tau_\theta = (-1)^{d-1}\psi_{s_k}$, the invariant-subspace Möbius inverse of a root power sum; cuspidality, degree, elliptic values and orbit equivalence from the inputs (I1)–(I8), whose statements are [Lean] and whose proofs are [Open]. | [Lean, read] |
+| `GlobalTheory.greenRegularCharacters_holds`, `family`, `factor_lab`, `prod_factors`, `count` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GreenCuspidalCharsByRegularCharsProof.lean:18,23,35,48,56,137` | Proposition 13.8: the producer of `GreenRegularCharacters`; exhaustion by counting cuspidal multisets against the $g^d - g^{d-1}$ monic polynomials with nonzero constant term (the conditional bound is read in §13.4.8). | [Lean, read] |
+| `GlobalTheory.GreenRegular.exists_cusp_of_regular`; `GlobalTheory.ParamLabel.isCusp_psi`; `GlobalTheory.CuspGL.isChar_psi_rootSum_of_regular` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:65`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:18`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:92` | Proposition 13.6: $\tau_\theta = (-1)^{d-1}\psi_{s_k}$, the invariant-subspace Möbius inverse of a root power sum; cuspidality, degree, elliptic values and orbit equivalence from the inputs (I1)–(I8), with (I6), (I4)–(I5), (I7), and (I1) read at the conditional depths of §§13.4.5–13.4.7 and §13.4.9. | [Lean, read] |
+| `CuspGL.TeichEmb.exists_teichmuller`; `WittVector.teichmuller`; `ParamLabel.isCuspOf_cuspOn`; `GoodCharsCompare.exists_beta`, `exists_ext`; `GLq.Model.datumOf` | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsTeichmullerMapAlgebraicClosureFiniteField.lean:24`; `Mathlib/RingTheory/WittVector/Teichmuller.lean:93`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:102`; `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspidalCharacterFormula.lean:74,312`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MemRootsBarXSubC.lean:209` | Section 13.4.9: conditional `(I1)` Witt-vector Teichmüller supply, zero-extension, `ParamLabel` bridges, and label permutations under change of embedding (`WittVector.instIsDomain`/`equiv`/`IsAlgClosed.lift` [Lean]; `cuspVal_eq_psi` conditional on the inputs in Table 13.4.9). | [Lean, read] |
+| `GlobalTheory.CuspGL.psi_one`, `QBinomialSum.sum_gaussian_mul_prod`, `SubspaceNumber.card_subspaces_mul`; `GlobalTheory.BI.irr_of_norm_one`, `BI.virt_expand`; `GlobalTheory.CuspGL.star_virt_eq_inv`; `GlobalTheory.CuspGL.extZero_spec` | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvariantSubspaceMobiusInverseOneProdIco.lean:74`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/SumGaussianMulProd.lean:63`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardSubspacesOfFinrankMulCardBases.lean:32`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IrreducibleOfVirtualCharacterNormOne.lean:57`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharacterIrreducibleExpansionNormSq.lean:67`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/StarVirtualCharacterEqApplyInv.lean:10`; `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/GeneralLinearFunctionExtendZeroEndProperties.lean:87` | Section 13.4.10: the identity value $\prod_{i=1}^{d-1}(1-q^i)$ by a count over the subspace lattice, the norm-one lattice fact, inverse equals conjugate, the unit-to-matrix bookkeeping identity, and the choice of the positive sign (Theorem 13.31); deeper inputs as in Table 13.4.10. | [Lean, read] |
 | `GlobalTheory.CuspGL.psi`, `rootSum`, `IsAdditive`, `IsPrimitive`, `ipGL`; `PrimeLabOrbit.primeLab_to_regularChar`; `GrPolys.card_monic_coeff_zero_ne_zero` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:35,65,21,17,83`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/MonicIrreducibleInjectRegularCharacterOrbits.lean:125`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NcardMonicNatDegreeCoeffZeroNeZero.lean:38` | Definition 13.3, Lemma 13.7, Proposition 13.8 (Step 2). | [Lean, read] |
 | `OpenLiteratureStatements`, `global_artin_reciprocity_of_literature`, `siegel_eisenstein_simple_pole`, `literature_local`, `literature_automorphy`, `literature_cohomology`, `published_results_eigen`, `green_regular_characters_of_literature`, `published_results_first`, `published_results_arithmetic`, `every_character_of_literature_of_vWin` | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:215,243,505,589,609,626,666,399,727,781,810` | Definition 13.2 & Proposition 13.2: 3-field root `OpenLiteratureStatements` (`Row`, `RecTExists`, `Row`), 195 literature theorems, bundle assemblers, and master bridge to `EveryCharacter` (top definitions `R3`; 151,285-module proof cone `[Lean]` / `[Open]`). | [Lean, read] |
 | `OpenImageCondition`, `global_artin_reciprocity_of_open`, `green_regular_characters_of_open` | `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TemperedProductOfSquareIntegrable.lean:207,225,285` | Definition 13.2(1–2): 1-field `VWin`-side root `OpenImageCondition` (`RowT`) and 62 `*_of_open` literature theorems (cone 146,662; internal proofs `[Lean]` / `[Open]`). | [Lean, read] |

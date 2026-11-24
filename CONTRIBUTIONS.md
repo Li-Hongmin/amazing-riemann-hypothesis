@@ -113,6 +113,14 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Ashvni Narayanan, Moritz Firsching, and Michael Stoll** — Mathlib’s Dirichlet character development, credited in the source header. [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/DirichletCharacter/Basic.lean)
 
+- **Sophie Morel** — Mathlib’s `FDRep.simple_iff_char_is_norm_one` and `simple_iff_end_is_rank_one`, the norm criterion for simplicity used by the archive in `isCusp_psi` (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/FinGroupCharZero.lean)
+
+- **Antoine Labelle** — Mathlib’s characters of representations and their orthogonality (`char_one`, `char_orthonormal`), used through the archive’s (I8) lemmas (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/Character.lean)
+
+- **Stepan Nesterov** — Mathlib’s irreducible representations (`Representation.IsIrreducible`, the simple-module comparison and Schur’s `finrank_intertwiningMap_self`), used in the archive’s (I8) lemmas (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/Irreducible.lean)
+
+- **Chris Birkbeck, Inna Capdeboscq, Johan Commelin, Thomas Lanard and Peiran Wu** — Mathlib’s count of linearly independent tuples over a finite field, the input to the archive’s subspace count (Chapter 13, §13.4.10). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean)
+
 ## Our contributions
 - **Hongmin Li (with AI assistance)** — Explained how the quotient-slope clause reaches the
   weighted mean on the main path [Lean, read]. On the producer side, `Mod.data` sets the weights to lattice
@@ -252,3 +260,19 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   exposition, the examples and the reading boundary. A search of the issues and pull requests of
   `leanprover-community/riemann-hypothesis` on 2026-11-24 found no community analysis of these declarations.
   [Chapter 11](chapters/11-the-window-bound-vwin.md#11432-from-the-stickelberger-membership-to-a-uniform-class-group-rank-bound)
+
+- **Hongmin Li (with AI assistance)** — Reconstructed the archive’s conditional I9 exhaustion count, including the Whittaker constituent, Harish–Chandra pairing, and Gelfand–Graev norm arguments. Added the two hand calculations and the archive source map. [Chapter 13, §13.4.8](chapters/13-greens-theorem-and-the-literature-layer.md#1348-why-the-cuspidal-count-exhausts-greens-list).
+
+- **Hongmin Li (with AI assistance)** — Explained the Alpöge–Claude archive’s existing virtuality proof and worked out the four-line example over the field of three elements. Green’s published argument is credited in the sources. [Chapter 13, §13.4.5](chapters/13-greens-theorem-and-the-literature-layer.md#1345-why-lifted-power-sums-are-virtual-characters)
+
+- **Hongmin Li (with AI assistance)** — Read the P16 Gram and expansion production bodies for (I4)/(I5) and wrote the graduate-level reconstruction via endomorphism masses and torus Fourier inversion, with hand calculations in ranks one and two. LUMI's P16 statement-fidelity review is credited above. Green's original torus multiplicity supplies the historical comparison. [Chapter 13, §13.4.6](chapters/13-greens-theorem-and-the-literature-layer.md#1346-the-gram-matrix-and-fourier-expansion-of-primitive-class-functions).
+
+- **Hongmin Li (with AI assistance)** — Read the P16 (I7) parabolic producer and its strong-induction consumer, and wrote the finite-group induction and pairing proof with two hand calculations. The LUMI statement-fidelity audit is credited in the community records above. [Chapter 13, §13.4.7](chapters/13-greens-theorem-and-the-literature-layer.md#1347-parabolic-induction-and-the-virtual-character-subtraction).
+
+- **Hongmin Li (with AI assistance)** — Read the P16 `(I1)` Witt-vector Teichmüller lift `CuspGL.TeichEmb.exists_teichmuller` together with pinned Mathlib `WittVector.teichmuller`, the algebraic-integer reduction model `GLq.Model.datumOf`, the `ParamLabel` parameter-to-character bridges (`isCusp_psi`, `thetaOf_gen`, `cuspOn_eq_psi`, `isCuspOf_cuspOn`), and the `GoodCharsCompare` zero-extension and change-of-embedding automorphisms (`exists_ext`, `exists_alpha`, `exists_exp`, `exists_beta`, `Tr`), and wrote the conditional textbook proof with worked hand calculations over $\mathbb F_9 / \mathbb F_3$ and $\mathbb F_{16} / \mathbb F_2$. LUMI's statement-fidelity review and Commelin–Lewis's Mathlib Witt-vector formalization are credited separately in the community and bibliography records; the archive's formal proofs belong to its authors and this entry records exposition only. [Chapter 13, §13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
+
+- **Hongmin Li (with AI assistance)** — Rewrote the proof from zero extension to the intrinsic GL character, including the common finite layer, the exponent-zero examples, the generator and reference-root transformations, and the conditional block-formula consumer. [Chapter 13, §13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
+
+- **Chapter 13 editorial review (internal, same-source)** — The review of the first §13.4.9 draft identified the characteristic-three root choice and the failure of a dimension-based exponent period. Its two findings are addressed in [§13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
+
+- **Hongmin Li (with AI assistance)** — Read the P16 production proofs of (I2) `CuspGL.psi_one` (subspace count and $q$-binomial identity) and (I8) `BI.irr_of_norm_one`, `CuspGL.star_virt_eq_inv` and `CuspGL.extZero_spec`, and wrote the textbook passage from a norm-one virtual character to a positive irreducible character, including the `FDRep` simplicity interface and hand calculations on $\mathrm{GL}_1(\mathbb F_q)$ and $\mathrm{GL}_2(\mathbb F_3)$ showing that the norm and the sign condition are both needed. The formal proofs belong to the archive authors, the Mathlib criterion to its authors credited above, and the classical statement to Green (1955); this entry records exposition only. [Chapter 13, §13.4.10](chapters/13-greens-theorem-and-the-literature-layer.md#13410-from-a-norm-one-virtual-character-to-a-positive-irreducible-character)

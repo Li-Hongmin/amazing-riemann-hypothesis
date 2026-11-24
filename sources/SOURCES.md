@@ -260,6 +260,20 @@ All from
 | `Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean` | 2026-11-21T04:30:15Z | 39471 | `db0a44702615c879abb084e3d950085f0f9b3fd71fddbf57105ad4d9cfea92e8` |
 | `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` | 2026-11-22T09:15:00Z | 21422 | `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5` |
 | `Mathlib/RepresentationTheory/FinGroupCharZero.lean` | 2026-11-23T09:12Z | 4915 | `a031d85058b58616a33fac9b7f0a812ec6452d95a8e0e330734636fd485753c9` |
+| `Mathlib/RingTheory/WittVector/Teichmuller.lean` | 2026-11-24T10:50Z | 4589 | `d67df6e0011067d6c78f4d9e1ec9914dd7e2fc502d8e1f7f267ac0ae4f0bc957` |
+| `Mathlib/RingTheory/WittVector/Basic.lean` | 2026-11-24T10:50Z | 13227 | `dc9e2c2285cdfd4e72615841c22310a6312ac1385b0821b47dfa3acc05763045` |
+| `Mathlib/RingTheory/WittVector/Domain.lean` | 2026-11-24T10:50Z | 3733 | `33f6631f8d62536e6e95153b3a4605d90b7a54d41def019ddacd16d5b3506f50` |
+| `Mathlib/RingTheory/WittVector/Compare.lean` | 2026-11-24T10:50Z | 8129 | `998c8b8a4e9762170eb940cd239dab54bccf1323ad7f65e61bd347f3b68c137f` |
+| `Mathlib/RepresentationTheory/Character.lean` | 2026-11-24T13:21Z | 9213 | `e5da5f309a87c34f67acb96b0f62adff7eb4e7464e7c9b4b67cf9e3399bec5fb` |
+| `Mathlib/RepresentationTheory/Irreducible.lean` | 2026-11-24T13:21Z | 3720 | `6a9dab1cec7b8e57ff3e44f013fbacc789a941296cdc80c8fc8763eb96b76d13` |
+| `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean` | 2026-11-24T13:24Z | 3797 | `feabf983b515b06af01a87777f299e192119f724d3e55d0a30c2d219da94acb8` |
+
+Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
+`FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
+`Irreducible.lean` and `GeneralLinearGroup/Card.lean` it uses the statements of `char_one`,
+`card_inv_mul_sum_char_mul_char_eq_finrank`, `char_orthonormal`, `scalar_product_char_eq_finrank_equivariant`,
+`IsIrreducible`, `irreducible_iff_isSimpleModule_asModule`, `finrank_intertwiningMap_self` and
+`card_linearIndependent`, at the lines given in Table 13.4.10.
 
 Chapter 2 §2.3.1 follows `DirichletCharacter/Basic.lean:66–158,173–196,233–319,333–360`
 for the transition from admissible levels to recovery and the divisibility minimum. The direct
@@ -424,6 +438,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Mathématiques de l'IHÉS* 72 (1990), 93–174; open copy at `http://www.numdam.org/item/PMIHES_1990__72__93_0/`
   (cited in Chapter 9).
   Verified: 2026-11-21 via Numdam (`PMIHES_1990__72__93_0`) and EuDML, *Publ. Math. IHÉS* vol. 72 (1990), pp. 93–174.
+- **[CommelinLewis2021]** J. Commelin and R. Y. Lewis, "Formalizing the ring of Witt vectors", in *Proceedings of the 10th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2021)*, Association for Computing Machinery, New York, 2021, pp. 264–277, doi:10.1145/3437992.3439919 (cited in Chapter 13, §13.4.9, via Mathlib `Mathlib/RingTheory/WittVector/Teichmuller.lean`).
+  Verified: 2026-11-24 via Crossref (`doi:10.1145/3437992.3439919`), CPP 2021, pp. 264–277. Author HTML v2 was retrieved 2026-11-24 for §§2.3, 5.2, and 6. [Author version](https://arxiv.org/html/2010.02595v2)
+- **[Hazewinkel2009]** M. Hazewinkel, "Witt vectors. Part 1", in M. Hazewinkel (ed.), *Handbook of Algebra*, Vol. 6, Elsevier / North-Holland, Amsterdam, 2009, pp. 319–472, doi:10.1016/S1570-7954(08)00207-6 (cited in Chapter 13, §13.4.9, via Mathlib `Mathlib/RingTheory/WittVector/Teichmuller.lean`).
+  Verified: 2026-11-24 via Crossref (`doi:10.1016/S1570-7954(08)00207-6`), *Handbook of Algebra* vol. 6 (2009), pp. 319–472. The author manuscript was retrieved 2026-11-24 for §§1.4 and 6.19–6.20. [Author manuscript](https://ir.cwi.nl/pub/12787/12787B.pdf)
 - **[Green1955]** J. A. Green, "The characters of the finite general linear groups", *Transactions
   of the American Mathematical Society* 80 (1955), no. 2, 402–447,
   doi:10.1090/S0002-9947-1955-0072878-2 (cited in Chapter 13).
@@ -435,6 +453,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   (Theorem 1, the $\mathrm{GL}_2$ formulas for uniform functions, §1), 409 (Definition 2.2), 413–415 (§3,
   Brauer's characterisation, the fixed isomorphism $\theta$), 430–431 (Example (ii)), 437–438
   (Definition 7.3, Lemmas 7.4–7.6). Printed page = PDF page + 401. Not redistributed.
+  Re-fetched and read on 2026-11-23 for Section 13.4.5, same SHA-256. Pages 403–404 and 413–415 supply the comparison of Theorem 1, the elementary-subgroup restriction criterion and equation (5) with the archive’s induced-unit argument.
+  For §13.4.6 (2026-11-23), re-fetched the [archived AMS original](https://web.archive.org/web/20250730054741id_/https://www.ams.org/journals/tran/1955-080-02/S0002-9947-1955-0072878-2/S0002-9947-1955-0072878-2.pdf) with the same SHA-256. Read Lemma 6.3 (p. 435), Lemma 7.6 and the simplex definition (pp. 438–439), and the local multiplicity in the proof of Lemma 8.3 (pp. 442–443). The §13.4.6 endomorphism-mass proof follows A2.
+  For §13.4.7, the AMS scan was retrieved on 2026-11-23 13:48 UTC, 3,328,037 bytes, SHA-256 `ded2dbd2e6fa499b64fe4c857ddaa8daf4ee4f74eef135958e4a40a02e6cac3d`. Printed p. 410, equations (2)–(4) and Theorem 2 give the weighted fixed-flag formula. The chapter derives the trivial quotient-factor specialization against the A2 implementation. [Archived AMS scan](https://web.archive.org/web/20250730054741id_/https://www.ams.org/journals/tran/1955-080-02/S0002-9947-1955-0072878-2/S0002-9947-1955-0072878-2.pdf).
+  For §13.4.8, re-fetched the AMS scan on 2026-11-23 UTC (HTTP 200, 3,328,037 bytes, SHA-256 `ded2dbd2e6fa499b64fe4c857ddaa8daf4ee4f74eef135958e4a40a02e6cac3d`). Read Lemma 7.7 and Theorem 13 with the opening of its proof, pp. 439–440. Green counts partition-valued labels against conjugacy classes. The section’s Whittaker norm argument follows A2. [Green 1955](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+  For the first §13.4.9 draft, re-fetched the archived AMS original on 2026-11-24T10:50Z (HTTP 200, 3,328,037 bytes, SHA-256 `ded2dbd2e6fa499b64fe4c857ddaa8daf4ee4f74eef135958e4a40a02e6cac3d`) and Crossref metadata (`doi:10.1090/S0002-9947-1955-0072878-2`). Read §1 (p. 405, universal splitting field $\mathrm{GF}(q^{n!})$) and §3 (p. 414, arbitrary choice $\theta = \phi^r$ of multiplicative isomorphism and prime-ideal reduction of $(p^a - 1)$-th roots of unity), comparing them with the archive's Witt-vector producer `TeichEmb.exists_teichmuller` and $\overline{\mathbb Z}$-reduction model `GLq.Model.teichM`.
+  For the revised §13.4.9, the same PDF was retrieved 2026-11-24 (HTTP 200) and printed pp. 405 and 414 were read for the common splitting field and the change of multiplicative embedding.
+  For §13.4.10, re-fetched the [archived AMS original](https://web.archive.org/web/20250730054741id_/https://www.ams.org/journals/tran/1955-080-02/S0002-9947-1955-0072878-2/S0002-9947-1955-0072878-2.pdf) on 2026-11-24T13:27Z (HTTP 200, 3,328,037 bytes, same SHA-256) and read printed pp. 437–439 in the page images: the degree of a not necessarily proper character, $J_d(k)(1)=\varphi_{d-1}(q)$, Lemma 7.5 (sign of the degree), Lemma 7.6 (norm one under distinct residues), and Theorem 12 with $(g^\lambda)=(-1)^{(s-1)v}I_s^k[\lambda]$. Green leaves the step from norm one and signed degree to irreducibility implicit; the section writes it out from A2.
+- **[Brauer1953]** Richard Brauer, “A characterization of the characters of groups of finite order,” *Annals of Mathematics* 57 (1953), 357–377. Green cites it for the characterization in §3. Bibliographic record verified via Crossref on 2026-11-23. The proof in Brauer’s original paper is [Open] in the reading for §13.4.5. [DOI](https://doi.org/10.2307/1969864)
 - **[GanQiuTakeda2014]** W. T. Gan, Y. Qiu and S. Takeda, “The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula,” *Inventiones Mathematicae* 198 (2014), 739–831. Theorems 1.2–1.3 (cited in Chapter 19). [Author preprint](https://arxiv.org/abs/1207.4709)
   Version used: arXiv:1207.4709v3 (21 Jan 2014), PDF retrieved 2026-11-23 07:04 UTC, HTTP 200,
   667,816 bytes, sha256 `cde6b7ad22b974d4159f8cedd1e14a00bf4b05ec977ab750b54fdceb067adac5`.
@@ -727,6 +753,13 @@ For Chapter 13, Section 13.4.4 (run `rhbook-ch13-green-existence-1123h-11231636`
 Python standard library only, no arguments, read-only) recomputes Example 13.4 in exact arithmetic in
 $\mathbb Q(\zeta_{24})$ and passes 2,431 assertions in 0.39 s CPU; `check_section_citations.py` resolves
 the 143 archive citations of the section against the pinned archive and prints each cited line.
+
+For Chapter 13, Section 13.4.10 (run `rhbook-ch13-positive-sign-1124h-11242112`, 2026-11-24):
+`check_positive_sign.py` (sha256 `b2a593adb24b260967f078c2dcf73084ed91c545a6b47a4671346703f72d2a9c`; Python standard library only, no arguments,
+read-only) recomputes Examples 13.24–13.25 (exact arithmetic in $\mathbb Q(\zeta_8)$ for
+$\mathrm{GL}_2(\mathbb F_3)$, all 81 endomorphisms), enumerates subspaces of $\mathbb F_2^n$ ($n\le4$),
+$\mathbb F_3^n$ ($n\le3$) and $\mathbb F_5^n$ ($n\le2$) for Lemma 13.26 and the identity value of Lemma 13.27, and
+checks the $q$-binomial and kernel-count identities. It passes 2,001 assertions in 0.12 s CPU.
 
 # Part II. Annotated bibliography by category
 
