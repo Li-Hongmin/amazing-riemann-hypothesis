@@ -1578,7 +1578,7 @@ All paths below are relative to the joined Alpöge archive with SHA-256
 **Which kernel is consumed?** `TailKernel.lean` is imported both directly and through `TailContourB`. Its `tail_kernel_cpow` and `tail_kernel_line` prove closely related bounds at
 `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailKernel.lean:27–64,89–124`. The actual consumer at `TailContour.lean:87–89` calls `tc_left_int`, which calls `tc_left_pt` and integrates $2/(g+|u|)$ directly. `tc_left_pt` differentiates $w^s$ on a real interval. The separately imported `perron_horizontal_segment_bound` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronHorizontalSegmentBound.lean:71–121` belongs to a different estimate with a zero-free region and an optional exceptional zero. The horizontal consumer here is `tc_horiz_pt`.
 
-**Remaining R2 [Lean].** The proof bodies of `TailContourA` and the consumed declarations of `TailContourB` are read locally. Section [4.8.7.6](#4876-source-map-and-reading-boundary) records the local R3 reading of `perron_formula_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283`), `rectangle_contour_shift_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:114`) and their direct suppliers. On the box side [§4.8.8](#488-local-zeros-and-the-logarithmic-derivative-in-tailbox) reads the local Landau expansion, the inverse bound `inverseBound` and the right-half-plane bound `l_log_deriv_right` through their direct production proofs, while [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads the polynomial-growth input `lfunction_polynomial_growth` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) at local R3. The zeta Laurent remainder bound and the deeper analytic dependencies retain R2 [Lean]. The unused Perron horizontal provider and the standalone kernel lemmas receive no promotion from this reading. The complete imported proof of `tail_contour` remains R2. The conditional proof here reads one estimate with its analytic inputs exposed.
+**Remaining R2 [Lean].** The proof bodies of `TailContourA` and the consumed declarations of `TailContourB` are read locally. Section [4.8.7.6](#4876-source-map-and-reading-boundary) records the local R3 reading of `perron_formula_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283`), `rectangle_contour_shift_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:114`) and their direct suppliers. On the box side [§4.8.8](#488-local-zeros-and-the-logarithmic-derivative-in-tailbox) reads the local Landau expansion, the inverse bound `inverseBound` and the right-half-plane bound `l_log_deriv_right` through their direct production proofs, while [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads the polynomial-growth input `lfunction_polynomial_growth` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) at local R3. The local zeta Laurent remainder and its right-half-plane transfer are read in [§4.10.10](#41010-the-pole-subtracted-zeta-logarithmic-derivative). Deeper analytic dependencies retain R2 [Lean]. The unused Perron horizontal provider and the standalone kernel lemmas receive no promotion from this reading. The complete imported proof of `tail_contour` remains R2. The conditional proof here reads one estimate with its analytic inputs exposed.
 
 ### 4.8.7 Mellin inversion and the finite rectangle
 
@@ -1797,7 +1797,7 @@ The following paths are relative to `src/Formalism/`. Each reference uses archiv
 | Control the inverse and right-half-plane derivative | `inverseBound`, `negLD_eq_LSeries_mul_vonMangoldt`, `norm_LSeries_twist_vonMangoldt_le`, `l_log_deriv_right`, `LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:12–86,88–126`; `lamF`, `norm_logDeriv_le_lamF`, `term_vonMangoldt_real`, `lamF_eq_norm`, `lamF_anti`, `ZeroFreeRegion/ZetaLogDerivativeBounds/NormLogDerivLeLamF.lean:10–50`; `logDerivBoundRightHalfPlane`, `ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:11–42`. | [Lean, read] locally |
 | Consume the two bounds | `tail_box_log`, `tail_box_sum`, `tail_box_negLD`, `GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailBox.lean:13–119`. The contour call sites are in §4.8.6. | [Lean, read] as in §4.8 |
 
-The local R3 reading covers the bodies listed above, and [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) with witness $C=9$ (giving $B_C=1+\log420/\log2\approx9.7142$). The imported analytic proofs below them retain R2 [Lean], including the continuation and nonvanishing of Dirichlet $L$-functions, the Mathlib reciprocal and von Mangoldt identities (the call sites are LRight.lean:74–77,88–94,122–124), and the Laurent remainder bound `log_deriv_riemannZeta_add_inv_sub_bounded`. The Laurent bound is called at LogDerivRight.lean:12–13. The interfaces for the inverse, growth, and right-side estimates are NoZeroComplexOf.lean:25–35. The full `tail_contour` closure retains R2, with the exceptional-zero, zero-free-region and endpoint predecessors retaining their existing labels. The examples, holomorphic extension of the remainder, and the general distance corollary are [Expository]. See the [source ledger](../sources/SOURCES.md#p13-local-zero-expansion-in-tailbox).
+The local R3 reading covers the bodies listed above, and [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) with witness $C=9$ (giving $B_C=1+\log420/\log2\approx9.7142$). The continuation and deeper Dirichlet-series proofs retain R2 [Lean]. The direct von Mangoldt series and Laurent remainder producers are read in [§4.10.10](#41010-the-pole-subtracted-zeta-logarithmic-derivative). The interfaces for the inverse, growth, and right-side estimates are NoZeroComplexOf.lean:25–35. The full `tail_contour` closure retains R2, with the exceptional-zero, zero-free-region and endpoint predecessors retaining their existing labels. The examples, holomorphic extension of the remainder, and the general distance corollary are [Expository]. See the [source ledger](../sources/SOURCES.md#p13-local-zero-expansion-in-tailbox).
 
 ## 4.9 Counting enough candidates before the sieve
 
@@ -2689,7 +2689,7 @@ The difference theorem in §4.10.6 evaluates a smoothed formula twice. It needs 
 
 #### 4.10.7.2 Two modulus-eight calculations [Expository]
 
-Take $\kappa=1/20$ and use model zero configurations. In the archive (`ex_negLD_bound`, `PNTExplNeg.lean:33`), $C_2=2C_0+100/7+C_3$, where §4.10.8 gives $C_0=180(\log(10100C_G)+3)$ and §4.10.9 reads the archive's actual growth witness $C_G=\max(9,6)=9$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))>0$ from the retained R2 Laurent remainder bound, so $C_3=0$ is not realized by the archive's proof. Replacing $C_3>0$ by $0$ yields the explicit strict lower bound $C_2>C_2^{\mathrm{lb}}:=360(\log90900+3)+100/7\approx5204.59$. Because the four budget expressions below increase strictly with $(C_2,C_3)$, evaluating them at the baseline $(C_2^{\mathrm{lb}},0)$ gives explicit lower bounds for the archive's budgets at these parameters rather than admissible witnesses. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
+Take $\kappa=1/20$ and use model zero configurations. In the archive (`ex_negLD_bound`, `PNTExplNeg.lean:33`), $C_2=2C_0+100/7+C_3$, where §4.10.8 gives $C_0=180(\log(10100C_G)+3)$ and §4.10.9 reads the archive's actual growth witness $C_G=\max(9,6)=9$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))>0$ from the Laurent remainder proof read in [§4.10.10](#41010-the-pole-subtracted-zeta-logarithmic-derivative), so $C_3=0$ is not the witness used by the archive's proof. Section 4.10.10 supplies a positive numerical witness for the same inequalities. Replacing $C_3>0$ by $0$ yields the explicit strict lower bound $C_2>C_2^{\mathrm{lb}}:=360(\log90900+3)+100/7\approx5204.59$. Because the four budget expressions below increase strictly with $(C_2,C_3)$, evaluating them at the baseline $(C_2^{\mathrm{lb}},0)$ gives explicit lower bounds for the archive's budgets at these parameters rather than admissible witnesses. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
 $$
 a=\frac{e(\log y+C_3)}{\pi H},\qquad
 b=\frac{H(N+4/(3\kappa))y^{\sigma-1}}{\pi\sigma(1-\sigma)},\qquad
@@ -2996,7 +2996,7 @@ Unfolding $I$ gives $B-P+iR-iL=2\pi iQ$. Division by $y$ uses $(y\log y-y)/y=\lo
 
 **Classical comparison [Paper].** Tao's 254A Notes 2 take the same two steps for $\zeta$ [[Tao2014, Proposition 19, Remark 17 and Theorem 21](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)]. Proposition 19 replaces $\zeta$ by $(s-1)\zeta(s)$ and applies a local disc theorem on a disc centred at $2+it$. It then removes the zeros farther than $\varepsilon/2$ from $s$ with the crude count of Proposition 16. Remark 17 fixes the convention that sums over zeros count multiplicity. The proof of Theorem 21 applies the residue theorem to the rectangle $\varepsilon'\le\operatorname{Re}s\le1+1/\log x$, $|\operatorname{Im}s|\le T'$. The residues there are $x$ at $1$ and, at each zero, $-x^\rho/\rho$ times the multiplicity. The archive differs in three ways. Its discs are centred at $101/100+it$, just to the right of $\operatorname{Re}s=1$, and normalized by the inverse bound. Its kernel $y^s/(s(s-1))$ is Riesz-smoothed, which creates the double pole at $1$ for the principal character. It also keeps the exact identity of Theorem 4.10.13 separate from the edge estimates, which §4.10.7 carries out with coordinate gaps. Lemma 4.10.9 is the local Landau lemma of §4.8.8 with the exact orders made explicit.
 
-**What the constant means for §4.10.7.** The numerator constant of §4.10.7 is $C_2=2C_{\mathrm{loc}}+100/7+C_3$ (`ex_negLD_bound`, `PNTExplNeg.lean:33`). Section 4.10.9 reads the archive's actual witness $C_G=\max(9,6)=9$, which fixes $C_{\mathrm{loc}}=180(\log90900+3)\approx2595.15$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))$ from the retained R2 Laurent remainder bound, and since $-\zeta'(\sigma)/\zeta(\sigma)=\sum_{n\ge1}\Lambda(n)n^{-\sigma}>0$ for $\sigma>1$, one has $C_3>0$ strictly. Consequently
+**What the constant means for §4.10.7.** The numerator constant of §4.10.7 is $C_2=2C_{\mathrm{loc}}+100/7+C_3$ (`ex_negLD_bound`, `PNTExplNeg.lean:33`). Section 4.10.9 reads the archive's actual witness $C_G=\max(9,6)=9$, which fixes $C_{\mathrm{loc}}=180(\log90900+3)\approx2595.15$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))$ from the Laurent remainder proof read in [§4.10.10](#41010-the-pole-subtracted-zeta-logarithmic-derivative), and since $-\zeta'(\sigma)/\zeta(\sigma)=\sum_{n\ge1}\Lambda(n)n^{-\sigma}>0$ for $\sigma>1$, one has $C_3>0$ strictly. Consequently
 $$
 C_2>C_2^{\mathrm{lb}}:=360(\log90900+3)+\frac{100}{7}\approx5204.59 ,
 $$
@@ -3244,9 +3244,112 @@ Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 | Inherited non-principal partial-sum suppliers | `LGrowth.lean:10–51` (`norm_character_sum_Icc_le`); `LFunctionBounds/LFunctionBoundsProofs/LPartialSum.lean:136–169` (`l_function_partial_sum`); `LFunctionEqGOfOneLt.lean:228` (`LFunction_eq_G`) | Inherited [Lean, read] from §4.7 |
 | Downstream consumers | `LandauZeroFreeBounds/ExceptionalZeroBounds/LandauLemmaLfunctionZeros.lean:9–91` and `TailBox.lean:13–119` (§4.8.8); `PNTExplLocL.lean:86–146` (§4.10.8); `PNTExplBox.lean:121`, `PNTExplNeg.lean:27–102`, `PNTExplMainB.lean:138–168`, `PNTExplMain.lean:15–97` (§4.10.7); `PNTDHLocal.lean:77–180` (`dhl_triv`, `deuring_heilbronn_local`, call sites read) | Inherited [Lean, read] (§§4.8.8, 4.10.7–4.10.8) and call sites read |
 | Pinned Mathlib inputs (`0df444a`) | `NumberTheory/LSeries/DirichletContinuation.lean:61,169,174,338,348`; `NumberTheory/LSeries/ZMod.lean:67,83`; `NumberTheory/LSeries/RiemannZeta.lean`; `NumberTheory/Harmonic/ZetaAsymp.lean:536,561`; `Data/Nat/Factorization/Basic.lean:45,350`; calculus/analyticity API (`hasStrictDerivAt_cpow_const`, `differentiableOn_tsum_of_summable_norm`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `one_sub_inv_le_log_of_pos`) | Statement level [Lean] |
-| Retained deeper analytic suppliers | `log_deriv_riemannZeta_add_inv_sub_bounded` (called in `ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:12–14` for $C_R,C_3$); `ZeroSum` (`PNTZSumL`) with `LogDensityM` (`PNTDens`) and `DeuringHeilbronnMB` (`PNTDHB`); `twist_bound`, `zFRDirichlet`, `excBound`/`siegelLower` | Retained R2 [Lean] |
+| Retained deeper analytic suppliers | `ZeroSum` (`PNTZSumL`) with `LogDensityM` (`PNTDens`) and `DeuringHeilbronnMB` (`PNTDHB`); `twist_bound`, `zFRDirichlet`, `excBound`/`siegelLower` | Retained R2 [Lean] |
 
-Reading `exLF_growth`, `lfunction_polynomial_growth` and `growthBound` closes the last `R2` supplier of `ex_local` (§4.10.8) and the polynomial-growth supplier of `TailBox` (§4.8.8), without promoting the remaining `R2` inputs tabulated in the final row. Local R3 records human-assisted source reading of the pinned archive, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4109-uniform-polynomial-growth).
+Reading `exLF_growth`, `lfunction_polynomial_growth` and `growthBound` closes the last `R2` supplier of `ex_local` (§4.10.8) and the polynomial-growth supplier of `TailBox` (§4.8.8). Section 4.10.10 reads the Laurent remainder. This leaves the deeper inputs tabulated in the final row at their previous reading levels. Local R3 records human-assisted source reading of the pinned archive, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4109-uniform-polynomial-growth).
+
+### 4.10.10 The pole-subtracted zeta logarithmic derivative
+
+#### 4.10.10.1 Motivation
+
+The smoothed explicit formula needs a bound for the numerator $-L'/L$ on an entire vertical line. As the line approaches $1$ from the right, the budget must accommodate the principal character's pole. The archive first removes the pole of $\zeta'/\zeta$ on a neighborhood of $1$. It then uses positivity of the von Mangoldt coefficients to transfer a real-axis estimate to all heights. The same supply is spent on the right side of the zero-free box in §4.8.8.
+
+#### 4.10.10.2 Two worked calculations [Expository]
+
+**A real point close to the pole.** Take $s=1+h$, $h=1/1000$. The regular part $A$ defined below satisfies $|A|\le3$ and $|A'|\le4$ on $|s-1|\le1/4$, as proved in §4.10.10.5. Integrating $A'$ along the real segment gives $|A(1+h)-\gamma|\le4h$. The pole-subtracted value is
+$$
+R(1+h)=\frac{A(1+h)+h A'(1+h)}{1+h A(1+h)}.
+$$
+The denominator has modulus at least $1-3h$. Integral comparison for harmonic sums gives $H_4-\log5\le\gamma\le H_4-\log4$ with $H_4=25/12$. Since $\log(5/4)<1/4$, the lower bound exceeds $H_4-\log4-1/4$. In $\log 2=2\sum_{j\ge0}3^{-(2j+1)}/(2j+1)$ the first two terms exceed $69/100$ and the remaining tail is bounded by $2/(5\cdot3^5(1-1/9))$, giving $\log2<70/100$. Thus $13/30<\gamma<211/300<1$. Subtracting $\gamma$ from the quotient gives
+$$
+|R(1+h)-\gamma|\le\frac{(4+4+3)h}{1-3h}=\frac{11}{997}<\frac{3}{250}.
+$$
+Consequently $0.42<R(1+h)<0.72$ and $999.28<-\zeta'(1+h)/\zeta(1+h)<999.58$. The decimal endpoints here and below are rational bounds. The $1000$ in the uncorrected expression comes from the pole alone.
+
+**A point of nonzero height.** At $s=5+i$, write $S=-\zeta'/\zeta$. Its $n=2$ term is $\ell(\cos\ell-i\sin\ell)/32$ with $\ell=\log2$. The alternating Taylor bounds $1-\ell^2/2\le\cos\ell\le1-\ell^2/2+\ell^4/24$ and $\ell-\ell^3/6\le\sin\ell\le\ell-\ell^3/6+\ell^5/120$ give $0.75<\cos\ell<0.80$ and $0.63<\sin\ell<0.65$. Both sine polynomials are increasing on $[0.69,0.70]$, so their respective endpoint values suffice. The remaining terms have total modulus bounded by a decreasing-integrand comparison:
+$$
+\sum_{n\ge3}\frac{\log n}{n^5}
+\le\int_2^\infty\frac{\log x}{x^5}\,dx
+=\frac{\log2/4+1/16}{16}<0.015.
+$$
+The real part of the first term lies between $0.69\cdot0.75/32$ and $0.70\cdot0.80/32$, and its imaginary part between $-0.70\cdot0.65/32$ and $-0.69\cdot0.63/32$. With the tail these give $0.001<\Re S(5+i)<0.033$ and $-0.030<\Im S(5+i)<0.002$. Since $1/(4+i)=(4-i)/17$, we obtain
+$$
+0.202<\Re R(5+i)<0.235,\qquad -0.061<\Im R(5+i)<-0.028.
+$$
+The horizontal distance to $\Re s=1$ is $4$ and the distance to the pole is $\sqrt{17}$. The uniform bound for the uncorrected quotient uses the horizontal distance. The phase of the $n=2$ term illustrates what the vertical-line majorant discards.
+
+#### 4.10.10.3 Definitions
+
+Set $A(s)=\zeta(s)-1/(s-1)$ off $1$ and $A(1)=\gamma$. The pole-removed function $F(s)=1+(s-1)A(s)$ satisfies $F(1)=1$ and equals $(s-1)\zeta(s)$ off $1$. Write
+$$
+R(s)=\frac{\zeta'(s)}{\zeta(s)}+\frac{1}{s-1}
+$$
+when $s\ne1$ and $\zeta(s)\ne0$. For real $\sigma>1$ write $\lambda(\sigma)=\sum_{n\ge1}\Lambda(n)n^{-\sigma}$. The archive's `lamF` uses the sum of the norms of these terms, equal to this sum by nonnegativity.
+
+#### 4.10.10.4 Lemma and theorem
+
+**Lemma 4.10.20 (local pole subtraction) [Lean, read].** On a punctured neighborhood of $1$, $R=F'/F$ and $R(s)=\gamma+O(|s-1|)$. The corrected quotient extends holomorphically across $1$. In particular it is bounded near $1$. The proof below gives $|R|\le6$ for $0<|s-1|\le1/8$ [Expository].
+
+**Theorem 4.10.21 (right-half-plane supply) [Lean, read].** There is an absolute $C_R\ge0$ such that for $\sigma=\Re s>1$ and any Dirichlet character of positive modulus,
+$$
+\left|\frac{\zeta'(s)}{\zeta(s)}\right|\le\frac1{\sigma-1}+C_R,
+\qquad
+\left|-\frac{L'(s,\chi)}{L(s,\chi)}\right|\le\frac1{\sigma-1}+C_R.
+$$
+One may use $C_R=22>0$ for both inequalities [Expository]. On $\Re s\ge1+d$ with $d>0$ the inequalities give a uniform bound $1/d+22$, and the triangle inequality gives $|R(s)|\le2/d+22$ there. The distance condition is a horizontal clearance into the right half-plane.
+
+#### 4.10.10.5 Proof
+
+**Production near $1$.** In pinned Mathlib, `riemannZeta₀` is $A$ and `riemannZeta₁` is $F$. The proof of differentiability of $A$ combines differentiability off $1$ with continuity at $1$ from the inherited punctured limit $\gamma$. The removable singularity theorem gives the entire regular part. The formula for $F$ gives $F'(1)=\gamma$ and $F(1)=1$. Continuity makes $F$ nonzero on some disc about $1$. Differentiating $\zeta(s)=F(s)/(s-1)$ away from $1$ gives $\zeta'(s)=F'(s)/(s-1)-F(s)/(s-1)^2$. Dividing by $\zeta(s)$ on the punctured disc gives
+$$
+\frac{\zeta'(s)}{\zeta(s)}=-\frac1{s-1}+\frac{F'(s)}{F(s)}.
+$$
+The quotient $F'/F$ is differentiable at $1$ with value $\gamma$, so subtracting that value gives $O(|s-1|)$ on the full neighborhood. Mathlib restricts this estimate to the punctured neighborhood and rewrites it using the displayed identity. It then uses $s-1=o(1)$ to infer $R-\gamma=o(1)$, weakens this to $O(1)$ and adds the constant back. This is the production of `log_deriv_riemannZeta_add_inv_sub_bounded`. Its `.bound` supplies a real $B$ and a punctured neighborhood where $|R|\le B$. The archive extracts an open ball of radius $\varepsilon>0$ from that neighborhood.
+
+**Transfer to the unbounded half-plane.** In $\Re s>1$ the absolutely convergent Dirichlet series for zeta times the series for the Möbius function is $1$, by Dirichlet convolution. The twist has the corresponding inverse with coefficients $\chi(n)\mu(n)$. The pinned von Mangoldt proof uses $\Lambda*1=\log$ in Dirichlet convolution, given by prime factorization. Multiplying the series for $\Lambda$ by $\zeta$ gives the series for $-\zeta'$ by termwise differentiation. Division uses nonvanishing. For the twist, complete multiplicativity gives the same convolution with factors of $\chi$. Equality of the series and continued functions on the open half-plane also identifies their derivatives there.
+
+For $s=\sigma+it$ with $\sigma>1$, the triangle inequality, $|n^{-it}|=1$ and $|\chi(n)|\le1$ bound both quotients by $\lambda(\sigma)$. On the real axis $\lambda(\sigma)=-\zeta'(\sigma)/\zeta(\sigma)>0$ because the term for $2$ is positive. The sum decreases with $\sigma$ by termwise comparison. For $1<\sigma<1+\varepsilon/2$, the real point $\sigma$ is in the punctured disc, so $\lambda(\sigma)\le1/(\sigma-1)+B$. For $\sigma\ge1+\varepsilon/2$ monotonicity gives $\lambda(\sigma)\le\lambda(1+\varepsilon/2)$. The archive chooses $C_R=\max(\max(B,0),\lambda(1+\varepsilon/2))>0$. The compact estimate can be taken on a smaller closed disc using the continuous extension of $R$. The unbounded part uses monotonicity and the vertical-line comparison, so no compactness claim about an infinite strip is needed.
+
+**A quantitative witness [Expository].** In $\Re s>1$, integrating the counting function gives $\zeta(s)=s\int_1^\infty\lfloor x\rfloor x^{-s-1}\,dx$. Substitute $\lfloor x\rfloor=x-\{x\}$ to obtain
+$$
+A(s)=1-s\int_1^\infty\{x\}x^{-s-1}\,dx.
+$$
+The integral and its derivative converge locally uniformly for $\Re s>0$, by domination by $x^{-1-\sigma_0}(1+\log x)$ when $\Re s\ge\sigma_0>0$. Analytic continuation gives the identity there, including at $1$. On $|s-1|\le1/4$ one has $\sigma\ge3/4$ and $|s|\le5/4$. Integrating the bounds with $\{x\}\le1$ gives $|A|\le1+(5/4)(4/3)=8/3<3$ and $|A'|\le4/3+(5/4)(4/3)^2=32/9<4$. On the closed disc of radius $1/8$, $|F|\ge1-3/8=5/8$ and $|F'|\le3+4/8=7/2$. Thus $|F'/F|\le28/5<6$. Take $(B,\varepsilon)=(6,1/8)$. At $\sigma=1+1/16$, the local estimate gives $\lambda(1+1/16)\le16+6=22$. The maximum from the proof is at most $22$, so $22$ serves directly as a witness.
+
+**Corollary 4.10.22 (consumer constants) [Expository].** Use $C_3=22$ for `ex_tail_bound` in `ExplicitS`. On $w=\sigma_0+it$ the numerator costs $1/(\sigma_0-1)+22$. The factors $|w|$ and $|w-1|$ are each at least $|t|$. Integrating the two tails of $t^{-2}$ contributes $2(1/(\sigma_0-1)+22)y^{\sigma_0}/T'$ in the unnormalized integral. At $\sigma_0=1+1/\log y$ this gives the $\log y+C_3$ term in `exm_core`. Independently, `ex_negLD_bound` spends the same witness at $\Re s\ge107/100$, where the pole budget is at most $100/7$. Its other branch spends twice the inherited local constant from §§4.10.8–4.10.9 after division by the zero clearance. Therefore one may choose
+$$
+C_2=360(\log90900+3)+100/7+22<5230.
+$$
+Indeed the terms $0$ through $32$ of the exponential series at $571/50$ sum to more than $90900$, so $\log90900<571/50$. Both $C_2$ and $C_3$ may be enlarged in the residual majorant. These choices witness the existential estimates, for which the archive uses qualitative Big-O extraction.
+
+In `TailBox`, the branch $\Re s\ge11/10$ spends $10+C_R=32$, absorbed as $(32/\log2)\log Q$ for $Q\ge2$. The other branch uses the local expansion and zero clearance from §4.8.8. With the inherited growth witness $9$, the box budget admits
+$$
+K=3(1+\log420/\log2)\left(\frac{1440}{11}+\frac1{\delta\log2}\right)+\frac{32}{\log2}.
+$$
+The same $22$ thus supplies a separate consumer, which retains its clearance hypothesis $\delta>0$.
+
+#### 4.10.10.6 Failure examples and total-function conventions
+
+If a holomorphic $f$ has a zero $\rho$ of order $m\ge1$, write $f(s)=(s-\rho)^m u(s)$ with $u(\rho)\ne0$. Then $f'/f=m/(s-\rho)+u'/u$. Dropping zero-freeness from a compact-domain argument allows this genuine pole even when the evaluation points avoid the zero. For zeta, take the known trivial zero $\rho=-2$. Both $u'/u$ and $1/(s-1)$ are bounded in a small disc there. Along $s=-2+h$ as $h\downarrow0$, $|R(s)|$ tends to infinity even though $\zeta(s)\ne0$ at those points and $|s-1|>2$. This refutes replacing the right-half-plane hypothesis by distance from $1$ alone, including a bound with $1/|s-1|$ on the right side. Within $\Re s>1$ the zero-free property already follows from the series inverse. Extending the original bound with the signed denominator $1/(\sigma-1)$ to the real left of $1$ makes its right side negative sufficiently near $1$.
+
+Lean assigns `riemannZeta 1` the value $(\gamma-\log(4\pi))/2$ at the pin. Zeta has no derivative at $1$ in the analytic sense, and `deriv` returns zero at a point of nondifferentiability. Field inverse returns zero at zero. Thus the raw Lean expression for $R$ evaluates to zero at $1$, while its analytic extension $F'/F$ takes the value $\gamma$. At a zero of zeta the raw quotient likewise evaluates to zero, while the punctured logarithmic derivative has a pole.
+
+#### 4.10.10.7 Source map and reading boundary
+
+A2 is the fixed archive with joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Archive paths below are relative to `src/Formalism/`. The Mathlib pin is `0df444a360eaa60ab8c11dca51a86af692955474`. [Source ledger](../sources/SOURCES.md#chapter-4-41010-pole-subtraction-and-the-right-half-plane)
+
+| Role | File and lines | Reading |
+|---|---|---|
+| Regular parts, differentiation and final asymptotic | Mathlib `NumberTheory/Harmonic/ZetaAsymp.lean:531–589,620–647` | Local R3 [Lean, read] |
+| Nonvanishing and positive series intermediary | Mathlib `NumberTheory/LSeries/Dirichlet.lean:296–329,372–389,395–442` | Direct proof bodies read, underlying Dirichlet-series API used by statement |
+| Real-axis split and twist transfer | `ZeroFreeRegion/SmallHeightLogDeriv.lean:25–27`, `ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:11–42`, `NormLogDerivLeLamF.lean:11–50` in the same directory, `LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:88–126` | [Lean, read], archive bodies also used in §4.8.8 |
+| Consumer calls under `GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/` | `PNTExplNeg.lean:27–54`, `PNTExplEdge.lean:113–148`, `PNTExplMainB.lean:31–53`, `PNTExplMain.lean:19–23,79–85`, `TailBox.lean:35–48,104–119` | Inherited local proofs, call sites checked |
+| Earlier inputs | Laurent constant `tendsto_riemannZeta_sub_one_div`, Mathlib `ZetaAsymp.lean:342–350`. Perron, local rectangles and growth in §§4.8.7–4.8.8 and §§4.10.7–4.10.9 | Inherited |
+| Deeper inputs | `PNTDHLocal` (`deuring_heilbronn_local`), `PNTZSumL` (`ZeroSum`), `PNTDens` (`LogDensityM`), `PNTDHB` (`DeuringHeilbronnMB`), `twist_bound`, `zFRDirichlet`, `excBound` and `siegelLower` | Previous scope retained, full production bodies outside this reading |
+
+The right-half-plane branch now has its Laurent producer exposed, completing the local reading of the custom estimates used by the smoothed explicit formula. Local R3 denotes source reading. The numerical witnesses and enclosures are textbook calculations.
+
+Riemann opens his 1859 memoir with Euler's product and Dirichlet series in $\Re s>1$. Tao's *254A Notes 2* gives the von Mangoldt identity in the complex domain and uses $(s-1)\zeta(s)$ in Proposition 19. [Riemann 1859, p. 671](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/Zeta.pdf) · [Tao 2014](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)
 
 ---
 
