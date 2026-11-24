@@ -56,6 +56,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 ## Exposition and teaching material
 
+- **Community and literature.** The Stacks Project supplies the classical statements behind the reduced-fibre trace of §12.4.4: independence of characters and the splitting of a separable algebra over an algebraically closed field, integrality of traces over a normal domain, miracle flatness, finite projective modules and the Laurent-monomial cohomology of projective space. The Alpöge–Claude archive supplies the formal fibre-trace proofs. [Sources](sources/SOURCES.md#chapter-12-1244-reduced-fibre-trace)
+
 - **Community and literature.** J. S. Milne supplies the classical isomorphism of decomposition groups with local Galois groups, the conjugation invariance of localization maps and the local class field theory used in the examples of §18.3.8. The Alpöge–Claude archive supplies the formal comparison `decEquiv` and the cohomology transport lemmas. [Sources](sources/SOURCES.md#chapter-18-1838-completion-comparison)
 
 - **Community and literature.** John Tate supplies the local Euler and exact-annihilator theorems. J. S. Milne supplies the inertia filtration proof and the equivariant calculation at the residue prime. The Alpöge–Claude archive supplies the formal local Euler construction and its applications. [Sources](sources/SOURCES.md#chapter-18-1837-local-euler-characteristic)
@@ -135,6 +137,10 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Floris van Doorn** — Mathlib’s product measure and Bochner Fubini (`Measure.prod`, `measure_ae_null_of_prod_null`, `integrable_prod_iff`, `integral_prod`, `setIntegral_prod`), used at the planar theorem’s only Fubini step (Chapter 3, §3.4.1). [Product measure](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Prod.lean#L71-L781) · [Fubini](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Prod.lean#L126-L512)
 
 - **Zhouhang Zhou, Yury Kudryashov and Heather Macbeth** — Mathlib’s simple-function approximation and the $L^1$ induction principle (`SimpleFunc.approxOn`, `MemLp.induction`, `Integrable.induction`), the approximation step behind both identifications in Chapter 3, §3.4.1. [Induction principle](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L805-L932) · [Approximating sequence](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDense.lean#L55-L125)
+
+- **Andrew Yang and Riccardo Brasca** — Mathlib’s trace on quotients (`Algebra.trace_quotient_mk` and `Algebra.trace_quotient_eq_of_isDedekindDomain`), whose localization proof the archive’s projective version `trace_quotient_eq_of_projective` follows (Chapter 12, §12.4.4). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Quotient.lean#L40-L125)
+
+- **Andrew Yang** — Mathlib’s trace of an integral closure (`Algebra.intTrace`, `Algebra.algebraMap_intTrace`, `Algebra.intTrace_eq_of_isLocalization`), which keeps the archive’s trace inside the polynomial chart ring (Chapter 12, §12.4.4). [Pinned Mathlib file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/IntegralClosure/IntegralRestrict.lean#L263-L331)
 
 ## Our contributions
 
@@ -325,3 +331,5 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 
 - **Community.** The Stacks Project supplies the standard localization, Koszul homotopy and affine-cover comparison results cited in the subsection. [Sources](sources/SOURCES.md#chapter-12-global-boundary-comparison)
 - **This book.** Hongmin Li with Codex traced the actual <code>hCG</code> call, spelled out the column and total boundary proofs, stated the needed supplies alongside the two theorems, and worked out the compatible two-cover and projective-line examples. The formal proofs are by Levent Alpöge with Claude. [Chapter 12](chapters/12-galois-representations-and-local-langlands.md#from-fixed-point-vanishing-to-a-global-čech-boundary)
+
+- **Hongmin Li (with AI assistance)** — Followed the actual pull–trace call to `trace_cechCochain_fraction_eq_sum_fibre` and read its producer and the fibre-trace proofs beneath it [Lean, read]. Wrote the conditional reduced-fibre trace theorem with its five lemmas (top coefficient and origin evaluation, no denominators, localization through projectivity, points of a reduced finite algebra, the fibre ring), three worked examples (a split two-point fibre, a non-split quadratic residue field, a non-reduced fibre) and the hypothesis remarks, all checked by exact arithmetic. [Textbook subsection](chapters/12-galois-representations-and-local-langlands.md#from-the-finite-algebra-trace-to-the-reduced-fibre) · [Sources](sources/SOURCES.md#chapter-12-1244-reduced-fibre-trace)

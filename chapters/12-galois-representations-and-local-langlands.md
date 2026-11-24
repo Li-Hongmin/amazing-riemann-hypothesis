@@ -482,7 +482,8 @@ number-theoretic map of what is formalized inside that cone:
 The P14 calculation proceeds through the
 [finite étale correspondence](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed),
 the [local Lefschetz weight](#from-a-finite-étale-chart-to-the-local-lefschetz-weight),
-and the [global Čech comparison](#from-fixed-point-vanishing-to-a-global-čech-boundary).
+the [global Čech comparison](#from-fixed-point-vanishing-to-a-global-čech-boundary),
+and the [reduced-fibre trace](#from-the-finite-algebra-trace-to-the-reduced-fibre).
 
 #### The holomorphic Lefschetz input to the odd-rank seed
 
@@ -781,7 +782,8 @@ piece of the preceding assembly.
   <code>EdgeB</code>, top trace and linearity <code>TrTop</code> and
   <code>TrLin</code>, and the reduced-fibre evaluation supplied by
   <code>ResidueOfTraceIsFiberSum</code> through
-  <code>trace_cechCochain_fraction_eq_sum_fibre</code>.
+  <code>trace_cechCochain_fraction_eq_sum_fibre</code>, read in the
+  [reduced-fibre subsection](#from-the-finite-algebra-trace-to-the-reduced-fibre).
 
 For
 $T_{a,b}=\operatorname{Tr}_{c_1}\circ c_2^*$ on
@@ -985,9 +987,9 @@ the producers <code>yBig_of</code> and <code>yCmpT_of</code>,
 the imported Koszul exactness and local form bases
 (<code>koszulExactBelowLengthOfWeaklyRegular_of_htpy</code>,
 <code>koszulTwoInjective_of_gl1</code>, <code>koszulThree_of_det</code>,
-<code>locForms_of</code>), and the supplier
-<code>trace_cechCochain_fraction_eq_sum_fibre</code> are further [Lean]
-inputs. The following subsection proves the <code>yCmpG_of</code> comparison under its named chart and column supplies.
+<code>locForms_of</code>) are further [Lean] inputs. The supplier
+<code>trace_cechCochain_fraction_eq_sum_fibre</code> is read in the
+[reduced-fibre subsection](#from-the-finite-algebra-trace-to-the-reduced-fibre). The following subsection proves the <code>yCmpG_of</code> comparison under its named chart and column supplies.
 
 ---
 
@@ -1081,10 +1083,143 @@ the suppliers <code>ptG_of</code>, <code>ptT_of</code>, <code>locEq_of</code>,
 <code>GMap</code>, <code>ZFam</code>, <code>ZEx</code>, <code>ZId</code>,
 <code>PrB</code>, <code>LCupRel</code>, <code>EdgeB</code> and <code>TrLin</code>
 are used through their interfaces in this subsection. The separate
-<code>trace_cechCochain_fraction_eq_sum_fibre</code> proof, the geometry of
+<code>trace_cechCochain_fraction_eq_sum_fibre</code> proof is read in the
+[next subsection](#from-the-finite-algebra-trace-to-the-reduced-fibre). The geometry of
 <code>FixK_holds</code> and the group-side matching
 <code>MarkWeightedFixedPointEqDefinitePairOdd</code> and
 <code>TraceDefinitePairsEqAutomorphicTrace</code> retain their [Lean] / [Open] status.
+
+---
+
+#### From the finite-algebra trace to the reduced fibre
+
+The [chart proof](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) ends with a single number. Once the [global comparison](#from-fixed-point-vanishing-to-a-global-čech-boundary) has removed every boundary, the alternating trace is the residue of one traced top form $h\,\mathrm{vol}_0$. Here $h$ is the Chinese-remainder coefficient whose values are the local weights. This subsection proves that the residue is the sum of the values of $h$ over all points of the origin fibre, each counted once. This is the content of <code>trace_cechCochain_fraction_eq_sum_fibre</code>.
+
+**Motivation.** Three things could spoil the count. The trace of $h$ is a priori a rational function, and the residue functional of the chart proof is determined only on Laurent polynomials. Reduction at the origin need not commute with the trace when the cover is not locally free there. A fibre point may also have a residue field larger than the ground field, or a multiplicity. Under the archive's hypotheses none of this happens. The trace is a polynomial, the cover is locally free over the chart, and every fibre point is a reduced point with residue field $k$.
+
+**Example (two coincidences over one origin) [Expository].** Return to the scaling $c_1(z)=z$, $c_2(z)=2z$ on $Z=Y=\mathbb P^1$ from the [local weight subsection](#from-a-finite-étale-chart-to-the-local-lefschetz-weight). The coincidences are $z=0$ and $z=\infty$, with multipliers $2$ and $1/2$. The local weights are $L_0(0)=-1$, $L_1(0)=-2$, $L_0(\infty)=2$ and $L_1(\infty)=1$. The chart proof needs an auxiliary finite map to $\mathbb P^1$. It must send both coincidences to the origin of the first chart and no coincidence into the second chart. Take
+$$
+t=\frac{z}{(1+z)^2}.
+$$
+Its zeros are $z=0$ and $z=\infty$, both simple. Put $v=1/(1+z)$. Then $t=v-v^2$. The preimage of the chart $t\ne\infty$ is $\mathbb P^1\setminus\{-1\}$, with ring $B=\mathbb C[v]$, which is free over $A=\mathbb C[t]$ with basis $1,v$. The fibre ring $\mathbb C[v]/(v^2-v)\cong\mathbb C\times\mathbb C$ is reduced. Since $v\cdot v=v-t$, multiplication by $v$ has matrix
+$$
+M_v=\begin{pmatrix}0&-t\\1&1\end{pmatrix},\qquad \operatorname{Tr}_{B/A}(v)=1,\qquad \operatorname{Tr}_{B/A}(1)=2=[\mathbb C(z):\mathbb C(t)].
+$$
+At $t=0$ the matrix has eigenvalues $0$ and $1$. These are the values of $v$ at the two fibre points, $z=\infty$ and $z=0$. The coefficient with the prescribed values is $h_a=L_a(\infty)+(L_a(0)-L_a(\infty))v$, so
+$$
+\operatorname{Tr}_{B/A}(h_a)=2L_a(\infty)+L_a(0)-L_a(\infty)=L_a(0)+L_a(\infty).
+$$
+This is $1$ for $a=0$ and $-1$ for $a=1$, the global sums found in the local weight subsection. Here the trace is a constant. For $h=v^3$ it is $1-3t$, whose value at $t=0$ is again $0^3+1^3$. The other chart has preimage $\mathbb C^\times_z$, where $z\ne 2z$, so it contains no coincidence. Its ring $\mathbb C[z,z^{-1}]$ is integral over $\mathbb C[1/t]$ because $1/t=z+2+z^{-1}$. The degree $2$ of the auxiliary map enters only as $\operatorname{Tr}(1)=2$. A trace normalized by $1/2$ would halve both answers.
+
+**Definitions.** Fix a field $k$ of characteristic zero and a field $F$ with elements $x_0,\ldots,x_d\ne0$ such that the ratios $t_j=x_j/x_0$, $1\le j\le d$, are algebraically independent and generate $F$ over $k$ (<code>IsPd</code>). For a nonempty set $I$ of indices let $A_I\subset F$ be the $k$-algebra generated by the $x_j/x_i$ with $i\in I$. It is the coordinate ring of the intersection of the standard charts $D_+(x_i)$, $i\in I$. Thus $A_{\{0\}}=k[t_1,\ldots,t_d]$, and for the set of all indices $A_I$ is the Laurent polynomial ring in the $t_j$. Let $L/F$ be a finite separable extension and $B_I$ the integral closure of $A_I$ in $L$ (<code>rB</code>). The data form a *finite cover* (<code>IsFinCover</code>) if moreover every $B_{\{i\}}$ is smooth over $k$. Write $A=A_{\{0\}}$, $B=B_{\{0\}}$, $\mathfrak p=(t_1,\ldots,t_d)\subset A$ and $J=\mathfrak pB$.
+
+- The *fibre points* are the $k$-algebra maps $e:B\to k$ with $e(t_j)=0$ for all $j$ (<code>fib</code>). The *fibre ring* is $B/J$. It is *reduced* when it has no nonzero nilpotents (<code>RedFib</code>).
+- The *logarithmic volume form* is $\mathrm{vol}_0=\frac{dt_1}{t_1}\wedge\cdots\wedge\frac{dt_d}{t_d}$ in the exterior algebra of $\Omega_{L/k}$ over $L$.
+- A *top coefficient* is an $L$-linear map $\tau$ with $\tau(\mathrm{vol}_0)=1$ which vanishes on forms of degree other than $d$ (<code>IsTop</code>).
+- A *residue functional* is a $k$-linear map $\rho:F\to k$ with $\rho(1)=1$ and $\rho(\prod_jx_j^{m_j})=0$ for every nonzero $m\in\mathbb Z^{d+1}$ with $\sum_jm_j=0$ (<code>IsRes</code>). These products are exactly the Laurent monomials in the $t_j$. So $\rho$ is the constant term on Laurent polynomials, and nothing more is prescribed. The archive produces one by taking a linear form that is $1$ at $1$ and vanishes on the span of the other monomials (<code>exists_isRes</code>).
+- The *trace functional* is $\operatorname{tr}_F=\rho\circ\operatorname{Tr}_{L/F}\circ\tau$ (<code>trF</code>). For $h\in L$ the Čech $d$-cochain <code>locCoch</code> $h$ on the $d+1$ charts is $h\,\mathrm{vol}_0$ on the intersection of all charts and zero elsewhere. This is the fractional representative of the chart proof, with denominators $t_1\cdots t_d$.
+
+In the actual call, $L$ is the function field $K'$ of the source $Y$, viewed over $F$ through the target field $K$ and the first leg $K\to K'$. The fibre points are the points of $Y$ lying over the origin of the auxiliary chart under $Y\to Z\to\mathbb P^d$.
+
+**Theorem (conditional reduced-fibre trace) [Lean, read].** Let $k$ be algebraically closed of characteristic zero. Let $(L,x)$ be a finite cover whose fibre ring $B/J$ is reduced, and let $\tau$ and $\rho$ be a top coefficient and a residue functional. Then the set of fibre points is finite, and for every $h\in B$
+$$
+\operatorname{tr}_F\bigl(h\,\mathrm{vol}_0\bigr)=\rho\bigl(\operatorname{Tr}_{L/F}h\bigr)=\sum_{e}e(h),
+$$
+where the sum runs over all fibre points. In particular there are exactly $[L:F]$ fibre points.
+
+The hypotheses are those of <code>trace_cechCochain_fraction_eq_sum_fibre</code>. Its conclusion is stated for $\operatorname{tr}_F$ of the component of <code>locCoch</code> $h$ on the intersection of all charts, which is $h\,\mathrm{vol}_0$. Separability and smoothness of the chart rings enter through <code>IsFinCover</code>. Nothing is assumed about $h$ beyond regularity on the whole origin chart. The last sentence is the case $h=1$, since $\rho(\operatorname{Tr}_{L/F}1)=\rho([L:F]\cdot1)=[L:F]$.
+
+**Lemma 1 (top coefficient, overlaps and the origin chart) [Lean, read].** (a) For every $h\in L$, $\operatorname{tr}_F(h\,\mathrm{vol}_0)=\rho(\operatorname{Tr}_{L/F}h)$. (b) There is a $k$-algebra map $\mathrm{ev}:A\to k$ with $\rho(a)=\mathrm{ev}(a)$ for all $a\in A$ and $\ker\mathrm{ev}=\mathfrak p$.
+
+*Proof.* (a) Since $\tau$ is $L$-linear, $\tau(h\,\mathrm{vol}_0)=h$. (b) Identify $A$ with $k[X_1,\ldots,X_d]$ by $X_j\mapsto t_j$. A monomial $t^n$ equals $\prod_jx_j^{m_j}$ with $m=(-n_1-\cdots-n_d,n_1,\ldots,n_d)$, whose entries sum to zero. For $n\ne0$ the residue condition gives $\rho(t^n)=0$, while $\rho(1)=1$. By linearity $\rho(f)=f(0)$ for every polynomial $f$. Evaluation at the origin is a $k$-algebra map, and its kernel consists of the polynomials without constant term, which form the ideal generated by the $X_j$. $\square$
+
+The residue condition is homogeneous in the $x_j$, so it does not single out a chart. The same computation on $A_{\{i\}}$ shows that $\rho$ restricted to that chart ring is evaluation at the $i$th coordinate vertex. A cochain supported on the intersection of all charts is a top Čech cochain. For $\mathbb P^d$ itself the constant term is the class: under $\Omega^d_{\mathbb P^d}\cong\mathcal O(-d-1)$ the form $\mathrm{vol}_0$ corresponds, up to sign, to the monomial $1/(T_0\cdots T_d)$. The Laurent-monomial computation of [Stacks Project, Lemma 30.8.1](https://stacks.math.columbia.edu/tag/01XT) shows that this is the only monomial surviving in top Čech cohomology. So the class of $f\,\mathrm{vol}_0$, for a Laurent polynomial $f$, is the constant term of $f$ times the class of $\mathrm{vol}_0$. [Expository] A coefficient regular on the whole chart $D_+(x_0)$ has, by (b), residue equal to its value at the vertex of that chart, the only point of the chart outside all other charts. The third clause of <code>TrTop</code>, already read with the chart proof, shows that $\operatorname{tr}_F$ composed with the first-leg transfer kills the boundaries coming from the $d$-fold intersections. Thus the residue depends only on the class of the representative.
+
+**Lemma 2 (no denominators) [Lean, read].** For $h\in B$ the field trace $\operatorname{Tr}_{L/F}h$ lies in $A$. It is the trace of multiplication by $h$ on the finite $A$-module $B$.
+
+*Proof.* The ring $A$ is a polynomial ring, hence a unique factorization domain. It is therefore integrally closed, with fraction field $F$. The element $h$ is integral over $A$, hence so is $\operatorname{Tr}_{L/F}h$. Indeed the trace is an integer multiple of a coefficient of the minimal polynomial of $h$, and these coefficients are integral over $A$. An element of $F$ integral over $A$ lies in $A$. The second statement is the defining property of the trace of an integral closure: its image in $F$ is the field trace (Mathlib's <code>Algebra.algebraMap_intTrace</code>). $\square$
+
+This is the classical argument behind [Stacks Project, Lemma 10.161.8](https://stacks.math.columbia.edu/tag/032L), which uses [Lemma 10.38.6](https://stacks.math.columbia.edu/tag/037E) for the minimal polynomial.
+
+**Lemma 3 (localization at the origin) [Lean, read].** Let $R$ be an integrally closed domain. Let $S$ be an integrally closed domain which is a finite, torsion-free and projective $R$-module. Write $\operatorname{Tr}_{S/R}$ for the trace of the fraction fields restricted to $S$, which takes values in $R$ (Mathlib's <code>Algebra.intTrace</code>). For every maximal ideal $\mathfrak m\subset R$ and every $x\in S$,
+$$
+\operatorname{Tr}_{(S/\mathfrak mS)/(R/\mathfrak m)}(x\bmod\mathfrak mS)=\operatorname{Tr}_{S/R}(x)\bmod\mathfrak m .
+$$
+
+*Proof.* Localize at $\mathfrak m$. The module $S_{\mathfrak m}$ is finite over the local ring $R_{\mathfrak m}$. It is flat as a localization of a projective module, hence free. Choose a basis. The trace of multiplication by $x$ in this basis is the image of $\operatorname{Tr}_{S/R}(x)$, because the trace of an integral closure commutes with localization. Reducing the basis modulo the maximal ideal gives a basis of $S_{\mathfrak m}/\mathfrak mS_{\mathfrak m}$, in which multiplication by $x$ has the reduced matrix. Finally $R/\mathfrak m\to R_{\mathfrak m}/\mathfrak mR_{\mathfrak m}$ and $S/\mathfrak mS\to S_{\mathfrak m}/\mathfrak mS_{\mathfrak m}$ are isomorphisms compatible with the algebra structures, and traces correspond under such a pair. $\square$
+
+The proof adapts Mathlib's version for Dedekind domains, where freeness of $S_{\mathfrak m}$ comes from $R_{\mathfrak m}$ being a principal ideal domain. For $d\ge2$ the ring $A_{\mathfrak p}$ is not principal, so this source of freeness is unavailable. The archive gets projectivity of $B$ over $A$ from smoothness (<code>integralClosure_projective_rA</code>). Both rings are regular, heights add along the integral extension by going down, so $B$ is flat over $A$ by the miracle flatness criterion. Being finitely presented, it is then projective ([Stacks Project, Lemma 10.128.1](https://stacks.math.columbia.edu/tag/00R4); [Lemma 10.78.2](https://stacks.math.columbia.edu/tag/00NX)).
+
+**Lemma 4 (points of a reduced finite algebra) [Lean, read].** Let $O$ be a nonzero commutative ring and $H$ a finite free $O$-algebra. Let $\Omega$ be an algebraically closed field which is an $O$-algebra, and assume $\Omega\otimes_OH$ is reduced. Then the set $\operatorname{Hom}_O(H,\Omega)$ of $O$-algebra maps has exactly $\operatorname{rank}_OH$ elements, and for every $h\in H$
+$$
+\operatorname{Tr}_{H/O}(h)=\sum_{\varphi\in\operatorname{Hom}_O(H,\Omega)}\varphi(h)\qquad\text{in }\Omega .
+$$
+
+*Proof.* Over the perfect field $\Omega$ a reduced finite algebra is étale. Over an algebraically closed field it is then a product of $n=\operatorname{rank}_OH$ copies of $\Omega$. Maps $H\to\Omega$ over $O$ correspond to maps $\Omega\otimes_OH\to\Omega$ over $\Omega$, so there are exactly $n$ of them, $P_1,\ldots,P_n$. If $n=0$ then $H=0$ and both sides vanish. Otherwise choose a basis $e_1,\ldots,e_n$ of $H$, let $M_x$ be the matrix of multiplication by $x\in H$, and put $Q_{jl}=P_j(e_l)$. Applying $P_j$ to $xe_l=\sum_i(M_x)_{il}e_i$ gives
+$$
+Q\,M_x=\operatorname{diag}\bigl(P_1(x),\ldots,P_n(x)\bigr)\,Q .
+$$
+Distinct algebra maps are linearly independent over $\Omega$ (Dedekind), so $\det Q\ne0$. Hence $M_x$ is conjugate over $\Omega$ to the diagonal matrix. Its characteristic polynomial is $\prod_j(X-P_j(x))$, and the coefficient of $X^{n-1}$ gives the trace. $\square$
+
+For a field $O=k$ the lemma also records residue degrees. A reduced finite $k$-algebra is a product of finite separable field extensions $\kappa(\mathfrak m)$ of $k$ (characteristic zero), one for each closed point $\mathfrak m$. The maps to $\Omega$ are grouped by closed point, with $[\kappa(\mathfrak m):k]$ maps over each, so the sum becomes $\sum_{\mathfrak m}\operatorname{Tr}_{\kappa(\mathfrak m)/k}(h\bmod\mathfrak m)$ ([Stacks Project, Lemma 9.13.4](https://stacks.math.columbia.edu/tag/0CKK)). The archive checks the smallest mixed case, $\mathbb R\times\mathbb C$ over $\mathbb R$, which has $3=1+2$ algebra maps to $\mathbb C$. When $k=\Omega$ every residue field is $k$, so geometric points, closed points and $k$-points coincide. [Expository]
+
+**Lemma 5 (the fibre ring and its points) [Lean, read].** The fibre ring $B/J$ is a finite-dimensional $k$-algebra. Composition with $B\to B/J$ is a bijection from $\operatorname{Hom}_k(B/J,k)$ onto the set of fibre points.
+
+*Proof.* The composite $A\to B\to B/J$ equals evaluation at the origin followed by $k\to B/J$, because each $t_j$ maps to zero. An element $b\in B$ satisfies a monic equation over $A$. Evaluating its coefficients at the origin gives a monic equation for $b\bmod J$ over $k$. So $B/J$ is integral and of finite type over $k$, hence finite. A fibre point vanishes on the generators of $J$ and so factors uniquely through $B/J$. Conversely every map $B/J\to k$ gives a fibre point. $\square$
+
+If $B/J$ is reduced, an element of $B$ which vanishes at every fibre point lies in $J$ (<code>fib_finite_and_sep</code>). Since $k$ is algebraically closed, every maximal ideal of the Artinian ring $B/J$ is the kernel of a fibre point. So the class of the element lies in the Jacobson radical, which is nilpotent, and a nilpotent class in a reduced ring is zero.
+
+*Proof of the theorem.* Let $h\in B$. By Lemma 1(a) the left side is $\rho(\operatorname{Tr}_{L/F}h)$. By Lemma 2 this trace is an element $a\in A$, the trace of $h$ on the projective $A$-module $B$. By Lemma 1(b), $\rho(a)=\mathrm{ev}(a)$. Apply Lemma 3 with $R=A$, $S=B$ and $\mathfrak m=\mathfrak p$. The ideal $\mathfrak pB$ is generated by the images of the $t_j$, so it is $J$. The isomorphism $A/\mathfrak p\cong k$ induced by $\mathrm{ev}$ is compatible with $k\to B/J$, because $y-\mathrm{ev}(y)\in\mathfrak p$ for every $y\in A$. This gives $\mathrm{ev}(a)=\operatorname{Tr}_{(B/J)/k}(h\bmod J)$. Now apply Lemma 4 with $O=\Omega=k$ and $H=B/J$, which is free over the field $k$ and reduced, with $k\otimes_kH\cong H$. The trace is the sum of $\varphi(h\bmod J)$ over $\operatorname{Hom}_k(B/J,k)$, and Lemma 5 turns this into the sum of $e(h)$ over the fibre points. $\square$
+
+**Example (a non-split quadratic residue field) [Expository].** Work over $k=\mathbb R$, which is not algebraically closed. Take $d=1$, $F=\mathbb R(t)$ and $L=F(s)$ with $s^2=t-1$. Then $B=\mathbb R[s]$, free over $A=\mathbb R[t]$ with basis $1,s$. At infinity, $w=s/t$ and $u=1/t$ satisfy $w^2=u-u^2$, a smooth conic. The fibre ring is $\mathbb R[s]/(s^2+1)\cong\mathbb C$. It has one closed point, of residue degree $2$, and no real point. Let
+$$
+h=(2+s)^2-(s^2-t+1)=3+t+4s\in B,\qquad M_h=\begin{pmatrix}3+t&4(t-1)\\4&3+t\end{pmatrix}.
+$$
+Hence $\operatorname{Tr}_{L/F}h=6+2t$, with value $6$ at the origin. At $t=0$ the matrix $\begin{pmatrix}3&-4\\4&3\end{pmatrix}$ is multiplication by $3+4i$ on $\mathbb C$, and $\operatorname{Tr}_{\mathbb C/\mathbb R}(3+4i)=6$. The sum over real fibre points is empty, hence $0$. The two $\mathbb R$-algebra maps $\mathbb R[s]/(s^2+1)\to\mathbb C$, $s\mapsto\pm i$, give $(3+4i)+(3-4i)=6$. So the count must run over geometric points, and the closed point carries its residue degree, as in $\operatorname{Tr}(1)=2$. After base change to $\mathbb C$ the fibre ring becomes $\mathbb C\times\mathbb C$ with points $s=\pm i$, and the theorem applies as stated. The archive states the theorem over an algebraically closed $k$ and uses it with $k=\mathbb C$, where geometric points are $k$-points. Lemma 4 is stated over any base.
+
+**Example (a non-reduced origin fibre) [Expository].** Keep the scaling correspondence, but use the auxiliary map
+$$
+t=\frac{z^2}{(1+z^2)^2}.
+$$
+Its zeros are $z=0$ and $z=\infty$, both double. Put $p=1/(1+z^2)$ and $q=z/(1+z^2)$. Then $p^2-p+t=0$ and $q^2=t$, so $B=\mathbb C[t][p,q]/(p^2-p+t,\,q^2-t)$ is free with basis $1,p,q,pq$ and $[\mathbb C(z):\mathbb C(t)]=4$. Both chart rings are smooth: on the origin chart $B$ is the conic $q^2=p-p^2$, and the other chart has ring $\mathbb C[z,z^{-1}]$. So the data form a finite cover. The fibre ring $\mathbb C[p]/(p^2-p)\otimes\mathbb C[q]/(q^2)$ has two points, $p=1$ at $z=0$ and $p=0$ at $z=\infty$, and each local ring has length $2$. For $h_a=L_a(\infty)+(L_a(0)-L_a(\infty))p$, we have $\operatorname{Tr}(p)=2$ and $\operatorname{Tr}(1)=4$, so
+$$
+\operatorname{Tr}_{B/A}(h_a)=2L_a(0)+2L_a(\infty),
+$$
+which is $2$ for $a=0$ and $-2$ for $a=1$. The sum of the values at the two fibre points is $1$ or $-1$. Here the trace is the sum of the values weighted by the lengths of the local rings, and the pointwise sum is half of it. The element $q$ is a nonzero nilpotent of the fibre ring that vanishes at both points.
+
+Over an algebraically closed field every finite algebra splits into local rings $H_{\mathfrak m}$ with residue field $k$. On $H_{\mathfrak m}$, multiplication by $h$ is $h(\mathfrak m)$ plus a nilpotent, so $\operatorname{Tr}(h)=\sum_{\mathfrak m}\operatorname{length}(H_{\mathfrak m})\,h(\mathfrak m)$. This multiplicity formula is elementary exposition and is not part of the archive. It does not enlarge the domain of the present argument. In the chart proof, reducedness of the origin fibre also makes the $t_j$ local parameters at each fixed point. The local Koszul comparison uses this, and so do <code>LocMax</code>, <code>LocForms</code> and <code>LocReg</code>, which all assume <code>RedFib</code>. At a ramified point the $t_j$ no longer generate the maximal ideal and the local coefficient changes. With the unchanged coefficients, the length-weighted sum gives twice the Lefschetz number in this example. The archive instead chooses an auxiliary projection whose origin fibre is reduced (<code>exists_finiteCover_projSpace_reduced_fibre_origin</code>, [Lean]).
+
+**Remark (the actual call: one leg, raw trace and normalization) [Lean, read].** The wrapper <code>deRham_restriction_trace_degree_one</code> chooses a top coefficient for $L$ and uses Lemma 1(a) to restate the theorem without $\tau$, as $\rho(\operatorname{Tr}_{L/F}h)=\sum_ee(h)$. This is the interface <code>ResidueOfTraceIsFiberSum</code>. In <code>fieldLe_of</code> the top coefficient is chosen for the target field $K$ and the residue functional on $F$. The coefficient $h$ comes from <code>YMain</code>. Its producer obtains $h$ from <code>CRT</code>, with value $L_a(e)$ at each fixed evaluation $e\in F_x$ and $0$ at the other fibre points, and records $\sum_ee(h)=\sum_{e\in F_x}L_a(e)$. The third clause of <code>TrTop</code> kills the transferred boundary between the cup cocycle $\Lambda$ and <code>locCoch</code> $h$. The second clause then evaluates the transferred top form. The form trace along the first leg satisfies $\operatorname{tr}_{K'/K}(h\,\mathrm{vol}_0)=(\operatorname{Tr}_{K'/K}h)\,\mathrm{vol}_0$, because $\mathrm{vol}_0$ on $K'$ is the image of $\mathrm{vol}_0$ on $K$. Together with $\operatorname{Tr}_{K'/F}=\operatorname{Tr}_{K/F}\circ\operatorname{Tr}_{K'/K}$ this gives $\rho(\operatorname{Tr}_{K'/F}h)$. The theorem with $L=K'$ turns this into $\sum_ee(h)$, and the interpolation identity into $\sum_{e\in F_x}L_a(e)$. The first leg thus supplies both the transfer and the fibre. The second leg enters only through the set of fixed evaluations. No factor $[K':F]$ or $[K':K]$ appears, because the transfer is the raw one and each sheet is counted once. This is the convention of the [holomorphic trace formula](#the-holomorphic-lefschetz-input-to-the-odd-rank-seed), where $\operatorname{Tr}_{c_1}(1)$ is the local degree. The Hecke normalization comes afterwards. <code>geoStep_of</code> writes the normalized operator as the inverse relative level index times the raw composite of transfer and pullback. It applies the raw formula in each form degree, sums against $(-y)^a$, and cancels the index with the identity supplied by <code>FixK</code>.
+
+**Remark (what each hypothesis pays for) [Expository].**
+
+- *Regularity on the whole chart.* In the first example, $h=1/(v+1)$ is regular at both fibre points, with values $1$ and $1/2$. But $h\notin B$, since it has a pole at $v=-1$, where $t=-2$. Its trace is $3/(2+t)$, which is not a Laurent polynomial. The expansion at $t=0$ has constant term $3/2$, the fibre sum, while the expansion in $1/t$ has constant term $0$. A residue functional is unconstrained on such elements, so Lemma 2 is what makes the answer independent of the choice of $\rho$.
+- *Projectivity.* Let $A=k[a^4,b^4]$ and let $B=k[a^4,a^3b,ab^3,b^4]$, the affine cone over the rational quartic curve in $\mathbb P^3$ and a standard non-Cohen–Macaulay domain. Its generic rank over $A$ is $4$. Its fibre ring at the origin has dimension $5$, with monomial basis $1,a^3b,ab^3,a^6b^2,a^2b^6$, so reduction at the origin cannot commute with the trace of $1$. The normalization adds $a^2b^2$ and restores dimension $4$. The integral closures of the archive are normal, and smoothness makes them flat in every dimension.
+- *Reducedness.* This is the non-reduced example. Without it the trace counts lengths, and the local comparison of the chart proof is no longer available.
+- *Algebraically closed $k$.* This is the non-split example. Over a smaller field a closed point counts with its residue degree, through its geometric points.
+
+All calculations in this subsection are checked by exact arithmetic in the run's <code>check_fibre_trace.py</code>.
+
+**Reading the formal proof.** Paths are relative to the root of archive A2 (Lean 4.33.1, joined SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>, Mathlib pinned at <code>0df444a360eaa60ab8c11dca51a86af692955474</code>).
+
+| Node | A2 path and lines | Role and reading |
+|---|---|---|
+| <code>trace_cechCochain_fraction_eq_sum_fibre</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/TraceCechCochainFractionEqSumFibreStatement.lean:9–10</code> | Exported statement and delegation. R3 [Lean, read]. |
+| <code>GlobalTheory.PD.trF_locCoch_eq_finsum_fib</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/TraceCechCochainFractionEqSumFibre.lean:19–33</code> | Direct producer and proof of the theorem: Lemma 1(a), Lemma 2 and the chain of three rewrites. R3 [Lean, read]. |
+| <code>TraceOrigin.ev_eq_trace_quot</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/TraceEvalOriginEqFibreTrace.lean:19–73</code> | Integral closure as finite projective module, $A/\mathfrak p\cong k$, $\mathfrak pB=J$, transport of the trace. R3 [Lean, read]. |
+| <code>trace_quotient_eq_of_projective</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/TraceQuotientEqOfProjective.lean:9–47</code> | Lemma 3. R3 [Lean, read]; Mathlib quotient and localization lemmas at statement level. |
+| <code>integralClosure_projective_rA</code> | <code>src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/IntegralClosureProjectiveOverStandardOpenRing.lean:13–45</code> | Projectivity by regularity, going down and miracle flatness. R3 for the body; regularity of smooth algebras and local miracle flatness [Lean]. |
+| <code>FibTrace.trace_quot_eq_finsum_fib</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/TraceFibreRingEqFinsumFibrePoints.lean:14–44</code> | Lemma 4 for $H=B/J$ and the bijection of Lemma 5. R3 [Lean, read]. |
+| <code>FibFin.mk_incl</code>, <code>finite_quot</code>, <code>fib_finite_and_sep</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/FibFiniteAndSep.lean:17–111</code> | Lemma 5 and the separation statement. R3 [Lean, read]. |
+| <code>finite_card_trace_algHom_of_isReduced_baseChange</code> | <code>src/Development/AbelianVarietyTheory/Proofs/ModuliProofs/CardAlgHomReducedTraceSum.lean:8–35</code> | Lemma 4, including the empty case. R3 [Lean, read]. |
+| Point count and diagonalization | <code>src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/NatCardAlgHomEqFinrankOfIsReducedOfIsFractionRin.lean:82–143,177–183,196–222,354–357</code> | $Q\,M_x=\operatorname{diag}(P_j(x))\,Q$, characteristic polynomial, étaleness of reduced algebras, the count, and the $\mathbb R\times\mathbb C$ example. R3 [Lean, read]; Mathlib étale and Dedekind lemmas at statement level. |
+| <code>ResEv.ker_aeval_zero</code>, <code>res_aeval</code>, <code>chart0</code> | <code>src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/LaurentConstantTermEqEvalOriginChart.lean:14–90</code> | Lemma 1(b). R3 [Lean, read]. |
+| <code>exists_isRes</code> | <code>src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLaurentConstantTermFormFunctionField.lean:80–121</code> | Construction of $\rho$ used for the non-uniqueness remark. R3 for the body; independence of Laurent monomials [Lean]. |
+| Definitions | <code>src/Development/AbelianVarietyTheory/Definitions/Divisors/DlogRatioVolumeFormNeZero.lean:17–30,74–91</code>, <code>src/Development/AbelianVarietyTheory/Definitions/GaloisGeometry/TcoMem.lean:15–25</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/ResidueOfTraceIsFiberSum.lean:17–19,91–93</code> | <code>IsPd</code>, <code>rA</code>, <code>IsRes</code>, <code>rB</code>, <code>IsFinCover</code>, <code>vol0</code>, <code>IsTop</code>, <code>trF</code>, <code>fib</code>, <code>locCoch</code>, <code>RedFib</code> and the consumed interface. |
+| Actual call | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PFieldLe.lean:216–336</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PTrTop.lean:11–70</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/PYMain.lean:111–123</code>, <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LocalMaximality/DeRhamRestrictionTraceDegreeOne.lean:8–16</code>, <code>src/Development/AutomorphicArithmetic/Foundations/EtaleClopenDescent/ExistsChartLiftOfFiniteCover.lean:161</code> | Lines 318–323 of <code>fieldLe_of</code> combine <code>TrTop</code>, the theorem and <code>YMain</code>. Prior R3, rechecked. |
+| Normalization | <code>src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/LefschetzSigmaSums/PGeoStep.lean:16–85</code> | Raw formula, inverse relative level index and <code>FixK</code> cancellation. Prior R3, rechecked. |
+
+R3 covers the named bodies. The polynomial-chart isomorphism <code>rA_single_polyEquiv</code> and its <code>Model.chartEquiv</code>, the fraction-field statement, finiteness and smoothness of the chart closures (<code>finite_cover_chart_smooth_normal</code>), <code>isRegularRing_of_smooth</code>, the local miracle-flatness lemma behind <code>flat_of_isRegularRing_of_isRegularRing</code>, the existence of $\tau$, <code>CRT</code>, the reduced-fibre projective chart and the Mathlib library lemmas are used at their interfaces. The [global boundary](#from-fixed-point-vanishing-to-a-global-čech-boundary) and the [local Koszul weights](#from-a-finite-étale-chart-to-the-local-lefschetz-weight) keep the reading levels recorded there. The geometry of <code>FixK_holds</code>, the group-side matching <code>MarkWeightedFixedPointEqDefinitePairOdd</code> and <code>TraceDefinitePairsEqAutomorphicTrace</code>, and the naturality of the Hodge–Čech comparison retain their [Lean] / [Open] status.
 
 ## 12.5 Remarks, formalization notes, and Masullo's counterpart
 
