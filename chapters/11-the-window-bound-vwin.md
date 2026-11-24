@@ -989,13 +989,13 @@ $$
 $$
 No ramification hypothesis enters. In cohomological terms, the ideal group is a permutation $\langle\tau\rangle$-module and has $\widehat H^{-1}=0$.
 
-**Lemma B (local norms).** [Lean, read; the norm of local units at unramified places is [Lean]] Let $K$ be CM with (U). Let $\mathfrak A$ be a nonzero integral ideal and $x\in K^{+\times}$ with $\mathfrak AJ(\mathfrak A)=x\mathcal O_K$. Then $x$ is a norm from the completion of $K$ at every finite place $v$ of $K^+$. If $\varphi(x)>0$ for every complex embedding $\varphi$ of $K$, then $x$ is also a local norm at every infinite place.
+**Lemma B (local norms).** [Lean, read; the norm of local units at unramified places is read in §11.4.3.5] Let $K$ be CM with (U). Let $\mathfrak A$ be a nonzero integral ideal and $x\in K^{+\times}$ with $\mathfrak AJ(\mathfrak A)=x\mathcal O_K$. Then $x$ is a norm from the completion of $K$ at every finite place $v$ of $K^+$. If $\varphi(x)>0$ for every complex embedding $\varphi$ of $K$, then $x$ is also a local norm at every infinite place.
 
 **Proof.** Let $\mathfrak P=v\mathcal O_K$. It is $J$-stable, since $J$ fixes $K^+$. By Mathlib's `IsDedekindDomain.exists_sup_span_eq`, choose $b\in\mathfrak A$ with $\mathfrak A\mathfrak P+b\mathcal O_K=\mathfrak A$, and write $b\mathcal O_K=\mathfrak A\mathfrak J$. Cancelling $\mathfrak A$ gives $\mathfrak P+\mathfrak J=\mathcal O_K$, and applying $J$ gives $\mathfrak P+J(\mathfrak J)=\mathcal O_K$. Now
 $$
 bJ(b)\mathcal O_K=\mathfrak AJ(\mathfrak A)\,\mathfrak JJ(\mathfrak J)=x\,\mathfrak JJ(\mathfrak J),
 $$
-so $bJ(b)=xt$ with $t\mathcal O_K=\mathfrak JJ(\mathfrak J)$. No prime containing $\mathfrak P$ contains $t$ (`ideal_step`). Since $bJ(b)=N_{K/K^+}(b)$ (`norm_cm`), $t=N(b)/x$ lies in $K^+$. At a prime $w$ of $K$ above $v$ it has valuation $0$, hence $v(t)=0$. So $x=N(b)t^{-1}$ is a global norm times a $v$-adic unit. A global norm is a local norm. At a place unramified in $K$ every local unit is a norm (`map_integerUnitsOver_eq_of_ramificationIdx_eq_one` [Lean]). This is where (U) is used. At an infinite place $u$ of $K^+$ below a place $W$ of $K$, the completion of $K^+$ is $\mathbb R$, and $x$ is positive there because the embedding defining $W$ sends $x$ to a positive real. With $d=[K_W:K^+_u]\in\{1,2\}$ and $r=x^{1/d}>0$ in $K^+_u$, the local norm of $r$ is $r^d=x$. $\square$
+so $bJ(b)=xt$ with $t\mathcal O_K=\mathfrak JJ(\mathfrak J)$. No prime containing $\mathfrak P$ contains $t$ (`ideal_step`). Since $bJ(b)=N_{K/K^+}(b)$ (`norm_cm`), $t=N(b)/x$ lies in $K^+$. At a prime $w$ of $K$ above $v$ it has valuation $0$, hence $v(t)=0$. So $x=N(b)t^{-1}$ is a global norm times a $v$-adic unit. A global norm is a local norm. At a place unramified in $K$ every local unit is a norm (`map_integerUnitsOver_eq_of_ramificationIdx_eq_one`, Proposition C of §11.4.3.5). This is where (U) is used. At an infinite place $u$ of $K^+$ below a place $W$ of $K$, the completion of $K^+$ is $\mathbb R$, and $x$ is positive there because the embedding defining $W$ sends $x$ to a positive real. With $d=[K_W:K^+_u]\in\{1,2\}$ and $r=x^{1/d}>0$ in $K^+_u$, the local norm of $r$ is $r^d=x$. $\square$
 
 **Proposition C (totally positive real generators; `hasse`).** [Lean, read; the Hasse norm theorem is [Lean]] Let $K$ be CM with (U). Let $\alpha\in\mathcal O_K$ be real with $\varphi(\alpha)>0$ for every complex embedding $\varphi$. If a nonzero integral ideal satisfies $\mathfrak AJ(\mathfrak A)=\alpha\mathcal O_K$, then $[\mathfrak A]\in(1-J)C$.
 
@@ -1005,7 +1005,7 @@ $$
 $$
 Lemma A gives $[\mathfrak A_1]-[\mathfrak B]\in(1-J)C$. This difference is $[\mathfrak A]$, because $d\mathcal O_K$ and $\mathfrak B$ are principal. $\square$
 
-The archive derives the Hasse norm theorem (`src/GroundTheory/GlobalFields/HasseNorm.lean:17–62`) from the triviality of $\widehat H^{-1}(\mathrm{Gal}(K/K^+),C_K)$ for the idele class group (`natCard_cycTateNegOne_ideleClassGroup`, `src/GroundTheory/GlobalFields/SecondInequality/Cyclic.lean:26` [Lean]) and from the place-by-place description of idelic norms (`mem_range_ideleNorm_iff_forall`, `src/GroundTheory/GlobalFields/IdeleGroups/LocalNormsEverywhere.lean:58` [Lean]). Suppose the diagonal image of $x$ is the norm of an idele $j$. Then the idele class of $j$ has norm $1$, so it is $\sigma(c)/c$ for an idele class $c$. Lifting, $j=(\sigma(c')/c')a$ with $a\in K^\times$, and injectivity of the diagonal gives $x=N(a)$. This is the proof in [MilneCFT, Ch. VIII, Theorem 3.1, p. 234](https://www.jmilne.org/math/CourseNotes/CFT.pdf), which also starts from the vanishing of $\widehat H^{-1}(G,C_L)$. [Paper]
+The archive derives the Hasse norm theorem (`src/GroundTheory/GlobalFields/HasseNorm.lean:17–62`) from the triviality of $\widehat H^{-1}(\mathrm{Gal}(K/K^+),C_K)$ for the idele class group (`natCard_cycTateNegOne_ideleClassGroup`, `src/GroundTheory/GlobalFields/SecondInequality/Cyclic.lean:26` [Lean]) and from the place-by-place description of idelic norms (`mem_range_ideleNorm_iff_forall`, `src/GroundTheory/GlobalFields/IdeleGroups/LocalNormsEverywhere.lean:58`, read in §11.4.3.5 down to `mem_range_ideleNorm_iff` [Lean]). Suppose the diagonal image of $x$ is the norm of an idele $j$. Then the idele class of $j$ has norm $1$, so it is $\sigma(c)/c$ for an idele class $c$. Lifting, $j=(\sigma(c')/c')a$ with $a\in K^\times$, and injectivity of the diagonal gives $x=N(a)$. This is the proof in [MilneCFT, Ch. VIII, Theorem 3.1, p. 234](https://www.jmilne.org/math/CourseNotes/CFT.pdf), which also starts from the vanishing of $\widehat H^{-1}(G,C_L)$. [Paper]
 
 **Lemma D (real generators; `realGen`).** [Lean, read] Let $K$ be CM with (Q). For every $x\in C^-$ there are a nonzero integral ideal $\mathfrak A$ with $[\mathfrak A]=x$ and a nonzero real $\alpha\in\mathcal O_K$ with $\mathfrak AJ(\mathfrak A)=\alpha\mathcal O_K$.
 
@@ -1015,7 +1015,7 @@ J(\alpha)=J(b)J(v)=bt^{-1}J(v)=bv=\alpha,
 $$
 and $\alpha\mathcal O_K=b\mathcal O_K$. $\square$
 
-**Theorem E (sign detection of the binary minus defect; `hMinus`).** [Lean, read; the Hasse norm theorem and the norms of unramified local units as named inputs] Let $K$ be CM with (U) and (Q). Let $e=(e_i)_{i\in\iota}$ be a finite family of complex embeddings containing every embedding of $K$. Let $V\subseteq\mathbb F_2^\iota$ be a subgroup containing $\operatorname{sgn}_e(a)$ for every $a\in K^{+\times}$.
+**Theorem E (sign detection of the binary minus defect; `hMinus`).** [Lean, read; the Hasse norm theorem as a named input; the norms of unramified local units are read in §11.4.3.5] Let $K$ be CM with (U) and (Q). Let $e=(e_i)_{i\in\iota}$ be a finite family of complex embeddings containing every embedding of $K$. Let $V\subseteq\mathbb F_2^\iota$ be a subgroup containing $\operatorname{sgn}_e(a)$ for every $a\in K^{+\times}$.
 
 (i) Let $x,y\in C^-$ be represented as in Lemma D by $(\mathfrak A,\alpha)$ and $(\mathfrak B,\beta)$. If $\operatorname{sgn}_e(\alpha)+\operatorname{sgn}_e(\beta)\in S_e$, then $y-x\in(1-J)C$.
 
@@ -1076,7 +1076,7 @@ t\longmapsto\Bigl\lfloor\frac{c\operatorname{val}(c^{-1}t)}{M}\Bigr\rfloor-k=g_c
 $$
 By Lemma 5(i) (`thetaFull`), this is the coefficient of $\theta_{\mathrm{half}}(1+[J])$ at $t$ modulo $2$ (`:29–37`). Finally $J\neq1$ because $-1\neq1$ in $\mathbb Z/M\mathbb Z$ (`:25–28`). $\square$
 
-In `cyc` the corollary is called at `FerreroWashington.lean:56` with $c=2(2f)+1$ and the $\gamma$, $N$ of `memZ`. Line 57 rewrites $[G:\langle\gamma\rangle]=\varphi(4f)$, and `pTwo` (Lemma 8(i)) combines the defect bound with the image bound at `:63–64`. This completes the reading of Lemma 8(iii). The $\ell=2$ case of Theorem 9 now rests, beyond the inputs used for the image bound, only on the class-field inputs named in Lemma B and Proposition C, and on the inertia inputs of Lemma G.
+In `cyc` the corollary is called at `FerreroWashington.lean:56` with $c=2(2f)+1$ and the $\gamma$, $N$ of `memZ`. Line 57 rewrites $[G:\langle\gamma\rangle]=\varphi(4f)$, and `pTwo` (Lemma 8(i)) combines the defect bound with the image bound at `:63–64`. This completes the reading of Lemma 8(iii). The $\ell=2$ case of Theorem 9 now rests, beyond the inputs used for the image bound, only on the cohomological input of Proposition C, since the local norm input of Lemma B is read in §11.4.3.5, and on the inertia inputs of Lemma G.
 
 **Remarks.** [Expository] *Why the odd projection cannot be copied.* For odd $\ell$, the element $(1-J)/2$ is an idempotent on $C[\ell^\infty]$. It splits $C[\ell^\infty]$ into eigenspaces and identifies $C^-[\ell]$ with $(1-J)C\cap C[\ell]$ (Lemma 7). For $\ell=2$ the corresponding group $C^-/(1-J)C$ is killed by $2$ but need not vanish. The same happens for units, as in Example 1, where the unit group is $\mathbb Z/4$ with $J=-1$. The Kummer reflection of §11.4.3.3 does not substitute either. It turns $J$-fixed characters into minus radical classes because $J$ inverts $\mu_\ell$. For $\ell=2$ the group $\mu_2=\{\pm1\}$ is fixed by $J$, so a $J$-fixed quadratic character has a $J$-fixed radical class, and the eigenspaces are not exchanged. The binary route uses instead the places at which $K/K^+$ ramifies in every case, the real places of $K^+$. Under (U), for a generator of a relative norm ideal, those are the only local obstructions to being a relative norm (Lemma B).
 
@@ -1090,7 +1090,7 @@ Here $P_{K^+}$ and $P^+_{K^+}$ are the principal and totally positive principal 
 
 *Comparison with the ambiguous class number formula.* Under (U), the ramified places of $K/K^+$ are the $[K^+:\mathbb Q]$ real places. The units of $K^+$ that are norms of elements are exactly the totally positive units. Lemmermeyer's formula then counts the ambiguous classes of $K/K^+$ as $h(K^+)\,2^{[K^+:\mathbb Q]-1}/[E^+:E^+_{\gg0}]$ [Lemmermeyer2013, Theorem 1](https://arxiv.org/pdf/1309.1071). Since $[E^+:E^+_{\gg0}]$ is the number of sign vectors of real units, the formula reads $\lvert C^{J}\rvert=h(K^+)\,[V:S_e]/2$ with $V$ the full sign space. The sign quotient of Theorem E reappears, now counting the invariant classes $C^J$ rather than the defect $C^-/(1-J)C$. The archive does not use the formula, and the two examples check it only for consistency.
 
-**Reading boundary and source map.** Read in full here [Lean, read]: `hMinus` and its private helpers, `realGen`, `hasse`, `classGroup_div_mem_of_mul_conj_eq`, `locFin` with `ideal_step` and `norm_cm`, `locInf`, `sgnStab`, `sgnUnit` with `geom_sin`, `exists_zeta` and `sin_ne`, `sinSign`, `unitSurj`, `unrJ` with `unrJ_prime`, `unrJ_arith` and `unrJ_conj`, the deduction of the Hasse norm theorem in `HasseNorm.lean`, and the definitions `sgn`, `sgnE`, `UnrFin`, `embT`, `difR`, `minK`, `evenF` and `cE`. With these, `sgnCyc` is read together with all its archive inputs. Named inputs not read here [Lean]: `natCard_cycTateNegOne_ideleClassGroup` (with the second inequality behind it), `mem_range_ideleNorm_iff_forall`, `map_integerUnitsOver_eq_of_ramificationIdx_eq_one`, `ineCard`, `cycIne`, `relIncl`, `nonempty_placesOver`, `Qh29.norm_eq_mul_cE`, and the cited Mathlib declarations: the `IsCMField` interface, the torsion criterion for units, `IsDedekindDomain.exists_sup_span_eq`, `Polynomial.eval_one_cyclotomic_not_prime_pow`, `IsPrimitiveRoot.geom_sum_isUnit` and `IsCyclotomicExtension.Rat.torsionOrder_eq`. Inherited from §11.4.3.2: `sgnAlg`, `pTwo`, `thetaFull`, `conjEq`, `memZ` and `cyc`. The odd-prime reflection of §11.4.3.3 is not touched. The reading status of the full Ferrero–Washington dependency cone remains as in §11.4.3.
+**Reading boundary and source map.** Read in full here [Lean, read]: `hMinus` and its private helpers, `realGen`, `hasse`, `classGroup_div_mem_of_mul_conj_eq`, `locFin` with `ideal_step` and `norm_cm`, `locInf`, `sgnStab`, `sgnUnit` with `geom_sin`, `exists_zeta` and `sin_ne`, `sinSign`, `unitSurj`, `unrJ` with `unrJ_prime`, `unrJ_arith` and `unrJ_conj`, the deduction of the Hasse norm theorem in `HasseNorm.lean`, and the definitions `sgn`, `sgnE`, `UnrFin`, `embT`, `difR`, `minK`, `evenF` and `cE`. With these, `sgnCyc` is read together with all its archive inputs. Named inputs not read here [Lean]: `natCard_cycTateNegOne_ideleClassGroup` (with the second inequality behind it), `ineCard`, `cycIne`, `relIncl`, `nonempty_placesOver`, `Qh29.norm_eq_mul_cE`, and the cited Mathlib declarations: the `IsCMField` interface, the torsion criterion for units, `IsDedekindDomain.exists_sup_span_eq`, `Polynomial.eval_one_cyclotomic_not_prime_pow`, `IsPrimitiveRoot.geom_sum_isUnit` and `IsCyclotomicExtension.Rat.torsionOrder_eq`. Inherited from §11.4.3.2: `sgnAlg`, `pTwo`, `thetaFull`, `conjEq`, `memZ` and `cyc`. The odd-prime reflection of §11.4.3.3 is not touched. Section 11.4.3.5 reads `map_integerUnitsOver_eq_of_ramificationIdx_eq_one` and `mem_range_ideleNorm_iff_forall` down to the local-field theorem `normIntegerUnits_surjective`. The reading status of the full Ferrero–Washington dependency cone remains as in §11.4.3.
 
 In the table, `GL/` expands to `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/`, and `GT/` to `src/GroundTheory/GlobalFields/`.
 
@@ -1102,13 +1102,203 @@ In the table, `GL/` expands to `src/Development/AutomorphicArithmetic/Automorphi
 | `GL/FerreroWashingtonIndex/ClassGroupDivMemOfMulConjEq.lean:6–96` | [Lean, read] Ideal-theoretic Hilbert 90 (Lemma A). |
 | `GL/FerreroWashingtonIndex/LocFin.lean:8–92`, `GL/FerreroWashingtonIndex/LocInf.lean:8–62` | [Lean, read] Local norms at finite and infinite places (Lemma B). |
 | `GT/HasseNorm.lean:17–62,98–105` | [Lean, read] Deduction of the Hasse norm theorem from the vanishing of $\widehat H^{-1}$ of the idele class group. |
-| `GT/SecondInequality/Cyclic.lean:26`, `GT/IdeleGroups/LocalNormsEverywhere.lean:28,58` | [Lean] Cohomological and local norm inputs. |
+| `GT/SecondInequality/Cyclic.lean:26` | [Lean] Cohomological input to the Hasse norm theorem. |
+| `GT/IdeleGroups/LocalNormsEverywhere.lean:28,58` | [Lean, read] Local norm inputs, read in §11.4.3.5. |
 | `GL/FerreroWashingtonIndex/SgnStab.lean:7–51` | [Lean, read] Lemma F(i). |
 | `GL/FerreroWashingtonIndex/SgnUnit.lean:7–111`, `GL/FerreroWashingtonIndex/SinSign.lean:5–27` | [Lean, read] Lemma F(ii). |
 | `GL/FerreroWashingtonIndex/UnitSurj.lean:6–95` | [Lean, read] Lemma G(i). |
 | `GL/FerreroWashingtonIndex/UnrJPrime.lean:8–62` | [Lean, read] Lemma G(ii), with `ineCard` (`GL/ClassFieldRamification/IneCard.lean:8`) and `cycIne` (`GL/ClassFieldRamification/CycIne.lean:8`) [Lean]. |
 | `GL/FerreroWashingtonIndex/SgnCyc.lean:13–37`, `GL/FerreroWashingtonIndex/FerreroWashington.lean:56–64` | [Lean, read] Corollary H and its consumption in `cyc`. |
 | `GL/FerreroWashingtonIndex/CycRepApply.lean:26–42`, `GL/FerreroWashingtonIndex/TwSingle.lean:62–72`, `src/Development/AutomorphicArithmetic/AutomorphicVarieties/LengthEqAddEigen.lean:64` | [Lean, read] Definitions. |
+
+#### 11.4.3.5 Norms of local units in unramified extensions
+
+**Motivation.** Lemma B of §11.4.3.4 (`locFin`) needs one local fact at every finite place $v$ of the real subfield: if no prime of the CM field $K$ over $v$ ramifies, then every $v$-adic unit is the norm of a local unit of $K$. The archive takes this from `map_integerUnitsOver_eq_of_ramificationIdx_eq_one` (`src/GroundTheory/GlobalFields/IdeleGroups/LocalNormsEverywhere.lean:28`). The same declaration is used a second time on the binary route. The place-by-place description of idelic norms `mem_range_ideleNorm_iff_forall` (`LocalNormsEverywhere.lean:58`), which Proposition C of §11.4.3.4 feeds into the Hasse norm theorem, needs integral preimages at almost all places, and gets them from the same local statement at the places where the extension is unramified. Both uses were left as named inputs in §11.4.3.4. This subsection reads them down to the local-field theorem behind them, `normIntegerUnits_surjective` (`src/GroundTheory/LocalFields/UnramifiedNormSurj.lean:182`). The archive does not prove this by local class field theory. It follows the elementary route: the residue-field norm is onto, the residue-field trace is onto, these two facts lift one filtration step at a time through the principal units, and completeness assembles the steps into a limit. This is the proof in [MilneCFT, Ch. III, §1, Proposition 1.2 with Lemmas 1.3–1.5, pp. 97–98](https://www.jmilne.org/math/CourseNotes/CFT.pdf) [Paper]. The subsection also records, hypothesis by hypothesis, what the local-field axioms, the ramification index, residue separability and the normalization of the valuation each pay for. Source references are to the joined archive with SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` and to Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`. [Lean, read]
+
+**Example 1 (the residue step in the unramified quadratic extension of $\mathbb Q_3$).** [Expository] Let $K=\mathbb Q_3$ and $L=\mathbb Q_3(i)$ with $i^2=-1$. Since $-1$ is not a square modulo $3$, the polynomial $X^2+1$ is irreducible over $\mathbb F_3$, so $L/K$ is the unramified quadratic extension: $\mathcal O_L=\mathbb Z_3[i]$, the prime $3$ stays prime in $\mathcal O_L$, and the residue extension is $\mathbb F_9=\mathbb F_3(i)$ over $\mathbb F_3$. The norm is $N(a+bi)=a^2+b^2$. On residue fields,
+$$
+N(1)=1,\qquad N(i)=1,\qquad N(1+i)=2,
+$$
+so the residue norm $\mathbb F_9^\times\to\mathbb F_3^\times=\{1,2\}$ is onto. Take the unit $u=5\in\mathbb Z_3^\times$, with residue $2$. The residue step chooses $g_0=1+i$, a unit of $\mathcal O_L$ whose residue norm is $2$. Then $N(g_0)=2$ and
+$$
+\frac{u}{N(g_0)}=\frac52=1+3\cdot\frac12,
+$$
+which lies in the principal units $U_K^{(1)}=1+3\mathbb Z_3$ and not in $U_K^{(2)}$. The residue step has removed the obstruction visible modulo $3$, and only a principal unit is left. For this particular $u$ an exact preimage can be seen at once, $N(2+i)=5$. The algorithm below does not find it; it converges to a different preimage, and the two differ by an element of norm $1$.
+
+**Example 2 (lifting a principal unit in the same extension).** [Expository] Keep $K=\mathbb Q_3$, $L=\mathbb Q_3(i)$ and the uniformizer $\varpi=3$, which stays a uniformizer in $L$. The trace is $\mathrm{Tr}(x+yi)=2x$, and for $a\in\mathcal O_L$,
+$$
+N(1+3a)=(1+3x)^2+9y^2=1+3\cdot\mathrm{Tr}(a)+9\,(x^2+y^2),\qquad a=x+yi.
+$$
+The first-order term is $3\,\mathrm{Tr}(a)$ and the second-order term is divisible by $9$. Take $h=-2=1+3\cdot(-1)\in U_K^{(1)}\setminus U_K^{(2)}$.
+
+*Step $n=1$.* Here $h=1+3c$ with $c=-1$, residue $\bar c=2$. We need $a$ with $\mathrm{Tr}(\bar a)=\bar c$, that is $2x\equiv2$, so $x\equiv1\bmod3$. Take $a=1$, $g_1=1+3=4$, $N(g_1)=16$. Then
+$$
+\frac{h}{N(g_1)}=-\frac18=1-\frac98,\qquad v_3\!\left(-\tfrac98\right)=2,
+$$
+so $h/N(g_1)\in U_K^{(2)}$.
+
+*Step $n=2$.* Now $-1/8=1+9c$ with $c=-1/8$. Since $8\equiv2$ and $2\cdot2\equiv1\bmod3$, we get $\bar c=-2=1$, so $2x\equiv1$, $x\equiv2$. Take $g_2=1+9\cdot2=19$, $N(g_2)=361$. Then
+$$
+\frac{-1/8}{361}=-\frac1{2888}=1-\frac{2889}{2888},\qquad 2889=3^3\cdot107,
+$$
+so the quotient lies in $U_K^{(3)}$.
+
+*Step $n=3$.* Write $-1/2888=1+27c$ with $c=-107/2888$. Both $107$ and $2888$ have residue $2$, so $\bar c=-1=2$ and $x\equiv1$. Take $g_3=1+27=28$, $N(g_3)=784$, and the quotient $-1/2264192=1-2264193/2264192$ has $v_3(2264193)=4$, so it lies in $U_K^{(4)}$.
+
+The partial products $y_j=g_1g_2\cdots g_j$ satisfy $h/N(y_j)\in U_K^{(j+1)}$ and $y_{j+1}/y_j=g_{j+1}\in U_L^{(j+1)}$, so $(y_j)$ is Cauchy for the filtration of $U_L$. Its limit $y$ has $N(y)=h$. The choice at each step is not unique: at step $1$ the choice $a=1+i$ gives $g=4+3i$, $N(g)=25$ and $-2/25=1-27/25\in U_K^{(3)}$, two steps at once, because the second-order term $9(x^2+y^2)$ happened to help. The proof only uses that this term is divisible by $9$. For comparison, since $p=3$ is odd, $-2\equiv1\bmod3$ is already a square in $\mathbb Z_3$, and $y=\sqrt{-2}=1+3+2\cdot9+\cdots\in\mathbb Z_3\subset L$ has $N(y)=y^2=-2$. Hensel's lemma shortcuts the principal units when $p$ is odd and $[L:K]$ is prime to $p$. The archive's argument does not use this. It works uniformly for every unramified extension, including degree divisible by $p$, where the principal units are not all $[L:K]$-th powers.
+
+**Example 3 (a ramified boundary case).** [Expository] Let $K=\mathbb Q_3$ and $L=\mathbb Q_3(\sqrt3)$, so $e=2$ and the residue field is still $\mathbb F_3$. Here $N(a+b\sqrt3)=a^2-3b^2$. A unit of $\mathcal O_L=\mathbb Z_3[\sqrt3]$ has $a\in\mathbb Z_3^\times$, and then $N(a+b\sqrt3)\equiv a^2\equiv1\bmod3$. So $-1$, $2$ and $5$ are units of $K$ that are not norms of units of $L$, and
+$$
+N(U_L)=U_K^{(1)}=1+3\mathbb Z_3,\qquad [U_K:N(U_L)]=2=e.
+$$
+The inclusion $N(U_L)\supseteq U_K^{(1)}$ holds because every element of $1+3\mathbb Z_3$ is a square in $\mathbb Z_3$ and $N(a)=a^2$ for $a\in\mathbb Z_3$. The proof below fails at its first lemma. The residue of a norm is not the residue-field norm: the residue of $N(a+b\sqrt3)$ is $\bar a^2$, the square of the residue norm $N_{\mathbb F_3/\mathbb F_3}(\bar a)=\bar a$. The reason is the dimension count. The basis $1,\sqrt3$ of $\mathcal O_L$ over $\mathcal O_K$ reduces to $1,0$, which is not a basis of $\mathbb F_3$ over $\mathbb F_3$. The valuations are also misaligned: $3=(\sqrt3)^2$ gives $1+3\mathcal O_L=U_L^{(2)}$, so the level-$n$ principal units of $K$ sit at level $2n$ in $L$. The theorem below needs the ramification index to be $1$ in both places.
+
+**Definitions.** [Lean, read] The archive's local fields carry Mathlib's class `IsNonarchimedeanLocalField`. For such a field $K$ with valuation $\mathrm{val}_K$, write $\mathcal O_K$ for the valuation ring, $\mathfrak m_K$ for its maximal ideal and $k_K=\mathcal O_K/\mathfrak m_K$ for the residue field, with residue map $\mathrm{res}$. Three facts about $\mathcal O_K$ are drawn from the local-field class: it is a discrete valuation ring with an irreducible element $\varpi$ (`IsDiscreteValuationRing.exists_irreducible`); its residue field is finite; and it is $\mathfrak m_K$-adically complete (`isAdicComplete_integer`, `src/GroundTheory/GlobalFields/KummerTheory/LocalIndex.lean:52`). The *unit filtration* is
+$$
+U_K^{(n)}=\{u\in\mathcal O_K^\times:\ u-1\in\mathfrak m_K^n\}\qquad(n\ge0),
+$$
+a decreasing sequence of subgroups with $U_K^{(0)}=\mathcal O_K^\times$ (`unitFiltration`, `src/GroundTheory/LocalFields/UnitsBasic.lean:12–40`). The residue map induces $\mathcal O_K^\times\to k_K^\times$, which is onto with kernel $U_K^{(1)}$ (`unitsToResidue_surjective`, `ker_unitsToResidue`, `UnitsBasic.lean:275–290`). For $x\in K^\times$, $\mathrm{ord}(x)\in\mathbb Z$ is the normalized valuation with $\mathrm{ord}(\varpi)=1$ (`UnitsBasic.lean:144`).
+
+Let $L/K$ be a finite extension of such fields, with $\mathcal O_K\subseteq\mathcal O_L$ (`ValuativeExtension`). The *ramification index* $e(L/K)$ is the exponent with $\mathfrak m_K\mathcal O_L=\mathfrak m_L^{\,e}$, and the *residue degree* $f(L/K)$ is $[k_L:k_K]$; the archive defines them as the ramification index and inertia degree of $\mathfrak m_L$ over $\mathcal O_K$ (`src/GroundTheory/LocalFields/Integers.lean:16,18`) and proves $ef=[L:K]$ (`ramificationIndex_mul_residueDegree`, `Integers.lean:123`) and $\mathfrak m_K\mathcal O_L=\mathfrak m_L^{\,e}$ (`map_maximalIdeal`, `Integers.lean:133`). The extension is *unramified* when $e=1$ (`IsUnramified`, `src/GroundTheory/LocalFields/UnramifiedDefs.lean:11`), equivalently when $f=[L:K]$ (`isUnramified_iff_finrank_residueField`). The *unit norm* is
+$$
+N=N_{L/K}:\ \mathcal O_L^\times\to\mathcal O_K^\times,
+$$
+the units map of the algebra norm $\mathrm{Nm}_{\mathcal O_L/\mathcal O_K}$ (`normIntegerUnits`, `src/GroundTheory/LocalFields/ExistsUnitFiltrationUnitsLeRangeNormUnits.lean:123`); its value agrees with the field norm $\mathrm{Nm}_{L/K}$ on the underlying elements (`coe_normIntegerUnits`). Finally, for a group $G$ with a decreasing sequence of subgroups $F_n$, a sequence $(x_j)$ is *$F$-Cauchy* if for every $N$ there is $M$ with $x_n/x_m\in F_N$ for all $m,n\ge M$; the filtration is *complete* if every $F$-Cauchy sequence has a limit $y$ in the sense $x_n/y\in F_N$ for $n$ large, and *separated* if $\bigcap_nF_n=\{1\}$ (`src/GroundTheory/LocalFields/FilteredSurj.lean:12–27`).
+
+Throughout the lemmas, $L/K$ is a finite unramified extension of nonarchimedean local fields and $\varpi$ is an irreducible element of $\mathcal O_K$.
+
+**Lemma 1 (residues of norms and traces; `residue_norm`, `residue_trace`).** [Lean, read] For $y\in\mathcal O_L$,
+$$
+\mathrm{res}\bigl(\mathrm{Nm}_{\mathcal O_L/\mathcal O_K}(y)\bigr)=\mathrm{Nm}_{k_L/k_K}(\mathrm{res}\,y),\qquad
+\mathrm{res}\bigl(\mathrm{Tr}_{\mathcal O_L/\mathcal O_K}(y)\bigr)=\mathrm{Tr}_{k_L/k_K}(\mathrm{res}\,y).
+$$
+
+**Proof.** The ring $\mathcal O_L$ is a finite free $\mathcal O_K$-module (a finitely generated torsion-free module over a discrete valuation ring). Choose a basis $b_1,\dots,b_m$ (`Module.Free.chooseBasis`), so $m=[L:K]$ (`finrank_integer`, `Integers.lean:88`). Every element of $k_L$ is the residue of some $y=\sum c_ib_i$, and $\mathrm{res}\,y=\sum\mathrm{res}(c_i)\,\mathrm{res}(b_i)$ (`residue_eq_sum_repr`, `UnramifiedNormSurj.lean:37–44`), so the residues $\bar b_i$ span $k_L$ over $k_K$. Since $e=1$, the count $m=[L:K]=f=[k_L:k_K]$ shows that $m$ spanning vectors form a basis (`residueBasis`, `UnramifiedNormSurj.lean:52–61`, through Mathlib's `basisOfTopLeSpanOfCardEqFinrank`). With respect to these two bases the matrix of multiplication by $\mathrm{res}\,y$ on $k_L$ is the entrywise residue of the matrix of multiplication by $y$ on $\mathcal O_L$ (`leftMulMatrix_residueBasis`, `:76–81`). Norm and trace are determinant and trace of this matrix, and the residue map is a ring homomorphism, so it commutes with determinant and trace (`:83–94`). $\square$
+
+The hypothesis $e=1$ is used exactly once, in the dimension count. Example 3 shows what happens without it.
+
+**Lemma 2 (first-order expansion of the norm and alignment of the filtrations; `exists_norm_one_add_smul`, `irreducible_algebraMap_of_isUnramified`, `normIntegerUnits_mem_unitFiltration`).** [Lean, read]
+
+(i) For $r\in\mathcal O_K$ and $a\in\mathcal O_L$ there is $c\in\mathcal O_K$ with
+$$
+\mathrm{Nm}_{\mathcal O_L/\mathcal O_K}(1+ra)=1+r\,\mathrm{Tr}_{\mathcal O_L/\mathcal O_K}(a)+r^2c.
+$$
+
+(ii) The element $\varpi$ remains irreducible in $\mathcal O_L$, so $\mathfrak m_L^{\,n}=\varpi^n\mathcal O_L$ for all $n$.
+
+(iii) $N(U_L^{(n)})\subseteq U_K^{(n)}$ for all $n\ge0$.
+
+**Proof.** (i) Let $A$ be the matrix of multiplication by $a$ in a basis of $\mathcal O_L$ over $\mathcal O_K$. Then $\det(1+XA)\in\mathcal O_K[X]$ has constant term $1$ and linear coefficient $\mathrm{tr}\,A=\mathrm{Tr}(a)$ (Mathlib's `Matrix.det_one_add_smul`). Dividing twice by $X$ (`Polynomial.divX`) leaves a polynomial whose value at $r$ is the required $c$ (`UnramifiedNormSurj.lean:26–35`). (ii) By `map_maximalIdeal`, $\mathfrak m_K\mathcal O_L=\mathfrak m_L^{\,e}=\mathfrak m_L$ when $e=1$, and $\mathfrak m_K=\varpi\mathcal O_K$, so $\varpi\mathcal O_L=\mathfrak m_L$ and $\varpi$ is a uniformizer of $\mathcal O_L$ (`:96–102`). (iii) For $n=0$ there is nothing to prove. For $n\ge1$ and $u\in U_L^{(n)}$, (ii) gives $u=1+\varpi^na$ with $a\in\mathcal O_L$. By (i) with $r=\varpi^n$,
+$$
+N(u)=1+\varpi^n\bigl(\mathrm{Tr}(a)+\varpi^nc\bigr)\in U_K^{(n)}.\qquad\square
+$$
+
+Part (ii) is where the normalization of the valuation pays. Because $\varpi$ is a uniformizer on both sides, the $n$-th filtration step of $L$ maps into the $n$-th step of $K$, and the graded lemma below can be used with the identity reindexing $\varphi(n)=n$. In a ramified extension the correct comparison would be between $U_L^{(en)}$ and $U_K^{(n)}$.
+
+**Lemma 3 (the residue-field inputs; `trace_integer_surjective`).** [Lean, read; the two finite-field facts are Mathlib inputs [Lean]]
+
+(i) The norm $k_L^\times\to k_K^\times$ is onto.
+
+(ii) The trace $k_L\to k_K$ is onto.
+
+(iii) The trace $\mathrm{Tr}_{\mathcal O_L/\mathcal O_K}:\mathcal O_L\to\mathcal O_K$ is onto.
+
+**Proof.** (i) is Mathlib's `FiniteField.unitsMap_norm_surjective` (`Mathlib/FieldTheory/Finite/GaloisField.lean:236` at the pinned commit). It is a counting argument: $k_L^\times$ is cyclic, the norm to $k_K$ is $x\mapsto x^{(|k_L|-1)/(|k_K|-1)}$ (`algebraMap_norm_eq_pow`), so its kernel has at most $(|k_L|-1)/(|k_K|-1)$ elements, and a homomorphism between finite groups whose kernel is at most $|\text{source}|/|\text{target}|$ is onto. This uses that the residue fields are finite. (ii) is Mathlib's `Algebra.trace_surjective` (`Mathlib/RingTheory/Trace/Basic.lean:521`), which needs the extension $k_L/k_K$ to be separable: a nonzero $k_K$-linear map to a field is onto, and the trace of a finite separable extension is nonzero. Finite fields are perfect, so separability is automatic here. This is the only place where residue separability enters. (iii) Choose $t\in k_L$ with $\mathrm{Tr}(t)=1$ and lift it to $a\in\mathcal O_L$. By Lemma 1, $\mathrm{res}\,\mathrm{Tr}(a)=1\neq0$, so $\mathrm{Tr}(a)$ is a unit $\eta$ of $\mathcal O_K$. For $c\in\mathcal O_K$, $\mathrm{Tr}(\eta^{-1}c\,a)=c$ (`UnramifiedNormSurj.lean:104–113`). $\square$
+
+**Lemma 4 (one step at a time; `exists_normIntegerUnits_div_mem_one`, `exists_normIntegerUnits_div_mem_succ`).** [Lean, read]
+
+(i) For every $h\in\mathcal O_K^\times$ there is $g\in\mathcal O_L^\times$ with $h/N(g)\in U_K^{(1)}$.
+
+(ii) For $n\ge1$ and every $h\in U_K^{(n)}$ there is $g\in U_L^{(n)}$ with $h/N(g)\in U_K^{(n+1)}$.
+
+**Proof.** (i) By Lemma 3(i) there is $\zeta\in k_L^\times$ with $\mathrm{Nm}(\zeta)=\mathrm{res}\,h$, and $\zeta$ lifts to $g\in\mathcal O_L^\times$. By Lemma 1, $\mathrm{res}\,N(g)=\mathrm{Nm}(\zeta)=\mathrm{res}\,h$, so $h/N(g)$ is in the kernel of $\mathcal O_K^\times\to k_K^\times$, which is $U_K^{(1)}$ (`UnramifiedNormSurj.lean:131–138`). This is the residue step of Example 1.
+
+(ii) Write $h=1+\varpi^nc$ with $c\in\mathcal O_K$. By Lemma 3(ii) there is $t\in k_L$ with $\mathrm{Tr}(t)=\mathrm{res}\,c$; lift $t$ to $a\in\mathcal O_L$. Set $g=1+\varpi^na$. It is a unit because $\varpi^na\in\mathfrak m_L$ (`isUnit_one_add_mul`, `UnitsBasic.lean:321`), and it lies in $U_L^{(n)}$ by Lemma 2(ii). By Lemma 2(i),
+$$
+N(g)=1+\varpi^n\,\mathrm{Tr}(a)+\varpi^{2n}d,\qquad d\in\mathcal O_K,
+$$
+so
+$$
+h-N(g)=\varpi^n\bigl(c-\mathrm{Tr}(a)\bigr)-\varpi^{2n}d .
+$$
+By Lemma 1, $\mathrm{res}(c-\mathrm{Tr}(a))=\mathrm{res}\,c-\mathrm{Tr}(t)=0$, so $c-\mathrm{Tr}(a)=\varpi e$ for some $e\in\mathcal O_K$, and $2n\ge n+1$. Hence $h-N(g)=\varpi^{n+1}(e-\varpi^{n-1}d)\in\mathfrak m_K^{n+1}$. For units $x,y$ one has $x/y\in U_K^{(k)}$ if and only if $x-y\in\mathfrak m_K^{k}$ (`div_mem_unitFiltration_iff`, `LocalIndex.lean:25`), which gives $h/N(g)\in U_K^{(n+1)}$ (`UnramifiedNormSurj.lean:140–168`). These are the steps of Example 2. $\square$
+
+**Lemma 5 (graded surjectivity passes to the limit; `map_eq_of_graded_surjective`).** [Lean, read] Let $f:G\to H$ be a homomorphism of groups, $F_n\subseteq G$ and $E_n\subseteq H$ decreasing sequences of subgroups, $F$ complete and $E$ separated. Fix $k\ge0$ and suppose that for all $n\ge k$:
+
+(a) $f(F_n)\subseteq E_n$, and
+
+(b) for every $h\in E_n$ there is $g\in F_n$ with $h/f(g)\in E_{n+1}$.
+
+Then $f(F_k)=E_k$.
+
+**Proof.** The inclusion $f(F_k)\subseteq E_k$ is (a). Let $h\in E_k$. Define $r_0=h$ and, given $r_j\in E_{k+j}$, use (b) at level $k+j$ to choose $D_j\in F_{k+j}$ with $r_{j+1}=r_j/f(D_j)\in E_{k+j+1}$. Let $x_j=D_jD_{j-1}\cdots D_0$. Then $h/f(x_j)=r_{j+1}$ by induction, each $x_j\in F_k$, and $x_{m+d}/x_m\in F_{k+m+1}$ because it is a product of $D_{m+1},\dots,D_{m+d}$, all in $F_{k+m+1}$. So $(x_j)$ is $F$-Cauchy. By completeness it has a limit $y$, and $y\in F_k$ because $x_{M}/y\in F_k$ for large $M$. Finally, for every $m$ and all large $j$,
+$$
+\frac h{f(y)}=r_{j+1}\cdot f\!\left(\frac{x_j}{y}\right)\in E_{k+j+1}\cdot E_{m}\subseteq E_m,
+$$
+using (a) for the second factor. Since $E$ is separated, $h=f(y)$ (`FilteredSurj.lean:38–129`). $\square$
+
+The archive states this lemma with a reindexing $\varphi:\mathbb N\to\mathbb N$ tending to infinity, comparing $F_n$ with $E_{\varphi(n)}$. Here $\varphi$ is the identity, which Lemma 2(ii) makes possible.
+
+**Lemma 6 (the unit filtrations are complete and separated; `filtrationComplete_unitFiltration`, `filtrationSeparated_unitFiltration`).** [Lean, read] For a nonarchimedean local field $K$, the filtration $U_K^{(n)}$ of $\mathcal O_K^\times$ is complete and separated.
+
+**Proof.** Separated: if $u-1\in\mathfrak m_K^n$ for all $n$, write $u-1=\varpi^m w$ with $w$ a unit if $u-1\neq0$; then $\varpi^{m+1}\mid\varpi^mw$ forces $\varpi\mid w$, impossible (`eq_zero_of_forall_mem_maximalIdeal_pow`, `LocalIndex.lean:38`). Complete: an $F$-Cauchy sequence of units is, after passing to a monotone choice of indices, a sequence in $\mathcal O_K$ that is Cauchy for the $\mathfrak m_K$-adic topology, since $x/y\in U_K^{(N)}$ means $x-y\in\mathfrak m_K^N$. The ring $\mathcal O_K$ is $\mathfrak m_K$-adically complete, so there is a limit $\Lambda\in\mathcal O_K$. Its residue agrees with that of the terms, which are units, so $\Lambda$ is a unit, and $x_n/\Lambda\in U_K^{(N)}$ for large $n$ (`LocalIndex.lean:57–89`). $\square$
+
+**Theorem A (unit norms are onto in unramified extensions; `normIntegerUnits_surjective`, `map_normIntegerUnits_unitFiltration`).** [Lean, read; the finite-field norm and trace surjectivities are Mathlib inputs [Lean]] Let $L/K$ be a finite unramified extension of nonarchimedean local fields. Then for every $n\ge0$,
+$$
+N_{L/K}\bigl(U_L^{(n)}\bigr)=U_K^{(n)} .
+$$
+In particular $N_{L/K}:\mathcal O_L^\times\to\mathcal O_K^\times$ is onto.
+
+**Proof.** Apply Lemma 5 with $G=\mathcal O_L^\times$, $H=\mathcal O_K^\times$, $F_n=U_L^{(n)}$, $E_n=U_K^{(n)}$, $f=N$ and $\varphi=\mathrm{id}$. Both filtrations are decreasing (`unitFiltration_antitone`); $F$ is complete and $E$ is separated by Lemma 6. Condition (a) is Lemma 2(iii). Condition (b) at level $0$ is Lemma 4(i), since $U_L^{(0)}$ is the whole unit group, and at level $n\ge1$ it is Lemma 4(ii) (`UnramifiedNormSurj.lean:170–180`). Taking $k=n$ gives the displayed equality, and $k=0$ with $U^{(0)}=\mathcal O^\times$ gives surjectivity (`:182–190`). $\square$
+
+The archive also records the consequence in the multiplicative groups: the image of $U_L^{(n)}$ in $K^\times$ under the field norm is $U_K^{(n)}$ (`map_normUnits_unitFiltrationUnits`, `:192–198`), so $\mathcal O_K^\times\subseteq\mathrm{Nm}(L^\times)$ (`:200–203`).
+
+**Proposition B (transfer to completions of a number field; `exists_norm_eq_of_ramificationIdx_eq_one`).** [Lean, read] Let $L/K$ be a finite extension of number fields, $v$ a nonzero prime of $\mathcal O_K$ and $w$ a prime of $\mathcal O_L$ over $v$ with ramification index $e(w\mid v)=1$ in the sense of Dedekind domains. Then for every unit $u$ of the valuation ring of the completion $K_v$ there is a unit $y$ of the valuation ring of $L_w$ with $\mathrm{Nm}_{L_w/K_v}(y)=u$.
+
+**Proof.** The ramification index of the completed extension $L_w/K_v$, defined through the maximal ideals of the valuation rings, equals $e(w\mid v)$ (`ramificationIdx_integer`, `src/GroundTheory/GlobalFields/CompletionAtPlace/Integers.lean:240–258`). The proof compares, for each $n$, the condition $\mathfrak m_{K_v}\mathcal O_{L_w}\subseteq\mathfrak m_{L_w}^{\,n}$ with $n\le e(w\mid v)$ by evaluating the valuation of a uniformizer of $K_v$ in $L_w$, where the completed valuations restrict to the global ones (`valued_algebraMap_adicCompletion'`, `valued_of_irreducible_integer` [Lean]). So $L_w/K_v$ is unramified in the sense of the definitions above. Mathlib gives both completions the local-field class, and the inclusion of valuation rings is a `ValuativeExtension`. Theorem A applied to $u$, viewed as a unit of the valuation ring of $K_v$, gives a unit $g$ of the valuation ring of $L_w$ with $N(g)=u$; pushing $g$ into $L_w^\times$ (`unitsIncl`) gives $y$ (`LocalNormGroups.lean:122–142`). $\square$
+
+**Proposition C (local units are local norms at an unramified place; `map_integerUnitsOver_eq_of_ramificationIdx_eq_one`).** [Lean, read] With $L/K$, $v$ as in Proposition B, let $\mathrm{Nm}_v:\prod_{w\mid v}L_w^\times\to K_v^\times$ be the product of the local norms (`finiteLocalNorm`, `src/GroundTheory/GlobalFields/IdeleGroups/LocalNorms.lean:19`) and let $\mathcal U_v=\prod_{w\mid v}\mathcal O_{L_w}^\times$ (`integerUnitsOver`, `:34`). If some prime $w$ over $v$ has $e(w\mid v)=1$, then
+$$
+\mathrm{Nm}_v(\mathcal U_v)=\mathcal O_{K_v}^\times .
+$$
+
+**Proof.** The inclusion $\subseteq$ holds without any hypothesis: the norm of an integral element is integral (`norm_mem_integer`), so the norm of a tuple of integral units and of its inverse are both integral (`finiteLocalNorm_mem_integers`, `map_integerUnitsOver_le`, `LocalNormGroups.lean:86–101`). For $\supseteq$, let $u\in\mathcal O_{K_v}^\times$. Proposition B at the given $w$ gives a unit $y$ of $\mathcal O_{L_w}$ with $\mathrm{Nm}_{L_w/K_v}(y)=u$. Put $y$ at the coordinate $w$ and $1$ at every other prime over $v$ (`Pi.mulSingle`). The tuple lies in $\mathcal U_v$, and the product of local norms collapses to the single factor $\mathrm{Nm}_{L_w/K_v}(y)=u$ (`finiteLocalNorm_mulSingle`, `LocalNormGroups.lean:20–27`; `LocalNormsEverywhere.lean:28–43`). $\square$
+
+One unramified prime above $v$ suffices; the other primes over $v$ may ramify. The consumer `locFin` has every prime over $v$ unramified, since hypothesis (U) of §11.4.3.4 is `UnrFin K`, the statement that $e(w\mid v)=1$ for all $w$.
+
+**Corollary D (almost all places; `eventually_ramificationIdx_eq_one`, `eventually_map_integerUnitsOver_eq`).** [Lean, read; the different-ideal criterion is a Mathlib input [Lean]] For all but finitely many primes $v$ of $\mathcal O_K$, $\mathrm{Nm}_v(\mathcal U_v)=\mathcal O_{K_v}^\times$.
+
+**Proof.** A prime $w$ of $\mathcal O_L$ with $e(w\mid v)>1$ divides the different ideal of $\mathcal O_L/\mathcal O_K$ (Mathlib's `not_dvd_differentIdeal_iff` and `Ideal.ramificationIdx_eq_one`), which is nonzero and so has finitely many prime factors (`LocalNormsEverywhere.lean:18–26`). Hence $e(w\mid v)=1$ for all but finitely many $w$, so for all but finitely many $v$ every $w$ over $v$ is unramified (`eventually_forall_placesOver`, `LocalNorms.lean:95` [Lean]). Each such $v$ has at least one prime above it (`nonempty_placesOver` [Lean]), and Proposition C applies (`LocalNormsEverywhere.lean:47–54`). $\square$
+
+**Wiring to the consumers.** [Lean, read for the two deductions; `mem_range_ideleNorm_iff` is [Lean]] The idelic criterion `mem_range_ideleNorm_iff` (`LocalNorms.lean:194`) says that an idele $x$ of $K$ is the norm of an idele of $L$ if and only if three conditions hold: each finite component $x_v$ is in the image of $\mathrm{Nm}_v$; each infinite component is a local norm; and for all but finitely many $v$ the component $x_v$ is in $\mathrm{Nm}_v(\mathcal U_v)$. The third condition is the restricted-product condition. The preimages must be integral units almost everywhere, or they do not form an idele. The archive removes it in `mem_range_ideleNorm_iff_forall` (`LocalNormsEverywhere.lean:58–67`): an idele has unit components at almost all places (`eventually_finiteProj_mem`, `LocalNorms.lean:83` [Lean]), and by Corollary D those components are norms of integral units at almost all places. So the local conditions at all places already imply the idelic one. This is the form used at `HasseNorm.lean:56–62` (and through it at `:98–105`) and hence in Proposition C of §11.4.3.4.
+
+The second consumer is `locFin` (`GL/FerreroWashingtonIndex/LocFin.lean:47–92`, read in §11.4.3.4). After the ideal step, it has a global norm $n=\mathrm{Nm}_{K/K^+}(b)$ and the element $nx^{-1}=t$, which is a $v$-adic unit. The step `h2` rewrites the image of $\mathcal U_v$ under $\mathrm{Nm}_v$ as $\mathcal O_{K^+_v}^\times$ by Proposition C, with the prime $w$ chosen by `nonempty_placesOver` and the hypothesis `hunr w.1`, which is (U) at $w$. Then $t$ is a local norm, so $x=n\,t^{-1}$ is one. This closes the local-norm input named in Lemma B.
+
+**Remarks.** [Expository] *What each hypothesis pays for.* The local-field class supplies a discrete valuation ring with a uniformizer, which is what makes the unit filtration a filtration by the powers of one element and gives the uniform expansion of Lemma 2; a finite residue field, which gives the norm surjectivity of Lemma 3(i) by counting and makes separability automatic in Lemma 3(ii); and completeness of $\mathcal O_L$, used once, in Lemma 6 for the limit of Lemma 5. Separatedness is used on the $K$ side and completeness on the $L$ side. The ramification index $1$ is used twice: in the dimension count of Lemma 1, where it identifies the residue extension with the whole extension, and in Lemma 2(ii), where it keeps one uniformizer for both fields so that the filtrations match level by level. Residue separability enters only through the trace. In a general complete discretely valued field with imperfect residue field, an unramified extension in the sense $e=1$ with inseparable residue extension would have zero trace on residue fields, and Lemma 4(ii) would have nothing to lift with. The archive avoids this case because the residue fields are finite.
+
+*The full norm group.* [Lean] The archive goes on to compute $K^\times/\mathrm{Nm}(L^\times)$ in the unramified case: $\mathrm{ord}(\mathrm{Nm}\,x)=f\cdot\mathrm{ord}(x)$ (`ord_norm`, `ExistsUnitFiltrationUnitsLeRangeNormUnits.lean:195`), so an element is a norm if and only if $[L:K]$ divides its order (`mem_range_normUnits_iff`, `UnramifiedNormSurj.lean:235`), the quotient is cyclic of order $[L:K]$ generated by a uniformizer (`index_range_normUnits`, `isCyclic_quotient_range_normUnits`, `:269–297`). These are the statements that local class field theory recovers from the reciprocity map; here they are proved directly from Theorem A. They are not used by `locFin`, which only needs units.
+
+*Comparison with the cohomological account.* [Paper] Milne proves Proposition 1.2 exactly by the two surjectivities and the iteration, and then uses it to show $\widehat H^0(G,U_L)=0$ and, with Hilbert 90, that all Tate cohomology of $U_L$ vanishes for unramified $L/K$ (Proposition 1.1, p. 97). The archive uses Theorem A only in the two consumers above and does not pass through the cohomology of $U_L$ on this route.
+
+*The ramified case is genuinely different.* Example 3 has $[U_K:N(U_L)]=2$. In general the index of the unit norms in a totally ramified extension of degree $e$ measures ramification, and the Hasse norm route of §11.4.3.4 needs hypothesis (U) precisely so that these local obstructions do not appear at finite places.
+
+**Reading boundary and source map.** Read in full here [Lean, read]: `map_integerUnitsOver_eq_of_ramificationIdx_eq_one`, `eventually_ramificationIdx_eq_one`, `eventually_map_integerUnitsOver_eq`, the deduction `mem_range_ideleNorm_iff_forall` from `mem_range_ideleNorm_iff`; `exists_norm_eq_of_ramificationIdx_eq_one`, `finiteLocalNorm_mulSingle`, `finiteLocalNorm_mem_integers`, `map_integerUnitsOver_le`; `normIntegerUnits_surjective`, `map_normIntegerUnits_unitFiltration`, `exists_normIntegerUnits_div_mem_one`, `exists_normIntegerUnits_div_mem_succ`, `normIntegerUnits_mem_unitFiltration`, `trace_integer_surjective`, `irreducible_algebraMap_of_isUnramified`, `residue_norm`, `residue_trace`, `residueBasis` with `residue_eq_sum_repr` and `leftMulMatrix_residueBasis`, `exists_norm_one_add_smul`; `map_eq_of_graded_surjective`; `filtrationComplete_unitFiltration`, `filtrationSeparated_unitFiltration`, `div_mem_unitFiltration_iff`; `unitFiltration` with `unitFiltration_zero`, `unitFiltration_antitone`, `unitsToResidue_surjective`, `ker_unitsToResidue`, `isUnit_one_add_mul`; `ramificationIdx_integer`; `IsUnramified` with `isUnramified_iff_finrank_residueField`, `ramificationIndex_mul_residueDegree` and `map_maximalIdeal`; and the definitions `finiteLocalNorm`, `integerUnitsOver`, `normIntegerUnits`, `normUnits`, `unitsIncl`. Named inputs not read here [Lean]: `mem_range_ideleNorm_iff`, `eventually_finiteProj_mem`, `eventually_forall_placesOver`, `nonempty_placesOver`, `finrank_integer`, `ord_norm` and the norm-group statements of the second remark, `valued_algebraMap_adicCompletion'`, `valued_of_irreducible_integer`, the instance inputs of `isAdicComplete_integer`, and the Mathlib declarations `FiniteField.unitsMap_norm_surjective` (`Mathlib/FieldTheory/Finite/GaloisField.lean:236`), `Algebra.trace_surjective` (`Mathlib/RingTheory/Trace/Basic.lean:521`), `Matrix.det_one_add_smul`, `basisOfTopLeSpanOfCardEqFinrank`, `Module.Free.chooseBasis`, `not_dvd_differentIdeal_iff`, `Ideal.ramificationIdx_eq_one`, `Ideal.sum_ramification_inertia_eq_finrank` and the `IsNonarchimedeanLocalField` instances on completions. The Hasse norm theorem's cohomological input `natCard_cycTateNegOne_ideleClassGroup` and the cyclotomic inertia inputs of Lemma G in §11.4.3.4 are not touched. The reading status of the rest of the Ferrero–Washington dependency cone remains as in §11.4.3.
+
+| Source and lines | Role and reading |
+|---|---|
+| `GT/IdeleGroups/LocalNormsEverywhere.lean:18–26,28–43,47–54,58–67` | [Lean, read] Different-ideal finiteness, Proposition C, Corollary D and the idelic deduction. |
+| `GT/IdeleGroups/LocalNormGroups.lean:20–27,86–101,122–142` | [Lean, read] Single-coordinate norm, integrality of unit norms, Proposition B. |
+| `GT/IdeleGroups/LocalNorms.lean:19–45` | [Lean, read] Definitions of the product local norm and the integral units; `:83,95,194` [Lean] named. |
+| `GT/CompletionAtPlace/Integers.lean:240–258` | [Lean, read] Global and completed ramification indices agree. |
+| `LF/UnramifiedNormSurj.lean:22–190` | [Lean, read] Lemmas 1–4 and Theorem A; `:192–203` the multiplicative-group consequences; `:207–297` [Lean] the norm-group remark. |
+| `LF/FilteredSurj.lean:12–27,38–129` | [Lean, read] Filtration vocabulary and Lemma 5. |
+| `GT/KummerTheory/LocalIndex.lean:25–89` | [Lean, read] Lemma 6 and the quotient criterion. |
+| `LF/UnitsBasic.lean:12–40,144,164–165,275–290,321–326` | [Lean, read] Unit filtration, `ord`, `unitsIncl`, residue map, units of the form $1+\varpi^na$. |
+| `LF/UnramifiedDefs.lean:11–56`, `LF/Integers.lean:16–18,88,123–146` | [Lean, read] Unramified definition and its equivalents; $ef=[L:K]$; $\mathfrak m_K\mathcal O_L=\mathfrak m_L^{\,e}$. |
+| `LF/ExistsUnitFiltrationUnitsLeRangeNormUnits.lean:20–24,123–126` | [Lean, read] Definitions of the field and integral unit norms; `:195` [Lean] named. |
+| Mathlib `0df444a`: `Mathlib/FieldTheory/Finite/GaloisField.lean:236`, `Mathlib/RingTheory/Trace/Basic.lean:521` | [Lean] Statements checked against the pinned source; proofs not read. |
+
+Here `GT/` expands to `src/GroundTheory/GlobalFields/` and `LF/` to `src/GroundTheory/LocalFields/`.
 
 ### 11.4.4 Top-level modularity-to-`VWin` wiring (`vwin_of_row`) and honest map of the 157,603-module cone
 

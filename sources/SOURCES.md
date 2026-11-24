@@ -1880,6 +1880,12 @@ Masullo's Appendix A.4 is pp. 562–565, and Appendices B–E are pp. 587–654,
 - [Lemmermeyer2013] (above), Theorem 1, re-downloaded 2026-11-24 with the same SHA-256, is used only to check the two examples of §11.4.3.4 against the ambiguous class number formula.
 - The [Chapter 11 source map](../chapters/11-the-window-bound-vwin.md#11434-signs-of-real-generators-and-the-binary-minus-defect) locates the sign proofs in the pinned Alpöge archive. The classical sources supply comparisons; the proofs in the chapter follow the archive.
 
+### Chapter 11 §11.4.3.5 — unramified local unit norms
+
+- **[MilneCFT]** J. S. Milne, *Class Field Theory*, v4.03 (2020), Ch. III, §1, Proposition 1.2 with Lemmas 1.3–1.5 and the proof, pp. 97–98. The norm $U_L\to U_K$ of a finite unramified extension of local fields is onto: the residue norm and trace are onto, and the principal-unit steps are iterated to a limit. This is the route the archive formalizes in `normIntegerUnits_surjective`. Re-downloaded 2026-11-25, SHA-256 `50d79af78250a9f1117ad9d337e0b231704a533fc707966ed1bfa52e13d498f5`. [Author PDF](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+- **Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`**, `Mathlib/FieldTheory/Finite/GaloisField.lean:236` (`FiniteField.unitsMap_norm_surjective`; file SHA-256 `4adddf6dbdeb841074d2b6373bfa419aa47d23414f79906a65c589853b5cc6dd`) and `Mathlib/RingTheory/Trace/Basic.lean:521` (`Algebra.trace_surjective`; file SHA-256 `685fb38703fd188fd027acb4cd9d8d2ea79628a6a2c5c7435999d61986d0e9d9`), retrieved 2026-11-25 from raw.githubusercontent.com. The two finite-field inputs of the proof. Statements checked against the pinned source; proofs not read.
+- The [Chapter 11 source map](../chapters/11-the-window-bound-vwin.md#11435-norms-of-local-units-in-unramified-extensions) locates the local-field proofs in the pinned Alpöge archive (joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). The three calculations over $\mathbb Q_3$ are textbook exposition.
+
 ### Chapter 19 §19.3.1 Siegel-set control
 
 **Chapter 19, §19.3.1.** A2 (joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`) supplies the Siegel-set Haar estimate and the weighted cone-integrability proof. The original production declarations and read boundaries are cited in the subsection. The rank-one calculations are textbook exposition. [Subsection](../chapters/19-published-layer-case-studies-ii.md#1931-siegel-sets-and-the-integrable-majorant)
