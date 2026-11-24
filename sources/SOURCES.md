@@ -396,6 +396,17 @@ All from
 | `Mathlib/NumberTheory/LSeries/HurwitzZetaValues.lean` | 2026-11-24T18:35Z | 12703 | `3fca4dd4cdc933d7cbba189deacb5e25d2bffc7cc9d65fc48252efb1f32d488e` |
 | `Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean` | 2026-11-24T18:35Z | 28774 | `037f03fd24d0df4a30cda7801283ba455ff706eae4a9d3e78bbd2c27b500e807` |
 | `Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean` | 2026-11-24T18:35Z | 12373 | `4908abbf56fc73f7b342acc6f7e2db66b12792338d7483b27107cb66eb59c2d8` |
+| `Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean` | 2026-11-24T20:05Z | 6218 | `dd080a43f5351b436ee19243ff2fd9052412541e32782d26e770726aeb78911d` |
+| `Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean` | 2026-11-24T20:05Z | 17152 | `6bdd5e351d714198761da26ce7eac19a140a54218e9902dcf4fd41616d311523` |
+| `Mathlib/Topology/ContinuousMap/Compact.lean` | 2026-11-24T20:05Z | 19942 | `cc91fa4f82ab7f5f49df5a69fb20e859e5e660cd03c8fd6f021ea5ea892fc5e6` |
+| `Mathlib/Topology/ContinuousMap/Periodic.lean` | 2026-11-24T20:05Z | 1807 | `d4cd7afd651f7db5fe6b5da7cc091241bca4e9bf87021901acda1b562a64bf00` |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Integral.lean` | 2026-11-24T20:05Z | 5683 | `8fa19186f554100cee2b450ba3faef3e84c0407734a3068e442093d2b9ff4ea4` |
+| `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean` | 2026-11-24T20:05Z | 71676 | `93908eb0c771ba8edcb47537dfe1a40e98a1545be9d427c1eb9823d44decdcd5` |
+| `Mathlib/MeasureTheory/Integral/DominatedConvergence.lean` | 2026-11-24T20:05Z | 39563 | `18b709ea5c9ef9136e3e75ded82a6135641e6e19688e0ca3abcb0af45648ab84` |
+| `Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean` | 2026-11-24T20:05Z | 58607 | `419ecc0c5e5041be90969b55722b67e368c253d62c75e65209a749a031602cd0` |
+| `Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean` | 2026-11-24T20:05Z | 15347 | `8f74642098d0390e08eae980f72ba29801c46b03446dae2fd20eff9ba0f08737` |
+| `Mathlib/Analysis/Fourier/FourierTransform.lean` | 2026-11-24T20:05Z | 28060 | `589a62a5719d3912b7f16b834c47c24a1f782ca025920b1849fc3cf788609412` |
+| `Mathlib/Analysis/InnerProductSpace/l2Space.lean` | 2026-11-24T20:05Z | 27827 | `b676e33fe380e3672f4472900aee9ae28516b127edd0174cab4c3d91b84a765c` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -850,9 +861,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   $F(s)=\sum(\frac{D}{n})\cdot\frac{1}{n^s}$, die bei der Bestimmung der Classenanzahlen binärer
   quadratischer Formen auftreten", *Zeitschrift für Mathematik und Physik* 27 (1882), 86–101;
   reprinted in *Mathematische Werke von Adolf Hurwitz*, Band 1, Birkhäuser, Basel, 1932, pp. 72–88
-  (cited in Chapter 1, §1.2.2.6, for Hurwitz's functional equation of $\zeta(s,a)$).
-  Verified: 2026-11-25 via NIST DLMF §25.11(iii) / reference list for equation (25.11.9) and
-  *Mathematische Werke* Bd. 1, pp. 72–88; original 1882 article not read.
+  (cited in Chapter 1, §1.2.2.6, for Hurwitz's contour-integral functional equation of $\zeta(s,a)$
+  at rational parameters $a=k/m$, pp. 92–93).
+  Verified: 2026-11-25 via NIST DLMF §25.11(iii) / reference list for equation (25.11.9) ($\Re s>0$
+  for $0<a<1$), *Mathematische Werke* Bd. 1, pp. 72–88, OCR of pp. 92–93, and [OswaldSteuding2015].
 - **[Huxley1972]** M. N. Huxley, "On the difference between consecutive primes", *Inventiones
   Mathematicae* 15 (1972), no. 2, 164–170, doi:10.1007/BF01418933 (cited in Chapter 4).
   Verified: 2026-11-23 via Crossref (`doi:10.1007/BF01418933`; Crossref issue date 1971-06), vol. 15, no. 2, pp. 164–170. The density exponent 12/5 was checked against arXiv:2607.04632, Theorem 4.2 and (18).
@@ -872,7 +884,8 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via *Annals of Mathematics* / JSTOR (`doi:10.2307/1970784`), vol. 98, no. 2 (1973), pp. 246–326.
 - **[Jacobi1829]** C. G. J. Jacobi, *Fundamenta Nova Theoriae Functionum Ellipticarum*, Sumtibus
   Fratrum Borntraeger, Regiomonti (Königsberg), 1829; reprinted in *C. G. J. Jacobi's Gesammelte
-  Werke*, Band 1, Reimer, Berlin, 1881, pp. 49–239 (cited in Chapter 7).
+  Werke*, Band 1, Reimer, Berlin, 1881, pp. 49–239 (p. 184, theta transformation, cited in Chapter 1,
+  §§1.2.2.6–1.2.2.7, and Chapter 7).
   Verified: 2026-11-21 via bibliographic records for Borntraeger (Königsberg, 1829) and *Gesammelte Werke* Bd. 1, pp. 49–239.
 - **[Kato2004]** K. Kato, "$p$-adic Hodge theory and values of zeta functions of modular forms", in
   *Cohomologies $p$-adiques et applications arithmétiques, III*, Astérisque 295, Société
@@ -991,10 +1004,19 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Fields*, 2nd ed., Grundlehren der mathematischen Wissenschaften 323, Springer, Berlin–Heidelberg,
   2008, ISBN 978-3-540-37888-4, doi:10.1007/978-3-540-37889-1 (cited in Chapter 18).
   Verified: 2026-11-22 via Crossref / Springer Grundlehren vol. 323 (`doi:10.1007/978-3-540-37889-1`).
+- **[OswaldSteuding2015]** N. M. R. Oswald and J. Steuding, "Complex analyses of an incomplete work
+  of Adolf Hurwitz" / historical analysis of Hurwitz's 1880/1882 dissertation on Dirichlet series,
+  arXiv:1506.00856 (2015), documenting that Hurwitz (1882, pp. 92–93) restricted $a$ to rational
+  parameters in binary-quadratic-form $L$-series (cited in Chapter 1, §1.2.2.6).
+  Verified: 2026-11-25 via arXiv record `arXiv:1506.00856` and audit record `audit-rhbook-ch01-fe-pair-1125m`.
 - **[Page1935]** A. Page, "On the number of primes in an arithmetic progression", *Proceedings of
   the London Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in
   Chapter 4).
   Verified: 2026-11-21 via LMS (`doi:10.1112/plms/s2-39.1.116`), ser. 2, vol. 39, pp. 116–141.
+- **[Poisson1823]** S.-D. Poisson, "Suite du mémoire sur les intégrales définies et sur la sommation
+  des séries", *Journal de l'École Royale Polytechnique*, Tome XII, 19e cahier (1823), 404–509 (p. 420,
+  Poisson summation formula, cited in Chapter 1, §1.2.2.7).
+  Verified: 2026-11-25 via bibliographic records for *J. École Polytech.*, Tome XII, 19e cahier (1823), pp. 404–509 (p. 420).
 - **[Polya1930]** G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von
   der Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930,
   19–27 (cited in Chapter 15).
@@ -1022,13 +1044,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Riemann1859]** B. Riemann, "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse",
   *Monatsberichte der Königlich Preußischen Akademie der Wissenschaften zu Berlin* (November 1859),
   671–680 (cited in Chapter 1, §1.2.2.6, and Chapter 7).
-  Verified: 2026-11-21 via Berlin Academy *Monatsberichte* (Nov. 1859, pp. 671–680); for Chapter 1,
-  §1.2.2.6 (2026-11-24T18:42Z), pp. 673–674 ($\psi(x)=\sum_{n=1}^\infty e^{-n^2\pi x}$, Jacobi's
-  theta inversion citing *Fund. Nova* p. 184, and the split integral at $x=1$ with pole term
-  $\frac{1}{s(s-1)}$) read in D. R. Wilkins's German transcription (`Zeta.pdf`, p. 3, 117,820 B,
-  SHA-256 `ba7fd13614b373798f9d953cee4bb7b4aa7764067edddaa7561e835a6a3331a2`) and English
-  translation (`EZeta.pdf`, p. 3, 119,504 B, SHA-256
-  `6b24341e3406d165baeb7ab1e00cfa0a544d0399e2b33175dfa71480bdddd24f`).
+  Verified: 2026-11-21 via Berlin Academy *Monatsberichte* bibliographic pagination (Nov. 1859,
+  pp. 671–680); for Chapter 1, §1.2.2.6 (2026-11-24T18:42Z, re-checked 2026-11-25), D. R. Wilkins's
+  German transcription (`Zeta.pdf`, pp. 2–3, 117,820 B, SHA-256
+  `ba7fd13614b373798f9d953cee4bb7b4aa7764067edddaa7561e835a6a3331a2`) and English translation
+  (`EZeta.pdf`, pp. 2–3, 119,504 B, SHA-256
+  `6b24341e3406d165baeb7ab1e00cfa0a544d0399e2b33175dfa71480bdddd24f`) were read directly: p. 2 gives
+  *"bleibt ungeändert, wenn $s$ in $1-s$ verwandelt wird"* after the contour proof, and p. 3 gives
+  $\psi(x)=\sum_{n=1}^\infty e^{-n^2\pi x}$, `"Jacobi, Fund. S. 184"`, and the symmetric split integral
+  at $x=1$ with pole term $\frac{1}{s(s-1)}$.
 - **[Roth1953]** K. F. Roth, "On certain sets of integers", *Journal of the London Mathematical
   Society* (1) 28 (1953), no. 1, 104–109, doi:10.1112/jlms/s1-28.1.104 (cited in Chapter 17).
   Verified: 2026-11-22 via Crossref / LMS (`doi:10.1112/jlms/s1-28.1.104`), *J. London Math. Soc.* vol. s1-28, no. 1 (1953), pp. 104–109.
@@ -1108,6 +1132,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   étale", *Inventiones Mathematicae* 55 (1979), no. 3, 251–295, doi:10.1007/BF01406843 (cited in
   Chapter 11).
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01406843`), *Invent. Math.* vol. 55, no. 3 (1979), pp. 251–295.
+- **[SteinWeiss1971]** E. M. Stein and G. Weiss, *Introduction to Fourier Analysis on Euclidean Spaces*,
+  Princeton Mathematical Series 32, Princeton University Press, Princeton, NJ, 1971,
+  ISBN 978-0-691-08078-9 (Ch. VII, §2, Corollary 2.6, pp. 251–252, two-sided $O(\lvert x\rvert^{-b})$
+  Poisson summation criterion modeled by Mathlib's `Real.tsum_eq_tsum_fourier_of_rpow_decay`, cited in
+  Chapter 1, §1.2.2.7).
+  Verified: 2026-11-25 via Princeton University Press PMS vol. 32 bibliographic metadata (`ISBN 978-0-691-08078-9`) and Chapter VII, §2, Corollary 2.6 statement.
 - **[Stepanov1969]** S. A. Stepanov, "On the number of points of a hyperelliptic curve over a
   finite prime field" (Russian: *О числе точек гиперэллиптической кривой над конечным простым
   полем*), *Izvestiya Akademii Nauk SSSR, Seriya Matematicheskaya* 33 (1969), no. 5, 1171–1181;
@@ -2906,3 +2936,27 @@ pp. 15–16 and 517–519 against PDF `e039d3f6…97bf5`; verified all $z=1+2i$ 
 identities by exact rational arithmetic (`verify_linear_haar_density.py`, `handcalc_cert.json`,
 0.0002 s CPU) in run `rhbook-ch15-linear-haar-density-1125k-11250207`, following cross-source audit
 `audit-rhbook-ch15-halfdensity-1125g-11250125-11250155`.
+
+### Chapter 1 §§1.2.2.6–1.2.2.7, Poisson summation to theta inversion, and §1.2.2.6 post-audit fixes
+
+Retrieved eleven additional Mathlib files at pin `0df444a360eaa60ab8c11dca51a86af692955474`
+(`Gaussian/PoissonSummation.lean`, `Gaussian/FourierTransform.lean`, `ContinuousMap/Compact.lean`,
+`ContinuousMap/Periodic.lean`, `Measure/Lebesgue/Integral.lean`, `IntervalIntegral/Basic.lean`,
+`Integral/DominatedConvergence.lean`, `SchwartzSpace/Basic.lean`, `SchwartzSpace/Fourier.lean`,
+`Fourier/FourierTransform.lean`, `InnerProductSpace/l2Space.lean`, hashes in Part I, §4) and
+re-verified `GaussianIntegral.lean`, `Analysis/Fourier/PoissonSummation.lean`, `TwoVariable.lean`,
+`HurwitzZetaEven.lean`, and archive A2 (`9631b4f0…49c7fc`, 8.29 s CPU tarball scan of all 175,187
+`.lean` files). Credited Mathlib authors: David Loeffler (`Gaussian/PoissonSummation.lean`,
+`Analysis/Fourier/PoissonSummation.lean`, `TwoVariable.lean`, `HurwitzZetaEven.lean`), Sébastien
+Gouëzel (`GaussianIntegral.lean`, `Gaussian/FourierTransform.lean`), Kim Morrison and Nicolò
+Cavalleri (`Periodic.lean`, `Compact.lean`), Johannes Hölzl, Sébastien Gouëzel and Yury Kudryashov
+(`Lebesgue/Integral.lean`, `IntervalIntegral/Basic.lean`, `DominatedConvergence.lean`), Moritz Doll
+(`SchwartzSpace/Basic.lean`, `SchwartzSpace/Fourier.lean`), and Heather Macbeth (`l2Space.lean`).
+Added `[Poisson1823]`, `[SteinWeiss1971]`, and `[OswaldSteuding2015]`, and updated `[Riemann1859]`,
+`[Hurwitz1882]`, and `[Jacobi1829]` in Part I, §6, alongside NIST DLMF §§1.8(iv), 20.2, 20.7, and
+25.11.9. All 48 assertions of `verify_ch01_poisson_fe.py` (0.23 s CPU; 45-digit `mpmath` cross-check
+23.3 s CPU) in run `rhbook-ch01-poisson-production-1125t-11250355` verify the Gaussian contour
+integral, both hand calculations, the four-tier counterexamples, and the §1.2.2.6 post-audit fixes
+(including direct $(0,\infty)$ Mellin integration of `f_modif`/`g_modif` and the $a=1/6, s=0$
+rational sharpness counterexample) following `audit-rhbook-ch01-fe-pair-1125m-11250231-11250325`.
+[Subsection](../chapters/01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion)
