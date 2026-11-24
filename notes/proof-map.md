@@ -119,6 +119,14 @@ same holds for `DirichletLNonvanishingRightOfHalf` versus `UpperTheory.EveryChar
 (`src/Main.lean:8`). The reductions in `ClaimStrip.lean` import only `HalfPlane.lean`, which imports
 only Mathlib. Detail and prose: Chapter 1.
 
+**P1 supply (Chapter 2, §2.3.2.1).** Local R3 for the beta-integral evaluation, the Euler quotient
+limit, the cosine recurrence and normalized sine-product limit wrapper, the Gamma reflection
+formula, and the real/nonreal split proving `Complex.Gamma_ne_zero`. The positive-real-part
+specialization feeds `Complex.Gammaℝ_ne_zero_of_re_pos` and the parity reader. General peak-function
+convergence, Gamma integral foundations, and complex power/logarithm foundations stay [Lean].
+[Beta.lean:141–457](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L141-L457) · [EulerSineProd.lean:41–292](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L41-L292) ·
+[Deligne.lean:66–71](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L66-L71)
+
 **P2 (two assembly routes).** The archive contains a second assembly of `EveryCharacter`,
 `UpperTheory.Top.plugAll` (`src/Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:16`),
 and a second derivation of RH, `UpperTheory.FinalTheorems.riemannHypothesis`

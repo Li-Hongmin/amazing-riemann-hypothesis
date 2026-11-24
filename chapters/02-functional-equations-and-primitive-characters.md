@@ -375,6 +375,78 @@ character, $\gamma_\chi(-2k) = 0$ in Lean, so $\Lambda(-2k,\chi)/0 = 0 = L(-2k,\
 without exception! Only at $s = 0$ for $N = 1$, where $\zeta(0) = -1/2 \neq 0$ despite
 $\Gamma_{\mathbb R}(0) = 0$, must $s = 0$ be excluded [Expository].
 
+#### 2.3.2.1 Why Gamma has no zeros in the right half-plane
+
+The integral for $\Gamma(z)$ has a strictly positive integrand when $z$ is positive real. When $z$ is nonreal, $x^{z-1}$ has a varying phase, so the integral calls for a different argument. Even Euler's limit of nonzero finite quotients could in principle be zero. The fixed Mathlib proof pairs two Euler quotients, at $z$ and $1-z$. Their denominator becomes a finite sine product, whose limit is known explicitly. The right-half-plane result is then a specialization of the resulting zero exclusion away from the poles. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:374–457`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L374-L457)
+
+**Examples.** For positive $x$ we use $x^z=\exp(z\log x)$ with the real logarithm of $x$. At $z=1$, the integral gives $\int_0^\infty e^{-x}\,dx=1$. At $z=2$, integration by parts gives $\int_0^\infty xe^{-x}\,dx=1$. At $z=1/2$, substituting $x=u^2$ gives $\Gamma(1/2)=2\int_0^\infty e^{-u^2}\,du$. The square of this positive quantity is the integral of $e^{-(u^2+v^2)}$ on the plane. In polar coordinates this is $2\pi \int_0^\infty re^{-r^2}\,dr=\pi$, so $\Gamma(1/2)=\sqrt{\pi}$. Consequently $\Gamma_{\mathbb R}(1)=1$ and $\Gamma_{\mathbb R}(2)=1/\pi$. At the argument $1/2$ of the archimedean factor, the definition instead gives $\Gamma_{\mathbb R}(1/2)=\pi^{-1/4}\Gamma(1/4)$. The factor uses Gamma at half its argument. [DLMF 5.2.1](https://dlmf.nist.gov/5.2.E1) · [DLMF 5.4.6](https://dlmf.nist.gov/5.4.E6) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:307–325`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean#L307-L325)
+
+**Definition.** For integers $n\ge 1$ set
+$$
+G_n(z)=\frac{n^z n!}{\prod_{j=0}^n(z+j)},\qquad
+P_n(z)=\prod_{k=1}^n\left(1-\frac{z^2}{k^2}\right).
+$$
+Use $P_0(z)=1$. For the classical quotients we omit points with vanishing denominators. In Mathlib, `Complex.GammaSeq` is a total quotient. The book uses the same symbol $\Gamma$ for the classical function on its regular locus and explicitly specifies the Lean value when discussing poles. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:228–247`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L228-L247)
+
+**Lemma (Gamma nonvanishing).** Let $\Gamma$ be given on $\Re z>0$ by Euler's integral
+$$
+\Gamma(z)=\int_0^\infty e^{-x}x^{z-1}\,dx
+$$
+and elsewhere off $0,-1,-2,\ldots$ by the recurrence $\Gamma(z+1)=z\Gamma(z)$. Then $\Gamma(z)\ne 0$ at every regular point. In particular, for every $s\in\mathbb C$ with $\Re s>0$, $\pi^{-s/2}\Gamma(s/2)\ne 0$. [Lean, read] for the local proof bodies identified below. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:427–457`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L427-L457) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:39–45,66–74`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L66-L74)
+
+**Proof.** First recover the Euler quotient from an integral. For $\Re u,\Re v>0$ put $B(u,v)=\int_0^1 t^{u-1}(1-t)^{v-1}\,dt$. The endpoint bounds come from the real exponents $\Re u-1$ and $\Re v-1$. Integrating the derivative of $t^u(1-t)^v$, whose endpoint values are zero, gives $u B(u,v+1)=v B(u+1,v)$. Also $B(u,1)=1/u$ by the primitive $t^u/u$. Induction on $n$ now gives $B(z,n+1)=n!/\prod_{j=0}^n(z+j)$ for $\Re z>0$. In the induction step the recurrence divides by $z$ and shifts to $z+1$. Substituting $x=nt$ gives
+$$
+G_n(z)=\int_0^n (1-x/n)^n x^{z-1}\,dx .
+$$
+The Jacobian and the scaling of $t^{z-1}$ together give $n^{-z}$, exactly cancelling $n^z$ in the quotient. The beta recurrence here follows directly from a derivative and uses no division by Gamma. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:60–101,141–215,228–269`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L141-L215)
+
+Extend the integrand by zero outside $(0,n]$. For fixed $x>0$, its scalar weight tends to $e^{-x}$. On $(0,n]$ the bound $0\le (1-x/n)^n\le e^{-x}$ follows from $1-y\le e^{-y}$ for $0\le y\le 1$. Thus its modulus is dominated on $(0,\infty)$ by the integrable function $e^{-x}x^{\Re z-1}$. Dominated convergence gives $G_n(z)\to\Gamma(z)$. There is also an explicit error bound on this half-plane. For $0\le y\le 1/2$, integration of $t/(1-t)$ from $0$ to $y$ gives $0\le -\log(1-y)-y\le y^2$. For $0<x\le n/2$, taking $y=x/n$ and using $1-e^{-v}\le v$ for $v\ge0$ bounds the error in the scalar weight by $e^{-x}x^2/n$. For $x>n/2$ the error is at most $e^{-x}\le 4x^2e^{-x}/n$ for $n\ge1$. With $\sigma=\Re z>0$ this yields
+$$
+|G_n(z)-\Gamma(z)|\le \frac{4\Gamma(\sigma+2)}{n}.
+$$
+This bound makes the domination explicit. The Lean limit uses dominated convergence directly. For the examples above the finite quotients even give $G_n(1)=n/(n+1)$ and $G_n(2)=n^2/((n+1)(n+2))$. At $z=1/2$, the denominator is the product of the first $n+1$ odd integers divided by $2^{n+1}$. Thus $G_n(1/2)=2^{2n+2}\sqrt n\,n!(n+1)!/(2n+2)!$, tending to $\sqrt{\pi}$ by the same integral limit. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:271–343`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L271-L343) · [DLMF 5.8.1](https://dlmf.nist.gov/5.8.E1)
+
+For a regular point $z$ outside the right half-plane, the quotient identity
+$$
+\frac{G_n(z+1)}{z}=\frac{n}{n+1+z}G_n(z)
+$$
+propagates convergence one step to the left, since the scalar on the right tends to $1$ and $\Gamma(z+1)/z=\Gamma(z)$. An integer number of steps reaches every such point from the right half-plane. Lean organizes these steps by induction on the truncated natural floor of $1-\Re z$. It handles $z=0$ separately, with the zero denominator in every quotient giving $G_n(0)=0$, and then the same induction also supplies the totalized limits at the negative integers. This shift is needed because even when $\Re z>0$, the reflected argument $1-z$ can lie outside the domain of the integral. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:237–247,334–361`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L334-L361)
+
+We next prove the sine-product limit used in the pairing. Write $b=\pi/2$, and let
+$$
+I_m(z)=\int_0^b\cos(2zx)\cos^m x\,dx,\qquad C_m=I_m(0)>0.
+$$
+For $m\ge 2$ and $z\ne 0$, put $J=\int_0^b\sin(2zx)\sin x\cos^{m-1}x\,dx$. Integration by parts first gives $I_m(z)=mJ/(2z)$, with the boundary terms vanishing by $\sin 0=0$ and $\cos b=0$. Integrating $J$ by parts with the antiderivative $-\cos(2zx)/(2z)$ gives
+$$
+2zJ=m I_m(z)-(m-1)I_{m-2}(z).
+$$
+Here the derivative of $\sin x\cos^{m-1}x$ is $m\cos^m x-(m-1)\cos^{m-2}x$ and again the boundary terms vanish. Hence $(1-4z^2/m^2)I_m(z)=(m-1)I_{m-2}(z)/m$. The same recurrence at $z=0$ follows by continuity, or by integration by parts for $C_m$. Since $I_0(z)=\sin(\pi z)/(2z)$ and $C_0=\pi/2$, iteration over even $m$ gives
+$$
+\sin(\pi z)=\pi z P_n(z)\frac{I_{2n}(z)}{C_{2n}} .
+$$
+The product form uses multiplication by $1-z^2/k^2$ at each step, so the identity also holds where one of these factors vanishes. At $z=0$ both sides are zero. Lean uses the Wallis recurrence for $C_m$ in this induction. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean:41–238`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L41-L238)
+
+For $0<\delta<b$, the proportion of the mass of $\cos^m x\,dx$ on $[\delta,b]$ is at most
+$$
+\frac{2b}{\delta}\left(\frac{\cos \delta}{\cos(\delta/2)}\right)^m .
+$$
+Indeed the numerator is at most $b\cos^m\delta$, and the denominator is at least $(\delta/2)\cos^m(\delta/2)$. For $f(x)=\cos(2zx)$ put $M=\max_{[0,b]}|f(x)-1|$. The error $|I_m(z)/C_m-1|$ is at most $\sup_{0\le x\le \delta}|f(x)-1|$ plus $M$ times the displayed mass bound. First choose $\delta$ by continuity at $0$, then let $m$ increase. The ratio tends to $1$. This proves the concrete concentration step that Lean supplies using a general theorem on powers of a continuous function with a unique maximum. Dividing by the ratio for sufficiently large $n$ gives $\pi z P_n(z)\to\sin(\pi z)$. The factor $\pi z$ comes from the initial integrals. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean:251–292`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L251-L292) · [DLMF 4.22.1](https://dlmf.nist.gov/4.22.E1)
+
+For $z\notin \mathbb Z$, pair the factors $z+k$ and $k-z$ for $1\le k\le n$. Their product is $k^2(1-z^2/k^2)$, so the product of the $k^2$ cancels $(n!)^2$. The endpoint factors are $z$ and $n+1-z$, while $n^z n^{1-z}=n$. Therefore
+$$
+G_n(z)G_n(1-z)=\frac{n}{n+1-z}\frac{1}{zP_n(z)}
+\longrightarrow\frac{\pi}{\sin(\pi z)} .
+$$
+The reciprocal limit is legitimate because $zP_n(z)\to\sin(\pi z)/\pi$, which is nonzero for $z\notin \mathbb Z$. For instance $\sin(\pi z)=0$ forces $e^{2\pi iz}=1$, which by taking absolute values forces $\Im z=0$, and then $z\in \mathbb Z$. The two Euler limits identify the left-hand limit as $\Gamma(z)\Gamma(1-z)$, proving the reflection formula. Lean treats integer $z$ separately: one of the two totalized Gamma values is zero and the right-hand side divides by zero, so the totalized equality holds there too. For $z=1/2$ the reflection formula gives $\Gamma(1/2)^2=\pi$, with positivity fixing the same square root as the integral calculation. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:374–423`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L374-L423) · [DLMF 5.5.3](https://dlmf.nist.gov/5.5.E3)
+
+For nonreal $z$, reflection shows $\Gamma(z)\Gamma(1-z)\ne 0$, so $\Gamma(z)\ne 0$. For positive real $z$ the integral is strictly positive. For real $z$ outside the positive axis and off the excluded integers, shift to positive real part and use the recurrence with nonzero factors. This is the split in `Complex.Gamma_ne_zero`, whose real branch uses `Complex.Gamma_ofReal` and `Real.Gamma_ne_zero`. The right-half-plane hypothesis excludes all $-m$ for $m\ge0$. Finally $\Re(s/2)=\Re s/2>0$ and $\exp((-s/2)\log\pi)\ne 0$. Their product with $\Gamma(s/2)$ in the definition gives the stated result. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:425–457`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L425-L457) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean:419–420,443–455,490–520`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean#L490-L520) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:66–71`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L66-L71)
+
+**The excluded argument $0$.** Classically $\Gamma(z)=\Gamma(1+z)/z$ near $0$ with $\Gamma(1)=1$. The numerator is holomorphic there by local domination of the differentiated integral, using $x^{-1/2}|\log x|$ near zero and $e^{-x}x^{1/2}\log x$ at infinity on $|\Re z|<1/2$. Thus there is a simple pole of residue $1$. The factor $\pi^{-s/2}$ is regular with value $1$ at $0$, so $\Gamma_{\mathbb R}(s)$ has residue $2$ there. In Lean the defining shifted quotient at $z=0$ is $\Gamma(1)/0=0$, hence $\Gamma_{\mathbb R}(0)=0$. The assigned point value says nothing about the limit through the punctured neighborhood. In particular the analytic reciprocal extends with a zero at the pole, whereas the totalized Gamma itself is assigned zero at that same point. [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean:286–288,338–354`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean#L338-L354) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:43–45,73–74`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L73-L74) · [DLMF §5.2(i)](https://dlmf.nist.gov/5.2#i)
+
+**Use in the chapter.** In archive A2, `Formalism.VW.gammaFactor_ne_zero` applies `Complex.Gammaℝ_ne_zero_of_re_pos` at $s$ in even parity and at $s+1$ in odd parity. This supplies the nonzero denominator for passing from a zero of the uncompleted function to a zero of the completed function. The consumer is `src/Formalism/GammaFactorNonvanishing/CritLine.lean:6–9`, with the division step on lines 19–21. The archive SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+**Reading boundary.** All Mathlib links are fixed at `0df444a360eaa60ab8c11dca51a86af692955474`, the revision in A2's `lean/lake-manifest.json:5–14`. The [Lean, read] Gamma increment covers the beta recurrence and finite integral evaluation, the dominated-convergence step and shift of the Euler limit, the sine recurrence and its limit wrapper, the pairing and reflection, the real and nonreal zero exclusions, and the final Deligne factor. The explicit integral error and the concrete mass estimate are textbook derivations. The general concentration machinery beneath the sine limit, the Gamma integral foundations, and complex power and logarithm infrastructure remain [Lean]. DLMF records the Weierstrass product for $1/\Gamma$ as a separate classical formula. [Mathlib, `Mathlib/MeasureTheory/Integral/PeakFunction.lean:371`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L371) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean:66,87`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean#L66-L106) · [Mathlib, `Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean:35–39`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean#L35-L39) · [DLMF 5.8.2](https://dlmf.nist.gov/5.8.E2)
+
 ### 2.3.3 The half-plane and critical-strip propositions
 
 We record in mathematical notation the exact propositions linked in this chapter.

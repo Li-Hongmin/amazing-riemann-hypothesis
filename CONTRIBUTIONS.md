@@ -186,6 +186,10 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - Yury Kudryashov, David Loeffler, and Terence Tao contributed the Mathlib removable-singularity, Hurwitz/Gamma, and zeta-asymptotics formalizations cited in Chapter 1. The declaration-level attributions are in the [source ledger](sources/SOURCES.md#chapter-1-1222--removable-values-and-reciprocal-gamma).
 
+- **David Loeffler** — Mathlib's Gamma construction, Euler quotient, reflection and nonvanishing,
+  archimedean factors, and formal sine product. The sine-product file credits David Salwinski's
+  cosine-integral method. [Gamma proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L228-L457) · [Sine proof and attribution](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L1-L20) · [Salwinski (2018)](https://doi.org/10.1080/07468342.2018.1419703)
+
 ## Our contributions
 
 - **Hongmin Li (with AI assistance)** — Read and explained the four counting proofs behind the local degree in `decEquiv` [Lean, read]: the closed ball as an integral closure and its count, integral approximation modulo $p$ through a denominator prime to the place, the power kernel $w^e$, the norm count, and their assembly into $[K:\mathbb Q_p]=e(w/p)f(w/p)$. Proved the layer-by-layer approximation and the identification of $\mathcal O_K$ with the $w$-adic completion, which are not Lean declarations. Worked out a ramified example over $\mathbb Q(i)$ and an unramified example over $\mathbb Q(\sqrt5)$ at $p=2$, which separate $p^f$ from $p^{[K:\mathbb Q_p]}$ and $w$ from $w^e$. The formal proofs are Alpöge–Claude's, and the classical statements are Milne's. [Chapter 18, §18.3.9](chapters/18-auditing-the-published-layer-case-studies.md#1839-counting-the-local-degree-closed-balls-integral-approximation-and-the-power-kernel)
@@ -216,6 +220,11 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   cyclic quotient example and the termwise identity for `GPsi`. The formal proof is
   Alpöge–Claude's. Lipponen's community guide is credited in the source record.
   [Chapter 5, §5.3.1.1](chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character)
+
+- **Hongmin Li (with AI assistance)** — Read the Gamma supply and wrote its graduate-textbook
+  proof in §2.3.2.1, with an integral approximation bound, a quantitative cosine-mass estimate,
+  hand calculations, and a comparison of the classical pole with the Lean value.
+  [Chapter 2, §2.3.2.1](chapters/02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane)
 
 - **Hongmin Li (with AI assistance)** — §2.3.1 proof reading and textbook exposition of the conductor construction, with worked tables modulo 8 and 12. [Chapter 2](chapters/02-functional-equations-and-primitive-characters.md#231-conductors-level-change-and-bundled-primitive-characters)
 - **Hongmin Li (with AI assistance)** — Wrote the finite DVR example and textbook account of tame inertia, dual-number cocycles, and the two determinant/adjugate order tests. The formal argument is by Alpöge with Claude. Serre's classical ramification background is credited in the source ledger. — [Chapter 10, §10.4.8](chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant)

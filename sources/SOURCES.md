@@ -317,6 +317,14 @@ All from
 | `Mathlib/MeasureTheory/Function/SimpleFuncDense.lean` | 2026-11-24T14:23Z | 11999 | `faedff2e7de88c962fa4b94f6c9a3664a82ffa218461930353f424e789a52ba6` |
 | `Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean` | 2026-11-24T13:50Z | 33762 | `7801deae1fa630bca3f1966f17b9005e0e9dfc86be62f7abd14e88bece1a26cc` |
 | `Mathlib/Analysis/Complex/CauchyIntegral.lean` | 2026-11-24T13:50Z | 45558 | `7a2022a8a02dbef3b5466edd2ba9e4123a898f1e0b0dc5dc320104832405f14b` |
+| `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean` | 2026-11-23 UTC | 22917 | `720a9a72d742fbe1c9a89601dc3a00d82c0261c7368c98cccb58307dbffe3bbf` |
+| `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean` | 2026-11-23 UTC | 28664 | `a7ac57c81c4e23a96885104166140fe33905bc46ff564203d9376b96bc494c99` |
+| `Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean` | 2026-11-23 UTC | 9148 | `ea87e1b821adbe190be9655314f5ab3fa299276dd413a1401faa175437726fcb` |
+| `Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean` | 2026-11-23 UTC | 15341 | `0988322f130952835b0da8d43d24b44c281af10bf149bb869ac750160ec1d5ac` |
+| `Mathlib/MeasureTheory/Integral/PeakFunction.lean` | 2026-11-23 UTC | 27776 | `184a2c7bf02b3a64bdd2d6b68a684aa064b195d08c41b64c865d13906132bc29` |
+| `Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean` | 2026-11-23 UTC | 12403 | `1f1ac074643b510181a749184849d8e7ee4bf6826bbac8b81e37a990f4e91f2a` |
+| `Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean` | 2026-11-23 UTC | 17746 | `96a282f317e96505e89e51553f8129e52f381953dd142ee269f2525cb00f6197` |
+| `Mathlib/Analysis/SpecialFunctions/Complex/LogBounds.lean` | 2026-11-23 UTC | 20585 | `5555dbaa4313f7590501bc8b6ea0d0a387de82ae40d9aa235e9c58ba0472cc85` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -330,6 +338,23 @@ for the transition from admissible levels to recovery and the divisibility minim
 inputs for extension by zero and surjectivity on units are [MulChar/Basic.lean:134–192](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/MulChar/Basic.lean#L134-L192)
 and [ZMod/Units.lean:23–71](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/ZMod/Units.lean#L23-L71),
 retrieved at the same pin on 2026-11-23. The unit-fiber tables are the book’s worked examples.
+
+**Chapter 2, §2.3.2.1.** Archive A2's manifest pins the Mathlib Gamma supply. Loeffler's
+proof pairs two Euler quotients and takes the sine-product limit to obtain reflection.
+The sine-product file credits David Salwinski, “Euler's Sine Product Formula: An Elementary
+Proof,” *College Mathematics Journal* 49 (2018), 126–135. Crossref verifies the bibliographic
+record. DLMF supplies the classical exact statements on the Euler integral, poles, half-value,
+reflection, and both Euler and Weierstrass formulas. The book adds the explicit error estimates
+and classroom examples. [Mathlib attribution](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L11-L20) · [Salwinski DOI](https://doi.org/10.1080/07468342.2018.1419703)
+
+| Classical source snapshot | Retrieved | Bytes | sha256 |
+|---|---|---:|---|
+| [DLMF §4.22](https://dlmf.nist.gov/4.22) | 2026-11-23 UTC | 43536 | `957e0fe7dd5e02d3d6507f5f0a5fd997c60effc63f1fe970777a1ea32ae1d9bd` |
+| [DLMF §5.2](https://dlmf.nist.gov/5.2) | 2026-11-23 UTC | 95978 | `a17d5a2f83f23646db5274355b3b2d031d091bbf7d204ec4e2bcb494ebd695f5` |
+| [DLMF §5.4](https://dlmf.nist.gov/5.4) | 2026-11-23 UTC | 144848 | `7592b4e0088609869abe303f8f57015927ebd2d89e9b833b47e645b4eb7f9fe8` |
+| [DLMF §5.5](https://dlmf.nist.gov/5.5) | 2026-11-23 UTC | 77542 | `10f690014ff4dd35394b9735cc62004a21a2c0faa709855b18073cf5f877ef0b` |
+| [DLMF §5.8](https://dlmf.nist.gov/5.8) | 2026-11-23 UTC | 43709 | `90f491b9bf845b7e545b81f325bb00a53844b385247062ea104527a82c5b79fe` |
+| [Crossref record for Salwinski (2018)](https://api.crossref.org/works/10.1080/07468342.2018.1419703) | 2026-11-23 UTC | 4504 | `14084d673dfcbb346a965a24b9a3a1768bf20d47de2a05d897cc1fe622796bb4` |
 
 ## 5. Verification reports and community guides
 
