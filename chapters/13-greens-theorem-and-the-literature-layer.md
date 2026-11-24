@@ -1607,8 +1607,7 @@ For an invertible matrix with primary characteristic polynomial, all its distinc
 $\psi_k(x)=\psi_{s_k}(F^d,x)$ for the Möbius inverse of Definition 13.3. Steps 1 and 2 of Proposition 13.6
 supply two facts. First, $\psi_k$ is an integer combination of irreducible characters, by (I6) and (I7)
 (§§13.4.5 and 13.4.7). Second, $\sum_{x\in G}\lvert\psi_k(x)\rvert^2=\lvert G\rvert$, by (I3)–(I5) (§13.4.6).
-Neither fact makes $\psi_k$ a character, and for $d\ge2$ it is not one: it is minus one. Three more
-ingredients are needed, and the archive supplies each by a short proof.
+The candidate $\psi_k$ has norm one as a virtual character. Its sign is positive in odd dimension and negative in even dimension. The archive uses three ingredients to certify the signed candidate.
 
 1. *A lattice fact.* In the lattice $R(G)$ with its orthonormal basis of irreducible characters, a vector
    of length one is plus or minus a basis vector.
@@ -1806,13 +1805,8 @@ $\varphi\in R(H)$.
 Parts (2) and (3) are `BI.irr_of_norm_one` (`IrreducibleOfVirtualCharacterNormOne.lean:57–87`; statement
 wrapper `T.irreducible_of_virtualCharacter_norm_one`).
 
-*Proof.* (1) Every element of $R(H)$ is a difference $a-b$ of two characters (`mem_virt_iff_sub`,
-`MemVirtualCharactersIffSubCharacters.lean:7–24`). The set of such differences contains the generators and
-$0$, and it is closed under sums and negation because sums of characters are characters. Every character is a
-finite sum of irreducible characters (`isChar_induction`, `IsCharacterOverSubfieldInductionIrreducible.lean:7–50`).
-The proof inducts on the degree, which is a natural number for a character and positive for an irreducible one.
-At each step it peels off an irreducible constituent with the input `exists_irrChar_add`. This gives the
-integer expansion (`VirtualCharacterIrreducibleExpansionNormSq.lean:14–46`). For the norm, replace
+*Proof.* (1) Proposition 13.35 in [§13.4.11](#13411-why-virtual-characters-have-integral-coefficients) constructs the integer coefficient family from virtuality.
+For the norm, replace
 $\overline{\varphi(h)}$ by $\varphi(h^{-1})$ using Lemma 13.28 (`:82`) and expand both factors. The orthogonality
 relation $\sum_h\chi(h)\chi'(h^{-1})=\lvert H\rvert$ if $\chi=\chi'$, and $0$ otherwise, for irreducible
 $\chi,\chi'$ (`:49–63`), comes from Mathlib. On the diagonal, Schur's lemma gives a one-dimensional space of
@@ -1874,7 +1868,7 @@ $\psi(x)=\psi_{s_k}(F^d,\iota x)$ on $G=\mathrm{GL}_d(F)$ and $\tau=(-1)^{d-1}\p
 
 1. $\tau\in R(G)$ and $\sum_{x\in G}\tau(x)\overline{\tau(x)}=\lvert G\rvert$;
 2. $\tau(1)=\prod_{i=1}^{d-1}(q^i-1)\ge1$;
-3. $\tau$ is an irreducible character, and $\psi$ is a character only for $d=1$;
+3. $\tau$ is an irreducible character, and $\psi$ is a character exactly when $d$ is odd;
 4. for $F=\mathbb Z/g\mathbb Z$, the representation $\rho$ with character $\tau$ gives a simple object
    $\mathrm{FDRep.of}\,\rho$ with character $\tau$. This is the `IsIrr` clause of `IsCusp τ`.
 
@@ -1910,8 +1904,7 @@ $q^i\ge1$ (`:149–158`). The product is positive because $q\ge2$ (`:159–165`)
 *Case split* (`:166–184`). By Lemma 13.29(2), $\tau$ or $-\tau$ is an irreducible character. In the second
 case $-\tau$ is a character, and Lemma 13.29(3) applied to $-\tau$ gives $n>0$ with $-\tau(1)=n$. Then
 $n+\prod_{1\le i<d}(q^i-1)=0$ in $\mathbb N$, a contradiction. Hence $\tau$ is an irreducible character, and in
-particular `IsChar τ` holds. For $d\ge2$, $\psi(1)=-\tau(1)<0$, so $\psi$ is not a character, while $\psi=\tau$ for
-$d=1$. This proves (3). It is part (A) with $\varphi=\tau$.
+particular `IsChar τ` holds. When $d$ is even, $\psi(1)=-\tau(1)<0$ excludes a character. For odd $d$, $\psi=\tau$. This proves (3). For example, at $q=2$, $d=3$, $k=1$, the residues $1,2,4$ modulo $7$ are distinct and $\psi(1)=(1-2)(1-4)=3$. It is part (A) with $\varphi=\tau$.
 
 *The `FDRep` interface* (`GreenCuspidalCharIsCuspidalOfMinpolyOfParam.lean:22–38`). `isCusp_psi` calls the
 theorem through its statement wrapper (`:23`) and keeps only `IsChar τ` and the Gram norm. It extracts
@@ -1947,8 +1940,7 @@ wrapper (`:138`) and multiplies by $(-1)^{d-1}=\prod_{1\le i<d}(-1)$ factor by f
    $(g^\lambda)=(-1)^{(s-1)v}I_s^k[\lambda]$ and, after "The lemmas in this section allow us to deduce",
    states in Theorem 12 that $(g^\lambda)$ is an irreducible character of degree
    $(-1)^{(s-1)v}\varphi_{sv}(q)\{\lambda:q^s\}$ (p. 439). For $v=1$ and $\lambda=\{1\}$ this is
-   $(-1)^{s-1}J_s(k)$, of degree $\prod_{i=1}^{s-1}(q^i-1)$: the archive's $\tau$. Green leaves the passage from
-   norm one and signed degree to irreducibility implicit. Lemma 13.29 and Theorem 13.31(A) write it out. Green
+   $(-1)^{s-1}J_s(k)$, of degree $\prod_{i=1}^{s-1}(q^i-1)$: the archive's $\tau$. Green states the generalized-character criterion in his introduction (p. 402) and uses it at Theorem 12. Lemma 13.29 and Theorem 13.31(A) give the archive's argument. Green
    obtains integrality from his Theorem 1 and Brauer's characterization (Remarks 13.4.4(1)); the archive
    obtains it from (I6) and (I7).
 4. *Where the zero extension and the inverse-conjugate identity are used.* On the path of
@@ -1996,9 +1988,78 @@ archive (SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7
 | Definitions | `IsChar`, `IsIrrChar`, `Virt`, `pair`; `IsClassFn`, `psi`, `psi_eq`, `rootSum`, `glCard`, `ipGL`, `extZero`; `GLq.IsIrr`, `IsCusp` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5–22`; `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:14–15, 24–66, 72, 83–87`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean:17–20, 64–65` |
 | [Lean] (Mathlib; statement and proof read) | `FDRep.simple_iff_char_is_norm_one`, with `simple_iff_end_is_rank_one` | `Mathlib/RepresentationTheory/FinGroupCharZero.lean:90–128` |
 | [Lean] (Mathlib; statements read) | `Representation.char_one`, `card_inv_mul_sum_char_mul_char_eq_finrank`, `char_orthonormal`, `FDRep.scalar_product_char_eq_finrank_equivariant`; `IsIrreducible`, `irreducible_iff_isSimpleModule_asModule`, `finrank_intertwiningMap_self`; `card_linearIndependent` | `Mathlib/RepresentationTheory/Character.lean:64, 115, 134, 211`; `Mathlib/RepresentationTheory/Irreducible.lean:30–35, 81`; `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean:39–41` |
-| R2 / [Lean] | `exists_irrChar_add` (body read at `:47–66`) and its inputs `exists_irreducible_subrepresentation`, `T.exists_character_quotient_of_injective_intertwining`, `T.isCharacterOverSubfield_of_representation`; `T.isCharacterOverSubfield_zero_and_add` | `CT/ExistsIrrCharAdd.lean:8, 47`; `CT/IsCharacterOverSubfieldZeroAndAddStatement.lean:6` |
+| R3 / [Lean, read] | Constituent extraction and zero/sum supply | [§13.4.11](#13411-why-virtual-characters-have-integral-coefficients) for the proof bodies and named trace and Schur inputs. |
 | Located, not read | Other consumers of the zero extension and of Lemmas 13.28–13.29 | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsLabel.lean:49–125`; `CT/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:40, 84`; `CT/ExistsIntCoeffPrimitiveGLCharacter.lean:26`; `CT/EqOfIsPrimitiveOfEqOnEllipticFiniteGL.lean:46–47, 148` |
 | Our check | `check_positive_sign.py`: Examples 13.24–13.25, Lemma 13.26 and the identity in Remark 13.4.10(5) in exact arithmetic | not in the repository; see `sources/SOURCES.md`, Part I §7 |
+
+### 13.4.11 Why virtual characters have integral coefficients
+
+Lemma 13.29 uses the norm on a lattice. Its integral coordinates originate in representation theory: direct sums add traces, and removing an invariant subspace leaves a quotient whose trace accounts for the remainder. We first compute two lattices explicitly.
+
+**Example 13.32 ($C_3$).** [Expository] Write $C_3=\langle t\rangle$ and $\omega=e^{2\pi i/3}$. All classes have size one. The matrix of $t$ satisfies $X^3-1=0$, which has simple roots $1,\omega,\omega^2$. Every eigenline is invariant, so an irreducible must be one-dimensional. Each root gives one such representation:
+
+| Character | $1$ | $t$ | $t^2$ |
+|---|---:|---:|---:|
+| $\chi_0$ | $1$ | $1$ | $1$ |
+| $\chi_1$ | $1$ | $\omega$ | $\omega^2$ |
+| $\chi_2$ | $1$ | $\omega^2$ | $\omega$ |
+
+The pairing of rows $j,k$ is $\frac13(1+\omega^{j-k}+\omega^{2(j-k)})$. It is one on the diagonal and zero elsewhere since $1+\omega+\omega^2=0$. The regular action permutes its three basis vectors with no fixed vector of the basis for $t$ or $t^2$. Its character $(3,0,0)$ is the sum of the three rows. Subtracting $2\chi_0$ gives $(1,-2,-2)$ with coefficients $(-1,1,1)$ and normalized squared norm $(1+4+4)/3=3$.
+
+The function $f=(3\chi_0+4\chi_1)/5$ has values $7/5$, $(3+4\omega)/5$ and $(3+4\omega^2)/5$. The last two squared moduli are both $(9+16+12(\omega+\omega^2))/25=13/25$. Thus the squared norm is $(49+13+13)/75=1$. Its row pairings are $(3/5,4/5,0)$. A genuine character has integer eigenvalue multiplicities and a virtual character has differences of those multiplicities, so $f$ lies outside the lattice.
+
+**Example 13.33 ($S_3$).** [Expository] The identity, transpositions and three-cycles have class sizes $1,3,2$. In the permutation action on $\mathbb C^3$ the traces count fixed coordinates, giving $(3,1,0)$. The constant line affords the trivial character, and its invariant complement $W=\{(x_1,x_2,x_3):x_1+x_2+x_3=0\}$ has trace row $\sigma=(2,0,-1)$. A three-cycle has eigenvalues $1,\omega,\omega^2$ on $\mathbb C^3$, so $W$ has the last two eigenlines. A transposition conjugates the cycle to its inverse and exchanges those lines. Thus $W$ is irreducible.
+
+| Character | $1$ | $(12)$ | $(123)$ |
+|---|---:|---:|---:|
+| $\mathbf 1$ | $1$ | $1$ | $1$ |
+| $\epsilon$ (sign) | $1$ | $-1$ | $1$ |
+| $\sigma$ | $2$ | $0$ | $-1$ |
+
+The three squared norms are $(1+3+2)/6$, $(1+3+2)/6$ and $(4+0+2)/6$. The cross pairings are $(1-3+2)/6$, $(2+0-2)/6$ and $(2+0-2)/6$. These orthonormal rows span the three-dimensional space of class functions. Schur orthogonality would put any additional irreducible character perpendicular to all three rows, so the table is complete.
+
+Pairing the regular character $(6,0,0)$ with the rows gives coefficients $(1,1,2)$. Subtracting twice the permutation character gives $(0,-2,0)=\epsilon-\mathbf 1$, with squared norm $3\cdot4/6=2$. Subtracting the permutation character and the sign character from the regular character gives $\sigma$, of degree two and norm one. Finally $h=(2\mathbf 1+2\epsilon+\sigma)/3=(2,0,1)$ has squared norm $(4+0+2)/6=1$ and positive integer degree two. Its three coefficients $(2/3,2/3,1/3)$ exhibit the failure of the norm and degree test without virtuality.
+
+**Definition 13.7 (fields of representation and of values).** [Lean, read] Let $\iota:K\hookrightarrow L$ be a field embedding. The predicate `IsChar K L a` has a witness $\rho$ on $K^n$, with $a(g)=\iota(\operatorname{tr}_K\rho(g))$ for all $g$. The predicate `IsIrrChar K L a` requires an irreducible witness over $K$. The predicate $f\in\mathrm{Virt}(K,L,H)$ is membership in the additive subgroup of $L^H$ generated by genuine characters. Over $K=L=\mathbb C$ this is $R(H)$ from Definition 13.6. [Source map](#source-map-for-the-integral-expansion).
+
+In an extended basis of $L\otimes_K V$, the matrix entries of the action are the images under $\iota$ of their original entries, so its trace is the image of the original trace. The archive first transports coordinates over $K$ and then maps trace values into $L$. Irreducibility can be lost under extension of scalars: multiplication by $X$ on $\mathbb Q[X]/(X^2+X+1)$ affords an irreducible rational representation of $C_3$, since the polynomial has no rational root. Over $\mathbb C$ it splits into the $\chi_1$ and $\chi_2$ eigenlines.
+
+**Lemma 13.34 (direct sum and constituent extraction).** [Lean, read] For fields $K\hookrightarrow L$ and a group $H$, zero and sums of genuine characters are genuine. Every nonzero genuine character $a$ has the form $\eta+b$, where $\eta$ has an irreducible witness over $K$ and $b$ is genuine over $K$.
+
+*Proof.* The wrapper `T.isCharacterOverSubfield_zero_and_add` forwards to `BI.isChar_zero_and_add`. The unique action on $K^0$ has zero trace. For witnesses $\rho,\sigma$ on $K^n,K^m$, concatenate tuples by the coordinate isomorphism $e:K^n\times K^m\to K^{n+m}$. The product operators $D_g=\rho(g)\oplus\sigma(g)$ satisfy $D_1=1$ and $D_gD_h=D_{gh}$ block by block. Conjugating by $e$ preserves these identities and preserves trace. The two diagonal blocks contribute $\operatorname{tr}\rho(g)+\operatorname{tr}\sigma(g)$, and $\iota$ preserves their sum. The resulting action is a witness of dimension $n+m$, including when either summand has dimension zero.
+
+For the decomposition, a nonzero trace function requires a nonzero witness space $V$. Choose a nonzero invariant subspace $S$ of least dimension, using $V$ itself as a candidate. If $T$ is a nonzero invariant subspace of $S$, its image under inclusion is invariant in $V$ and has dimension $\dim T$. Minimality gives $\dim S\le\dim T$. Since $T\subseteq S$, equality holds and $T=S$. Thus $S$ is irreducible.
+
+For any injective intertwiner $j:U\to V$, equivariance gives $\rho(g)j(u)=j(\sigma(g)u)$. The range is invariant, so $Q=V/j(U)$ inherits a representation. Inclusion and projection give a short exact sequence with commuting actions. The archive invokes `T.linear_map_short_exact_commute` to get $\operatorname{tr}\rho(g)=\operatorname{tr}\sigma(g)+\operatorname{tr}\rho_Q(g)$. In a basis of $j(U)$ extended to one of $V$, the action has block upper triangular form, and the two diagonal blocks are the actions on $U$ and $Q$.
+
+To certify these traces under the archive predicates, choose a basis of each space $E$, identifying it with $K^{\dim E}$ by $u$. The operators $u\rho_E(g)u^{-1}$ define an action with unchanged traces. Taking preimages along $u$ carries invariant subspaces of the transported action to invariant subspaces of $E$. Taking preimages along $u^{-1}$ is inverse. Both operations preserve inclusion, giving an order isomorphism that preserves irreducibility. This proves the two projections of `T.isCharacterOverSubfield_of_representation` after applying $\iota$. Use the quotient assertion with $j:S\hookrightarrow V$, the irreducible projection for $S$ and the genuine projection for $V/S$. The transported trace equation is exactly `BI.exists_irrChar_add`. $\square$
+
+**Complete reducibility over $\mathbb C$.** [Expository] For a finite group, take any linear projection $p$ onto an invariant subspace $S$. The average $P=|H|^{-1}\sum_g\rho(g)p\rho(g^{-1})$ commutes with the action by reindexing. Each summand has image in $S$ and acts on $S$ as the identity. Therefore $P$ is a projection with invariant kernel, and $V=S\oplus\ker P$. Induction decomposes $V$ into irreducibles. The archive's quotient argument obtains the character decomposition through exact trace additivity, which also works for a nonsplit sequence. [Etingof et al., Theorem 3.1, pp. 33–34](https://arxiv.org/pdf/0901.0827).
+
+**Proposition 13.35 (integral expansion from virtuality).** [Lean, read] Let $H$ be finite and $f:H\to\mathbb C$. If $f\in\mathrm{Virt}(\mathbb C,\mathbb C,H)$, there is a finitely supported integer family $(c_\chi)_\chi$, indexed by distinct irreducible character functions, with $f=\sum_\chi c_\chi\chi$. Conversely any such sum is virtual. Given the complex Schur orthogonality input of Lemma 13.29, the coefficients are unique and equal to $\frac1{|H|}\sum_g f(g)\overline{\chi(g)}$.
+
+*Proof.* The differences $a-b$ of genuine characters contain $0$ and every genuine character $a=a-0$. By Lemma 13.34, addition takes $(a-b)+(c-d)$ to $(a+c)-(b+d)$ with both terms genuine. Negation exchanges the summands. The generated subgroup in turn contains every such difference. This is `mem_virt_iff_sub`, whose line 9 consumes both projections of `T.isCharacterOverSubfield_zero_and_add`.
+
+For a genuine character, induct on its degree. Degree zero gives the empty sum. For a nonzero character $a$ of degree $n$, Lemma 13.34 gives $a=\eta+b$. Evaluation at the identity gives $n=\eta(1)+b(1)$ in $\mathbb N$ by injectivity of the natural-number map to $\mathbb C$. The constituent has positive degree, so $b$ has smaller degree. Add one to the coefficient of $\eta$ in the finite expansion of $b$. This is the singleton update in the archive and counts repeated occurrences of the same character function. Apply the induction to both terms in $f=a-b$ and subtract the coefficient families. The new support lies in the finite union of the old supports. The converse follows from closure under integer multiples and addition. Orthogonality isolates each coefficient by pairing with its row. $\square$
+
+**Remarks.** The difference $[\rho]-[\sigma]$ belongs to the additive Grothendieck group of representations. Trace sends it to $\chi_\rho-\chi_\sigma$. Complete reducibility gives additive multiplicity coordinates and complex Schur orthogonality makes the trace coordinates unique. Taking the complex span permits arbitrary complex coordinates, as in the two norm-one examples. The existence of integral coefficients in Proposition 13.35 is proved before taking any pairing.
+
+Lemma 13.29(1) uses Proposition 13.35 to obtain its coefficient family and then computes its norm. For Theorem 13.31(B), (I6) and (I7) supply virtuality for $\psi$ and hence for $\tau=(-1)^{d-1}\psi$. The archive passes the family and norm identity from `virt_expand` to `irr_of_norm_one`. The norm-one and positive-degree results of §13.4.10 then select the positive irreducible character. Green states the analogous generalized-character test in his introduction. [Green 1955, p. 402](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
+
+#### Source map for the integral expansion
+
+Paths start at the extracted Lean project root. Joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. R3 covers the indicated bodies using the named interfaces.
+
+| Reading | Declaration or handoff | Full archive path and lines |
+|---|---|---|
+| Definitions | `IsChar`, `IsIrrChar`, `Virt` | `src/Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5–12` |
+| R3 | Zero and sum, including the product action | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldZeroAndAdd.lean:6–40` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldZeroAndAddStatement.lean:6–7` |
+| R3 | Minimal subrepresentation and constituent extraction | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsIrrCharAdd.lean:8–45,47–65` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsIrrCharAddStatement.lean:6–7` |
+| R3 | Invariant range and quotient trace | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsCharacterQuotientOfInjectiveIntertwining.lean:8–22` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsCharacterQuotientOfInjectiveIntertwiningStatement.lean:6–7` |
+| R3 | Coordinate action, trace and subspace transport | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldOfRepresentation.lean:10–48,51–67` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldOfRepresentationStatement.lean:6–7` |
+| Already read in §13.4.10 | Difference and induction consumers, finite support and norm handoff | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/MemVirtualCharactersIffSubCharacters.lean:7–24`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldInductionIrreducible.lean:32–50`, `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharacterIrreducibleExpansionNormSq.lean:14–46,67–76` and `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IrreducibleOfVirtualCharacterNormOne.lean:57–65` |
+| R2 / [Lean] | Short exact trace production `GlobalTheory.trace_eq_add_of_shortExact` through its interface | `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/LinearMapShortExactCommuteStatement.lean:5–6` |
+| [Lean], Mathlib interfaces | `trace_conj'`, `trace_prodMap'`, `Submodule.finrank_map_subtype_eq`, `Submodule.eq_top_of_finrank_eq`. Deeper Schur inputs `Representation.char_orthonormal`, `card_inv_mul_sum_char_mul_char_eq_finrank` and `finrank_intertwiningMap_self` | Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`. For the last three interfaces see `Mathlib/RepresentationTheory/Character.lean:115,134` and `Mathlib/RepresentationTheory/Irreducible.lean:81`. |
 
 ## 13.5 Remarks, formalization notes, and Masullo's counterpart
 
