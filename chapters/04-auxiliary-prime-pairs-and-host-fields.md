@@ -18,7 +18,7 @@ by us (`R3` / `[Lean, read]`). Of the classical analytic sub-packages imported a
 the sieve, the width-$1/400$ zero-density count and the Landau–Page step across moduli are also
 read in full (Section 4.7). The prime number theorem in progressions modulo divisible-by-$8$
 moduli, Siegel's lower bound and the internal lemmas of the Perron contour tail were read at
-statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail, the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5) and the differencing step of its far range (§4.10.6); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
+statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail with its Perron and local-zero suppliers (§§4.8.7–4.8.8), the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5), the differencing step of its far range (§4.10.6), the residual of the smoothed explicit formula (§4.10.7) and its local expansion and rectangle identity (§4.10.8); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
 
 ---
 
@@ -1482,7 +1482,7 @@ form, but no ineffective input is used. In the files we have read, ineffectivity
   `PrimeCountOfPsi`, `PNTSharp`, `PNTBAsm`, `PNTZSum`, `PNTDens`, `PNTExplMain`, `PNTZSumL`,
   `PNTDHB` and their imports); `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:27–229`
   with `MSqTwistB` and `MSqTwistC`; `FinalSiegel`, `ExcBoundOf` and `LDerivNearOne` behind `excBound`; and
-  `NoZeroComplex` behind `zFRDirichlet`. Sections 4.10, 4.10.5 and 4.10.6 later read parts of the PNT package (local R3).
+  `NoZeroComplex` behind `zFRDirichlet`. Sections 4.10 and 4.10.5–4.10.8 later read parts of the PNT package (local R3).
 
 ## 4.8 From the zero-free box to the truncated Perron tail
 
@@ -1728,7 +1728,7 @@ The Mellin conventions also appear in DLMF §2.5(i), equations (2.5.1)–(2.5.2)
 | Inversion by logarithmic change of variables | Mathlib's `Mathlib/Analysis/MellinInversion.lean:49–124`, read at the A2 manifest pin. Fourier inversion is an input. |
 | Holomorphic extension and residue assembly | Local R3 for `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:10–239`, including `rectangle_contour_shift_character` from line 114. The textbook argument uses the empty-zero branch. Its direct residue supplier `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/RectResidue.lean:9–186` is read locally; its statement `RectResidue` and the contour integral `FX.rectInt` are defined at `src/Formalism/LFunctionBounds/ExpSumLowerBound.lean:34–43`. |
 | Orientation and consumer instantiation | `src/Formalism/ZeroFreeRegion/SmallHeightLogDeriv.lean:9–11`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourA.lean:20–35`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:24–48,87–89`. |
-| Zeta specialization of the principal calculation | `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LaurentAtOne.lean:8–89` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectShiftOf.lean:32–88`. The latter uses the separate `rectangle_double_pole` supplier in `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectDoublePole.lean:103`. |
+| Zeta specialization of the principal calculation | `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LaurentAtOne.lean:8–89` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectShiftOf.lean:32–88`. The latter uses the separate `rectangle_double_pole` supplier in `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectDoublePole.lean:103`, read in §4.10.8. |
 
 **Retained inputs.** At depth, Mathlib supplies `DirichletCharacter.LSeries_twist_vonMangoldt_eq`, `DirichletCharacter.LFunction_eq_LSeries`, `DirichletCharacter.LSeries_ne_zero_of_one_lt_re`, `ArithmeticFunction.LSeriesSummable_vonMangoldt`, `integral_Ioi_cpow_of_lt`, `integral_Ioi_rpow_of_lt`, `integral_tsum_of_summable_integral_norm`, `Integrable.fourierInv_fourier_eq`, `DirichletCharacter.differentiable_LFunction`, `DirichletCharacter.LFunction_apply_one_ne_zero`, `Complex.differentiableOn_dslope` and `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`. The principal analogue also uses the zeta Laurent input `log_deriv_riemannZeta_eq_neg_inv_sub_add`, the zeta residue at $1$, and the principal Euler-factor identity. The transitive proofs remain outside the local R3 reading. For the real-zero correction see the statement of `RectShiftChi` and the conditional `smoothed_character_sum_of` assembly (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SmoothChiOf.lean:9`). The zero-free-region and exceptional-zero deduction remain R2 [Lean], including `logDerivRegionChi`, `zFRDirichlet`, `siegelLower` and `excBound` through `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:17–34`. For the deeper box-bound inputs see §4.8.6.
 
@@ -2681,24 +2681,6 @@ Paths are relative to the root of the joined Lean archive with SHA-256 `9631b4f0
 
 The proof bodies in the first four rows are read in full (local R3), together with the witness choice in `smoothed_explicit_formula`. Their remaining dependencies are Mathlib declarations at the pinned commit `0df444a`, used at statement level [Lean]: `norm_image_sub_le_of_norm_deriv_le_segment'` (`Mathlib/Analysis/Calculus/MeanValue.lean:326`), `Complex.hasStrictDerivAt_cpow_const` (`Mathlib/Analysis/SpecialFunctions/Pow/Deriv.lean:190`), `Complex.cpow_sub`, `Complex.cpow_natCast` and `Complex.mul_cpow_ofReal_nonneg` (`Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean:94,124,186`), `Complex.norm_cpow_eq_rpow_re_of_pos`, `Real.rpow_sub_one` and `Real.rpow_le_one_of_one_le_of_nonpos` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:337,455,668`), `Real.log_le_sub_one_of_pos`, `Real.one_sub_inv_le_log_of_pos`, `Real.log_le_log` and `Real.le_log_iff_exp_le` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307,312,151,165`), `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`), `ArithmeticFunction.vonMangoldt_nonneg` and `vonMangoldt_le_log` (`Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean:80,151`), `DirichletCharacter.norm_le_one` (`Mathlib/NumberTheory/DirichletCharacter/Bounds.lean:33`), `DirichletCharacter.LFunction_ne_zero_of_one_le_re` (`Mathlib/NumberTheory/LSeries/Nonvanishing.lean:398`) and `DirichletCharacter.LFunctionTrivChar₁` (`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:338`), together with the floor and finite-sum lemmas named in the proofs. Reading `SharpenS` raises the status of no other analytic supplier. Section 4.10.7 reads the residual assembly of `smoothed_explicit_formula` from named analytic inputs. The zero sum (`PNTZSumL`) with its zero-density (`PNTDens`) and Deuring–Heilbronn (`DeuringHeilbronnMB`, `PNTDHB`) inputs, and the Siegel input behind $c_1$ keep R2. Their proofs remain [Open] for the book's reading record.
 
----
-
-**Summary of the chapter.** Embedding a primitive Dirichlet character $\psi$ into a CM host field
-$E \subset \mathbb Q(\zeta_N)$ of degree $4 c \cdot 2^e$ requires two auxiliary primes
-$q \equiv 3 \pmod 8$ and $d \equiv 7 \pmod{16}$ (excluding complex conjugation so $E$ is CM over
-$F = E^+$, splitting $2, q$ and all prime divisors of $\psi.N$ in $K = \mathbb Q(\sqrt{-d})$, and
-providing an odd parity partner for odd $\psi$, Lemma 4.2) [Lean, read]. Choosing
-$\log q \asymp Y^{\varepsilon/5}$ and $\log d \asymp Y^{\varepsilon/5}(\log Y)^2$ with $q \mid d + 1$
-and small odd primes dividing $d + 1$ allows a two-stage unconditional sieve — combining a $Q^{1/4}$
-zero-density bound (`zero_density_box` [Lean, read], Section 4.7), explicit-formula truncation at $Z = x^{400}$ matched
-to box width $1/400$ (Lemma 4.4), $L^2$ Jacobi character-sum bounds with at most one Landau–Page
-modulus (Proposition 4.5), and a dyadic Sobolev–Markov inequality (Lemma 4.6) — to produce a pair
-$(q, d)$ whose parasitic twists satisfy $\lvert G_\chi(x) \rvert \le x^{1/2+\varepsilon}$ and
-$\lvert L'/L(1,\chi) \rvert \le 4\log x$ on $[Y, Y^A]$ (Theorem 4.7) [Lean, read]. Rescaling
-quadratic `VWin` windows from exponent $401$ to $400$ and from $[W, W^2]$ to $[Z, Z^{3/2}]$ yields
-`supplyChi` (Proposition 4.8 and Theorem 4.9) [Lean, read], delivering the exact host-field package
-`EAtH` consumed in Chapter 5.
-
 ### 4.10.7 The residual of the smoothed explicit formula
 
 #### 4.10.7.1 Motivation
@@ -2707,35 +2689,35 @@ The difference theorem in §4.10.6 evaluates a smoothed formula twice. It needs 
 
 #### 4.10.7.2 Two modulus-eight calculations [Expository]
 
-Take $\kappa=1/20$ and use model zero configurations and illustrative constants $C_2=C_3=1$. These constants and configurations are inputs for arithmetic practice. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
+Take $\kappa=1/20$ and use model zero configurations. For the constants take the least values the archive's formulas allow: $C_3=0$ and $C_2=C_2^\flat=360(\log60600+3)+100/7\approx5058.62$. Here $C_2=2C_0+100/7+C_3$, and §4.10.8 shows $C_0=180(\log(10100C_G)+3)$ with $C_G\ge6$. The constants produced by the archive's proofs are at least these, so the totals below are lower bounds for its budgets at these parameters. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
 $$
 a=\frac{e(\log y+C_3)}{\pi H},\qquad
 b=\frac{H(N+4/(3\kappa))y^{\sigma-1}}{\pi\sigma(1-\sigma)},\qquad
 c_-=c_+=\frac{3e(N+1)}{2\pi H^2}.
 $$
 
-**Principal character.** Take $T=2$ and an empty model box up to height $5$. The midpoints of $[19/20,77/80]$ and $[2,3]$ give $\sigma=153/160$ and $H=5/2$. The selection rule gives $d=1/160$. Zeros beyond height $5$ are at height distance greater than $5/2$. At $y=10$ the right edge is $1+1/\log10$, $N=320\log16$, $\sigma(1-\sigma)=1071/25600$, and $y^{\sigma-1}=10^{-7/160}$. Substitution gives
+**Principal character.** Take $T=2$ and an empty model box up to height $5$. The midpoints of $[19/20,77/80]$ and $[2,3]$ give $\sigma=153/160$ and $H=5/2$. The selection rule gives $d=1/160$. Zeros beyond height $5$ are at height distance greater than $5/2$. At $y=10$ the right edge is $1+1/\log10$, $N=320C_2^\flat\log16\approx4.488155\times10^{6}$, $\sigma(1-\sigma)=1071/25600$, and $y^{\sigma-1}=10^{-7/160}$. Substitution gives
 $$
-a=\frac{2e(\log10+1)}{5\pi}\approx1.143033,\qquad
-b=\frac{(5/2)(320\log16+80/3)10^{-7/160}}{\pi(1071/25600)}\approx15717.626313,
+a=\frac{2e\log10}{5\pi}\approx0.796930,\qquad
+b=\frac{(5/2)(N+80/3)10^{-7/160}}{\pi(1071/25600)}\approx7.719000\times10^{7},
 $$
-and each horizontal budget is $3e(320\log16+1)/(2\pi(5/2)^2)\approx184.450782$. The total is about $16087.670910$. The residue contributes $\log10-1$ after normalization and the constant is $-\gamma-\log2$. The model finite sum is empty.
+and each horizontal budget is $3e(N+1)/(2\pi(5/2)^2)\approx9.320168\times10^{5}$. The total is about $7.905403\times10^{7}$. The residue contributes $\log10-1$ after normalization and the constant is $-\gamma-\log2$. The model finite sum is empty.
 
-**Real character $\chi_8$.** Use the same model slots as §4.10.6, namely $\beta=999/1000$ and $24/25\pm3i$ of orders $1,2,2$. Take $T=4$, with three distinct model zeros in the selection box up to height $7$. The choices $\sigma=153/160$ and $H=17/4$ have minimum gaps $3/800$ and $5/4$, both greater than $d=1/640$. Zeros beyond height $7$ have height distance greater than $11/4$. All three chosen slots lie in the rectangle. At $y=16$ the right edge is $1+1/\log16$ and $N=1280\log32$. Substitution gives
+**Real character $\chi_8$.** Use the same model slots as §4.10.6, namely $\beta=999/1000$ and $24/25\pm3i$ of orders $1,2,2$. Take $T=4$, with three distinct model zeros in the selection box up to height $7$. The choices $\sigma=153/160$ and $H=17/4$ are admissible points picked by hand, not the midpoints produced by the selection lemma with $n=3$. Their minimum gaps $3/800$ and $5/4$ both exceed $d=1/640$. Zeros beyond height $7$ have height distance greater than $11/4$. All three chosen slots lie in the rectangle. At $y=16$ the right edge is $1+1/\log16$ and $N=1280C_2^\flat\log32\approx2.244077\times10^{7}$. Substitution gives
 $$
-a=\frac{4e(\log16+1)}{17\pi}\approx0.768060,\qquad
-b=\frac{(17/4)(1280\log32+80/3)16^{-7/160}}{\pi(1071/25600)}
-\approx127825.519393.
+a=\frac{4e\log16}{17\pi}\approx0.564470,\qquad
+b=\frac{(17/4)(N+80/3)16^{-7/160}}{\pi(1071/25600)}
+\approx6.427582\times10^{8}.
 $$
-Each horizontal budget is $3e(1280\log32+1)/(2\pi(17/4)^2)\approx318.831580$, giving a total about $128463.950613$. The pole correction is zero for this character, although the universal budget still includes the pole allowance $80/3$. The real model zero contributes $16^{\beta-1}/(\beta(\beta-1))$ to the residual and the pair contributes $4\Re(16^{z-1}/(z(z-1)))$ with $z=24/25+3i$. These are parameter and budget calculations for the model, with the actual zero configurations left unspecified.
+Each horizontal budget is $3e(N+1)/(2\pi(17/4)^2)\approx1.612486\times10^{6}$, giving a total of about $6.459832\times10^{8}$. The pole correction is zero for this character, although the universal budget still includes the pole allowance $80/3$. The real model zero contributes $16^{\beta-1}/(\beta(\beta-1))$ to the residual and the pair contributes $4\Re(16^{z-1}/(z(z-1)))$ with $z=24/25+3i$. These are parameter and budget calculations for the model, with the actual zero configurations left unspecified.
 
 #### 4.10.7.3 Definitions and analytic inputs
 
 Let $p_\chi$ be the principal-character indicator and let $f_\chi$ denote the entire continuation of $(s-1)L(s,\chi)$ for the principal character, and $L(s,\chi)$ otherwise. Write $m(\rho)$ for its order at $\rho$, $K=-f_\chi'(1)/f_\chi(1)$, $D=-L'/L$, $k_y(s)=y^s/(s(s-1))$ and $F_y=Dk_y$. Take $y^s=\exp(s\log y)$. Use the pinned zero identification and nonvanishing input: $f_\chi(1)\ne0$, its zeros are the archive's Dirichlet zeros, and they have real part less than one. Orders are positive there. A nonzero $L'(\rho,\chi)$ gives order one, since in the principal case $f_\chi'(\rho)=(\rho-1)L'(\rho,\chi)$.
 
-- **Local expansion (`ex_local`).** For $M\ge3$ the exact finite zero set $D_t$ in the closed disc of radius $2/15$ at $101/100+it$ has total order at most $C_0\log(M(|t|+2))$ for an absolute $C_0>0$. In the concentric closed disc of radius $1/15$, away from zeros, the difference between $f_\chi'/f_\chi$ and $\sum_{\rho\in D_t}m(\rho)/(s-\rho)$ is bounded in modulus by the same majorant. The earlier *Local zeros and the logarithmic derivative in TailBox* gives the method and the named right-half-plane input `l_log_deriv_right`, namely $|D(s)|\le 1/(\Re s-1)+C_3$ for $\Re s>1$ with absolute $C_3\ge0$. We assume the exact `ex_local` specialization here.
-- **Perron (`perron_formula_character`).** The earlier *Mellin inversion and the finite rectangle* gives absolute convergence of $I_\infty=\int_{\mathbb R}F_y(c+it)\,dt$ for $y\ge1$ and $c>1$, and $S_\chi(y)=I_\infty/(2\pi)$ with $S_\chi(y)=\sum_{n\le y}\Lambda(n)\chi(n)(y/n-1)$.
-- **Rectangle (`ex_rect_Fchi`).** For $0<\sigma<1<c$, $H>0$, the exact interior list $Z$ and a zero-free boundary, the positive contour integral equals $2\pi iQ$, where $Q=Ky+p_\chi y(\log y-1)-\sum_{\rho\in Z}m(\rho)k_y(\rho)$. The residue at $1$ follows from $D=p_\chi/(s-1)-f_\chi'/f_\chi$ and $k_y(s)=y/(s-1)+y(\log y-1)+O(s-1)$. At a zero $\rho$ the residue is $-m(\rho)k_y(\rho)$, and the pole at $0$ sits outside. We take the archive's finite rectangle identity as a named input.
+- **Local expansion (`ex_local`).** For $M\ge3$ the exact finite zero set $D_t$ in the closed disc of radius $2/15$ at $101/100+it$ has total order at most $C_0\log(M(|t|+2))$ for an absolute $C_0>0$. In the concentric closed disc of radius $1/15$, away from zeros, the difference between $f_\chi'/f_\chi$ and $\sum_{\rho\in D_t}m(\rho)/(s-\rho)$ is bounded in modulus by the same majorant. Section 4.8.8 gives the method and the right-half-plane input `l_log_deriv_right`, namely $|D(s)|\le 1/(\Re s-1)+C_3$ for $\Re s>1$ with absolute $C_3\ge0$. Proposition 4.10.10 in §4.10.8 proves the exact `ex_local` specialization, with $C_0=180(\log(10100C_G)+3)$.
+- **Perron (`perron_formula_character`).** Lemma 4.8.7.3 in §4.8.7 gives absolute convergence of $I_\infty=\int_{\mathbb R}F_y(c+it)\,dt$ for $y\ge1$ and $c>1$, and $S_\chi(y)=I_\infty/(2\pi)$ with $S_\chi(y)=\sum_{n\le y}\Lambda(n)\chi(n)(y/n-1)$.
+- **Rectangle (`ex_rect_Fchi`).** For $0<\sigma<1<c$, $H>0$, the exact interior list $Z$ and a zero-free boundary, the positive contour integral equals $2\pi iQ$, where $Q=Ky+p_\chi y(\log y-1)-\sum_{\rho\in Z}m(\rho)k_y(\rho)$. The residue at $1$ follows from $D=p_\chi/(s-1)-f_\chi'/f_\chi$ and $k_y(s)=y/(s-1)+y(\log y-1)+O(s-1)$. At a zero $\rho$ the residue is $-m(\rho)k_y(\rho)$, and the pole at $0$ sits outside. Theorem 4.10.13 in §4.10.8 proves this identity from the archive's production proof.
 
 #### 4.10.7.4 Lemma and conditional theorem [Lean, read]
 
@@ -2797,8 +2779,264 @@ Archive A2 joined SHA-256 is 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc43
 | Box and contour selection | PNTExplBox.lean:11–211; PNTExplPick.lean:11–110 | Local R3 [Lean, read] |
 | Numerator and edge bounds | PNTExplNeg.lean:11–102; PNTExplEdge.lean:12–148 | Local R3 [Lean, read] for the displayed estimates |
 | Core residual and final estimate | PNTExplMainB.lean:15–168; PNTExplMainA.lean:9–249; PNTExplMain.lean:15–97 | Local R3 [Lean, read] |
-| Named predecessors | src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283 and LRight.lean:116 in the same directory | Inherited Perron and right-half-plane input |
-| Exact analytic suppliers retained | `ex_local` at PNTExplLocL.lean:86; `ex_rect_Fchi` at PNTExplRectF.lean:154; exLF_growth at PNTExplLF.lean:129 | R2 [Lean], proof-body expansion [Open] |
+| Named predecessors | src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283 and LRight.lean:116 in the same directory | Inherited Perron (§4.8.7) and right-half-plane input (§4.8.8) |
+| Exact analytic suppliers | `ex_local` at PNTExplLocL.lean:86 and `ex_rect_Fchi` at PNTExplRectF.lean:154, read in §4.10.8; exLF_growth at PNTExplLF.lean:129 | Local R3 [Lean, read] in §4.10.8; exLF_growth retained R2 [Lean] |
 | Interface and consumer | DeuringHeilbronnM.lean:53–75; PNTFinal.lean:16,24; PNTBAsm.lean:38,55–91; PNTSharp.lean:69–156 | Interface and call checked; difference proof inherited |
 
 The levels record the extent of source reading. See the [source ledger](../sources/SOURCES.md#chapter-4-4107-the-smoothed-explicit-residual).
+
+### 4.10.8 The local expansion and the rectangle identity: `ex_local` and `ex_rect_Fchi`
+
+Section 4.10.7 takes two analytic statements of the archive as named inputs: the local expansion `ex_local` and the finite rectangle identity `ex_rect_Fchi`. This subsection proves both from their production proofs. It shows how a local principal part splits off the zero contribution with exact multiplicities. It also shows how one rectangle integral of $F_y$ produces $Ky$, the principal-character correction $y\log y-y$ and the multiplicity-weighted zero sum. These come with the orientation and the signs that the four residual budgets of §4.10.7 consume.
+
+#### 4.10.8.1 Motivation
+
+Two functions carry the same zeros. The numerator of the Perron integrand is $D=-L'/L$, and for the principal character $L$ has a pole at $1$. The archive therefore works with $f_\chi$, which is $(s-1)L(s,\chi)$ for the principal character and $L(s,\chi)$ otherwise. This function is entire, nonzero at $1$, and has the same zeros as $L$ away from $1$. Tao removes the pole of $\zeta$ in the same way, multiplying by $(s-1)$, before he applies a local disc estimate [[Tao2014, Proposition 19](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)]. A disc estimate needs an upper bound on the disc and a lower bound at the centre. Near the line $\operatorname{Re}s=101/100$ both are available for $f_\chi$, uniformly in the modulus.
+
+Near a zero $\rho$ the logarithmic derivative is unbounded, but its singular part there is exactly $m/(s-\rho)$, where $m$ is the order of the zero. After the finitely many principal parts are subtracted, the remainder has size $O(\log(M(|t|+2)))$. The weight must be the analytic order. The archive's general disc interface `LandauLocal` only provides some weights $m_\rho\ge1$, and these would not identify the residues of the contour integrand. The archive therefore proves a version with analytic orders, `ex_landau_ord`, and specializes it in `ex_local`.
+
+For the contour, $F_y=Dk_y$ with $k_y(s)=y^s/(s(s-1))$ is meromorphic on $\operatorname{Re}s>0$. Inside a rectangle whose left side has real part $\sigma_1>0$, its only poles are at $1$ and at the zeros. At a zero the residue is $-m\,k_y(\rho)$. At $1$ the simple pole of $k_y$ meets the regular part $-f_\chi'/f_\chi$ of $D$ and gives $Ky$. For the principal character $D$ also has a simple pole at $1$, so $F_y$ has a double pole there. The extra residue is $y\log y-y$, the derivative of $y^s/s$ at $s=1$. The pole of $k_y$ at $0$ stays outside because $\sigma_1>0$. Once no zero lies on the boundary the identity is exact, and §4.10.7 then estimates its four edges.
+
+#### 4.10.8.2 Two modulus-eight calculations [Expository]
+
+**Principal character modulo $8$.** Here $L(s,\chi_0)=\zeta(s)(1-2^{-s})$ and $f(s)=(s-1)\zeta(s)(1-2^{-s})$. Hence $f(1)=1-1/2=1/2$, which is the archive's value $\prod_{p\mid8}(1-p^{-1})$. From $(s-1)\zeta(s)=1+\gamma(s-1)+O((s-1)^2)$ and $\frac{d}{ds}\log(1-2^{-s})=\log2/(2^s-1)$ we get $f'(1)/f(1)=\gamma+\log2$, so
+$$
+K=-\gamma-\log2\approx-1.270363 .
+$$
+The zeros of $f$ are the zeros of $\zeta$ in the critical strip and the points $2\pi ik/\log2$ with $k\in\mathbb Z$ on $\operatorname{Re}s=0$, where the Euler factor vanishes. The point $s=0$ is one of them. For $s=1+w$ we have $D(1+w)=1/w+K+O(w)$ and $k_y(1+w)=y/w+y(\log y-1)+O(w)$, so
+$$
+F_y(1+w)=\frac{y}{w^2}+\frac{Ky+y\log y-y}{w}+O(1).
+$$
+At $y=10$ the residue at $1$ is $10(\log10-1-\gamma-\log2)=10(\log5-1-\gamma)\approx0.322222$.
+
+- *Rectangle $[1/4,2]\times[-10,10]$.* The first zero of $\zeta$ in the upper half-plane is $\rho_1=1/2+i\gamma_1$ with $\gamma_1\approx14.134725$ [[Odlyzko's table](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/zeros1)], so $\zeta$ has no zero with $0<\operatorname{Re}s<1$ and $|\operatorname{Im}s|\le10$. This is a numerical fact, rechecked below by the argument principle. The Euler-factor zeros have real part $0<1/4$. Thus $Z=\emptyset$, the boundary is zero-free, and Theorem 4.10.13 gives the value $2\pi i\cdot0.322222$.
+- *Rectangle $[1/4,2]\times[-20,20]$.* Now $Z=\{\rho_1,\bar\rho_1\}$, since the next height in the same table is $\gamma_2\approx21.022$. The argument-principle count $2$ below shows that both zeros are simple. Here $\rho_1(\rho_1-1)=-(1/4+\gamma_1^2)\approx-200.040455$ and
+$$
+k_{10}(\rho_1)=-\frac{\sqrt{10}\,e^{i\gamma_1\log10}}{1/4+\gamma_1^2}\approx-0.006738-0.014300i .
+$$
+The pair contributes $-(k_{10}(\rho_1)+k_{10}(\bar\rho_1))=-2\operatorname{Re}k_{10}(\rho_1)\approx0.013476$, so $Q\approx0.335698$. The Euler-factor zeros $\pm2\pi i/\log2\approx\pm9.0647i$ and $\pm18.1294i$ lie within the height bound, but on $\operatorname{Re}s=0$, outside the rectangle.
+- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log10]\times[-5/2,5/2]$, contains no zero. There $Q/y=K+\log10-1=\log5-1-\gamma\approx0.032222$: the normalized residue with constant $-\gamma-\log2$ used in that calculation.
+- *`ex_local` at $M=8$, $t=0$.* The centre is $c_0=101/100$, and the lower bound (I) below gives $|f(c_0)|\ge1/10100$. Take $C_G=6$, the least value of the archive's growth witness $\max(C_P,6)$. Then $B=10100\cdot6\cdot8\cdot3^2=4363200$ and $\log B\approx15.2887$. The disc of radius $2/15$ therefore carries total order at most $\log B/\log2\approx22.06$, that is at most $22$. On the disc of radius $1/15$ the remainder is at most $180\log B\approx2751.97$. For $\chi_0$ this disc contains no zero. At the four points $101/100\pm1/15$ and $101/100\pm i/15$ one finds $|f'/f|\approx1.19$, $1.34$, $1.26$ and $1.26$. The constant of Proposition 4.10.10 is $C_{\mathrm{loc}}=180(\log(10100C_G)+3)\ge180(\log60600+3)\approx2522.17$. At $t=0$ its bound $C_{\mathrm{loc}}\log16\approx6992.9$ is far from sharp.
+
+**Real character $\chi_8=(8/\cdot)$.** Its values are $\chi_8(1)=\chi_8(7)=1$ and $\chi_8(3)=\chi_8(5)=-1$, so it is even and primitive of conductor $8$. Here $f=L(\cdot,\chi_8)$ is entire and there is no pole correction. Grouping the series in blocks of eight gives
+$$
+L(1,\chi_8)=\int_0^1\frac{1-x^2-x^4+x^6}{1-x^8}\,dx=\int_0^1\frac{1-x^2}{1+x^4}\,dx=\frac{\log(1+\sqrt2)}{\sqrt2}\approx0.623225 .
+$$
+The summed terms $x^{8k}(1-x^2)(1-x^4)$ are nonnegative on $[0,1]$, so monotone convergence justifies the interchange. The last integral follows from the primitive $-\frac1{2\sqrt2}\log\frac{x^2-\sqrt2x+1}{x^2+\sqrt2x+1}$ and from $(2+\sqrt2)/(2-\sqrt2)=(1+\sqrt2)^2$. Numerically $L'(1,\chi_8)\approx0.393950$, so $K=-L'(1,\chi_8)/L(1,\chi_8)\approx-0.632115$. Because $\chi_8$ is even, $L(0,\chi_8)=0$, and numerically $L'(0,\chi_8)\approx0.881374\ne0$. This trivial zero sits at the pole of $k_y$, and the hypothesis $\sigma_1>0$ keeps it outside. At $y=16$ the residue at $1$ is $16K\approx-10.113839$. Put $\Lambda(s)=(8/\pi)^{s/2}\Gamma(s/2)L(s,\chi_8)$. The function $\Lambda(1/2+it)$ is real and changes sign at $t\approx4.899974$, $7.628429$ and $10.806588$. These are the first zeros on the critical line (located numerically).
+
+- *Rectangle $[1/4,2]\times[-3,3]$.* There is no zero, so the integral is $2\pi i\cdot16K\approx2\pi i\,(-10.113839)$.
+- *Rectangle $[1/4,2]\times[-6,6]$.* Now $Z=\{1/2\pm4.899974i\}$ with both zeros simple. With $k_{16}(\rho)\approx-0.086400-0.140432i$, the pair contributes $-2\operatorname{Re}k_{16}(\rho)\approx0.172800$, so $Q\approx-9.941039$.
+- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log16]\times[-17/4,17/4]$, contains no zero, so $Q/y=K$. The constants of `ex_local` do not depend on the character, so at $t=0$ the same $B$, the bound $22$ and the value $2751.97$ apply.
+
+**Numerical supplement.** The four integrals over rectangles with left side $1/4$ were computed by 20-digit quadrature and agree with $2\pi iQ$ to within $2\times10^{-13}$. The argument principle counts $0,2,0,2$ zeros of $f$ inside. These numbers check the signs and residues only. They are not part of the proofs below, and the zero locations used above are numerical.
+
+#### 4.10.8.3 Definitions and named inputs
+
+Fix $M\ge1$ and a character $\chi$ modulo $M$. Put $p_\chi=1$ if $\chi$ is principal and $p_\chi=0$ otherwise.
+
+- $f_\chi$ (`exLF`) is $(s-1)L(s,\chi)$ for the principal character, with value $\prod_{p\mid M}(1-p^{-1})$ at $s=1$ (Mathlib's `LFunctionTrivChar₁`), and $L(s,\chi)$ otherwise.
+- $m_\chi(\rho)$ (`exOrd`) is the analytic order of $f_\chi$ at $\rho$, and $K_\chi=-f_\chi'(1)/f_\chi(1)$ (`explicitFormulaConstant`).
+- For $y>0$ put $y^w=\exp(w\log y)$ and $k_y(w)=y^w/(w(w-1))$ (`exKer`). Further $D=-L'/L$ (`negLD`) and $F_y=Dk_y$ (`Fchi`).
+- For $x_0<x_1$ and $y_0<y_1$ the rectangle integral (`rectInt`) is the positively oriented boundary integral
+$$
+I(g;x_0,x_1,y_0,y_1)=\int_{x_0}^{x_1}g(x+iy_0)\,dx-\int_{x_0}^{x_1}g(x+iy_1)\,dx+i\int_{y_0}^{y_1}g(x_1+it)\,dt-i\int_{y_0}^{y_1}g(x_0+it)\,dt .
+$$
+It uses only the values of $g$ on the boundary $\partial R$ (`exBdry`). In the notation of §4.10.7 the four parameter integrals are $B,P,R,L$ in this order, so $I=B-P+iR-iL$.
+
+The proofs use the following inputs.
+
+- (N) Facts about $f_\chi$ [Lean, read]; the Mathlib continuation and nonvanishing theorems behind them are used by statement. $f_\chi$ is entire and $f_\chi(1)\ne0$, and $L(s,\chi)\ne0$ on $\operatorname{Re}s\ge1$ except at the principal pole. Hence every zero of $f_\chi$ has real part less than $1$, and away from $1$ these zeros are the zeros of $L(s,\chi)$ (`exLF_differentiable`, `exLF_one_ne_zero`, `exLF_eq_zero_iff`, `exLF_re_lt_one`). Where $s\ne1$ and $f_\chi(s)\ne0$, $D(s)=p_\chi/(s-1)-f_\chi'(s)/f_\chi(s)$ (`negLD_eq_exLF`).
+- (G) Growth, `exLF_growth` [Lean], retained. There is $C_G\ge1$ with $|f_\chi(s)|\le C_GM(1+|s|)^2$ for all $M$, all $\chi$ and $\operatorname{Re}s\ge1/2$. The archive's witness is $\max(C_P,6)$, where $C_P$ comes from `lfunction_polynomial_growth`; in particular $C_G\ge6$.
+- (I) Centre lower bound, `exLF_lower` [Lean, read]. For $\operatorname{Re}s>1$, $|f_\chi(s)|\ge\min(1,|s-1|)(\operatorname{Re}s-1)/\operatorname{Re}s$. This follows from the inverse bound $|L(s,\chi)|^{-1}\le\sigma/(\sigma-1)$ of Theorem 4.8.8.4.
+- (Lz) Zero-free disc estimate [Lean, read]. Let $h$ be holomorphic on $\overline B(c,r)$ with no zero on $\overline B(c,r/3)$, and let $|h|\le H|h(c)|$ on $\overline B(c,r)$ with $H\ge1$. Then $|h'/h|\le72\log H/r$ on $\overline B(c,r/6)$. This is Lemma 4.8.8.3 with $Z=\emptyset$. In the archive it is `landauLocal` with an empty zero list; `landauLocal` combines `zeroFactorization` with the disc bound `logDerivBoundOnBall` on the radius $r/3$.
+- (Res) Rectangle residue theorem [Lean, read], read in §4.8.7. Let finitely many points $p$ lie strictly inside, let $G$ be holomorphic on an open set containing the closed rectangle, and let $g=G+\sum_pb_p/(w-p)$ away from the points $p$. Then $I(g)=2\pi i\sum_pb_p$.
+- (Fac) Finite factorization on a disc, `zeroFactorization` [Lean, read], read in §4.8.8. Let $f$ be holomorphic on $\overline B(z_0,r)$ with $f(z_0)\ne0$, and let $0<R_1<r$. Then the zeros in $\overline B(z_0,R_1)$ form a finite set $Z_b$, and there are exponents $m\ge1$ and a function $h$ with $f=\prod_{Z_b}(w-\rho)^{m_\rho}h$. Here $h$ is holomorphic on $\overline B(z_0,r)$ and nonzero on $\overline B(z_0,R_1)$.
+
+#### 4.10.8.4 The local expansion and the rectangle identity
+
+**Lemma 4.10.9 (disc expansion with exact orders, `ex_landau_ord`) [Lean, read], given (Lz).** Let $r>0$ and $B\ge1$, and let $f$ be complex differentiable on $\overline B(z_0,r)$ with $f(z_0)\ne0$ and $|f|\le B|f(z_0)|$ there. Let $Z$ be the set of zeros of $f$ in $\overline B(z_0,r/3)$, and let $m_\rho$ be the analytic order of $f$ at $\rho$. Then $Z$ is finite, every $m_\rho\ge1$, and $\sum_{\rho\in Z}m_\rho\le\log B/\log2$. For every $s\in\overline B(z_0,r/6)$ with $f(s)\ne0$,
+$$
+\Big|\frac{f'(s)}{f(s)}-\sum_{\rho\in Z}\frac{m_\rho}{s-\rho}\Big|\le\frac{72\log B}{r}.
+$$
+
+**Proposition 4.10.10 (`ex_local`) [Lean, read], given (G), (I) and (Lz).** Put $C_{\mathrm{loc}}=180(\log(10100C_G)+3)>0$. This is the constant called $C_0$ in §4.10.7.3. Let $M\ge3$, let $\chi$ be a character modulo $M$, let $t\in\mathbb R$, and put $c_t=101/100+it$. Then the set $Z_t$ of zeros of $f_\chi$ in $\overline B(c_t,2/15)$ is finite and
+$$
+\sum_{\rho\in Z_t}m_\chi(\rho)\le C_{\mathrm{loc}}\log(M(|t|+2)).
+$$
+For every $s\in\overline B(c_t,1/15)$ with $f_\chi(s)\ne0$,
+$$
+\Big|\frac{f_\chi'(s)}{f_\chi(s)}-\sum_{\rho\in Z_t}\frac{m_\chi(\rho)}{s-\rho}\Big|\le C_{\mathrm{loc}}\log(M(|t|+2)).
+$$
+The constant depends only on $C_G$ and is the same for all $M$, $\chi$ and $t$.
+
+**Lemma 4.10.11 (the double pole, `ex_rect_double` with `rectangle_double_pole`) [Lean, read], given (Res).** Let $y>0$, $0<x_0<1<x_1$ and $y_0<0<y_1$. Then
+$$
+I\Big(\frac{k_y(w)}{w-1};x_0,x_1,y_0,y_1\Big)=2\pi i\,(y\log y-y).
+$$
+
+**Theorem 4.10.12 (rectangle identity for an entire function, `ex_rect_logDeriv`) [Lean, read], given (Res) and (Fac).** Let $f$ be entire with $f(1)\ne0$, let $y>0$, and let $0<x_0<1<x_1$ and $y_0<0<y_1$. Let $Z$ be the set of zeros of $f$ in the open rectangle $(x_0,x_1)\times(y_0,y_1)$, and assume that every zero of $f$ in the closed rectangle lies in the open one. Then $Z$ is finite, and with $m_\rho$ the analytic order of $f$ at $\rho$,
+$$
+I\Big(-\frac{f'}{f}\,k_y;x_0,x_1,y_0,y_1\Big)=2\pi i\Big(-\frac{f'(1)}{f(1)}\,y-\sum_{\rho\in Z}m_\rho\,k_y(\rho)\Big).
+$$
+
+**Theorem 4.10.13 (`ex_rect_Fchi`) [Lean, read], given (N), (Res) and (Fac).** Let $\chi$ be a character modulo $M$, and let $y>0$, $0<\sigma_1<1<\sigma_0$ and $T'>0$. Put
+$$
+Z=\{\rho:\ f_\chi(\rho)=0,\ \sigma_1<\operatorname{Re}\rho,\ |\operatorname{Im}\rho|<T'\}.
+$$
+Assume that every zero $w$ of $f_\chi$ with $\sigma_1\le\operatorname{Re}w\le\sigma_0$ and $|\operatorname{Im}w|\le T'$ satisfies $\sigma_1<\operatorname{Re}w$ and $|\operatorname{Im}w|<T'$. Then
+$$
+I(F_y;\sigma_1,\sigma_0,-T',T')=2\pi i\Big(K_\chi y+p_\chi(y\log y-y)-\sum_{\rho\in Z}m_\chi(\rho)\,k_y(\rho)\Big).
+$$
+Each zero enters with weight $m_\chi(\rho)$ and with the sign of $-k_y(\rho)$. No condition $\operatorname{Re}\rho<\sigma_0$ is needed in $Z$, by (N). In both theorems the archive passes $Z$ as a `Finset` with exactly the displayed membership; the first step of the proof of Theorem 4.10.12 shows that the set is finite, so the two forms agree.
+
+**Corollary 4.10.14 (the call in `exm_core`).** Take the parameters of §4.10.7.4: $0<\kappa\le1/20$, $T\ge2$, $1-\kappa\le\sigma_1\le1-3\kappa/4$, $T\le T'\le T+1$ and a gap $d>0$. Assume the real-part gap for the zeros with $\operatorname{Re}\rho\ge9/10$ and $|\operatorname{Im}\rho|\le T+3$, and the absolute-height gap for the zeros with $\operatorname{Re}\rho\ge9/10$. Let $Z$ be as there, $y\ge2$ and $\sigma_0=1+1/\log y$. Then Theorem 4.10.13 applies, and for the parameter integrals $B,P,R,L$ of §4.10.7.5,
+$$
+B-P+iR-iL=2\pi iQ,\qquad \frac{Q}{y}=K_\chi+p_\chi(\log y-1)-\sum_{\rho\in Z}\frac{m_\chi(\rho)\,y^{\rho-1}}{\rho(\rho-1)} .
+$$
+With $S_\chi(y)=I_\infty/(2\pi)$, the residual of §4.10.7 becomes $R_\chi(y)=(I_\infty-2\pi Q)/(2\pi y)=((I_\infty-R)+L+i(B-P))/(2\pi y)$. These are the four terms that §4.10.7.5 bounds.
+
+#### 4.10.8.5 Proofs
+
+**Proof of Lemma 4.10.9.** *Finiteness and orders.* The function $f$ is analytic on the open disc $B(z_0,r)$. Infinitely many zeros in the compact disc $\overline B(z_0,r/3)$ would accumulate at a point of $B(z_0,r)$. The identity theorem on the connected disc would then force $f\equiv0$, contrary to $f(z_0)\ne0$. For the same reason every order is finite, and at a zero it is at least $1$.
+
+*Factorization with exact orders.* Put $P(w)=\prod_{\rho\in Z}(w-\rho)^{m_\rho}$. At $\rho\in Z$ write $f=(w-\rho)^{m_\rho}h_\rho$ near $\rho$ with $h_\rho(\rho)\ne0$. Then $k_\rho=h_\rho/\prod_{\sigma\in Z,\sigma\ne\rho}(w-\sigma)^{m_\sigma}$ is analytic at $\rho$, $k_\rho(\rho)\ne0$, and $f/P=k_\rho$ on a punctured neighbourhood of $\rho$. Define $g=f/P$ off $Z$ and $g(\rho)=k_\rho(\rho)$. Then $g$ is complex differentiable on $\overline B(z_0,r)$, $f=Pg$ there, and $g\ne0$ at every point of $Z$. The archive's `exists_factor_zeros_differentiableOn_nonvanishing` makes this construction, and its exponents are the analytic orders by definition.
+
+*Counting.* Let $N=\sum_{\rho\in Z}m_\rho$. Since $|z_0-\rho|\le r/3$, $|P(z_0)|\le(r/3)^N$. On $|w-z_0|=r$ every $\rho\in Z$ has $|w-\rho|\ge2r/3$, so $|P(w)|\ge2^N(r/3)^N$. Therefore
+$$
+|g(w)|=\frac{|f(w)|}{|P(w)|}\le\frac{B\,|P(z_0)|\,|g(z_0)|}{|P(w)|}\le\frac{B}{2^N}\,|g(z_0)|\qquad(|w-z_0|=r).
+$$
+The maximum modulus principle extends the bound to $\overline B(z_0,r)$. At $w=z_0$, where $g(z_0)\ne0$, it gives $2^N\le B$, that is, $N\le\log B/\log2$.
+
+*The zero-free factor.* The function $g$ has no zero on $\overline B(z_0,r/3)$: such a zero would be a zero of $f=Pg$, hence a point of $Z$, where $g\ne0$. Apply (Lz) to $g$ with $H=B/2^N\ge1$. On $\overline B(z_0,r/6)$ this gives $|g'/g|\le72\log(B/2^N)/r\le72\log B/r$.
+
+*Splitting.* Let $s\in\overline B(z_0,r/6)$ with $f(s)\ne0$. Then $P(s)\ne0$ and $g(s)\ne0$, and the product rule gives $f'/f=P'/P+g'/g$ at $s$. Logarithmic differentiation of the finite product gives $P'(s)/P(s)=\sum_{\rho\in Z}m_\rho/(s-\rho)$. The difference in the lemma is therefore $g'(s)/g(s)$. $\square$
+
+**Proof of Proposition 4.10.10.** *Lower bound at the centre.* Here $\operatorname{Re}c_t=101/100$ and $|c_t-1|\ge|\operatorname{Re}(c_t-1)|=1/100$, so (I) gives
+$$
+|f_\chi(c_t)|\ge\frac1{100}\cdot\frac{1/100}{101/100}=\frac1{10100}>0 .
+$$
+*Upper bound on the disc of radius $2/5$.* If $|z-c_t|\le2/5$, then $\operatorname{Re}z\ge101/100-2/5=61/100\ge1/2$ and $|z|\le2/5+101/100+|t|\le|t|+2$. By (G), $|f_\chi(z)|\le C_GM(|t|+3)^2$. Put $B=10100\,C_GM(|t|+3)^2\ge1$. Then $|f_\chi(z)|\le B/10100\le B\,|f_\chi(c_t)|$.
+
+*Lemma 4.10.9 with $r=2/5$.* Then $r/3=2/15$, $r/6=1/15$ and $72/r=180$, the zero set is $Z_t$, and the orders are $m_\chi$. So the total order is at most $\log B/\log2$, and the remainder is at most $180\log B$.
+
+*Comparison of logarithms.* Put $X=M(|t|+2)$. Then $X\ge6>e$, so $\log X\ge1$. Since $M\le X$ and $|t|+3\le X$, we have $B\le10100\,C_GX^3$. Using $\log(10100C_G)\ge0$ and $\log X\ge1$,
+$$
+\log B\le\log(10100C_G)+3\log X\le(\log(10100C_G)+3)\log X .
+$$
+Since $\log2\ge1/2$, also $\log B/\log2\le2\log B\le180\log B$. Both quantities are therefore at most $180(\log(10100C_G)+3)\log X=C_{\mathrm{loc}}\log X$. $\square$
+
+For the count the factor $180$ is wasteful, but it costs nothing downstream, since §4.10.7 uses one constant for both clauses.
+
+**Proof of Lemma 4.10.11.** Let $\varphi(w)=y^w/w$. It is holomorphic on $\operatorname{Re}w>0$, and the quotient rule gives $\varphi(1)=y$ and $\varphi'(1)=y\log y-y$. Let $G$ be the second difference quotient of $\varphi$ at $1$: $G(w)=(\varphi(w)-\varphi(1)-\varphi'(1)(w-1))/(w-1)^2$ for $w\ne1$ and $G(1)=\varphi''(1)/2$. It is holomorphic on $\operatorname{Re}w>0$, and for $w\ne1$
+$$
+\frac{k_y(w)}{w-1}=\frac{\varphi(w)}{(w-1)^2}=G(w)+\frac{y}{(w-1)^2}+\frac{y\log y-y}{w-1}.
+$$
+The closed rectangle lies in $\operatorname{Re}w>0$, and no edge passes through $1$. On each edge $-y/(w-1)$ is a primitive of $y/(w-1)^2$. Each edge integral of that term is the difference of the primitive at its endpoints, and the four differences cancel around the boundary. The remaining terms $G+(y\log y-y)/(w-1)$ have one simple pole inside, and (Res) with the single point $1$ gives $2\pi i(y\log y-y)$. $\square$
+
+**Proof of Theorem 4.10.12.** *A disc around the rectangle.* Put $R_1=|x_0-1|+|x_1-1|+|y_0|+|y_1|+1$. Every point of the closed rectangle satisfies $|w-1|\le|\operatorname{Re}(w-1)|+|\operatorname{Im}w|<R_1$. Apply (Fac) to $f$ on $\overline B(1,R_1+1)$ with inner radius $R_1$. This gives the finite set $Z_b$ of zeros of $f$ in $\overline B(1,R_1)$, exponents $m$, and a cofactor $h$ nonzero on $\overline B(1,R_1)$ with $f=\prod_{Z_b}(w-\rho)^{m_\rho}h$. Then $Z\subseteq Z_b$. Since $h(\rho)\ne0$, $m_\rho$ is the analytic order of $f$ at $\rho$ (`exr_ord`). Multiple zeros therefore carry their exact weights.
+
+*An open set without the other poles.* Let $U=B(1,R_1)\setminus\big((Z_b\setminus Z)\cup\{0\}\big)$, which is open because only finitely many points are removed. The closed rectangle lies in $U$. It misses $0$ because $x_0>0$. A point of $Z_b\setminus Z$ in the closed rectangle would be a zero of $f$ there, hence, by hypothesis, a zero in the open rectangle, that is, a point of $Z$. This is the only use of the boundary hypothesis. Also $1\in U$, $Z\subset U$ and $1\notin Z$.
+
+*The regular part of the logarithmic derivative.* On $U\setminus Z$,
+$$
+\frac{f'}{f}(w)=\sum_{\rho\in Z}\frac{m_\rho}{w-\rho}+\Lambda(w),\qquad
+\Lambda=\frac{h'}{h}+\sum_{\rho\in Z_b\setminus Z}\frac{m_\rho}{w-\rho},
+$$
+and $\Lambda$ is holomorphic on $U$ (`exr_logDeriv`).
+
+*Principal parts.* Put $\varphi(w)=y^w/w$. It is holomorphic on $U$ because $0\notin U$, and $k_y=\varphi/(w-1)$. Set
+$$
+b_1=-\frac{f'(1)}{f(1)}\,y,\qquad b_\rho=-m_\rho\,k_y(\rho)\quad(\rho\in Z).
+$$
+For $\psi$ holomorphic on $U$ and $a\in U$, the difference quotient $\delta_a\psi$ is defined by $\delta_a\psi(w)=(\psi(w)-\psi(a))/(w-a)$ for $w\ne a$ and $\delta_a\psi(a)=\psi'(a)$. It is again holomorphic on $U$, so
+$$
+G_0=-\delta_1(\Lambda\varphi)-\sum_{\rho\in Z}\frac{m_\rho}{\rho-1}\big(\delta_\rho\varphi-\delta_1\varphi\big)
+$$
+is holomorphic on $U$. We claim that for $w\in U$ outside $\{1\}\cup Z$,
+$$
+-\frac{f'}{f}(w)\,k_y(w)-\frac{b_1}{w-1}-\sum_{\rho\in Z}\frac{b_\rho}{w-\rho}=G_0(w).
+$$
+Insert the decomposition of $f'/f$ at $w$ and at $1$, using $f'(1)/f(1)=\sum_\rho m_\rho/(1-\rho)+\Lambda(1)$ and $\varphi(1)=y$. The terms in $\Lambda$ give $(-\Lambda(w)\varphi(w)+\Lambda(1)\varphi(1))/(w-1)=-\delta_1(\Lambda\varphi)(w)$. For each $\rho$, with $m=m_\rho$, it remains to check
+$$
+-\frac{m}{w-\rho}\,\frac{\varphi(w)}{w-1}+\frac{m}{1-\rho}\,\frac{y}{w-1}+\frac{m\,k_y(\rho)}{w-\rho}+\frac{m}{\rho-1}\Big(\frac{\varphi(w)-\varphi(\rho)}{w-\rho}-\frac{\varphi(w)-y}{w-1}\Big)=0
+$$
+(`exr_term`). By $1/(w-\rho)-1/(w-1)=(\rho-1)/((w-\rho)(w-1))$, the bracket contributes three terms: $m\varphi(w)/((w-\rho)(w-1))$, which cancels the first term; $-m\varphi(\rho)/((\rho-1)(w-\rho))=-m\,k_y(\rho)/(w-\rho)$, which cancels the third; and $my/((\rho-1)(w-1))$, which cancels the second.
+
+*Residue theorem.* Put $G=G_0$ on $\{1\}\cup Z$ and $G=-(f'/f)k_y-\sum_pb_p/(w-p)$ elsewhere on $U$. By the claim $G=G_0$ on $U$, so $G$ is holomorphic there. Away from $\{1\}\cup Z$ the integrand is $G+\sum_pb_p/(w-p)$, and every $p$ lies strictly inside the rectangle. Then (Res) gives $I=2\pi i(b_1+\sum_{\rho\in Z}b_\rho)$, which is the stated formula. $\square$
+
+**Proof of Theorem 4.10.13.** *The zero list.* By (N) every zero of $f_\chi$ has real part less than $1<\sigma_0$. Hence $Z$ is the set of zeros in the open rectangle $(\sigma_1,\sigma_0)\times(-T',T')$, and the hypothesis says that every zero in the closed rectangle lies in the open one. Theorem 4.10.12 applies to the entire function $f_\chi$, which satisfies $f_\chi(1)\ne0$, and gives
+$$
+I\Big(-\frac{f_\chi'}{f_\chi}\,k_y\Big)=2\pi i\Big(K_\chi y-\sum_{\rho\in Z}m_\chi(\rho)\,k_y(\rho)\Big).
+$$
+*Non-principal $\chi$.* Here $f_\chi=L(\cdot,\chi)$, so $F_y=-(f_\chi'/f_\chi)k_y$ identically.
+
+*Principal $\chi$.* Let $w\in\partial R$. Then $w\ne0$, because $\operatorname{Re}w\ge\sigma_1>0$. Also $w\ne1$, because $1$ lies strictly inside, and $f_\chi(w)\ne0$, because boundary zeros are excluded. Since $f_\chi=(s-1)L(s,\chi)$ near $w$, we get $L(w,\chi)\ne0$ and $f_\chi'(w)=L(w,\chi)+(w-1)L'(w,\chi)$. Hence
+$$
+F_y(w)=-\frac{f_\chi'(w)}{f_\chi(w)}\,k_y(w)+\frac{k_y(w)}{w-1}\qquad(w\in\partial R).
+$$
+Both summands are continuous on $\partial R$. Since $I$ uses only boundary values, it is the sum of the two rectangle integrals (`ex_rectInt_congr`, `ex_rectInt_add`). Lemma 4.10.11 evaluates the second one as $2\pi i(y\log y-y)$. $\square$
+
+The value of Mathlib's principal $L$-function at its pole $s=1$ is a convention and never enters. The point $1$ is not on the boundary, and the residue at $1$ is computed from $f_\chi$ and from $k_y/(w-1)$.
+
+**Proof of Corollary 4.10.14.** The parameters satisfy $\sigma_1\ge1-\kappa\ge19/20>0$, $\sigma_1\le1-3\kappa/4<1$, $\sigma_0>1$ and $T'\ge T\ge2>0$. Let $w$ be a zero of $f_\chi$ with $\sigma_1\le\operatorname{Re}w\le\sigma_0$ and $|\operatorname{Im}w|\le T'$. Then $\operatorname{Re}w\ge19/20\ge9/10$ and $|\operatorname{Im}w|\le T+1\le T+3$. The real-part gap gives $|\operatorname{Re}w-\sigma_1|\ge d>0$, hence $\operatorname{Re}w>\sigma_1$. The height gap gives $\big||\operatorname{Im}w|-T'\big|\ge d>0$, hence $|\operatorname{Im}w|<T'$. The right side needs no gap, since $\operatorname{Re}w<1<\sigma_0$. This is the boundary hypothesis that the archive derives at `PNTExplMainB.lean:138–148` before it calls `ex_rect_Fchi` at `:149`.
+
+Unfolding $I$ gives $B-P+iR-iL=2\pi iQ$. Division by $y$ uses $(y\log y-y)/y=\log y-1$ and $k_y(\rho)/y=y^{\rho-1}/(\rho(\rho-1))$ (`:153–164`), and the archive combines the result with Perron (`:150`) and the algebra `exm_alg` (`:152`). Multiplying the identity by $-i$ gives $R=2\pi Q+L+i(B-P)$, hence $I_\infty-2\pi Q=(I_\infty-R)+L+i(B-P)$. $\square$
+
+#### 4.10.8.6 Failure examples and remarks
+
+**Without $\sigma_1>0$ [Expository].** For $\chi_8$ at $y=16$ take the rectangle $[-1/2,2]\times[-3,3]$, which reaches $\operatorname{Re}s<0$. It contains $s=0$, which is both the pole of $k_y$ and the trivial zero of $L(s,\chi_8)$. There $D(s)=-1/s+c_0+O(s)$ with $c_0=-L''(0,\chi_8)/(2L'(0,\chi_8))\approx0.296464$, and $k_y(s)=-1/s-(\log y+1)+O(s)$. So $F_y$ has a double pole at $0$, with residue $\log y+1-c_0\approx3.476125$, and the integral is $2\pi i(16K+3.476125)\approx2\pi i\,(-6.637715)$. With the hypothesis $\sigma_1>0$ deleted, the right side of Theorem 4.10.13 gives $2\pi i\cdot16K$ instead. The point $0$ belongs to $Z$ with order $1$, but $k_y(0)$ has no value; the Lean convention $x/0=0$ assigns it $0$, so the formula silently drops the double-pole residue $3.476125$. A 20-digit contour computation confirms the value $2\pi i\,(-6.637715)$ (numerical supplement). The next trivial zero, $-2$, is still outside. For $\chi_0$ modulo $8$ the obstruction is worse: $f$ vanishes at every point $2\pi ik/\log2$ of the line $\operatorname{Re}s=0$. A left edge on that line meets zeros. A left edge beyond it encloses $s=0$, where $k_y$ has a pole and $f$ a simple zero.
+
+**A zero on the boundary.** Take $f(s)=s-1/2$, $y=4$ and the rectangle $[1/2,2]\times[-1,1]$. On the left edge $s=1/2+it$, the integrand $-k_4(s)/(s-1/2)$ behaves like $-k_4(1/2)/(it)$, where $|k_4(1/2)|=8$. It is therefore not integrable near $t=0$, and the boundary integral is undefined. The symmetric principal value exists and picks up half the residue at $1/2$, so neither counting this zero nor omitting it reproduces it. This is why Theorem 4.10.13 assumes a zero-free boundary, and why §4.10.7 derives that assumption from gaps of size $d$. The failure example in §4.10.7.6 shows that a zero merely close to the left edge already destroys the pointwise edge bounds.
+
+**Weights.** Take $f(s)=(s-1/2)^2$ and $y=9$ on any rectangle as in Theorem 4.10.12 that contains $1/2$. Here $-f'(1)/f(1)=-4$ and $k_9(1/2)=3/(-1/4)=-12$, so the theorem gives $I=2\pi i(-36+24)=2\pi i\,(-12)$. With weight $1$ instead of the order $2$, the formula would predict $2\pi i\,(-24)$. The discrepancy $24\pi i$ is one unit of multiplicity times $2\pi i\,|k_9(1/2)|$. The archive's interface `LandauLocal` alone cannot exclude this, since its weights only satisfy $m_\rho\ge1$, while the residue theorem needs the analytic order. Lemma 4.10.9 and `exr_ord` supply it.
+
+**The principal correction.** For $\chi_0$ the theorem is not Theorem 4.10.12 applied to $L$: $L$ has a pole at $1$, so the hypothesis "entire with $f(1)\ne0$" fails. Applying Theorem 4.10.12 to $f_\chi$ integrates $-(f_\chi'/f_\chi)k_y$ instead of $F_y$ and misses $2\pi i(y\log y-y)$. At $y=10$ this missing term is $2\pi i\cdot13.025851$, about forty times the full residue $0.322222$. After division by $y$ it is the term $p_\chi(\log y-1)$ of §4.10.7.
+
+**The pole at $1$ must be inside.** If $\sigma_0<1$ the point $1$ lies outside and the terms $K_\chi y$ and $p_\chi(y\log y-y)$ are absent; if $\sigma_0=1$ the pole lies on the right edge and that edge integral diverges. In the archive $\sigma_0=1+1/\log y$, and $\sigma_1<1$ follows from $\sigma_1\le1-3\kappa/4$.
+
+**Classical comparison [Paper].** Tao's 254A Notes 2 take the same two steps for $\zeta$ [[Tao2014, Proposition 19, Remark 17 and Theorem 21](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)]. Proposition 19 replaces $\zeta$ by $(s-1)\zeta(s)$ and applies a local disc theorem on a disc centred at $2+it$. It then removes the zeros farther than $\varepsilon/2$ from $s$ with the crude count of Proposition 16. Remark 17 fixes the convention that sums over zeros count multiplicity. The proof of Theorem 21 applies the residue theorem to the rectangle $\varepsilon'\le\operatorname{Re}s\le1+1/\log x$, $|\operatorname{Im}s|\le T'$. The residues there are $x$ at $1$ and, at each zero, $-x^\rho/\rho$ times the multiplicity. The archive differs in three ways. Its discs are centred at $101/100+it$, just to the right of $\operatorname{Re}s=1$, and normalized by the inverse bound. Its kernel $y^s/(s(s-1))$ is Riesz-smoothed, which creates the double pole at $1$ for the principal character. It also keeps the exact identity of Theorem 4.10.13 separate from the edge estimates, which §4.10.7 carries out with coordinate gaps. Lemma 4.10.9 is the local Landau lemma of §4.8.8 with the exact orders made explicit.
+
+**What the constant means for §4.10.7.** The numerator constant of §4.10.7 is $C_2=2C_{\mathrm{loc}}+100/7+C_3$ (`ex_negLD_bound`, `PNTExplNeg.lean:33`). Since $C_{\mathrm{loc}}=180(\log(10100C_G)+3)$ with the archive's witness $C_G\ge6$, and $C_3\ge0$,
+$$
+C_2\ge C_2^\flat:=360(\log60600+3)+\frac{100}{7}\approx5058.62 .
+$$
+The worked budgets of §4.10.7.2 use this least admissible value.
+
+#### 4.10.8.7 Source map and reading boundary
+
+Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Short `PNTExpl*` paths are relative to `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/` and the other paths to `src/Formalism/`. All cited members were extracted from the tarball and compared byte for byte with the read-only copy.
+
+| Step | Location | Reading |
+|---|---|---|
+| `ex_local` | `PNTExplLocL.lean:86–146`; helpers `ex_centre_re`, `ex_centre_norm`, `ex_centre_lower`, `ex_log_bound` at `:12–84` | Local R3 [Lean, read] |
+| Disc lemma with exact orders | `ex_landau_ord_core`, `ex_landau_ord` at `PNTExplLoc.lean:115–319`; the private factorization and finiteness lemmas at `:12–111` | Local R3 |
+| Zero-free disc estimate | `landauLocal` at `ZeroFreeRegion/FinalZFR.lean:15`; `localZeroExpansionOfFactorization` at `ZeroFreeRegion/ZetaLogDerivativeBounds/LandauLocalOf.lean:69–180` | Local R3; its suppliers `zeroFactorization` (`ZeroFactor.lean:120–168`), `logDerivBoundOnBall` (`LogDerivBound.lean:42–120`) and `landauLocal_logDeriv_prod` (`LandauLocalOf.lean:44–50`) are inherited from §4.8.8 |
+| `ex_rect_Fchi` | `PNTExplRectF.lean:154–240`; boundary set, congruence, additivity and continuity at `:62–151` | Local R3 |
+| Double pole | `ex_phi_hasDerivAt`, `ex_phi_differentiableOn`, `ex_rect_double` at `PNTExplRectF.lean:12–60`; `rectangle_double_pole` and its edge primitives at `ZeroFreeRegion/ZetaLogDerivativeBounds/RectDoublePole.lean:10–149`, statement at `ZeroFreeRegion/SmallHeightLogDeriv.lean:71–76` | Local R3 |
+| Rectangle identity for entire $f$ | `ex_rect_logDeriv` at `PNTExplRect.lean:15–189`; `exr_ord`, `exr_logDeriv`, `exr_term` at `PNTExplRectA.lean:9–72` | Local R3 |
+| Residue theorem | `rectangle_residue` at `LFunctionBounds/LFunctionBoundsProofs/RectResidue.lean:123`, statement at `LFunctionBounds/ExpSumLowerBound.lean:34–43` | Inherited from §4.8.7 |
+| Facts about $f_\chi$ | `exLF_of_ne` through `exOrd_eq_one`, `exLF_prod_le` and `exLF_lower` at `PNTExplLF.lean:13–127,186–205` | Local R3 for the A2 bodies |
+| Growth | `exLF_growth` at `PNTExplLF.lean:129–184` | Named input (G), R2 [Lean] |
+| Inverse and right-half-plane bounds | `inverseBound`, `l_log_deriv_right` at `LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:23–86,116–126` | Inherited from §4.8.8 |
+| Definitions | `exLF`, `exOrd`, `exKer`, `explicitFormulaConstant` at `PNTExplDefs.lean:12–20`; `Fchi` at `LandauZeroFreeBounds/LogDerivRegionChiOf.lean:14–15`; `negLD` at `LandauZeroFreeBounds/NoZeroComplexOf.lean:10–11`; `rectInt` at `ZeroFreeRegion/SmallHeightLogDeriv.lean:9–11` | Read |
+| Consumers | `ex_negLD_bound` at `PNTExplNeg.lean:27–102`; the box count at `PNTExplBox.lean:121`; the call in `exm_core` at `PNTExplMainB.lean:138–168` | Read in §4.10.7; call sites re-read |
+
+The proof of `exLF_growth` stays below this reading, with its suppliers `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) and `growthBound` (`ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:78`). So do the Mathlib facts, used at statement level at the A2 pin: `LFunctionTrivChar₁` with its value at $1$, `LFunction_ne_zero_of_one_le_re`, the maximum modulus theorem `Complex.norm_le_of_forall_mem_frontier_norm_le`, `differentiableOn_dslope` and the analytic-order API. The examples and the numerical supplement are [Expository]. Local R3 records source reading, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4108-local-expansion-and-rectangle-identity).
+
+---
+
+**Summary of the chapter.** Embedding a primitive Dirichlet character $\psi$ into a CM host field
+$E \subset \mathbb Q(\zeta_N)$ of degree $4 c \cdot 2^e$ requires two auxiliary primes
+$q \equiv 3 \pmod 8$ and $d \equiv 7 \pmod{16}$ (excluding complex conjugation so $E$ is CM over
+$F = E^+$, splitting $2, q$ and all prime divisors of $\psi.N$ in $K = \mathbb Q(\sqrt{-d})$, and
+providing an odd parity partner for odd $\psi$, Lemma 4.2) [Lean, read]. Choosing
+$\log q \asymp Y^{\varepsilon/5}$ and $\log d \asymp Y^{\varepsilon/5}(\log Y)^2$ with $q \mid d + 1$
+and small odd primes dividing $d + 1$ allows a two-stage unconditional sieve — combining a $Q^{1/4}$
+zero-density bound (`zero_density_box` [Lean, read], Section 4.7), explicit-formula truncation at $Z = x^{400}$ matched
+to box width $1/400$ (Lemma 4.4), $L^2$ Jacobi character-sum bounds with at most one Landau–Page
+modulus (Proposition 4.5), and a dyadic Sobolev–Markov inequality (Lemma 4.6) — to produce a pair
+$(q, d)$ whose parasitic twists satisfy $\lvert G_\chi(x) \rvert \le x^{1/2+\varepsilon}$ and
+$\lvert L'/L(1,\chi) \rvert \le 4\log x$ on $[Y, Y^A]$ (Theorem 4.7) [Lean, read]. Rescaling
+quadratic `VWin` windows from exponent $401$ to $400$ and from $[W, W^2]$ to $[Z, Z^{3/2}]$ yields
+`supplyChi` (Proposition 4.8 and Theorem 4.9) [Lean, read], delivering the exact host-field package
+`EAtH` consumed in Chapter 5.
