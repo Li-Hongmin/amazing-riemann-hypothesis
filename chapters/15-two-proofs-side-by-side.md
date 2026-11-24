@@ -359,13 +359,16 @@ Why $\frac{1}{2}$, and not $\frac{2}{3}$ or $\frac{3}{4}$? Compare the two mecha
   discrete parameter $m$ and no AM–GM optimization! Instead, $\frac{1}{2}$ enters in **two** coupled
   steps:
   1. *Symmetry center:* Embedding $\Phi_F(\mathcal S_0(\mathbb A_F))$ with $\lvert \cdot \rvert_F^a$
-     converts multiplicative Haar measure $d\mu_S(x) = \lvert x \rvert_{F, S}^{-1} d\nu_S(x)$ on the
-     diagonal $x = y$ into $\lvert x \rvert_{F, S}^{2a - 1} d\nu_S(x)$, which matches additive Fourier
-     measure $d\nu_S(x)$ **if and only if $2a - 1 = 0 \iff a = \frac{1}{2}$** (`p. 16, p. 518`). (Note:
-     this alone only identifies $\Re s = \frac{1}{2}$ as the **functional-equation symmetry axis**,
-     which is classical! Subsection 15.4.3.1 below proves it as Theorem 15.3, with the
-     normalizations of $\lvert\cdot\rvert_{F,S}$, the domain $K^\times$ of $\mu_S$, the constant
-     $c_S$ of (12.4.1.17), and two hand calculations.)
+     converts the normalized multiplicative Haar measure
+     $d\mu_S(x) = c_S\,\lvert x \rvert_{F, S}^{-1} d\nu_S(x)$ on the diagonal $x = y$ into
+     $c_S\,\lvert x \rvert_{F, S}^{2a - 1} d\nu_S(x)$, which matches additive Fourier measure
+     $d\nu_S(x)$ up to a positive constant (namely $c_S$, for $S \ne \emptyset$) **if and only if
+     $2a - 1 = 0 \iff a = \frac{1}{2}$** (`p. 16, p. 518`). (Note: this alone only identifies
+     $\Re s = \frac{1}{2}$ as the **functional-equation symmetry axis**, which is classical!
+     Subsections 15.4.3.1 and 15.4.3.2 below prove it as Theorems 15.3 and 15.6, with the local and
+     real-linear determinant normalizations of $\lvert\cdot\rvert_{F,S}$, the domain $K_S^\times$ of
+     $\mu_S$, the constant $c_S$ of (12.4.1.17), the `withDensity` $L^2$ half-density transport, and
+     four worked hand calculations.)
   2. *Concentration on that axis:* Zeros are forced onto $\Re s = \frac{1}{2}$ **only if** the trace on
      $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$ is independent of $\alpha > 0$ (`Theorem 12.5.1.1`, p. 519)
      — the exact step currently blocked by the `[Open]` issues of Chapter 14!
@@ -404,7 +407,8 @@ multiplicative Haar measure is $dx/x$. Take the window $g=\mathbf 1_{[1,4]}$ and
 $x\mapsto 2x$, which sends $[1,4]$ to $[2,8]$. Additive masses: $\nu([1,4])=3$, $\nu([2,8])=6$;
 the ratio is $2$. Multiplicative masses: $\mu([1,4])=\log 4=\mu([2,8])$; the ratio is $1$. Now
 weight the multiplicative measure by $x^{2a}$, which is what the diagonal of a kernel
-$x^{a}y^{a}k(x,y)$ does. Then $x^{2a}\,dx/x = x^{2a-1}dx$ and
+$x^{a}y^{a}k(x,y)$ does. Then $x^{2a}\,dx/x = x^{2a-1}dx$ and, for $a\ne 0$ (with both integrals equal
+to $\log 4$ at $a=0$),
 $$\int_1^4 x^{2a-1}\,dx=\frac{4^{2a}-1}{2a},\qquad \int_2^8 x^{2a-1}\,dx=2^{2a}\,\frac{4^{2a}-1}{2a},$$
 so the weighted measure scales under $x\mapsto 2x$ by $2^{2a}$. The additive measure scales by
 $2^{1}$. The two agree for exactly one $a$, namely $2a=1$. (Numerically: at $a=1/4$ the two
@@ -470,14 +474,15 @@ it for sets.
 matrix $r\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$, of
 determinant $r^2=\lvert z\rvert^2$. For a Haar measure on a finite-dimensional real vector space
 $E$ the image of a set under a linear map $f$ has measure $\lvert\det f\rvert$ times the original
-(`addHaar_image_linearMap`, [`EqHaar.lean:310–319`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L310-L319)),
+(`addHaar_image_linearMap`, [`EqHaar.lean:297–306`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L297-L306)),
 and for real scalars this specializes to `addHaar_smul`:
 $\mu(r\cdot S)=\lvert r^{\dim E}\rvert\,\mu(S)$ ([`EqHaar.lean:362–375`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L362-L375),
 proved by writing $r\cdot$ as the linear map $r\cdot\mathrm{id}$ with determinant $r^{\dim E}$ via
 `LinearMap.det_smul`, and treating $r=0$ separately through `measure_singleton`). With
-$\dim_{\mathbb R}\mathbb C=2$ this gives $\Delta_{\mathbb C}(r)=r^2$ for real $r$; the rotation
-factor has determinant $1$ and we have read only the real-scalar case in Lean, so the
-general $z$ rests on the determinant computation just displayed `[Expository]`.
+$\dim_{\mathbb R}\mathbb C=2$ this gives $\Delta_{\mathbb C}(r)=r^2$ for real $r$; the full production
+proof of `map_linearMap_addHaar_eq_smul_addHaar`, `addHaar_image_linearMap`, and
+$\det_{\mathbb R}(w\mapsto zw)=\lvert z\rvert^2$ for arbitrary $z\in\mathbb C$ is given in Lemmas
+15.5a–15.5c of §15.4.3.2 below.
 
 (3) $\mathcal O$ is the disjoint union of the $q$ cosets $r+\pi\mathcal O$, which are translates
 of $\pi\mathcal O$; translation invariance gives $\nu(\pi\mathcal O)=q^{-1}\nu(\mathcal O)=q^{-1}$,
@@ -492,8 +497,8 @@ density $\Delta_K^{-1}$ is identically $1$, so $\mu(\mathcal O^\times)=1-q^{-1}$
 1. $\nu(\{0\})=0$; hence $L^2(K,\nu)=L^2(K^\times,\nu|_{K^\times})$ and restriction to $K^\times$
    loses nothing.
 2. $\mu=\Delta_K^{-1}\nu$ is a Radon measure on $K^\times$ but has infinite mass on every
-   neighbourhood of $0$ in $K$. So $\mu$ is a measure on the locally compact group $K^\times$ only;
-   it does not extend to a locally finite measure on $K$.
+   neighbourhood of $0$ in $K$. So $\mu$ is a Radon measure on the locally compact group $K^\times$,
+   and does not extend to a locally finite Borel measure on $K$.
 
 *Proof.* (1) Suppose $\nu(\{0\})>0$. By translation invariance every singleton has the same
 positive measure. A compact neighbourhood $C$ of $0$ exists by local compactness and is infinite
@@ -559,14 +564,18 @@ $U=U_{1/2}:L^2(K,\nu)\to L^2(K^\times,\mu)$ is unitary, with inverse $f\mapsto\D
 extended by $0$ at the $\nu$-null point $0$.
 
 *Proof.* $\lvert U_ag\rvert^2\Delta_K^{1-2a}\,d\mu=\Delta_K^{2a}\lvert g\rvert^2\Delta_K^{1-2a}\Delta_K^{-1}\,d\nu=\lvert g\rvert^2\,d\nu$
-on $K^\times$, by the density formula, and $\{0\}$ is $\nu$-null by Lemma 15.3b(1). Surjectivity:
-$f\in L^2(K^\times,\Delta_K^{1-2a}\mu)$ has preimage $\Delta_K^{-a}f$. (In Mathlib the general
-principle "composition with a measure-preserving map is an isometry of $L^p$" is
-`Lp.isometry_compMeasurePreserving`
-([`LpSpace/Basic.lean:581–583`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L581-L583));
-here the measure-preserving map is the identity $K^\times\to K^\times$ between $\nu$ and the
-weighted multiplicative measure, and the multiplication by $\Delta_K^{a}$ is the change of
-density, so the isometry is the one-line computation above.) $\square$
+on $K^\times$, by the density formula, and $\{0\}$ is $\nu$-null by Lemma 15.3b(1). Because
+$0<\Delta_K<\infty$ on $K^\times$, $\nu|_{K^\times}$ and $\Delta_K^{1-2a}\mu=\Delta_K^{-2a}\nu|_{K^\times}$
+have the same null sets, so $U_a$ descends to almost-everywhere classes and is surjective with inverse
+$f\mapsto\Delta_K^{-a}f$ (extended by $0$ at $0$). (Caution: $U_a$ is a **density-multiplication**
+isometry, *not* an instance of Mathlib's `Lp.isometry_compMeasurePreserving`
+([`LpSpace/Basic.lean:581–583`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L581-L583)):
+the latter requires `MeasurePreserving` and acts only by precomposition $h\mapsto h\circ\phi$, whereas
+for $\phi=\mathrm{id}_{K^\times}$ the pushforward $(\mathrm{id}_{K^\times})_\ast\nu=\nu$ differs from
+$\Delta_K^{1-2a}\mu=\Delta_K^{-2a}\nu$ whenever $a\ne 0$—for example on $[1,4]\subset\mathbb R_{>0}$ at
+$a=1/2$, $\nu([1,4])=3\ne\log 4=\mu([1,4])$. Lemma 15.5d and Theorem 15.6 in §15.4.3.2 build the
+`withDensity` $L^2$ isometric isomorphism directly and incorporate the product normalization
+$c_S^{-1/2}$.) $\square$
 
 **Theorem 15.3 (the diagonal weight and the uniqueness of $a=1/2$).** Let $K,\nu,\Delta_K,\mu$ be
 as in Definition 15.2, and assume
@@ -587,10 +596,22 @@ given), and for $a\in\mathbb R$ set $k_a(x,y)=\Delta_K(x)^a\Delta_K(y)^a k(x,y)$
 2. *(Uniqueness.)* There is a constant $c>0$ with $\Delta_K^{2a}\mu=c\,\nu$ as measures on
    $K^\times$ if and only if $a=1/2$; and then $c=1$. Equivalently, the weight $\Delta_K^{2a-1}$ in
    (1) is a constant if and only if $a=1/2$.
-3. *(Product form.)* For a finite set $S$ of places and $K_S=\prod_{v\in S}F_v$ with
-   $\Delta_S=\prod_v\Delta_{F_v}$, $\nu_S=\bigotimes_v\nu_v$, $\mu_S=c_S\bigotimes_v\mu_v$, the
-   same two statements hold on $K_S^\times=\prod_vF_v^\times$ with $c=c_S$ in (2); this is the
-   form of Masullo's (12.4.1.17) and of the p. 16 sentence.
+3. *(Product form and the two occurrences of $c_S$.)* Let $S$ be a finite set of places of $F$,
+   $K_S=\prod_{v\in S}F_v$ (each factor satisfying **(H1)**–**(H2)**), $\Delta_S=\prod_{v\in S}\Delta_{F_v}$,
+   $\nu_S=\bigotimes_{v\in S}\nu_v$, and $\mu_S=c_S\bigotimes_{v\in S}\mu_v$ on
+   $K_S^\times=\prod_{v\in S}F_v^\times$, where $c_S=\prod_{v\in S_f}N(\mathfrak p_v)/(N(\mathfrak p_v)-1)>0$
+   (with $c_\emptyset=1$). Then:
+   - *(i)* For every finite $S$ and every $a\in\mathbb R$, $k_a(x,y)=\Delta_S(x)^a\Delta_S(y)^a k(x,y)$
+     satisfies
+     $$\int_{K_S^\times}k_a(x,x)\,d\mu_S(x)=c_S\int_{K_S^\times}k(x,x)\,\Delta_S(x)^{2a-1}\,d\nu_S(x)$$
+     whenever either side converges absolutely.
+   - *(ii)* Assuming **$S\ne\emptyset$** (so $\Delta_S$ is non-constant on $K_S^\times$), there is a
+     constant $c>0$ with $\Delta_S^{2a}\mu_S=c\,\nu_S$ on $K_S^\times$ if and only if $a=1/2$, and
+     then $c=c_S$. (For the empty product $S=\emptyset$, $K_\emptyset^\times=\{1\}$ has
+     $\Delta_\emptyset\equiv 1$ and $c_\emptyset=1$, so $\Delta_\emptyset^{2a}\mu_\emptyset=\nu_\emptyset$
+     holds for *every* $a\in\mathbb R$ and uniqueness fails.)
+   Clauses *(i)* and *(ii)* are the exact form of Masullo's (12.4.1.17)–(12.4.1.23) and of the p. 16
+   sentence [Paper; Masullo pp. 16, 518].
 
 *Proof.* (1) By Definition 15.2(2) and the density formula,
 $k_a(x,x)\,d\mu(x)=\Delta_K(x)^{2a}k(x,x)\Delta_K(x)^{-1}d\nu(x)$.
@@ -609,10 +630,15 @@ null, hence empty by (H2). Evaluating at $x=1$ gives $c=1$. Now pick $t$ with
 $\Delta_K(t)\ne1$ by (H1); from $\Delta_K(t)^{2a-1}=1$ and $\Delta_K(t)>0$, $\Delta_K(t)\neq 1$,
 we get $2a-1=0$.
 
-(3) $\Delta_S$ is the modulus of $K_S$ for $\nu_S$ since the $v$-components scale independently;
-the product of the local densities is the density of the product measure; and the argument of
-(2) goes through with $c=c_S$ because $\Delta_S$ is continuous, non-constant (take
-$t=(t_v)$ with $t_v=1$ except at one place), and $\nu_S$ has full support. $\square$
+(3) On $K_S^\times$, the product of the local densities $\Delta_{F_v}^{-1}$ is $\Delta_S^{-1}$, so
+$\mu_S=c_S\bigotimes_{v\in S}\mu_v=c_S\,\Delta_S^{-1}\nu_S|_{K_S^\times}$; multiplying by
+$\Delta_S(x)^{2a}k(x,x)$ gives $k_a(x,x)\,d\mu_S(x)=c_S\,k(x,x)\Delta_S(x)^{2a-1}\,d\nu_S(x)$, proving
+*(i)*. For *(ii)*, $\Delta_S^{2a}\mu_S=c_S\Delta_S^{2a-1}\nu_S$ on $K_S^\times$: at $a=1/2$ this is
+$c_S\nu_S$, while if $c_S\Delta_S^{2a-1}\nu_S=c\nu_S$ on $K_S^\times$ with $S\ne\emptyset$, continuity
+of $\Delta_S$ and full support of $\nu_S$ force $c_S\Delta_S(x)^{2a-1}=c$ for all $x\in K_S^\times$;
+evaluating at $x=(1)_{v\in S}$ gives $c=c_S$, and picking $v_0\in S$ and $t=(t_v)_{v\in S}$ with
+$\Delta_{F_{v_0}}(t_{v_0})\ne 1$ and $t_v=1$ for $v\ne v_0$ gives $\Delta_S(t)^{2a-1}=1$ with
+$\Delta_S(t)\ne 1$, hence $2a-1=0$. $\square$
 
 **Proposition 15.4 (why the exponent is the symmetry centre: unitarity of dilations).**
 For $a\in\mathbb R$ and $t\in K^\times$ define $T^{(a)}_t g(x)=\Delta_K(t)^{a}g(tx)$ on functions
@@ -673,7 +699,8 @@ $\mathbb Q_5^\times$.
 **Remark 1 (what this does and does not show).** Theorem 15.3 and Proposition 15.4 are local
 statements about one field at a time (or a finite product), and they hold for *every* test
 kernel and every exponent $a$; the exponent $1/2$ is singled out as the only one for which a
-dilation-invariant object (the additive measure, or a unitary dilation action) appears. This is
+translation-invariant, degree-one dilation-covariant measure (the additive measure $\nu$, or a
+unitary dilation action on $L^2(\nu)$) appears. This is
 the same mechanism that places the symmetry axis of Tate's local functional equation at
 $\Re s=1/2$: Proposition 15.4(2) is the Fourier side of that equation. In particular the
 subsection proves **nothing about zeros**. It does not supply the $\alpha$-independence of the
@@ -715,27 +742,626 @@ constants in (12.4.1.25)–(12.4.1.26) and do not use them.
 | `Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean:43–55, 57–58, 83–86, 92–95` | `distribHaarChar`, `distribHaarChar_pos`, `distribHaarChar_mul`, `distribHaarChar_eq_of_measure_smul_eq_mul` | Definition 15.2(1): the modulus as the Haar scalar factor of the pulled-back measure; homomorphism property | R3 (whole file read) |
 | `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:277, 1063–1073` | `haarScalarFactor`, `addHaarScalarFactor_smul_congr'` | supplies independence of $\nu$ in Definition 15.2(1) | statement level |
 | `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:96, 123, 312–336` | `Real.volume_Ioo`, `Real.volume_singleton`, `Real.smul_map_volume_mul_left`, `Real.map_volume_mul_left`, `Real.volume_preimage_mul_left` | Lemma 15.3a(1), Lemma 15.3b(1) for $\mathbb R$ | R3 |
-| `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:310–319, 336–375` | `addHaar_image_linearMap`, `map_addHaar_smul`, `addHaar_preimage_smul`, `addHaar_smul` | Lemma 15.3a(2), real-scalar case; determinant of complex multiplication is a hand computation | R3 (`:336–375`), statement level (`:310–319`) |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:297–306, 336–375` | `addHaar_image_linearMap`, `map_addHaar_smul`, `addHaar_preimage_smul`, `addHaar_smul` | Lemma 15.3a(2), real-scalar case (`:297–306` and general $z\in\mathbb C$ read at R3 in §15.4.3.2) | R3 (`:336–375` here; `:297–306` in §15.4.3.2) |
 | `Mathlib/LinearAlgebra/Determinant.lean:256` | `LinearMap.det_smul` | $\det(r\cdot\mathrm{id})=r^{\dim}$ inside `map_addHaar_smul` | statement level |
 | `Mathlib/MeasureTheory/Group/Measure.lean:935–944` | `IsHaarMeasure.nullSingletonClass` | Lemma 15.3b(1) | R3 |
 | `Mathlib/MeasureTheory/Measure/WithDensity.lean:398–409` | `lintegral_withDensity_eq_lintegral_mul` | the density formula in Lemmas 15.3c–d and Theorem 15.3(1) | R3 |
 | `Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean:1187–1195` | `integral_comp_mul_left_Ioi` | Lemma 15.3c substitution on $\mathbb R_{>0}$ | R3 |
 | `Mathlib/Analysis/MellinTransform.lean:91, 133–149` | `mellin`, `mellin_comp_mul_left` | Example 1 Mellin check; twisted invariance of $dt/t$ | R3 |
 | `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:978–1000` | `IsHaarMeasure.isInvInvariant_of_regular` | Lemma 15.3c inversion invariance | R3 |
-| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:560–583` | `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving` | the general isometry principle behind Lemma 15.3d | statement level |
+| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:561–583` | `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving` | precomposition isometry under `MeasurePreserving`; contrasted with density multiplication in Lemma 15.3d and §15.4.3.2 | statement level (R3 in §15.4.3.2) |
 | `Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.lean:40–68` | `mulEquivHaarChar`, `mulEquivHaarChar_smul_map` | the multiplicative-group analogue of the modulus; not used in the proofs, read for orientation | R3 |
 | `Mathlib/NumberTheory/Padics/ProperSpace.lean:64–69` | `ProperSpace ℚ_[p]` instance (namespace `Padic`) | local compactness of $\mathbb Q_5$ in Example 2 | R3 |
 | `Mathlib/MeasureTheory/Measure/Haar/Basic.lean:584` | `MeasureTheory.Measure.haar` | existence of $\nu$ on any locally compact group | statement level |
 
-**Retained inputs (not read).** The uniqueness theorem for Haar measure behind
-`haarScalarFactor` and `isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean`); the
-real-linear determinant formula `map_linearMap_addHaar_eq_smul_addHaar` behind
-`addHaar_image_linearMap`; the Fourier transform on a general local field (Proposition 15.4(2)
-is classical `[Expository]`, and for $\mathbb R$ Mathlib's `Real.fourierIntegral` is not cited
-here); a Haar measure on $\mathbb Q_p$ as a Mathlib instance (absent at the pin); and Masullo's
-smoothing of kernels along the diagonal (Hardy–Littlewood and Lebesgue differentiation,
-pp. 15, 517), which we assume as the hypothesis "the diagonal restriction is Borel" in
-Theorem 15.3.
+**Retained inputs (not read in §15.4.3.1; linear-Haar and density-$L^2$ items opened in §15.4.3.2).**
+The uniqueness theorem for Haar measure behind `haarScalarFactor` and
+`isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean`); the Fourier transform on a general
+local field (Proposition 15.4(2) is classical `[Expository]`, and for $\mathbb R$ Mathlib's
+`Real.fourierIntegral` is not cited here); a Haar measure on $\mathbb Q_p$ as a Mathlib instance
+(absent at the pin); and Masullo's smoothing of kernels along the diagonal (Hardy–Littlewood and
+Lebesgue differentiation, pp. 15, 517), which we assume as the hypothesis "the diagonal
+restriction is Borel" in Theorem 15.3. The real-linear determinant formulas
+`map_linearMap_addHaar_eq_smul_addHaar` and `addHaar_image_linearMap`, the real determinant of
+complex multiplication, and the `withDensity` $L^2$ isometric isomorphism are proved in §15.4.3.2
+immediately below.
+
+#### 15.4.3.2 From real-linear Haar determinants to density-weighted $L^2$ transport
+
+> **Reading boundary.** This subsection explains only existing measure theory and linear algebra.
+> All `[Lean, read]` citations refer to the archive's Mathlib pin
+> `0df444a360eaa60ab8c11dca51a86af692955474` (archive bundle SHA-256
+> `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`); reading these library
+> proofs (and building this book) is not a Lean kernel verification of any RH claim. Single-field
+> results already established in §15.4.3.1—$\Delta_{\mathbb R}(t)=\lvert t\rvert$, the
+> non-archimedean shell values $\Delta_K(\pi^k u)=q^{-k}$ and $\nu(\mathcal O^\times)=1-q^{-1}$,
+> zero removal $\nu(\{0\})=0$, multiplicative and inversion invariance of $\mu=\Delta_K^{-1}\nu$,
+> and the one-field dilation/Fourier Proposition 15.4—are inherited without repeating their proofs.
+> Masullo's diagonal smoothing of kernels (pp. 15, 517), the omitted §12.3 (p. 514), the Chapter 10
+> biorthogonal bound (p. 451), the asserted $\alpha$-independence of the strip trace in Theorem
+> 12.5.1.1 (p. 519), and the unwritten Chapter 13 (pp. 521–522) remain named `[Paper]`/`[Open]`
+> inputs (PDF SHA-256 `e039d3f6…97bf5`).
+
+**Motivation.** Subsection 15.4.3.1 left three concrete production steps behind interfaces or
+one-line assertions, and an independent audit of §15.4.3.1 showed why each of the three matters
+quantitatively:
+
+1. *Why a non-real complex multiplier scales planar area by $\lvert z\rvert^2$:* Lemma 15.3a(2)
+   read only the real-scalar lemma `addHaar_smul` in Lean, leaving the general linear determinant
+   theorem `map_linearMap_addHaar_eq_smul_addHaar` and its image companion
+   `addHaar_image_linearMap` unread. Opening those proofs shows how Mathlib reduces an arbitrary
+   real-linear endomorphism $f:E\to E$ to elementary shears (`TransvectionStruct`, preserving
+   slice integrals by Fubini) and diagonal stretches on $\mathbb R^n$, plus geometric-series
+   translates for singular maps (`addHaar_submodule`), and how evaluating left multiplication by
+   $z=u+iv$ in the real basis $\{1,i\}$ (`Complex.basisOneI`) produces $\det_{\mathbb R}(w\mapsto zw)=u^2+v^2=\lvert z\rvert^2$
+   (`[Tao2011]`, Exercise 1.2.21; `[Weil1967]`, Ch. I, §2).
+2. *Why half-density transport is a `withDensity` multiplication unitary and not a
+   `MeasurePreserving` composition:* In Mathlib, `Lp.compMeasurePreserving` acts exclusively by
+   precomposition $h\mapsto h\circ\phi$ under a measure-preserving map $\phi_\ast\mu_1=\mu_2$. For
+   the identity map on $K^\times$, $(\mathrm{id}_{K^\times})_\ast\nu=\nu\ne\Delta_K^{-2a}\nu=\Delta_K^{1-2a}\mu$
+   whenever $a\ne 0$. The genuine $L^2$ half-density isomorphism is a **pointwise multiplication
+   operator** $M_{w^{1/2}}:u\mapsto w^{1/2}u$ built from the `withDensity` integral calculus
+   (`WithDensity.lean`, patterned on the $L^1$ isometry `L1.withDensitySMulLI`), while
+   `compMeasurePreserving` enters on the multiplicative group $(K^\times,\mu)$ through the
+   genuine Haar-preserving translation $x\mapsto tx$, whose conjugation by $M_{\Delta_K^{1/2}}$
+   recovers the unitary dilation $T_t^{(1/2)}$ on $L^2(K,\nu)$.
+3. *How the finite-product constant $c_S=\prod_{v\in S_f}N(\mathfrak p_v)/(N(\mathfrak p_v)-1)$
+   behaves simultaneously in half-density $L^2$ norms and in diagonal kernel integrals:* In a
+   normalized half-density map $U_{S,a}(g)=c_S^{-1/2}\Delta_S^a g$, the two factors of $c_S^{-1/2}$
+   cancel the $c_S$ inside $\mu_S=c_S\Delta_S^{-1}\nu_S$, making $U_{S,1/2}:L^2(K_S,\nu_S)\to L^2(K_S^\times,\mu_S)$
+   strictly unitary; in Masullo's unscaled kernel $k_a(x,y)=\Delta_S(x)^a\Delta_S(y)^a k(x,y)$
+   ((12.4.1.16)–(12.4.1.23), p. 518), no $c_S^{-1/2}$ is inserted into the test functions, so
+   $c_S$ remains explicit on the right-hand side of **both** clauses of Theorem 15.3(3), and
+   uniqueness of $a=1/2$ requires $S\ne\emptyset$.
+
+**Example 1 (non-real complex dilation $z=1+2i$ on $\mathbb C$: shear-diagonal factorization,
+annular masses, and $L^2$ transport).** Let $K=\mathbb C$ with planar Lebesgue measure
+$\nu_{\mathbb C}=dx\,dy$ under `Complex.basisOneI` $=(1,i)$, multiplicative Haar measure
+$d\mu_{\mathbb C}(w)=\lvert w\rvert^{-2}dx\,dy$ on $\mathbb C^\times$, and non-real multiplier
+$z=1+2i$.
+
+- *Real matrix and two-sided transvection pivot.* Because $(1+2i)\cdot 1=1+2i$ and
+  $(1+2i)\cdot i=-2+i$, left multiplication $\ell_z(x+iy)=(1+2i)(x+iy)=(x-2y)+i(2x+y)$ has matrix
+  $$M=\begin{pmatrix}1&-2\\2&1\end{pmatrix},\qquad \det_{\mathbb R} M = 1\cdot 1 - (-2)\cdot 2 = 5 = \lvert 1+2i\rvert^2.$$
+  Following `Transvection.lean`'s two-sided elimination on the bottom-right pivot $M_{22}=1\ne 0$,
+  left multiplication by the column shear $T_{\mathrm{col}}=\begin{pmatrix}1&2\\0&1\end{pmatrix}$
+  clears the top-right entry, and right multiplication by the row shear
+  $T_{\mathrm{row}}=\begin{pmatrix}1&0\\-2&1\end{pmatrix}$ clears the bottom-left entry:
+  $$T_{\mathrm{col}} M T_{\mathrm{row}}=\begin{pmatrix}5&0\\0&1\end{pmatrix}=:D
+  \quad\Longleftrightarrow\quad
+  M = T_{\mathrm{col}}^{-1} D T_{\mathrm{row}}^{-1}
+  = \begin{pmatrix}1&-2\\0&1\end{pmatrix}\begin{pmatrix}5&0\\0&1\end{pmatrix}\begin{pmatrix}1&0\\2&1\end{pmatrix}.$$
+  Track the unit square $Q=[0,1]^2$ (`piIcc01 (Fin 2)`, area $1$) through the three factors:
+  1. $T_{\mathrm{row}}^{-1}(x,y)=(x,2x+y)$ shears each vertical slice $\{x\}\times[0,1]$ to
+     $\{x\}\times[2x,2x+1]$ of 1D length $1$, so Fubini gives $\nu_{\mathbb C}(T_{\mathrm{row}}^{-1}Q)=\int_0^1 1\,dx=1$;
+  2. $D(u,v)=(5u,v)$ stretches the first coordinate by $5$, giving area $5\cdot 1=5$;
+  3. $T_{\mathrm{col}}^{-1}(r,s)=(r-2s,s)$ shears each horizontal slice by $-2s$, preserving its
+     1D length and landing on the parallelogram $M(Q)$ with vertices $(0,0)$, $(1,2)$, $(-1,3)$,
+     $(-2,1)$, of area $\lvert 1\cdot 1 - (-2)\cdot 2\rvert = 5 = \Delta_{\mathbb C}(1+2i)\,\nu_{\mathbb C}(Q)$.
+- *Annulus check refuting `MeasurePreserving` for $\mathrm{id}_{\mathbb C^\times}$.* Take the
+  annulus $A=\{w\in\mathbb C:1\le\lvert w\rvert\le 2\}$ and $g=\mathbf 1_A$. In polar coordinates
+  $dx\,dy=r\,dr\,d\theta$:
+  $$\nu_{\mathbb C}(A)=\int_0^{2\pi}\!\!\int_1^2 r\,dr\,d\theta = 3\pi,\qquad
+    \mu_{\mathbb C}(A)=\int_0^{2\pi}\!\!\int_1^2 r^{-2}\cdot r\,dr\,d\theta = 2\pi\log 2.$$
+  Since $3\pi\ne 2\pi\log 2$, $(\mathrm{id}_{\mathbb C^\times})_\ast\nu_{\mathbb C}(A)\ne\mu_{\mathbb C}(A)$:
+  the identity map is **not** measure-preserving between $\nu_{\mathbb C}$ and $\mu_{\mathbb C}$!
+  Under $w\mapsto zw$ ($z=1+2i$, $\lvert z\rvert=\sqrt 5$), the image annulus is
+  $zA=\{\sqrt 5\le\lvert w\rvert\le 2\sqrt 5\}$, with
+  $$\nu_{\mathbb C}(zA)=\pi\bigl((2\sqrt 5)^2-(\sqrt 5)^2\bigr)=15\pi=5\,\nu_{\mathbb C}(A),\qquad
+    \mu_{\mathbb C}(zA)=2\pi\log\frac{2\sqrt 5}{\sqrt 5}=2\pi\log 2=\mu_{\mathbb C}(A).$$
+  Thus $\ell_z$ scales $\nu_{\mathbb C}$ by $\lvert\det_{\mathbb R} M\rvert=5$ while preserving
+  $\mu_{\mathbb C}$.
+- *Weighted $L^2$ norm and non-real dilation.* For any $a\in\mathbb R$, $U_a g(w)=\lvert w\rvert^{2a}\mathbf 1_A(w)$
+  satisfies
+  $$\int_{\mathbb C^\times}\lvert U_a g(w)\rvert^2\,\Delta_{\mathbb C}(w)^{1-2a}\,d\mu_{\mathbb C}(w)
+    =\int_A \lvert w\rvert^{4a}\lvert w\rvert^{2-4a}\lvert w\rvert^{-2}\,dx\,dy
+    =\nu_{\mathbb C}(A)=3\pi=\lVert g\rVert^2_{L^2(\nu_{\mathbb C})}.$$
+  Against unweighted $\mu_{\mathbb C}$, however, $\int_A\lvert U_1 g\rvert^2\,d\mu_{\mathbb C}=2\pi\int_1^2 r^3\,dr=\frac{15}{2}\pi\ne 3\pi$,
+  while $\int_A\lvert U_{1/2}g\rvert^2\,d\mu_{\mathbb C}=2\pi\int_1^2 r\,dr=3\pi$. Likewise, the
+  non-real dilation $(T_z^{(a)}g)(w)=\Delta_{\mathbb C}(z)^a g(zw)=5^a\mathbf 1_{z^{-1}A}(w)$ has
+  $z^{-1}A=\{1/\sqrt 5\le\lvert w\rvert\le 2/\sqrt 5\}$ of area $\frac{3\pi}{5}$, so
+  $$\lVert T_{1+2i}^{(a)}g\rVert^2_{L^2(\nu_{\mathbb C})}
+    = 5^{2a}\cdot\frac{3\pi}{5} = 3\pi\cdot 5^{2a-1},$$
+  which equals $\lVert g\rVert^2_{L^2(\nu_{\mathbb C})}=3\pi$ if and only if $a=1/2$ (and jumps to
+  $15\pi$ at $a=1$).
+
+**Example 2 (the $S=\{5\}$ unit shell $\mathbb Z_5^\times$ and shells $U_k$, with the audit
+counterexample repaired).** Let $F=\mathbb Q$ and $S=\{5\}$, so $K_{\{5\}}=\mathbb Q_5$,
+$\nu_{\{5\}}(\mathbb Z_5)=1$, $c_{\{5\}}=\frac{5}{5-1}=\frac{5}{4}$, and
+$U_k=5^k\mathbb Z_5^\times=\{x\in\mathbb Q_5^\times:\Delta_{\{5\}}(x)=5^{-k}\}$ ($k\in\mathbb Z$).
+From §15.4.3.1 Example 2 we inherit $\nu_{\{5\}}(U_k)=\frac{4}{5}\cdot 5^{-k}$, unnormalized
+$\mu_5(U_k)=\frac{4}{5}$, and Masullo-normalized $\mu_{\{5\}}(U_k)=c_{\{5\}}\mu_5(U_k)=\frac{5}{4}\cdot\frac{4}{5}=1$.
+
+- *Audit counterexample on the unit shell $U_0=\mathbb Z_5^\times$, before and after repair.* Take
+  the factorized indicator kernel $k(x,y)=\mathbf 1_{U_0}(x)\mathbf 1_{U_0}(y)$. Since
+  $\Delta_{\{5\}}(x)=1$ for every $x\in U_0$, $k_a(x,x)=\mathbf 1_{U_0}(x)$ for **every**
+  $a\in\mathbb R$ (in particular at $a=1/2$). Evaluating both sides of the diagonal formula gives:
+  $$\text{LHS}=\int_{\mathbb Q_5^\times} k_a(x,x)\,d\mu_{\{5\}}(x)=\mu_{\{5\}}(U_0)=1,$$
+  $$\text{unrepaired RHS (omitting }c_S\text{)}=\int_{U_0}\Delta_{\{5\}}(x)^{2a-1}\,d\nu_{\{5\}}(x)=\nu_{\{5\}}(U_0)=\frac{4}{5}\ne 1,$$
+  $$\text{repaired RHS (Theorem 15.3(3)(i))}=c_{\{5\}}\int_{U_0}\Delta_{\{5\}}(x)^{2a-1}\,d\nu_{\{5\}}(x)=\frac{5}{4}\cdot\frac{4}{5}=1=\text{LHS}.$$
+  Notice two things simultaneously on $U_0$: omitting $c_{\{5\}}=\frac{5}{4}$ makes the identity
+  false even at $a=1/2$ ($1\ne\frac{4}{5}$), **and** restricting attention to the unit shell $U_0$
+  alone cannot detect $a=1/2$, because $\Delta_{\{5\}}|_{U_0}\equiv 1$ makes $\text{LHS}=\text{repaired RHS}=1$
+  for *every* $a\in\mathbb R$! To see $a=1/2$ singled out, compare across shells $U_k$
+  ($k=-1,0,1,2$):
+
+  | Shell $U_k=5^k\mathbb Z_5^\times$ | $\Delta_{\{5\}}|_{U_k}$ | $\nu_{\{5\}}(U_k)$ | $\mu_{\{5\}}(U_k)$ | $a$ | LHS $\int_{U_k}\Delta^{2a}\,d\mu_{\{5\}}$ | Omitted-$c_S$ $\int_{U_k}\Delta^{2a-1}\,d\nu_{\{5\}}$ | Repaired RHS $c_{\{5\}}\int_{U_k}\Delta^{2a-1}\,d\nu_{\{5\}}$ |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | $U_{-1}=5^{-1}\mathbb Z_5^\times$ | $5$ | $4$ | $1$ | $0$ | $1$ | $4/5$ | $1$ |
+  | $U_{-1}=5^{-1}\mathbb Z_5^\times$ | $5$ | $4$ | $1$ | $1/2$ | $5$ | $4$ | $5$ |
+  | $U_{-1}=5^{-1}\mathbb Z_5^\times$ | $5$ | $4$ | $1$ | $1$ | $25$ | $20$ | $25$ |
+  | $U_0=\mathbb Z_5^\times$ | $1$ | $4/5$ | $1$ | $0,\,1/2,\,1$ | $1$ | $4/5$ | $1$ |
+  | $U_1=5\mathbb Z_5^\times$ | $1/5$ | $4/25$ | $1$ | $0$ | $1$ | $4/5$ | $1$ |
+  | $U_1=5\mathbb Z_5^\times$ | $1/5$ | $4/25$ | $1$ | $1/2$ | $1/5$ | $4/25$ | $1/5$ |
+  | $U_1=5\mathbb Z_5^\times$ | $1/5$ | $4/25$ | $1$ | $1$ | $1/25$ | $4/125$ | $1/25$ |
+  | $U_2=25\mathbb Z_5^\times$ | $1/25$ | $4/125$ | $1$ | $1/2$ | $1/25$ | $4/125$ | $1/25$ |
+  | $U_2=25\mathbb Z_5^\times$ | $1/25$ | $4/125$ | $1$ | $1$ | $1/625$ | $4/3125$ | $1/625$ |
+
+  In every row, repaired RHS $=$ LHS, and LHS $/ \nu_{\{5\}}(U_k)=\frac{5}{4}\cdot 5^{(1-2a)k}$ is
+  independent of $k$ if and only if $a=1/2$, where its constant value is $c_{\{5\}}=\frac{5}{4}$.
+- *Normalized half-density $L^2$ check on $U_0$.* Take $g=\mathbf 1_{U_0}\in L^2(\mathbb Q_5,\nu_{\{5\}})$,
+  so $\lVert g\rVert^2_{L^2(\nu_{\{5\}})}=\frac{4}{5}$. With the normalized multiplier
+  $c_{\{5\}}^{-1/2}=\frac{2}{\sqrt 5}$, the half-density $U_{\{5\},1/2}(g)=\frac{2}{\sqrt 5}\Delta_{\{5\}}^{1/2}\mathbf 1_{U_0}$
+  has
+  $$\lVert U_{\{5\},1/2}(g)\rVert^2_{L^2(\mu_{\{5\}})}=\Bigl(\frac{2}{\sqrt 5}\Bigr)^2\mu_{\{5\}}(U_0)=\frac{4}{5}\cdot 1=\frac{4}{5}=\lVert g\rVert^2_{L^2(\nu_{\{5\}})},$$
+  whereas the unscaled map $g\mapsto\Delta_{\{5\}}^{1/2}g$ gives $\int_{U_0}1\,d\mu_{\{5\}}=1\ne\frac{4}{5}$.
+- *Mixed two-place check $S=\{\infty_{\mathbb C},5\}$ and empty-product check $S=\emptyset$.* For
+  $S=\{\infty_{\mathbb C},5\}$ ($c_S=1\cdot\frac{5}{4}=\frac{5}{4}$) on $A\times U_1\subset\mathbb C^\times\times\mathbb Q_5^\times$
+  at $a=1/2$, $\text{LHS}=\bigl(\int_A\lvert w\rvert^2\,d\mu_{\mathbb C}\bigr)\bigl(\int_{U_1}\Delta_5\,d\mu_{\{5\}}\bigr)=3\pi\cdot\frac{1}{5}=\frac{3}{5}\pi$,
+  and repaired $\text{RHS}=\frac{5}{4}\cdot 3\pi\cdot\frac{4}{25}=\frac{3}{5}\pi$ (while omitting
+  $c_S$ gives $\frac{12}{25}\pi\ne\frac{3}{5}\pi$). For $S=\emptyset$, $K_\emptyset^\times=\{1\}$,
+  $c_\emptyset=1$, and $\Delta_\emptyset(1)^{2a}=1$ for all $a\in\mathbb R$, confirming that
+  $S\ne\emptyset$ is indispensable for uniqueness.
+
+**Definition 15.5 (elementary transvections, density-multiplication versus precomposition operators,
+and normalized $S$-half-densities).**
+
+1. *(Transvections.)* Let $\iota$ be a finite index set with decidable equality and $R$ a
+   commutative ring. A **transvection datum** (`Matrix.TransvectionStruct ι R`,
+   [`Transvection.lean:145–166`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/Transvection.lean#L145-L166))
+   is a quadruple $t=(i,j,h_{ij},c)$ with $i,j\in\iota$, $i\ne j$, and $c\in R$; its matrix is the
+   elementary shear $t.\mathrm{toMatrix}=I+c\,E_{ij}$ (`1 + single i j c`), of determinant $1$
+   (`TransvectionStruct.det`, `:168–170`) and explicit inverse $(i,j,h_{ij},-c)$ (`:181–197`).
+2. *(Two distinct classes of $L^2$ operators.)* Let $(X,\mathcal M,\rho_1)$ and $(Y,\mathcal N,\rho_2)$
+   be measure spaces:
+   - Given a measurable map $\phi:X\to Y$ that is **measure-preserving** ($\phi_\ast\rho_1=\rho_2$
+     and $\phi$ measurable, `MeasureTheory.MeasurePreserving`), the **precomposition operator**
+     $C_\phi:L^2(Y,\rho_2)\to L^2(X,\rho_1)$ sends $[v]_{\rho_2}\mapsto [v\circ\phi]_{\rho_1}$
+     (`Lp.compMeasurePreserving` / `Lp.compMeasurePreservingₗᵢ`,
+     [`LpSpace/Basic.lean:561–583, 632–636`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L561-L583)).
+   - Given a measurable weight $w:X\to(0,\infty)$ on the **same** underlying space $X$, let
+     $\rho_w:=\rho_1.\mathrm{withDensity}(w)$ be the measure $\rho_w(B)=\int_B w\,d\rho_1$. The
+     **density-multiplication operator** $M_{w^{1/2}}:L^2(X,\rho_w)\to L^2(X,\rho_1)$ sends
+     $[u]_{\rho_w}\mapsto [w^{1/2}u]_{\rho_1}$, with candidate inverse
+     $M_{w^{-1/2}}:[v]_{\rho_1}\mapsto [w^{-1/2}v]_{\rho_w}$.
+3. *(Normalized $S$-adelic $a$-density map.)* In the product setting of Theorem 15.3(3) with
+   $\mu_S=c_S\bigotimes_{v\in S}\mu_v=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1})$
+   and $c_S=\prod_{v\in S_f}N(\mathfrak p_v)/(N(\mathfrak p_v)-1)>0$, define for each $a\in\mathbb R$
+   the weighted multiplicative measure $\mu_{S,a}:=\mu_S.\mathrm{withDensity}(\Delta_S^{1-2a})$ on
+   $K_S^\times$ and the **normalized $a$-density map**
+   $$U_{S,a}(g)(x):=c_S^{-1/2}\,\Delta_S(x)^a\,g(x)\qquad (x\in K_S^\times),$$
+   setting $U_S:=U_{S,1/2}$. When $S=\{v\}$ consists of one archimedean place, $c_S=1$ and
+   $U_{S,a}$ reduces to $U_a$ of Lemma 15.3d; when $S_f\ne\emptyset$, $c_S>1$ and $U_{S,a}$ differs
+   from the unscaled factor $\Delta_S(x)^a$ inside $k_a(x,y)=\Delta_S(x)^a\Delta_S(y)^a k(x,y)$ by
+   $c_S^{-1/2}$.
+
+**Lemma 15.5a (Haar nullity of proper subspaces and elementary-matrix scaling on $\mathbb R^\iota$)
+`[Lean, read]`.**
+
+1. *(Proper subspaces are Haar-null.)* Let $E$ be a finite-dimensional real normed vector space
+   equipped with its Borel $\sigma$-algebra and an additive Haar measure $\mu$. Every proper
+   $\mathbb R$-linear subspace $W\subsetneq E$ satisfies $\mu(W)=0$ (`Measure.addHaar_submodule`,
+   [`EqHaar.lean:172–197`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L172-L197)).
+2. *(Diagonal matrices on $\mathbb R^\iota$.)* Let $\iota$ be a finite type with decidable equality
+   and $\mathrm{vol}$ the product Lebesgue measure on $\iota\to\mathbb R$. For $D:\iota\to\mathbb R$
+   with $\det(\operatorname{diag}(D))=\prod_{i\in\iota}D_i\ne 0$,
+   $\lvert\det(\operatorname{diag}(D))\rvert\cdot(\operatorname{diag}(D))_\ast\mathrm{vol}=\mathrm{vol}$
+   (`Real.smul_map_diagonal_volume_pi`,
+   [`Lebesgue/Basic.lean:364–386`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L364-L386)).
+3. *(Transvections preserve $\mathrm{vol}$.)* For every transvection datum $t=(i,j,h_{ij},c)$ on
+   $\iota$, multiplication by $t.\mathrm{toMatrix}$ is `MeasurePreserving` on
+   $(\iota\to\mathbb R,\mathrm{vol})$ (`Real.volume_preserving_transvectionStruct`,
+   [`Lebesgue/Basic.lean:389–408`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L389-L408)).
+4. *(Invertible linear maps on $\mathbb R^\iota$.)* Every $M\in\mathrm{GL}_\iota(\mathbb R)$
+   factors as $M=L_1\cdot\operatorname{diag}(D)\cdot L_2$ where $L_1,L_2$ are products of
+   transvection matrices (`Matrix.exists_list_transvec_mul_diagonal_mul_list_transvec`,
+   [`Transvection.lean:676–687`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/Transvection.lean#L676-L687));
+   consequently, for every $\mathbb R$-linear $f:(\iota\to\mathbb R)\to(\iota\to\mathbb R)$ with
+   $\det f\ne 0$, $f_\ast\mathrm{vol}=\lvert(\det f)^{-1}\rvert\,\mathrm{vol}$
+   (`Real.map_matrix_volume_pi_eq_smul_volume_pi` and `Real.map_linearMap_volume_pi_eq_smul_volume_pi`,
+   [`Lebesgue/Basic.lean:411–444`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L411-L444)).
+
+*Proof.* (1) Mathlib first proves `addHaar_eq_zero_of_disjoint_translates_aux`
+([`EqHaar.lean:137–150`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L137-L150)):
+if $s\subseteq E$ is Borel measurable and bounded, and $(u_n)_{n\in\mathbb N}$ is a bounded sequence
+in $E$ whose translates $\{u_n\}+s$ are pairwise disjoint, then assuming $\mu(s)\ne 0$ gives
+$$\infty=\sum_{n=0}^\infty\mu(s)=\sum_{n=0}^\infty\mu(\{u_n\}+s)=\mu\Bigl(\bigcup_{n=0}^\infty(\{u_n\}+s)\Bigr)=\mu(\operatorname{range}(u)+s)<\infty$$
+by translation invariance (`measure_preimage_add`), countable additivity (`measure_iUnion`), and
+finiteness of Haar measure on the bounded sumset $\operatorname{range}(u)+s$ (`(hu.add sb).measure_lt_top`),
+a contradiction (`lt_irrefl ∞`). Exhausting an arbitrary Borel set $s=\bigcup_{N\in\mathbb N}(s\cap\overline B(0,N))$
+by closed balls (`iUnion_inter_closedBall_nat`) removes boundedness of $s$
+(`addHaar_eq_zero_of_disjoint_translates`, `:154–169`). Now let $W\subsetneq E$ be a proper
+$\mathbb R$-subspace (`addHaar_submodule`, `:172–197`): pick $x\in E\setminus W$ and $c:=\frac{1}{2}\in(0,1)$,
+and set $u_n:=c^n x$. Because $c^n x\to 0$, $\operatorname{range}(u)$ is bounded (`isBounded_range_of_tendsto`);
+because $E$ is finite-dimensional, $W$ is closed (`Submodule.closed_of_finiteDimensional`) and hence
+Borel measurable; and if $m\ne n$ with $y\in(c^m x+W)\cap(c^n x+W)$, subtracting gives
+$(c^n-c^m)x\in W$, whence $x=(c^n-c^m)^{-1}(c^n-c^m)x\in W$ since $t\mapsto c^t$ is strictly
+decreasing (`pow_right_strictAnti₀`), contradicting $x\notin W$. Thus $\mu(W)=0$.
+
+(2) By `Measure.pi_eq` ([`Lebesgue/Basic.lean:369–385`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L369-L385)),
+two $\sigma$-finite product measures on $\iota\to\mathbb R$ agree once they agree on measurable
+rectangles $R=\prod_{i\in\iota}s_i$. Since $\operatorname{diag}(D)^{-1}(R)=\prod_{i\in\iota}(D_i\cdot)^{-1}(s_i)$
+and $\det(\operatorname{diag}(D))=\prod_{i\in\iota}D_i$, factoring $\lvert\prod_i D_i\rvert=\prod_i\lvert D_i\rvert$
+and applying Lemma 15.3a(1) (`Real.volume_preimage_mul_left`, $\lvert D_i\rvert\operatorname{vol}((D_i\cdot)^{-1}s_i)=\operatorname{vol}(s_i)$)
+in each coordinate gives $\lvert\det(\operatorname{diag}(D))\rvert\,\mathrm{vol}(\operatorname{diag}(D)^{-1}R)=\prod_i\operatorname{vol}(s_i)=\mathrm{vol}(R)$.
+
+(3) For $t=(i,j,h_{ij},c)$, `Real.volume_preserving_transvectionStruct`
+([`Lebesgue/Basic.lean:389–408`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L389-L408))
+checks $\mathrm{vol}((t.\mathrm{toMatrix})^{-1}R)=\mathrm{vol}(R)$ on rectangles $R=\prod_k s_k$ by
+rewriting both sides as Lebesgue integrals of indicators (`lintegral_indicator_one`) and integrating
+first along the single coordinate $\{i\}$ via the Fubini marginal lemma
+`lintegral_eq_of_lmarginal_eq {t.i}` and `lmarginal_singleton`. Because $j\ne i$, the $j$-th
+coordinate $x_j$ is constant along each $\{i\}$-fibre, so $(t.\mathrm{toMatrix}\cdot x)_i=x_i+c x_j$
+acts on the $i$-th coordinate by a pure translation $+c x_j$, which preserves the one-dimensional
+Lebesgue integral by `lintegral_add_right_eq_self`.
+
+(4) In [`Transvection.lean:337–687`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/Transvection.lean#L337-L687),
+induction on $\lvert\iota\rvert$ splits a non-empty index type as $\mathrm{Fin}\,r\oplus\mathrm{Unit}$.
+If some entry in the last row or column is nonzero, a transvection moves a nonzero pivot into the
+corner $(\mathrm{inr}\,\star,\mathrm{inr}\,\star)$; then `listTransvecCol M` (`:337–341`) and
+`listTransvecRow M` (`:343–346`) clear the remaining $r$ entries of the last column and last row,
+reducing $M$ to `IsTwoBlockDiagonal` (`:524–558`), and if the entire last column vanishes the matrix
+already block-triangularizes and clears similarly. Inducting on the top-left $r\times r$ block yields
+$M=L_1\cdot\operatorname{diag}(D)\cdot L_2$ (`exists_list_transvec_mul_diagonal_mul_list_transvec`,
+`:676–687`), packaged as the induction principle `Matrix.diagonal_transvection_induction_of_det_ne_zero`
+(`:731–743`). In `Real.map_matrix_volume_pi_eq_smul_volume_pi` (`Lebesgue/Basic.lean:411–430`),
+the predicate $P(M):\iff (x\mapsto Mx)_\ast\mathrm{vol}=\lvert(\det M)^{-1}\rvert\,\mathrm{vol}$
+holds for $\operatorname{diag}(D)$ by (2), holds for every transvection by (3) (since $\det t=1$),
+and is closed under matrix products by functoriality of `Measure.map_map` and multiplicativity of
+$\det$; reindexing $\iota\simeq\mathrm{Fin}\,n$ and representing $f$ by `LinearMap.toMatrix` gives
+`Real.map_linearMap_volume_pi_eq_smul_volume_pi` (`:433–444`). $\square$
+
+**Lemma 15.5b (production proof of `map_linearMap_addHaar_eq_smul_addHaar` and
+`addHaar_image_linearMap`) `[Lean, read]`.** Let $E$ be a finite-dimensional real normed space
+equipped with its Borel $\sigma$-algebra and an additive Haar measure $\mu$, and let
+$f:E\to E$ be an $\mathbb R$-linear map.
+
+1. *(Pushforward and preimages for $\det f\ne 0$.)* If $\det f\ne 0$, then
+   $$f_\ast\mu=\lvert(\det f)^{-1}\rvert\,\mu
+   \qquad\text{and}\qquad
+   \mu(f^{-1}(B))=\lvert(\det f)^{-1}\rvert\,\mu(B)\quad\text{for every subset } B\subseteq E$$
+   (`Measure.map_linearMap_addHaar_eq_smul_addHaar`,
+   [`EqHaar.lean:231–256`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L231-L256);
+   `Measure.addHaar_preimage_linearMap`,
+   [`EqHaar.lean:261–268`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L261-L268)).
+2. *(Images for all linear maps, invertible or singular.)* For **every** $\mathbb R$-linear map
+   $f:E\to E$ and **every** subset $B\subseteq E$ (without assuming $B$ Borel measurable),
+   $$\mu(f(B))=\lvert\det f\rvert\,\mu(B)$$
+   (`Measure.addHaar_image_linearMap`,
+   [`EqHaar.lean:297–306`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L297-L306),
+   with the convention $0\cdot\infty=0$ in $\mathbb R_{\ge 0\infty}$).
+
+*Proof.* (1) First suppose $E=(\iota\to\mathbb R)$ for a finite type $\iota$, with an arbitrary
+additive Haar measure $\mu$ (`map_linearMap_addHaar_pi_eq_smul_addHaar`, `EqHaar.lean:218–226`). By
+Haar uniqueness normalized on the unit cube $[0,1]^\iota$ (`addHaarMeasure_unique μ (piIcc01 ι)`
+and `addHaarMeasure_eq_volume_pi`, `:117–121`), $\mu=\mu([0,1]^\iota)\,\mathrm{vol}$. Pushing forward
+along $f$ commutes with scalar multiplication (`Measure.map_smul`), so Lemma 15.5a(4) yields
+$f_\ast\mu=\mu([0,1]^\iota)\,\lvert(\det f)^{-1}\rvert\,\mathrm{vol}=\lvert(\det f)^{-1}\rvert\,\mu$.
+
+For a general finite-dimensional $E$ (`EqHaar.lean:231–256`), set $n:=\operatorname{finrank}_{\mathbb R}E$
+and choose an $\mathbb R$-linear isomorphism $e:E\xrightarrow{\sim}(\mathrm{Fin}\,n\to\mathbb R)$
+(`LinearEquiv.ofFinrankEq`). Define $g:=e\circ f\circ e^{-1}$ on $\mathrm{Fin}\,n\to\mathbb R$. By
+similarity invariance of the determinant (`LinearMap.det_conj`,
+[`Determinant.lean:306–321`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Determinant.lean#L306-L321)),
+$\det g=\det f\ne 0$. Every linear map between finite-dimensional real normed spaces is continuous
+(`LinearMap.continuous_of_finiteDimensional`), so $e$, $e^{-1}$, and $g$ are continuous (hence
+Borel measurable), and $e$ is a topological additive-group isomorphism pushing $\mu$ to an additive
+Haar measure $e_\ast\mu$ on $\mathrm{Fin}\,n\to\mathbb R$ (`AddEquiv.isAddHaarMeasure_map`). Applying
+the $\mathrm{Fin}\,n\to\mathbb R$ case to $(g,e_\ast\mu)$ and pushing back along $e^{-1}$ via
+$f=e^{-1}\circ g\circ e$ and `Measure.map_map` gives
+$$f_\ast\mu=(e^{-1})_\ast\bigl(g_\ast(e_\ast\mu)\bigr)
+=(e^{-1})_\ast\bigl(\lvert(\det g)^{-1}\rvert\,e_\ast\mu\bigr)
+=\lvert(\det f)^{-1}\rvert\,(e^{-1}\circ e)_\ast\mu=\lvert(\det f)^{-1}\rvert\,\mu.$$
+Next, because $\det f\ne 0$, `f.equivOfDetNeZero hf` (`Determinant.lean:569–575`) upgrades $f$ to a
+linear equivalence, hence a homeomorphism and a `MeasurableEquiv`. For a `MeasurableEquiv`,
+`MeasurableEquiv.map_apply` identifies $(f_\ast\mu)(B)=\mu(f^{-1}(B))$ for **every** set
+$B\subseteq E$ (outer-measure invariance under measurable bijections with measurable inverse,
+needing no measurability of $B$!), yielding `addHaar_preimage_linearMap` (`:261–268`).
+
+(2) Following `EqHaar.lean:297–306`, split on whether $\det f\ne 0$ or $\det f=0$:
+- If $\det f\ne 0$, let $\widetilde f:E\xrightarrow{\sim} E$ be the continuous linear equivalence
+  `(f.equivOfDetNeZero hf).toContinuousLinearEquiv`. Then $\widetilde f(B)=(\widetilde f^{-1})^{-1}(B)$
+  (`ContinuousLinearEquiv.image_eq_preimage_symm`), and applying (1) to $\widetilde f^{-1}$ together
+  with $\det(\widetilde f^{-1})=(\det f)^{-1}$ (`LinearEquiv.det_coe_symm`, `Determinant.lean:508–510`)
+  gives $\mu(f(B))=\mu((\widetilde f^{-1})^{-1}(B))=\lvert(\det(\widetilde f^{-1}))^{-1}\rvert\,\mu(B)=\lvert\det f\rvert\,\mu(B)$.
+- If $\det f=0$, then $f$ is not surjective—its image $\operatorname{range}(f)$ is a **proper**
+  $\mathbb R$-linear subspace of $E$ (`LinearMap.range_lt_top_of_det_eq_zero`,
+  [`Determinant.lean:369–375`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Determinant.lean#L369-L375)).
+  Since $f(B)\subseteq\operatorname{range}(f)\subsetneq E$, monotonicity of outer measure and Lemma
+  15.5a(1) give $\mu(f(B))\le\mu(\operatorname{range}(f))=0=\lvert 0\rvert\,\mu(B)$. $\square$
+
+**Lemma 15.5c (real determinant of complex multiplication and $\Delta_{\mathbb C}(z)=\lvert z\rvert^2$).**
+Identify $\mathbb C$ as a two-dimensional $\mathbb R$-vector space via the ordered basis
+`Complex.basisOneI` $=(1,i)$ (`finrank ℝ ℂ = 2`,
+[`Complex/Module.lean:144–165`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Complex/Module.lean#L144-L165),
+[`Complex/FiniteDimensional.lean:31–32`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Complex/FiniteDimensional.lean#L31-L32)),
+carrying planar Lebesgue measure $\nu_{\mathbb C}$ (`Complex.volume_preserving_equiv_pi`,
+[`Lebesgue/Complex.lean:53–62`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Complex.lean#L53-L62)).
+For every $z=u+iv\in\mathbb C$ ($u=\Re z$, $v=\Im z$), left multiplication $\ell_z(w)=zw$
+(`Algebra.lmul ℝ ℂ z`) has real matrix and determinant
+$$\operatorname{Mat}_{\{1,i\}}(\ell_z)=\begin{pmatrix}u&-v\\v&u\end{pmatrix},\qquad
+  \det_{\mathbb R}(\ell_z)=\operatorname{Nm}_{\mathbb C/\mathbb R}(z)=u^2+v^2=\lvert z\rvert^2\ge 0.$$
+Consequently, $\nu_{\mathbb C}(zB)=\lvert z\rvert^2\,\nu_{\mathbb C}(B)$ for every $z\in\mathbb C$
+and every subset $B\subseteq\mathbb C$, and $\Delta_{\mathbb C}(z)=\lvert z\rvert^2$ for every
+$z\in\mathbb C^\times$. (`[Lean, read]` for the basis, volume, algebra-norm, and Haar-image lemmas;
+`[Expository]` for the two-line $2\times 2$ matrix evaluation, which is not packaged as a separate
+`Algebra.norm_complex_apply` lemma at the pin—compare `Complex.det_conjAe = -1` at
+[`Complex/Determinant.lean:26–28`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Complex/Determinant.lean#L26-L28).)
+
+*Proof.* By `Complex.coe_basisOneI` and `Complex.coe_basisOneI_repr`
+(`Complex/Module.lean:156–163`), `basisOneI` has basis vectors $e_0=1$, $e_1=i$ and coordinate map
+$w\mapsto(\Re w,\Im w)$. Evaluating $\ell_z$ on $(1,i)$ gives $\ell_z(1)=u\cdot 1+v\cdot i$ and
+$\ell_z(i)=zi=-v\cdot 1+u\cdot i$, which are the two columns of $\begin{pmatrix}u&-v\\v&u\end{pmatrix}$.
+By `Algebra.norm_apply` and `Algebra.norm_eq_matrix_det`
+([`RingTheory/Norm/Defs.lean:61–64, 82–84`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Norm/Defs.lean#L61-L84)),
+$\det_{\mathbb R}(\ell_z)=\operatorname{Algebra.norm}\,\mathbb R\,z=\det\operatorname{Mat}_{\{1,i\}}(\ell_z)=u^2+v^2$.
+In Mathlib's complex norm file, $u^2+v^2=\operatorname{Complex.normSq}z=\lVert z\rVert^2$
+(`Complex.normSq_apply`, [`Data/Complex/Basic.lean:517–518`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/Complex/Basic.lean#L517-L518);
+`Complex.normSq_eq_norm_sq`, [`Analysis/Complex/Norm.lean:147–150`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Complex/Norm.lean#L147-L150)).
+Since $\nu_{\mathbb C}$ is an additive Haar measure on $\mathbb C$ (transported from
+$\mathrm{Fin}\,2\to\mathbb R$ via `OrthonormalBasis.volume_parallelepiped` in
+[`Haar/InnerProductSpace.lean:82–96`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/InnerProductSpace.lean#L82-L96)
+and `Complex.volume_preserving_equiv_pi`), Lemma 15.5b(2) applied to $f=\ell_z$ yields
+$\nu_{\mathbb C}(zB)=\lvert\det_{\mathbb R}(\ell_z)\rvert\,\nu_{\mathbb C}(B)=\lvert z\rvert^2\nu_{\mathbb C}(B)$
+for all $z\in\mathbb C$ and all $B\subseteq\mathbb C$. Comparing with Definition 15.2(1) on a set of
+positive finite measure (such as $[0,1]^2$ in Example 1) gives $\Delta_{\mathbb C}(z)=\lvert z\rvert^2$
+for all $z\in\mathbb C^\times$. $\square$
+
+**Lemma 15.5d (density-weighted $L^2$ isometric isomorphism versus `MeasurePreserving`
+precomposition).** Let $(X,\mathcal M,\rho)$ be a measure space and $w:X\to(0,\infty)$ a measurable
+weight, with weighted measure $\rho_w:=\rho.\mathrm{withDensity}(w)$ (via `ENNReal.ofReal ∘ w`).
+
+1. *(Genuine `withDensity` $L^2$ unitary.)* Pointwise multiplication $M_{w^{1/2}}([u]_{\rho_w}):=[w^{1/2}u]_\rho$
+   is a well-defined $\mathbb C$-linear isometric isomorphism of Hilbert spaces
+   $$M_{w^{1/2}} : L^2(X,\rho_w) \xrightarrow{\;\sim\;} L^2(X,\rho), \qquad
+     M_{w^{1/2}}^{-1}([v]_\rho) = [w^{-1/2}v]_{\rho_w},$$
+   preserving norms and inner products: $\langle M_{w^{1/2}}u_1,M_{w^{1/2}}u_2\rangle_{L^2(\rho)}=\langle u_1,u_2\rangle_{L^2(\rho_w)}$.
+2. *(Strict separation from `compMeasurePreserving`.)* Mathlib's `Lp.compMeasurePreserving ϕ hϕ`
+   (`LpSpace/Basic.lean:561–583`) acts on equivalence classes by $[v]_{\rho_2}\mapsto [v\circ\phi]_{\rho_1}$
+   (`AEEqFun.compMeasurePreserving`, [`AEEqFun.lean:280–297`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/AEEqFun.lean#L280-L297))
+   under the hypothesis $\phi_\ast\rho_1=\rho_2$. For $\phi=\mathrm{id}_X$, $(\mathrm{id}_X)_\ast\rho=\rho$,
+   so `MeasurePreserving id ρ ρ_w` holds on a $\sigma$-finite space $(X,\rho)$ if and only if $w=1$
+   $\rho$-almost everywhere; whenever $w$ is not $\rho$-a.e. equal to $1$, no precomposition
+   operator $C_{\mathrm{id}}$ exists between $L^2(X,\rho)$ and $L^2(X,\rho_w)$, and when $w=1$
+   $\rho$-a.e., $C_{\mathrm{id}}=M_1$ is the trivial identity (`compMeasurePreserving_id`, `:589–595`).
+3. *(How the two operators compose to produce unitary dilations.)* For $(K,\nu,\Delta_K,\mu)$ as in
+   Definition 15.2 and $t\in K^\times$, left multiplication $\tau_t(x):=tx$ satisfies
+   $(\tau_t)_\ast\mu=\mu$ on $K^\times$ (Lemma 15.3c), so `Lp.compMeasurePreservingₗᵢ` supplies a
+   unitary precomposition operator $C_{\tau_t}:L^2(K^\times,\mu)\xrightarrow{\sim} L^2(K^\times,\mu)$,
+   $(C_{\tau_t}f)(x)=f(tx)$. Writing $\mu=\nu|_{K^\times}.\mathrm{withDensity}(\Delta_K^{-1})$ and
+   setting $U_{1/2}:=M_{\Delta_K^{-1/2}}^{-1}:L^2(K,\nu)\xrightarrow{\sim} L^2(K^\times,\mu)$
+   ($g\mapsto\Delta_K^{1/2}g|_{K^\times}$, using $\nu(\{0\})=0$), conjugating $C_{\tau_t}$ by the
+   density unitary $U_{1/2}$ yields Proposition 15.4's unitary dilation on $L^2(K,\nu)$:
+   $$U_{1/2}^{-1}\circ C_{\tau_t}\circ U_{1/2} = T_t^{(1/2)},\qquad
+     \bigl(T_t^{(1/2)}g\bigr)(x)=\Delta_K(t)^{1/2}g(tx).$$
+   (`[Lean, read]` for the `WithDensity`, `LebesgueNormedSpace`, `L1.withDensitySMulLI`, and
+   `compMeasurePreserving` lemmas below; `[Expository]` for the $p=2$ square-root assembly.)
+
+*Proof.* (1) Patterned on Mathlib's $L^1$ linear isometry `L1.withDensitySMulLI`
+([`L1Space/Integrable.lean:864–914`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/L1Space/Integrable.lean#L864-L914),
+which multiplies by $f$ rather than $w^{1/2}$ because $p=1$), we verify four things from the pinned
+`WithDensity` supply:
+- *Same almost-everywhere equality:* Because $0<w(x)<\infty$ everywhere, the $\mathbb R_{\ge 0\infty}$-density
+  $d(x):=\mathrm{ofReal}(w(x))$ satisfies $d(x)\ne 0$ for all $x$. By `withDensity_ae_eq`
+  ([`WithDensity.lean:589–596`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L589-L596),
+  derived from `ae_withDensity_iff'` at `:291–300`), $u_1=^{\mathrm{a.e.}}_{\rho_w} u_2 \iff u_1=^{\mathrm{a.e.}}_\rho u_2$.
+  Since $w(x)^{1/2}>0$ everywhere, $u_1=u_2$ $\rho$-a.e. iff $w^{1/2}u_1=w^{1/2}u_2$ $\rho$-a.e., so
+  $M_{w^{1/2}}$ and $M_{w^{-1/2}}$ are well-defined and mutually inverse on a.e.-equivalence classes,
+  and $\mathbb C$-linearity holds pointwise hence a.e.
+- *Strong measurability:* Since $w^{1/2}:X\to\mathbb R_{\ge 0}$ is measurable and nowhere zero,
+  applying `aemeasurable_withDensity_iff`
+  ([`LebesgueNormedSpace.lean:22–49`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean#L22-L49))
+  and the separability of $\mathbb C$ shows that $u$ is `AEStronglyMeasurable` for $\rho_w$ (which
+  equals $u$ `AEStronglyMeasurable` for $\rho$ since $\rho_w$ and $\rho$ share null sets) if and
+  only if $w^{1/2}u$ is `AEStronglyMeasurable` for $\rho$ (multiplying by the measurable scalar
+  $w^{1/2}$ or $w^{-1/2}$).
+- *$L^2$ seminorm identity:* In Mathlib, $\lVert [u]_{\rho_w}\rVert_{L^2(\rho_w)}=\bigl(\int_X \lVert u(x)\rVert_{\mathrm{e}}^2\,d\rho_w(x)\bigr)^{1/2}$
+  at $p=2\notin\{0,\infty\}$. Because $d=\mathrm{ofReal}\circ w$ is measurable and $x\mapsto\lVert u(x)\rVert_{\mathrm{e}}^2$
+  is $\rho$-a.e. measurable, `lintegral_withDensity_eq_lintegral_mul₀'`
+  ([`WithDensity.lean:419–449`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L419-L449);
+  cf. `[Tao2011]`, Exercise 1.2.1, cited in `WithDensity.lean:389`) gives
+  $$\int_X \lVert u(x)\rVert_{\mathrm{e}}^2\,d\rho_w(x)
+    = \int_X \mathrm{ofReal}(w(x))\,\lVert u(x)\rVert_{\mathrm{e}}^2\,d\rho(x)
+    = \int_X \bigl\lVert w(x)^{1/2}u(x)\bigr\rVert_{\mathrm{e}}^2\,d\rho(x).$$
+  Taking square roots shows $u\in\mathcal L^2(\rho_w)\iff w^{1/2}u\in\mathcal L^2(\rho)$ and
+  $\lVert M_{w^{1/2}}[u]_{\rho_w}\rVert_{L^2(\rho)}=\lVert [u]_{\rho_w}\rVert_{L^2(\rho_w)}$.
+- *Inverse measure symmetry and inner product:* By `withDensity_inv_same₀`
+  ([`WithDensity.lean:559–567`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L559-L567)),
+  $\rho_w.\mathrm{withDensity}(w^{-1})=\rho$, so $M_{w^{-1/2}}$ is literally the same construction
+  for $(\rho_w,w^{-1})$. Polarization (or applying `lintegral`/Bochner change of density directly to
+  $w^{1/2}u_1\cdot\overline{w^{1/2}u_2}=w\,u_1\overline{u_2}$) gives inner-product preservation.
+
+(2) By definition of `MeasurePreserving`, $(\mathrm{id}_X)_\ast\rho=\rho_w$ means $\rho(B)=\int_B w\,d\rho$
+for every $B\in\mathcal M$. On any $\sigma$-finite space $(X,\rho)$, testing on $\{w\ge 1+\varepsilon\}\cap X_n$
+and $\{w\le 1-\varepsilon\}\cap X_n$ along an exhausting sequence $\rho(X_n)<\infty$ forces $w=1$
+$\rho$-a.e.; conversely, if $w=1$ $\rho$-a.e., then $\rho_w=\rho$ and `compMeasurePreserving_id`
+gives the identity operator.
+
+(3) By Lemma 15.3c, $\tau_t:K^\times\to K^\times$ is a homeomorphism with $(\tau_t)_\ast\mu=\mu$,
+so `Lp.compMeasurePreservingₗᵢ` applies at $p=2$. For $g\in L^2(K,\nu)$, $(U_{1/2}g)(x)=\Delta_K(x)^{1/2}g(x)$
+on $K^\times$, hence $(C_{\tau_t}U_{1/2}g)(x)=\Delta_K(tx)^{1/2}g(tx)=\Delta_K(t)^{1/2}\Delta_K(x)^{1/2}g(tx)$
+by multiplicativity of $\Delta_K$ (`distribHaarChar_mul`), and applying $U_{1/2}^{-1}=M_{\Delta_K^{-1/2}}$
+cancels $\Delta_K(x)^{1/2}$ on $K^\times$ (which is $\nu$-conull in $K$ by Lemma 15.3b(1)), leaving
+$\Delta_K(t)^{1/2}g(tx)=(T_t^{(1/2)}g)(x)$. $\square$
+
+**Theorem 15.6 (unified archimedean determinant, finite-product $c_S$ normalization, and
+half-density transport).** Let $F$ be a number field and $S=S_{\mathbb R}\sqcup S_{\mathbb C}\sqcup S_f$
+a finite set of places of $F$. Fix local additive Haar measures $\nu_v$ ($dx$ for $v\in S_{\mathbb R}$,
+planar $dx\,dy$ under `Complex.basisOneI` for $v\in S_{\mathbb C}$, and $\nu_v(\mathcal O_v)=1$ for
+$v\in S_f$), local moduli $\Delta_v=\Delta_{F_v}$, unnormalized multiplicative Haar measures
+$\mu_v=\nu_v|_{F_v^\times}.\mathrm{withDensity}(\Delta_v^{-1})$, and on $K_S:=\prod_{v\in S}F_v$ and
+$K_S^\times:=\prod_{v\in S}F_v^\times$ set
+$$\nu_S:=\bigotimes_{v\in S}\nu_v,\qquad
+  \Delta_S(x):=\prod_{v\in S}\Delta_v(x_v),\qquad
+  c_S:=\prod_{v\in S_f}\frac{N(\mathfrak p_v)}{N(\mathfrak p_v)-1},\qquad
+  \mu_S:=c_S\bigotimes_{v\in S}\mu_v$$
+(with the empty-product conventions $K_\emptyset=K_\emptyset^\times=\{1\}$, $\Delta_\emptyset\equiv 1$,
+$c_\emptyset=1$, and $\nu_\emptyset=\mu_\emptyset$ the unit point mass). Then:
+
+1. *(Explicit determinant and valuation formula for $\Delta_S$, and zero-hyperplane removal.)* For
+   every $x=(x_v)_{v\in S}\in K_S^\times$,
+   $$\Delta_S(x)
+     = \prod_{v\in S_{\mathbb R}}\bigl\lvert\det_{\mathbb R}(\ell_{x_v})\bigr\rvert
+       \cdot \prod_{v\in S_{\mathbb C}}\bigl\lvert\det_{\mathbb R}(\ell_{x_v})\bigr\rvert
+       \cdot \prod_{v\in S_f} N(\mathfrak p_v)^{-\operatorname{ord}_v(x_v)}
+     = \prod_{v\in S_{\mathbb R}}\lvert x_v\rvert
+       \cdot \prod_{v\in S_{\mathbb C}}\bigl((\Re x_v)^2+(\Im x_v)^2\bigr)
+       \cdot \prod_{v\in S_f} N(\mathfrak p_v)^{-\operatorname{ord}_v(x_v)}.$$
+   Moreover $\nu_S(K_S\setminus K_S^\times)=0$, so restriction gives $L^2(K_S,\nu_S)\cong L^2(K_S^\times,\nu_S|_{K_S^\times})$,
+   and $\mu_S=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1})$ is a Haar measure on
+   $K_S^\times$ invariant under multiplication and inversion, normalized on the maximal compact
+   unit subgroup $\prod_{v\in S_f}\mathcal O_v^\times$ when $S=S_f$.
+2. *(Unified measure identity transporting both normalized half-densities and unscaled diagonal
+   kernels.)* For every $a\in\mathbb R$, the density-weighted measures on $K_S^\times$ satisfy
+   $$\mu_{S,a}:=\mu_S.\mathrm{withDensity}(\Delta_S^{1-2a})
+     = \nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-2a}),\qquad
+     \mu_S.\mathrm{withDensity}(\Delta_S^{2a})
+     = \nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{2a-1}).$$
+   From this single change of density flow both downstream formulas:
+   - *(Normalized $a$-density $L^2$ unitary.)* The multiplication operator
+     $U_{S,a}(g)=c_S^{-1/2}\Delta_S^a g|_{K_S^\times}$ is a unitary isomorphism
+     $L^2(K_S,\nu_S)\xrightarrow{\sim} L^2(K_S^\times,\mu_{S,a})$, satisfying for all
+     $g,h\in L^2(K_S,\nu_S)$
+     $$\int_{K_S^\times} U_{S,a}(g)(x)\,\overline{U_{S,a}(h)(x)}\,\Delta_S(x)^{1-2a}\,d\mu_S(x)
+       = \int_{K_S} g(x)\,\overline{h(x)}\,d\nu_S(x);$$
+     at $a=1/2$, $U_S=U_{S,1/2}:L^2(K_S,\nu_S)\xrightarrow{\sim} L^2(K_S^\times,\mu_S)$ is unitary
+     into unweighted $L^2(K_S^\times,\mu_S)$, and conjugating the `MeasurePreserving` translation
+     $C_{\tau_t}$ on $L^2(K_S^\times,\mu_S)$ by $U_S$ yields the unitary dilation
+     $(T_t^{(1/2)}g)(x)=\Delta_S(t)^{1/2}g(tx)$ on $L^2(K_S,\nu_S)$ for all $t\in K_S^\times$.
+   - *(Unscaled diagonal kernel integral — Masullo (12.4.1.17)–(12.4.1.23).)* For every Borel
+     kernel $k$ on $K_S^\times\times K_S^\times$ with Borel diagonal $x\mapsto k(x,x)$ and
+     $k_a(x,y):=\Delta_S(x)^a\Delta_S(y)^a k(x,y)$,
+     $$\int_{K_S^\times} k_a(x,x)\,d\mu_S(x)
+       = c_S\int_{K_S^\times} k(x,x)\,\Delta_S(x)^{2a-1}\,d\nu_S(x)$$
+     whenever either side converges absolutely. In particular, for a rank-one kernel
+     $k(x,y)=g(x)\overline{h(y)}$ with $g,h\in L^2(K_S,\nu_S)$ at $a=1/2$,
+     $$\int_{K_S^\times} k_{1/2}(x,x)\,d\mu_S(x)
+       = c_S\,\langle U_S g, U_S h\rangle_{L^2(\mu_S)}
+       = c_S\,\langle g, h\rangle_{L^2(\nu_S)},$$
+     reconciling the exact cancellation of $c_S$ in $U_S$ with its explicit presence in (12.4.1.17)
+     and (12.4.1.23) [Paper; Masullo p. 518].
+3. *(Non-empty $S$ criterion for uniqueness of $a=1/2$.)* If $S\ne\emptyset$, the following four
+   conditions on $a\in\mathbb R$ are equivalent:
+   *(i)* $\mu_S.\mathrm{withDensity}(\Delta_S^{2a})=c\,\nu_S|_{K_S^\times}$ for some $c>0$ (and then
+   necessarily $c=c_S$);
+   *(ii)* $U_{S,a}:L^2(K_S,\nu_S)\to L^2(K_S^\times,\mu_S)$ is an isometry (or scalar multiple of
+   one);
+   *(iii)* $T_t^{(a)}:g(x)\mapsto\Delta_S(t)^a g(tx)$ is unitary on $L^2(K_S,\nu_S)$ for every
+   $t\in K_S^\times$;
+   *(iv)* $a=1/2$.
+   If $S=\emptyset$, then *(i)*–*(iii)* hold with $c=c_\emptyset=1$ for **every** $a\in\mathbb R$.
+
+*Proof.* (1) The archimedean determinant values are Lemma 15.3a(1) (for $v\in S_{\mathbb R}$, where
+$\ell_{x_v}$ is the $1\times 1$ matrix $(x_v)$) and Lemma 15.5c (for $v\in S_{\mathbb C}$); the
+non-archimedean value $\Delta_v(x_v)=N(\mathfrak p_v)^{-\operatorname{ord}_v(x_v)}$ and unit mass
+$\mu_v(\mathcal O_v^\times)=1-N(\mathfrak p_v)^{-1}$ are inherited from Lemma 15.3a(3). The
+complement $K_S\setminus K_S^\times=\bigcup_{v\in S}\{x\in K_S:x_v=0\}$ is a finite union of
+coordinate hyperplanes; for each $v\in S$, $\nu_v(\{0\})=0$ by Lemma 15.3b(1) and the remaining
+factors are $\sigma$-finite, so Fubini/Tonelli gives $\nu_S(\{x:x_v=0\})=0$ and hence
+$\nu_S(K_S\setminus K_S^\times)=0$. Product density multiplication and Lemma 15.3c in each coordinate
+give $\mu_S=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1})$ and its multiplication and
+inversion invariance; when $S=S_f$, $\mu_S\bigl(\prod_{v\in S_f}\mathcal O_v^\times\bigr)=c_S\prod_{v\in S_f}(1-N(\mathfrak p_v)^{-1})=1$.
+
+(2) Since $c_S\Delta_S^{-1}$, $\Delta_S^{1-2a}$, and $\Delta_S^{2a}$ are continuous positive functions
+on $K_S^\times$, `withDensity_mul₀` (`WithDensity.lean:538–544`) composes densities by pointwise
+multiplication:
+$$\mu_S.\mathrm{withDensity}(\Delta_S^{1-2a})
+  = \nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-1}\cdot\Delta_S^{1-2a})
+  = \nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{-2a}),$$
+and similarly $\mu_S.\mathrm{withDensity}(\Delta_S^{2a})=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{2a-1})$.
+Applying Lemma 15.5d(1) on $X=K_S^\times$ with $\rho=\nu_S|_{K_S^\times}$ and strictly positive
+measurable weight $w(x)=c_S\Delta_S(x)^{-2a}$ (so $w(x)^{-1/2}=c_S^{-1/2}\Delta_S(x)^a$) shows that
+$M_{w^{-1/2}}:[g]_\rho\mapsto [c_S^{-1/2}\Delta_S^a g]_{\rho_w}$ is unitary from
+$L^2(K_S^\times,\nu_S|_{K_S^\times})\cong L^2(K_S,\nu_S)$ onto $L^2(K_S^\times,\mu_{S,a})$. At
+$a=1/2$, $\Delta_S^{1-2a}\equiv 1$ so $\mu_{S,1/2}=\mu_S$, and the conjugation formula
+$U_S^{-1}\circ C_{\tau_t}\circ U_S=T_t^{(1/2)}$ follows exactly as in Lemma 15.5d(3) because
+$c_S^{-1/2}$ and $c_S^{1/2}$ cancel:
+$$(U_S^{-1}C_{\tau_t}U_S g)(x)=c_S^{1/2}\Delta_S(x)^{-1/2}\bigl(c_S^{-1/2}\Delta_S(tx)^{1/2}g(tx)\bigr)=\Delta_S(t)^{1/2}g(tx).$$
+Integrating $k(x,x)$ against $\mu_S.\mathrm{withDensity}(\Delta_S^{2a})=\nu_S|_{K_S^\times}.\mathrm{withDensity}(c_S\Delta_S^{2a-1})$
+via `lintegral_withDensity_eq_lintegral_mul` (for $\lvert k(x,x)\rvert$ and then by linearity for real
+and imaginary parts) gives the diagonal kernel formula; for $k(x,y)=g(x)\overline{h(y)}$ at $a=1/2$,
+$k_{1/2}(x,x)=\Delta_S(x)g(x)\overline{h(x)}=c_S\,U_S(g)(x)\overline{U_S(h)(x)}$.
+
+(3) Assume $S\ne\emptyset$. The equivalence *(i)* $\iff$ *(iv)* (with $c=c_S$) is Theorem
+15.3(3)(ii). Clearly *(iv)* $\implies$ *(ii)* and *(iii)* by part (2). If *(ii)* holds—say
+$\lVert U_{S,a}g\rVert^2_{L^2(\mu_S)}=\kappa\lVert g\rVert^2_{L^2(\nu_S)}$ for some $\kappa>0$ and all
+$g\in L^2(K_S,\nu_S)$—testing on $g=\mathbf 1_B$ for all relatively compact Borel $B\subseteq K_S^\times$
+gives $\int_B\Delta_S^{2a}\,d\mu_S=\kappa c_S\,\nu_S(B)$, hence *(i)* with $c=\kappa c_S$, forcing
+$a=1/2$ and $\kappa=1$. If *(iii)* holds, substituting $y=tx$ gives
+$\lVert T_t^{(a)}g\rVert^2_{L^2(\nu_S)}=\Delta_S(t)^{2a-1}\lVert g\rVert^2_{L^2(\nu_S)}$ for a nonzero
+$g\in L^2(K_S,\nu_S)$, so $\Delta_S(t)^{2a-1}=1$ for all $t\in K_S^\times$; choosing $v_0\in S$ and
+$t$ non-unit at $v_0$ as in Theorem 15.3(3) forces $a=1/2$. Finally, when $S=\emptyset$, $K_\emptyset^\times=\{1\}$
+has $\Delta_\emptyset(1)=1$ and $c_\emptyset=1$, making *(i)*–*(iii)* trivial identities $1=1$ for
+every $a\in\mathbb R$. $\square$
+
+**Remark 1 (operator dichotomy: why `withDensity` and `compMeasurePreserving` live on orthogonal
+legs of the diagram).** Lemma 15.5d(3) and Theorem 15.6(2) resolve the confusion flagged in the
+audit of Lemma 15.3d by separating the horizontal group action from the vertical change of measure:
+$$\begin{array}{ccc}
+L^2(K_S,\nu_S) & \xrightarrow{\quad T_t^{(1/2)}\;:\;g(x)\mapsto\Delta_S(t)^{1/2}g(tx)\quad} & L^2(K_S,\nu_S) \\[6pt]
+\Big\downarrow{\scriptstyle U_S = M_{(c_S\Delta_S^{-1})^{-1/2}}} & & \Big\downarrow{\scriptstyle U_S = M_{(c_S\Delta_S^{-1})^{-1/2}}} \\[6pt]
+L^2(K_S^\times,\mu_S) & \xrightarrow[\quad C_{\tau_t}\;=\;\mathrm{compMeasurePreserving}(\tau_t)\quad]{} & L^2(K_S^\times,\mu_S)
+\end{array}$$
+The bottom horizontal arrow $C_{\tau_t}$ is a pure precomposition (`Lp.compMeasurePreserving`),
+unitary with **no** Jacobian factor because $\tau_t$ preserves $\mu_S$. The vertical arrows $U_S$ do
+**not** move points of $K_S^\times$ at all—they change the measure from $\nu_S$ to
+$\mu_S=c_S\Delta_S^{-1}\nu_S$ via `withDensity` multiplication $g\mapsto c_S^{-1/2}\Delta_S^{1/2}g$.
+The top horizontal arrow $T_t^{(1/2)}$ acquires its half-Jacobian $\Delta_S(t)^{1/2}$ precisely by
+going down via $U_S$, precomposing via $C_{\tau_t}$, and coming back up via $U_S^{-1}$
+(`[Bourbaki2004]`, Ch. VII, §1; `[Weil1967]`, Ch. I, §2).
+
+**Remark 2 (why Masullo's (12.4.1.17) carries $c_S$ while Theorem 12.5.1.1 divides it out).** In
+Masullo's §12.4.1 (p. 518), the kernel $k_{S,\varphi}(x,y)$ is formed directly from unnormalized
+local Schwartz/Bruhat test functions twisted by $\lvert x\rvert_{F,S}^a\lvert y\rvert_{F,S}^a$,
+without inserting $c_S^{-1/2}$ into each variable; hence at $a=1/2$ the diagonal integral retains an
+overall factor of $c_S$ in (12.4.1.17) and (12.4.1.23) (verified at $c_{\{5\}}=5/4$ in Example 2),
+which is subsequently cancelled in Theorem 12.5.1.1 (p. 519) when the finite-place orbital terms are
+divided by $\mu_v(\mathcal O_{F_v}^\times)$ `[Paper; Masullo pp. 518–519]`. As in §15.4.3.1 Remark 1,
+closing this finite-$S$ measure identity proves **nothing** toward Masullo's global claims: diagonal
+kernel smoothing (`pp. 15, 517`), the omitted §12.3 (`p. 514`), the Chapter 10 positive-width strip
+nuclearity gap (`p. 451`), $\alpha$-independence of the strip trace in Theorem 12.5.1.1 (`p. 519`),
+and the unwritten Chapter 13 (`pp. 521–522`) remain untouched `[Open]`.
+
+**Remark 3 (summary of §15.4.3.1 audit repairs).** Relative to the initial text of §15.4.3.1, five
+fixes are now in place across §§15.4.3.1–15.4.3.2: *(a)* $c_S$ is restored to the right-hand side of
+the product diagonal integral Theorem 15.3(3)(i) as well as $c=c_S$ in Theorem 15.3(3)(ii) (repaired
+on $U_0=\mathbb Z_5^\times$ in Example 2); *(b)* the hypothesis $S\ne\emptyset$ is added to Theorem
+15.3(3)(ii) and Theorem 15.6(3), with the $S=\emptyset$ degeneracy explicitly exhibited; *(c)* the
+erroneous `MeasurePreserving`-identity explanation in Lemma 15.3d is replaced by Lemma 15.5d's
+`withDensity` $L^2$ construction and refuted on $[1,4]\subset\mathbb R_{>0}$ and on the complex
+annulus $A\subset\mathbb C^\times$; *(d)* the line range of `addHaar_image_linearMap` at the pin is
+corrected from `:310–319` to `:297–306` and its full R3 production proof (with
+`map_linearMap_addHaar_eq_smul_addHaar` and $\det_{\mathbb R}(\ell_z)=\lvert z\rvert^2$) is supplied
+in Lemmas 15.5a–15.5c; and *(e)* $a\ne 0$ (versus $\log 4$ at $a=0$) in §15.4.3.1's opening
+integral, "locally finite Borel measure on $K$" in Lemma 15.3b(2), and "dilation-covariant" in
+§15.4.3.1 Remark 1 are stated precisely.
+
+**Source map for this subsection.** Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| File and lines at the pin | Declaration | Role here | Reading |
+|---|---|---|---|
+| `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:117–121, 137–197, 218–306` | `addHaarMeasure_eq_volume_pi`, `addHaar_eq_zero_of_disjoint_translates_aux`, `addHaar_eq_zero_of_disjoint_translates`, `addHaar_submodule`, `map_linearMap_addHaar_pi_eq_smul_addHaar`, `map_linearMap_addHaar_eq_smul_addHaar`, `addHaar_preimage_linearMap`, `addHaar_preimage_continuousLinearEquiv`, `addHaar_image_linearMap` | Lemmas 15.5a(1) and 15.5b(1)–(2): proper subspaces are Haar-null; pushforward, preimage, and image Haar scaling by $\lvert\det f\rvert^{\pm 1}$ | R3 |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:364–444` | `Real.smul_map_diagonal_volume_pi`, `Real.volume_preserving_transvectionStruct`, `Real.map_matrix_volume_pi_eq_smul_volume_pi`, `Real.map_linearMap_volume_pi_eq_smul_volume_pi` | Lemma 15.5a(2)–(4): diagonal stretches, Fubini slice invariance of transvections, and matrix/linear scaling on $\iota\to\mathbb R$ | R3 |
+| `Mathlib/LinearAlgebra/Matrix/Transvection.lean:145–215, 337–465, 502–558, 676–743` | `TransvectionStruct`, `TransvectionStruct.det`, `listTransvecCol`, `listTransvecRow`, `isTwoBlockDiagonal_listTransvecCol_mul_mul_listTransvecRow`, `exists_list_transvec_mul_diagonal_mul_list_transvec`, `diagonal_transvection_induction_of_det_ne_zero` | Definition 15.5(1), Example 1 pivot factorization, and Lemma 15.5a(4) Gauss-transvection induction | R3 |
+| `Mathlib/LinearAlgebra/Determinant.lean:306–321, 369–375, 508–510, 569–575` | `LinearMap.det_conj`, `LinearMap.range_lt_top_of_det_eq_zero`, `LinearEquiv.det_coe_symm`, `LinearMap.equivOfDetNeZero` | Lemma 15.5b: similarity invariance, proper range when $\det f=0$, inverse determinant, and upgrade to equivalence when $\det f\ne 0$ | R3 |
+| `Mathlib/LinearAlgebra/Complex/Module.lean:144–165` · `Complex/FiniteDimensional.lean:31–32` · `Complex/Determinant.lean:26–28` | `Complex.basisOneI`, `coe_basisOneI_repr`, `coe_basisOneI`, `finrank_real_complex`, `Complex.det_conjAe` | Example 1 and Lemma 15.5c: ordered $\mathbb R$-basis $(1,i)$ of $\mathbb C$, $\dim_{\mathbb R}\mathbb C=2$, and $2\times 2$ determinant template | R3 |
+| `Mathlib/RingTheory/Norm/Defs.lean:61–64, 82–84` · `Data/Complex/Basic.lean:509–518` · `Analysis/Complex/Norm.lean:29–32, 147–150` | `Algebra.norm`, `Algebra.norm_apply`, `Algebra.norm_eq_matrix_det`, `Complex.normSq`, `Complex.normSq_eq_norm_sq` | Lemma 15.5c: $\det_{\mathbb R}(\ell_z)=\operatorname{Nm}_{\mathbb C/\mathbb R}(z)$ and $u^2+v^2=\operatorname{normSq}(z)=\lvert z\rvert^2$ | R3 |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Complex.lean:53–62` · `Haar/InnerProductSpace.lean:82–96` | `Complex.volume_preserving_equiv_pi`, `Complex.volume_preserving_equiv_real_prod`, `OrthonormalBasis.volume_parallelepiped` | Lemma 15.5c: identification of planar Lebesgue measure $\nu_{\mathbb C}$ on $\mathbb C$ with product volume | R3 |
+| `Mathlib/MeasureTheory/Measure/WithDensity.lean:245–300, 322–355, 398–449, 538–572, 589–596` | `ae_withDensity_iff'`, `lintegral_withDensity_eq_lintegral_mul₀'`, `withDensity_mul₀`, `withDensity_inv_same₀`, `withDensity_ae_eq` | Lemma 15.5d(1) and Theorem 15.6(2): null-set equivalence, Lebesgue density multiplication, density composition, and inverse weight | R3 |
+| `Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean:22–49` · `Function/L1Space/Integrable.lean:864–914` | `aemeasurable_withDensity_iff`, `L1.withDensitySMulLI`, `L1.withDensitySMulLI_apply` | Lemma 15.5d(1): strong measurability under positive density and Mathlib's $L^1$ multiplication-isometry prototype | R3 |
+| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:547–636` · `Function/AEEqFun.lean:280–318` | `AEEqFun.compMeasurePreserving`, `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving`, `Lp.compMeasurePreserving_id`, `Lp.compMeasurePreservingₗᵢ` | Definition 15.5(2) and Lemma 15.5d(2)–(3): precomposition operator under `MeasurePreserving` and its conjugation by $U_{1/2}$ | R3 |
+| Inherited from §15.4.3.1 | `distribHaarChar`, `Real.map_volume_mul_left`, `IsHaarMeasure.nullSingletonClass`, `IsHaarMeasure.isInvInvariant_of_regular`, `ProperSpace ℚ_[p]`, Lemmas 15.3a(1),(3), 15.3b, 15.3c, Proposition 15.4 | Single-field $\mathbb R$ and non-archimedean modulus/shells, zero removal, multiplicative and inversion invariance, 1-field Fourier scaling | Inherited (audited in §15.4.3.1) |
+| Retained named inputs (unread / `[Open]`) | `addHaarMeasure_unique` (`Haar/Unique.lean`), `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq` (`Constructions/Pi.lean`, `Integral/Lebesgue/Marginal.lean`), Haar instance on $\mathbb Q_p$ (absent at pin), Masullo diagonal smoothing (`pp. 15, 517`) & Ch. 10/12/13 strip-trace steps (`pp. 451, 514, 519, 521–522`) | Measure-uniqueness and Fubini-marginal foundations `[Lean]`; $\mathbb Q_5$ measure normalization `[Expository]`; Masullo global trace steps `[Paper]` / `[Open]` | Statement / named boundary |
 
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
@@ -796,7 +1422,7 @@ Finally, look at the epistemic mirror image between the two works as of `2026-11
 |---|---|---|
 | **I. Target scope** | $\zeta(s)$ and all Dirichlet $L(s, \chi)$ over $\mathbb Q$ (`src/Main.lean:4–12`) + abelian $\zeta_K(s)$ via Kronecker–Weber; non-abelian ERH **not** covered (`[Lean, read]`). | Intended: all unitary Hecke $L(s, \chi)$ over **all** number fields $F$ (`p. 6`), including all Dedekind $\zeta_K(s)$; Ch. 13 (`pp. 521–522`) unwritten (`[Paper]`, `[Open]`). |
 | **II. Zeros $\leftrightarrow$ primes bridge** | **One-sided** Riesz prime sum $G_m(x) \le x^{1/2+O(\varepsilon)}$ on sparse windows $[Y, Y^{1+\delta}]$ + Landau/Pólya real Laplace monotonicity (`P5`, `landau_window`); **no** sum over high zeros! | **Two-sided** convolution trace on $C_F$ for $\varphi \in D(C_F)$ with $\varphi(C_F^1) = 0$ (`Thm. 12.5.1.1`, `p. 519`); avoids Weil positivity (`§1.4.6`, `p. 30`) and requires summing over all strip zeros. |
-| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $\lvert x \rvert_{F,S}^{2a-1} = 1 \iff a = \frac{1}{2}$ (`p. 16, p. 518`; proved as Theorem 15.3 in §15.4.3.1) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
+| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $c_S\lvert x \rvert_{F,S}^{2a-1} = c_S \iff a = \frac{1}{2}$ for $S\ne\emptyset$ (`p. 16, p. 518`; proved as Theorems 15.3 and 15.6 in §§15.4.3.1–15.4.3.2) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
 | **IV. Core engine & $\mathbb F_q(X)$** | **Arithmetic-geometric / automorphic:** definite $U(n)$ theta chains (`P17`), supersingular $p$-adic divisibility (`P8`), Bost slopes (`P9`), Rallis/Gram decay (`P10`), GMA congruences & Iwasawa/$U(3)$ $\mathrm{Ш}^1$ (`P11`–`P12`), $\mathrm{GL}_a$ Galois reps (`P14`–`P16`). **Inspired directly by $\mathbb F_q(X)$!** | **Topological / functional-analytic on $\mathrm{GL}_1$:** periodic Schauder bases (`Chs. 4, 7`), Weil $PV_v$ operators (`Ch. 5`), nuclear locally convex duals (`App. C`), Hardy–Sobolev strip spaces (`Ch. 9`), divisorial shells (`Ch. 11`). **Provably fails over $\mathbb F_q(X)$ (`§14.2`, `pp. 534–536`)!** |
 | **V. Verification state (`2026-11-22`)** | **175,187 `.lean` files, 0 `sorry`s, 3 standard axioms**; accepted by `leanchecker`, `nanoda`, `con-leche --compare`, `con-ron --compare`, `lean4lean`; sandboxed rebuild export byte-identical (`[Community]`). Deep ~146k-module proof bodies largely unread by humans (`[Open]`). | **940-page human draft**; Wave 1 (`Chs. 2–4, 9`) mostly formalized in `mccorvie/riemann-masullo`, Wave 2 (`Thm. 5.2.1.1`, `§B.4`) flagged issues `[Community]`; **Ch. 10 `p. 451`/`p. 463` strip nuclearity gap, omitted `§12.3` (`p. 514`), and unwritten Ch. 13 (`pp. 521–522`) remain `[Open]`.** |
 

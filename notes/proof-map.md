@@ -548,10 +548,13 @@ Inputs retained at this section's boundary (located, statements read, bodies not
 
 **P17 levels and support fibres (§7.4.3.5).** Local R3 for the entry bounds (`EntryBound`, `entryBound_of_isCompact`, `exists_pow_mul_mem_of_isCompact`), the levels (`rankTorus`, `unipotentCompact`, `unipotentCompactG`, `unipotentCompactG_mono`, `mem_unipotentCompactG_of_bound`, `conj_mem_unipotentCompactG`, `exists_unipotentCompactG_of_isCompact`, `exists_compactOpen_subgroupOf`, `exists_compactOpen_unipotentRadical`, `IsCellCompact`), the support fibre (`isClopen_support_parabolicInd`, `exists_isCompact_support_doubleCoset`, `exists_nhds_inter_doubleCoset_subset`, `exists_isCompact_subset_doubleCoset`) and the cell-support level (`exists_unipotentCompactG_support`, `exists_cellSupp`, `exists_cellSupp_pair`). This upgrades the support supply named in the two entries above. The archive states the level pointwise in the base point; the bounded-set uniformity of Theorem 7.3v(3) is the book's reading of the proof and has no consumer. Named interfaces: Mathlib's `isOpenMap_smul_of_sigmaCompact` behind `isOpenMap_doubleCoset`, and the sorted Iwasawa decomposition `exists_blockUpper_mul_integralGL`. Consumers: `exists_cellEv_eventually`, `cellJacquet_add`, `cellJacquet_mul_left`, `cellJacquet_avgOver`, `cellJacquet_eq_zero_of_mk_eq_zero`, `exists_avgOver_cellFun_eq_zero`, `exists_sub_mem_ker_of_cellJacquet_eq_zero` and the bump suppliers. [Subsection](../chapters/07-chains-of-theta-lifts.md#7435-levels-in-the-unipotent-radical-and-supports-on-a-cell)
 
-### Chapter 15 half-density normalization
+### Chapter 15 half-density normalization and linear-Haar / `withDensity` supply
 
 [§15.4.3.1](../chapters/15-two-proofs-side-by-side.md#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight)
-follows the Mathlib supply at pin `0df444a360eaa60ab8c11dca51a86af692955474`. R3 covers
+and [§15.4.3.2](../chapters/15-two-proofs-side-by-side.md#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport)
+follow the Mathlib supply at pin `0df444a360eaa60ab8c11dca51a86af692955474`.
+In §15.4.3.1 (with post-audit repairs for $c_S$ in both clauses of Theorem 15.3(3), $S\ne\emptyset$
+for uniqueness, and removal of the false `MeasurePreserving`-identity claim in Lemma 15.3d), R3 covers
 `Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean` (whole file, `distribHaarChar` and its
 three characterizing lemmas), `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:312–336`
 (`Real.smul_map_volume_mul_left`, `Real.map_volume_mul_left`, `Real.volume_preimage_mul_left`),
@@ -563,15 +566,31 @@ three characterizing lemmas), `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean
 (`mellin_comp_mul_left`), `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:978–1000`
 (`IsHaarMeasure.isInvInvariant_of_regular`), `Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.lean`
 (whole file, orientation only) and `Mathlib/NumberTheory/Padics/ProperSpace.lean:64–69`.
+In §15.4.3.2, R3 upgrades `map_linearMap_addHaar_eq_smul_addHaar`, `addHaar_preimage_linearMap`,
+and `addHaar_image_linearMap` (`EqHaar.lean:117–121, 137–197, 218–306`, including `addHaar_submodule`),
+together with their elementary-matrix producers `Real.smul_map_diagonal_volume_pi`,
+`Real.volume_preserving_transvectionStruct`, `Real.map_matrix_volume_pi_eq_smul_volume_pi`, and
+`Real.map_linearMap_volume_pi_eq_smul_volume_pi` (`Lebesgue/Basic.lean:364–444`), two-sided Gauss
+transvection elimination (`LinearAlgebra/Matrix/Transvection.lean:145–215, 337–465, 502–558, 676–743`),
+linear-determinant helpers (`LinearAlgebra/Determinant.lean:306–321, 369–375, 508–510, 569–575`),
+complex real-basis and volume transport (`LinearAlgebra/Complex/Module.lean:144–165`,
+`Complex/FiniteDimensional.lean:31–32`, `Complex/Determinant.lean:26–28`, `RingTheory/Norm/Defs.lean:61–64, 82–84`,
+`Data/Complex/Basic.lean:509–518`, `Analysis/Complex/Norm.lean:29–32, 147–150`,
+`Measure/Lebesgue/Complex.lean:53–62`, `Haar/InnerProductSpace.lean:82–96`), and the `withDensity`
+vs. `compMeasurePreserving` supply (`WithDensity.lean:245–300, 322–355, 398–449, 538–572, 589–596`,
+`Integral/LebesgueNormedSpace.lean:22–49`, `Function/L1Space/Integrable.lean:864–914`,
+`Function/LpSpace/Basic.lean:547–636`, `Function/AEEqFun.lean:280–318`).
 Statement level: `haarScalarFactor`/`addHaarScalarFactor_smul_congr'` (`Haar/Unique.lean:277, 1063–1073`),
-`addHaar_image_linearMap` (`EqHaar.lean:310–319`), `LinearMap.det_smul` (`LinearAlgebra/Determinant.lean:256`),
-`Lp.isometry_compMeasurePreserving` (`LpSpace/Basic.lean:581–583`), `MeasureTheory.Measure.haar`
-(`Haar/Basic.lean:584`). Named inputs: Haar uniqueness behind the scalar factor; the determinant of
-complex multiplication (hand computation); Fourier transform on a local field (Proposition 15.4(2),
-classical); a Haar measure instance on $\mathbb Q_p$ (absent at the pin; the $\mathbb Q_5$ example
-is a hand normalization); Masullo's diagonal smoothing (pp. 15, 517). The subsection is local
+`addHaarMeasure_unique` (`EqHaar.lean` / `Haar/Unique.lean`), `LinearMap.det_smul`
+(`LinearAlgebra/Determinant.lean:256`), `MeasureTheory.Measure.haar` (`Haar/Basic.lean:584`), and
+`Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq`. Named inputs / `[Expository]` packaging: the two-line
+$2\times 2$ evaluation $\det_{\mathbb R}(\ell_z)=u^2+v^2$ and $p=2$ `withDensity` square-root
+assembly (textbook proofs over R3 library lemmas); Fourier transform on a local field (Proposition
+15.4(2), classical); a Haar measure instance on $\mathbb Q_p$ (absent at the pin; $\mathbb Q_5$
+shells normalized by hand); Masullo's diagonal smoothing (pp. 15, 517). Both subsections are local
 measure theory; the Chapter 14 `[Open]` items are unchanged.
-[Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
+[Pinned `DistribChar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
+· [Pinned `EqHaar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L231-L306)
 
 ### Chapter 14 classical circle uniform density
 

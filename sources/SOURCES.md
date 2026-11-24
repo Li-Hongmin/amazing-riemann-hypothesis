@@ -369,6 +369,18 @@ All from
 | `Mathlib/MeasureTheory/Measure/Regular.lean` | 2026-11-24T18:08Z | 64445 | `634aa0663f4d800ec62184195e4ae19ba717a90b130b844c0d9ed7483b84e230` |
 | `Mathlib/Topology/UrysohnsLemma.lean` | 2026-11-24T18:08Z | 26018 | `9a47610f0656fbf90ff9a50400b61aa70fc612f4612c580de4e039d5cb9df045` |
 | `Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean` | 2026-11-24T18:08Z | 7689 | `4145e148d2fce70236513b3063543f5b8715c33e2f9a252421bf883377bd65f1` |
+| `Mathlib/LinearAlgebra/Matrix/Transvection.lean` | 2026-11-24T18:20Z | 33714 | `a1122dc1e7f49462b2c5b53b1183f1e8079878dff883df04e82f781f4ce9d656` |
+| `Mathlib/LinearAlgebra/Complex/Module.lean` | 2026-11-24T18:20Z | 26963 | `e89fa5a5b6c21325b50c351b7e3f1303201e6bec4006e4650cca1f8913c6ba71` |
+| `Mathlib/LinearAlgebra/Complex/FiniteDimensional.lean` | 2026-11-24T18:20Z | 2946 | `bab7e57a9e0ae400e63b945280ac5c139e4f59d012fba52afaf3a155f3ddb0a2` |
+| `Mathlib/LinearAlgebra/Complex/Determinant.lean` | 2026-11-24T18:20Z | 882 | `4c15569399518e7edd6b6ed6226a4798f59644a438d3ee617dffa921ff0fc88c` |
+| `Mathlib/RingTheory/Norm/Defs.lean` | 2026-11-24T18:20Z | 3224 | `587a8986b843cc10ae154fda4b596f2f795979fe0df004a3cedddfa989c684ab` |
+| `Mathlib/Data/Complex/Basic.lean` | 2026-11-24T18:20Z | 30091 | `e279bd6369e83ebf6716e17a8f38c81c812020753472cac5e7ae2a501790b760` |
+| `Mathlib/Analysis/Complex/Norm.lean` | 2026-11-24T18:20Z | 15446 | `815efa05d2282b0b234139eac16d614f1128d69e39cf02249df887934ccc9741` |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Complex.lean` | 2026-11-24T18:20Z | 2474 | `84843151406032766adb7580f01479aea7345b873d57d32e8e5fc21158e0246b` |
+| `Mathlib/MeasureTheory/Measure/Haar/InnerProductSpace.lean` | 2026-11-24T18:20Z | 11149 | `176ec47d5c89daf4d70e31fa237677305755d504dc0eedc2e0d803e592ea2d60` |
+| `Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean` | 2026-11-24T18:20Z | 1980 | `80d8623ab00e0ba0e9cf9bfb373373bb803ab710b932f785744c5039a9e84dbd` |
+| `Mathlib/MeasureTheory/Function/L1Space/Integrable.lean` | 2026-11-24T18:20Z | 57662 | `86008d68eeb9281c5a382f49c21ed58246c5f9a5f0d5268f8eeadb050e70f` |
+| `Mathlib/MeasureTheory/Function/AEEqFun.lean` | 2026-11-24T18:20Z | 41777 | `2e41fe38b0d1bf176b393999755bab74bc6a7ca8a6268ea6b27b9672a5ec1b3f` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -412,6 +424,10 @@ and classroom examples. [Mathlib attribution](https://github.com/leanprover-comm
 | [T. Tao, "245A, Notes 5: Differentiation theorems" (2010)](https://terrytao.wordpress.com/2010/10/16/245a-notes-5-differentiation-theorems/), Proposition 92 and Exercise 94 (for §2.3.2.4) | 2026-11-25 UTC | 910900 | `da17411ff26e327d094507ae3ff054d8576ff49cfa3a3e26d4d15364987388c5` |
 | [R. A. Gordon, "A bounded derivative that is not Riemann integrable", *Math. Mag.* 89 (2016) 364–370](https://doi.org/10.4169/math.mag.89.5.364), copy read from a course page (for §2.3.2.4) | 2026-11-25 UTC | 254251 | `547107a18085d3cf4300c3b78ca166b2cebfb781879f6b5cf11b9c03b2a6f070` |
 | W. Rudin, *Real and Complex Analysis*, 3rd ed. (McGraw-Hill, 1987), Theorems 1.26, 2.25, 7.21; scan of the third edition, not linked (for §2.3.2.4) | 2026-11-25 UTC | 6722993 | `1e87b6081fa06213c1598e8a6e87c27355e3eeec08d0fc82924b2553c9963eb1` |
+| [T. Tao, *245A, Notes 1: Lebesgue measure* (2010)](https://terrytao.wordpress.com/2010/09/09/245A-notes-1-lebesgue-measure/) | 2026-11-24T18:22Z | 884028 | `8d9efaf45fa5b63d2d969be01fbb009b4257417d87fc4e1f15bc5413f672c302` |
+| [Crossref record for T. Tao, *An Introduction to Measure Theory*, GSM 126 (2011)](https://api.crossref.org/works/10.1090/gsm/126) | 2026-11-24T18:22Z | 1831 | `5e3acb7379f3bf056cadea7299e89e2249c972f7359a22a6c2e21f89786943dd` |
+| [Crossref record for A. Weil, *Basic Number Theory* (1967/1995)](https://api.crossref.org/works/10.1007/978-3-642-61945-8) | 2026-11-24T18:22Z | 3244 | `d35482310444b5c39100405d9e6700d63b07a6e8b62d83363bd0397b8d4a83ba` |
+| [Crossref record for N. Bourbaki, *Integration II, Chapters 7–9* (2004)](https://api.crossref.org/works/10.1007/978-3-642-59315-4) | 2026-11-24T18:22Z | 2933 | `5c5200ee55000d1852032dd6555b6f55e245629f723324398455b92e1af9c627` |
 
 **Chapter 15, §15.4.3.1.** The Mathlib files above from `DistribChar.lean` to
 `Padics/ProperSpace.lean` were retrieved from the pinned commit on 2026-11-24 (UTC) for the
@@ -428,6 +444,32 @@ re-verified 2026-11-24). The pinned Mathlib has no Haar measure instance on $\ma
 [Masullo, p. 16](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=16)
 · [Masullo, p. 518](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518)
 · [Pinned `DistribChar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
+
+**Chapter 15, §15.4.3.2.** Opens the direct Mathlib production proofs at pin
+`0df444a360eaa60ab8c11dca51a86af692955474` behind linear Haar determinants and density-weighted
+$L^2$ transport: `addHaar_submodule`, `map_linearMap_addHaar_eq_smul_addHaar`,
+`addHaar_preimage_linearMap`, and `addHaar_image_linearMap` in `EqHaar.lean` (Floris van Doorn,
+Sébastien Gouëzel), elementary diagonal and Fubini-slice transvection scaling in
+`Lebesgue/Basic.lean` (Johannes Hölzl, Sébastien Gouëzel, Yury Kudryashov), two-sided Gauss
+transvection elimination in `LinearAlgebra/Matrix/Transvection.lean` (Sébastien Gouëzel),
+linear-map determinant helpers in `LinearAlgebra/Determinant.lean` (Johannes Hölzl, Patrick Massot,
+Casper Putz, Anne Baanen), complex real-basis and volume lemmas in `Complex/Module.lean` and
+`Complex/FiniteDimensional.lean` (Alexander Bentkamp, Sébastien Gouëzel, Eric Wieser),
+`Complex/Determinant.lean` (Joseph Myers), `RingTheory/Norm/Defs.lean` (Anne Baanen),
+`Data/Complex/Basic.lean` (Kevin Buzzard, Mario Carneiro), `Analysis/Complex/Norm.lean` and
+`Haar/InnerProductSpace.lean` (Sébastien Gouëzel), and `Lebesgue/Complex.lean` (Yury Kudryashov),
+together with the `withDensity` calculus in `WithDensity.lean` (Mario Carneiro, Johannes Hölzl),
+`Integral/LebesgueNormedSpace.lean` (Sébastien Gouëzel), `Function/L1Space/Integrable.lean`
+(Zhouhang Zhou), and `Lp.compMeasurePreserving` in `Function/LpSpace/Basic.lean` (Rémy Degenne,
+Sébastien Gouëzel) and `Function/AEEqFun.lean` (Johannes Hölzl, Zhouhang Zhou). Classical
+comparisons verified online 2026-11-24 UTC: T. Tao, *An Introduction to Measure Theory*, GSM 126
+(2011) / *245A, Notes 1* (2010), Exercise 1.2.1 (cited in `WithDensity.lean:389`) and Exercise
+1.2.21 ($m(T(E))=\lvert\det T\rvert m(E)$); A. Weil, *Basic Number Theory* (1967), Ch. I, §2
+($\operatorname{mod}_{\mathbb C}(z)=z\bar z$ and $\lvert\det\rvert$); N. Bourbaki, *Integration II*
+(2004), Ch. VII, §1; and Masullo pp. 15–16, 517–519.
+[Pinned `EqHaar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L231-L306)
+· [Pinned `WithDensity.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L419-L596)
+· [Tao, 245A Notes 1](https://terrytao.wordpress.com/2010/09/09/245A-notes-1-lebesgue-measure/)
 
 **Chapter 14, §14.4.2.** David Loeffler's pinned Mathlib
 `Real.fourierCoeff_tsum_comp_add` and `Real.tsum_eq_tsum_fourier` supply the
@@ -619,6 +661,11 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   *Publications Mathématiques de l'IHÉS* 93 (2001), 161–221, doi:10.1007/s10240-001-8191-3
   (cited in Chapter 9).
   Verified: 2026-11-21 via Numdam / EuDML, *Publ. Math. IHÉS* vol. 93 (2001), pp. 161–221.
+- **[Bourbaki2004]** N. Bourbaki, *Integration II: Chapters 7–9*, Elements of Mathematics,
+  Springer, Berlin–Heidelberg, 2004, doi:10.1007/978-3-642-59315-4 (Ch. VII, §1, Haar measure and
+  its modulus under group automorphisms, cited in Chapter 15, §15.4.3.2).
+  Verified: 2026-11-24 via Crossref (`doi:10.1007/978-3-642-59315-4`, JSON SHA-256
+  `5c5200ee55000d1852032dd6555b6f55e245629f723324398455b92e1af9c627`).
 - **[Brauer1947]** R. Brauer, "On Artin's $L$-series with general group characters", *Annals of
   Mathematics* (2) 48 (1947), no. 2, 502–514, doi:10.2307/1969183 (cited in Chapter 16).
   Verified: 2026-11-22 via Crossref / JSTOR (`doi:10.2307/1969183`), *Annals of Mathematics* vol. 48, no. 2 (1947), pp. 502–514.
@@ -990,6 +1037,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   English transl. in *Mathematics of the USSR-Izvestiya* 3 (1969), no. 5, 1103–1114 (cited in
   Chapters 6, 7, and 8).
   Verified: 2026-11-21 via Math-Net.Ru (*Izv. AN SSSR Ser. Mat.* 33:5 (1969), 1171–1181) and *Math. USSR-Izv.* 3:5 (1969), 1103–1114.
+- **[Tao2011]** T. Tao, *An Introduction to Measure Theory*, Graduate Studies in Mathematics 126,
+  American Mathematical Society, Providence, RI, 2011, doi:10.1090/gsm/126; companion lecture notes
+  "245A, Notes 1: Lebesgue measure", *What's new*, 9 September 2010 (Exercise 1.2.1 on density
+  integration, cited in Mathlib's `WithDensity.lean:389`, and Exercise 1.2.21 / Exercise 21 proving
+  $m(T(E))=\lvert\det T\rvert m(E)$ by elementary row operations; cited in Chapter 15, §15.4.3.2).
+  Verified: 2026-11-24 via Crossref (`doi:10.1090/gsm/126`, JSON SHA-256
+  `5e3acb7379f3bf056cadea7299e89e2249c972f7359a22a6c2e21f89786943dd`) and direct retrieval of
+  <https://terrytao.wordpress.com/2010/09/09/245A-notes-1-lebesgue-measure/> (884,028 bytes, HTML
+  SHA-256 `8d9efaf45fa5b63d2d969be01fbb009b4257417d87fc4e1f15bc5413f672c302`).
 - **[Tao2014]** T. Tao, "254A, Notes 2: Complex-analytic multiplicative number theory", lecture notes on
   *What's new*, 9 December 2014 (cited in Chapter 4). Theorem 21 (truncated von Mangoldt explicit formula,
   from a truncated Perron formula with contour shifting) and Exercise 22 (smoothed explicit formula with an
@@ -1043,6 +1099,13 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[Weil1965]** A. Weil, "Sur la formule de Siegel dans la théorie des groupes classiques", *Acta
   Mathematica* 113 (1965), 1–87, doi:10.1007/BF02391774 (cited in Chapters 15 and 18).
   Verified: 2026-11-22 via Crossref / Project Euclid (`doi:10.1007/BF02391774`), *Acta Math.* vol. 113 (1965), pp. 1–87.
+- **[Weil1967]** A. Weil, *Basic Number Theory*, Grundlehren der mathematischen Wissenschaften 144,
+  Springer, Berlin–Heidelberg–New York, 1967 (Classics in Mathematics reprint, 1995,
+  doi:10.1007/978-3-642-61945-8; Ch. I, §2, module of an automorphism $\operatorname{mod}_G(\alpha)$,
+  $\operatorname{mod}_{\mathbb C}(z)=z\bar z$ and $\lvert\det\rvert$ on finite-dimensional local
+  vector spaces, cited in Chapter 15, §15.4.3.2).
+  Verified: 2026-11-24 via Crossref (`doi:10.1007/978-3-642-61945-8`, JSON SHA-256
+  `d35482310444b5c39100405d9e6700d63b07a6e8b62d83363bd0397b8d4a83ba`).
 - **[WikipediaFubini]** Wikipedia contributors, "Fubini's theorem", revision 1383075598 of
   2026-10-31T21:23:48Z, section "Failure of Fubini's theorem for non-integrable functions" (cited in Chapter 3).
   Verified: 2026-11-24, wikitext of that revision retrieved with `action=raw` (39938 bytes, SHA-256 `502ac6c4f68e320d9c9910aa4bd31fe15b5a604fbbced3b1b8aa217d3767d7a0`); it gives the iterated integrals $\pi/4$ and $-\pi/4$ and the divergent absolute integral.
@@ -2623,3 +2686,16 @@ invariance and $\mathbb Q_p$ local compactness added to Part I, §4 (retrieved 2
 `0df444a360eaa60ab8c11dca51a86af692955474`); Masullo PDF re-downloaded and hash re-verified
 (`e039d3f6cf0a4b14f03c7edb85097752dd65c0a2fe543c76fe992be234f97bf5`). Run
 `rhbook-ch15-halfdensity-1125g-11250125` (`mathlib/`, `masullo/`, `source-sha256.txt`, `handcalc.txt`).
+
+### Chapter 15 §15.4.3.2, linear-Haar determinants, `withDensity` $L^2$ transport, and §15.4.3.1 audit fixes
+
+Added twelve pinned Mathlib files (`Transvection.lean`, `Complex/Module.lean`,
+`Complex/FiniteDimensional.lean`, `Complex/Determinant.lean`, `RingTheory/Norm/Defs.lean`,
+`Data/Complex/Basic.lean`, `Analysis/Complex/Norm.lean`, `Measure/Lebesgue/Complex.lean`,
+`Haar/InnerProductSpace.lean`, `Integral/LebesgueNormedSpace.lean`, `Function/L1Space/Integrable.lean`,
+`Function/AEEqFun.lean`) and four classical snapshots/Crossref records (`[Tao2011]` / 245A Notes 1,
+`[Weil1967]`, `[Bourbaki2004]`) to Part I, §4 and §6 (retrieved 2026-11-24 UTC); verified Masullo
+pp. 15–16 and 517–519 against PDF `e039d3f6…97bf5`; verified all $z=1+2i$ and $S=\{5\}$ shell
+identities by exact rational arithmetic (`verify_linear_haar_density.py`, `handcalc_cert.json`,
+0.0002 s CPU) in run `rhbook-ch15-linear-haar-density-1125k-11250207`, following cross-source audit
+`audit-rhbook-ch15-halfdensity-1125g-11250125-11250155`.
