@@ -18,7 +18,7 @@ by us (`R3` / `[Lean, read]`). Of the classical analytic sub-packages imported a
 the sieve, the width-$1/400$ zero-density count and the Landau–Page step across moduli are also
 read in full (Section 4.7). The prime number theorem in progressions modulo divisible-by-$8$
 moduli, Siegel's lower bound and the internal lemmas of the Perron contour tail were read at
-statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail with its Perron and local-zero suppliers (§§4.8.7–4.8.8), the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5), the differencing step of its far range (§4.10.6), the residual of the smoothed explicit formula (§4.10.7) and its local expansion and rectangle identity (§4.10.8); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
+statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail with its Perron and local-zero suppliers (§§4.8.7–4.8.8), the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5), the differencing step of its far range (§4.10.6), the residual of the smoothed explicit formula (§4.10.7), its local expansion and rectangle identity (§4.10.8), and the uniform polynomial-growth supply in the half-plane $\Re s \ge 1/2$ (§4.10.9); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
 
 ---
 
@@ -1578,7 +1578,7 @@ All paths below are relative to the joined Alpöge archive with SHA-256
 **Which kernel is consumed?** `TailKernel.lean` is imported both directly and through `TailContourB`. Its `tail_kernel_cpow` and `tail_kernel_line` prove closely related bounds at
 `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailKernel.lean:27–64,89–124`. The actual consumer at `TailContour.lean:87–89` calls `tc_left_int`, which calls `tc_left_pt` and integrates $2/(g+|u|)$ directly. `tc_left_pt` differentiates $w^s$ on a real interval. The separately imported `perron_horizontal_segment_bound` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronHorizontalSegmentBound.lean:71–121` belongs to a different estimate with a zero-free region and an optional exceptional zero. The horizontal consumer here is `tc_horiz_pt`.
 
-**Remaining R2 [Lean].** The proof bodies of `TailContourA` and the consumed declarations of `TailContourB` are read locally. Section [4.8.7.6](#4876-source-map-and-reading-boundary) records the local R3 reading of `perron_formula_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283`), `rectangle_contour_shift_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:114`) and their direct suppliers. On the box side [§4.8.8](#488-local-zeros-and-the-logarithmic-derivative-in-tailbox) reads the local Landau expansion, the inverse bound `inverseBound` and the right-half-plane bound `l_log_deriv_right` through their direct production proofs. The polynomial-growth input `lfunction_polynomial_growth` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) and the deeper analytic dependencies retain R2 [Lean]. The unused Perron horizontal provider and the standalone kernel lemmas receive no promotion from this reading. The complete imported proof of `tail_contour` remains R2. The conditional proof here reads one estimate with its analytic inputs exposed.
+**Remaining R2 [Lean].** The proof bodies of `TailContourA` and the consumed declarations of `TailContourB` are read locally. Section [4.8.7.6](#4876-source-map-and-reading-boundary) records the local R3 reading of `perron_formula_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283`), `rectangle_contour_shift_character` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/RectShiftChi.lean:114`) and their direct suppliers. On the box side [§4.8.8](#488-local-zeros-and-the-logarithmic-derivative-in-tailbox) reads the local Landau expansion, the inverse bound `inverseBound` and the right-half-plane bound `l_log_deriv_right` through their direct production proofs, while [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads the polynomial-growth input `lfunction_polynomial_growth` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) at local R3. The zeta Laurent remainder bound and the deeper analytic dependencies retain R2 [Lean]. The unused Perron horizontal provider and the standalone kernel lemmas receive no promotion from this reading. The complete imported proof of `tail_contour` remains R2. The conditional proof here reads one estimate with its analytic inputs exposed.
 
 ### 4.8.7 Mellin inversion and the finite rectangle
 
@@ -1797,7 +1797,7 @@ The following paths are relative to `src/Formalism/`. Each reference uses archiv
 | Control the inverse and right-half-plane derivative | `inverseBound`, `negLD_eq_LSeries_mul_vonMangoldt`, `norm_LSeries_twist_vonMangoldt_le`, `l_log_deriv_right`, `LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:12–86,88–126`; `lamF`, `norm_logDeriv_le_lamF`, `term_vonMangoldt_real`, `lamF_eq_norm`, `lamF_anti`, `ZeroFreeRegion/ZetaLogDerivativeBounds/NormLogDerivLeLamF.lean:10–50`; `logDerivBoundRightHalfPlane`, `ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:11–42`. | [Lean, read] locally |
 | Consume the two bounds | `tail_box_log`, `tail_box_sum`, `tail_box_negLD`, `GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailBox.lean:13–119`. The contour call sites are in §4.8.6. | [Lean, read] as in §4.8 |
 
-The local R3 reading covers the bodies listed above. The imported analytic proofs below them retain R2 [Lean], including `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`), the continuation and nonvanishing of Dirichlet $L$-functions, the Mathlib reciprocal and von Mangoldt identities (the call sites are LRight.lean:74–77,88–94,122–124), and the Laurent remainder bound `log_deriv_riemannZeta_add_inv_sub_bounded`. The Laurent bound is called at LogDerivRight.lean:12–13. The interfaces for the inverse, growth, and right-side estimates are NoZeroComplexOf.lean:25–35. The full `tail_contour` closure retains R2, with the exceptional-zero, zero-free-region and endpoint predecessors retaining their existing labels. The examples, holomorphic extension of the remainder, and the general distance corollary are [Expository]. See the [source ledger](../sources/SOURCES.md#p13-local-zero-expansion-in-tailbox).
+The local R3 reading covers the bodies listed above, and [§4.10.9](#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth) reads `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) with witness $C=9$ (giving $B_C=1+\log420/\log2\approx9.7142$). The imported analytic proofs below them retain R2 [Lean], including the continuation and nonvanishing of Dirichlet $L$-functions, the Mathlib reciprocal and von Mangoldt identities (the call sites are LRight.lean:74–77,88–94,122–124), and the Laurent remainder bound `log_deriv_riemannZeta_add_inv_sub_bounded`. The Laurent bound is called at LogDerivRight.lean:12–13. The interfaces for the inverse, growth, and right-side estimates are NoZeroComplexOf.lean:25–35. The full `tail_contour` closure retains R2, with the exceptional-zero, zero-free-region and endpoint predecessors retaining their existing labels. The examples, holomorphic extension of the remainder, and the general distance corollary are [Expository]. See the [source ledger](../sources/SOURCES.md#p13-local-zero-expansion-in-tailbox).
 
 ## 4.9 Counting enough candidates before the sieve
 
@@ -2689,27 +2689,27 @@ The difference theorem in §4.10.6 evaluates a smoothed formula twice. It needs 
 
 #### 4.10.7.2 Two modulus-eight calculations [Expository]
 
-Take $\kappa=1/20$ and use model zero configurations. For the constants take the least values the archive's formulas allow: $C_3=0$ and $C_2=C_2^\flat=360(\log60600+3)+100/7\approx5058.62$. Here $C_2=2C_0+100/7+C_3$, and §4.10.8 shows $C_0=180(\log(10100C_G)+3)$ with $C_G\ge6$. The constants produced by the archive's proofs are at least these, so the totals below are lower bounds for its budgets at these parameters. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
+Take $\kappa=1/20$ and use model zero configurations. In the archive (`ex_negLD_bound`, `PNTExplNeg.lean:33`), $C_2=2C_0+100/7+C_3$, where §4.10.8 gives $C_0=180(\log(10100C_G)+3)$ and §4.10.9 reads the archive's actual growth witness $C_G=\max(9,6)=9$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))>0$ from the retained R2 Laurent remainder bound, so $C_3=0$ is not realized by the archive's proof. Replacing $C_3>0$ by $0$ yields the explicit strict lower bound $C_2>C_2^{\mathrm{lb}}:=360(\log90900+3)+100/7\approx5204.59$. Because the four budget expressions below increase strictly with $(C_2,C_3)$, evaluating them at the baseline $(C_2^{\mathrm{lb}},0)$ gives explicit lower bounds for the archive's budgets at these parameters rather than admissible witnesses. With clearance $d$, left edge $\sigma$, height $H$, and $N=2C_2\log(8T)/d$, the four normalized budgets to be derived are
 $$
 a=\frac{e(\log y+C_3)}{\pi H},\qquad
 b=\frac{H(N+4/(3\kappa))y^{\sigma-1}}{\pi\sigma(1-\sigma)},\qquad
 c_-=c_+=\frac{3e(N+1)}{2\pi H^2}.
 $$
 
-**Principal character.** Take $T=2$ and an empty model box up to height $5$. The midpoints of $[19/20,77/80]$ and $[2,3]$ give $\sigma=153/160$ and $H=5/2$. The selection rule gives $d=1/160$. Zeros beyond height $5$ are at height distance greater than $5/2$. At $y=10$ the right edge is $1+1/\log10$, $N=320C_2^\flat\log16\approx4.488155\times10^{6}$, $\sigma(1-\sigma)=1071/25600$, and $y^{\sigma-1}=10^{-7/160}$. Substitution gives
+**Principal character.** Take $T=2$ and an empty model box up to height $5$. The midpoints of $[19/20,77/80]$ and $[2,3]$ give $\sigma=153/160$ and $H=5/2$. The selection rule gives $d=1/160$. Zeros beyond height $5$ are at height distance greater than $5/2$. At $y=10$ the right edge is $1+1/\log10$, the baseline $N^{\mathrm{lb}}=320C_2^{\mathrm{lb}}\log16\approx4.617661\times10^{6}$, $\sigma(1-\sigma)=1071/25600$, and $y^{\sigma-1}=10^{-7/160}$. Substitution at $(C_2^{\mathrm{lb}},0)$ gives the budget lower bounds
 $$
-a=\frac{2e\log10}{5\pi}\approx0.796930,\qquad
-b=\frac{(5/2)(N+80/3)10^{-7/160}}{\pi(1071/25600)}\approx7.719000\times10^{7},
+a^{\mathrm{lb}}=\frac{2e\log10}{5\pi}\approx0.796930,\qquad
+b^{\mathrm{lb}}=\frac{(5/2)(N^{\mathrm{lb}}+80/3)10^{-7/160}}{\pi(1071/25600)}\approx7.941731\times10^{7},
 $$
-and each horizontal budget is $3e(N+1)/(2\pi(5/2)^2)\approx9.320168\times10^{5}$. The total is about $7.905403\times10^{7}$. The residue contributes $\log10-1$ after normalization and the constant is $-\gamma-\log2$. The model finite sum is empty.
+and each horizontal budget exceeds $3e(N^{\mathrm{lb}}+1)/(2\pi(5/2)^2)\approx9.589103\times10^{5}$, so the archive's total budget exceeds $8.133514\times10^{7}$. The residue contributes $\log10-1$ after normalization and the constant is $-\gamma-\log2$. The model finite sum is empty.
 
-**Real character $\chi_8$.** Use the same model slots as §4.10.6, namely $\beta=999/1000$ and $24/25\pm3i$ of orders $1,2,2$. Take $T=4$, with three distinct model zeros in the selection box up to height $7$. The choices $\sigma=153/160$ and $H=17/4$ are admissible points picked by hand, not the midpoints produced by the selection lemma with $n=3$. Their minimum gaps $3/800$ and $5/4$ both exceed $d=1/640$. Zeros beyond height $7$ have height distance greater than $11/4$. All three chosen slots lie in the rectangle. At $y=16$ the right edge is $1+1/\log16$ and $N=1280C_2^\flat\log32\approx2.244077\times10^{7}$. Substitution gives
+**Real character $\chi_8$.** Use the same model slots as §4.10.6, namely $\beta=999/1000$ and $24/25\pm3i$ of orders $1,2,2$. Take $T=4$, with three distinct model zeros in the selection box up to height $7$. The choices $\sigma=153/160$ and $H=17/4$ are admissible points picked by hand, not the midpoints produced by the selection lemma with $n=3$. Their minimum gaps $3/800$ and $5/4$ both exceed $d=1/640$. Zeros beyond height $7$ have height distance greater than $11/4$. All three chosen slots lie in the rectangle. At $y=16$ the right edge is $1+1/\log16$ and the baseline $N^{\mathrm{lb}}=1280C_2^{\mathrm{lb}}\log32\approx2.308831\times10^{7}$. Substitution at $(C_2^{\mathrm{lb}},0)$ gives the budget lower bounds
 $$
-a=\frac{4e\log16}{17\pi}\approx0.564470,\qquad
-b=\frac{(17/4)(N+80/3)16^{-7/160}}{\pi(1071/25600)}
-\approx6.427582\times10^{8}.
+a^{\mathrm{lb}}=\frac{4e\log16}{17\pi}\approx0.564470,\qquad
+b^{\mathrm{lb}}=\frac{(17/4)(N^{\mathrm{lb}}+80/3)16^{-7/160}}{\pi(1071/25600)}
+\approx6.613051\times10^{8}.
 $$
-Each horizontal budget is $3e(N+1)/(2\pi(17/4)^2)\approx1.612486\times10^{6}$, giving a total of about $6.459832\times10^{8}$. The pole correction is zero for this character, although the universal budget still includes the pole allowance $80/3$. The real model zero contributes $16^{\beta-1}/(\beta(\beta-1))$ to the residual and the pair contributes $4\Re(16^{z-1}/(z(z-1)))$ with $z=24/25+3i$. These are parameter and budget calculations for the model, with the actual zero configurations left unspecified.
+Each horizontal budget exceeds $3e(N^{\mathrm{lb}}+1)/(2\pi(17/4)^2)\approx1.659014\times10^{6}$, so the archive's total budget exceeds $6.646231\times10^{8}$. The pole correction is zero for this character, although the universal budget still includes the pole allowance $80/3$. The real model zero contributes $16^{\beta-1}/(\beta(\beta-1))$ to the residual and the pair contributes $4\Re(16^{z-1}/(z(z-1)))$ with $z=24/25+3i$. These are parameter and lower-bound budget calculations for the model, with the actual zero configurations left unspecified.
 
 #### 4.10.7.3 Definitions and analytic inputs
 
@@ -2780,7 +2780,7 @@ Archive A2 joined SHA-256 is 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc43
 | Numerator and edge bounds | PNTExplNeg.lean:11–102; PNTExplEdge.lean:12–148 | Local R3 [Lean, read] for the displayed estimates |
 | Core residual and final estimate | PNTExplMainB.lean:15–168; PNTExplMainA.lean:9–249; PNTExplMain.lean:15–97 | Local R3 [Lean, read] |
 | Named predecessors | src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean:283 and LRight.lean:116 in the same directory | Inherited Perron (§4.8.7) and right-half-plane input (§4.8.8) |
-| Exact analytic suppliers | `ex_local` at PNTExplLocL.lean:86 and `ex_rect_Fchi` at PNTExplRectF.lean:154, read in §4.10.8; exLF_growth at PNTExplLF.lean:129 | Local R3 [Lean, read] in §4.10.8; exLF_growth retained R2 [Lean] |
+| Exact analytic suppliers | `ex_local` at PNTExplLocL.lean:86 and `ex_rect_Fchi` at PNTExplRectF.lean:154, read in §4.10.8; `exLF_growth` at PNTExplLF.lean:129, read in §4.10.9 | Local R3 [Lean, read] in §§4.10.8–4.10.9 |
 | Interface and consumer | DeuringHeilbronnM.lean:53–75; PNTFinal.lean:16,24; PNTBAsm.lean:38,55–91; PNTSharp.lean:69–156 | Interface and call checked; difference proof inherited |
 
 The levels record the extent of source reading. See the [source ledger](../sources/SOURCES.md#chapter-4-4107-the-smoothed-explicit-residual).
@@ -2809,26 +2809,26 @@ F_y(1+w)=\frac{y}{w^2}+\frac{Ky+y\log y-y}{w}+O(1).
 $$
 At $y=10$ the residue at $1$ is $10(\log10-1-\gamma-\log2)=10(\log5-1-\gamma)\approx0.322222$.
 
-- *Rectangle $[1/4,2]\times[-10,10]$.* The first zero of $\zeta$ in the upper half-plane is $\rho_1=1/2+i\gamma_1$ with $\gamma_1\approx14.134725$ [[Odlyzko's table](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/zeros1)], so $\zeta$ has no zero with $0<\operatorname{Re}s<1$ and $|\operatorname{Im}s|\le10$. This is a numerical fact, rechecked below by the argument principle. The Euler-factor zeros have real part $0<1/4$. Thus $Z=\emptyset$, the boundary is zero-free, and Theorem 4.10.13 gives the value $2\pi i\cdot0.322222$.
-- *Rectangle $[1/4,2]\times[-20,20]$.* Now $Z=\{\rho_1,\bar\rho_1\}$, since the next height in the same table is $\gamma_2\approx21.022$. The argument-principle count $2$ below shows that both zeros are simple. Here $\rho_1(\rho_1-1)=-(1/4+\gamma_1^2)\approx-200.040455$ and
+- *Rectangle $[1/4,2]\times[-10,10]$.* In [[Odlyzko's table](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/zeros1)] the first zero of $\zeta$ in the upper half-plane is $\rho_1=1/2+i\gamma_1$ with $\gamma_1\approx14.134725$. Conditionally on $\zeta$ having no zero in $0<\operatorname{Re}s<1$ with $|\operatorname{Im}s|\le10$ (supported numerically by that table and by the argument-principle quadrature below), and since the Euler-factor zeros have real part $0<1/4$, we have $Z=\emptyset$, the boundary is zero-free, and Theorem 4.10.13 gives $2\pi i\cdot0.322222$.
+- *Rectangle $[1/4,2]\times[-20,20]$.* The next tabulated zero height is $\gamma_2\approx21.022$. Conditionally on $Z=\{\rho_1,\bar\rho_1\}$ being the complete critical-strip zero set in $|\operatorname{Im}s|\le20$ with both zeros simple (consistent with the numerical argument-principle value $2$ below), $\rho_1(\rho_1-1)=-(1/4+\gamma_1^2)\approx-200.040455$ and
 $$
 k_{10}(\rho_1)=-\frac{\sqrt{10}\,e^{i\gamma_1\log10}}{1/4+\gamma_1^2}\approx-0.006738-0.014300i .
 $$
 The pair contributes $-(k_{10}(\rho_1)+k_{10}(\bar\rho_1))=-2\operatorname{Re}k_{10}(\rho_1)\approx0.013476$, so $Q\approx0.335698$. The Euler-factor zeros $\pm2\pi i/\log2\approx\pm9.0647i$ and $\pm18.1294i$ lie within the height bound, but on $\operatorname{Re}s=0$, outside the rectangle.
-- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log10]\times[-5/2,5/2]$, contains no zero. There $Q/y=K+\log10-1=\log5-1-\gamma\approx0.032222$: the normalized residue with constant $-\gamma-\log2$ used in that calculation.
-- *`ex_local` at $M=8$, $t=0$.* The centre is $c_0=101/100$, and the lower bound (I) below gives $|f(c_0)|\ge1/10100$. Take $C_G=6$, the least value of the archive's growth witness $\max(C_P,6)$. Then $B=10100\cdot6\cdot8\cdot3^2=4363200$ and $\log B\approx15.2887$. The disc of radius $2/15$ therefore carries total order at most $\log B/\log2\approx22.06$, that is at most $22$. On the disc of radius $1/15$ the remainder is at most $180\log B\approx2751.97$. For $\chi_0$ this disc contains no zero. At the four points $101/100\pm1/15$ and $101/100\pm i/15$ one finds $|f'/f|\approx1.19$, $1.34$, $1.26$ and $1.26$. The constant of Proposition 4.10.10 is $C_{\mathrm{loc}}=180(\log(10100C_G)+3)\ge180(\log60600+3)\approx2522.17$. At $t=0$ its bound $C_{\mathrm{loc}}\log16\approx6992.9$ is far from sharp.
+- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log10]\times[-5/2,5/2]$: conditionally on its containing no zero of $\zeta$, $Q/y=K+\log10-1=\log5-1-\gamma\approx0.032222$, the normalized residue with constant $-\gamma-\log2$ used in that calculation.
+- *`ex_local` at $M=8$, $t=0$.* The centre is $c_0=101/100$, and the lower bound (I) below gives $|f(c_0)|\ge1/10100$. Take the archive's actual growth witness $C_G=\max(9,6)=9$, read in §4.10.9. Then $B=10100\cdot9\cdot8\cdot3^2=6544800$ and $\log B\approx15.6942$. The disc of radius $2/15$ therefore carries total order at most $\log B/\log2\approx22.64$, that is at most $22$. On the disc of radius $1/15$ the remainder is at most $180\log B\approx2824.95$. Conditionally on this disc containing no zero of $\zeta$, the remainder equals $f'/f$, whose modulus at $101/100\pm1/15$ and $101/100\pm i/15$ is $\approx1.19$, $1.34$, $1.26$ and $1.26$. The constant of Proposition 4.10.10 for $C_G=9$ is $C_{\mathrm{loc}}=180(\log90900+3)\approx2595.15$, and at $t=0$ its bound $C_{\mathrm{loc}}\log16\approx7195.29$ is far from sharp.
 
 **Real character $\chi_8=(8/\cdot)$.** Its values are $\chi_8(1)=\chi_8(7)=1$ and $\chi_8(3)=\chi_8(5)=-1$, so it is even and primitive of conductor $8$. Here $f=L(\cdot,\chi_8)$ is entire and there is no pole correction. Grouping the series in blocks of eight gives
 $$
 L(1,\chi_8)=\int_0^1\frac{1-x^2-x^4+x^6}{1-x^8}\,dx=\int_0^1\frac{1-x^2}{1+x^4}\,dx=\frac{\log(1+\sqrt2)}{\sqrt2}\approx0.623225 .
 $$
-The summed terms $x^{8k}(1-x^2)(1-x^4)$ are nonnegative on $[0,1]$, so monotone convergence justifies the interchange. The last integral follows from the primitive $-\frac1{2\sqrt2}\log\frac{x^2-\sqrt2x+1}{x^2+\sqrt2x+1}$ and from $(2+\sqrt2)/(2-\sqrt2)=(1+\sqrt2)^2$. Numerically $L'(1,\chi_8)\approx0.393950$, so $K=-L'(1,\chi_8)/L(1,\chi_8)\approx-0.632115$. Because $\chi_8$ is even, $L(0,\chi_8)=0$, and numerically $L'(0,\chi_8)\approx0.881374\ne0$. This trivial zero sits at the pole of $k_y$, and the hypothesis $\sigma_1>0$ keeps it outside. At $y=16$ the residue at $1$ is $16K\approx-10.113839$. Put $\Lambda(s)=(8/\pi)^{s/2}\Gamma(s/2)L(s,\chi_8)$. The function $\Lambda(1/2+it)$ is real and changes sign at $t\approx4.899974$, $7.628429$ and $10.806588$. These are the first zeros on the critical line (located numerically).
+The summed terms $x^{8k}(1-x^2)(1-x^4)$ are nonnegative on $[0,1]$, so monotone convergence justifies the interchange. The last integral follows from the primitive $-\frac1{2\sqrt2}\log\frac{x^2-\sqrt2x+1}{x^2+\sqrt2x+1}$ and from $(2+\sqrt2)/(2-\sqrt2)=(1+\sqrt2)^2$. Numerically $L'(1,\chi_8)\approx0.393950$, so $K=-L'(1,\chi_8)/L(1,\chi_8)\approx-0.632115$. Because $\chi_8$ is even, $L(0,\chi_8)=0$, and numerically $L'(0,\chi_8)\approx0.881374\ne0$. This trivial zero sits at the pole of $k_y$, and the hypothesis $\sigma_1>0$ keeps it outside. At $y=16$ the residue at $1$ is $16K\approx-10.113839$. Put $\Lambda(s)=(8/\pi)^{s/2}\Gamma(s/2)L(s,\chi_8)$. Numerically, the real function $\Lambda(1/2+it)$ changes sign at $t\approx4.899974$, $7.628429$ and $10.806588$.
 
-- *Rectangle $[1/4,2]\times[-3,3]$.* There is no zero, so the integral is $2\pi i\cdot16K\approx2\pi i\,(-10.113839)$.
-- *Rectangle $[1/4,2]\times[-6,6]$.* Now $Z=\{1/2\pm4.899974i\}$ with both zeros simple. With $k_{16}(\rho)\approx-0.086400-0.140432i$, the pair contributes $-2\operatorname{Re}k_{16}(\rho)\approx0.172800$, so $Q\approx-9.941039$.
-- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log16]\times[-17/4,17/4]$, contains no zero, so $Q/y=K$. The constants of `ex_local` do not depend on the character, so at $t=0$ the same $B$, the bound $22$ and the value $2751.97$ apply.
+- *Rectangle $[1/4,2]\times[-3,3]$.* Conditionally on $L(s,\chi_8)$ having no zero in $[1/4,2]\times[-3,3]$, the integral is $2\pi i\cdot16K\approx2\pi i\,(-10.113839)$.
+- *Rectangle $[1/4,2]\times[-6,6]$.* Conditionally on $Z=\{1/2\pm i\gamma_1^{(8)}\}$ ($\gamma_1^{(8)}\approx4.899974$) being the only zeros in $[1/4,2]\times[-6,6]$ and both being simple, $k_{16}(\rho)\approx-0.086400-0.140432i$, the pair contributes $-2\operatorname{Re}k_{16}(\rho)\approx0.172800$, and $Q\approx-9.941039$.
+- *The rectangle of §4.10.7.2*, $[153/160,1+1/\log16]\times[-17/4,17/4]$: conditionally on its containing no zero of $L(s,\chi_8)$, $Q/y=K$. The constants of `ex_local` do not depend on the character, so at $t=0$ with $C_G=9$ the same $B=6544800$, order bound $22$ and remainder bound $2824.95$ apply.
 
-**Numerical supplement.** The four integrals over rectangles with left side $1/4$ were computed by 20-digit quadrature and agree with $2\pi iQ$ to within $2\times10^{-13}$. The argument principle counts $0,2,0,2$ zeros of $f$ inside. These numbers check the signs and residues only. They are not part of the proofs below, and the zero locations used above are numerical.
+**Numerical supplement.** The four integrals over rectangles with left side $1/4$ were computed by 20-digit quadrature and agree with $2\pi iQ$ to within $2\times10^{-13}$, while numerical quadrature of the argument principle gives $0,2,0,2$ to the same precision. These floating-point computations corroborate the conditional zero lists, signs and residues above, and do not constitute certified zero counts or part of the proofs below.
 
 #### 4.10.8.3 Definitions and named inputs
 
@@ -2846,7 +2846,7 @@ It uses only the values of $g$ on the boundary $\partial R$ (`exBdry`). In the n
 The proofs use the following inputs.
 
 - (N) Facts about $f_\chi$ [Lean, read]; the Mathlib continuation and nonvanishing theorems behind them are used by statement. $f_\chi$ is entire and $f_\chi(1)\ne0$, and $L(s,\chi)\ne0$ on $\operatorname{Re}s\ge1$ except at the principal pole. Hence every zero of $f_\chi$ has real part less than $1$, and away from $1$ these zeros are the zeros of $L(s,\chi)$ (`exLF_differentiable`, `exLF_one_ne_zero`, `exLF_eq_zero_iff`, `exLF_re_lt_one`). Where $s\ne1$ and $f_\chi(s)\ne0$, $D(s)=p_\chi/(s-1)-f_\chi'(s)/f_\chi(s)$ (`negLD_eq_exLF`).
-- (G) Growth, `exLF_growth` [Lean], retained. There is $C_G\ge1$ with $|f_\chi(s)|\le C_GM(1+|s|)^2$ for all $M$, all $\chi$ and $\operatorname{Re}s\ge1/2$. The archive's witness is $\max(C_P,6)$, where $C_P$ comes from `lfunction_polynomial_growth`; in particular $C_G\ge6$.
+- (G) Growth, `exLF_growth` [Lean, read], proved in §4.10.9. There is $C_G\ge1$ with $|f_\chi(s)|\le C_GM(1+|s|)^2$ for all $M\ge1$, all $\chi$ modulo $M$ and $\operatorname{Re}s\ge1/2$. Section 4.10.9 reads the archive's witnesses $C_P=9$ in `lfunction_polynomial_growth` and $C_G=\max(C_P,6)=9$ in `exLF_growth`.
 - (I) Centre lower bound, `exLF_lower` [Lean, read]. For $\operatorname{Re}s>1$, $|f_\chi(s)|\ge\min(1,|s-1|)(\operatorname{Re}s-1)/\operatorname{Re}s$. This follows from the inverse bound $|L(s,\chi)|^{-1}\le\sigma/(\sigma-1)$ of Theorem 4.8.8.4.
 - (Lz) Zero-free disc estimate [Lean, read]. Let $h$ be holomorphic on $\overline B(c,r)$ with no zero on $\overline B(c,r/3)$, and let $|h|\le H|h(c)|$ on $\overline B(c,r)$ with $H\ge1$. Then $|h'/h|\le72\log H/r$ on $\overline B(c,r/6)$. This is Lemma 4.8.8.3 with $Z=\emptyset$. In the archive it is `landauLocal` with an empty zero list; `landauLocal` combines `zeroFactorization` with the disc bound `logDerivBoundOnBall` on the radius $r/3$.
 - (Res) Rectangle residue theorem [Lean, read], read in §4.8.7. Let finitely many points $p$ lie strictly inside, let $G$ be holomorphic on an open set containing the closed rectangle, and let $g=G+\sum_pb_p/(w-p)$ away from the points $p$. Then $I(g)=2\pi i\sum_pb_p$.
@@ -2996,11 +2996,11 @@ Unfolding $I$ gives $B-P+iR-iL=2\pi iQ$. Division by $y$ uses $(y\log y-y)/y=\lo
 
 **Classical comparison [Paper].** Tao's 254A Notes 2 take the same two steps for $\zeta$ [[Tao2014, Proposition 19, Remark 17 and Theorem 21](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)]. Proposition 19 replaces $\zeta$ by $(s-1)\zeta(s)$ and applies a local disc theorem on a disc centred at $2+it$. It then removes the zeros farther than $\varepsilon/2$ from $s$ with the crude count of Proposition 16. Remark 17 fixes the convention that sums over zeros count multiplicity. The proof of Theorem 21 applies the residue theorem to the rectangle $\varepsilon'\le\operatorname{Re}s\le1+1/\log x$, $|\operatorname{Im}s|\le T'$. The residues there are $x$ at $1$ and, at each zero, $-x^\rho/\rho$ times the multiplicity. The archive differs in three ways. Its discs are centred at $101/100+it$, just to the right of $\operatorname{Re}s=1$, and normalized by the inverse bound. Its kernel $y^s/(s(s-1))$ is Riesz-smoothed, which creates the double pole at $1$ for the principal character. It also keeps the exact identity of Theorem 4.10.13 separate from the edge estimates, which §4.10.7 carries out with coordinate gaps. Lemma 4.10.9 is the local Landau lemma of §4.8.8 with the exact orders made explicit.
 
-**What the constant means for §4.10.7.** The numerator constant of §4.10.7 is $C_2=2C_{\mathrm{loc}}+100/7+C_3$ (`ex_negLD_bound`, `PNTExplNeg.lean:33`). Since $C_{\mathrm{loc}}=180(\log(10100C_G)+3)$ with the archive's witness $C_G\ge6$, and $C_3\ge0$,
+**What the constant means for §4.10.7.** The numerator constant of §4.10.7 is $C_2=2C_{\mathrm{loc}}+100/7+C_3$ (`ex_negLD_bound`, `PNTExplNeg.lean:33`). Section 4.10.9 reads the archive's actual witness $C_G=\max(9,6)=9$, which fixes $C_{\mathrm{loc}}=180(\log90900+3)\approx2595.15$. Meanwhile `LogDerivRight.lean:14` defines $C_3=\max(\max(B,0),-\zeta'(1+\varepsilon/2)/\zeta(1+\varepsilon/2))$ from the retained R2 Laurent remainder bound, and since $-\zeta'(\sigma)/\zeta(\sigma)=\sum_{n\ge1}\Lambda(n)n^{-\sigma}>0$ for $\sigma>1$, one has $C_3>0$ strictly. Consequently
 $$
-C_2\ge C_2^\flat:=360(\log60600+3)+\frac{100}{7}\approx5058.62 .
+C_2>C_2^{\mathrm{lb}}:=360(\log90900+3)+\frac{100}{7}\approx5204.59 ,
 $$
-The worked budgets of §4.10.7.2 use this least admissible value.
+and the baseline $(C_2^{\mathrm{lb}},0)$ used in §4.10.7.2 gives explicit budget lower bounds rather than an admissible witness pair.
 
 #### 4.10.8.7 Source map and reading boundary
 
@@ -3016,12 +3016,237 @@ Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 | Rectangle identity for entire $f$ | `ex_rect_logDeriv` at `PNTExplRect.lean:15–189`; `exr_ord`, `exr_logDeriv`, `exr_term` at `PNTExplRectA.lean:9–72` | Local R3 |
 | Residue theorem | `rectangle_residue` at `LFunctionBounds/LFunctionBoundsProofs/RectResidue.lean:123`, statement at `LFunctionBounds/ExpSumLowerBound.lean:34–43` | Inherited from §4.8.7 |
 | Facts about $f_\chi$ | `exLF_of_ne` through `exOrd_eq_one`, `exLF_prod_le` and `exLF_lower` at `PNTExplLF.lean:13–127,186–205` | Local R3 for the A2 bodies |
-| Growth | `exLF_growth` at `PNTExplLF.lean:129–184` | Named input (G), R2 [Lean] |
+| Growth | `exLF_growth` at `PNTExplLF.lean:129–184` | Named input (G) here; read at local R3 [Lean, read] in §4.10.9 |
 | Inverse and right-half-plane bounds | `inverseBound`, `l_log_deriv_right` at `LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:23–86,116–126` | Inherited from §4.8.8 |
 | Definitions | `exLF`, `exOrd`, `exKer`, `explicitFormulaConstant` at `PNTExplDefs.lean:12–20`; `Fchi` at `LandauZeroFreeBounds/LogDerivRegionChiOf.lean:14–15`; `negLD` at `LandauZeroFreeBounds/NoZeroComplexOf.lean:10–11`; `rectInt` at `ZeroFreeRegion/SmallHeightLogDeriv.lean:9–11` | Read |
 | Consumers | `ex_negLD_bound` at `PNTExplNeg.lean:27–102`; the box count at `PNTExplBox.lean:121`; the call in `exm_core` at `PNTExplMainB.lean:138–168` | Read in §4.10.7; call sites re-read |
 
-The proof of `exLF_growth` stays below this reading, with its suppliers `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) and `growthBound` (`ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:78`). So do the Mathlib facts, used at statement level at the A2 pin: `LFunctionTrivChar₁` with its value at $1$, `LFunction_ne_zero_of_one_le_re`, the maximum modulus theorem `Complex.norm_le_of_forall_mem_frontier_norm_le`, `differentiableOn_dslope` and the analytic-order API. The examples and the numerical supplement are [Expository]. Local R3 records source reading, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4108-local-expansion-and-rectangle-identity).
+Section 4.10.9 reads `exLF_growth` together with its suppliers `lfunction_polynomial_growth` (`LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71`) and `growthBound` (`ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:78`). The Mathlib facts are used at statement level at the A2 pin: `LFunctionTrivChar₁` with its value at $1$, `LFunction_ne_zero_of_one_le_re`, the maximum modulus theorem `Complex.norm_le_of_forall_mem_frontier_norm_le`, `differentiableOn_dslope` and the analytic-order API. The examples and the numerical supplement are [Expository]. Local R3 records source reading, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4108-local-expansion-and-rectangle-identity).
+
+### 4.10.9 Uniform polynomial growth in the half-plane: `lfunction_polynomial_growth` and `exLF_growth`
+
+Section 4.10.8 retained one archive proof as a named `R2` input: the uniform polynomial-growth bound `exLF_growth`, which controls the pole-removed function $f_\chi$ across all moduli $M\ge1$, all characters $\chi$ modulo $M$ and the entire closed half-plane $\operatorname{Re}s\ge1/2$. Earlier, §4.8.8 retained its non-principal counterpart `lfunction_polynomial_growth` beneath the `TailBox` edge bound. This subsection reads both production proofs in full, together with the bad-prime Euler-product bound `exLF_prod_le` and the power-difference continuation `growthBound` of $\zeta(s)$ on $\operatorname{Re}s>0$, tracks the exact origin of the constants $C_P=9$, $6$ and $C_G=\max(C_P,6)=9\ge1$, and connects them to their Perron, rectangle, `TailBox` and explicit-formula consumers.
+
+#### 4.10.9.1 Motivation
+
+Every local logarithmic-derivative estimate in Chapter 4 — `landau_lemma_lfunction_zeros` inside `TailBox` (§4.8.8), `ex_local` inside the smoothed explicit formula (§4.10.8), and `deuring_heilbronn_local` inside the relative PNT package — applies the Borel–Carathéodory / maximum-modulus disc lemma on a disc centred just to the right of $\operatorname{Re}s=1$ whose outer circle reaches left to $\operatorname{Re}s\ge1/2$ ($21/20-11/20=1/2$, $101/100-2/5=61/100$, and $26/25-12/25=14/25$). None of those consumers needs subconvexity or the functional equation: because the disc lemma takes $\log B$ of the boundary-to-centre ratio $B$, any bound polynomial in $M$ and $1+|s|$ on $\operatorname{Re}s\ge1/2$ becomes an $O(\log(M(|t|+2)))$ budget for both the local zero count and the regular remainder. What is indispensable is that a single absolute constant work uniformly across every modulus $M\ge1$, every character $\chi$ modulo $M$, and every vertical height $t=\operatorname{Im}s$, right through the critical strip down to $\operatorname{Re}s=1/2$.
+
+Why must the archive split this uniform bound into two separate analytic routes?
+
+1. **Non-principal characters ($\chi\ne1$): periodic cancellation and Abel summation.** When $\chi$ is non-principal, its values sum to $0$ over every complete period of length $M$. Partial character sums $\sum_{n=1}^K\chi(n)$ therefore never grow with $K$: in §4.7 the archive bounds them universally by $M+1$. Applying Abel partial summation to the tail after the $N=1$ term $1^{-s}\chi(1)$ continues $L(s,\chi)$ to $\operatorname{Re}s>0$ and bounds $|L(s,\chi)|$ by $1+2(M+1)(1+|s|/\operatorname{Re}s)$. Restricting to $\operatorname{Re}s\ge1/2$ turns $1/\operatorname{Re}s$ into $2$ and collapses the linear combination into $9M(1+|s|)$, giving `lfunction_polynomial_growth` with witness $C_P=9$.
+2. **Principal character ($\chi=1$): `exLF` pole removal, Euler–Maclaurin differences and bad-prime factors.** For the principal character $\chi_0$ modulo $M$, partial sums of $\chi_0(n)$ grow like $(\varphi(M)/M)K$ rather than cancelling, and $L(s,\chi_0)=\zeta(s)\prod_{p\mid M}(1-p^{-s})$ has a simple pole at $s=1$ of residue $\prod_{p\mid M}(1-p^{-1})$. No finite partial-sum bound exists near $s=1$. Instead, the archive's `exLF` multiplies $L(s,\chi_0)$ by $(s-1)$ (updating the removable value at $s=1$ to $\prod_{p\mid M}(1-p^{-1})$). To bound $(s-1)\zeta(s)$ on $\operatorname{Re}s>0$ without importing the functional equation, `ZetaGrowth.lean` telescopes $(n+1)^{1-s}-(n+2)^{1-s}-(s-1)(n+2)^{-s}$ into an absolutely convergent series $D_z(s)$ with $(s-1)\zeta(s)=s-D_z(s)$ and $|D_z(s)|\le|s-1|\,|s|(1+1/\operatorname{Re}s)$. Removing the pole via multiplication by $(s-1)$ raises the archimedean degree from $(1+|s|)$ to $6(1+|s|)^2$, while each bad-prime factor on $\operatorname{Re}s\ge0$ satisfies $|1-p^{-s}|\le2\le p$, so their product is bounded by $\prod_{p\mid M}p\le M$ (`exLF_prod_le`).
+
+Finally, why does `exLF_growth` produce $C_G=\max(C_P,6)=9\ge1$? The interface `PolynomialGrowth` (`PositivityBound.lean:25–28`) asserts only $\exists C,\ \forall M,\chi\ne1,s,\ |L(s,\chi)|\le CM(1+|s|)$, without packaging $C\ge1$ in its statement (at $s=1$, $|L(1,\chi)|>0$ already forces $C>0$, though not $C\ge1$). When `exLF_growth` unpacks `lfunction_polynomial_growth` as $\langle C_0,hC_0\rangle$, taking $\max(C_0,6)$ simultaneously dominates the non-principal linear constant $C_0$ (upgraded to quadratic via $1+|s|\le(1+|s|)^2$), dominates the principal quadratic constant $6$, and proves $1\le\max(C_0,6)$ in one line from $1\le6$. Because the proof of `lfunction_polynomial_growth` supplies $C_0=9$, the non-principal branch determines the maximum: $C_G=\max(9,6)=9$.
+
+#### 4.10.9.2 Two worked calculations: modulus $4$ and modulus $5$ [Expository]
+
+**Non-principal character $\chi_{-4}$ modulo $4$.** Take $M=4$, so `[NeZero 4]` holds ($4\ge1$), and let $\chi_{-4}$ be the unique non-principal character modulo $4$: $\chi_{-4}(1)=1$, $\chi_{-4}(3)=-1$ and $\chi_{-4}(2k)=0$. Since $\chi_{-4}(3)=-1\ne1=\chi_0(3)$, the premise $\chi_{-4}\ne1$ holds, and $f_{\chi_{-4}}(s)=L(s,\chi_{-4})$ for all $s\in\mathbb C$. Over one period $\sum_{a=0}^3\chi_{-4}(a)=0+1+0-1=0$, and the partial sums $A(K)=\sum_{n=1}^K\chi_{-4}(n)$ cycle with period $4$ through $1,1,0,0$. Thus $\max_{K\ge0}|A(K)|=1$, well inside the archive's universal modulus bound $B=M+1=5$ (`norm_character_sum_Icc_le`). Applying `l_function_partial_sum` at truncation $N=1$ splits off $\chi_{-4}(1)\cdot1^{-s}=1$ of modulus $1$ and bounds the remainder on $\operatorname{Re}s>0$ by $2B\cdot1^{-\operatorname{Re}s}(1+|s|/\operatorname{Re}s)=10(1+|s|/\operatorname{Re}s)$, giving $|L(s,\chi_{-4})|\le1+10(1+|s|/\operatorname{Re}s)$.
+
+- *Interior point $s=1$ ($\operatorname{Re}s=1\ge1/2$, $|s|=1$).* Alternating grouping gives Leibniz's series $L(1,\chi_{-4})=1-1/3+1/5-\dots=\pi/4\approx0.785398$. Every step of Theorem 4.10.16 and Theorem 4.10.18 can be checked in rational arithmetic: the tail after $N=1$ has $|L(1,\chi_{-4})-1|=1-\pi/4\approx0.214602\le10(1+1/1)=20$; adding $|\chi_{-4}(1)|=1$ gives $21$; replacing $1/\operatorname{Re}s=1$ by the half-plane worst case $2$ gives $1+10(1+2)=31$; using $1\le4(1+1)=8$ and $2(4+1)(1+2)=30\le8\cdot4(1+1)=64$ gives $31\le8+64=9\cdot4\cdot(1+1)=72$ (`lfunction_polynomial_growth`); and multiplying by $1+|1|=2\ge1$ gives $72\le9\cdot4\cdot(1+1)^2=144$ (`exLF_growth`).
+- *Boundary point $s=1/2+2i$ ($\operatorname{Re}s=1/2$, $|s|=\sqrt{17}/2\approx2.061553$).* On the boundary line $\operatorname{Re}s=1/2$, the step $|s|/\operatorname{Re}s\le2|s|$ is an **equality**: $|s|/\operatorname{Re}s=\sqrt{17}$. From the Hurwitz decomposition $L(s,\chi_{-4})=4^{-s}(\zeta(s,1/4)-\zeta(s,3/4))$ one finds $|L(1/2+2i,\chi_{-4})|\approx1.151078$ and $|L(1/2+2i,\chi_{-4})-1|\approx0.408952\le10(1+\sqrt{17})\approx51.231056$. Both intermediate bounds coincide at $1+10(1+\sqrt{17})=11+10\sqrt{17}\approx52.231056$, followed by
+$$
+11+10\sqrt{17}\le9\cdot4\Big(1+\frac{\sqrt{17}}{2}\Big)=36+18\sqrt{17}\approx110.215901\le9\cdot4\Big(1+\frac{\sqrt{17}}{2}\Big)^2=189+36\sqrt{17}\approx337.431803 .
+$$
+
+**Principal character $\chi_0$ modulo $5$ and `exLF` near $s=1$.** Take $M=5$, so `[NeZero 5]` holds ($5\ge1$) and $M.\mathrm{primeFactors}=\{5\}$. Here $\chi=\chi_0=1$ violates $\chi\ne1$; indeed partial sums $A(K)=K-\lfloor K/5\rfloor$ grow as $\frac45K$, and $L(s,\chi_0)=(1-5^{-s})\zeta(s)$ has residue $4/5$ at $s=1$. The modified function $f_{\chi_0}=\operatorname{exLF}(\chi_0,\cdot)$ is defined by
+$$
+f_{\chi_0}(s)=(s-1)(1-5^{-s})\zeta(s)\quad(s\ne1),\qquad f_{\chi_0}(1)=1-5^{-1}=\frac{4}{5}=0.8 .
+$$
+On $\operatorname{Re}s\ge1/2$, the single prime $p=5\ge2$ satisfies $|5^{-s}|=5^{-\operatorname{Re}s}\le5^{-1/2}=1/\sqrt5<1$, so $|1-5^{-s}|\le1+5^{-\operatorname{Re}s}\le2\le5=\prod_{p\in\{5\}}p\le M$, confirming every inequality in Lemma 4.10.17 (`exLF_prod_le`).
+
+- *At the pole $s=1$ (`s = 1` branch).* Raw $\zeta(1)$ is Mathlib's junk value rather than a limit, and $\lim_{s\to1}|L(s,\chi_0)|=+\infty$, so `exLF_growth` branches on $s=1$ before touching $\zeta$. By `Function.update_self`, $f_{\chi_0}(1)=1-5^{-1}=4/5$, and `exLF_prod_le` at $s=1$ bounds $|f_{\chi_0}(1)|=0.8\le5=M\le6\cdot5\cdot(1+1)^2=120\le9\cdot5\cdot(1+1)^2=180$.
+- *Near the pole, at the §4.10.8 disc centre $s=101/100$ ($s\ne1$, $|s-1|=1/100$, $\operatorname{Re}s=101/100\ge1/2$).* Here $\zeta(101/100)\approx100.577943$ and the unmodified $L$-value is already large: $L(101/100,\chi_0)=(1-5^{-101/100})\zeta(101/100)\approx0.803193\times100.577943\approx80.783511$. Watch how Lemma 4.10.15 and Theorem 4.10.18 cancel the $1/(s-1)=100$ spike:
+  1. The power-difference series has $|D_z(101/100)|=|101/100-(1/100)\zeta(101/100)|\approx0.004221$, bounded by $|s-1|\,|s|(1+1/\operatorname{Re}s)=\frac1{100}\cdot\frac{101}{100}\big(1+\frac{100}{101}\big)=\frac{201}{10000}=0.0201$.
+  2. Dividing $|s-D_z(s)|$ by $|s-1|=1/100$ gives `growthBound`: $|\zeta(101/100)|\approx100.577943\le1+100+\frac{201}{100}=103.01$.
+  3. Multiplying back by $|s-1|=1/100$ inside `exLF_growth` cancels $100\cdot(1/100)=1$:
+     $$
+     |(s-1)\zeta(s)|\approx1.005779\le\frac{1}{100}+1+\frac{201}{10000}=1.0301\le2.01+1+2.01\cdot3.03=9.1003\le6(2.01)^2=24.2406 .
+     $$
+  4. Multiplying by $|1-5^{-101/100}|\approx0.803193\le5$ yields $|f_{\chi_0}(101/100)|\approx0.807835\le6\cdot5\cdot(2.01)^2=121.203\le9\cdot5\cdot(2.01)^2=181.8045$, smoothly matching $f_{\chi_0}(1)=0.8$ as $s\to1$.
+- *Boundary point $s=1/2+i$ ($\operatorname{Re}s=1/2$, $|s|=|s-1|=\sqrt5/2\approx1.118034$).* Here $1/\operatorname{Re}s=2$ is again sharp, so $|s-1|\,|s|(1+1/\operatorname{Re}s)=(\sqrt5/2)^2\cdot3=15/4=3.75$, which bounds $|D_z(1/2+i)|\approx0.517279$. Next $|\zeta(1/2+i)|\approx0.736305\le1+2/\sqrt5+3\sqrt5/2\approx5.248529$, hence $|(s-1)\zeta(s)|\approx0.823215\le19/4+\sqrt5/2\approx5.868034\le6(1+\sqrt5/2)^2=27/2+6\sqrt5\approx26.916408$. With $|1-5^{-1/2-i}|\approx1.111105\le1+1/\sqrt5\approx1.447214\le5$, we obtain $|f_{\chi_0}(1/2+i)|\approx0.914677\le30(1+\sqrt5/2)^2\approx134.582039\le45(1+\sqrt5/2)^2\approx201.873059$.
+
+#### 4.10.9.3 Definitions and inherited inputs
+
+For $s\in\mathbb C$ and $n\in\mathbb N$, using Mathlib's principal-branch complex power $(m:\mathbb C)^w$, define (`DzDifferentiableOn.lean:11–15`)
+$$
+d_z(s,n)=(n+1)^{1-s}-(n+2)^{1-s}-(s-1)(n+2)^{-s},\qquad D_z(s)=\sum_{n=0}^{\infty}d_z(s,n).
+$$
+Recall three archive interfaces and definitions:
+
+- `ZetaGrowth` (`SmallHeightLogDeriv.lean:66–69`): for all $s\in\mathbb C$ with $\operatorname{Re}s>0$ and $s\ne1$, $|\zeta(s)|\le1+1/|s-1|+|s|(1+1/\operatorname{Re}s)$.
+- `PolynomialGrowth` (`PositivityBound.lean:25–28`): $\exists C\in\mathbb R$ such that for every $M\in\mathbb N$ with `[NeZero M]`, every $\chi\bmod M$ with $\chi\ne1$, and every $s\in\mathbb C$ with $\operatorname{Re}s\ge1/2$, $|L(s,\chi)|\le CM(1+|s|)$.
+- $f_\chi=\operatorname{exLF}(\chi,\cdot)$ (`PNTExplDefs.lean:12–13`, §4.10.8.3): equal to Mathlib's `DirichletCharacter.LFunctionTrivChar₁ M` when $\chi=1$ — namely `Function.update` of $s\mapsto(s-1)L(s,\chi_0)$ at $s=1$ by $\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-1})$ — and equal to $L(\cdot,\chi)$ when $\chi\ne1$. Similarly, Mathlib's `riemannZeta₁` (`ZetaAsymp.lean:536`) is `Function.update` of $s\mapsto(s-1)\zeta(s)$ at $s=1$ by $1$.
+
+Two ingredients from §4.7 have already been read at `R3` and are used here without repeating their proofs:
+
+- (C1) **Character-sum bound (`norm_character_sum_Icc_le`, `LGrowth.lean:39–51`, read in §4.7).** For every $M\ge1$, every non-principal character $\chi$ modulo $M$, and every $a,b\in\mathbb N$, $\big|\sum_{n=a}^b\chi(n)\big|\le M+1$.
+- (C2) **Abel partial-sum approximation (`l_function_partial_sum`, `LPartialSum.lean:136–169`, via `LFunction_eq_G`, `LFunctionEqGOfOneLt.lean:228`, read in §4.7).** Let $\chi\ne1$ be a character modulo $M\ge1$, and let $B\ge0$ satisfy $\big|\sum_{n=1}^K\chi(n)\big|\le B$ for all $K\in\mathbb N$. Then for every $s\in\mathbb C$ with $\operatorname{Re}s>0$ and every $N\ge1$,
+$$
+\Big|L(s,\chi)-\sum_{n=1}^{N}\chi(n)n^{-s}\Big|\le2B\,N^{-\operatorname{Re}s}\Big(1+\frac{|s|}{\operatorname{Re}s}\Big).
+$$
+
+From Mathlib at the pinned commit `0df444a` we use at statement level `[Lean]`: the Dirichlet-series identity $\zeta(s)=\sum_{n=0}^\infty(n+1)^{-s}$ on $\operatorname{Re}s>1$ (`riemannZeta_eq_tsum_one_div_nat_add_one_cpow`), the entireness of `riemannZeta₁` (`differentiable_riemannZeta₁`), the identity theorem for analytic functions on preconnected open sets (`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`) together with convexity-implies-preconnectedness and open-set analyticity of complex-differentiable functions, locally uniform series differentiation (`differentiableOn_tsum_of_summable_norm`), the principal-character factorization $L(s,\chi_0)=\big(\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-s})\big)\zeta(s)$ for $s\ne1$ (`LFunctionTrivChar_eq_mul_riemannZeta`), and the divisibility $\prod_{p\in M.\mathrm{primeFactors}}p\mid M$ (`Nat.prod_primeFactors_dvd`).
+
+#### 4.10.9.4 Lemmas, theorems, and downstream consumers
+
+**Lemma 4.10.15 (zeta power-difference continuation and `growthBound`) [Lean, read].** For every $s\in\mathbb C$ with $\operatorname{Re}s>0$ and every $n\in\mathbb N$,
+$$
+|d_z(s,n)|\le|s-1|\,|s|\,(n+1)^{-\operatorname{Re}s-1}.
+$$
+The series $D_z(s)=\sum_{n=0}^\infty d_z(s,n)$ converges absolutely and defines a complex-differentiable function on $\{\operatorname{Re}s>0\}$ satisfying $\operatorname{riemannZeta}_1(s)=s-D_z(s)$ throughout $\{\operatorname{Re}s>0\}$ — in particular $(s-1)\zeta(s)=s-D_z(s)$ for $s\ne1$ — together with
+$$
+|D_z(s)|\le|s-1|\,|s|\Big(1+\frac{1}{\operatorname{Re}s}\Big)\qquad(\operatorname{Re}s>0),
+$$
+and therefore `ZetaGrowth` holds:
+$$
+|\zeta(s)|\le1+\frac{1}{|s-1|}+|s|\Big(1+\frac{1}{\operatorname{Re}s}\Big)\qquad(\operatorname{Re}s>0,\ s\ne1).
+$$
+
+**Theorem 4.10.16 (non-principal polynomial growth, `lfunction_polynomial_growth`) [Lean, read], given (C1) and (C2).** Let $M\in\mathbb N$ satisfy `[NeZero M]` ($M\ge1$), let $\chi$ be a non-principal Dirichlet character modulo $M$ ($\chi\ne1$), and let $s\in\mathbb C$ satisfy $\operatorname{Re}s\ge1/2$. Then
+$$
+|L(s,\chi)|\le1+2(M+1)\Big(1+\frac{|s|}{\operatorname{Re}s}\Big)\le9\,M\,(1+|s|).
+$$
+Consequently `PolynomialGrowth` holds with explicit witness $C_P=9$.
+
+**Lemma 4.10.17 (bad-prime Euler product bound, `exLF_prod_le` and `dhl_prod_le`) [Lean, read].** Let $M\in\mathbb N$ satisfy `[NeZero M]` ($M\ge1$), and let $s\in\mathbb C$ satisfy $\operatorname{Re}s\ge0$ (`exLF_prod_le` assumes $\operatorname{Re}s\ge1/2$). Then
+$$
+\Big|\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-s})\Big|\le\prod_{p\in M.\mathrm{primeFactors}}p\le M .
+$$
+
+**Theorem 4.10.18 (uniform polynomial growth of `exLF`, `exLF_growth`) [Lean, read], given Lemma 4.10.15, Theorem 4.10.16, and Lemma 4.10.17.** Let $C_0$ be any witness for `PolynomialGrowth` and set $C_G=\max(C_0,6)\ge1$ (for the archive's witness $C_0=C_P=9$, $C_G=9$). For every $M\in\mathbb N$ with `[NeZero M]`, every Dirichlet character $\chi$ modulo $M$, and every $s\in\mathbb C$ with $\operatorname{Re}s\ge1/2$,
+$$
+|f_\chi(s)|\le C_G\,M\,(1+|s|)^2 .
+$$
+Specifically, the archive's proof establishes $|f_\chi(s)|\le9M(1+|s|)\le9M(1+|s|)^2$ when $\chi\ne1$ and $|f_{\chi_0}(s)|\le6M(1+|s|)^2$ (sharpened to $4M(1+|s|)^2$ in `dhl_triv_growth`) when $\chi=1$.
+
+**Corollary 4.10.19 (supply to the Perron, rectangle, `TailBox`, and explicit-formula consumers) [Lean, read].** Substituting the witnesses $C_P=9$ and $C_G=9$ into the Chapter 4 consumers discharges their polynomial-growth hypotheses as follows:
+
+1. *`TailBox` and shifted-Perron contour (`landau_lemma_lfunction_zeros`, `tail_box_negLD`, `tail_contour` in §§4.8.4–4.8.5, §4.8.7, §4.8.8).* Theorem 4.10.16 supplies $|L(w,\chi)|\le9N(1+|w|)$ to Theorem 4.8.8.4 (`LandauLemmaLfunctionZeros.lean:53`, `TailBox.lean:58`), fixing
+   $$
+   B_C=1+\frac{\log(42(9+1))}{\log2}=1+\frac{\log420}{\log2}\approx9.714246 .
+   $$
+   Together with `inverseBound` and `l_log_deriv_right`, this produces the box constant $K_B$ bounding $-L'/L$ along the left and horizontal edges of the zero-free rectangle $\mathcal B(Q)$ across which `rectangle_contour_shift_character` shifts `perron_formula_character` (§4.8.7) inside `tail_contour` (§§4.8.4–4.8.5).
+2. *Local expansion, rectangle identity and smoothed/differenced explicit formula (`ex_local`, `ex_box`, `ex_negLD_bound`, `exm_core` in §§4.10.6–4.10.8).* Theorem 4.10.18 supplies named input (G) of Proposition 4.10.10 (`PNTExplLocL.lean:94`) with $C_G=9$, fixing
+   $$
+   C_{\mathrm{loc}}=180(\log(10100\cdot9)+3)=180(\log90900+3)\approx2595.1528 .
+   $$
+   Downstream in §4.10.7, `ex_box` sets $C_4=180C_{\mathrm{loc}}\approx4.671275\times10^5$, `ex_choose` selects gaps of size $d$ that guarantee the boundary-avoidance hypothesis of the exact rectangle identity `ex_rect_Fchi` (Theorem 4.10.13) when combined with `perron_formula_character`, and `ex_negLD_bound` sets $C_2=2C_{\mathrm{loc}}+100/7+C_3>5204.5912$ for the four contour budgets of `exm_core` (`smoothed_explicit_formula`), which `differenced_explicit_formula` (§4.10.6) evaluates twice at $T=M^{12}$, $\delta=M^{-5}$.
+3. *Local Deuring–Heilbronn supplier (`deuring_heilbronn_local`, `PNTDHLocal.lean:167–180`).* Unpacks $C_0=9$ from Theorem 4.10.16 for $\psi\ne1$ (where $52C_0=468\le10400$) and calls `dhl_triv_growth` ($4M(1+|s|)^2$, `PNTDHLocalA.lean:31–64`) for $\psi=1$ on discs of radius $12/25$ centred at $26/25+it$, yielding `DHLocalAt` with constant $150(\log(\max(10400,52C_0))+2)=150(\log10400+2)\approx1687.48$.
+
+#### 4.10.9.5 Proofs
+
+**Proof of Lemma 4.10.15.** *Integral form of $d_z(s,n)$.* Fix $s\in\mathbb C$ with $\sigma=\operatorname{Re}s>0$ and $n\in\mathbb N$. When $s=1$, both sides of
+$$
+d_z(s,n)=(s-1)\int_{n+1}^{n+2}\big(x^{-s}-(n+2)^{-s}\big)\,dx
+$$
+vanish (`d_eq`, `NormCpowSubLePoint.lean:59–79`). When $s\ne1$, $1-s\ne0$; on $[n+1,n+2]$ every $x>0$ avoids the slit $(-\infty,0]$ of the principal logarithm, so $x\mapsto x^{1-s}/(1-s)$ has complex derivative $x^{-s}$ (`hasStrictDerivAt_cpow_const`), and the fundamental theorem of calculus gives $\int_{n+1}^{n+2}x^{-s}\,dx=((n+2)^{1-s}-(n+1)^{1-s})/(1-s)=((n+1)^{1-s}-(n+2)^{1-s})/(s-1)$. Subtracting $\int_{n+1}^{n+2}(n+2)^{-s}\,dx=(n+2)^{-s}$ and multiplying by $s-1$ gives the displayed integral.
+
+*Pointwise majorant and holomorphy of $D_z$.* For $x\in[n+1,n+2]$, the map $t\mapsto t^{-s}$ on $[x,n+2]\subset(0,\infty)$ has derivative $-s\,t^{-s-1}$, so
+$$
+\big|x^{-s}-(n+2)^{-s}\big|=\Big|-s\int_x^{n+2}t^{-s-1}\,dt\Big|\le|s|\,(n+2-x)\sup_{t\in[x,n+2]}t^{-\sigma-1}\le|s|\,(n+1)^{-\sigma-1}
+$$
+because $n+2-x\le1$, $-\sigma-1<0$, and $t\ge x\ge n+1\ge1$ (`norm_cpow_sub_le_point`, `:22–44`). Integrating over $[n+1,n+2]$ of length $1$ and multiplying by $|s-1|$ yields $|d_z(s,n)|\le|s-1|\,|s|\,(n+1)^{-\sigma-1}$ (`norm_dz_le`, `DzDifferentiableOn.lean:17–22`). Each term $s\mapsto d_z(s,n)$ is entire off the slit, hence complex differentiable on $\{\operatorname{Re}s>0\}$. Around any $s_0$ with $\sigma_0=\operatorname{Re}s_0>0$, take the open neighbourhood $U=\{w:\operatorname{Re}w>\sigma_0/2\}\cap B(s_0,1)\subset\{\operatorname{Re}s>0\}$. For $w\in U$, $|w|\le|s_0|+1$, $|w-1|\le|s_0|+2$, and $(n+1)^{-\operatorname{Re}w-1}\le(n+1)^{-\sigma_0/2-1}$ because $n+1\ge1$. Since $\sigma_0/2+1>1$, the real $p$-series $\sum_{n=0}^\infty(n+1)^{-\sigma_0/2-1}$ converges (`summable_shift`, `:24–29`), so Weierstrass's $M$-test (`differentiableOn_tsum_of_summable_norm`) makes $D_z$ complex differentiable on $U$, hence on $\{\operatorname{Re}s>0\}$ (`Dz_differentiableOn`, `:31–76`).
+
+*Identification with $(s-1)\zeta(s)$.* Induction on $N\ge0$ telescopes the partial sums (`partial_dz`, `RiemannZetaOneEqOneSubOfRePos.lean:11–22`):
+$$
+\sum_{n=0}^{N-1}d_z(s,n)=1-(N+1)^{1-s}-(s-1)\sum_{n=0}^{N-1}(n+2)^{-s}.
+$$
+When $\operatorname{Re}s>1$, $1-\operatorname{Re}s<0$, so $|(N+1)^{1-s}|=(N+1)^{1-\operatorname{Re}s}\to0$ as $N\to\infty$; meanwhile $\sum_{n=0}^\infty(n+1)^{-s}=\zeta(s)$ splits off its $n=0$ term $1$ to give $\sum_{n=0}^\infty(n+2)^{-s}=\zeta(s)-1$. Passing to the limit $N\to\infty$ gives $D_z(s)=1-(s-1)(\zeta(s)-1)=s-(s-1)\zeta(s)$, or $\operatorname{riemannZeta}_1(s)=s-D_z(s)$ on $\{\operatorname{Re}s>1\}$ (`one_lt_identity`, `:23–66`). Both $\operatorname{riemannZeta}_1(s)$ and $s-D_z(s)$ are complex differentiable, hence analytic, on the open half-plane $\{\operatorname{Re}s>0\}$; that half-plane is convex (hence preconnected), contains $s=2$, and the two functions agree on the open ball $B(2,1)\subset\{\operatorname{Re}s>1\}$. The identity theorem (`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`) therefore equates $\operatorname{riemannZeta}_1(s)=s-D_z(s)$ on all of $\{\operatorname{Re}s>0\}$ (`riemannZetaOne_eq_one_sub_of_re_pos`, `:68–88`). For $s\ne1$, `Function.update_of_ne` rewrites the left side as $(s-1)\zeta(s)$.
+
+*Summing the majorant and dividing by $|s-1|$.* Fix $\sigma=\operatorname{Re}s>0$. For every real $x\ge1$, applying $1-u^{-1}\le\log u$ (`one_sub_inv_le_log_of_pos`) at $u=(x+1)/x>0$ gives $\frac{1}{x+1}=1-\frac{x}{x+1}\le\log\frac{x+1}{x}$. Multiplying by $\sigma>0$ and using $1+y\le e^y$ gives
+$$
+1+\frac{\sigma}{x+1}\le1+\sigma\log\frac{x+1}{x}\le\exp\Big(\sigma\log\frac{x+1}{x}\Big)=\Big(\frac{x+1}{x}\Big)^\sigma .
+$$
+Multiplying through by $x^\sigma(x+1)>0$ gives $x^\sigma(x+1)+\sigma x^\sigma\le(x+1)^{\sigma+1}$, and dividing by $\sigma x^\sigma(x+1)^{\sigma+1}>0$ yields the telescoping step (`hkey`, `ZetaGrowth.lean:15–39`)
+$$
+(x+1)^{-\sigma-1}\le\frac{x^{-\sigma}-(x+1)^{-\sigma}}{\sigma}.
+$$
+Setting $x=n+1$ ($n=0,\dots,N-1$) and summing gives $\sum_{n=0}^{N-1}(n+2)^{-\sigma-1}\le(1-(N+1)^{-\sigma})/\sigma\le1/\sigma$. Letting $N\to\infty$ and restoring the $n=0$ term $1^{-\sigma-1}=1$ gives $\sum_{n=0}^\infty(n+1)^{-\sigma-1}=1+\sum_{n=0}^\infty(n+2)^{-\sigma-1}\le1+1/\sigma$, whence $|D_z(s)|\le\sum_{n=0}^\infty|d_z(s,n)|\le|s-1|\,|s|(1+1/\sigma)$ (`norm_Dz_le`, `:11–76`). Finally, when $s\ne1$, $|s-1|>0$ and $|s|=|(s-1)+1|\le|s-1|+1$, so
+$$
+|(s-1)\zeta(s)|=|s-D_z(s)|\le(|s-1|+1)+|s-1|\,|s|\Big(1+\frac{1}{\sigma}\Big).
+$$
+Dividing both sides by $|s-1|>0$ gives $|\zeta(s)|\le1+1/|s-1|+|s|(1+1/\sigma)$ (`growthBound`, `:78–96`). $\square$
+
+**Proof of Theorem 4.10.16.** From `[NeZero M]` we have $M\ge1$ (`NeZero.one_le`). By (C1) applied to $[1,K]$, the non-principal character $\chi\ne1$ satisfies $\big|\sum_{n=1}^K\chi(n)\big|\le M+1$ for all $K\in\mathbb N$. Since $\operatorname{Re}s\ge1/2>0$, (C2) applied at $N=1$ with $B=M+1$ gives
+$$
+\big|L(s,\chi)-\chi(1)\cdot1^{-s}\big|\le2(M+1)\cdot1^{-\operatorname{Re}s}\Big(1+\frac{|s|}{\operatorname{Re}s}\Big)=2(M+1)\Big(1+\frac{|s|}{\operatorname{Re}s}\Big).
+$$
+Since $|\chi(1)\cdot1^{-s}|=|\chi(1)|\le1$, the triangle inequality gives $|L(s,\chi)|\le1+2(M+1)(1+|s|/\operatorname{Re}s)$, the first inequality of the theorem (`hL` at `LGrowth.lean:58–66`). Next $\operatorname{Re}s\ge1/2$ gives $1/\operatorname{Re}s\le2$, hence $|s|/\operatorname{Re}s\le2|s|$. Because $M\ge1$ and $|s|\ge0$, we have $M+1\le2M$, $1+2|s|\le2(1+|s|)$, and $1\le M(1+|s|)$. Combining these gives
+$$
+1+2(M+1)(1+2|s|)\le M(1+|s|)+2(2M)\cdot2(1+|s|)=(1+8)\,M\,(1+|s|)=9\,M\,(1+|s|)
+$$
+(`LGrowth.lean:67–71`). Thus $C_P=9$ witnesses `PolynomialGrowth`. $\square$
+
+**Proof of Lemma 4.10.17.** Let $p\in M.\mathrm{primeFactors}$. Then $p$ is prime, so $p\ge2$ and $p>0$. For $\operatorname{Re}s\ge0$, $|p^{-s}|=p^{-\operatorname{Re}s}\le1$ because $p\ge1$ and $-\operatorname{Re}s\le0$ (`Real.rpow_le_one_of_one_le_of_nonpos`). The triangle inequality gives $|1-p^{-s}|\le1+|p^{-s}|\le2\le p$. Taking the product over the finite set $M.\mathrm{primeFactors}$ preserves nonnegativity and gives
+$$
+\Big|\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-s})\Big|=\prod_{p\in M.\mathrm{primeFactors}}|1-p^{-s}|\le\prod_{p\in M.\mathrm{primeFactors}}p .
+$$
+The squarefree radical $\prod_{p\in M.\mathrm{primeFactors}}p$ divides $M$ (`Nat.prod_primeFactors_dvd`), and `[NeZero M]` gives $M>0$ (`NeZero.pos M`), so divisibility implies $\prod_{p\in M.\mathrm{primeFactors}}p\le M$ (`Nat.le_of_dvd`, `PNTExplLF.lean:106–127` and `PNTDHLocalA.lean:12–30`). $\square$
+
+**Proof of Theorem 4.10.18.** Unpack $\langle C_0,hC_0\rangle$ from Theorem 4.10.16 and put $C_G=\max(C_0,6)$ (`PNTExplLF.lean:131–133`). Clearly $C_G\ge6\ge1$. Fix $M$ with `[NeZero M]` ($M\ge1$), $\chi\bmod M$, and $s$ with $\operatorname{Re}s\ge1/2$. Since $|s|\ge0$, $1+|s|\ge1$, so $1+|s|\le(1+|s|)^2$.
+
+- *Non-principal case ($\chi\ne1$).* Here $f_\chi(s)=L(s,\chi)$. By $hC_0$, $C_0\le C_G$, and $1+|s|\le(1+|s|)^2$, we obtain $|f_\chi(s)|\le C_0M(1+|s|)\le C_GM(1+|s|)\le C_GM(1+|s|)^2$ (`:176–184`).
+- *Principal case at $s=1$ ($\chi=1$, $s=1$).* Unfolding `exLF` and `LFunctionTrivChar₁` at $s=1$ via `Function.update_self` gives $f_{\chi_0}(1)=\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-1})=\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-1_{\mathbb C}})$. Lemma 4.10.17 at $s=1$ bounds $|f_{\chi_0}(1)|\le M\le6M(1+|1|)^2=24M\le C_GM(1+|1|)^2$ (`:138–149`).
+- *Principal case away from $1$ ($\chi=1$, $s\ne1$).* By `Function.update_of_ne` and `LFunctionTrivChar_eq_mul_riemannZeta`,
+  $$
+  f_{\chi_0}(s)=(s-1)\Big(\prod_{p\in M.\mathrm{primeFactors}}(1-p^{-s})\Big)\zeta(s).
+  $$
+  Since $\operatorname{Re}s\ge1/2>0$ and $s\ne1$, Lemma 4.10.15 applies and $1/\operatorname{Re}s\le2$; also $|s-1|\le1+|s|$ and $|s-1|>0$. Multiplying Lemma 4.10.15 by $|s-1|$ cancels $1/|s-1|$:
+  $$
+  \begin{aligned}
+  |s-1|\,|\zeta(s)| &\le |s-1|+1+|s-1|\,|s|\Big(1+\frac{1}{\operatorname{Re}s}\Big) \\
+  &\le (1+|s|)+1+(1+|s|)\cdot3|s| \\
+  &= 2+4|s|+3|s|^2 \le 6(1+|s|)^2,
+  \end{aligned}
+  $$
+  since $6(1+|s|)^2-(2+4|s|+3|s|^2)=4+8|s|+3|s|^2\ge0$ (`hA`, `:163–169`; in `dhl_triv_growth`, `PNTDHLocalA.lean:55–60`, the same polynomial $2+4|s|+3|s|^2$ is bounded by $4(1+|s|)^2=4+8|s|+4|s|^2$). Multiplying by Lemma 4.10.17 ($\le M$) gives $|f_{\chi_0}(s)|\le6M(1+|s|)^2\le C_GM(1+|s|)^2$ (`:170–175`).
+
+With $C_0=C_P=9$ from Theorem 4.10.16, $C_G=\max(9,6)=9$. $\square$
+
+**Proof of Corollary 4.10.19.** In Theorem 4.8.8.4 (`LandauLemmaLfunctionZeros.lean:53`), `lfunction_polynomial_growth` supplies $C=9>0$, so $|C|+1=10$ and $B_C=1+\log(42\cdot10)/\log2=1+\log420/\log2$. In Proposition 4.10.10 (`PNTExplLocL.lean:94`), `exLF_growth` supplies $C_G=9$, so $10100C_G=90900$ and $C_{\mathrm{loc}}=180(\log90900+3)$, which flows directly into `PNTExplBox.lean:121` ($C_4=180C_{\mathrm{loc}}$) and `PNTExplNeg.lean:33` ($C_2=2C_{\mathrm{loc}}+100/7+C_3$). In `PNTDHLocal.lean:170–179`, `deuring_heilbronn_local` unpacks $C_0=9$ from `lfunction_polynomial_growth` and sets $K=\max(10400,52C_0)=\max(10400,468)=10400$, calling `dhl_triv` (backed by `dhl_triv_growth`) for $\psi=1$ and `dhl_nontriv` for $\psi\ne1$. $\square$
+
+#### 4.10.9.6 Failure examples and remarks
+
+**Deleting $\operatorname{Re}s\ge1/2$ [Expository].** Both branches fail once $s$ leaves the right half-plane.
+
+- *Non-principal archimedean blow-up.* Take $M=4$ and $\chi_{-4}$. At negative even integers $s=-2k$ ($k\ge1$), Hurwitz's Bernoulli/Euler formula gives $L(-2k,\chi_{-4})=(-1)^kE_{2k}/2$, where the Euler numbers satisfy $|E_{2k}|\sim4\sqrt{k/\pi}(4k/(\pi e))^{2k}$. Already at $s=-10$ ($k=5$, $E_{10}=-50521$),
+  $$
+  |L(-10,\chi_{-4})|=\frac{50521}{2}=25260.5 ,
+  $$
+  exceeding both $9\cdot4\cdot(1+10)=396$ (Theorem 4.10.16) and $9\cdot4\cdot(1+10)^2=4356$ (Theorem 4.10.18). Vertically, the functional equation and Stirling's formula give $|L(\sigma+it,\chi_{-4})|\asymp|t|^{1/2-\sigma}$ along any fixed line $\operatorname{Re}s=\sigma<0$ as $|t|\to\infty$: for $\sigma<-1/2$ this outgrows $(1+|s|)$ for every constant $C_P$, and for $\sigma<-3/2$ it outgrows $(1+|s|)^2$ for every constant $C_G$. Even inside the strip $0<\operatorname{Re}s<1/2$, the $1/\operatorname{Re}s$ factor in Lemma 4.10.15 and Theorem 4.10.16 diverges as $\operatorname{Re}s\to0^+$.
+- *Bad-prime Euler-factor blow-up.* In Lemma 4.10.17 at $M=5$ and $s=-2$ ($\operatorname{Re}s<0$), the single Euler factor has $|1-5^2|=24>5=M$. More generally, at $s=-\sigma<0$ for squarefree $M$, $\prod_{p\mid M}(p^\sigma-1)$ grows like $M^\sigma$, destroying linear dependence on $M$ whenever $\sigma>1$.
+
+**Deleting $\chi\ne1$ or the $(s-1)$ `exLF` factor [Expository].** Take $M=5$ (`[NeZero 5]`), $\chi=\chi_0$, and $s=1+\varepsilon$ with $\varepsilon>0$, so $\operatorname{Re}s>1\ge1/2$ holds. Without the $(s-1)$ factor of `exLF`, $L(1+\varepsilon,\chi_0)=(1-5^{-1-\varepsilon})\zeta(1+\varepsilon)\sim\frac{4}{5\varepsilon}$ as $\varepsilon\to0^+$, whereas $CM(1+|1+\varepsilon|)\to10C$ and $CM(1+|1+\varepsilon|)^2\to20C$. Already at $s=1.001$ ($\varepsilon=10^{-3}$),
+$$
+L(1.001,\chi_0)\approx800.783645 > 9\cdot5\cdot(2.001)^2\approx180.180045 > 9\cdot5\cdot2.001=90.045 ,
+$$
+and letting $\varepsilon\to0^+$ defeats every finite constant $C$ on $\operatorname{Re}s\ge1/2$.
+
+**Deleting `[NeZero M]` ($M=0$) [Expository].** At $M=0$ the right-hand sides $C_PM(1+|s|)$ and $C_GM(1+|s|)^2$ vanish identically. Every layer of the proof breaks at $M=0$:
+
+- In Lemma 4.10.17 (`exLF_prod_le`), Mathlib defines `Nat.primeFactors 0 = ∅` (`Factorization/Basic.lean:45`), so the empty product equals $1$ and $|1|=1>0=M$. The exact line that fails is `Nat.le_of_dvd (NeZero.pos M) (Nat.prod_primeFactors_dvd M)`: $1\mid0$ is true, yet $1\le0$ is false without $M>0$.
+- In Mathlib's `ZMod.LFunction` (`ZMod.lean:67,83`), `[NeZero M]` is a typeclass prerequisite because `ZMod 0 = ℤ` is infinite rather than periodic modulo a positive integer; if one evaluates the naive Dirichlet series $\sum_{n=1}^\infty\chi(n)n^{-s}$ for either multiplicative character of $\mathbb Z$ (supported on $\mathbb Z^\times\cap\mathbb N_{\ge1}=\{1\}$, with $\chi(1)=1$ and $\chi(n)=0$ for $n\ge2$), it equals $1$ for all $s\in\mathbb C$, again violating $1\le0$.
+
+**Why coarse exponents cost nothing downstream.** Replacing $(1+|s|)$ by $(1+|s|)^2$ in `exLF_growth`, or bounding $|A(K)|\le M+1$ instead of Pólya–Vinogradov's $\sqrt M\log M$, or bounding $\prod_{p\mid M}|1-p^{-s}|\le M$ instead of $2^{\omega(M)}$, only changes polynomial exponents of $M$ and $|t|+2$ inside the upper bound $B$ on the disc. Every consumer in Corollary 4.10.19 immediately applies $\log B$, turning $M^a(|t|+2)^b$ into $a\log M+b\log(|t|+2)\le\max(a,b)\log(M(|t|+2))$ and folding all polynomial exponents into a fixed scalar factor. Likewise, `dhl_triv_growth` (`PNTDHLocalA.lean:55–60`) sharpens the principal coefficient from $6$ to $4$, whereas `exLF_growth` writes $6$; once combined with $C_P=9$, $\max(9,6)=\max(9,4)=9$ is unchanged.
+
+**Classical comparison [Paper].** Classical analytic number theory proves these bounds by the same two mechanisms with slightly sharper Calculus-based majorants. For $\zeta(s)$, Tao's 254A Notes 2 [[Tao2014, §2, eq. (21)](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)] and Montgomery–Vaughan [[MontgomeryVaughan2007, Theorem 1.12]] write Euler–Maclaurin continuation on $\operatorname{Re}s>0$ as $\zeta(s)=\frac{s}{s-1}-s\int_1^\infty\{x\}x^{-s-1}\,dx$, obtaining $|\zeta(s)-\frac{s}{s-1}|\le|s|/\operatorname{Re}s$. In the archive, $-\int_{n+1}^{n+2}(x-(n+1))s\,x^{-s-1}\,dx$ is rewritten by parts as $(n+1)^{1-s}-(n+2)^{1-s}-(s-1)(n+2)^{-s}=d_z(s,n)$, avoiding fractional-part measurability at the cost of one factor $(s-1)$ that cancels upon division when $s\ne1$. For non-principal $L(s,\chi)$, Davenport [[Davenport2000, §4 and Ch. 12]] and Tao [[Tao2014, Exercises 44–45](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)] pair Abel summation on $\operatorname{Re}s\ge1/2$ with either the trivial character-sum bound $M$ or Pólya–Vinogradov $\sqrt M\log M$ (giving $|L(s,\chi)|\ll\sqrt M\log M\,(1+|t|)$); the Phragmén–Lindelöf convexity bound $|L(1/2+it,\chi)|\ll_\varepsilon(M(|t|+2))^{1/4+\varepsilon}$ [[MontgomeryVaughan2007, §10.1]] requires the functional equation and Gamma asymptotics, neither of which the archive's elementary disc route needs.
+
+#### 4.10.9.7 Source map and reading boundary
+
+Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Short `PNT*` paths are relative to `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/` and other archive paths to `src/Formalism/`. All 22 archive files tabulated below were extracted from `lean.tar.gz` and verified byte-identical to the read-only copy.
+
+| Layer and role | Location | Status |
+|---|---|---|
+| Unified growth `exLF_growth` | `PNTExplLF.lean:129–184` | Local R3 [Lean, read] |
+| Bad-prime Euler-product bound `exLF_prod_le` (and `dhl_prod_le`, `dhl_triv_growth`) | `PNTExplLF.lean:106–127`; `PNTDHLocalA.lean:12–64` | Local R3 [Lean, read] |
+| Non-principal growth `lfunction_polynomial_growth` | `LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71` (interface `PolynomialGrowth` at `LFunctionBounds/PositivityBound.lean:25–28`) | Local R3 [Lean, read] |
+| Zeta power-difference continuation and `growthBound` | `ZeroFreeRegion/ZetaLogDerivativeBounds/NormCpowSubLePoint.lean:11–79` (`norm_cpow_sub_le_point`, `d_eq`); `DzDifferentiableOn.lean:11–76` (`dz`, `Dz`, `norm_dz_le`, `Dz_differentiableOn`); `RiemannZetaOneEqOneSubOfRePos.lean:11–88` (`partial_dz`, `one_lt_identity`, `riemannZetaOne_eq_one_sub_of_re_pos`); `ZetaGrowth.lean:11–96` (`norm_Dz_le`, `growthBound`; interface `ZetaGrowth` at `ZeroFreeRegion/SmallHeightLogDeriv.lean:66–69`) | Local R3 [Lean, read] |
+| Inherited non-principal partial-sum suppliers | `LGrowth.lean:10–51` (`norm_character_sum_Icc_le`); `LFunctionBounds/LFunctionBoundsProofs/LPartialSum.lean:136–169` (`l_function_partial_sum`); `LFunctionEqGOfOneLt.lean:228` (`LFunction_eq_G`) | Inherited [Lean, read] from §4.7 |
+| Downstream consumers | `LandauZeroFreeBounds/ExceptionalZeroBounds/LandauLemmaLfunctionZeros.lean:9–91` and `TailBox.lean:13–119` (§4.8.8); `PNTExplLocL.lean:86–146` (§4.10.8); `PNTExplBox.lean:121`, `PNTExplNeg.lean:27–102`, `PNTExplMainB.lean:138–168`, `PNTExplMain.lean:15–97` (§4.10.7); `PNTDHLocal.lean:77–180` (`dhl_triv`, `deuring_heilbronn_local`, call sites read) | Inherited [Lean, read] (§§4.8.8, 4.10.7–4.10.8) and call sites read |
+| Pinned Mathlib inputs (`0df444a`) | `NumberTheory/LSeries/DirichletContinuation.lean:61,169,174,338,348`; `NumberTheory/LSeries/ZMod.lean:67,83`; `NumberTheory/LSeries/RiemannZeta.lean`; `NumberTheory/Harmonic/ZetaAsymp.lean:536,561`; `Data/Nat/Factorization/Basic.lean:45,350`; calculus/analyticity API (`hasStrictDerivAt_cpow_const`, `differentiableOn_tsum_of_summable_norm`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `one_sub_inv_le_log_of_pos`) | Statement level [Lean] |
+| Retained deeper analytic suppliers | `log_deriv_riemannZeta_add_inv_sub_bounded` (called in `ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:12–14` for $C_R,C_3$); `ZeroSum` (`PNTZSumL`) with `LogDensityM` (`PNTDens`) and `DeuringHeilbronnMB` (`PNTDHB`); `twist_bound`, `zFRDirichlet`, `excBound`/`siegelLower` | Retained R2 [Lean] |
+
+Reading `exLF_growth`, `lfunction_polynomial_growth` and `growthBound` closes the last `R2` supplier of `ex_local` (§4.10.8) and the polynomial-growth supplier of `TailBox` (§4.8.8), without promoting the remaining `R2` inputs tabulated in the final row. Local R3 records human-assisted source reading of the pinned archive, not a Lean kernel check. See the [source ledger](../sources/SOURCES.md#chapter-4-4109-uniform-polynomial-growth).
 
 ---
 
