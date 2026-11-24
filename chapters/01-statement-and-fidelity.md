@@ -695,7 +695,346 @@ the excluded points being those where $G(s+1)=0$. This is how the symmetric equa
 
 5. *Two productions of the Gauss limit.* Theorem 5 yields $Q_n(x)\to\Gamma(x)$ for real $x>0$; the file header calls this a weak form of the Euler limit formula. Chapter 2, §2.3.2.1 reads the complex limit `Complex.GammaSeq_tendsto_Gamma` (`Beta.lean:335`), which Mathlib proves separately from the integral.
 
-**Source note.** The reading is R3 for `BohrMollerup.lean:58–120` (Theorem 1), `138–318` (Lemmas 2–4 and Theorem 5) and `375–452` (Theorem 6); for `Beta.lean:559–601` (Proposition 7, whose structure only was read in §1.2.2.4); for the consumer bodies `Deligne.lean:122–181`, `HurwitzZetaEven.lean:760–769` and `RiemannZeta.lean:178–180`; for the Hölder wrappers `Bochner/Basic.lean:1144–1209`; and for the archive consumers `RhOfRight.lean:28` and `DigammaTendstoLogSubHarmonic.lean:8–29`. Inputs retained by name (statements read, bodies not read) are the Hölder core `ENNReal.lintegral_mul_le_Lp_mul_Lq`; the Gaussian value `Real.Gamma_one_half_eq`; `Complex.Gamma_one`, the evaluation of Euler's integral at $s=1$ behind the real normalization; the convexity library (`convexOn_iff_forall_pos`, `convexOn_iff_slope_mono_adjacent`, `ConvexOn.comp_affineMap`, `ConvexOn.subset`, `ConvexOn.add`, `ConvexOn.smul`, `convexOn_id`); `Real.holderConjugate_one_div`, `memLp_norm_rpow_iff`, `memLp_one_iff_integrable`, `tendsto_log_nat_add_one_sub_log` and `log_injOn_pos`; the identity theorem `AnalyticOnNhd.eq_of_frequently_eq`; and `completedHurwitzZetaEven_one_sub`. Inherited from earlier sections are Euler's integral (`GammaIntegral_convergent`, `Real.Gamma_eq_integral`), the recurrence and `Real.Gamma_pos_of_pos` ([Chapter 2, §2.3.2.3](02-functional-equations-and-primitive-characters.md#2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves)), the reflection formula (Chapter 2, §2.3.2.1) and `differentiable_one_div_Gamma` (§1.2.2.2); the real transfers `Real.Gamma_add_one` and `Real.Gamma_one` were read here. The [proof map](../notes/proof-map.md#p1-chapter-1-log-convexity-bohrmollerup-and-duplication) gives pinned paths and lines. Artin's monograph was read in the 1964 English translation; the 1922 text of Bohr and Mollerup was not read. The hand calculations A and B, the counterexample and the consumer table are ours; the numbers were cross-checked in floating point, which is a consistency check, not a certificate. This reading does not certify the dependency cone, and no Lean compilation was run.
+**Source note.** The reading is R3 for `BohrMollerup.lean:58–120` (Theorem 1), `138–318` (Lemmas 2–4 and Theorem 5) and `375–452` (Theorem 6); for `Beta.lean:559–601` (Proposition 7, whose structure only was read in §1.2.2.4); for the consumer bodies `Deligne.lean:122–181`, `HurwitzZetaEven.lean:760–769` and `RiemannZeta.lean:178–180`; for the Hölder wrappers `Bochner/Basic.lean:1144–1209`; and for the archive consumers `RhOfRight.lean:28` and `DigammaTendstoLogSubHarmonic.lean:8–29`. Inputs retained by name (statements read, bodies not read) are the Hölder core `ENNReal.lintegral_mul_le_Lp_mul_Lq`; the Gaussian value `Real.Gamma_one_half_eq`; `Complex.Gamma_one`, the evaluation of Euler's integral at $s=1$ behind the real normalization; the convexity library (`convexOn_iff_forall_pos`, `convexOn_iff_slope_mono_adjacent`, `ConvexOn.comp_affineMap`, `ConvexOn.subset`, `ConvexOn.add`, `ConvexOn.smul`, `convexOn_id`); `Real.holderConjugate_one_div`, `memLp_norm_rpow_iff`, `memLp_one_iff_integrable`, `tendsto_log_nat_add_one_sub_log` and `log_injOn_pos`; the identity theorem `AnalyticOnNhd.eq_of_frequently_eq`; and `completedHurwitzZetaEven_one_sub` (read in §1.2.2.6). Inherited from earlier sections are Euler's integral (`GammaIntegral_convergent`, `Real.Gamma_eq_integral`), the recurrence and `Real.Gamma_pos_of_pos` ([Chapter 2, §2.3.2.3](02-functional-equations-and-primitive-characters.md#2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves)), the reflection formula (Chapter 2, §2.3.2.1) and `differentiable_one_div_Gamma` (§1.2.2.2); the real transfers `Real.Gamma_add_one` and `Real.Gamma_one` were read here. The [proof map](../notes/proof-map.md#p1-chapter-1-log-convexity-bohrmollerup-and-duplication) gives pinned paths and lines. Artin's monograph was read in the 1964 English translation; the 1922 text of Bohr and Mollerup was not read. The hand calculations A and B, the counterexample and the consumer table are ours; the numbers were cross-checked in floating point, which is a consistency check, not a certificate. This reading does not certify the dependency cone, and no Lean compilation was run.
+
+#### 1.2.2.6 From the theta transformation to the completed Hurwitz functional equation
+
+**Motivation.** Section 1.2.2.1 used the theta transformation $f_a(t)=t^{-1/2}g_a(1/t)$ in one direction only: to read the small-$t$ asymptotic of $f_a$ off the large-$t$ limit of $g_a$, subtract the singular powers below $t=1$, and continue the completed even Hurwitz function meromorphically to $\mathbb C$ with its simple pole at $s=1$. Section 1.2.2.5 then supplied the archimedean Gamma ratio $G(s)/G(1-s)=\Gamma_{\mathbb C}(s)\cos(\pi s/2)$ from the duplication and reflection formulas, leaving a single named input between the Jacobi theta kernel and the functional equation `riemannZeta_one_sub` consumed by the archive's `rh_of_right`: the completed reflection `completedHurwitzZetaEven_one_sub`.
+
+Two analytical obstacles stand between the pointwise theta law $f_a(1/x)=x^{1/2}g_a(x)$ and a global functional equation on $\mathbb C$. First, the unmodified Mellin integrals of $f_a$ and $g_a$ diverge on half-planes (and for $f_a$ with $a=0$, at every complex $s$), so changing variables $t\mapsto 1/t$ directly in $\int_0^\infty t^{w-1}f_a(t)\,dt$ manipulates an integral whose domain of convergence is empty. Second, for a nonzero shift $a\in\mathbb R/\mathbb Z\setminus\{0\}$, the pair $(f_a,g_a)$ is not self-dual: $f_a(t)\to 0$ as $t\to\infty$ whereas $g_a(t)\to 1$, so reflection across $s\mapsto 1-s$ does not send the even Hurwitz zeta function back to itself, but exchanges it with a dual *cosine zeta* partner while swapping the pole locations $s=0$ and $s=1$. Mathlib packages both phenomena into the conditional interface `WeakFEPair`, builds an entire partner pair by piecewise subtraction with a deliberate zero at the seam $t=1$, proves Mellin inversion on the entire modified pair, and cancels the two rational pole terms algebraically before specializing to $a\in\mathbb R/\mathbb Z$ and $a=0$.
+
+**Example (two traps: Bochner degeneracy on unmodified kernels and the seam defect at $x=1$).** Before stating the general interface, test the naive Mellin inversion on two concrete kernels from §1.2.2.1.
+
+1. *Empty convergence strip and Bochner totalization.* At $a=0$, $f_0(t)=g_0(t)=1+2\sum_{n\ge1}e^{-\pi n^2 t}$ tends to $1$ as $t\to\infty$ and behaves like $t^{-1/2}$ as $t\to0^+$. For every $w\in\mathbb C$, $t^{w-1}f_0(t)$ fails to be integrable on $(0,\infty)$: at $\infty$ convergence would require $\Re w<0$, whereas at $0$ it requires $\Re w>1/2$. In Mathlib, `mellin f w` is defined as a Bochner integral, which returns $0$ whenever the integrand is not integrable. Substituting $t\mapsto 1/t$ in `mellin f_0 (1/2 - w) = mellin g_0 w` is therefore *formally true* in Lean — both sides evaluate to $0=0$ for every $w\in\mathbb C$ — and proves nothing about $\zeta(s)$! Even if one subtracts the constant at $\infty$ beforehand, $(f_0(t)-1)=O(e^{-\pi t})$ at $\infty$ and $\sim t^{-1/2}$ at $0$, so $\int_0^\infty t^{w-1}(f_0(t)-1)\,dt$ converges on $\Re w>1/2$, while the reflected argument $1/2-w$ requires $\Re(1/2-w)>1/2$, i.e. $\Re w<0$, giving two *disjoint* half-planes. One must pass to kernels modified on $(0,1)$ and $(1,\infty)$ separately so that both sides converge on all of $\mathbb C$ simultaneously.
+
+2. *The seam mismatch at $x=1$ when $f_\infty\ne\varepsilon g_\infty$.* Take $a=1/3$. Here $f_{1/3}(t)=\sum_{n\in\mathbb Z}e^{-\pi(n+1/3)^2 t}\to 0$ as $t\to\infty$ ($f_\infty=0$), whereas $g_{1/3}(t)=1+2\sum_{n\ge1}\cos(2\pi n/3)e^{-\pi n^2 t}\to 1$ ($g_\infty=1$), with weight $k=1/2$ and root number $\varepsilon=1$. At the inversion fixed point $x=1$, the theta identity $f_{1/3}(1/x)=x^{1/2}g_{1/3}(x)$ gives $f_{1/3}(1)=g_{1/3}(1)$ ($\approx 0.95678$). Suppose one defined the upper-tail subtraction on the *closed* ray $[1,\infty)$ and the lower-tail subtraction on $(0,1)$. Then at $x=1$ the modified $f$-kernel would take the value $f_{1/3}(1)-0=f_{1/3}(1)$, whereas the modified $g$-kernel would take the value $g_{1/3}(1)-1=f_{1/3}(1)-1$. Their difference at $x=1$ is $+1\ne0$, breaking the pointwise functional equation $f_{\mathrm{modif}}(1/x)=\varepsilon x^k g_{\mathrm{modif}}(x)$ at $x=1$. Replacing $[1,\infty)$ by the open ray $(1,\infty)$ sets both modified kernels to $0$ at $x=1$, restoring exact pointwise symmetry without altering any Lebesgue integral because $\{1\}$ has measure zero.
+
+**Definition (`WeakFEPair`, dual pair, piecewise modification, and $\Lambda_0,\Lambda$).** Let $E$ be a normed $\mathbb C$-vector space (in all our applications $E=\mathbb C$). A *weak functional-equation pair* $P$ (`WeakFEPair E`) consists of data $(f,g,k,\varepsilon,f_0,g_0)$ with $f,g:(0,\infty)\to E$ (extended arbitrarily to $\mathbb R$), real weight $k\in\mathbb R$, scalar $\varepsilon\in\mathbb C$, and asymptotic constants $f_0,g_0\in E$, subject to the seven hypotheses:
+
+1. $f$ and $g$ are locally integrable on $(0,\infty)$ (`hf_int`, `hg_int`);
+2. $k>0$ and $\varepsilon\ne0$ (`hk`, `hε`);
+3. for every $x>0$, $f(1/x)=\varepsilon x^k g(x)$ (`h_feq`);
+4. for every $r\in\mathbb R$, $f(x)-f_0=O(x^r)$ and $g(x)-g_0=O(x^r)$ as $x\to\infty$ (`hf_top`, `hg_top`).
+
+We say that $P$ is a *strong functional-equation pair* (`IsStrongFEPair P`) if $f_0=0$ and $g_0=0$. Given any weak pair $P$, define:
+
+- the *dual (symmetric) data* $P^{\mathrm{symm}}=(g,f,k,\varepsilon^{-1},g_0,f_0)$ (`WeakFEPair.symm`);
+- the *piecewise modified kernels* (`WeakFEPair.f_modif`, `WeakFEPair.g_modif`) for $x\in\mathbb R$:
+$$
+ f_{\mathrm{modif}}(x)=\mathbf 1_{(1,\infty)}(x)\bigl(f(x)-f_0\bigr)+\mathbf 1_{(0,1)}(x)\bigl(f(x)-\varepsilon x^{-k}g_0\bigr),
+$$
+$$
+ g_{\mathrm{modif}}(x)=\mathbf 1_{(1,\infty)}(x)\bigl(g(x)-g_0\bigr)+\mathbf 1_{(0,1)}(x)\bigl(g(x)-\varepsilon^{-1}x^{-k}f_0\bigr);
+$$
+- the *pole-removed* and *meromorphic Mellin transforms* (`WeakFEPair.Λ₀`, `WeakFEPair.Λ`), for $E$ complete and $s\in\mathbb C$:
+$$
+ \Lambda_0(P,s)=\mathcal M(f_{\mathrm{modif}})(s)=\int_0^\infty t^{s-1}f_{\mathrm{modif}}(t)\,dt,\qquad
+ \Lambda(P,s)=\Lambda_0(P,s)-\frac{1}{s}f_0-\frac{\varepsilon}{k-s}g_0,
+$$
+where in Lean's total arithmetic on $\mathbb C$ division by zero evaluates to $0$ ($z/0=0$). [Lean, read] [AbstractFuncEq.lean:80–138](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L80-L138) · [AbstractFuncEq.lean:247–255](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L247-L255) · [AbstractFuncEq.lean:376–388](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L376-L388)
+
+Notice that $g_{\mathrm{modif}}$ is obtained from $f_{\mathrm{modif}}$ simply by replacing $(f,g,\varepsilon,f_0,g_0)$ with $(g,f,\varepsilon^{-1},g_0,f_0)$. Once Lemma 1 verifies that $P^{\mathrm{symm}}$ is itself a valid `WeakFEPair`, $(P^{\mathrm{symm}}).f_{\mathrm{modif}}$ is definitionally equal to $g_{\mathrm{modif}}$.
+
+**Lemma 1 (dual kernel law and strong-pair modification).** Let $P=(f,g,k,\varepsilon,f_0,g_0)$ be a `WeakFEPair`.
+
+1. For every $x>0$, $g(1/x)=\varepsilon^{-1}x^k f(x)$, and $P^{\mathrm{symm}}$ satisfies all seven `WeakFEPair` axioms.
+2. For every $x>0$, $f_{\mathrm{modif}}(1/x)=\varepsilon x^k g_{\mathrm{modif}}(x)$, and $P_{\mathrm{strong}}=(f_{\mathrm{modif}},g_{\mathrm{modif}},k,\varepsilon,0,0)$ is a strong `WeakFEPair` (`toStrongFEPair`, `isStrongFEPair_toStrongFEPair`). Consequently, for every $r\in\mathbb R$, both $f_{\mathrm{modif}}(x)$ and $g_{\mathrm{modif}}(x)$ are $O(x^r)$ as $x\to\infty$ and as $x\to0^+$, so their Mellin integrals converge absolutely and define entire functions of $s\in\mathbb C$.
+
+**Proof.** (1) Let $x>0$, so $1/x>0$ and $x^k>0$. Applying hypothesis (3) at $1/x$ gives $f(x)=f\bigl(1/(1/x)\bigr)=\varepsilon(1/x)^k g(1/x)=\varepsilon x^{-k}g(1/x)$. Because $\varepsilon\ne0$ and $x^k\ne0$, multiplying both sides by $\varepsilon^{-1}x^k$ cancels $\varepsilon x^{-k}$ and yields $g(1/x)=\varepsilon^{-1}x^k f(x)$. Since $\varepsilon^{-1}\ne0$, $k>0$, and the local-integrability and $\infty$-decay hypotheses of $P^{\mathrm{symm}}$ are literally those of $P$ in reverse order, $P^{\mathrm{symm}}$ is a `WeakFEPair`.
+
+(2) Fix $x>0$ and split by trichotomy at $1$.
+
+- *Case $x>1$.* Then $0<1/x<1$, so $f_{\mathrm{modif}}(1/x)=f(1/x)-\varepsilon(1/x)^{-k}g_0$ from the $(0,1)$ branch and $g_{\mathrm{modif}}(x)=g(x)-g_0$ from the $(1,\infty)$ branch. Using $(1/x)^{-k}=x^k$ and $f(1/x)=\varepsilon x^k g(x)$, we obtain
+$$
+ f_{\mathrm{modif}}(1/x)=\varepsilon x^k g(x)-\varepsilon x^k g_0=\varepsilon x^k\bigl(g(x)-g_0\bigr)=\varepsilon x^k g_{\mathrm{modif}}(x).
+$$
+- *Case $x=1$.* Since $1\notin(1,\infty)$ and $1\notin(0,1)$, both $f_{\mathrm{modif}}(1)$ and $g_{\mathrm{modif}}(1)$ equal $0$, and $0=\varepsilon\cdot 1^k\cdot 0$.
+- *Case $0<x<1$.* Then $1/x>1$, so $f_{\mathrm{modif}}(1/x)=f(1/x)-f_0$ and $g_{\mathrm{modif}}(x)=g(x)-\varepsilon^{-1}x^{-k}f_0$. Using $f(1/x)=\varepsilon x^k g(x)$ together with $\varepsilon x^k\cdot\varepsilon^{-1}x^{-k}=1$ ($\varepsilon\ne0$, $x^k\ne0$), we have
+$$
+ \varepsilon x^k g_{\mathrm{modif}}(x)=\varepsilon x^k g(x)-\bigl(\varepsilon x^k\varepsilon^{-1}x^{-k}\bigr)f_0=f(1/x)-f_0=f_{\mathrm{modif}}(1/x).
+$$
+
+On $(0,\infty)$, the power $x\mapsto\varepsilon x^{-k}g_0$ is continuous, hence locally integrable; subtracting constants or continuous functions and multiplying by the measurable indicators of $(1,\infty)$ and $(0,1)$ preserves local integrability on $(0,\infty)$. For $x>1$, $f_{\mathrm{modif}}(x)=f(x)-f_0=O(x^r)$ for every $r\in\mathbb R$ by hypothesis (4); the same argument applied to $P^{\mathrm{symm}}$ gives local integrability and rapid decay at $\infty$ for $g_{\mathrm{modif}}$. Thus $P_{\mathrm{strong}}$ is a `WeakFEPair` with $(f_0,g_0)=(0,0)$. Rapid decay as $x\to0^+$ follows by substituting $1/x\to\infty$ into $f_{\mathrm{modif}}(x)=\varepsilon x^{-k}g_{\mathrm{modif}}(1/x)$ with exponent $-(r+k)$, and global Mellin convergence and complex differentiability follow from the endpoint-power criteria established in §1.2.2.1. $\square$
+
+In Lean, part (1) is `WeakFEPair.h_feq'` and `WeakFEPair.symm` (`field [P.hε, (rpow_pos_of_pos hx _).ne']` clears the scalar). Part (2) is `hf_modif_int`, `hf_modif_FE` (`rcases lt_trichotomy 1 x with hx' | rfl | hx'`), `hf_modif_top`, `toStrongFEPair` (whose `g` field is `P.symm.f_modif`, definitionally `P.g_modif`), and `isStrongFEPair_toStrongFEPair`. Global convergence and holomorphy of a strong pair are `IsStrongFEPair.mellinConvergent` and `IsStrongFEPair.differentiable_mellin` (inherited from §1.2.2.1 via `mellinConvergent_of_isBigO_rpow` and `mellin_differentiableAt_of_isBigO_rpow`). [Lean, read] [AbstractFuncEq.lean:107–138](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L107-L138) · [AbstractFuncEq.lean:213–316](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L213-L316)
+
+**Lemma 2 (Mellin inversion on $(0,\infty)$ and `WeakFEPair.functional_equation₀`).** Let $E$ be a complete normed $\mathbb C$-vector space and let $P=(f,g,k,\varepsilon,f_0,g_0)$ be a `WeakFEPair`.
+
+1. For every $s\in\mathbb C$, as an equality of Bochner integrals on $(0,\infty)$,
+$$
+ \mathcal M(f)(k-s)=\varepsilon\,\mathcal M(g)(s).
+$$
+2. Applying (1) to the strong pair $P_{\mathrm{strong}}$ gives, for every $s\in\mathbb C$, the convergent entire identity
+$$
+ \Lambda_0(P,k-s)=\varepsilon\,\Lambda_0(P^{\mathrm{symm}},s),
+$$
+and both sides equal the two-tail integral on $(1,\infty)$:
+$$
+ \Lambda_0(P,k-s)=\int_1^\infty t^{k-s-1}\bigl(f(t)-f_0\bigr)\,dt+\varepsilon\int_1^\infty t^{s-1}\bigl(g(t)-g_0\bigr)\,dt.
+$$
+
+**Proof.** (1) The diffeomorphism $\varphi:(0,\infty)\to(0,\infty)$, $\varphi(t)=t^{-1}$, is injective and maps $(0,\infty)$ onto $(0,\infty)$, with $\lvert\varphi'(t)\rvert=\lvert-t^{-2}\rvert=t^{-2}$. By the change-of-variables formula on $(0,\infty)$ applied to $y\mapsto y^{-s-1}g(y)$ at exponent $p=-1$,
+$$
+ \mathcal M(g)(-s)=\int_0^\infty y^{-s-1}g(y)\,dy=\int_0^\infty t^{-2}\,(t^{-1})^{-s-1}g(1/t)\,dt=\int_0^\infty t^{s-1}g(1/t)\,dt=\mathcal M\bigl(t\mapsto g(1/t)\bigr)(s),
+$$
+and replacing $-s$ by $s$ gives $\mathcal M(g)(s)=\mathcal M(t\mapsto g(1/t))(-s)$. Next, for every $t>0$, $t^{(k-s)-1}\cdot t^{-k}=t^{-s-1}$ because $t>0$ has real logarithm and $(k-s-1)+(-k)=-s-1$; hence shifting the Mellin weight by $-k$ gives
+$$
+ \mathcal M\bigl(t\mapsto t^{-k}g(1/t)\bigr)(k-s)=\mathcal M\bigl(t\mapsto g(1/t)\bigr)(-s)=\mathcal M(g)(s).
+$$
+Pulling the constant scalar $\varepsilon\in\mathbb C$ through the Bochner integral yields
+$$
+ \varepsilon\,\mathcal M(g)(s)=\mathcal M\bigl(t\mapsto\varepsilon t^{-k}g(1/t)\bigr)(k-s)=\int_0^\infty t^{k-s-1}\varepsilon t^{-k}g(1/t)\,dt.
+$$
+Now use Lemma 1(1): for every $t>0$, $g(1/t)=\varepsilon^{-1}t^k f(t)$, and since $\varepsilon\ne0$ and $t^k>0$, $\varepsilon t^{-k}(\varepsilon^{-1}t^k f(t))=f(t)$ pointwise on $(0,\infty)$. Therefore the right-hand integral is literally $\int_0^\infty t^{k-s-1}f(t)\,dt=\mathcal M(f)(k-s)$. Every step (bijective change of variables, pointwise rewriting on $(0,\infty)$, and scalar multiplication by $\varepsilon\ne0$) preserves non-integrability as well as integrability, so the Bochner identity holds for all $s\in\mathbb C$.
+
+(2) By Lemma 1(2), $P_{\mathrm{strong}}$ is a `WeakFEPair` whose Mellin transforms converge at every complex argument, with $(P_{\mathrm{strong}})^{\mathrm{symm}}$ having first kernel $g_{\mathrm{modif}}=(P^{\mathrm{symm}}).f_{\mathrm{modif}}$. Applying (1) to $P_{\mathrm{strong}}$ gives
+$$
+ \Lambda_0(P,k-s)=\mathcal M(f_{\mathrm{modif}})(k-s)=\varepsilon\,\mathcal M(g_{\mathrm{modif}})(s)=\varepsilon\,\Lambda_0(P^{\mathrm{symm}},s).
+$$
+Finally, split $\Lambda_0(P,k-s)=\int_0^\infty t^{k-s-1}f_{\mathrm{modif}}(t)\,dt$ across $(0,1)$, $\{1\}$, and $(1,\infty)$. The singleton $\{1\}$ has measure zero; on $(1,\infty)$, $f_{\mathrm{modif}}(t)=f(t)-f_0$; on $(0,1)$, $f_{\mathrm{modif}}(t)=\varepsilon t^{-k}g_{\mathrm{modif}}(1/t)=\varepsilon t^{-k}(g(1/t)-g_0)$, and substituting $u=1/t$ sends $\int_0^1 t^{k-s-1}\varepsilon t^{-k}(g(1/t)-g_0)\,dt$ to $\varepsilon\int_1^\infty u^{s-1}(g(u)-g_0)\,du$. $\square$
+
+In Lean, part (1) is `private theorem WeakFEPair.functional_equation_aux` (located in `namespace WeakFEPair`, not `IsStrongFEPair`). It chains `step1 := mellin_comp_rpow P.g (-s) (-1)`, `step2 := mellin_cpow_smul (fun t ↦ P.g (1 / t)) (P.k - s) (-P.k)`, and `step3 := mellin_const_smul … (P.k - s) P.ε`, then rewrites the integrand on `Ioi 0` via `setIntegral_congr_fun` and `P.h_feq' t ht`, finishing with `field_simp [P.hε]` and `(t : ℂ) ^ (P.k : ℂ) ≠ 0`. In `MellinTransform.lean`, the header comments on lines 99 and 118 explicitly note that `mellin_cpow_smul`, `mellin_const_smul`, and `mellin_comp_rpow` require no convergence hypothesis (reducing to `0 = 0` otherwise); `mellin_comp_rpow` calls `integral_comp_rpow_Ioi` (`IntegralEqImproper.lean:1131–1143`), which proves $(0,\infty)^p=(0,\infty)$ for $p\ne0$ via $x\mapsto x^{1/p}$ and invokes the general Jacobian theorem `integral_image_eq_integral_abs_deriv_smul` (retained here as a named measure-theory input; compare [Chapter 2, §§2.3.2.3–2.3.2.4](02-functional-equations-and-primitive-characters.md#2324-nonnegative-derivatives-and-improper-integrals-the-integrability-criteria-behind-both-ends-of-eulers-integral) for improper-integral conventions in `IntegralEqImproper.lean`). Part (2) is the one-line theorem `WeakFEPair.functional_equation₀`: `P.toStrongFEPair.functional_equation_aux s`. [Lean, read] [AbstractFuncEq.lean:184–203](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L184-L203) · [AbstractFuncEq.lean:420–423](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L420-L423) · [MellinTransform.lean:99–132](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/MellinTransform.lean#L99-L132) · [IntegralEqImproper.lean:1131–1143](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean#L1131-L1143)
+
+**Lemma 3 (pole-pair swap and `WeakFEPair.functional_equation`).** Let $E$ be a complete normed $\mathbb C$-vector space and let $P=(f,g,k,\varepsilon,f_0,g_0)$ be a `WeakFEPair`.
+
+1. On the half-plane $\Re s>k$, the Mellin integral of $f(x)-f_0$ converges and equals $\Lambda(P,s)$ (`hasMellin`, inherited from §1.2.2.1); $\Lambda(P,s)$ is complex-differentiable at every $s$ satisfying $(s\ne0\text{ or }f_0=0)$ and $(s\ne k\text{ or }g_0=0)$.
+2. For *every* $s\in\mathbb C$ (including $s=0$ and $s=k$ under Lean's total division $z/0=0$),
+$$
+ \Lambda(P,k-s)=\varepsilon\,\Lambda(P^{\mathrm{symm}},s).
+$$
+
+**Proof.** Part (1) was read in §1.2.2.1 (`f_modif_aux1`, `f_modif_aux2`, `hasMellin`, `differentiableAt_Λ`): on $\Re s>k>0$, subtracting $f(x)-f_0$ from $f_{\mathrm{modif}}(x)$ leaves $f_0-\varepsilon x^{-k}g_0$ on $(0,1)$ (plus a negligible singleton at $x=1$), whose Mellin integral is $\frac{1}{s}f_0+\frac{\varepsilon}{k-s}g_0$.
+
+For part (2), fix any $s\in\mathbb C$. Unfolding $\Lambda(P,k-s)$ and using the algebraic identity $k-(k-s)=s$ gives
+$$
+ \Lambda(P,k-s)=\Lambda_0(P,k-s)-\frac{1}{k-s}f_0-\frac{\varepsilon}{s}g_0.
+$$
+Unfolding $\Lambda(P^{\mathrm{symm}},s)$ from the definition of $P^{\mathrm{symm}}=(g,f,k,\varepsilon^{-1},g_0,f_0)$ gives
+$$
+ \Lambda(P^{\mathrm{symm}},s)=\Lambda_0(P^{\mathrm{symm}},s)-\frac{1}{s}g_0-\frac{\varepsilon^{-1}}{k-s}f_0.
+$$
+Multiply the second equation by $\varepsilon$. Because $\varepsilon\ne0$, $\varepsilon\varepsilon^{-1}=1$, so in $\mathbb C$ (even when $k-s=0$, where $\frac{z}{0}=0$ gives $\varepsilon\cdot\frac{\varepsilon^{-1}}{0}=\varepsilon\cdot0=0=\frac{1}{0}$) we have $\varepsilon\cdot\frac{\varepsilon^{-1}}{k-s}=\frac{\varepsilon\varepsilon^{-1}}{k-s}=\frac{1}{k-s}$:
+$$
+ \varepsilon\,\Lambda(P^{\mathrm{symm}},s)=\varepsilon\,\Lambda_0(P^{\mathrm{symm}},s)-\frac{\varepsilon}{s}g_0-\frac{1}{k-s}f_0.
+$$
+By Lemma 2(2), $\Lambda_0(P,k-s)=\varepsilon\,\Lambda_0(P^{\mathrm{symm}},s)$, and the two pole-correction pairs $-\frac{1}{k-s}f_0-\frac{\varepsilon}{s}g_0$ and $-\frac{\varepsilon}{s}g_0-\frac{1}{k-s}f_0$ are identical in reverse order. Hence $\Lambda(P,k-s)=\varepsilon\,\Lambda(P^{\mathrm{symm}},s)$ for all $s\in\mathbb C$. $\square$
+
+In Lean, `Λ₀_eq` writes `P.Λ₀ s = P.Λ s + (1 / s) • P.f₀ + (P.ε / (P.k - s)) • P.g₀`, `symm_Λ₀_eq` expands the same identity for `P.symm`, and `WeakFEPair.functional_equation` combines four module equalities in a single `linear_combination (norm := module)` line:
+`P.functional_equation₀ s - P.Λ₀_eq (P.k - s) + congr(P.ε • $(P.symm_Λ₀_eq s)) + congr(($(mul_inv_cancel₀ P.hε) / (P.k - s)) • P.f₀)`. [Lean, read] [AbstractFuncEq.lean:381–388](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L381-L388) · [AbstractFuncEq.lean:424–429](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L424-L429)
+
+**Theorem 4 (completed even Hurwitz and cosine functional equations, series identification, and $a=0$ self-duality).** Assume the Gaussian Poisson summation input (`Complex.tsum_exp_neg_quadratic`), which supplies $f_a(1/x)=x^{1/2}g_a(x)$ for every $a\in\mathbb R/\mathbb Z$ and $x>0$ (§1.2.2.1). For each $a\in\mathbb R/\mathbb Z$, set $\delta_a=1$ if $a=0$ and $\delta_a=0$ if $a\ne0$.
+
+1. *The even Hurwitz FE-pair.* The tuple $P_a=(f_a,g_a,1/2,1,\delta_a,1)$ is a `WeakFEPair` over $\mathbb C$ (`hurwitzEvenFEPair a`), with dual $P_a^{\mathrm{symm}}=(g_a,f_a,1/2,1,1,\delta_a)$ satisfying $P_{-a}=P_a$ and, at $a=0$, $P_0^{\mathrm{symm}}=P_0$.
+2. *Rescaled completions and pole swap.* Define for $s\in\mathbb C$
+$$
+ \Lambda_{\mathrm{even},0}(a,s)=\tfrac12\Lambda_0(P_a,s/2),\qquad
+ \Lambda_{\mathrm{even}}(a,s)=\tfrac12\Lambda(P_a,s/2),
+$$
+$$
+ \Lambda_{\cos,0}(a,s)=\tfrac12\Lambda_0(P_a^{\mathrm{symm}},s/2),\qquad
+ \Lambda_{\cos}(a,s)=\tfrac12\Lambda(P_a^{\mathrm{symm}},s/2).
+$$
+Then $\Lambda_{\mathrm{even},0}(a,\cdot)$ and $\Lambda_{\cos,0}(a,\cdot)$ are entire,
+$$
+ \Lambda_{\mathrm{even}}(a,s)=\Lambda_{\mathrm{even},0}(a,s)-\frac{\delta_a}{s}-\frac{1}{1-s},\qquad
+ \Lambda_{\cos}(a,s)=\Lambda_{\cos,0}(a,s)-\frac{1}{s}-\frac{\delta_a}{1-s},
+$$
+and for *every* $a\in\mathbb R/\mathbb Z$ and *every* $s\in\mathbb C$,
+$$
+ \Lambda_{\mathrm{even},0}(a,1-s)=\Lambda_{\cos,0}(a,s),\qquad
+ \Lambda_{\mathrm{even}}(a,1-s)=\Lambda_{\cos}(a,s).
+$$
+3. *Dirichlet series and un-completed functions.* Recall $G(s)=\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2)$ and define total functions on $\mathbb C$ by updating at $s=0$:
+$$
+ E_a(s)=\bigl[\Lambda_{\mathrm{even}}(a,\cdot)/G\bigr]_{0\gets-\delta_a/2},\qquad
+ Z_{\cos}(a,s)=\bigl[\Lambda_{\cos}(a,\cdot)/G\bigr]_{0\gets-1/2}.
+$$
+Then $E_a$ is holomorphic on $\mathbb C\setminus\{1\}$, while $Z_{\cos}(a,\cdot)$ is holomorphic on $\mathbb C\setminus\{1\}$ when $a=0$ and **entire** when $a\ne0$. For every real representative $a\in\mathbb R$ and every $s\in\mathbb C$ with $\Re s>1$,
+$$
+ \Lambda_{\mathrm{even}}(a,s)=G(s)\,E_a(s),\qquad E_a(s)=\frac12\sum_{\substack{n\in\mathbb Z\\n+a\ne0}}\lvert n+a\rvert^{-s},
+$$
+$$
+ \Lambda_{\cos}(a,s)=G(s)\,Z_{\cos}(a,s),\qquad Z_{\cos}(a,s)=\sum_{n=1}^\infty\frac{\cos(2\pi a n)}{n^s}.
+$$
+4. *Zero-shift self-duality.* At $a=0$, writing $\Lambda_0(s)=\Lambda_{\mathrm{even},0}(0,s)$, $\Lambda(s)=\Lambda_{\mathrm{even}}(0,s)$, and $\zeta(s)=E_0(s)$, we have $\Lambda_{\cos,0}(0,s)=\Lambda_0(s)$, $\Lambda_{\cos}(0,s)=\Lambda(s)$, $Z_{\cos}(0,s)=\zeta(s)$, and for every $s\in\mathbb C$,
+$$
+ \Lambda_0(1-s)=\Lambda_0(s),\qquad \Lambda(1-s)=\Lambda(s).
+$$
+
+**Proof.** (1) Continuity of $f_a$ and $g_a$ on $(0,\infty)$ (from locally uniform Gaussian comparison in §1.2.2.1) supplies local integrability. By §1.2.2.1, $f_a(x)-\delta_a=O(e^{-c x})$ for some $c>0$ and $g_a(x)-1=O(e^{-\pi x})$ as $x\to\infty$; since $e^{-c x}=o(x^r)$ as $x\to\infty$ for every real $r$, hypotheses `hf_top` and `hg_top` hold. The Poisson-derived Jacobi identity $f_a(1/x)=x^{1/2}g_a(x)$ gives `h_feq` with $k=1/2>0$ and $\varepsilon=1\ne0$. Reindexing $n\mapsto-n$ shows $f_{-a}=f_a$ and $g_{-a}=g_a$. At $a=0$, both kernels equal $\sum_{n\in\mathbb Z}e^{-\pi n^2 x}$ and $\delta_0=1=g_0$, so $P_0^{\mathrm{symm}}$ has the exact same six data fields as $P_0$; by proof irrelevance on the propositional fields, $P_0^{\mathrm{symm}}=P_0$.
+
+(2) Substituting $w=s/2$ into $\Lambda(P_a,w)=\Lambda_0(P_a,w)-\frac{\delta_a}{w}-\frac{1}{1/2-w}$ and dividing by $2$ cancels the factor of $2$ in both denominators:
+$$
+ \frac{1}{2}\cdot\frac{\delta_a}{s/2}=\frac{\delta_a}{s},\qquad
+ \frac{1}{2}\cdot\frac{1}{\frac12-\frac s2}=\frac{1}{1-s}
+$$
+(including at $s=0$ and $s=1$, where $0/2=0$ and $z/0=0$). The same cancellation in $\frac12\Lambda(P_a^{\mathrm{symm}},s/2)$ swaps $(\delta_a,1)$ to $(1,\delta_a)$, giving $-\frac{1}{s}-\frac{\delta_a}{1-s}$. Now rewrite $\frac{1-s}{2}=\frac12-\frac s2=k-\frac s2$ and apply Lemma 2(2) and Lemma 3(2) at argument $s/2$ with $\varepsilon=1$:
+$$
+ \Lambda_{\mathrm{even},0}(a,1-s)=\tfrac12\Lambda_0\bigl(P_a,\tfrac12-\tfrac s2\bigr)=\tfrac12\cdot 1\cdot\Lambda_0\bigl(P_a^{\mathrm{symm}},\tfrac s2\bigr)=\Lambda_{\cos,0}(a,s),
+$$
+$$
+ \Lambda_{\mathrm{even}}(a,1-s)=\tfrac12\Lambda\bigl(P_a,\tfrac12-\tfrac s2\bigr)=\tfrac12\cdot 1\cdot\Lambda\bigl(P_a^{\mathrm{symm}},\tfrac s2\bigr)=\Lambda_{\cos}(a,s).
+$$
+
+(3) The series and holomorphy of $\Lambda_{\mathrm{even}}$ and $E_a$ were proved in §§1.2.2.1–1.2.2.2 (`P_a, A_a` there are our $\Lambda_{\mathrm{even}}(a,\cdot), \Lambda_{\mathrm{even},0}(a,\cdot)$). For the dual pair $P_a^{\mathrm{symm}}$, when $\Re s>1$ we have $\Re(s/2)>1/2=k$, so Lemma 3(1) applied to $P_a^{\mathrm{symm}}$ identifies $\Lambda_{\cos}(a,s)$ with $\frac12\mathcal M(g_a-1)(s/2)=\mathcal M\bigl((g_a-1)/2\bigr)(s/2)$. Now $(g_a(t)-1)/2=\sum_{n\in\mathbb Z\setminus\{0\}}\frac12 e^{2\pi i a n}e^{-\pi n^2 t}$. For $\sigma=\Re s>1$, the Gaussian Mellin integrals of the moduli equal $\frac12 G(\sigma)\lvert n\rvert^{-\sigma}$, which are summable over $n\in\mathbb Z\setminus\{0\}$; termwise integration via $u=\pi n^2 t$ yields
+$$
+ \Lambda_{\cos}(a,s)=\sum_{n\in\mathbb Z\setminus\{0\}}\frac{G(s)\,e^{2\pi i a n}}{2\lvert n\rvert^s}
+ =G(s)\sum_{n=1}^\infty\frac{e^{2\pi i a n}+e^{-2\pi i a n}}{2\,n^s}
+ =G(s)\sum_{n=1}^\infty\frac{\cos(2\pi a n)}{n^s}.
+$$
+Dividing by $G(s)\ne0$ on $\Re s>1$ identifies $Z_{\cos}(a,s)$ with the cosine Dirichlet series. Because $P_a^{\mathrm{symm}}$ has first constant $1$ for *every* $a$, $\Lambda_{\cos}(a,s)$ always has residue $-1$ at $s=0$, so dividing by $G(s)=2/s+O(1)$ gives punctured limit $(-1)/2=-1/2$ at $s=0$ for every $a$ (§1.2.2.2, `differentiableAt_update_of_residue`). At $s=1$, the term $-\delta_a/(1-s)$ vanishes identically when $a\ne0$, so $\Lambda_{\cos}(a,s)$ is holomorphic at $s=1$, making $Z_{\cos}(a,\cdot)$ entire whenever $a\ne0$.
+
+(4) At $a=0$, $P_0^{\mathrm{symm}}=P_0$ from (1) gives $\Lambda_{\cos,0}(0,s)=\Lambda_0(s)$ and $\Lambda_{\cos}(0,s)=\Lambda(s)$, and both $E_0$ and $Z_{\cos}(0,\cdot)$ update $\Lambda/G$ by $-1/2$ at $0$, so $Z_{\cos}(0,\cdot)=\zeta$. Substituting these into (2) gives $\Lambda_0(1-s)=\Lambda_0(s)$ and $\Lambda(1-s)=\Lambda(s)$. $\square$
+
+In Lean, `hurwitzEvenFEPair` (`HurwitzZetaEven.lean:254–277`) constructs $P_a$, `hurwitzEvenFEPair_zero_symm` (`:279–283`) proves `(hurwitzEvenFEPair 0).symm = hurwitzEvenFEPair 0` from `evenKernel_eq_cosKernel_of_zero` (`:102–105`), and `completedHurwitzZetaEven_eq` / `completedCosZeta_eq` (`:305–339`) perform the factor-$2$ cancellation in the pole terms. The completed functional equations `completedHurwitzZetaEven_one_sub` (`:365–372`) and `completedHurwitzZetaEven₀_one_sub` (`:375–382`) rewrite $(1-s)/2=1/2-s/2$ via `sub_div` and invoke `(hurwitzEvenFEPair a).functional_equation (s / 2)` and `functional_equation₀ (s / 2)`; the symmetric forms `completedCosZeta_one_sub` and `completedCosZeta₀_one_sub` (`:385–392`) substitute $1-s$ using `sub_sub_cancel`. The cosine Dirichlet-series lemmas are `hasSum_int_completedCosZeta` and `hasSum_nat_completedCosZeta` (`:488–526`, calling `hasSum_mellin_pi_mul_sq` from `MellinEqDirichlet.lean:81`, R3 in §1.2.2.1, and pairing $\pm n$ with `HasSum.nat_add_neg`), followed by `cosZeta`, `differentiable_cosZeta_of_ne_zero`, and `hasSum_nat_cosZeta` (`:697–748`). In `RiemannZeta.lean`, lines 64–88 and 100–109 deduce `completedCosZeta_zero`, `completedRiemannZeta₀_one_sub`, and `completedRiemannZeta_one_sub` in three rewrites each, and lines 125–128 deduce `cosZeta_zero`. [Lean, read] [HurwitzZetaEven.lean:254–392](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L254-L392) · [HurwitzZetaEven.lean:488–526](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L488-L526) · [HurwitzZetaEven.lean:697–753](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L697-L753) · [RiemannZeta.lean:64–128](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L64-L128)
+
+**Corollary 5 (de-completed functional equations and sharpness of the excluded sets).** Keep the Poisson assumption of Theorem 4 and the duplication and reflection formulas of §1.2.2.5 and [Chapter 2, §2.3.2.1](02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane).
+
+1. (`hurwitzZetaEven_one_sub`) For every $a\in\mathbb R/\mathbb Z$ and $s\in\mathbb C$, if $s\ne-n$ for all $n\in\mathbb N$ and $(a\ne0\text{ or }s\ne1)$, then
+$$
+ E_a(1-s)=2(2\pi)^{-s}\Gamma(s)\cos\Bigl(\frac{\pi s}{2}\Bigr)Z_{\cos}(a,s).
+$$
+2. (`cosZeta_one_sub`) For every $a\in\mathbb R/\mathbb Z$ and $s\in\mathbb C$, if $s\ne 1-n$ for all $n\in\mathbb N$, then
+$$
+ Z_{\cos}(a,1-s)=2(2\pi)^{-s}\Gamma(s)\cos\Bigl(\frac{\pi s}{2}\Bigr)E_a(s).
+$$
+3. (`riemannZeta_one_sub`) Specializing (1) to $a=0$: for every $s\in\mathbb C$, if $s\ne-n$ for all $n\in\mathbb N$ and $s\ne1$, then
+$$
+ \zeta(1-s)=2(2\pi)^{-s}\Gamma(s)\cos\Bigl(\frac{\pi s}{2}\Bigr)\zeta(s).
+$$
+
+**Proof.** We track where each exclusion is spent in Mathlib's total arithmetic.
+
+For (1), first express $E_a(1-s)$ as $\Lambda_{\mathrm{even}}(a,1-s)\cdot G(1-s)^{-1}$. By definition, $E_a(w)$ equals $\Lambda_{\mathrm{even}}(a,w)/G(w)$ away from $w=0$; at $w=0$, $G(0)=\pi^0\Gamma(0)=0$, so $\Lambda_{\mathrm{even}}(a,0)/G(0)=0$, which still agrees with the updated value $E_a(0)=-\delta_a/2$ *if and only if* $a\ne0$ ($\delta_a=0$). Thus $E_a(1-s)=\Lambda_{\mathrm{even}}(a,1-s)G(1-s)^{-1}$ holds whenever $a\ne0$ or $1-s\ne0$, which is precisely the hypothesis $(a\ne0\text{ or }s\ne1)$ (`hurwitzZetaEven_def_of_ne_or_ne`). Next, Theorem 4(2) rewrites $\Lambda_{\mathrm{even}}(a,1-s)$ as $\Lambda_{\cos}(a,s)$. From §1.2.2.5 (`Deligne.inv_Gammaℝ_one_sub`, lines 170–181), the Gamma-ratio identity
+$$
+ G(1-s)^{-1}=\Gamma_{\mathbb C}(s)\cos\Bigl(\frac{\pi s}{2}\Bigr)G(s)^{-1}
+$$
+holds under the hypothesis $\forall n\in\mathbb N,\;s\ne-n$: in Lean's proof of `inv_Gammaℝ_one_sub`, $s\ne-n$ ensures $\Gamma(s)\ne0$ so $\Gamma_{\mathbb C}(s)\ne0$ can be cancelled in $G(s)G(s+1)=\Gamma_{\mathbb C}(s)$ and $G(1-s)G(1+s)=1/\cos(\pi s/2)$ (at negative even integers $s=-2m$ with $m\ge1$, $G(s)=0$ while $G(1-s)\ne0$, so $Z_{\cos}(a,-2m)=0$ and $\Gamma(-2m)=0$ make the right side $0$ while $E_a(1+2m)\ne0$; at negative odd integers $s=-(2m+1)$, $G(1-s)=G(2m+2)\ne0$ and $G(s)\ne0$, while $\Gamma(-(2m+1))=0$ in Lean's totalized $\Gamma$ instead of cancelling the zero of $\cos(\pi s/2)$!). Finally, at $n=0$ the same hypothesis gives $s\ne0$, which drops the `Function.update` at $0$ in $Z_{\cos}(a,s)=\Lambda_{\cos}(a,s)G(s)^{-1}$. Rearranging the commutative product gives (1).
+
+For (2), $Z_{\cos}(a,w)$ updates at $w=0$ with $-1/2\ne0$ for *every* $a$, so writing $Z_{\cos}(a,1-s)=\Lambda_{\cos}(a,1-s)G(1-s)^{-1}$ requires $1-s\ne0$, i.e. $s\ne1$ (the case $n=0$ of $s\ne1-n$). Theorem 4(2) at $1-s$ gives $\Lambda_{\cos}(a,1-s)=\Lambda_{\mathrm{even}}(a,s)$; the cases $n=m+1$ of $s\ne1-n$ give $\forall m\in\mathbb N,\;s\ne-m$ for `inv_Gammaℝ_one_sub`; and $n=1$ gives $s\ne0$, which drops the update at $0$ in $E_a(s)=\Lambda_{\mathrm{even}}(a,s)G(s)^{-1}$.
+
+For (3), set $a=0$ in (1): the disjunction $(0\ne0\text{ or }s\ne1)$ simplifies to $s\ne1$, and Theorem 4(4) rewrites $E_0=\zeta$ and $Z_{\cos}(0,\cdot)=\zeta$. $\square$
+
+[Lean, read] [HurwitzZetaEven.lean:587–593](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L587-L593) · [HurwitzZetaEven.lean:760–783](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L760-L783) · [RiemannZeta.lean:178–180](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L178-L180) · [Deligne.lean:170–181](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L170-L181)
+
+**Hand calculation A (zero shift $a=0$: self-dual kernel, pole swap, $\zeta(-1)=-1/12$, and total-function failure at $s=1$).** Set $a=0\in\mathbb R/\mathbb Z$, so $\delta_0=1$ and $\psi(x)=\sum_{n=1}^\infty e^{-\pi n^2 x}$.
+
+1. *Kernels and modified kernels.* Both kernels coincide with Jacobi's theta series $f_0(x)=g_0(x)=1+2\psi(x)$, satisfying $1+2\psi(1/x)=x^{1/2}(1+2\psi(x))$. The weak pair $P_0=(f_0,f_0,1/2,1,1,1)$ is self-dual ($P_0^{\mathrm{symm}}=P_0$). Using $1+2\psi(x)-x^{-1/2}=2x^{-1/2}\psi(1/x)$ on $(0,1)$, the modified kernel is
+$$
+ f_{0,\mathrm{modif}}(x)=g_{0,\mathrm{modif}}(x)=\begin{cases}
+ 2\psi(x), & x>1,\\
+ 0, & x=1,\\
+ 2x^{-1/2}\psi(1/x), & 0<x<1.
+ \end{cases}
+$$
+Note that at $x=1$ the unmodified tails $f_0(1)-1=2\psi(1)>0$ are nonzero, while the definition sets $f_{0,\mathrm{modif}}(1)=0$.
+
+2. *Two-tail integral and pole swap.* Lemma 2(2) at $w=s/2$, divided by $2$, gives Riemann's manifestly symmetric formula
+$$
+ \Lambda_0(s)=\int_1^\infty\psi(x)\bigl(x^{s/2-1}+x^{(1-s)/2-1}\bigr)\,dx,\qquad
+ \Lambda(s)=\Lambda_0(s)-\frac{1}{s}-\frac{1}{1-s}=\Lambda_0(s)+\frac{1}{s(s-1)}\quad(s\ne0,1).
+$$
+Under $s\mapsto 1-s$, the two exponents $s/2-1$ and $(1-s)/2-1$ exchange places in the integrand, while the simple pole $-\frac{1}{s}$ at $s=0$ (residue $-1$, coming from $f_0=1$ at $\infty$) and the simple pole $-\frac{1}{1-s}$ at $s=1$ (residue $+1$, coming from $g_0=1$ at $0^+$) swap places: $-\frac{1}{1-s}-\frac{1}{1-(1-s)}=-\frac{1}{1-s}-\frac{1}{s}$.
+
+3. *Evaluating $s=2\mapsto 1-s=-1$.* At $s=2$, both hypotheses of `riemannZeta_one_sub` hold ($2\notin-\mathbb N$ and $2\ne1$). Using $\zeta(2)=\pi^2/6$ and $G(2)=\pi^{-1}\Gamma(1)=1/\pi$, we get $\Lambda(2)=G(2)\zeta(2)=\pi/6$. Since $-\frac{1}{2}-\frac{1}{1-2}=-\frac12+1=\frac12$, the entire integral at $s=2$ (and at $s=-1$) equals
+$$
+ \Lambda_0(2)=\Lambda_0(-1)=\frac{\pi}{6}-\frac{1}{2}=\frac{\pi-3}{6}\approx 0.0235988>0,
+$$
+strictly positive as required by $\psi(x)>0$ on $(1,\infty)$. Corollary 5(3) at $s=2$ gives
+$$
+ \zeta(-1)=2(2\pi)^{-2}\Gamma(2)\cos(\pi)\,\zeta(2)=\frac{2}{4\pi^2}\cdot 1\cdot(-1)\cdot\frac{\pi^2}{6}=-\frac{1}{12};
+$$
+equivalently, since $\Gamma(1/2)=\sqrt\pi$ and $\frac12\Gamma(-1/2)=\Gamma(1/2)$ give $\Gamma(-1/2)=-2\sqrt\pi$, we have $G(-1)=\pi^{1/2}\Gamma(-1/2)=-2\pi$ and $\zeta(-1)=\Lambda(-1)/G(-1)=(\pi/6)/(-2\pi)=-1/12$.
+
+4. *Why `riemannZeta_one_sub` fails as a total equality at $s=1$ and at $s\in-\mathbb N$.* At $s=1$, the completed identity $\Lambda(0)=\Lambda(1)$ holds unconditionally in Lean: both equal the stored value $\Lambda_0(1)-1=\frac{\gamma-\log(4\pi)}{2}$ (§§1.2.2.2–1.2.2.3), because the undefined pole term $1/0$ vanishes on opposite slots. Yet in the un-completed equation at $s=1$, the left side is $\zeta(0)=-1/2$ (`riemannZeta_zero`), whereas the right side evaluates to
+$$
+ 2(2\pi)^{-1}\Gamma(1)\cos\Bigl(\frac{\pi}{2}\Bigr)\zeta(1)=\frac{1}{\pi}\cdot 1\cdot 0\cdot\frac{\gamma-\log(4\pi)}{2}=0\ne-\frac{1}{2}:
+$$
+in classical analysis $\cos(\pi s/2)\zeta(s)\to(-\pi/2)\cdot 1=-\pi/2$ as $s\to1$ cancels the simple pole, whereas total evaluation multiplies $\cos(\pi/2)=0$ by the *finite* stored number $\zeta(1)$ and gets $0$. Likewise, at $s=0$ the left side is $\zeta(1)=\frac{\gamma-\log(4\pi)}{2}\ne0$, while on the right Lean's total $\Gamma(0)=0$ forces $0$; at $s=-2m$ ($m\ge1$) the left side is $\zeta(2m+1)>1$ while $\Gamma(-2m)=0$ and $\zeta(-2m)=0$ force $0$; and at $s=-(2m+1)$ ($m\ge0$), when $\zeta(2m+2)=\frac{(2\pi)^{2m+2}\lvert B_{2m+2}\rvert}{2(2m+2)!}>1$, both $\Gamma(-(2m+1))=0$ and $\cos\bigl(-\frac{(2m+1)\pi}{2}\bigr)=0$ force the right side to $0$. Every point excluded by `hs` and `hs'` is an actual falsification point of the total equality.
+
+**Hand calculation B (nonzero shift $a=1/3$: seam defect, single-pole migration, legal evaluation at $s=1$, and $E_{1/3}(-1)=1/36$).** Set $a=1/3\in\mathbb R/\mathbb Z$, so $a\ne0$ and $\delta_{1/3}=0$.
+
+1. *Asymmetric kernels and the seam at $x=1$.* The pair $P_{1/3}=(f_{1/3},g_{1/3},1/2,1,0,1)$ has kernels
+$$
+ f_{1/3}(x)=\sum_{n\in\mathbb Z}e^{-\pi(n+1/3)^2 x}=\sum_{\substack{m\ge1\\3\nmid m}}e^{-\pi m^2 x/9},\qquad
+ g_{1/3}(x)=1+2\sum_{n=1}^\infty\cos\Bigl(\frac{2\pi n}{3}\Bigr)e^{-\pi n^2 x},
+$$
+with $(f_0,g_0)=(0,1)$ whereas $P_{1/3}^{\mathrm{symm}}$ has $(f_0,g_0)=(1,0)$. As seen in the Example, $f_{1/3}(1)=g_{1/3}(1)$ while $(f_{1/3}(1)-0)-(g_{1/3}(1)-1)=1$, so setting both modified kernels to $0$ at $x=1$ is essential. Away from $x=1$,
+$$
+ f_{1/3,\mathrm{modif}}(x)=\begin{cases}
+ f_{1/3}(x), & x>1,\\
+ f_{1/3}(x)-x^{-1/2}, & 0<x<1,
+ \end{cases}\qquad
+ g_{1/3,\mathrm{modif}}(x)=\begin{cases}
+ g_{1/3}(x)-1, & x>1,\\
+ g_{1/3}(x), & 0<x<1:
+ \end{cases}
+$$
+because $f_0=0$, $g_{1/3}$ requires **no** subtraction on $(0,1)$ — indeed $g_{1/3}(x)=x^{-1/2}f_{1/3}(1/x)=O(x^{-1/2}e^{-\pi/(9x)})$ already vanishes faster than every power as $x\to0^+$.
+
+2. *Single-pole migration.* Theorem 4(2) with $\delta_{1/3}=0$ reads
+$$
+ \Lambda_{\mathrm{even}}(1/3,s)=\Lambda_{\mathrm{even},0}(1/3,s)-\frac{1}{1-s},\qquad
+ \Lambda_{\cos}(1/3,s)=\Lambda_{\cos,0}(1/3,s)-\frac{1}{s}.
+$$
+Here $\Lambda_{\mathrm{even}}(1/3,s)$ is holomorphic at $s=0$ and has a single simple pole at $s=1$ (residue $+1$), while $\Lambda_{\cos}(1/3,s)$ is holomorphic at $s=1$ and has a single simple pole at $s=0$ (residue $-1$). Under $s\mapsto 1-s$, the lone pole $-\frac{1}{1-(1-s)}=-\frac{1}{s}$ of $\Lambda_{\mathrm{even}}(1/3,1-s)$ migrates to $s=0$ and matches the lone pole of $\Lambda_{\cos}(1/3,s)$.
+
+3. *Closed-form Dirichlet series on $\Re s>1$ and holomorphy at $s=1$.* Grouping $m=\lvert 3n+1\rvert$ over $n\in\mathbb Z$ enumerates all positive integers $m\equiv\pm1\pmod3$ once each, so for $\Re s>1$,
+$$
+ E_{1/3}(s)=\frac{3^s}{2}\sum_{\substack{m\ge1\\3\nmid m}}m^{-s}=\frac{3^s}{2}(1-3^{-s})\zeta(s)=\frac{3^s-1}{2}\zeta(s).
+$$
+For $Z_{\cos}(1/3,s)$, $\cos(2\pi n/3)$ equals $+1$ when $3\mid n$ and $-1/2$ when $3\nmid n$, giving for $\Re s>1$
+$$
+ Z_{\cos}(1/3,s)=3^{-s}\zeta(s)-\frac{1}{2}(1-3^{-s})\zeta(s)=\frac{3^{1-s}-1}{2}\zeta(s).
+$$
+Both identities extend analytically to $\mathbb C\setminus\{1\}$. Moreover, as $s\to1$, $\frac{3^{1-s}-1}{2}=-\frac{\log 3}{2}(s-1)+O\bigl((s-1)^2\bigr)$ cancels the simple pole $\frac{1}{s-1}+O(1)$ of $\zeta(s)$, confirming Theorem 4(3) that $Z_{\cos}(1/3,\cdot)$ is entire with value $Z_{\cos}(1/3,1)=-\frac{\log 3}{2}$ (which also equals the conditionally convergent Fourier series $\sum_{n=1}^\infty\cos(2\pi n/3)/n=-\Re\log(1-e^{2\pi i/3})=-\frac12\log 3$).
+
+4. *Legal evaluation at $s=1$ versus reverse-direction failure.* Because $a=1/3\ne0$, the hypothesis $(a\ne0\text{ or }s\ne1)$ of `hurwitzZetaEven_one_sub` holds **at $s=1$** (and $1\notin-\mathbb N$). Corollary 5(1) at $(1/3,1)$ is therefore a valid Lean theorem:
+$$
+ E_{1/3}(0)=2(2\pi)^{-1}\Gamma(1)\cos\Bigl(\frac{\pi}{2}\Bigr)Z_{\cos}(1/3,1)=\frac{1}{\pi}\cdot 1\cdot 0\cdot\Bigl(-\frac{\log 3}{2}\Bigr)=0,
+$$
+which agrees with $E_{1/3}(0)=-\delta_{1/3}/2=0$ and with $\lim_{s\to0}\frac{3^s-1}{2}\zeta(s)=0\cdot(-1/2)=0$: because $Z_{\cos}(1/3,\cdot)$ has no pole at $s=1$, the zero of $\cos(\pi s/2)$ honestly produces $E_{1/3}(0)=0$. By contrast, the reverse equation `cosZeta_one_sub` excludes $s=1$ ($n=0$ in $s\ne1-n$) even for $a=1/3\ne0$: at $s=1$, its left side is $Z_{\cos}(1/3,0)=-1/2$ (`cosZeta_apply_zero`, matching $\frac{3^1-1}{2}\zeta(0)=1\cdot(-1/2)=-1/2$), whereas on the right $\cos(\pi/2)=0$ multiplies the finite stored value $E_{1/3}(1)=\frac{\gamma-\log(4\pi)}{2}+\frac{3\log 3}{2}$ to give $0\ne-1/2$!
+
+5. *Evaluating $s=2\mapsto 1-s=-1$.* At $s=2$, $Z_{\cos}(1/3,2)=\frac{3^{-1}-1}{2}\zeta(2)=-\frac{1}{3}\cdot\frac{\pi^2}{6}=-\frac{\pi^2}{18}$ (and $\Lambda_{\cos}(1/3,2)=\Lambda_{\mathrm{even}}(1/3,-1)=G(2)Z_{\cos}(1/3,2)=-\frac{\pi}{18}$). Corollary 5(1) at $(1/3,2)$ yields
+$$
+ E_{1/3}(-1)=2(2\pi)^{-2}\Gamma(2)\cos(\pi)\,Z_{\cos}(1/3,2)=\frac{1}{2\pi^2}\cdot 1\cdot(-1)\cdot\Bigl(-\frac{\pi^2}{18}\Bigr)=\frac{1}{36}.
+$$
+Two independent checks agree: $\frac{3^{-1}-1}{2}\zeta(-1)=(-\frac13)(-\frac{1}{12})=\frac{1}{36}$, and in terms of the second Bernoulli polynomial $B_2(x)=x^2-x+\frac16$, $B_2(1/3)=\frac19-\frac13+\frac16=-\frac{1}{18}$ gives $-\frac{B_2(1/3)}{2}=\frac{1}{36}$ (`hurwitzZetaEven_one_sub_two_mul_nat` at $k=1$). [DLMF 25.11.14](https://dlmf.nist.gov/25.11#E14)
+
+**Reconnecting to `riemannZeta_one_sub` and downstream consumers.** At the archive's reduction `Formalism.VW.rh_of_right` (`src/Formalism/GammaFactorNonvanishing/RhOfRight.lean:28`, read in §1.4.2), a hypothetical zero $\zeta(s)=0$ in $\Re s<1/2$ with $s\ne1$ and $s\notin\{-2,-4,\dots\}$ is reflected to $w=1-s$, where $\Re w>1/2$. Line 28 invokes `riemannZeta_one_sub hnat h1` at argument $w=1-s$, discharging the two hypotheses of Corollary 5(3) as follows:
+
+- `hnat : ∀ n : ℕ, 1 - s ≠ -n`: if $1-s=-n$, then $\Re(1-s)=-n\le0$, contradicting $\Re(1-s)>1/2$ (`linarith` on `ht : s.re < 1 / 2` and `(n : ℝ) ≥ 0`, lines 23–26);
+- `h1 : 1 - s ≠ 1`: if $1-s=1$, then $s=0$, contradicting $\zeta(s)=0$ against `riemannZeta_zero` ($\zeta(0)=-1/2\ne0$, lines 17–22).
+
+After rewriting `1 - (1 - s) = s`, `rh_of_right` obtains $0=\zeta(s)=2(2\pi)^{-(1-s)}\Gamma(1-s)\cos(\pi(1-s)/2)\zeta(1-s)$ and rules out each factor as explained in §1.4.2. No new RH research is involved: every step from $f_a(1/x)=x^{1/2}g_a(x)$ and `Gamma_mul_Gamma_add_half` to `RhOfRight.lean:28` is now accounted for in §§1.2.2.1–1.2.2.6 and Chapter 2, §2.3.2.1. A scan of the pinned Mathlib tree and all 175,187 `.lean` files of archive A2 records the consumers of this subsection's declarations below (archive consumers are listed without new analysis of their surrounding modules).
+
+| Declaration produced here | Direct consumers in pinned Mathlib / archive A2 | Role in the book |
+|---|---|---|
+| `WeakFEPair.functional_equation₀`, `WeakFEPair.functional_equation` ([AbstractFuncEq.lean:421–429](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L421-L429)) | `completedHurwitzZetaEven_one_sub` and `_₀_one_sub` ([HurwitzZetaEven.lean:370, 380](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L370)); `completedHurwitzZetaOdd_one_sub` ([HurwitzZetaOdd.lean:365](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean#L365), $f_0=g_0=0$); archive `WeakFEPair` instances and `f_modif`/`Λ₀` bounds in `TateMain.lean:115, 131`, `ContinuousOnThetaCFunLtr.lean:175–220`, `FunctionalEquationPairEntirePartBound.lean:8–55`, `ContinuousSetIntegralIoiOne.lean:121–202`, `ImportsSide.lean:8–17` | Theorem 4 (even case, non-zero pole corrections) and §1.3.2.1 (odd case, zero pole corrections) |
+| `completedHurwitzZetaEven_one_sub` ([HurwitzZetaEven.lean:365–372](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L365-L372)) | `completedCosZeta_one_sub` (`:385`); `hurwitzZetaEven_one_sub` (`:766`); `completedRiemannZeta_one_sub` ([RiemannZeta.lean:108](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L108)); `ZMod.completedLFunction_one_sub_of_one_lt_even` → `completedLFunction_one_sub_even` ([ZMod.lean:415, 459–505](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L415)) → `IsPrimitive.completedLFunction_one_sub` ([DirichletContinuation.lean:284–314](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L284-L314)) | Theorem 4(4), Corollary 5, §1.3.4, and Chapter 2, §2.4.2 (even primitive Dirichlet branch) |
+| `completedRiemannZeta_one_sub` ([RiemannZeta.lean:106–109](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L106-L109)) | `IsPrimitive.completedLFunction_one_sub` ($N=1$ branch, `DirichletContinuation.lean:289`); archive `Claim.zeta` (`ClaimStrip.lean:99`) and `RiemannHypothesisOfEveryCharacter.lean:222` | §1.4.2 ("RH a second time") and Chapter 2, §2.4.3 |
+| `hurwitzZetaEven_one_sub` ([HurwitzZetaEven.lean:760–770](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L760-L770)) | `riemannZeta_one_sub` (`RiemannZeta.lean:180`); full Hurwitz formula `hurwitzZeta_one_sub` ([HurwitzZeta.lean:156–170](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZeta.lean#L156-L170)); Bernoulli special values `hurwitzZetaEven_one_sub_two_mul_nat` ([HurwitzZetaValues.lean:124–143](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaValues.lean#L124-L143), consumer in archive `BLval.lean:8, 35`) | Corollary 5(3) and Hand calculation B(5) |
+| `riemannZeta_one_sub` ([RiemannZeta.lean:178–180](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L178-L180)) | Archive `Formalism.VW.rh_of_right` (`RhOfRight.lean:28`), `RHofHalfPlane.lean:26, 56`, `ZetaZeroFreeRegion.lean:176` | §1.2.3, §1.4.2, and Chapter 2, §2.4.3 |
+
+**Remarks.**
+
+1. *Riemann (1859) and Jacobi (1829).* In his November 1859 *Monatsberichte* memoir `[Riemann1859]` (pp. 673–674; p. 3 of Wilkins's edition), Riemann sets $\psi(x)=\sum_{n=1}^\infty e^{-n^2\pi x}$, quotes $2\psi(x)+1=x^{-1/2}(2\psi(1/x)+1)$ from Jacobi's *Fundamenta Nova* `[Jacobi1829]` (p. 184), splits the Mellin integral of $\psi$ at $x=1$, substitutes $x\mapsto 1/x$ on $(0,1)$, and writes
+$$
+ \Pi\Bigl(\frac s2-1\Bigr)\pi^{-s/2}\zeta(s)=\frac{1}{s(s-1)}+\int_1^\infty\psi(x)\bigl(x^{s/2-1}+x^{-(1+s)/2}\bigr)\,dx,
+$$
+noting immediately that the right-hand side "remains unchanged when $s$ is replaced by $1-s$". Because Riemann starts from $\psi(x)=(f_0(x)-1)/2$, the upper subtraction $f_0=1$ is built in before splitting; on $(0,1)$, rewriting $\psi(x)=\frac12 x^{-1/2}+\frac12 x^{-1/2}\cdot 2\psi(1/x)-\frac12$ produces both pole terms $\frac{1}{s-1}-\frac{1}{s}=\frac{1}{s(s-1)}$ from the lower interval $(0,1)$. Mathlib's `WeakFEPair` obtains the identical right-hand side without splitting an already-convergent integral on $\Re s>1$ first: it builds the entire function $\Lambda_0$ directly as the $(0,\infty)$-Mellin transform of $f_{\mathrm{modif}}$, proves $\Lambda_0(k-s)=\varepsilon\Lambda_0^{\mathrm{symm}}(s)$ on all of $\mathbb C$ by global $t\mapsto 1/t$ inversion, and only connects $\Lambda$ back to $\mathcal M(f-f_0)$ on $\Re s>k$ afterwards (`hasMellin`).
+
+2. *Hurwitz's formula (1882) via parity decomposition.* Classically, Hurwitz `[Hurwitz1882]` proved the functional equation of $\zeta(s,a)=\sum_{n=0}^\infty(n+a)^{-s}$ ($0<a\le1$) by contour integration around a Hankel loop, obtaining `[DLMF 25.11.9]`
+$$
+ \zeta(1-s,a)=\frac{2\,\Gamma(s)}{(2\pi)^s}\sum_{n=1}^\infty\frac{\cos\bigl(\frac{\pi s}{2}-2\pi n a\bigr)}{n^s}\qquad(\Re s>1,\;0<a\le1).
+$$
+David Loeffler's Mathlib formalization avoids Hankel contours altogether by splitting $\zeta(s,a)=E_a(s)+O_a(s)$ into its even and odd parts in $a\in\mathbb R/\mathbb Z$: Theorem 4 and Corollary 5(1) give $E_a(1-s)=\Gamma_{\mathbb C}(s)\cos(\pi s/2)Z_{\cos}(a,s)$ at weight $k=1/2$ with $(f_0,g_0)=(\delta_a,1)$, §1.3.2.1 gives $O_a(1-s)=\Gamma_{\mathbb C}(s)\sin(\pi s/2)Z_{\sin}(a,s)$ at weight $k=3/2$ with $(f_0,g_0)=(0,0)$, and `hurwitzZeta_one_sub` (`HurwitzZeta.lean:156–170`) adds the two and expands $\cos(\pi s/2)\cos(2\pi n a)+\sin(\pi s/2)\sin(2\pi n a)=\cos(\pi s/2-2\pi n a)$ into the exponential zeta functions $L(e^{\pm 2\pi i a\cdot},s)$. Notice also that Mathlib's $H_a=\text{`hurwitzZeta`}$ on $\mathbb R/\mathbb Z$ satisfies $H_0(s)=\zeta(s)$ (`hurwitzZeta_zero`, $a=0$ corresponds to classical $a=1$, where $\zeta(s,1)=\zeta(s)$, `[DLMF 25.11.3]`), whereas for $0<a<1$ it agrees with classical $\zeta(s,a)$ (`hasSum_nat_hurwitzZeta_of_mem_Ioc`). [DLMF 25.4.1–4](https://dlmf.nist.gov/25.4#E1) · [DLMF 25.5.13–14](https://dlmf.nist.gov/25.5#E13) · [DLMF 25.11.3, 25.11.9](https://dlmf.nist.gov/25.11#E9)
+
+3. *Deligne's archimedean factors.* The notation $\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2)$ and $\Gamma_{\mathbb C}(s)=2(2\pi)^{-s}\Gamma(s)$ in `Deligne.lean` follows Deligne `[Deligne1979]`, §5.3: the completed even Hurwitz function carries the factor $\Gamma_{\mathbb R}(s)$, the completed odd Hurwitz function (§1.3.2.1) carries $\Gamma_{\mathbb R}(s+1)$, and their product $\Gamma_{\mathbb R}(s)\Gamma_{\mathbb R}(s+1)=\Gamma_{\mathbb C}(s)$ (§1.2.2.5) is what turns division by $\Gamma_{\mathbb R}(1-s)$ into multiplication by $\Gamma_{\mathbb C}(s)\cos(\pi s/2)$ or $\Gamma_{\mathbb C}(s)\sin(\pi s/2)$.
+
+4. *Where `ZMod.completedLFunction_one_sub_even` still uses the identity theorem.* Although `completedHurwitzZetaEven_one_sub` holds for *every* $s\in\mathbb C$, the finite discrete-Fourier combination for an even function $\Phi:\mathbb Z/N\mathbb Z\to\mathbb C$ in `ZMod.lean:409–505` first proves `completedLFunction_one_sub_of_one_lt_even` on $\Re s>1$ (applying `completedHurwitzZetaEven_one_sub` termwise at line 415 and identifying $\sum_x\Phi(x)Z_{\cos}(x/N,s)$ with $L(\widehat\Phi,s)$ via the Dirichlet series) and then extends to the connected open domain $U=\{s:(s\ne0\lor\sum\Phi=0)\land(s\ne1\lor\Phi(0)=0)\}$ by `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` around $s=2$. When $\chi$ is a primitive character of conductor $N>1$, both $\sum\chi=0$ and $\chi(0)=0$ hold, so $U=\mathbb C$ (`DirichletContinuation.lean:302`), while $N=1$ calls `completedRiemannZeta_one_sub` directly (`:289`).
+
+**Source note.** The reading is R3 for `AbstractFuncEq.lean:80–138` (`WeakFEPair`, `IsStrongFEPair`, `h_feq'`, `symm`), `184–203` (`functional_equation_aux`), `247–316` (`f_modif`, `g_modif`, `hf_modif_int`, `hf_modif_FE`, `hf_modif_top`, `toStrongFEPair`, `isStrongFEPair_toStrongFEPair`), `376–388` (`Λ₀`, `Λ`, `Λ₀_eq`, `symm_Λ₀_eq`) and `420–429` (`functional_equation₀`, `functional_equation`); for `MellinTransform.lean:91–132` (`mellin`, `mellin_cpow_smul`, `mellin_const_smul`, `mellin_div_const`, `mellin_comp_rpow`) and `IntegralEqImproper.lean:1131–1143` (`integral_comp_rpow_Ioi`); for `HurwitzZetaEven.lean:102–105` (`evenKernel_eq_cosKernel_of_zero`), `254–392` (`hurwitzEvenFEPair`, `hurwitzEvenFEPair_zero_symm`, `hurwitzEvenFEPair_neg`, `completedHurwitzZetaEven`, `completedHurwitzZetaEven_eq`, `completedCosZeta`, `completedCosZeta_eq`, `completedHurwitzZetaEven_one_sub`, `completedHurwitzZetaEven₀_one_sub`, `completedCosZeta_one_sub`, `completedCosZeta₀_one_sub`), `488–526` (`hasSum_int_completedCosZeta`, `hasSum_nat_completedCosZeta`), `587–593` (`hurwitzZetaEven_def_of_ne_or_ne`), `697–753` (`cosZeta`, `cosZeta_apply_zero`, `cosZeta_neg_two_mul_nat_add_one`, `differentiableAt_cosZeta`, `differentiable_cosZeta_of_ne_zero`, `hasSum_int_cosZeta`, `hasSum_nat_cosZeta`, `LSeriesHasSum_cos`), and `760–783` (`hurwitzZetaEven_one_sub`, `cosZeta_one_sub`); for `RiemannZeta.lean:64–109, 121–128, 178–180`; and for the consumer bodies `HurwitzZeta.lean:156–191`, `HurwitzZetaValues.lean:124–143`, `ZMod.lean:409–425, 459–505`, `DirichletContinuation.lean:284–314`, and archive `RhOfRight.lean:1–62` and `ClaimStrip.lean:75–104`. Inherited from earlier sections are the theta-kernel bounds, Mellin convergence/differentiation criteria, `f_modif_aux1`/`f_modif_aux2`/`hasMellin`, and `hasSum_mellin_pi_mul_sq` (§1.2.2.1), `differentiableAt_update_of_residue` and `differentiable_Gammaℝ_inv` (§1.2.2.2), the stored value at $1$ (§1.2.2.3), `inv_Gammaℝ_one_sub` and the duplication formula (§1.2.2.5), the odd Hurwitz reflection (§1.3.2.1), and Euler's integral, recurrence, reflection, and improper-integral criteria for $\Gamma$ ([Chapter 2, §§2.3.2.1 and 2.3.2.3–2.3.2.4](02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane)). Inputs retained by name (statements read, proof bodies not read here) are the Gaussian Poisson summation theorem `Complex.tsum_exp_neg_quadratic` (`PoissonSummation.lean:87`, feeding `jacobi_theta_two_functional_equation` at `TwoVariable.lean:465`), the general measure-theoretic change-of-variables theorem `integral_image_eq_integral_abs_deriv_smul` (`IntegralEqImproper.lean:1137`), `isLittleO_exp_neg_mul_rpow_atTop`, `HasSum.nat_add_neg`, `summable_one_div_int_add_rpow`, `cosZeta_two_mul_nat'` (`HurwitzZetaValues.lean:79`), `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, and `Countable.isConnected_compl_of_one_lt_rank`; archive consumers outside `RhOfRight.lean` and `ClaimStrip.lean` are listed from a static grep without reading their dependency cones. Riemann's 1859 memoir was read in D. R. Wilkins's German transcription and English translation (pp. 673–674 of *Monatsberichte*, p. 3 of Wilkins), alongside NIST DLMF §§25.4, 25.5, and 25.11; Hurwitz (1882) and Deligne (1979) were verified bibliographically without reading their original pages. The [proof map](../notes/proof-map.md#p1-chapter-1-completed-hurwitz-functional-equation) records all pinned paths and lines. The two traps in the Example, hand calculations A and B, and the consumer table are ours; the exact rational Bernoulli checks and Gauss–Legendre quadrature checks (`verify_fe_pair.py`) are consistency checks, not formal proof certificates, and no Lean compilation was run.
 
 ### 1.2.3 The excluded points are exactly the trivial zeros
 
@@ -712,8 +1051,8 @@ version is at least as strong: it asserts in addition that there are no zeros wi
 other than the trivial ones. That extra content is a known theorem — it follows from the
 functional equation in the form
 $\zeta(1-s)=2(2\pi)^{-s}\Gamma(s)\cos(\pi s/2)\zeta(s)$ for $s\notin\{0,-1,-2,\dots\}$, $s\ne1$
-[Lean] (`riemannZeta_one_sub`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:178`; its Gamma
-factor comes from the duplication and reflection formulas, see §1.2.2.5), together
+[Lean, read] (`riemannZeta_one_sub`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:178`; its Gamma
+factor comes from the duplication and reflection formulas and its completed reflection from the theta-kernel pair, see §§1.2.2.5–1.2.2.6), together
 with $\zeta\ne0$ on $\Re s\ge1$ — so the two formulations are equivalent [Expository]. The
 archive in fact proves the stronger form, and Section 1.4 shows the case analysis it uses.
 

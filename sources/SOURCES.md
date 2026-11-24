@@ -383,6 +383,11 @@ All from
 | `Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean` | 2026-11-24T18:20Z | 1980 | `80d8623ab00e0ba0e9cf9bfb373373bb803ab710b932f785744c5039a9e84dbd` |
 | `Mathlib/MeasureTheory/Function/L1Space/Integrable.lean` | 2026-11-24T18:20Z | 57662 | `86008d68eeb9281c5a382f49c21ed58246c5f9a5f0d5268f8eeadb050e70f` |
 | `Mathlib/MeasureTheory/Function/AEEqFun.lean` | 2026-11-24T18:20Z | 41777 | `2e41fe38b0d1bf176b393999755bab74bc6a7ca8a6268ea6b27b9672a5ec1b3f` |
+| `Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean` | 2026-11-24T18:35Z | 21889 | `34e066b1ad3c63e74d5f22ad44371a4439daefd84b3a1130a3186fc509d7d7d5` |
+| `Mathlib/NumberTheory/LSeries/HurwitzZetaOdd.lean` | 2026-11-24T18:35Z | 28752 | `cce8ee2bc4e5329f8931146110e9e54c7a230a89dcdee0012d0131f5019033bd` |
+| `Mathlib/NumberTheory/LSeries/HurwitzZetaValues.lean` | 2026-11-24T18:35Z | 12703 | `3fca4dd4cdc933d7cbba189deacb5e25d2bffc7cc9d65fc48252efb1f32d488e` |
+| `Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean` | 2026-11-24T18:35Z | 28774 | `037f03fd24d0df4a30cda7801283ba455ff706eae4a9d3e78bbd2c27b500e807` |
+| `Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean` | 2026-11-24T18:35Z | 12373 | `4908abbf56fc73f7b342acc6f7e2db66b12792338d7483b27107cb66eb59c2d8` |
 
 Chapter 13 §13.4.10 re-fetched `FinGroupCharZero.lean` on 2026-11-24T13:21Z (same SHA-256) and reads
 `FDRep.simple_iff_char_is_norm_one` with `simple_iff_end_is_rank_one` (lines 90–128). From `Character.lean`,
@@ -430,6 +435,11 @@ and classroom examples. [Mathlib attribution](https://github.com/leanprover-comm
 | [Crossref record for T. Tao, *An Introduction to Measure Theory*, GSM 126 (2011)](https://api.crossref.org/works/10.1090/gsm/126) | 2026-11-24T18:22Z | 1831 | `5e3acb7379f3bf056cadea7299e89e2249c972f7359a22a6c2e21f89786943dd` |
 | [Crossref record for A. Weil, *Basic Number Theory* (1967/1995)](https://api.crossref.org/works/10.1007/978-3-642-61945-8) | 2026-11-24T18:22Z | 3244 | `d35482310444b5c39100405d9e6700d63b07a6e8b62d83363bd0397b8d4a83ba` |
 | [Crossref record for N. Bourbaki, *Integration II, Chapters 7–9* (2004)](https://api.crossref.org/works/10.1007/978-3-642-59315-4) | 2026-11-24T18:22Z | 2933 | `5c5200ee55000d1852032dd6555b6f55e245629f723324398455b92e1af9c627` |
+| [B. Riemann (1859), German transcription by D. R. Wilkins](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/Zeta.pdf) | 2026-11-24T18:42Z | 117820 | `ba7fd13614b373798f9d953cee4bb7b4aa7764067edddaa7561e835a6a3331a2` |
+| [B. Riemann (1859), English translation by D. R. Wilkins](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/EZeta.pdf) | 2026-11-24T18:42Z | 119504 | `6b24341e3406d165baeb7ab1e00cfa0a544d0399e2b33175dfa71480bdddd24f` |
+| [DLMF §25.4](https://dlmf.nist.gov/25.4) | 2026-11-24T18:40Z | 55882 | `f682a6c0749e1e7edd7d85d4bcfa0337fda30352cc7364467bd338861dce9c7f` |
+| [DLMF §25.5](https://dlmf.nist.gov/25.5) | 2026-11-24T18:40Z | 226601 | `14f4b6c436f01bab2b229daa9dd467a29eba9d537b7741c349d1b290322ba73c` |
+| [DLMF §25.11](https://dlmf.nist.gov/25.11) | 2026-11-24T18:40Z | 535357 | `1a67c02e3d4b69fe727afde224cfe8addb53df4cd324d2a2d12ffc0fcf4f0412` |
 
 **Chapter 15, §15.4.3.1.** The Mathlib files above from `DistribChar.lean` to
 `Padics/ProperSpace.lean` were retrieved from the pinned commit on 2026-11-24 (UTC) for the
@@ -711,6 +721,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
   ISBN 978-0-387-95097-6 (cited in Chapters 4, 7, and 16).
   Verified: 2026-11-21 via Springer GTM 74 catalogue (`ISBN 978-0-387-95097-6`).
+- **[Deligne1979]** P. Deligne, "Valeurs de fonctions $L$ et périodes d'intégrales", in A. Borel
+  and W. Casselman (eds.), *Automorphic Forms, Representations and $L$-Functions* (Proc. Sympos.
+  Pure Math., Oregon State Univ., Corvallis, 1977), Proceedings of Symposia in Pure Mathematics 33,
+  Part 2, American Mathematical Society, Providence, RI, 1979, pp. 313–346 (§5.3, archimedean
+  Gamma factors $\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2)$ and
+  $\Gamma_{\mathbb C}(s)=2(2\pi)^{-s}\Gamma(s)$, cited in Chapter 1, §1.2.2.6, following the
+  docstring of Mathlib's `Deligne.lean`).
+  Verified: 2026-11-25 via AMS PSPM vol. 33, Part 2 (1979), pp. 313–346, and Mathlib
+  `Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean:25–33`; original text not read.
 - **[DeligneRibet1980]** P. Deligne and K. A. Ribet, "Values of abelian $L$-functions at negative
   integers over totally real fields", *Inventiones Mathematicae* 59 (1980), no. 3, 227–286,
   doi:10.1007/BF01453237 (cited in Chapter 18).
@@ -816,6 +835,13 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   State Univ., Corvallis, 1977), Proceedings of Symposia in Pure Mathematics 33, Part 1, American
   Mathematical Society, Providence, RI, 1979, pp. 275–285 (cited in Chapters 7 and 14).
   Verified: 2026-11-21 via AMS PSPM vol. 33, Part 1 (1979), pp. 275–285.
+- **[Hurwitz1882]** A. Hurwitz, "Einige Eigenschaften der Dirichlet'schen Functionen
+  $F(s)=\sum(\frac{D}{n})\cdot\frac{1}{n^s}$, die bei der Bestimmung der Classenanzahlen binärer
+  quadratischer Formen auftreten", *Zeitschrift für Mathematik und Physik* 27 (1882), 86–101;
+  reprinted in *Mathematische Werke von Adolf Hurwitz*, Band 1, Birkhäuser, Basel, 1932, pp. 72–88
+  (cited in Chapter 1, §1.2.2.6, for Hurwitz's functional equation of $\zeta(s,a)$).
+  Verified: 2026-11-25 via NIST DLMF §25.11(iii) / reference list for equation (25.11.9) and
+  *Mathematische Werke* Bd. 1, pp. 72–88; original 1882 article not read.
 - **[Huxley1972]** M. N. Huxley, "On the difference between consecutive primes", *Inventiones
   Mathematicae* 15 (1972), no. 2, 164–170, doi:10.1007/BF01418933 (cited in Chapter 4).
   Verified: 2026-11-23 via Crossref (`doi:10.1007/BF01418933`; Crossref issue date 1971-06), vol. 15, no. 2, pp. 164–170. The density exponent 12/5 was checked against arXiv:2607.04632, Theorem 4.2 and (18).
@@ -979,8 +1005,14 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-21 via EuDML / Springer (`doi:10.1007/BF01403065`), *Invent. Math.* vol. 34, no. 3 (1976), pp. 151–162.
 - **[Riemann1859]** B. Riemann, "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse",
   *Monatsberichte der Königlich Preußischen Akademie der Wissenschaften zu Berlin* (November 1859),
-  671–680 (cited in Chapter 7).
-  Verified: 2026-11-21 via Berlin Academy *Monatsberichte* (Nov. 1859, pp. 671–680).
+  671–680 (cited in Chapter 1, §1.2.2.6, and Chapter 7).
+  Verified: 2026-11-21 via Berlin Academy *Monatsberichte* (Nov. 1859, pp. 671–680); for Chapter 1,
+  §1.2.2.6 (2026-11-24T18:42Z), pp. 673–674 ($\psi(x)=\sum_{n=1}^\infty e^{-n^2\pi x}$, Jacobi's
+  theta inversion citing *Fund. Nova* p. 184, and the split integral at $x=1$ with pole term
+  $\frac{1}{s(s-1)}$) read in D. R. Wilkins's German transcription (`Zeta.pdf`, p. 3, 117,820 B,
+  SHA-256 `ba7fd13614b373798f9d953cee4bb7b4aa7764067edddaa7561e835a6a3331a2`) and English
+  translation (`EZeta.pdf`, p. 3, 119,504 B, SHA-256
+  `6b24341e3406d165baeb7ab1e00cfa0a544d0399e2b33175dfa71480bdddd24f`).
 - **[Roth1953]** K. F. Roth, "On certain sets of integers", *Journal of the London Mathematical
   Society* (1) 28 (1953), no. 1, 104–109, doi:10.1112/jlms/s1-28.1.104 (cited in Chapter 17).
   Verified: 2026-11-22 via Crossref / LMS (`doi:10.1112/jlms/s1-28.1.104`), *J. London Math. Soc.* vol. s1-28, no. 1 (1953), pp. 104–109.
@@ -2390,6 +2422,13 @@ ordinary normalization. [DLMF 25.11.13](https://dlmf.nist.gov/25.11.E13)
 - Alpöge archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, read from the tarball: `src/Formalism/GammaFactorNonvanishing/RhOfRight.lean` (SHA-256 `7e2c0b519ee420192cad8fb281c2d2bfebae2ba553342fd579c81c2aa0bd3dc5`), whose line 28 calls `riemannZeta_one_sub`, and `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/DigammaTendstoLogSubHarmonic.lean` (SHA-256 `45b897beaeba6856b67e6862361611be6f30055cdce63c64c58f68ebc3c99a48`), whose lines 8–29 use `Real.BohrMollerup.ge_logGammaSeq` and `Real.convexOn_log_Gamma` directly.
 - E. Artin, *The Gamma Function*, translated by Michael Butler (Holt, Rinehart and Winston, New York, 1964), from *Einführung in die Theorie der Gammafunktion* (Hamburger Mathematische Einzelschriften 11, Teubner, Leipzig, 1931). Read in the scan hosted by the nLab (retrieved 2026-11-24T16:58Z, SHA-256 in the classical-source table above). Used: the preface footnote crediting the method to H. Bohr and J. Mollerup, *Lærebog i matematisk Analyse* III (Copenhagen, 1922), pp. 149–164 (p. vi); the non-uniqueness of solutions of the recurrence (p. 13); Theorem 2.1 and its proof (pp. 14–15); log-convexity of integrals by Riemann sums (Theorem 1.9, pp. 9–10); the multiplication formula, its constant and Legendre's case $p=2$ (pp. 22–24). The 1922 text of Bohr and Mollerup was not read. [Internet Archive record](https://archive.org/details/gammafunction0000arti) · [nLab scan](https://ncatlab.org/nlab/files/Artin-TheGammaFunction.pdf)
 - NIST Digital Library of Mathematical Functions, v1.2.8, retrieved 2026-11-24T16:57Z. The Bohr–Mollerup theorem (§5.5(iv)), the duplication formula with its exclusion $2z\notin\{0,-1,-2,\dots\}$ (5.5.5), Gauss's product (5.8.1) and Hölder's inequality for integrals (1.7.5) are the classical statements compared with the text; the total-function form of the duplication formula is Mathlib's. [DLMF §5.5(iv)](https://dlmf.nist.gov/5.5.iv) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5) · [DLMF 5.8.1](https://dlmf.nist.gov/5.8#E1) · [DLMF 1.7.5](https://dlmf.nist.gov/1.7#E5)
+
+### Chapter 1, §1.2.2.6 — From the theta transformation to the completed Hurwitz functional equation
+
+- Mathlib at the A2 manifest pin, `0df444a360eaa60ab8c11dca51a86af692955474`, files fetched from that commit on 2026-11-24T18:35Z (SHA-256 in §4 above; byte-identical to earlier copies of `HurwitzZetaEven.lean`, `RiemannZeta.lean`, `MellinTransform.lean`, and `IntegralEqImproper.lean`). David Loeffler's `AbstractFuncEq.lean` defines `WeakFEPair`, `symm`, the piecewise modified kernels `f_modif`/`g_modif` with zero at $x=1$, `toStrongFEPair`, the global Mellin inversion `functional_equation_aux`, `functional_equation₀` and the pole-cancelling `functional_equation`; his `MellinTransform.lean` supplies `mellin_comp_rpow`, `mellin_cpow_smul` and `mellin_const_smul`, resting on Anatole Dedecker and Bhavik Mehta's `integral_comp_rpow_Ioi` in `IntegralEqImproper.lean`. Loeffler's `HurwitzZetaEven.lean` specializes the pair at $k=1/2$, $\varepsilon=1$, $(f_0,g_0)=(\delta_a,1)$ to prove `completedHurwitzZetaEven_one_sub`, identifies `completedCosZeta`/`cosZeta` with the cosine Dirichlet series on $\Re s>1$, proves zero-shift self-duality `hurwitzEvenFEPair_zero_symm`, and de-completes to `hurwitzZetaEven_one_sub` and `cosZeta_one_sub`; `RiemannZeta.lean`, `HurwitzZeta.lean`, `HurwitzZetaValues.lean`, `ZMod.lean`, and `DirichletContinuation.lean` (with Michael Stoll) consume them. [AbstractFuncEq.lean:80–429](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean#L80-L429) · [HurwitzZetaEven.lean:254–783](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L254-L783) · [RiemannZeta.lean:64–180](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L64-L180) · [Fixed proof locations and reading boundary](../notes/proof-map.md#p1-chapter-1-completed-hurwitz-functional-equation)
+- Alpöge archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` (recomputed 2026-11-25): `src/Formalism/GammaFactorNonvanishing/RhOfRight.lean:28` (`7e2c0b51…`, calls `riemannZeta_one_sub` at $1-s$) and `src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:99` (calls `completedRiemannZeta_one_sub`); full-archive consumer grep recorded in the run directory's `archive-grep.txt`.
+- B. Riemann, "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse", *Monatsberichte der Berliner Akademie* (Nov. 1859), pp. 671–680; pp. 673–674 read in D. R. Wilkins's German transcription and English translation (p. 3, retrieved 2026-11-24T18:42Z, SHA-256 in the classical-source table above), citing C. G. J. Jacobi, *Fundamenta Nova* (1829), p. 184 (`[Jacobi1829]`). A. Hurwitz (1882, `[Hurwitz1882]`) and P. Deligne (1979, §5.3, `[Deligne1979]`) verified bibliographically; originals not read. [Wilkins German PDF](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/Zeta.pdf) · [Wilkins English PDF](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/EZeta.pdf)
+- NIST Digital Library of Mathematical Functions, v1.2.8 (release 2026-09-15), §§25.4, 25.5, and 25.11, retrieved 2026-11-24T18:40Z (SHA-256 in the classical-source table above). Equations 25.4.1–25.4.4 ($\zeta(1-s)$ and $\xi(s)$ reflection), 25.5.13–25.5.14 (theta-integral representations), and 25.11.1, 25.11.3, 25.11.9, 25.11.13–25.11.14 (Hurwitz's formula and Bernoulli-polynomial values) supply the independent classical comparisons; total-function behavior at $s=1$ and $s\in-\mathbb N$ is Mathlib's. [DLMF §25.4](https://dlmf.nist.gov/25.4) · [DLMF §25.5](https://dlmf.nist.gov/25.5) · [DLMF §25.11](https://dlmf.nist.gov/25.11)
 
 ### Chapter 6 §§6.4.9–6.4.13 — stabilizer, finite-order and pro-$g$ supplies
 
