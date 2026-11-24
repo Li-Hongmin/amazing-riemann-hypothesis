@@ -408,7 +408,7 @@ $$
 $$
 So once $\psi(1)$ is known, every $\psi(n+1)=\psi(1)+H_n$ follows, and once $\psi(1/2)$ is known, every $\psi(n+1/2)$ follows. The recurrence carries values along a lattice of spacing one but cannot connect the integer lattice with the half-integer lattice. Two separate pieces of information are therefore needed: a value at one point of each lattice. Mathlib gets the first from convexity and the second from the duplication formula.
 
-**Definition (log-convexity).** A function $f$ on an interval is convex if $f(ax+by)\le af(x)+bf(y)$ for $x,y$ in the interval and $a,b\ge0$ with $a+b=1$. The Gamma function is log-convex on $(0,\infty)$: the function $f=\log\Gamma$ is convex there. Mathlib proves this from Hölder's inequality applied to the integral $\Gamma(ax+by)=\int_0^\infty t^{ax+by-1}e^{-t}\,dt$; we use only the statement. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:111–119](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L111-L119)
+**Definition (log-convexity).** A function $f$ on an interval is convex if $f(ax+by)\le af(x)+bf(y)$ for $x,y$ in the interval and $a,b\ge0$ with $a+b=1$. The Gamma function is log-convex on $(0,\infty)$: the function $f=\log\Gamma$ is convex there. Mathlib proves this from Hölder's inequality applied to the integral $\Gamma(ax+by)=\int_0^\infty t^{ax+by-1}e^{-t}\,dt$; we use only the statement here, and §1.2.2.5 reads the proof. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:111–119](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L111-L119)
 
 **Lemma (chords and tangents).** Let $f$ be convex on an open interval and differentiable at the points named. For $x<y$ in the interval,
 $$
@@ -445,7 +445,7 @@ $$
 $$
 and $\Gamma(1/2)=\sqrt\pi$.
 
-Mathlib proves the duplication formula for $s>0$ from the Bohr–Mollerup characterization (the right side, suitably rescaled, satisfies the functional equation, is log-convex and equals one at $s=1$), extends it to all complex $s$ by the identity theorem applied to the entire reciprocals of both sides, and restricts back to the reals. The value $\Gamma(1/2)=\sqrt\pi$ is the Gaussian integral. We have read the structure of the complex extension and use the positive-real case and the Gaussian integral as named inputs. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:559–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L559-L601) · [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:447–452](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L447-L452) · [Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:307](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean#L307) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5) · [DLMF 5.4.6](https://dlmf.nist.gov/5.4#E6)
+Mathlib proves the duplication formula for $s>0$ from the Bohr–Mollerup characterization (the right side, suitably rescaled, satisfies the functional equation, is log-convex and equals one at $s=1$), extends it to all complex $s$ by the identity theorem applied to the entire reciprocals of both sides, and restricts back to the reals. The value $\Gamma(1/2)=\sqrt\pi$ is the Gaussian integral. We have read the structure of the complex extension and use the positive-real case and the Gaussian integral as named inputs here; §1.2.2.5 reads the positive-real proof and the extension. [Lean] [Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean:559–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L559-L601) · [Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean:447–452](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L447-L452) · [Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:307](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean#L307) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5) · [DLMF 5.4.6](https://dlmf.nist.gov/5.4#E6)
 
 **Theorem (the derivative at one half).**
 $$
@@ -518,7 +518,184 @@ These are `hasDerivAt_Gammaℝ_one` and `hasDerivAt_Gammaℂ_one`, both proved b
 
 4. *Real versus complex.* All derivatives are computed for the real Gamma function and transported. The transport proposition is the only place where complex differentiability of $\Gamma$ at the point is needed, and it is supplied by `differentiableAt_Gamma` away from the nonpositive integers.
 
-**Source note.** The reading in this subsection is R3 for `Real.deriv_Gamma_nat`, `Real.hasDerivAt_Gamma_one_half`, the transport lemma and the three complex derivative statements, and for the two normalized derivatives `hasDerivAt_Gammaℝ_one` and `hasDerivAt_Gammaℂ_one`. Inputs retained at the boundary are the log-convexity of $\Gamma$ (Hölder), the positive-real duplication formula (Bohr–Mollerup uniqueness), the Gaussian integral $\Gamma(1/2)=\sqrt\pi$, the convex slope lemmas, the differentiability of $\Gamma$ away from the nonpositive integers, and the real and complex power rules `HasDerivAt.rpow` and `HasDerivAt.const_cpow`. The [proof map](../notes/proof-map.md#p1-chapter-1-derivative-of-gamma-at-one-half) lists these with pinned paths. The hand calculations A and B and the half-integer formula are ours, checked against DLMF 5.4.12–15 and 5.5.2, 5.5.5.
+**Source note.** The reading in this subsection is R3 for `Real.deriv_Gamma_nat`, `Real.hasDerivAt_Gamma_one_half`, the transport lemma and the three complex derivative statements, and for the two normalized derivatives `hasDerivAt_Gammaℝ_one` and `hasDerivAt_Gammaℂ_one`. Inputs retained at the boundary are the log-convexity of $\Gamma$ (Hölder), the positive-real duplication formula (Bohr–Mollerup uniqueness; both read in §1.2.2.5), the Gaussian integral $\Gamma(1/2)=\sqrt\pi$, the convex slope lemmas, the differentiability of $\Gamma$ away from the nonpositive integers, and the real and complex power rules `HasDerivAt.rpow` and `HasDerivAt.const_cpow`. The [proof map](../notes/proof-map.md#p1-chapter-1-derivative-of-gamma-at-one-half) lists these with pinned paths. The hand calculations A and B and the half-integer formula are ours, checked against DLMF 5.4.12–15 and 5.5.2, 5.5.5.
+
+#### 1.2.2.5 Log-convexity, the Bohr–Mollerup theorem and the duplication formula
+
+Section 1.2.2.4 spent two facts about the real Gamma function without proving them: the convexity of $\log\Gamma$ on $(0,\infty)$, which fixed the derivative on the integer lattice, and Legendre's duplication formula for $s>0$, which carried it to the half-integer lattice. This subsection reads their Mathlib producers in `BohrMollerup.lean`. The two facts are not independent. Log-convexity, together with the recurrence and $\Gamma(1)=1$, characterizes $\Gamma$ (the Bohr–Mollerup theorem), and the duplication formula follows by checking these three properties for a rescaled product of two half-argument Gamma values. The proofs use Euler's integral, Hölder's inequality and the value $\Gamma(1/2)=\sqrt\pi$; they use nothing from Euler's constant (§1.2.2.3) or from the Beta integral (Chapter 2). Throughout, $\Gamma$ is the real Gamma function on $(0,\infty)$, where it is positive, and $\log$ is the natural logarithm of a positive number.
+
+**Example (the recurrence and the normalization do not determine $\Gamma$).** Let $p$ be a positive function of period $1$ with $p(1)=1$, and put $f=\Gamma p$. Then $f>0$, $f(x+1)=x\Gamma(x)p(x)=xf(x)$ and $f(1)=1$. For $p(x)=1+\sin^2(\pi x)$ the function $f$ is real-analytic and agrees with $\Gamma$ at every positive integer, $f(n)=(n-1)!$, but $f(n+\tfrac12)=2\,\Gamma(n+\tfrac12)$; for instance $f(1/2)=2\sqrt\pi$. The recurrence only moves values along $x+\mathbb Z$, and any choice of $f$ on $(0,1]$ extends to a solution, as Artin observes ([*The Gamma Function*, p. 13](https://archive.org/details/gammafunction0000arti)). A further condition is needed, and the one that works is a condition on shape: for this $f$ the midpoint inequality of the next definition already fails on $[1,2]$, since $f(3/2)^2=\bigl(2\Gamma(\tfrac32)\bigr)^2=\pi>1=f(1)f(2)$.
+
+**Definition (log-convexity; the Gauss quotients).** A positive function $f$ on $(0,\infty)$ is *log-convex* if $\log f$ is convex there, that is,
+$$
+ f(as+bt)\le f(s)^a f(t)^b\qquad(s,t>0,\ a,b\ge0,\ a+b=1).
+$$
+For $x>0$ and $n\ge1$ put
+$$
+ L_n(x)=x\log n+\log n!-\sum_{m=0}^{n}\log(x+m),\qquad e^{L_n(x)}=Q_n(x)=\frac{n^x\,n!}{x(x+1)\cdots(x+n)} .
+$$
+$Q_n$ is the Gauss quotient written $G_n$ in Chapter 2, §2.3.2.1 (we avoid that letter here because $G$ denotes the Deligne factor in this chapter), and $Q_n(x)\to\Gamma(x)$ is Gauss's product formula, DLMF 5.8.1. In Lean, $L_n(x)$ is `Real.BohrMollerup.logGammaSeq x n`. [Lean, read] [BohrMollerup.lean:138–141](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L138-L141) · [DLMF 5.8.1](https://dlmf.nist.gov/5.8#E1)
+
+**Theorem 1 (log-convexity of $\Gamma$).** For $s,t>0$ and $a,b>0$ with $a+b=1$,
+$$
+ \Gamma(as+bt)\le\Gamma(s)^a\,\Gamma(t)^b .
+$$
+Consequently $\log\Gamma$ is convex on $(0,\infty)$.
+
+The proof uses Hölder's inequality for integrals, which we take as an input: if $p,q>1$ with $1/p+1/q=1$, and $g,h\ge0$ are measurable on $(0,\infty)$ with $g^p$ and $h^q$ integrable, then
+$$
+ \int_0^\infty gh\,dx\le\Bigl(\int_0^\infty g^p\,dx\Bigr)^{1/p}\Bigl(\int_0^\infty h^q\,dx\Bigr)^{1/q}.
+$$
+In Mathlib this is `integral_mul_le_Lp_mul_Lq_of_nonneg`, which reduces to the same inequality for $\lVert g\rVert\,\lVert h\rVert$ and then to the Lebesgue-integral version `ENNReal.lintegral_mul_le_Lp_mul_Lq`, whose proof we do not read. [Lean] [Bochner/Basic.lean:1144–1209](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean#L1144-L1209) · [MeanInequalities.lean:150](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/MeanInequalities.lean#L150) · [DLMF 1.7.5](https://dlmf.nist.gov/1.7#E5)
+
+**Proof.** For $c>0$ and $u>0$ put $\varphi_{c,u}(x)=e^{-cx}x^{c(u-1)}$ on $(0,\infty)$. It is nonnegative and continuous, and $\varphi_{c,u}(x)^{1/c}=e^{-x}x^{u-1}$ is Euler's integrand, which is integrable because $u>0$. So $\varphi_{c,u}\in L^{1/c}(0,\infty)$ and $\int_0^\infty\varphi_{c,u}^{1/c}\,dx=\Gamma(u)$. Take $(c,u)=(a,s)$ and $(c,u)=(b,t)$. Because $a+b=1$,
+$$
+ \varphi_{a,s}(x)\,\varphi_{b,t}(x)=e^{-(a+b)x}x^{a(s-1)+b(t-1)}=e^{-x}x^{as+bt-1},
+$$
+whose integral is $\Gamma(as+bt)$, as $as+bt>0$. The exponents $p=1/a$ and $q=1/b$ are conjugate, $1/p+1/q=a+b=1$, and Hölder's inequality gives
+$$
+ \Gamma(as+bt)\le\Bigl(\int_0^\infty\varphi_{a,s}^{1/a}\,dx\Bigr)^{a}\Bigl(\int_0^\infty\varphi_{b,t}^{1/b}\,dx\Bigr)^{b}=\Gamma(s)^a\,\Gamma(t)^b .
+$$
+All three Gamma values are positive, so taking logarithms gives $\log\Gamma(as+bt)\le a\log\Gamma(s)+b\log\Gamma(t)$ for $a,b>0$; for $a=0$ or $b=0$ the convexity inequality is an equality. $\square$
+
+The Lean proof `Gamma_mul_add_mul_le_rpow_Gamma_mul_rpow_Gamma` is this argument. Its local function `f c u x` is $\varphi_{c,u}(x)$; `fpow` is the identity $\varphi_{c,u}^{1/c}=e^{-x}x^{u-1}$; `f_mem_Lp` proves membership in $L^{1/c}$ through `memLp_norm_rpow_iff`, `GammaIntegral_convergent` and continuity on $(0,\infty)$; the conjugate exponents come from `Real.holderConjugate_one_div`; after the three Gamma values are rewritten by `Gamma_eq_integral`, Hölder is applied and the integrands are matched by the exponential identity `A` and the power identity `B`. `convexOn_log_Gamma` then uses `convexOn_iff_forall_pos`, which reduces convexity to strictly positive weights, together with `log_rpow`, `log_mul` and the monotonicity of $\log$. [Lean, read] [BohrMollerup.lean:58–120](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L58-L120)
+
+**Lemma 2 (integers and shifts).** Let $F:(0,\infty)\to\mathbb R$ satisfy $F(y+1)=F(y)+\log y$ for all $y>0$. Then, for $n\ge1$ and $x>0$,
+$$
+ F(n)=F(1)+\log(n-1)!,\qquad F(x+n)=F(x)+\sum_{m=0}^{n-1}\log(x+m).
+$$
+
+**Proof.** Induction on $n$: the first identity uses $\log(n-1)!+\log n=\log n!$, the second adds $\log(x+n)$ at each step. $\square$
+
+These are `f_nat_eq` and `f_add_nat_eq`. [Lean, read] [BohrMollerup.lean:145–165](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L145-L165)
+
+**Lemma 3 (two chords).** Let $F$ be as in Lemma 2 and convex on $(0,\infty)$.
+
+1. For $n\ge1$ and $0<x\le1$: $F(n+x)\le F(n)+x\log n$.
+2. For $n\ge2$ and $x>0$: $F(n)+x\log(n-1)\le F(n+x)$.
+
+**Proof.** (1) Write $n+x=(1-x)n+x(n+1)$. Convexity and $F(n+1)=F(n)+\log n$ give $F(n+x)\le(1-x)F(n)+xF(n+1)=F(n)+x\log n$. (2) For the three points $n-1<n<n+x$ the slopes of a convex function increase, so $F(n)-F(n-1)\le\bigl(F(n+x)-F(n)\bigr)/x$. The left side is $\log(n-1)$ by the recurrence at $n-1>0$; multiply by $x>0$. $\square$
+
+In Lean, (1) is `f_add_nat_le`, proved from the definition of convexity with weights $1-x$ and $x$, and (2) is `f_add_nat_ge`, proved from `convexOn_iff_slope_mono_adjacent`. These two inequalities are the only places where convexity enters the uniqueness proof. [Lean, read] [BohrMollerup.lean:167–188](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L167-L188)
+
+**Lemma 4 (the squeeze and the limit).** Let $F$ be as in Lemma 3. For $n\ge1$,
+$$
+ F(x)-F(1)-x\bigl(\log(n+1)-\log n\bigr)\le L_n(x)\le F(x)-F(1),
+$$
+where the upper bound holds for every $x>0$ and the lower bound for $0<x\le1$. Moreover $L_n(x)\to F(x)-F(1)$ as $n\to\infty$, for every $x>0$.
+
+**Proof.** By Lemma 2, $F(x)+\sum_{m=0}^{n}\log(x+m)=F(n+1+x)$ and $F(1)+\log n!=F(n+1)$, so
+$$
+ F(x)-F(1)-L_n(x)=F(n+1+x)-F(n+1)-x\log n .
+$$
+Lemma 3(2) at the integer $n+1\ge2$ says that the right side is $\ge0$, which is the upper bound. Lemma 3(1) at $n+1$ says, for $0<x\le1$, that it is $\le x\log(n+1)-x\log n$, which is the lower bound. Since $\log(n+1)-\log n\to0$, the two bounds squeeze $L_n(x)$ to $F(x)-F(1)$ when $0<x\le1$.
+
+For larger $x$ argue by induction on the integer $m$ with $m<x\le m+1$. Expanding the definition gives, for $y>0$ and $n\ge1$,
+$$
+ L_n(y+1)=L_{n+1}(y)+\log y-(y+1)\bigl(\log(n+1)-\log n\bigr).
+$$
+With $y=x-1$, which lies in $(m-1,m]$, this reads $L_n(x)=L_{n+1}(x-1)+\log(x-1)-x\bigl(\log(n+1)-\log n\bigr)$. By the induction hypothesis $L_{n+1}(x-1)\to F(x-1)-F(1)$, and the last term tends to $0$. Hence $L_n(x)\to F(x-1)+\log(x-1)-F(1)=F(x)-F(1)$. $\square$
+
+The Lean proof is split the same way: `logGammaSeq_add_one` is the displayed shift identity; `le_logGammaSeq` and `ge_logGammaSeq` are the two bounds, obtained from `f_add_nat_le` and `f_add_nat_ge` at $n+1$; `tendsto_logGammaSeq_of_le_one` is the squeeze with `tendsto_log_nat_add_one_sub_log`; and `tendsto_logGammaSeq` inducts on $m=\lceil x-1\rceil$ with the reindexing $n\mapsto n+1$. [Lean, read] [BohrMollerup.lean:190–291](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L190-L291)
+
+**Theorem 5 (Bohr–Mollerup).** Let $f:(0,\infty)\to\mathbb R$ satisfy
+
+1. $f(y)>0$ for $y>0$;
+2. $f(y+1)=y\,f(y)$ for $y>0$;
+3. $f(1)=1$;
+4. $\log f$ is convex on $(0,\infty)$.
+
+Then $f=\Gamma$ on $(0,\infty)$. Moreover $L_n(x)\to\log\Gamma(x)$, that is $Q_n(x)\to\Gamma(x)$, for every $x>0$.
+
+**Proof.** By (1) and (2), $F=\log f$ satisfies $F(y+1)=F(y)+\log y$; by (4) it is convex; by (3), $F(1)=0$. Lemma 4 gives $L_n(x)\to\log f(x)$. The Gamma function itself satisfies (1)–(4): positivity and $\Gamma(1)=1$ come from Euler's integral, the recurrence from integration by parts, and (4) is Theorem 1. So Lemma 4 applied to $\log\Gamma$ gives $L_n(x)\to\log\Gamma(x)$. The sequence $L_n(x)$ does not involve $f$, so the two limits coincide, $\log f(x)=\log\Gamma(x)$, and $f(x)=\Gamma(x)$ because both are positive. $\square$
+
+In Lean the limit for $\Gamma$ is `Real.BohrMollerup.tendsto_log_gamma`, and the theorem is `Real.eq_Gamma_of_log_convex`, which concludes `EqOn f Gamma (Ioi 0)` by `tendsto_nhds_unique` and `log_injOn_pos`. Conditions (1)–(4) are its whole hypothesis; no continuity or differentiability of $f$ is assumed. The argument is the one of Artin's Theorem 2.1, written additively; Artin credits the method to Bohr and Mollerup (1922). [Lean, read] [BohrMollerup.lean:293–318](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L293-L318) · [DLMF §5.5(iv)](https://dlmf.nist.gov/5.5.iv) · [Artin, *The Gamma Function*, pp. vi, 14–15](https://archive.org/details/gammafunction0000arti)
+
+**Hand calculation A (the integer values pin down $\Gamma(1/2)$).** For $F=\log\Gamma$ the bounds of Lemma 4 use only $\Gamma(n)=(n-1)!$ and convexity. At $x=\tfrac12$ they bracket $\Gamma(\tfrac12)$ without any integral:
+$$
+ Q_n(\tfrac12)\le\Gamma(\tfrac12)\le Q_n(\tfrac12)\sqrt{\tfrac{n+1}{n}},\qquad Q_n(\tfrac12)=\frac{\sqrt n\;n!}{\tfrac12\cdot\tfrac32\cdots(n+\tfrac12)} .
+$$
+For $n=1$ the two chords of Lemma 3 at the integer $2$ read $F(2)+\tfrac12\log1\le F(\tfrac52)\le F(2)+\tfrac12\log2$, that is $1\le\Gamma(\tfrac52)\le\sqrt2$. The recurrence gives $\Gamma(\tfrac52)=\tfrac32\cdot\tfrac12\,\Gamma(\tfrac12)$, hence $\tfrac43\le\Gamma(\tfrac12)\le\tfrac43\sqrt2$. For $n=2$ the chords at $3$ give $2\sqrt2\le\Gamma(\tfrac72)\le2\sqrt3$, and $\Gamma(\tfrac72)=\tfrac{15}8\Gamma(\tfrac12)$. For $n=3$ the chords at $4$ give $6\sqrt3\le\Gamma(\tfrac92)\le12$, and $\Gamma(\tfrac92)=\tfrac{105}{16}\Gamma(\tfrac12)$. So:
+
+| $n$ | lower bound $Q_n(\tfrac12)$ | upper bound $Q_n(\tfrac12)\sqrt{(n+1)/n}$ |
+|---|---|---|
+| $1$ | $4/3\approx1.33333$ | $4\sqrt2/3\approx1.88562$ |
+| $2$ | $16\sqrt2/15\approx1.50849$ | $16\sqrt3/15\approx1.84752$ |
+| $3$ | $32\sqrt3/35\approx1.58359$ | $64/35\approx1.82857$ |
+| $1000$ | $\approx1.77179$ | $\approx1.77268$ |
+
+The brackets close on $\sqrt\pi\approx1.77245$, the Gaussian value, which enters this development only through Theorem 6 below. The upper bound equals $\sqrt{n+1}\;n!\;2^{n+1}/\bigl(1\cdot3\cdots(2n+1)\bigr)$; squaring the limit and using $2\cdot4\cdots(2n)=2^n n!$ turns $\Gamma(\tfrac12)^2=\pi$ into Wallis's product $\prod_{k\ge1}\frac{4k^2}{4k^2-1}=\frac\pi2$. [Expository]
+
+**Theorem 6 (duplication for positive arguments).** For $s>0$,
+$$
+ \Gamma(s)\,\Gamma\bigl(s+\tfrac12\bigr)=\Gamma(2s)\,2^{1-2s}\sqrt\pi .
+$$
+
+**Proof.** Define on $(0,\infty)$
+$$
+ D(s)=\frac{2^{s-1}}{\sqrt\pi}\,\Gamma\bigl(\tfrac s2\bigr)\,\Gamma\bigl(\tfrac s2+\tfrac12\bigr)
+$$
+and check the four conditions of Theorem 5.
+
+1. $D(s)>0$, as a product of positive factors.
+2. $D(s+1)=\frac{2^{s}}{\sqrt\pi}\,\Gamma(\tfrac s2+\tfrac12)\,\Gamma(\tfrac s2+1)$, and $\Gamma(\tfrac s2+1)=\tfrac s2\,\Gamma(\tfrac s2)$. Since $2^s=2\cdot2^{s-1}$, $D(s+1)=s\,D(s)$.
+3. $D(1)=\Gamma(\tfrac12)\Gamma(1)/\sqrt\pi=1$, by $\Gamma(1/2)=\sqrt\pi$.
+4. $\log D(s)=\log\Gamma(\tfrac s2)+\log\Gamma(\tfrac s2+\tfrac12)+s\log2-\log(2\sqrt\pi)$. The first two terms are $\log\Gamma$ composed with the affine maps $s\mapsto s/2$ and $s\mapsto s/2+1/2$, which send $(0,\infty)$ into $(0,\infty)$, so they are convex by Theorem 1; the third term is linear and the fourth constant. So $\log D$ is convex on $(0,\infty)$.
+
+Theorem 5 gives $D=\Gamma$ on $(0,\infty)$. At the point $2s>0$ this says $\Gamma(2s)=\frac{2^{2s-1}}{\sqrt\pi}\Gamma(s)\Gamma(s+\tfrac12)$, which rearranges to the claim. $\square$
+
+In Lean, $D$ is `doublingGamma`, written $\Gamma(s/2)\Gamma(s/2+1/2)2^{s-1}/\sqrt\pi$. The checks are `doublingGamma_add_one` (stated for $s\ne0$), `doublingGamma_one` (the only call of `Gamma_one_half_eq` in this development), `log_doublingGamma_eq` and `doublingGamma_log_convex_Ioi`. In the last, the first summand is `convexOn_log_Gamma.comp_affineMap` for $s\mapsto s/2$, whose preimage of $(0,\infty)$ is exactly $(0,\infty)$; the second is the same composition for $s\mapsto s/2+1/2$, whose natural domain $(-1,\infty)$ is cut down to $(0,\infty)$ by `ConvexOn.subset`; the linear term is `convexOn_id` scaled by $\log2\ge0$. `doublingGamma_eq_Gamma` applies `eq_Gamma_of_log_convex`, and `Gamma_mul_Gamma_add_half_of_pos` evaluates it at $2s$ and clears $2^{2s-1}$ and $\sqrt\pi$ with `field`. [Lean, read] [BohrMollerup.lean:375–452](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.lean#L375-L452) · [DLMF 5.5.5](https://dlmf.nist.gov/5.5#E5)
+
+**Hand calculation B (the doubling function on and off the integers).** The recurrence step (2) is the heart of the proof. Under $s\mapsto s+1$ the two factors trade places, $\Gamma(\tfrac s2)\Gamma(\tfrac s2+\tfrac12)\mapsto\Gamma(\tfrac s2+\tfrac12)\Gamma(\tfrac s2+1)$; the recurrence for the second factor produces $\tfrac s2$, and the base $2$ of $2^{s-1}$ supplies the missing factor $2$. On the integers, (2) and (3) already force $D(n)=(n-1)!$. Indeed, with $\Gamma(\tfrac32)=\tfrac{\sqrt\pi}2$ and $\Gamma(\tfrac52)=\tfrac{3\sqrt\pi}4$,
+$$
+ D(2)=\tfrac{2}{\sqrt\pi}\,\Gamma(1)\Gamma(\tfrac32)=1,\qquad D(3)=\tfrac{4}{\sqrt\pi}\,\Gamma(\tfrac32)\Gamma(2)=2,\qquad D(4)=\tfrac{8}{\sqrt\pi}\,\Gamma(2)\Gamma(\tfrac52)=6 .
+$$
+These values say nothing beyond (2) and (3); the content of Theorem 6 lies off the integers. At $s=\tfrac12$ we have $D(\tfrac12)=2^{-1/2}\pi^{-1/2}\,\Gamma(\tfrac14)\Gamma(\tfrac34)$. The reflection formula $\Gamma(z)\Gamma(1-z)=\pi/\sin\pi z$ ([Chapter 2, §2.3.2.1](02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane)) at $z=\tfrac14$ gives $\Gamma(\tfrac14)\Gamma(\tfrac34)=\pi\sqrt2$, hence $D(\tfrac12)=\sqrt\pi=\Gamma(\tfrac12)$, as Theorem 5 predicts. In the duplication formula this is the case $s=\tfrac14$. In the Deligne-factor notation of §1.2.2.2 the same computation reads
+$$
+ G(\tfrac12)\,G(\tfrac32)=\pi^{-1}\,\Gamma(\tfrac14)\Gamma(\tfrac34)=\sqrt2=2(2\pi)^{-1/2}\,\Gamma(\tfrac12)=\Gamma_{\mathbb C}(\tfrac12),
+$$
+which is the form of the duplication formula spent in the functional equation (see the table below).
+
+**Proposition 7 (all arguments).** For every complex $s$, as an identity of total functions,
+$$
+ \Gamma(s)\,\Gamma\bigl(s+\tfrac12\bigr)=\Gamma(2s)\,2^{1-2s}\sqrt\pi ;
+$$
+in particular the identity holds for every real $s$.
+
+**Proof.** The functions $z\mapsto\Gamma(z)^{-1}\Gamma(z+\tfrac12)^{-1}$ and $z\mapsto\Gamma(2z)^{-1}2^{2z-1}/\sqrt\pi$ are entire, because $1/\Gamma$ is entire (§1.2.2.2) and $2^{2z-1}=e^{(2z-1)\log2}$. By Theorem 6 they agree at every real $t>0$, in particular on a punctured real neighbourhood of $1$, which accumulates at $1$. By the identity theorem the two entire functions are equal. Inverting both sides gives the formula at every $s$: in Mathlib $0^{-1}=0$, so inversion is an involution of $\mathbb C$, and at the poles both sides equal $0$. Restricting to real arguments gives the real identity. $\square$
+
+This is `Complex.Gamma_mul_Gamma_add_half`. The entire reciprocals come from `differentiable_one_div_Gamma` (read in §1.2.2.2). The frequent agreement in the punctured neighbourhood `𝓝[≠] 1` is obtained from `eventually_gt_nhds zero_lt_one`, that is from real $t>0$ near $1$, pushed forward along the inclusion $\mathbb R\to\mathbb C$, and then `AnalyticOnNhd.eq_of_frequently_eq` is applied. The single call of the positive-real theorem is at line 586. `Real.Gamma_mul_Gamma_add_half` restricts by `ofReal_inj`. [Lean, read] [Beta.lean:559–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L559-L601) · [IsolatedZeros.lean:261](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/IsolatedZeros.lean#L261)
+
+**Where the two inputs are spent.** Outside `BohrMollerup.lean`, a search of the whole pinned Mathlib tree finds exactly the following direct calls of these statements; the last row follows one path further, to the functional equation used in this chapter.
+
+| Statement | Direct consumer at the pinned commit | Use in this book |
+|---|---|---|
+| Theorem 1, `convexOn_log_Gamma` | `Real.deriv_Gamma_nat`, [GammaDeriv.lean:44](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L44), slope bounds at lines 65–74 | §1.2.2.4, the derivative at the positive integers through $\log n\le\psi(n+1)\le\log(n+1)$ |
+| Theorem 6, `Gamma_mul_Gamma_add_half_of_pos` | `Complex.Gamma_mul_Gamma_add_half`, [Beta.lean:586](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L586) (its only call) | Proposition 7 |
+| Proposition 7, real form | `Real.hasDerivAt_Gamma_one_half`, [GammaDeriv.lean:117](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/GammaDeriv.lean#L117) (`funext Gamma_mul_Gamma_add_half`) | §1.2.2.4, hand calculation A: $\Gamma'(1/2)=-\sqrt\pi(\gamma+2\log2)$, hence $G'(1)$ |
+| Proposition 7, complex form | `Gammaℝ_mul_Gammaℝ_add_one`, $G(s)G(s+1)=\Gamma_{\mathbb C}(s)$, [Deligne.lean:122–135](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L122-L135); then `Gammaℝ_div_Gammaℝ_one_sub` (155–166), `inv_Gammaℝ_one_sub` (170–181), `hurwitzZetaEven_one_sub` ([HurwitzZetaEven.lean:760–769](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/HurwitzZetaEven.lean#L760-L769)) and `riemannZeta_one_sub` ([RiemannZeta.lean:178–180](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L178-L180)) | §1.2.3 and §1.4.2: the cosine form of the functional equation, called by the archive's `Formalism.VW.rh_of_right` at `src/Formalism/GammaFactorNonvanishing/RhOfRight.lean:28` |
+
+In the last row the duplication formula supplies the numerator and the reflection formula of Chapter 2 the denominator of
+$$
+ \frac{G(s)}{G(1-s)}=\frac{G(s)\,G(s+1)}{G(1-s)\,G(1+s)}=\frac{\Gamma_{\mathbb C}(s)}{1/\cos(\pi s/2)}=\Gamma_{\mathbb C}(s)\cos\frac{\pi s}2\qquad(s\ne-1,-3,-5,\dots),
+$$
+the excluded points being those where $G(s+1)=0$. This is how the symmetric equation $\Lambda(1-s)=\Lambda(s)$ becomes $\zeta(1-s)=2(2\pi)^{-s}\Gamma(s)\cos(\pi s/2)\zeta(s)$. The archive also calls the Bohr–Mollerup development directly. `GlobalTheory.CompanionTheory.DigammaLimit.euler_seq_le_Gamma` (`src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/DigammaTendstoLogSubHarmonic.lean:8–29`) applies `Real.BohrMollerup.ge_logGammaSeq` with `Real.convexOn_log_Gamma` to obtain the lower bound $Q_n(x)\le\Gamma(x)$ of Lemma 4, and uses it to dominate the complex Gauss quotients on a circle in the proof of a digamma limit. Whether that file lies in the dependency closure of the main theorems is not determined here.
+
+**The counterexample revisited.** For $f=\Gamma\cdot(1+\sin^2\pi x)$, conditions (1)–(3) of Theorem 5 hold and (4) fails, and the failure sits exactly where the proof uses (4). Lemma 3(1) at $n=1$, $x=\tfrac12$ would give $\log f(\tfrac32)\le\log f(1)=0$, but $f(\tfrac32)=2\Gamma(\tfrac32)=\sqrt\pi>1$. The sequence $L_n(x)$ is the same for every candidate $f$, and it converges to $\log\Gamma(x)$, whereas $\log f(x)-\log f(1)=\log\Gamma(x)+\log(1+\sin^2\pi x)$; at $x=\tfrac12$ these numbers are $\log\sqrt\pi\approx0.57236$ and $\log(2\sqrt\pi)\approx1.26551$. In general, if $p>0$ has period $1$ and $p(1)=1$, Theorem 5 applied to $\Gamma p$ shows that $\log(\Gamma p)$ is convex only when $p\equiv1$. The proof of Lemma 4 uses Lemma 3 only for large $n$, so convexity of $\log f$ on a half-line $(a,\infty)$, together with (1)–(3), would already force $f=\Gamma$ [Expository]. Accordingly, for small amplitudes the defect shows up only far out: for $f=\Gamma\cdot(1+\tfrac1{100}\sin^2\pi x)$ the midpoint inequality on $[n,n+1]$ holds for $n\le12$ and fails for every $n\ge13$ that we tested (floating-point check up to $n=10^5$).
+
+**Remarks.**
+
+1. *Hölder versus Riemann sums.* Artin proves the log-convexity of $\int\varphi(t)\,t^{x-1}\,dt$ from the facts that sums and limits of log-convex functions are log-convex, approximating the integral by Riemann sums (Theorem 1.9, pp. 9–10). Mathlib applies Hölder's inequality to the improper integral directly. The Hölder of Mathlib's docstring is the integral inequality; it is unrelated to Hölder's theorem on the differential transcendence of $\Gamma$, which Artin's preface lists among the topics not treated.
+
+2. *The constant.* Artin proves Gauss's multiplication formula $p^x\,\Gamma(\tfrac xp)\Gamma(\tfrac{x+1}p)\cdots\Gamma(\tfrac{x+p-1}p)=a_p\Gamma(x)$ by the same uniqueness argument, with an unknown constant $a_p$. He computes $a_p$ from the Gauss product and Stirling's formula, fixing the last constant by $a_2=2\Gamma(\tfrac12)=2\sqrt\pi$, and attributes the case $p=2$ to Legendre (pp. 22–24). Mathlib treats only $p=2$ and fixes the constant directly at $s=1$, where $D(1)=\Gamma(\tfrac12)/\sqrt\pi$. This is the only point at which the Gaussian integral enters the duplication formula; the general multiplication formula is recorded as a TODO in the file header (lines 36–38).
+
+3. *No regularity is assumed.* Theorem 5 assumes neither continuity nor differentiability, and the real-analytic counterexample shows that regularity would not replace convexity. Positivity (1) is what makes $\log f$ the honest logarithm: Mathlib's `Real.log` is total, with $\log0=0$ and $\log(-x)=\log x$.
+
+4. *Local versus global.* The derivative at $\tfrac12$ in §1.2.2.4 depends only on the duplication formula near $s=\tfrac12$, which Theorem 6 already supplies on $(0,\infty)$. The Lean proof nevertheless uses the global real identity, because it rewrites the function under `deriv` with `funext`. The complex extension of Proposition 7 is genuinely needed by the second consumer, which uses $G(s)G(s+1)=\Gamma_{\mathbb C}(s)$ at complex $s$.
+
+5. *Two productions of the Gauss limit.* Theorem 5 yields $Q_n(x)\to\Gamma(x)$ for real $x>0$; the file header calls this a weak form of the Euler limit formula. Chapter 2, §2.3.2.1 reads the complex limit `Complex.GammaSeq_tendsto_Gamma` (`Beta.lean:335`), which Mathlib proves separately from the integral.
+
+**Source note.** The reading is R3 for `BohrMollerup.lean:58–120` (Theorem 1), `138–318` (Lemmas 2–4 and Theorem 5) and `375–452` (Theorem 6); for `Beta.lean:559–601` (Proposition 7, whose structure only was read in §1.2.2.4); for the consumer bodies `Deligne.lean:122–181`, `HurwitzZetaEven.lean:760–769` and `RiemannZeta.lean:178–180`; for the Hölder wrappers `Bochner/Basic.lean:1144–1209`; and for the archive consumers `RhOfRight.lean:28` and `DigammaTendstoLogSubHarmonic.lean:8–29`. Inputs retained by name (statements read, bodies not read) are the Hölder core `ENNReal.lintegral_mul_le_Lp_mul_Lq`; the Gaussian value `Real.Gamma_one_half_eq`; `Complex.Gamma_one`, the evaluation of Euler's integral at $s=1$ behind the real normalization; the convexity library (`convexOn_iff_forall_pos`, `convexOn_iff_slope_mono_adjacent`, `ConvexOn.comp_affineMap`, `ConvexOn.subset`, `ConvexOn.add`, `ConvexOn.smul`, `convexOn_id`); `Real.holderConjugate_one_div`, `memLp_norm_rpow_iff`, `memLp_one_iff_integrable`, `tendsto_log_nat_add_one_sub_log` and `log_injOn_pos`; the identity theorem `AnalyticOnNhd.eq_of_frequently_eq`; and `completedHurwitzZetaEven_one_sub`. Inherited from earlier sections are Euler's integral (`GammaIntegral_convergent`, `Real.Gamma_eq_integral`), the recurrence and `Real.Gamma_pos_of_pos` ([Chapter 2, §2.3.2.3](02-functional-equations-and-primitive-characters.md#2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves)), the reflection formula (Chapter 2, §2.3.2.1) and `differentiable_one_div_Gamma` (§1.2.2.2); the real transfers `Real.Gamma_add_one` and `Real.Gamma_one` were read here. The [proof map](../notes/proof-map.md#p1-chapter-1-log-convexity-bohrmollerup-and-duplication) gives pinned paths and lines. Artin's monograph was read in the 1964 English translation; the 1922 text of Bohr and Mollerup was not read. The hand calculations A and B, the counterexample and the consumer table are ours; the numbers were cross-checked in floating point, which is a consistency check, not a certificate. This reading does not certify the dependency cone, and no Lean compilation was run.
 
 ### 1.2.3 The excluded points are exactly the trivial zeros
 
@@ -535,7 +712,8 @@ version is at least as strong: it asserts in addition that there are no zeros wi
 other than the trivial ones. That extra content is a known theorem — it follows from the
 functional equation in the form
 $\zeta(1-s)=2(2\pi)^{-s}\Gamma(s)\cos(\pi s/2)\zeta(s)$ for $s\notin\{0,-1,-2,\dots\}$, $s\ne1$
-[Lean] (`riemannZeta_one_sub`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:178`), together
+[Lean] (`riemannZeta_one_sub`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean:178`; its Gamma
+factor comes from the duplication and reflection formulas, see §1.2.2.5), together
 with $\zeta\ne0$ on $\Re s\ge1$ — so the two formulations are equivalent [Expository]. The
 archive in fact proves the stronger form, and Section 1.4 shows the case analysis it uses.
 
