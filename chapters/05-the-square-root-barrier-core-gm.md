@@ -384,6 +384,540 @@ Locations below refer to the Alpöge–Claude archive, joined SHA-256
 | Host Artin surjectivity input | `HostDer.art_surj`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean:87` | [Lean] |
 | Riesz and zeta branches | `G`, `sumLamChi`, `gChi`, `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean:14,18,23` and `Sz`, `Gz`, `src/Formalism/StatementOC.lean:11,13` | [Lean, read] |
 
+### 5.3.1.2 Frobenius and inertia in the cyclotomic host
+
+**Motivation.** The same host data serve two arguments in this chapter. The primitive-character identity in §5.3.1.1 reads the local coefficients. The Fourier balance uses a list of constraints on the inertia groups and Frobenius representatives. Both start with a unit group, and both carry its elements to the host Galois group. To see why these elements encode the arithmetic at $p$, we first compute the order of a cyclotomic root after reduction at $p$.
+
+**Example.** Let $L=\mathbb Q(\zeta_8)$, with $\mathcal O_L=\mathbb Z[\zeta_8]$ and minimal polynomial $X^4+1$. Label the four automorphisms by $1,3,5,7$ modulo $8$, with $u$ acting by $\zeta_8\mapsto\zeta_8^u$. For $p=3$ the factorization is
+$(X^2+X+2)(X^2-X+2)$. Each discriminant is $2$ in $\mathbb F_3$, a nonsquare. For $p=5$ the factorization is $(X^2+2)(X^2+3)$, and their roots would have to square to $3$ and $2$ respectively, both nonsquares. The two factors are distinct in each case, so there are two primes, each of residue degree two and ramification index one. Frobenius on the integral generator is the third power at $3$ and the fifth power at $5$. For $p=2$ the polynomial is $(X+1)^4$ modulo $2$. The quotient by $2$ has one maximal ideal, giving the unique prime $(2,\zeta_8-1)$ and residue field $\mathbb F_2$. Its ramification index is four. Thus the group calculation gives
+
+| $p$ | Decomposition group | Inertia group | Residue degree |
+|---|---|---|---|
+| $3$ | $\{1,3\}$ | $\{1\}$ | $2$ |
+| $5$ | $\{1,5\}$ | $\{1\}$ | $2$ |
+| $2$ | $\{1,3,5,7\}$ | $\{1,3,5,7\}$ | $1$ |
+
+For the odd primes the Frobenius elements have order two since $3^2\equiv5^2\equiv 1\pmod 8$. At $2$ every automorphism induces the identity on $\mathbb F_2$. The CRT convention below selects $1$ as a lift. The table illustrates the ambient cyclotomic calculation. The chapter's actual host has the extra $q,d$ data specified by the archive. [Expository]
+
+**Definitions.** Write $N=p^a M$ with $p\nmid M$, $U_N=(\mathbb Z/N\mathbb Z)^\times$, and $\pi:U_N\to U_M$ for reduction, with $U_1$ trivial. For a prime $P$ of a Galois number field $E/\mathbb Q$ above $p$, its decomposition group $D_P$ stabilizes $P$. Its inertia $I_P$ consists of the automorphisms satisfying $\sigma x-x\in P$ for every $x\in\mathcal O_E$. An arithmetic Frobenius lift satisfies $\sigma x-x^p\in P$ for every such $x$. The latter condition implies stabilization since $\bar x^p=0$ exactly when $\bar x=0$. The induced Frobenius generates the cyclic residue-field Galois group $D_P/I_P$.
+
+**Identification theorem.** Use the archive's `HostRaw φ` hypotheses. In particular $N=QS\,q\,d>0$, the host $E$ is Galois over $\mathbb Q$, and its specified embedding $\iota:E\hookrightarrow L=\mathbb Q(\zeta_N)$ comes with a primitive $N$th root and `art_spec`. Write $\gamma$ for the given group isomorphism `H.gal` and $A$ for `H.art`. The compatibility `art_spec` says that $\tau_u$ acting by the $u$th power on the chosen root restricts along $\iota$ to $\gamma^{-1}(A(u))$. For every prime $p$ and prime $P$ above $p$,
+$\gamma(I_P)=A(\ker\pi)$, the images of all Frobenius lifts are $A(\pi^{-1}(p))$, and $\gamma(D_P)=A(\pi^{-1}(\langle p\bmod M\rangle))$. More precisely, the elements acting on the residue field by $x\mapsto x^{p^k}$ have images $A(\pi^{-1}(p^k))$ for $k\ge0$. The representative used in the chapter is $w$ with $w\equiv1\pmod{p^a}$ and $w\equiv p\pmod M$. [Lean, read]
+
+**Proof.** First work in $L$ at a prime $Q$ above $p$, using the integral primitive root $z$ of `RootEqOfSubMem.lean`. The residue characteristic is $p$ by contraction to $(p)$, and $\lvert\mathbb Z/(Q\cap\mathbb Z)\rvert=p$. We will show that $\bar z$ has order exactly $M$.
+
+For the prime-to-$p$ step, suppose $x,y$ are $m$th roots of unity in a domain with a prime ideal in whose quotient $m$ has nonzero image, and $x-y$ lies in that ideal. The identity $x^m-y^m=(x-y)\sum_{i=0}^{m-1}x^iy^{m-1-i}$ has zero left side. If $x\ne y$, the sum vanishes in the domain. Its reduction is $m\bar y^{m-1}$, which is nonzero because $m$ has nonzero image and $\bar y^m=1$. Therefore $x=y$. This is `root_eq_of_sub_mem`.
+
+The reduction of $z^{Mc}$ is $1$ for every $c\ge0$. Indeed, $(\overline{z^{Mc}}-1)^{p^a}=\overline{z^{Nc}}-1=0$ in the residue field. Conversely, if $\bar z^b=\bar z^c$, raise both sides to $p^a$ and apply the previous lemma with $m=M$ to $(z^{p^a})^b$ and $(z^{p^a})^c$. They are equal in $L$. Since $z^{p^a}$ has order $M$, this is equivalent to $b\equiv c\pmod M$. For the reverse implication reduce the difference of the two exponents by writing the larger as the smaller plus a nonnegative multiple of $M$. This proves `zO_sub_mem_iff`.
+
+The power description of $\tau_u$ follows by applying the inverse of the rational cyclotomic Galois equivalence to $u$. On the integral root it gives $\tau_u z=z^u$. The ring of integers is generated over $\mathbb Z$ by $z$, so two ring maps out of it agreeing on $z$ agree on all integral elements by closure under addition and multiplication. Comparing reduction after $\tau_u$ with reduction itself now identifies inertia with $\pi(u)=1$. Comparing reduction after $\tau_u$ with reduction followed by the $p$-power homomorphism gives Frobenius for every $u$ with $\pi(u)=p$. The comparison on $z$ also gives the converse in $L$. These are the generator comparisons in `tauN_inertia_iff` and `tauN_frob`.
+
+For descent to $E$, choose $Q$ over $P$ by lying over. The compatibility on roots gives $\gamma(\sigma)=A(u)$ if and only if $\iota\sigma=\tau_u\iota$. In the forward direction substitute the specified Galois coordinate; in the reverse direction use injectivity of $\iota$ and the Galois coordinate isomorphism. Restriction of an inertia element preserves the congruence by contraction. For surjectivity on inertia, lift $\sigma\in I_P$ to $\tau_0\in\operatorname{Gal}(L/\mathbb Q)$ by normality. Then $\tau_0^{-1}Q$ lies above $P$. Choose $\rho\in\operatorname{Gal}(L/E)$ carrying $Q$ to $\tau_0^{-1}Q$. Thus $\tau_1=\tau_0\rho$ fixes $Q$ and still lifts $\sigma$. Its residue automorphism fixes the residue field at $P$. Lift that residue automorphism to $r$ in the relative decomposition group for $L/E$, using surjectivity of the decomposition-to-residue map. The element $\tau_1 r^{-1}$ then lifts $\sigma$ and acts trivially on the residue field at $Q$. Expressing this element as $\tau_u$ gives $\pi(u)=1$. Conversely any such $u$ restricts to inertia. This gives the two directions of `Der.inertia`.
+
+For Frobenius, the quotient map on residue rings is injective in the direction from $P$ to $Q$. More explicitly, to descend the congruence, embed the integral elements of $E$, carry $\sigma x-x^p$ to $\tau_u\iota(x)-\iota(x)^p$, and contract $Q$ to $P$. In the source, `lift_lemma'` obtains that contraction from integrality of $\mathcal O_L$ over $\mathcal O_E$ and lying over, then uses transitivity of contraction to $\mathbb Z$. The cardinalities of both base residue rings are $p$. This proves `frob_of_modEq`. Reduction on units is surjective, so a unit $w$ above $p\bmod M$ exists. The CRT selects the stated $w$, uniquely, and $F=\gamma^{-1}(A(w))$ is a lift. The set of lifts is $I_P F$: comparing the congruences of $\sigma$ and $F$ at $F^{-1}x$ gives the inertia congruence for $\sigma F^{-1}$, and adding the two congruences at $Fx$ and $x$ gives the converse. If $\sigma F^{-1}$ is represented by $v$ over $1\bmod M$, then $\sigma$ is represented by $vw$ over $p\bmod M$. This proves `frob_any`.
+
+Finally $F^k$ induces $x\mapsto x^{p^k}$ by induction, starting with the identity and composing with the $p$-power map. Any automorphism fixing $P$ induces a power of that map by the cyclic Galois theory of finite fields. Consequently it is $\rho F^k$ with $\rho\in I_P$. If $\rho$ is represented by $v$, then $vw^k$ represents $\rho F^k$ and reduces to $p^k\bmod M$. Conversely, for a representative $u$ over $p^k\bmod M$, $u(w^k)^{-1}$ reduces to $1$ and represents $\sigma(F^k)^{-1}$, which is inertia. Multiplying back by $F^k$ yields the claimed element of $D_P$. This is `Der.decomp` with its `Decomp.stab_eq_inertia_mul` supplier. In particular the residue degree of the host is the order of $A(w)$ modulo $A(\ker\pi)$.
+
+**Remarks on the two moduli and the host group.** At $p\nmid N$ we have $M=N$, inertia is trivial, and $w=p\bmod N$. At $p\mid N$ the integer $p$ is a nonunit modulo $N$. Its class modulo $M$ is a unit, so the arithmetic is expressed by a coset of $\ker\pi$ with representative $w$. The image of $\ker\pi$ in the host can be smaller than the ambient cyclotomic inertia. In particular divisibility of the ambient modulus alone does not decide ramification in a quotient. For a character of the host, its Dirichlet conductor is a divisor $c$ of $N$ determined by that character. The test $p\nmid c$ concerns the value of the primitive character, with the proof given in §5.3.1.1. The two quotients at this step are the cyclotomic quotient by $\ker A$ and the local decomposition quotient by inertia.
+
+**The exact use in P6.** The arithmetic producer is `Formalism.HC.Der`: `hostCore` assigns `frob_any`, `inertia`, and `decomp`; `HostRaw.der` carries them into `HostDer`; `HostAx.ofRaw` packages the result. The `fieldChi` construction uses this package. Its raw host comes from `CharData.toHostRaw`. There the map `res` composes the cyclotomic exponent equivalence with the explicit character map `art`. The field is the fixed field of its kernel. The quotient isomorphism sends the restriction of $\tau$ to `res τ`. The action of $\tau$ on the primitive root determines its exponent by injectivity of the powers in the standard residue range. Substituting this exponent into the quotient isomorphism gives `art_spec`. Those fields identify the arithmetic meaning of the data. In the finite-group proof, `recH = toE.comp H.art` and `arith = cftData H.q H.d (recH H)`. Here `toE` is a bijective change of coordinates, and `cftData` forms the image of $\ker\pi$ and the image of $w$. The Jacobi symbol of the second sign coordinate in `H.der.art_ch` tests membership in $\Phi$ after `toE`.
+
+The `hostFactsS_pf` proof takes $S_0$ to be the prime divisors of $QS\,q$. Its first four fields follow from the host's primality, $2\mid QS$, and $d\nmid QS\,q$. Outside $S_0\cup\{d\}$, $p\nmid N$, so the local kernel is trivial by `unramified_spec`. Inside $S_0$, $d\mid M$. An inertia representative is $1\bmod d$, so its Jacobi symbol is $1$. The selected Frobenius representative is $p\bmod d$, whose Jacobi symbol is $1$ by the supplementary law $(2/d)=1$ when $d\equiv7\pmod 8$, or by $(-d/p)=(p/d)$ for odd $p$ and the host splitting hypotheses for the odd divisors of $QS$ and for $q$. Hence both images lie in $\Phi$. At $d$, the prime-to-$d$ part is $QS\,q$. The input `art_d` puts the image of its kernel in $\{1,\varphi.\mathrm{iod}\}$. CRT provides a unit $1\bmod QS\,q$ and $-1\bmod d$. Since $d\equiv3\pmod4$, its Jacobi symbol modulo $d$ is $-1$, so its image is $\varphi.\mathrm{iod}$. The identity supplies the other element, and `toE` sends the two to $0$ and $\mathrm{sgc}_0=((1,0),0)$. Factoring $QS\,q$ identifies the prime set with `insert H.q H.small`. This proves the advertised `HostFactsS` for the actual `arith`.
+
+The single application of `hostFactsS φ H` inside `core_gm` is the argument to `ch_core` following `keptA Λ H.toHostRaw`. Its data argument is `arith H.toHostRaw`, with the prime set inferred from the proof's type. `PrimRead` has no `HostFactsS` argument. At its coefficient call it passes `R.condN R.q R.d (recH R) ψ n` to `primitive_value_primitive`, for `R = H.toHostRaw`. This is the same `cftData`, by definition. Its use of `HostDer.art_surj` is a separate step at line 72. [Lean, read]
+
+**Source and reading boundary.** The following references use the archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The mathematics in the proof above follows the named bodies. The ring-of-integers generation theorem, cyclotomic Galois equivalence, residue-map surjectivity and finite-field Galois theorem are imported inputs. The proof also retains the `HostRaw` compatibility and the specialized sign inputs. The argument uses cyclotomic restriction via `art_spec`. General Artin reciprocity is outside this chain. In the concrete `AnyGrp` instance, `art_d` follows by reducing a unit $1\bmod QS\,q$ modulo $q$ and $QS$. The first sign and the $QS$-component are then trivial, as is the correction to the latter coming from the first sign. The second sign is $1$ or $-1$. The imported square-root action used for the derived sign formula remains [Lean] at the source boundary.
+
+| Archive source | Role | Status |
+|---|---|---|
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean:12–46,54–56,87–125,174–175` | Host assumptions and derived interfaces | [Lean] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycBasic.lean:17–21,35–41,69–93` | Normal lift, power action, restriction compatibility and surjectivity | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycLift.lean:17–44,46–87,91–116` | Contraction, inertia lift, prime choice and Frobenius coset | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RootEqOfSubMem.lean:12–56,62–185,191–299` | Reduction lemma and host inertia, Frobenius and decomposition proofs | [Lean, read] |
+| `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/Decomp.lean:18–96` | Powers of Frobenius and generation modulo inertia | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycAll.lean:90–106` | Host core field assignments | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/OfRawToHostRaw.lean:9–44` | Derived host package | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/AnyLevel.lean:119–123` | Raw host on the character route | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/OfChar.lean:38–82,113–139` | Cyclotomic fixed field and the construction of restriction compatibility | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/AnyFrame.lean:235–237,252–276,313–348` | Concrete unit map and its restriction at $d$ | [Lean, read] for the unit map and the cited restriction steps |
+| `src/Development/AutomorphicArithmetic/CharacterBoxes/FieldChi.lean:20–59` | Construction of the host package used by the character route | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/PrimitiveCosets/RecH.lean:10–23`; `src/Development/AutomorphicArithmetic/PrimitiveCosets/ToEBij.lean:5–84` | Shared data and coordinate change | [Lean, read] |
+| `src/Formalism/SizeWindowBrackets/GaloisToProductIsIso.lean:12–32`; `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:17–108,123–127` | CRT representative and image of the local kernel | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/HostFacts.lean:15–28,34–105` | Reciprocity signs and modulus divisibility | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycBasic.lean:165–175` | Sign coordinate from the square-root action and cancellation | [Lean, read] |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ArtinMapSecondEqJacobiSym.lean:62` | Square-root action used by the sign argument (proved in §5.3.1.3) | [Lean, read] |
+| `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:254–261,290–295,792` | Prime parts, supplementary law, and sign coordinate | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean:14–22` | The eight fields supplied to the Fourier argument | [Lean] |
+| `src/Development/AutomorphicArithmetic/PrimitiveCosets/hostFactsS.lean:7–136` | Finite-group host facts, conditional on the host inputs | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean:21–22,55–60`; `src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean:343–348` | Actual P6 argument | [Lean, read] |
+| `src/Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean:48–61,64–80` | Shared-data consumer and separate surjectivity call | [Lean, read] |
+
+For a classical comparison, Milne proves the prime-power ring-of-integers and ramification statements in Proposition 6.2 (pp. 96–98), explains the decomposition and inertia calculation in Remark 8.12 (p. 140), and computes the unramified cyclotomic power action in Example 8.18 (p. 143). The order-of-reduction argument above covers the lifts at primes dividing the ambient modulus and is transcribed from the Lean proof cited here. The worked table and the mapping between the two P6 consumers are this book's exposition. [Milne, *Algebraic Number Theory*, v3.08](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+### 5.3.1.3 The second host sign from a quadratic Gauss sum
+
+**Motivation.** The preceding subsection describes which cyclotomic units represent inertia and Frobenius. The Fourier argument also needs to know which of those representatives fix the quadratic part of the host singled out by $d$. The host comes with a specified element $b$ satisfying $b^2=-d$. Any rational automorphism carries $b$ to $b$ or $-b$. A finite sum in the ambient cyclotomic field gives a root of the same equation and makes the sign computable. The coefficients of the sum are rational integers, so the automorphism acts only on the roots of unity in its terms.
+
+Throughout, the host hypotheses are that $q,d$ are primes, $q\equiv3\pmod8$, $d\equiv7\pmod{16}$, and $\left(\frac{-d}{q}\right)=1$. These primes are distinct by their classes modulo $8$. On the character route the ambient modulus is $N=Q_S qd$ with $Q_S>0$, $\gcd(Q_S,qd)=1$, and $2^{e+2}\mid Q_S$ for the frame exponent $e\ge2$. The `fieldChi` route also assumes $q\ne3$. Every odd prime $\ell\mid Q_S$ satisfies $\left(\frac{-d}{\ell}\right)=1$. In particular the modulus is even. We use $A(u)$ for the host map called `art`, and $s_d$ for projection to its second sign, Lean's `.1.2`. The second sign is in $\{1,-1\}$ and is separate from the frame coordinate.
+
+**Example 1 ($d=7$).** Take $q=11$. We have $-7\equiv4\pmod{11}$, so the host condition holds. For $x$ a primitive seventh root, the nonzero squares modulo $7$ are $1,2,4$. The signed sum is $G=(x+x^2+x^4)-(x^3+x^5+x^6)$. The exponent $5$ carries $\{1,2,4\}$ to $\{5,3,6\}$ and carries its complement back to the squares. Thus a cyclotomic unit represented by $5$ sends $G$ to $-G$. The exponents $2$ and $11\equiv4\pmod7$ preserve the square set, giving the positive second sign for the Frobenius representatives at $2$ and $11$. Here those representatives have the stated exponents **modulo $7$**. The integer $2$ is a nonunit modulo $N$.
+
+**Example 2 ($d=23$).** Take $q=59$. Then $-23\equiv36=6^2\pmod{59}$. Squaring $1,\ldots,11$ modulo $23$ gives, in order, $1,4,9,16,2,13,3,18,12,8,6$. In particular $2=5^2$ and $59\equiv13=6^2\pmod{23}$ as residue identities. The exponent $5$ is absent from the square list and interchanges the square and nonsquare cosets, so it negates the sum with these coefficients. The exponents $2$ and $59$ preserve each coset. For these two examples one can take $Q_S=16$ in the congruence calculations, so $5$ represents a unit modulo each $N$. As a check at $d$, the units represented by $881=1+5(16\cdot11)$ and $19825=1+21(16\cdot59)$ are $1$ modulo $Q_Sq$ and $-1$ modulo $7$ and $23$, respectively. They negate the respective quadratic sums since $-1$ is outside each square list. The general proof below identifies these sums with square roots.
+
+**Definition (The algebraic normalization).** Let $N>0$, let $p\mid N$ be prime with $p\equiv3\pmod4$, and fix the archive's primitive root $z$ of order $N$ in $L=\mathbb Q(\zeta_N)$. Then $x=z^{N/p}$ has order $p$ because $N\mid (N/p)j$ exactly when $p\mid j$. Let $\chi_p(0)=0$ and let $\chi_p(a)$ be $1$ on nonzero squares and $-1$ on nonsquares in $\mathbb F_p$. Define $\psi_x(a)=x^a$ using any integer representative of $a$, and put $G_x=\sum_{a\in\mathbb F_p}\chi_p(a)\psi_x(a)$. We use the additive character with positive exponent and the unscaled sum. The character $\psi_x$ is primitive since $x$ has order $p$. The definition uses the chosen algebraic root of unity. The host element `sqd` is specified by its square and its action, with no choice of sign in a complex embedding required. In particular this calculation uses the algebraic square of $G_x$.
+
+**Lemma (Square-root action, `D7.sqrt_act`) [Lean, read].** Let $u\in(\mathbb Z/N\mathbb Z)^\times$, with least nonnegative representative $v$, and let $\tau_u$ act by $w\mapsto w^v$ on $N$th roots of unity. If $y\in L$ satisfies $y^2=-p$, then $\tau_u(y)=\left(\frac{v}{p}\right)y$. The symbol on the right is the Jacobi symbol with prime denominator, hence the Legendre symbol. On units it takes values in $\{1,-1\}$.
+
+**Proof.** First, the finite-field square identity used by `Cond.gs_sq` is $G_x^2=\chi_p(-1)p$. To see the product calculation behind the identity, write $\psi=\psi_x$ and let $\psi^{-1}$ be its pointwise inverse. In the product of the two sums for $(\chi_p,\psi)$ and $(\chi_p^{-1},\psi^{-1})$, the second summation variable $b$ is nonzero in every contributing term. Here the inverse multiplicative character is extended by zero at zero. Put $a=bc$ in the first sum. The product is then $\sum_c\chi_p(c)\sum_{b\ne0}\psi(b(c-1))$. Since $\chi_p$ is nontrivial, $\sum_c\chi_p(c)=0$, so we may restore the term $b=0$ in each inner sum. The complete inner sum is $p$ for $c=1$ and zero otherwise by the finite geometric sum for a primitive root. The product is $p$. Now $\chi_p^{-1}=\chi_p$, and replacing $\psi(a)$ by $\psi(-a)$ multiplies the sum by $\chi_p(-1)$. As $p\equiv3\pmod4$, the supplementary law gives $\chi_p(-1)=-1$. Thus $G_x^2=-p$ and $G_x\ne0$. This is the specialization of the finite-field product and square identities used in the production proof.
+
+Next, $x^N=1$ and $\tau_u(x)=x^v$. The automorphism fixes all the coefficients $\chi_p(a)$, so $\tau_u(G_x)=\sum_a\chi_p(a)\psi_x(va)$. The reduction of $v$ modulo $p$ is invertible since $p\mid N$ and $u$ is a unit. Replacing $va$ by $c$ turns the coefficient into $\chi_p(v)^{-1}\chi_p(c)$, including the zero term. The inverse of this sign equals the sign itself, so $\tau_u(G_x)=\chi_p(v)G_x$. This is the shift used in `D7.gs_act`. The map `sgnN` first reduces the unit modulo $p$ and then applies the quadratic character. By `sgnN_val` its value is $\left(\frac{v}{p}\right)$.
+
+Finally, $(y-G_x)(y+G_x)=0$ in a field. In either case $y=\pm G_x$ the same action formula holds, since $\tau_u$ fixes the rational sign in front of $G_x$. This last step permits the use of any specified root with the given square. $\square$
+
+**The root in the fixed field [Lean, read].** On the character route `AnyFrame.art` defines $s_p(A(u))=\left(\frac{v}{p}\right)$ for the two coordinates $p=q,d$, using `sgnN`. Its second-coordinate computation is stored in `CharData.art_ch`. The host field $E$ in `OfChar` is the fixed field of the kernel of $\tau_u\mapsto A(u)$, and the restriction of $\tau_u$ has coordinate $A(u)$ under the Galois identification $\gamma$. The proof `exists_root` takes the root supplied by `Cond.sqrt_exists`, which is the Gauss sum constructed above. The lemma shows that each member of this kernel acts on that root by $s_d(1)=1$. Hence it belongs to $E$. For $\sigma\in\operatorname{Gal}(E/\mathbb Q)$, lift $\gamma(\sigma)$ through the surjective map $\tau_u\mapsto A(u)$. Restricting the action on the root proves $\sigma b=s_d(\gamma(\sigma))b$ in $E$. The specialization `exists_sqd` uses $p=d$ and stores the root, its square, and its action as `sqd`, `sqd_sq`, and `gal_sqd` in `toHostRaw`.
+
+**Recovering the second sign from the raw host [Lean, read].** The downstream theorem `Der.art_ch` is formulated for a raw host with these three fields and the cyclotomic restriction compatibility. Write $\iota:E\hookrightarrow L$ for its embedding and $\sigma_u=\gamma^{-1}(A(u))$. The restriction compatibility gives $\iota(\sigma_u b)=\tau_u(\iota b)$. Using the specified host action on the left and the lemma on the right gives $s_d(A(u))\,\iota b=\left(\frac{v}{d}\right)\iota b$. Since $(\iota b)^2=-d\ne0$, cancellation yields $s_d(A(u))=\left(\frac{v}{d}\right)$. This is the `art_ch` field of `Der.hostCore` and then of `HostRaw.der`. The character constructor uses the sign to produce the raw host. The derived theorem recovers the sign using the raw host's root and its compatibility.
+
+**The negative discriminant and the prime $2$.** Since $d$ is prime and $-d\equiv1\pmod4$, the quadratic field $\mathbb Q(b)$ has discriminant $-d$, with integral basis $1,(1+b)/2$. For example the latter generator has polynomial $X^2-X+(1+d)/4$ of discriminant $-d$, which is squarefree. The discriminant of $X^2+d$ itself is $-4d$. For positive odd $k$, quadratic reciprocity and the supplementary law for $-1$ give $\left(\frac{-d}{k}\right)=\left(\frac{-1}{k}\right)\left(\frac{d}{k}\right)=\left(\frac{k}{d}\right)$. When $k\equiv1\pmod4$ the two factors contribute no sign, and when $k\equiv3\pmod4$ their minus signs cancel. This is the calculation in `jacobi_neg_recip`. In particular the hypothesis at $q$ gives $\left(\frac{q}{d}\right)=1$. At $2$ the proof uses `jac_two_d` to obtain $\left(\frac{2}{d}\right)=(-1)^{(d^2-1)/8}=1$ since $d\equiv7\pmod8$. Equivalently the Kronecker symbol $\left(\frac{-d}{2}\right)$ is $1$ since $-d\equiv1\pmod8$. This agrees with the polynomial $X^2-X+(1+d)/4$, which has two distinct roots modulo $2$. For example $(1+d)/4$ is $2$ at $d=7$ and $6$ at $d=23$. The first sign at a Frobenius representative for $2$ is $\left(\frac{2}{q}\right)=-1$ by $q\equiv3\pmod8$. The original host condition $d\equiv7\pmod{16}$ is retained. The action itself used $d\equiv3\pmod4$ and the supplement used $d\equiv7\pmod8$.
+
+**Where the sign enters `HostFactsS` [Lean, read].** Set $S_0=\{q\}\cup\mathrm{small}$, the prime divisors of $Q_Sq$. In the additive coordinates of the preceding subsection, membership in $\Phi$ is equivalent to having second sign $+1$. For $\ell\in S_0$ the prime-to-$\ell$ part of $N$ still contains $d$. The already identified inertia representatives are $1$ modulo $d$, so their second signs are $+1$. The Frobenius representatives are $\ell$ modulo $d$. Their signs are $+1$ by `jac_two_d` at $2$, the host assumption at $q$ and reciprocity, or the splitting condition for odd $\ell\mid Q_S$ and reciprocity. These are the `split_inertia` and `split_frob` fields. The splitting asserted by the sign is in the quadratic part selected by $d$. At $d$, a CRT unit equal to $1$ modulo $Q_Sq$ and $-1$ modulo $d$ belongs to the local inertia kernel. Its sign is $\left(\frac{-1}{d}\right)=-1$. The `art_d` restriction leaves only the identity or the element with this one sign changed and trivial frame coordinate. Thus the CRT witness realizes the latter and gives the additive inertia set $\{0,\mathrm{sgc0}\}$. The resulting `hostFactsS` is passed to `ch_core` with the same arithmetic data as in §5.3.1.2.
+
+**Source map and reading boundary.** Paths below are relative to the `lean/` directory of the joined archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The local R3 reading concerns the displayed proof bodies and assignments. [Archive source](../sources/SOURCES.md#alpöge)
+
+| Archive path and lines | Role |
+| --- | --- |
+| `src/Formalism/FrobeniusOrbits/Statement.lean:13–14` | Original `HostHyp`. |
+| `src/Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/EqZeroOfNegEq.lean:19–51,95–104,143–149` | Algebraic sum, square, primitive root and existence. |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ArtinMapSecondEqJacobiSym.lean:15–23,31–77,157–165` | Unit sign, Gauss shift and action on either root. |
+| `src/Development/AutomorphicArithmetic/CharacterBoxes/FieldChi.lean:20–59`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/AnyLevel.lean:119–123` | P6 host entry. |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/AnyFrame.lean:235–250,313–348`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/OfChar.lean:38–139` | Sign in the character constructor, fixed-field descent and the selected raw root. |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean:202–207`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycBasic.lean:35–39,72–76,165–175` | Restriction, square-root action and cancellation. |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/CycAll.lean:90–106`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/OfRawToHostRaw.lean:9–42` | Packaging in the derived host. |
+| `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/HostFacts.lean:15–28`; `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:290–294` | Actual reciprocal identity and supplement used by the consumer. |
+| `src/Development/AutomorphicArithmetic/PrimitiveCosets/hostFactsS.lean:7–136`; `src/Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean:55–60` | Sign-dependent host fields and the Fourier consumer. |
+
+The finite-field product and shift can be compared directly with Mathlib's pinned `Mathlib/NumberTheory/GaussSum.lean:71–86,166–201,222–228`. The imported proofs below those identities, including `sum_mulShift`, `MulChar.sum_eq_zero_of_ne_one`, and `AddChar.zmodChar_primitive_of_primitive_root`, remain [Lean]. Section 5.3.1.4 reads the imported quadratic-character and Jacobi reciprocity proofs. The cyclotomic equivalence `IsCyclotomicExtension.Rat.galEquivZMod` and the fixed-field quotient theorem `IsGalois.normalAutEquivQuotient` remain [Lean] inputs. The residue-field surjectivity and cyclotomic integer-ring inputs from §5.3.1.2 remain at their stated reading levels. [Pinned Mathlib source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/GaussSum.lean#L71-L86)
+
+Milne identifies the unique quadratic subfield of the prime cyclotomic field and computes its unramified signs through Frobenius and reciprocity (Example 8.19 and pp. 143–144). His discussion of class numbers gives the case of $\mathbb Q(\sqrt{-23})$ and the splitting of $2$ (p. 101). Here the archive obtains the action on the specified root directly from the algebraic Gauss sum. [Milne, *Algebraic Number Theory*, v3.08](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+### 5.3.1.4 Quadratic reciprocity and the host splitting signs
+
+**Motivation.** The second host sign from §5.3.1.3 is evaluated on the exponent modulo $d$. For an odd prime $p$ dividing $Q_Sq$, the input instead describes $-d$ modulo $p$. Reciprocity exchanges these two arguments. The minus sign in the discriminant absorbs the reciprocity sign when $dequiv3pmod4$. At $p=2$ the input comes from a separate supplementary law.
+
+**Examples.** For $d=7$, the squares modulo $7$ are $1,2,4$ among nonzero residues. With $q=11$, the two sides of the odd-prime identity are positive since $-7equiv2^2pmod{11}$ and $11equiv2^2pmod7$. For $d=23$, take $q=59$. Here $-23equiv6^2pmod{59}$ and $59equiv13equiv6^2pmod{23}$. In both cases $2$ is a square modulo $d$, represented by $3^2$ modulo $7$ and $5^2$ modulo $23$. The odd $Q_S$ branch can also be seen in these examples. For $d=7$, take $Q_S=16\cdot29$ and use $-7\equiv14^2\pmod{29}$ and $29\equiv1\pmod7$. For $d=23$, take $Q_S=16\cdot13$ and use $-23\equiv4^2\pmod{13}$ and $13\equiv6^2\pmod{23}$. At $p=d$ the relevant residue is zero.
+
+For a composite denominator, take $d=7$ and $n=15$. The residues of $-7$ modulo $3$ and $5$ are $2$ and $3$, both nonsquares. The Jacobi value is $(-1)(-1)=1$, agreeing with $15equiv1pmod7$. This positive value can coexist with two inert prime factors. At $n=21$ the factor at $7$ is zero, so the product is zero, as is the symbol of $21$ modulo $7$. At $n=1$ the empty product is $1$. Even a repeated factor matters: at $n=9$ the factor $-1$ at $3$ occurs twice, giving $1$, in agreement with $9equiv2pmod7$.
+
+**Definition.** For an odd prime $p$, let $L_p(a)$ be the Legendre symbol of an integer $a$, with value $0$ on the zero residue and values $1,-1$ on nonzero squares and nonsquares. For a positive odd integer $n$, write $n=prod_i p_i$, listing primes with multiplicity. Define $J(a,n)=prod_i L_{p_i}(a)$. The empty product convention gives $J(a,1)=1$ for every $a$. The definition gives multiplicativity in the denominator by concatenation and in the numerator by multiplicativity of each $L_p$. Reduction of $a$ modulo $n$ preserves each residue modulo $p_i$. A factor vanishes exactly when $p_i$ divides $a$, so $J(a,n)=0$ exactly when $gcd(|a|,n)>1$.
+
+**Lemma (prime reciprocity and supplements) [Lean, read].** For all odd primes $p,ell$, with $h(t)=(t-1)/2$ on positive odd integers,
+$L_p(ell)=(-1)^{h(p)h(ell)}L_ell(p)$.
+Also $L_p(-1)=(-1)^{h(p)}$, and $L_p(2)=chi_8(p)$, where $chi_8$ is $1$ on $1,7$ and $-1$ on $3,5$ modulo $8$ and is zero on even integers.
+
+**Proof.** In an odd prime field, Euler's criterion identifies the reduction of $L_p(a)$ with $a^{h(p)}$. The two unit signs have distinct reductions. Taking $a=-1$ gives the first supplement. For distinct $p,ell$, choose a primitive $p$th root $x$ in an algebraic closure of $mathbb F_ell$. Such a root exists because $X^p-1$ has $p$ distinct roots there. The product proof of the square identity in §5.3.1.3 uses only the primitive root and finite geometric sums, so it applies here for either residue class of $p$ modulo $4$. For $G=sum_{ainmathbb F_p}L_p(a)x^a$ it gives $G^2=L_p(-1)p$. This is nonzero in characteristic $ell$. The $ell$th power map preserves the coefficients and sends $x^a$ to $x^{ell a}$. Multiplication by $ell$ permutes the residues modulo $p$, so $G^ell=L_p(ell)G$. Dividing by $G$ yields $(L_p(-1)p)^{h(ell)}=L_p(ell)$ in characteristic $ell$. Euler's criterion and distinctness of the two signs now give $L_p(ell)=L_ell(L_p(-1)p)=(-1)^{h(p)h(ell)}L_ell(p)$ over the integers. For $p=ell$, both sides are zero. This equality form is the prime input to the composite proof.
+
+For the supplement at $2$, work in characteristic $p$ and choose a primitive eighth root $t$ in the algebraic closure. The Gauss sum on $mathbb Z/8mathbb Z$ with coefficients $chi_8$ is $T=t-t^3-t^5+t^7=2(t-t^3)$ since $t^4=-1$. Squaring gives $T^2=8$, using $t^6=-t^2$. The unit group modulo $8$ has generators $3,7$ of order two, and their product is $5$. The displayed signs thus define a multiplicative character on units, extended by zero on even residues. The $p$th-power map and substitution $amapsto pa$ in this eight-term sum give $T^p=chi_8(p)T$. As $T
+e0$, it follows that $8^{h(p)}=chi_8(p)$ in characteristic $p$. Since $2^{p-1}=1$, this power of $8$ equals $2^{h(p)}$. Euler's criterion again recovers the integer sign. The pinned proof performs these same power-and-cancellation steps for arbitrary finite fields of odd characteristic. [Prime specialization](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean#L105-L129) · [Finite-field Gauss-sum proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/GaussSum.lean#L283-L402)
+
+**Theorem (Jacobi reciprocity and the negative argument) [Lean, read].** For positive odd $r,n$,
+$J(r,n)=(-1)^{h(r)h(n)}J(n,r)$,
+$J(-1,n)=(-1)^{h(n)}$, and $J(2,n)=chi_8(n)$. If $requiv3pmod4$, then $J(-r,n)=J(n,r)$. These identities allow common prime factors and include denominator $1$.
+
+**Proof.** For odd positive $u,v$ the identity $h(uv)=h(u)+h(v)+2h(u)h(v)$ gives additivity modulo $2$. The two supplements therefore extend by multiplying the prime formulas, using also multiplicativity of $chi_8$. Now write $r=prod_i r_i$ and $n=prod_j p_j$. Expanding both arguments gives
+$J(r,n)=prod_{i,j} L_{p_j}(r_i)$.
+Replace each factor by $(-1)^{h(r_i)h(p_j)}L_{r_i}(p_j)$ using the equality form of prime reciprocity. The resulting sign exponent is $(sum_i h(r_i))(sum_j h(p_j))$, congruent to $h(r)h(n)$ modulo $2$. The remaining product is $J(n,r)$. If a prime occurs in both lists, a zero factor occurs on each side. This multiplication uses no cancellation of a symbol and works for empty lists. Mathlib implements the two expansions by applying `value_at` twice, with the sign packaged as the bimultiplicative `qrSign`.
+
+Finally $J(-r,n)=J(-1,n)J(r,n)=(-1)^{(1+h(r))h(n)}J(n,r)$. For $requiv3pmod4$ the exponent is even. In `jacobi_neg_recip`, the branch $nequiv1pmod4$ has both signs positive and the branch $nequiv3pmod4$ has two minus signs. [Pinned Jacobi proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean#L299-L448)
+
+**Corollary (the three host branches) [Lean, read].** Use the host hypotheses of §5.3.1.3 and let $p$ be a prime dividing $Q_Sq$. Then $J(p,d)=1$.
+
+**Proof.** The divisibility alternative in `dvd_QSq_iff` gives $pmid Q_S$ or $p=q$. In the former case with $p=2$, the hypothesis $dequiv7pmod{16}$ implies $dequiv7pmod8$, so `jac_two_d` gives $J(2,d)=chi_8(d)=1$. For odd $pmid Q_S$, apply the theorem with $(r,n)=(d,p)$ to `QS_split`, which supplies $J(-d,p)=1$. In the remaining branch $p=q$, oddness follows from $qequiv3pmod8$ and the same theorem with $(r,n)=(d,q)$ converts the last clause of `HostHyp`, namely $J(-d,q)=1$. The three branches are exactly those of `jac_of_dvd`.
+
+**Remarks.** For the quadratic field $mathbb Q(sqrt{-d})$, the integral basis from §5.3.1.3 gives discriminant $-d$. At an odd prime $p$, the reduced integral polynomial has two simple roots when $J(-d,p)=1$, is irreducible when the symbol is $-1$, and has a double root at $p=d$. These give the split, inert and ramified cases for the quadratic field. At $2$, the integral polynomial $X^2-X+(1+d)/4$ reduces to $X(X-1)$ since $dequiv7pmod8$. This gives the split case, equivalently Kronecker value $1$ at $2$. The host proof uses $J(2,d)$, with $2$ in the numerator. The prime $q$ has $J(2,q)=-1$ by its residue modulo $8$, a different sign coordinate. [Milne, *Algebraic Number Theory*, v3.08, pp. 101, 143–144](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+In `hostFactsS_pf`, the condition $pmid Q_Sq$ ensures $p
+e d$, so $d$ divides the prime-to-$p$ part of $N=Q_Sqd$. The inertia exponents reduce to $1$ modulo $d$, giving $J(1,d)=1$. The Frobenius exponent reduces to $p$ modulo $d$, giving the corollary's value through `inPhi_of_jac`. These are the `split_inertia` and `split_frob` fields for the second sign. At $2$ only the reduction of the Frobenius representative modulo $d$ is $2$; the representative is a unit modulo $N$. At $d$, the CRT witness instead has exponent $-1$ modulo $d$, so $J(-1,d)=-1$. The zero $J(d,d)$ concerns the ramified prime and cannot be the sign of a unit. The inertia witness and its use of `art_d` are described in the preceding subsections.
+
+The archive consumers are `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/HostFacts.lean:15–28,41–46,104–105`, `src/Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean:290–300`, and `src/Development/AutomorphicArithmetic/PrimitiveCosets/hostFactsS.lean:7–38,71–82,106–125` (archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`). The deeper Mathlib inputs `quadraticChar_eq_pow_of_char_ne_two'`, `FiniteField.primitiveChar`, `primitiveZModChar` and `AddChar.IsPrimitive.zmod_char_eq_one_iff` remain [Lean] inputs to the formal reading. The preceding sections give the host action and local unit inputs.
+
+### 5.3.1.5 Euler's criterion over a finite field
+
+The reciprocity argument in §5.3.1.4 produces an identity of powers in a
+field of positive characteristic. To read its sign as an integer-valued
+quadratic character, we need to know exactly which field elements the
+half-order power sends to $1$, to $-1$, and to $0$. The cardinality of the
+field controls the exponent. The characteristic controls whether the two
+signs are distinct.
+
+**Two examples.** In $\mathbb F_7$, the exponent is $3$. For the square
+column, the inputs pair as $1,6$, $2,5$, and $3,4$, with respective outputs
+$1,4,2$. For the cube column, $1^3=1$, $2^3=8\equiv1$, and
+$3^3=27\equiv-1$. The cubes of the other three units follow by negation.
+The character column is determined by membership in $\{1,2,4\}$ for
+nonzero inputs.
+
+| $a$ | $a^2$ | $a^3$ | $\chi(a)$ in $\mathbb Z$ |
+|---|---|---|---|
+| $0$ | $0$ | $0$ | $0$ |
+| $1$ | $1$ | $1$ | $1$ |
+| $2$ | $4$ | $1$ | $1$ |
+| $3$ | $2$ | $-1$ | $-1$ |
+| $4$ | $2$ | $1$ | $1$ |
+| $5$ | $4$ | $-1$ | $-1$ |
+| $6$ | $1$ | $-1$ | $-1$ |
+
+For $\mathbb F_9$, use $\mathbb F_3[t]/(t^2+1)$, writing $t$ also for
+its residue class. The three squares of $0,1,-1$ in $\mathbb F_3$ are
+$0,1,1$, so the defining quadratic has no root and is irreducible.
+There are nine elements, uniquely $a+bt$ with $a,b\in\mathbb F_3$.
+Here the exponent is $4$. Using $t^2=-1$ and $2=-1$, we get
+$(1+t)^2=-t$ and $(1-t)^2=t$. Changing an input's sign leaves its
+square unchanged. Thus the unit squares are exactly $1,-1,t,-t$.
+Squaring the square column gives the fourth powers.
+
+| $x$ | $x^2$ | $x^4$ | $\chi(x)$ in $\mathbb Z$ |
+|---|---|---|---|
+| $0$ | $0$ | $0$ | $0$ |
+| $1$ | $1$ | $1$ | $1$ |
+| $-1$ | $1$ | $1$ | $1$ |
+| $t$ | $-1$ | $1$ | $1$ |
+| $-t$ | $-1$ | $1$ | $1$ |
+| $1+t$ | $-t$ | $-1$ | $-1$ |
+| $-1-t$ | $-t$ | $-1$ | $-1$ |
+| $1-t$ | $t$ | $-1$ | $-1$ |
+| $-1+t$ | $t$ | $-1$ | $-1$ |
+
+In particular $-1$ is a nonsquare in the prime field $\mathbb F_3$
+and a square in its quadratic extension. Using the characteristic $3$
+in place of the cardinality $9$ would give exponent $1$, which sends
+the square $t$ to $t$. [Expository]
+
+**Definition.** Let $F$ be a finite field of cardinality $Q$ and let
+$G=F^\times$. Define $\chi_F:F\to\mathbb Z$ by taking $\chi_F(0)=0$,
+$\chi_F(a)=1$ for $a\in G^2$, and $\chi_F(a)=-1$ for $a\in G\setminus
+G^2$. This is the piecewise function underlying Mathlib's
+`quadraticChar`. In the following proof write $s:G\to G$ for $s(x)=x^2$.
+
+**Lemma (squares and the half-order kernel).** Assume
+$\operatorname{char}F\ne2$. Then $m=(Q-1)/2=\lfloor Q/2\rfloor$ is a
+positive integer. The square map has kernel $\{1,-1\}$ and image
+of size $m$. The image equals $\{a\in G:a^m=1\}$.
+
+**Proof.** The field has order $p^f$ for prime characteristic $p$ and
+$f\ge1$. Hence $Q$ is odd and at least $3$. Commutativity makes $s$ a
+homomorphism. If $x^2=1$, then $(x-1)(x+1)=0$, so $x=1$ or $x=-1$.
+Both solutions occur and are distinct. Each nonempty fiber of $s$ is
+a coset of this two-element kernel. Indeed $x^2=y^2$ for units exactly
+when $(xy^{-1})^2=1$. Counting fibers gives $\lvert G^2\rvert=m$.
+By Lagrange's theorem $y^{Q-1}=1$ for every $y\in G$, so
+$(y^2)^m=1$. Thus the $m$ squares already supply $m$ distinct roots
+of the nonzero polynomial $X^m-1$. The degree bound on distinct roots
+gives the reverse inclusion. This proof uses finite-group order and
+fiber counting together with the polynomial root bound.
+
+**Theorem (Euler's criterion and identification).** Under the same
+hypotheses, the following statements hold.
+
+- For $a\ne0$, the integer $\chi_F(a)$ is $1$ if $a^m=1$ in $F$ and
+  $-1$ otherwise.
+- For every $a\in F$, the image of $\chi_F(a)$ under $\mathbb Z\to F$
+  is $a^m$.
+- On $G$, $\chi_F$ is the unique nontrivial homomorphism to
+  $\{1,-1\}$ under multiplication. Its extension by zero is
+  multiplicative on $F$.
+
+**Proof.** The lemma identifies the $+1$ case. For $a\ne0$, Lagrange
+also gives $(a^m)^2=1$, so $a^m$ is one of the two distinct signs.
+For $a=0$, positivity of $m$ gives $0^m=0$, which agrees with the
+cast of $\chi_F(0)$. Distinctness of the signs gives a multiplicative
+identification of the two integer signs with their images in $F$.
+Since $(ab)^m=a^mb^m$, the character is multiplicative on units.
+An argument equal to zero gives zero on both sides of
+$\chi_F(ab)=\chi_F(a)\chi_F(b)$. The quotient $G/G^2$ has size two.
+Every homomorphism to the signs kills $G^2$, because either sign
+squares to $1$. A nontrivial homomorphism on the two-element quotient
+must send the other coset to $-1$. This proves uniqueness.
+
+**How Mathlib proves the criterion.** The library's converse in
+`FiniteField.unit_isSquare_iff` uses cyclicity. Choose a generator
+$g$ of $F^\times$ and write a unit as $g^n$ with $n\ge0$.
+Mathlib passes from integer powers to natural powers in the finite
+group. The generator has order $\lvert G\rvert=Q-1=2m$. If
+$(g^n)^m=1$, then $2m\mid nm$ by the order divisibility lemma.
+Since $m>0$, cancellation in this divisibility relation gives
+$2\mid n$. Writing $n=2j$ gives the square root $g^j$.
+The forward direction is again $(y^2)^m=y^{Q-1}=1$.
+`FiniteField.pow_card_sub_one_eq_one` lifts a nonzero element to a
+unit, uses $\lvert F^\times\rvert=Q-1$ and the finite-group theorem
+`pow_card_eq_one`, and then takes the value of the unit. The parity
+input is `odd_card_of_char_ne_two`, obtained from the prime-power
+cardinality and the characterization of even field cardinality.
+The passage to `FiniteField.isSquare_iff` uses that a square root
+of a nonzero field element is itself nonzero, so it can be lifted
+back to a unit. Separately, `pow_dichotomy` rewrites the group-order
+power as a square and uses the two field roots of $X^2-1$.
+
+The unprimed `quadraticChar_eq_pow_of_char_ne_two` is the integer
+formula on nonzero inputs. Its helper unfolds the piecewise
+definition and rewrites the square test. The primed
+`quadraticChar_eq_pow_of_char_ne_two'` has an integer cast into $F$
+on the left and permits every input. The proof handles zero using
+$Q\ge2$ and positivity of $\lfloor Q/2\rfloor$, then uses the
+unprimed version and `pow_dichotomy` for the two nonzero cases.
+In the library's construction of the multiplicative character,
+`quadraticCharFun_mul` handles zero factors first. Its
+odd-characteristic branch multiplies the two half-order powers
+and checks their two possible signs, and its characteristic-two
+branch uses the fact that every nonzero element is a square.
+[Lean, read] [Pinned finite-field implementation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Finite/Basic.lean#L781-L837)
+[Quadratic character implementation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean#L69-L196)
+
+**The additive character interface.** For a commutative monoid $C$,
+an additive character $\psi:\mathbb Z/n\mathbb Z\to C$ sends sums
+to products and zero to $1$. Assume $n>0$. Define the shift by $a$
+as the character $b\mapsto\psi(ab)$. Primitivity requires every
+shift by $a\ne0$ to be nontrivial. Every class $b$ is $b_0$ times
+the additive generator $1$, for $0\le b_0<n$. The shifted
+character consequently takes the value $\psi(a)^{b_0}$ on $b$.
+Thus it is trivial exactly when $\psi(a)=1$: evaluate at $1$ for
+one implication and use the power formula for the other. By
+primitivity this gives $\psi(a)=1$ if and only if $a=0$. This is
+`AddChar.IsPrimitive.zmod_char_eq_one_iff`. Conversely, if that
+equivalence holds for every $a$, a trivial shift evaluated at
+$1$ forces $a=0$.
+
+Given an element $\zeta$ of order $n$ in $C^\times$, the formula
+$\psi([b])=\zeta^b$ defines such a primitive character.
+Independence of the representative follows from $\zeta^n=1$,
+as does the homomorphism law after reducing sums modulo $n$.
+The order identity gives $\zeta^b=1$ exactly when $n\mid b$, so
+the preceding converse applies. In `primitiveZModChar`, the
+arguments are a positive integer $n$, a field $B$, and
+$(n:B)\ne0$. The character takes values in the $n$th cyclotomic
+extension of $B$, where the construction supplies the primitive
+root. For the call in `FiniteField.primitiveChar`, put
+$p=\operatorname{char}F$ and take $n=p$ and $B=F'$.
+The assumed different field characteristics ensure $(p:F')\ne0$.
+The resulting character on $\mathbb Z/p\mathbb Z$ is composed
+with $\operatorname{Tr}_{F/\mathbb F_p}$. In the kernel interface,
+the argument $a$ is now the trace of a field element selected to
+have nonzero trace, using trace nondegeneracy with first argument
+$1$. Its character value differs from $1$, so the composition
+is nontrivial. A shift by a nonzero element of a field is a
+bijection, giving primitivity of the composition. When $[F:\mathbb
+F_p]>1$, the trace has a nontrivial kernel and the composition
+can take value $1$ on nonzero inputs. The cyclic additive-domain
+hypothesis of the kernel interface matters. [Lean, read]
+[Pinned additive character implementation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean#L128-L230)
+
+**Conditional specialization to the host.** Retain the hypotheses
+of §5.3.1.2. Let $Q_0$ be a prime above $\ell$ in the ambient
+cyclotomic field, let $k$ be its residue field, and let
+$M=\operatorname{ordCompl}_{\ell}(N)$ be the prime-to-$\ell$ part
+of $N$. Write $\eta$ for the reduction of the integral
+primitive $N$th root. The already established comparison
+`zO_sub_mem_iff` gives $\eta^b=\eta^c$ exactly when $b\equiv
+c\pmod M$ for nonnegative exponents $b,c$. In particular $\eta$
+has order $M$, including order one when $M=1$.
+
+To instantiate `zmod_char_eq_one_iff`, use $n=M$ with $M>0$,
+$C=(k,\cdot,1)$, and $\psi=\operatorname{zmodChar}(M,\eta^M=1)$.
+Primitivity is supplied by the order of $\eta$ via
+`zmodChar_primitive_of_primitive_root`. At the argument
+$a=[b-c]\in\mathbb Z/M\mathbb Z$, we have $\psi(a)=\eta^b(\eta^c)^{-1}$.
+Thus $\psi(a)=1$ if and only if $a=0$, recovering the exponent
+comparison. In the inertia comparison the exponents are $b=u_0$,
+$c=1$, where $u_0$ is the natural representative of the cyclotomic
+unit. In the Frobenius comparison they are $b=u_0$, $c=\ell$.
+The archive obtains the exponent comparison directly by reduction,
+then uses it on the integral generator. The additive character
+formulation here is a conditional reformulation of that step.
+
+For odd $\ell$, the Euler theorem can also be applied in this
+same residue field. If $\lvert k\rvert=\ell^f$, substitute
+$F=k$, $m=(\ell^f-1)/2$, and $a=\eta^b$ in the primed formula.
+The input is a unit and its power is $\eta^{bm}$.
+Consequently the quadratic sign is $+1$ precisely when
+$M\mid bm$. This is an application of the additive kernel
+interface at the class $[bm]$. The order of $\eta$ divides
+$\ell^f-1=2m$, so $\eta^{bm}$ is a sign. For $\ell=2$ the
+order comparison and additive interface still apply. This
+formulation concerns the residue field at $Q_0$. The host
+coordinate $\operatorname{sgnN}$ instead uses a prime field
+$\mathbb Z/d\mathbb Z$ after reducing a unit modulo $d$. In that
+call, the unit is nonzero, $d$ is odd, and the exponent is
+$(d-1)/2$. The integer output agrees with the Jacobi symbol of
+the chosen representative modulo $d$ by prime specialization.
+[Expository]
+
+**Where the two interfaces are consumed.** The two power formulas
+supply different steps of the Mathlib reciprocity path.
+`quadraticChar_neg_one` applies the unprimed formula at $-1$,
+with the nonzero proof for $-1$, and expresses the answer as the
+character modulo four. In `quadraticChar_card_card`, the primed
+formula is instantiated in the **second** field $F'$ on the
+image of the integer $\chi_F(-1)\lvert F\rvert$. The coefficient
+character of the Gauss sum is $\chi_F$ cast into $F'$ and the
+auxiliary additive character comes from
+`FiniteField.primitiveChar F F'`. The resulting power in $F'$
+is replaced by the cast of $\chi_{F'}$ at that argument. Equality
+of the cast values lifts to equality of integer signs using
+`MulChar.IsQuadratic.eq_of_eq_coe`.
+
+For the supplement at two, the primed formula takes $a=2$ in
+$F$. In the power supplier `FiniteField.two_pow_card`, take
+$n=8$, $B=F$, and $(8:F)\ne0$, which follows from odd
+characteristic. The target is $F(\zeta_8)$ and $\tau=\psi(1)$.
+By additivity $\tau^8=\psi([8])=1$. At the argument $[4]$ the
+kernel theorem gives $\tau^4\ne1$. The two-root factorization
+in the extension gives $\tau^4=-1$. At the end of that proof,
+the factor $4=2^2$ in $8=4\cdot2$ has half-order power $1$, by
+`FiniteField.isSquare_iff` in $F$ with the explicit square
+witness $2$. These are the additive and multiplicative inputs
+to the supplement already used in §5.3.1.4.
+
+**Limits of the hypotheses.** In characteristic two the square
+map is injective since $x^2=y^2$ implies $(x-y)^2=0$. Finiteness
+makes it surjective, and the integer-valued quadratic character
+is $1$ on every unit. Also $1=-1$ in $F$ and $Q-1$ is odd,
+so the half-order argument has lost its two distinct signs and
+its even group order. For instance, in $\mathbb F_4$ take
+$u^2+u+1=0$. Then $u$ is a square since $(u^2)^2=u$, but
+$u^{\lfloor4/2\rfloor}=u^2\ne1$. In a ring with zero divisors,
+field elements away from zero need not be units and even the
+unit-group argument can fail. In $\mathbb Z/15\mathbb Z$ the
+four distinct units $1,4,11,14$ square to $1$. In this ring
+$(4-1)(4+1)=0$ with both factors nonzero. The unit $4$ is a square, with square root $2$. Yet $4^7=4$ since $4^2=1$,
+so the naive exponent $\lfloor15/2\rfloor=7$ fails even on
+a unit square. Here $\lvert(\mathbb Z/15\mathbb Z)^\times\rvert=8$,
+and changing the exponent to $4$ also fails: every unit has
+fourth power $1$ because the unit residues modulo $3$ and $5$
+have orders dividing $2$ and $4$ respectively, while $2$ is a
+nonsquare already modulo $3$. [Expository]
+
+The mathematical results are classical. Conrad's notes give the
+prime-power cardinality and cyclicity arguments and the same
+polynomial model for the nine-element field. The two full
+quadratic-character tables, the generator-free proof alongside
+the production proof, and the conditional substitution into the
+host residue calculation are the exposition here. [Conrad,
+*Finite Fields*, pp. 1–2](https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf)
+
+The archive SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The local reading ends at the finite-group order and cyclicity lemmas, finite-field trace nondegeneracy and cyclotomic root supply, integer-sign recovery, and the inherited host and Gauss-sum inputs. These imported inputs retain [Lean].
+
+The residue comparison used here is
+`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RootEqOfSubMem.lean:87–185`.
+The separate prime-field sign comes from
+`src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ArtinMapSecondEqJacobiSym.lean:15–35`.
+The production substitutions in the two Gauss-sum branches are at
+[Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean:36–40,77–90](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean#L77-L90)
+and
+[Mathlib/NumberTheory/GaussSum.lean:303–319,346–402](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/GaussSum.lean#L346-L402).
+
+### 5.3.1.6 Cyclic multiplicative groups of finite fields
+
+The reverse implication of the unit square test in §5.3.1.5 writes an arbitrary unit as $g^n$. To use this expression one needs a single $g$ whose powers exhaust the units, and one needs to know the first positive exponent at which $g$ returns to $1$. A polynomial root bound supplies both facts.
+
+**Example 1. Combining orders two and three in $\mathbb F_7$.** The element $-1=6$ has order two. The element $2$ has order three since $2^2=4$ and $2^3=8\equiv1\pmod7$. Their product is $g=5$. Successively multiplying by $5$ and reducing modulo $7$ gives
+
+| $j$ | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|---|
+| $g^j$ | $1$ | $5$ | $4$ | $6$ | $2$ | $3$ | $1$ |
+
+The first six entries exhaust the units. The nonzero squares are $1,4,2$, the even powers. By the character formula of §5.3.1.5 the quadratic character of $g$ is $-1$, whose image in the field agrees with $g^3=6$.
+
+**Example 2. A primitive element in $\mathbb F_{16}$.** Let $f(T)=T^4+T+1$ over $\mathbb F_2$. Neither $0$ nor $1$ is a root. A reducible quartic with no linear factor has an irreducible quadratic factor. The only monic irreducible quadratic over $\mathbb F_2$ is $T^2+T+1$: the constant term must be $1$ to avoid the root $0$, and the linear coefficient must be $1$ to avoid the root $1$. Modulo this quadratic we have $T^3=1$ and $T^4=T$, so $f$ has remainder $1$. Thus $f$ is irreducible. Write $t$ for the class of $T$ in the field $\mathbb F_2[T]/(f)$. Its elements have unique representatives of degree at most three, giving sixteen elements.
+
+Multiplication by $t$ shifts all terms up by one degree and replaces $t^4$ by $t+1$. For example $t(t^3+t^2)=t^4+t^3=t^3+t+1$, and the next product reduces to $t^2+1$.
+
+| $j$ | $t^j$ | $j$ | $t^j$ |
+|---|---|---|---|
+| $0$ | $1$ | $8$ | $t^2+1$ |
+| $1$ | $t$ | $9$ | $t^3+t$ |
+| $2$ | $t^2$ | $10$ | $t^2+t+1$ |
+| $3$ | $t^3$ | $11$ | $t^3+t^2+t$ |
+| $4$ | $t+1$ | $12$ | $t^3+t^2+t+1$ |
+| $5$ | $t^2+t$ | $13$ | $t^3+t^2+1$ |
+| $6$ | $t^3+t^2$ | $14$ | $t^3+1$ |
+| $7$ | $t^3+t+1$ | $15$ | $1$ |
+
+The entries at indices $0$ through $14$ exhaust the nonzero representatives. The table also gives an order-three element $t^5$, an order-five element $t^3$, and their product $t^8=t^2+1$. The coprime-order argument below shows that this product is primitive too. Cyclicity holds here in characteristic two, while the power formulas in §5.3.1.5 require odd characteristic.
+
+**Definitions.** In a finite group the order $\operatorname{ord}(x)$ of $x$ is its least positive period under exponentiation, that is, the least positive $d$ with $x^d=1$. The exponent of the group is the least positive $e$ with $x^e=1$ for every $x$. A primitive element of a finite field is a generator of its multiplicative group.
+
+**Lemma 1 (orders and powers).** If $x$ has order $d$, then $x^n=1$ exactly when $d\mid n$. The subgroup $\langle x\rangle$ has $d$ elements. The order of $x^r$ for $r\geq 0$ is $d/\gcd(d,r)$.
+
+**Proof.** Write $n=ad+b$ with $0\leq b<d$. Then $x^n=x^b$, which is $1$ exactly when $b=0$, by minimality. Allowing negative $a$ accounts for all integer powers. The powers with exponents from $0$ through $d-1$ are distinct since equality of two would give a positive period smaller than $d$. The cosets of $\langle x\rangle$ partition any finite ambient group $G$ into sets of size $d$, giving $d\mid |G|$. Finally $(x^r)^s=1$ is equivalent to $d\mid rs$. Dividing $d$ and $r$ by their greatest common divisor leaves coprime integers, so the least positive $s$ is $d/\gcd(d,r)$.
+
+**Lemma 2 (attaining the exponent).** In a finite abelian group some element has order equal to the exponent.
+
+**Proof.** Let commuting elements $x,y$ have coprime orders $a,b$. Then $(xy)^{ab}=1$. If $(xy)^s=1$, raising that equation to the $b$th power gives $x^{sb}=1$, so $a\mid s$. Raising it to the $a$th power gives $b\mid s$. Therefore $ab\mid s$, and $xy$ has order $ab$.
+
+By Lemma 1 the exponent $e$ is the least common multiple of the element orders and divides $|G|$. For each maximal prime power $\ell^v$ dividing $e$, some element has order $\ell^v d$ with $\ell\nmid d$, by the definition of least common multiple of a finite list. Its $d$th power has order $\ell^v$. Multiply the resulting elements, one for each prime. At each stage the order accumulated so far is coprime to the next order, so the product has order $e$. For $e=1$ the empty product is $1$. [Conrad, *Finite Fields*, Appendix A, Theorems A.1–A.2 and Corollary A.4](https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf)
+
+**Proposition (finite multiplicative subgroups).** If $R$ is a commutative integral domain and $G$ a finite subgroup of $R^\times$, then $G$ is cyclic and its exponent is $|G|$.
+
+**Proof.** If a nonzero polynomial $P$ has a root $a$, division by the monic polynomial $X-a$ gives $P=(X-a)Q$. Any other root $b$ is a root of $Q$, since $b-a$ is nonzero and $R$ has no zero divisors. Induction on degree, starting with a nonzero constant, bounds the number of distinct roots by the degree. All $|G|$ elements are roots of the monic polynomial $X^e-1$ of degree $e$. Thus $|G|\leq e$. Lemma 2 gives $e\mid |G|$ and an element of order $e$, so $e=|G|$ and that element generates $G$. [Conrad, *Finite Fields*, Lemma 1.6](https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf)
+
+**Primitive elements and roots of unity.** Every finite field $\mathbb F_q$ with $q=p^f$, $p$ prime and $f\geq 1$, has a primitive element. This includes $1$ in $\mathbb F_2$. If $g$ generates $\mathbb F_q^\times$, the primitive elements are $g^j$ for $0\leq j<q-1$ with $\gcd(j,q-1)=1$. Their number is $\varphi(q-1)$, including $\varphi(1)=1$. More generally, exact order $m>0$ occurs precisely when $m\mid q-1$. Necessity is Lemma 1, and sufficiency follows by taking $g^{(q-1)/m}$. In particular an order divisible by the characteristic cannot occur. Every multiplicative generator generates the field over its prime field because all nonzero elements are its powers. The converse can fail. In Example 2, $t^3$ has order five and generates the field over $\mathbb F_2$: a proper subfield would have degree one or two over $\mathbb F_2$ by the tower law, and hence a unit group of order one or three.
+
+**Why the domain condition matters.** The units modulo $15$ are $1,2,4,7,8,11,13,14$, with squares $1,4,1,4,4,1,4,1$ in that order. Every fourth power is $1$ and $2$ has order four. The exponent is four although the group has eight elements. The polynomial $X^2-1$ has four distinct roots $1,4,11,14$. At $X=4$ the factors $X-1$ and $X+1$ have nonzero values $3$ and $5$ with product zero. The step that passes from a second root of $P$ to a root of its quotient by a linear factor fails in this ring.
+
+**The pinned Mathlib proof [Lean, read].** The instance for $R^\times$ uses the injective multiplicative map `Units.coeHom R`. The instance for a finite subgroup composes inclusion with the same map. `card_nthRoots_subgroup_units` injects the solutions of $x^n=g_0$ in the group into the distinct roots of $X^n-f(g_0)$ in $R$, where $f$ is the injective map. The cardinality of the distinct roots is at most the multiset cardinality, bounded by $n$ via `Polynomial.card_nthRoots`. The cyclicity argument takes $g_0=1$ for every positive $n$. [Mathlib/RingTheory/IntegralDomain.lean:118–154](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/IntegralDomain.lean#L118-L154)
+
+Mathlib then counts by exact order. Put $c=|G|$ and let $N(d)$ count the elements of order $d$. For an attained $d$, the $d$ powers of an element of order $d$ fill the set of solutions of $x^d=1$. Each divisor $m$ of $d$ is attained by a power of that element. Partition the solutions by order and use $\sum_{m\mid d}\varphi(m)=d$. Induction subtracts the proper-divisor terms to give $N(d)=\varphi(d)$ whenever $d$ is attained. Now $c=\sum_{d\mid c}N(d)$ because each order divides $c$. If some divisor of $c$ were missing, the sum of the corresponding positive totients over the remaining divisors would be strictly less than $c$. Hence $N(c)=\varphi(c)>0$, and `isCyclic_of_orderOf_eq_card` turns a witness into cyclicity. This counting proof works for any finite group satisfying the given solution bounds. [Mathlib/GroupTheory/SpecificGroups/Cyclic.lean:59–149](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/GroupTheory/SpecificGroups/Cyclic.lean#L59-L149)
+
+**The generator in the quadratic-character arguments [Lean, read].** For a finite field $F$ of odd characteristic let $q=|F|$ and $m=\lfloor q/2\rfloor>0$, so $2m=q-1$. `FiniteField.unit_isSquare_iff` obtains `IsCyclic.exists_generator` at the type $F^\times$. Integer powers are converted to natural powers by taking remainders modulo the generator's order. For the given unit $a=g^n$ the reverse implication assumes $a^m=1$, so $g^{nm}=1$. `orderOf_eq_card_of_forall_mem_zpowers` uses equality of the subgroup of powers with the full group, and `Nat.card_units` counts all field elements except zero. `orderOf_dvd_of_pow_eq_one` applies at $g$ and the exponent $nm$: it uses divisibility by the minimal period of multiplication by $g$ at $1$. Thus $2m\mid nm$, and cancellation of $m>0$ gives $n=2j$, with $g^j$ the square root. [Mathlib/FieldTheory/Finite/Basic.lean:801–834](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Finite/Basic.lean#L801-L834)
+
+`FiniteField.isSquare_iff` passes `Units.mk0 a ha` to the unit test, where `ha` proves that $a$ is nonzero. This yields the test in `quadraticCharFun_eq_pow_of_char_ne_two` and thus its unprimed integer-valued wrapper `quadraticChar_eq_pow_of_char_ne_two`. In `quadraticChar_neg_one` that wrapper receives $a=-1$ and the proof `neg_ne_zero.mpr one_ne_zero`. The primed wrapper casts the character value into its own field and allows zero. In `quadraticChar_card_card` it receives the second field $F'$, the odd-characteristic proof `hF'`, and $a=\chi_F(-1)\cdot |F|$ cast into $F'$. In `quadraticChar_two` the same primed formula receives $a=2$ in $F$. The existing archive reader `Cond.chi_neg_one` applies the minus-one result in $F=\mathbb Z/p\mathbb Z$ before casting the integer value into the characteristic-zero coefficient field. The surrounding Gauss-sum and Jacobi reciprocity results are those of §§5.3.1.3–5.3.1.5. [Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean:87–91,181–195,257–265](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean#L181-L195) · [Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean:77–90](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean#L77-L90)
+
+The cyclotomic integer-ring and host residue-field constructions retain their earlier reading boundaries. The [source ledger](../sources/SOURCES.md#chapter-5-cyclic-multiplicative-groups) records the pinned archive and the precise scope of the proof reading.
+
+### 5.3.1.7 Trace pairings and the additive input to Gauss sums
+
+**Motivation.** The quadratic Gauss sum of §5.3.1.3 couples two characters. The multiplicative character detects squares. The additive character provides cancellation after every nonzero dilation. On the prime field it is easy to obtain such a character by exponentiating a primitive root of unity. On an extension field, the trace supplies an exponent in the prime field. Varying the trace functional gives every additive character.
+
+**Examples [Expository].** Use the [finite-field trace formula](#5318-why-the-finite-field-trace-is-a-frobenius-sum) $T(x)=\sum_{j=0}^{f-1}x^{p^j}$ on $\mathbb F_{p^f}$. In a basis $(e_i)$ the trace matrix has entries $T(e_i e_j)$. The dual basis $(d_j)$ satisfies $T(e_i d_j)=\delta_{ij}$.
+
+1. In $\mathbb F_9=\mathbb F_3[i]$ with $i^2=-1$, the defining polynomial $X^2+1$ has no root in $\mathbb F_3$. Cubing sends $i$ to $-i$, so $T(u+vi)=2u$. The traces of $1,i,i^2$ are $2,0,1$. In the basis $(1,i)$ the trace matrix is $\begin{pmatrix}2&0\\0&1\end{pmatrix}$, its own inverse over $\mathbb F_3$. The dual basis is $(2,i)$. For $b=r+si$, the trace exponent at $x=u+vi$ is $T(bx)=2ru+sv$. For $b=0$ the character kernel has size nine. For $r\ne0$ choose any of the three values of $v$ and solve $u=-sv/(2r)$. For $r=0$ and $s\ne0$ take $v=0$ with $u$ arbitrary. Thus all eight nontrivial characters have kernels of size three. In particular, $i\ne 0$ has trace zero.
+
+2. In $\mathbb F_{16}=\mathbb F_2[t]$ take $t^4=t+1$. The polynomial $X^4+X+1$ has no root in $\mathbb F_2$, and division by the sole monic irreducible quadratic $X^2+X+1$ leaves remainder $1$. Thus it is irreducible. For $T(x)=x+x^2+x^4+x^8$ we obtain $T(1)=0$ and $T(t)=0$, using $t^4=t+1$ and $t^8=t^2+1$. Squaring preserves trace by $x^{16}=x$. The successive squares of $t^3$ are $t^6=t^3+t^2$, $t^{12}=t^3+t^2+t+1$ and $t^{24}=t^3+t$. Adding these to $t^3$ gives $1$. Also $t^5=t^2+t$, so the traces of $1,t,\ldots,t^6$ are $0,0,0,1,0,0,1$. Consequently
+
+   $$
+   M=\begin{pmatrix}0&0&0&1\\0&0&1&0\\0&1&0&0\\1&0&0&1\end{pmatrix},
+   \qquad M^{-1}=\begin{pmatrix}1&0&0&1\\0&0&1&0\\0&1&0&0\\1&0&0&0\end{pmatrix}.
+   $$
+
+   Multiplying the displayed matrices gives the identity over $\mathbb F_2$. The inverse columns give the dual basis $(1+t^3,t^2,t,1)$. For $b=r+st+ut^2+vt^3$ and $x=x_0+x_1t+x_2t^2+x_3t^3$ the exponent is $v x_0+u x_1+s x_2+(r+v)x_3$. If $b=0$ the kernel has size sixteen. Otherwise the coefficient vector is nonzero. Solving for the first coordinate with coefficient $1$ leaves three freely chosen bits, hence size eight for each of the fifteen nontrivial characters. Here the characteristic divides the degree and the trace vanishes on the prime field, yet $T(t^3)=1$.
+
+**Definitions.** Let $F=\mathbb F_{p^f}$ and let $T=\operatorname{Tr}_{F/\mathbb F_p}$. The trace of $x$ is the linear-algebra trace of multiplication by $x$. The trace pairing is the symmetric $\mathbb F_p$-bilinear form $B(b,x)=T(bx)$. Fix a field $C$ containing $\zeta$ of order $p$, for example $\exp(2\pi i/p)$ in $\mathbb C$. Write $\lambda(t)=\zeta^k$ for an integer representative $k$ of $t\in\mathbb F_p$. Its kernel is zero since $\zeta$ has order $p$. An additive character is a homomorphism $(F,+)\to C^\times$. Its multiplicative shift by $a$ sends $x$ to $\psi(ax)$. Mathlib calls a character primitive when every shift by $a\ne0$ is nontrivial. Over a field this is equivalent to nontriviality, since nonzero dilations are bijections.
+
+**Lemma (trace duality and additive characters) [Expository].** The form $B$ is nondegenerate. With $\zeta$ fixed, every additive character has a unique expression $\psi_b(x)=\lambda(T(bx))$ with $b\in F$. Addition of parameters corresponds to multiplication of characters. The kernel for $b=0$ is $F$. For $b\ne0$ it is the hyperplane $b^{-1}\ker T$ of size $p^{f-1}$. Two nonzero parameters have the same kernel exactly when they are nonzero prime-field multiples of one another. The intersection of all kernels is $\{0\}$.
+
+**Proof.** The sum-of-conjugates formula gives the trace polynomial above. It is monic of degree $p^{f-1}<p^f$, so it cannot vanish at every element of $F$. Choose $w$ of nonzero trace. For $b\ne0$, the test point $x=w/b$ gives $B(b,x)=T(w)\ne0$. Hence $b\mapsto B(b,-)$ injects $F$ into its linear dual and is an isomorphism by equality of dimensions. In particular the inverse images of the coordinate functionals of $(e_j)$ form the trace-dual basis $(d_j)$.
+
+For any additive character $\psi$, the relation $px=0$ gives $\psi(x)^p=1$. The $p$ distinct powers of $\zeta$ exhaust the roots of $X^p-1$ in $C$. Thus $\lambda^{-1}\psi$ is an additive map to $\mathbb F_p$, and repeated addition makes it $\mathbb F_p$-linear. Duality gives its unique trace representative. Explicitly, if $\psi(e_j)=\lambda(c_j)$, then $b=\sum_j c_j d_j$. Bilinearity gives $\psi_{b+b'}=\psi_b\psi_{b'}$.
+
+Since $\lambda$ has kernel zero, $\psi_b(x)=1$ exactly when $B(b,x)=0$. For $b\ne0$ this functional is onto the one-dimensional prime field, so its kernel has dimension $f-1$. Two nonzero linear functionals with the same kernel both induce isomorphisms from the same one-dimensional quotient to $\mathbb F_p$, so one is a nonzero scalar multiple of the other. Conversely a nonzero scalar preserves the kernel. Trace duality transfers this criterion to the parameters. For $x\ne0$, take $b=w/x$ to see that some character detects $x$. On scalars $T(c)=fc$, so $p\mid f$ kills the restriction to scalars while the polynomial argument still gives surjectivity on $F$. For $f>1$ the trace kernel contains nonzero elements. [Conrad, *Finite Fields*, Theorem 4.6, pp. 9–10](https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf) · [Stacks Project, Tag 0BIL](https://stacks.math.columbia.edu/tag/0BIL)
+
+**Gauss-sum input [Expository].** Extend a multiplicative character $\chi$ by zero at $0$ and write $G(\chi,\psi_b)=\sum_{x\in F}\chi(x)\psi_b(x)$. For $b\ne0$, translation by a point where $\psi_b$ differs from $1$ multiplies the additive sum by a scalar unequal to $1$ and preserves the sum. Thus $\sum_x\psi_b(x)=0$. For $b=0$ and nontrivial $\chi$, the Gauss sum is zero by multiplicative translation on $F^\times$. For $b\ne0$, the substitution $y=bx$ gives $G(\chi,\psi_b)=\chi(b)^{-1}G(\chi,\psi_1)$.
+
+To apply the product identity from §5.3.1.3, expand $G(\chi,\psi_b)G(\chi^{-1},\psi_{-b})$ with nontrivial $\chi$ and $b\ne0$. Put $x=ty$ for the two summation variables $x,y\ne0$. For $t=1$ the inner sum $\sum_{y\ne0}\psi_b((t-1)y)$ is $|F|-1$, and for $t\ne1$ it is $-1$ by additive cancellation. Since $\sum_{t\in F^\times}\chi(t)=0$, the product equals $|F|$. This is nonzero in $C$ because in characteristic $p$ the polynomial $X^p-1=(X-1)^p$ could have no root of order $p$. For nontrivial quadratic $\chi$ the shift by $-1$ gives $G(\chi,\psi_b)^2=\chi(-1)|F|$.
+
+For a numerical check in $\mathbb F_9$, the nonzero squares are $1,-1,-i,i$, obtained respectively from the four pairs $\pm1,\pm i,\pm(1+i),\pm(1-i)$. For real coordinates $u=0,1,2$ respectively, the sum of the quadratic sign over the three imaginary coordinates is $2,-1,-1$. At $b=1$ the exponent is $2u$, giving $2-\zeta^2-\zeta=3$ in $\mathbb C$. Every $b\ne0$ then gives $3\chi(b)$ by the shift formula.
+
+**How Mathlib supplies the input [Lean, read].** `FiniteField.trace_to_zmod_nondegenerate` installs primality of the characteristic so `ZMod` is a field. It rewrites the abstract trace form as $T(ab)$ and uses nondegeneracy to contradict $a\ne0$ if all pairings vanish. `traceForm_nondegenerate` applies the determinant criterion. The determinant proof changes basis from a separable power basis. After scalar extension the trace matrix there is the embedding Vandermonde matrix times its transpose. Distinct embeddings have distinct values on the generator, making the Vandermonde determinant nonzero. The finite-field polynomial proof above reaches the same conclusion. [Mathlib/FieldTheory/Finite/Trace.lean:37–56](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Finite/Trace.lean#L37-L56) · [Mathlib/RingTheory/Trace/Basic.lean:460–507](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Basic.lean#L460-L507)
+
+The cyclotomic extension instance transports nonvanishing of the order to the splitting field, extracts a root from the split positive-degree polynomial and applies the cyclotomic-root criterion. The root supplies the existence field at the singleton index. The splitting-field generation identity supplies the other field of the instance. `zeta` takes the witness from `exists_isPrimitiveRoot`, `zeta_spec` takes its choice specification, and `zeta_pow` projects the power identity. `primitiveZModChar` exponentiates this same root by the residue representative. Its proof of primitivity uses injectivity of the powers on representatives in range. In `FiniteField.primitiveChar`, distinct characteristics imply that $p$ is nonzero in the coefficient field, whether its characteristic is zero or another prime. The proof composes the cyclic character at order $p$ with $T$. At $a=1$ the nondegeneracy lemma gives a point of nonzero trace. The cyclic character's kernel criterion makes the composite nontrivial there. `IsPrimitive.of_ne_one` then uses inverse dilation. The construction gives $\psi_1$ for the chosen root. The classification and hyperplane counts are the textbook deductions above. [Mathlib/NumberTheory/Cyclotomic/Basic.lean:649–687](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Cyclotomic/Basic.lean#L649-L687) · [Mathlib/NumberTheory/Cyclotomic/PrimitiveRoots.lean:85–107](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Cyclotomic/PrimitiveRoots.lean#L85-L107) · [Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean:138–230](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean#L138-L230)
+
+**Actual consumers [Lean, read].** In `Char.card_pow_card` the finite fields $F,F'$ have distinct characteristics and $F'$ has odd characteristic. The nontrivial quadratic character into $F'$ is transported injectively into `CyclotomicField ψ.n F'`. The proof takes `ψ.char` from `FiniteField.primitiveChar F F' hch₁` and supplies `ψ.prim` to `gaussSum_sq`. The resulting square identity is the input to `Char.card_pow_char_pow`. The quadratic-character cardinality comparison uses this route on the way to the prime Legendre calculation and then Jacobi reciprocity in §5.3.1.4. The supplement at $2$ takes `primitiveZModChar 8 F` directly on $\mathbb Z/8\mathbb Z$. Its proof uses the cyclic kernel test to derive $\tau^4=-1$ for $\tau=\psi_8(1)$. [Mathlib/NumberTheory/GaussSum.lean:283–319,340–401](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/GaussSum.lean#L283-L401) · [Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean:77–99](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/GaussSum.lean#L77-L99)
+
+**Host archive and conditional restatement.** In archive A2, `Cond.gs` and `Cond.gs_sq` use a supplied $p$th root of unity in the characteristic-zero field $K$, source $\mathbb Z/p\mathbb Z$, and the integer quadratic character cast to $K$. Only `Cond.gs_sq` requires the root to be primitive. The actual primitive proof is `AddChar.zmodChar_primitive_of_primitive_root`. On this source the trace is the identity, so the formula for $\psi_1$ agrees for the supplied root. [Host Gauss-sum proof](#5313-the-second-host-sign-from-a-quadratic-gauss-sum)
+
+Separately [Expository], given the reduced root $\eta$ of order $M$ from §5.3.1.2, the character `zmodChar` on $\mathbb Z/M\mathbb Z$ with root $\eta$ has kernel zero by `zmod_char_eq_one_iff`. The archive itself makes its reduction comparison by `zO_sub_mem_iff`. [Host root reduction](#5312-frobenius-and-inertia-in-the-cyclotomic-host)
+
+**Reading boundary.** Archive A2 SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` and Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474` fix the readings. The source map lists local R3 bodies and named inputs retained at interface level. Multiplicative cyclicity, Euler's criterion and Jacobi reciprocity are used through the preceding sections. [Source map](../sources/SOURCES.md#trace-pairings-and-additive-characters-5317)
+
 ### 5.3.2 Subgroup projection (`PsiA`, `GmA`, `SigA`) and the two hypothesis packages (`EAtH`, `CoreAtH`)
 
 **Definition 5.2 (`PsiA`, `GmA`, and `SigA`, `src/Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean:26,30,34,39`).**
@@ -448,6 +982,180 @@ $c_{\mathrm{top}} = (3\,\Lambda.o + 1)^{-1}$) [Lean, read]:
      (`CostWindows`, `src/Formalism/SizeWindowBrackets/SChain.lean:50`, where $f = 2\lvert\varphi.A\rvert$).
 
 ---
+
+### 5.3.1.8 Why the finite-field trace is a Frobenius sum
+
+**Motivation.** The preceding subsection evaluates a trace to obtain the exponent of an additive character. The trace starts as the matrix trace of multiplication. Changing from coefficient coordinates to values under embeddings explains why powers of Frobenius can compute the same number.
+
+**Examples [Expository].** Use column vectors throughout.
+
+1. The polynomial $X^2+X+1$ has value $1$ at both elements of $\mathbb F_2$, so it defines $\mathbb F_4=\mathbb F_2[a]$ with $a^2=a+1$. In the basis $(1,a)$, the products for $x=u+va$ are $x$ and $xa=v+(u+v)a$. Thus
+
+   $$
+   M_x=\begin{pmatrix}u&v\\v&u+v\end{pmatrix},
+   \qquad \operatorname{tr}M_x=v.
+   $$
+
+   Squaring gives $x^2=(u+v)+va$, so $x+x^2=v$. The evaluation rows $(1,a)$ and $(1,a+1)$ have determinant $1$ and give the diagonal entries $x,x^2$ over $\mathbb F_4$. In particular $\operatorname{Tr}(1)=0$ and $\operatorname{Tr}(a)=1$.
+
+2. The cubic $X^3-X-1$ takes value $-1$ everywhere on $\mathbb F_3$, so it is irreducible. Write $\mathbb F_{27}=\mathbb F_3[b]$ with $b^3=b+1$ and $b^4=b^2+b$. For $x=u+vb+wb^2$, the products are $x$, $xb=w+(u+w)b+vb^2$ and $xb^2=v+(v+w)b+(u+w)b^2$. In $(1,b,b^2)$,
+
+   $$
+   M_x=\begin{pmatrix}u&w&v\\v&u+w&v+w\\w&v&u+w\end{pmatrix},
+   \qquad \operatorname{tr}M_x=3u+2w=2w.
+   $$
+
+   Cubing sends $b$ to $b+1$. Cubing again gives $b^9=(b+1)^3=b+2$. The three evaluations give
+
+   $$
+   \begin{aligned}
+   x &= u+vb+wb^2,\\
+   x^3 &= (u+v+w)+(v+2w)b+wb^2,\\
+   x^9 &= (u+2v+w)+(v+w)b+wb^2.
+   \end{aligned}
+   $$
+
+   Their sum is $2w$. The evaluation rows $(1,b+j,(b+j)^2)$ for $j=0,1,2$ have Vandermonde determinant $(1)(2)(1)=2$. In these coordinates over $\mathbb F_{27}$ the diagonal entries are $x,x^3,x^9$. Here $\operatorname{Tr}(1)=\operatorname{Tr}(b)=0$ and $\operatorname{Tr}(b^2)=2$.
+
+**Definitions.** For a finite extension $L/K$, let $m_x$ be the $K$-linear map $y\mapsto xy$ and let $\operatorname{Tr}_{L/K}(x)=\operatorname{tr}(m_x)$. An embedding over $K$ is a field map agreeing with the given inclusion of $K$. A simple extension $K(a)/K$ of degree $n$ has power basis $(1,a,\ldots,a^{n-1})$. For finite $K$ of cardinality $q$, the relative Frobenius is $\Phi(y)=y^q$.
+
+**Lemma (diagonalization in a split separable power basis) [Expository].** Suppose $L=K(a)$ and the minimal polynomial of $a$ splits into $n=[L:K]$ distinct roots $a_i$ in a field $E$ over $K$. Write $\sigma_i$ for the embedding defined by $a\mapsto a_i$. Over $E$, the matrix of $m_x$ is similar to the diagonal matrix with entries $\sigma_i(x)$.
+
+**Proof.** The presentation $K[T]/(f)$ for the minimal polynomial $f$ identifies embeddings with roots. Send a coefficient column to its evaluations at the $a_i$. The matrix $V$ has entries $a_i^j$, with $0\le j<n$. A column in the kernel gives a polynomial of degree less than $n$ vanishing at $n$ distinct points. Thus $V$ is invertible. Multiplicativity on the power basis gives $VM_x=\operatorname{diag}(\sigma_i(x))V$. Taking the diagonal sum yields the trace after including $K$ into $E$.
+
+**Theorem (embeddings and the finite-field trace) [Lean, read].** Let $L/K$ be finite separable and let $E$ be an algebraically closed field over $K$. For each $x\in L$, the image of $\operatorname{Tr}_{L/K}(x)$ in $E$ is the sum of $\sigma(x)$ over all embeddings $\sigma:L\to E$ over $K$. If $L/K$ is also normal, the trace in $L$ is the sum over $\operatorname{Gal}(L/K)$. For finite fields $K\subset L$, with $q=|K|$ and $n=[L:K]$, this last sum is
+
+$$
+\sum_{i=0}^{n-1}x^{q^i}.
+$$
+
+**Proof.** Put $F=K(x)$ and $r=[L:F]$. Choosing an $F$-basis of $L$ writes $m_x$ over $K$ as $r$ identical blocks on copies of $F$. Consequently $\operatorname{Tr}_{L/K}(x)=r\operatorname{Tr}_{F/K}(x)$. The lemma computes the latter trace on the simple extension with generator $x$. Each embedding $F\to E$ extends to exactly $r$ embeddings of $L$. To count these, adjoin a finite list of generators of $L/F$ one at a time. At every simple step the transported minimal polynomial splits into distinct roots, one for each possible extension of the preceding embedding. The product of the degrees is $r$. Grouping the sum over $L$ by restriction to $F$ therefore gives the same weighted sum. In particular, the block decomposition and evaluation lemma diagonalize $m_x$ over $E$ even for a proper $K(x)$, with each block's diagonal repeated $r$ times.
+
+For a normal extension take $E$ to be an algebraic closure containing $L$. Every image of $y\in L$ is a root of its minimal polynomial, and all these roots lie in $L$. Thus each embedding takes values in $L$ and is onto by finite dimension. Conversely each automorphism gives an embedding by inclusion. Injectivity of $L\to E$ gives the identity in $L$.
+
+For finite fields, $L$ has $q^n$ elements, all roots of $T^{q^n}-T$ by Lagrange's theorem on $L^\times$ and the identity at zero. This polynomial has derivative $-1$ and splitting field $L$ over $K$, which gives normality and separability. Since $q$ is a power of the characteristic, the binomial identity makes $\Phi$ additive. It is multiplicative and fixes $K$, since $c^q=c$ in $K$. Injectivity and finiteness make it an automorphism. Its $n$th power is the identity. If its $m$th power were the identity for $0<m<n$, then $T^{q^m}-T$, of degree $q^m$, would have $q^n$ distinct roots. Hence the first $n$ powers are distinct. The embedding count with $F=K$ shows that they exhaust the embeddings. Substituting $\Phi^i(x)=x^{q^i}$ gives the stated sum. An individual $x$ may have a shorter orbit of length $d$ dividing $n$. In that case each orbit value appears $n/d$ times. For the prime field $q=p$, this is the trace formula used for the exponent in §5.3.1.7.
+
+**The proof in Mathlib [Lean, read].** `trace_eq_sum_embeddings` uses the power basis of the simple adjoin of $x$. Trace transitivity and the trace of a scalar supply the factor $[L:K(x)]$. On the simple adjoin, `trace_eq_sum_embeddings_gen` uses the negative next coefficient of the characteristic polynomial of multiplication by the generator. That polynomial is its minimal polynomial. Splitting converts the coefficient to a root sum and separability makes the roots distinct, so the root-to-embedding correspondence reindexes the sum. The evaluation lemma gives the diagonalization behind this coefficient calculation. `sum_embeddings_eq_finrank_mul` groups the embeddings into fibers of restriction and counts each fiber by `AlgHom.card`. `trace_eq_sum_automorphisms` reindexes via normality in an algebraic closure and uses injectivity to descend. [Mathlib/RingTheory/Trace/Basic.lean:218–272](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Basic.lean#L218-L272)
+
+Mathlib proves the order of the Frobenius endomorphism by the polynomial root bound. `bijective_frobeniusAlgHom_pow` uses that order for injectivity and the bound `card_algHom_le_finrank` for surjectivity. `bijective_frobeniusAlgEquivOfAlgebraic_pow` transfers the bijection to automorphisms using the equivalence for algebraic extensions, which respects powers. `algebraMap_trace_eq_sum_pow` changes the summation index from automorphisms to integers in range and evaluates each iterate. The preceding subsection uses this identity in its textbook proof of trace duality. The library's trace-form proof also consumes the embedding sum when it factors the trace matrix. [Mathlib/FieldTheory/Finite/Basic.lean:327–406](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Finite/Basic.lean#L327-L406) · [Mathlib/FieldTheory/Finite/Trace.lean:37–56](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Finite/Trace.lean#L37-L56) · [Mathlib/RingTheory/Trace/Basic.lean:444–446](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Basic.lean#L444-L446)
+
+**Remarks [Expository].** For $c\in K$, multiplication by $c$ is $cI$, so the trace is $nc$. When the characteristic divides $n$, this vanishes on all scalars. The two examples exhibit nonzero traces on nonscalars. In general, the Frobenius-sum polynomial is monic of degree $q^{n-1}<q^n$, so it takes a nonzero value somewhere in $L$. The trace is then onto by $K$-linearity. [Keith Conrad, *Finite Fields*, Theorems 4.1, 4.6, 5.6 and 5.7, pp. 8–11](https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf)
+
+For an inseparable model take $K=\mathbb F_p(t)$ and $L=K(a)$ with $a^p=t$. The polynomial $T^p-t$ is Eisenstein at $t$ over $\mathbb F_p[t]$. In the power basis, multiplication by $a^j$ for $1\le j<p$ sends column $i$ to row $i+j$ modulo $p$, with coefficient $1$ if $i+j<p$ and $t$ otherwise. Every diagonal entry is zero. Multiplication by $1$ has trace $p=0$, so the trace vanishes on the entire basis. In an algebraic closure $T^p-t=(T-a)^p$, giving just one embedding and an unweighted embedding sum of $1$ at $x=1$. Counting all $p$ roots with multiplicity produces identical evaluation rows, so the change of coordinates is singular. In $E[T]/((T-a)^p)$, multiplication by $a$ after scalar extension is multiplication by the residue of $T$. Subtracting the scalar $aI$ gives a nonzero nilpotent operator, which precludes diagonalization. Separability supplies the distinct roots for evaluation, and normality supplies the identification of embeddings with automorphisms. [Stacks Project, Lemma 9.20.7](https://stacks.math.columbia.edu/tag/0BIL)
+
+The general separable power-basis existence theorem used in the trace-pairing determinant proof remains an imported input. Its pinned proof is read in [§5.3.1.9](#5319-primitive-elements-and-power-bases-for-separable-extensions). [Source ledger](../sources/SOURCES.md#finite-field-trace-by-embeddings-5318)
+
+### 5.3.1.9 Primitive elements and power bases for separable extensions
+
+**Motivation.** Two pinned proofs used above take a finite separable extension $E/F$ and silently ask for a single generator. The trace-form determinant in §5.3.1.7 changes basis to the powers $1,\alpha,\ldots,\alpha^{n-1}$ of one element $\alpha$ so that, after extending scalars, the trace matrix becomes a Vandermonde matrix times its transpose. The embedding count in §5.3.1.8 counts the embeddings $E\to L$ over $F$ as roots of the minimal polynomial of that same $\alpha$. In both places Mathlib calls `Field.powerBasisOfFiniteOfSeparable`. The textbook proof of §5.3.1.8 avoided this by adjoining generators one at a time. The library does not avoid it. This subsection reads the pinned proof that such an $\alpha$ exists. The argument has two genuinely different branches. Over an infinite base field one combines two generators as $\alpha+c\beta$ after excluding finitely many bad scalars $c$. Over a finite base field one takes a generator of the cyclic multiplicative group from §5.3.1.6. [Stacks Project, Lemma 9.19.1](https://stacks.math.columbia.edu/tag/030N) · [Stacks Project, Section 9.18](https://stacks.math.columbia.edu/tag/09HY) · [Milne, *Fields and Galois Theory*, v5.10, Theorem 5.1 and Proposition 4.19, pp. 61–62 and 53](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+**Examples [Expository].**
+
+1. *The biquadratic field.* Let $E=\mathbb Q(\sqrt2,\sqrt3)$. First, $[E:\mathbb Q]=4$. If $\sqrt3=a+b\sqrt2$ with $a,b\in\mathbb Q$, then $3=a^2+2b^2+2ab\sqrt2$ forces $ab=0$. The case $b=0$ makes $\sqrt3$ rational, and the case $a=0$ gives $3q^2=2p^2$ for coprime integers $p,q$, which is impossible by parity. Thus $\sqrt3\notin\mathbb Q(\sqrt2)$ and the basis $B=(1,\sqrt2,\sqrt3,\sqrt6)$ has four elements.
+
+   Take $\alpha=\sqrt2$, $\beta=\sqrt3$ and the scalar $c=1$, so $\gamma=\sqrt2+\sqrt3$. The powers are
+   $$
+   \gamma^2=5+2\sqrt6,\qquad
+   \gamma^3=(\sqrt2+\sqrt3)(5+2\sqrt6)=5\sqrt2+5\sqrt3+4\sqrt3+6\sqrt2=11\sqrt2+9\sqrt3 .
+   $$
+   Hence $\gamma^3-9\gamma=2\sqrt2$ and $11\gamma-\gamma^3=2\sqrt3$, so both square roots lie in $\mathbb Q(\gamma)$ and $E=\mathbb Q(\gamma)$. Squaring $\gamma^2-5=2\sqrt6$ gives the minimal polynomial $X^4-10X^2+1$, which has degree $4=[E:\mathbb Q]$ and is therefore irreducible. The four conjugates $\pm\sqrt2\pm\sqrt3$ are distinct, as the separability of the extension requires.
+
+   Writing the power basis $P=(1,\gamma,\gamma^2,\gamma^3)$ in the coordinates of $B$ gives the change-of-basis matrix with columns $1\mapsto(1,0,0,0)$, $\gamma\mapsto(0,1,1,0)$, $\gamma^2\mapsto(5,0,0,2)$ and $\gamma^3\mapsto(0,11,9,0)$:
+   $$
+   M=\begin{pmatrix}1&0&5&0\\0&1&0&11\\0&1&0&9\\0&0&2&0\end{pmatrix},\qquad
+   \det M=1\cdot\bigl(1\cdot(0-18)-0+11\cdot(2-0)\bigr)=4 .
+   $$
+   The determinant is nonzero, so $P$ is a basis. The inverse change is read off from the identities above, $\sqrt2=\tfrac12(\gamma^3-9\gamma)$, $\sqrt3=\tfrac12(11\gamma-\gamma^3)$ and $\sqrt6=\tfrac12(\gamma^2-5)$:
+   $$
+   M^{-1}=\begin{pmatrix}1&0&0&-\tfrac52\\[2pt]0&-\tfrac92&\tfrac{11}2&0\\[2pt]0&0&0&\tfrac12\\[2pt]0&\tfrac12&-\tfrac12&0\end{pmatrix}.
+   $$
+   For instance the $\sqrt2$ column gives $M\,(0,-\tfrac92,0,\tfrac12)^{T}=(0,\,-\tfrac92+\tfrac{11}2,\,-\tfrac92+\tfrac92,\,0)^{T}=(0,1,0,0)^{T}$.
+
+   The bad scalars of the proof below are the quotients $-(\alpha'-\alpha)/(\beta'-\beta)$ over the conjugates $\alpha'=\pm\sqrt2$ and $\beta'=\pm\sqrt3$. With $\beta'=-\sqrt3$ they are $0$ for $\alpha'=\sqrt2$ and $-\sqrt{2/3}$ for $\alpha'=-\sqrt2$. Only $c=0$ is a rational bad scalar, and indeed $\gamma=\alpha+0\cdot\beta=\sqrt2$ generates a proper subfield. Every nonzero rational $c$ works, and $c=1$ is Milne's choice.
+
+2. *A finite field of degree three.* Let $E=\mathbb F_8=\mathbb F_2[t]$ with $t^3=t+1$. The cubic $X^3+X+1$ has no root in $\mathbb F_2$, so it is irreducible. The multiplicative group has order $7$, a prime, so every element other than $0$ and $1$ generates it. For $t$ itself,
+   $$
+   t^3=t+1,\quad t^4=t^2+t,\quad t^5=t^2+t+1,\quad t^6=t^2+1,\quad t^7=1 .
+   $$
+   The seven powers exhaust $E^\times$, and $E=\mathbb F_2(t)$ with power basis $(1,t,t^2)$. This is the finite-base branch of the proof: the generator of the cyclic group is the primitive element.
+
+   The same branch applies to the generator $u=t^6=t^2+1$. Its Frobenius conjugates are $u^2=t^{12}=t^5=t^2+t+1$ and $u^4=t^{24}=t^3=t+1$. The elementary symmetric functions are $u+u^2+u^4=1$, $u\cdot u^2+u\cdot u^4+u^2\cdot u^4=t^{4}+t^{2}+t=(t^2+t)+t^2+t=0$ and $u\cdot u^2\cdot u^4=t^{14}=1$, so the minimal polynomial of $u$ is $X^3+X^2+1$, the other irreducible cubic over $\mathbb F_2$. In the coordinates of $(1,t,t^2)$ the power basis $(1,u,u^2)$ has columns $(1,0,0)$, $(1,0,1)$ and $(1,1,1)$:
+   $$
+   N=\begin{pmatrix}1&1&1\\0&0&1\\0&1&1\end{pmatrix},\qquad \det N=1\cdot(0-1)=1\ \text{in}\ \mathbb F_2,
+   \qquad
+   N^{-1}=\begin{pmatrix}1&0&1\\0&1&1\\0&1&0\end{pmatrix},
+   $$
+   since $t=u+u^2$ and $t^2=1+u$. A direct check gives $N\,(0,1,1)^{T}=(0,1,0)^{T}$ and $N\,(1,1,0)^{T}=(0,0,1)^{T}$. Here the base field has only two scalars, so the infinite-base argument of excluding finitely many $c$ is unavailable, and the cyclic argument is what the pinned proof uses.
+
+3. *An inseparable failure.* Let $K=\mathbb F_p(s,t)$ with independent indeterminates and $L=K(\alpha,\beta)$ with $\alpha^p=s$ and $\beta^p=t$. The polynomials $X^p-s$ and $X^p-t$ are Eisenstein at $s$ and at $t$, so $[L:K]=p^2$. Every $\gamma\in L$ satisfies $\gamma^p\in K$, because the $p$th power map is additive and multiplicative in characteristic $p$ and fixes $K$. Hence $[K(\gamma):K]\le p<p^2$ and no primitive element exists. The remarks below locate the exact step of the proof that fails.
+
+**Definitions.** Let $E/F$ be a field extension. For $\alpha\in E$, $F(\alpha)$ denotes the smallest intermediate field containing $\alpha$, written $F\langle\alpha\rangle$ in Mathlib and realized there as an `IntermediateField F E`. The extension is *simple*, and $\alpha$ is a *primitive element*, if $F(\alpha)=E$; Mathlib writes this as $F\langle\alpha\rangle=\top$. For $\alpha,\beta\in E$ the field $F(\alpha,\beta)$ is $F\langle\alpha\rangle\langle\beta\rangle$ with scalars restricted back to $F$, which Mathlib proves equal to $F\langle\alpha,\beta\rangle$ (`adjoin_simple_adjoin_simple`). A *power basis* of $E$ over $F$ consists of a generator $g$ and a dimension $d$ such that $1,g,\ldots,g^{d-1}$ is an $F$-basis of $E$; this is the structure `PowerBasis F E` with fields `gen`, `dim` and `basis`. An extension is *separable* if the minimal polynomial of every element has distinct roots in a splitting field; `Algebra.IsSeparable F E` is this condition for all elements at once. Throughout, $E/F$ is finite-dimensional. [Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean:578–579](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean#L578-L579)
+
+**Lemma A (finite base field; `Field.exists_primitive_element_of_finite_top`, `_of_finite_bot`) [Lean, read].** If $E$ is a finite field, then for any subfield $F$ there is $\alpha\in E$ with $F(\alpha)=E$. In particular, if $F$ is finite and $E/F$ is finite-dimensional, then $E/F$ is simple.
+
+*Proof.* By §5.3.1.6 the group $E^\times$ is cyclic; the pinned proof takes a generator $\alpha$ from `IsCyclic.exists_generator`. Let $x\in E$. If $x=0$ it lies in $F(\alpha)$ as in every subfield. Otherwise $x$ is a unit, hence $x=\alpha^n$ for some integer $n$, and integer powers of $\alpha$ stay in the field $F(\alpha)$ (`zpow_mem`). Thus $E\subseteq F(\alpha)$. The second statement follows because a finite-dimensional space over a finite field is finite (`Module.finite_of_finite`). $\square$ [Mathlib/FieldTheory/PrimitiveElement.lean:54–72](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L54-L72)
+
+**Lemma B (excluding the bad scalars; `primitive_element_inf_aux_exists_c`) [Lean, read].** Let $F$ be an infinite field, $\varphi:F\to E'$ a ring map into a field, $\alpha,\beta\in E'$ and $f,g\in F[X]$. There is $c\in F$ such that
+$$
+-\frac{\alpha'-\alpha}{\beta'-\beta}\ne\varphi(c)
+\quad\text{for every root }\alpha'\text{ of }f^{\varphi}\text{ and every root }\beta'\text{ of }g^{\varphi}\text{ in }E'.
+$$
+
+*Proof.* The roots of $f^\varphi$ and of $g^\varphi$ in $E'$ form two finite multisets. The displayed quotients, one for each pair, form a finite set $S\subseteq E'$. Since $\varphi$ is injective, its preimage $\varphi^{-1}(S)$ is a finite subset of $F$. An infinite set is not contained in a finite one, so some $c\in F$ lies outside it (`Infinite.exists_notMem_finset`). $\square$
+
+The quantifiers matter here. The scalar $c$ is chosen once, after $f,g,\alpha,\beta$ and the target field $E'$ are fixed, and it then works for all pairs of roots simultaneously. In Lean division by zero is zero, so the pairs with $\beta'=\beta$ contribute the value $0$ to $S$; this only enlarges the finite set. [Mathlib/FieldTheory/PrimitiveElement.lean:83–95](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L83-L95)
+
+**Lemma C (two generators over an infinite field; `primitive_element_inf_aux`) [Lean, read].** Let $F$ be infinite, let $E/F$ be separable, and let $\alpha,\beta\in E$. Then there is $\gamma\in E$ with $F(\alpha,\beta)=F(\gamma)$. Only the separability of $\beta$ and the integrality of $\alpha$ are used.
+
+*Proof.* Let $f$ and $g$ be the minimal polynomials of $\alpha$ and $\beta$ over $F$. Let $E'$ be a splitting field of $g$ over $E$, with inclusion $\iota:E\to E'$. Apply Lemma B to the composite $F\to E\to E'$, the points $\iota\alpha,\iota\beta$ and the polynomials $f,g$, and let $c$ be the resulting scalar. Put $\gamma=\alpha+c\beta$. It suffices to show $\beta\in F(\gamma)$: then $\alpha=\gamma-c\beta\in F(\gamma)$, so $F(\alpha,\beta)\subseteq F(\gamma)$, and the reverse inclusion holds because $\gamma\in F(\alpha,\beta)$.
+
+Consider the two polynomials $f(\gamma-cX)$ and $g(X)$. Both have coefficients in $F(\gamma)$, and both vanish at $\beta$, since $f(\gamma-c\beta)=f(\alpha)=0$. Let $h\in E[X]$ be their greatest common divisor computed over $E$, and $p\in F(\gamma)[X]$ the greatest common divisor computed over $F(\gamma)$. The Euclidean algorithm commutes with field extension (`gcd_map`), so $p$ maps to $h$ under $F(\gamma)\to E$. We claim $h$ is linear.
+
+First, $h\ne0$ because $g\ne0$. Second, $h$ divides $g$, and $g$ is separable because $\beta$ is; a divisor of a separable polynomial is separable (`separable_gcd_right`). Third, $h(\beta)=0$ since both polynomials vanish at $\beta$ (`eval_gcd_eq_zero`). Fourth, $h$ splits over $E'$ because $g$ does and $h$ divides $g$. Fifth, every root $x\in E'$ of $h$ equals $\iota\beta$. Indeed, $x$ is a root of $g$, so $x=\beta'$ for one of the conjugates of $\beta$, and $\gamma-cx$ is a root of $f$, so $\gamma-cx=\alpha'$ for one of the conjugates of $\alpha$. If $x\ne\iota\beta$, then from $\alpha+c\beta-c\beta'=\alpha'$ we solve
+$$
+\varphi(c)=\frac{\alpha'-\alpha}{\beta-\beta'}=-\frac{\alpha'-\alpha}{\beta'-\beta},
+$$
+contradicting the choice of $c$ in Lemma B. A separable polynomial that splits, vanishes at $\beta$, and has no root other than $\beta$ is a constant times $X-\beta$ (`eq_X_sub_C_of_separable_of_root_eq`). Thus $h=\lambda(X-\beta)$ with $\lambda\ne0$ its leading coefficient.
+
+Transporting back, $p$ has degree one with coefficients $p_0,p_1\in F(\gamma)$ and $p_1\beta+p_0=0$ in $E$, so $\beta=-p_0/p_1$ lies in $F(\gamma)$. $\square$ [Mathlib/FieldTheory/PrimitiveElement.lean:100–167](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L100-L167) · [Mathlib/FieldTheory/Separable.lean:477–495](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Separable.lean#L477-L495)
+
+The field tower in this proof is $F\subseteq F(\gamma)\subseteq F(\alpha,\beta)\subseteq E\subseteq E'$. The greatest common divisor is formed over $F(\gamma)$, its roots are examined over $E'$, and the conclusion is read off over $E$. Separability is required of $\beta$ alone: it makes $h$ separable, so that the single root $\beta$ has multiplicity one and $h$ is linear rather than a higher power of $X-\beta$.
+
+**Theorem (primitive element theorem; `Field.exists_primitive_element`) [Lean, read].** Let $E/F$ be a finite-dimensional separable extension of fields. Then there exists $\alpha\in E$ with $F(\alpha)=E$. Explicitly: there is one $\alpha\in E$ such that every $x\in E$ lies in $F(\alpha)$.
+
+*Proof.* The pinned proof splits on whether $F$ is finite.
+
+If $F$ is finite, Lemma A applies directly, since $E$ is finite-dimensional over $F$.
+
+If $F$ is infinite, consider the predicate $P(K)$ on intermediate fields $F\subseteq K\subseteq E$: "there is $\alpha\in E$ with $F(\alpha)=K$". The bottom field $F$ satisfies $P$ with $\alpha=0$ (`adjoin_zero`). If $P(K)$ holds with witness $\alpha$ and $x\in E$, then $K(x)=F(\alpha)(x)=F(\alpha,x)$ by `adjoin_simple_adjoin_simple`, and Lemma C applied to $\alpha$ and $\beta=x$ gives $\gamma$ with $F(\alpha,x)=F(\gamma)$, so $P(K(x))$ holds. Since $E/F$ is finite-dimensional, every intermediate field is finitely generated, so it is reached from $F$ by finitely many simple adjunctions (`induction_on_adjoin`, which reduces to a `Finset` induction in `induction_on_adjoin_finset`). Hence $P(E)$ holds. $\square$ [Mathlib/FieldTheory/PrimitiveElement.lean:206–221](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L206-L221) · [Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean:301–305](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L301-L305) · [Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean:686–699](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean#L686-L699)
+
+The two branches are not interchangeable. The infinite branch needs a scalar outside a finite subset of $F$ at each step, which a finite field cannot always supply; the finite branch needs a cyclic multiplicative group, which an infinite field never has. The separability hypothesis on $E/F$ is consumed only in the infinite branch, element by element, through Lemma C.
+
+**Corollary (power basis; `Field.powerBasisOfFiniteOfSeparable`) [Lean, read].** A finite-dimensional separable extension $E/F$ has a power basis: for the primitive element $\alpha$ of the theorem, $1,\alpha,\ldots,\alpha^{n-1}$ is an $F$-basis of $E$, where $n$ is the degree of the minimal polynomial of $\alpha$, and $n=[E:F]$.
+
+*Proof.* Choose $\alpha$ by the theorem. Since $\alpha$ is integral, the simple extension $F(\alpha)$ has the power basis `adjoin.powerBasis`, whose generator is $\alpha$, whose dimension is the degree of the minimal polynomial, and whose basis vectors are the powers of $\alpha$; Mathlib transports it from the polynomial quotient presentation `AdjoinRoot.powerBasis` along the isomorphism $F[X]/(\mathrm{minpoly})\cong F(\alpha)$. Finally the equality $F(\alpha)=\top$ gives an $F$-algebra isomorphism $F(\alpha)\cong E$ (`equivOfEq` followed by `topEquiv`), and `PowerBasis.map` carries the power basis across. Comparing dimensions gives $n=[E:F]$ (`adjoin.finrank`). $\square$ [Mathlib/FieldTheory/PrimitiveElement.lean:223–231](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L223-L231) · [Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean:440–470](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean#L440-L470)
+
+**Where the trace proofs call it [Lean, read].** Three pinned declarations consume the corollary.
+
+1. *Embedding count.* `AlgHom.natCard_of_splits` and `AlgHom.card` prove that a finite separable $E/F$ has exactly $[E:F]$ embeddings over $F$ into a field $L$ in which all minimal polynomials split, in particular into an algebraic closure. The proof applies `AlgHom.natCard_of_powerBasis` to the power basis of the corollary: embeddings of a simple extension correspond to roots of the minimal polynomial of the generator, and separability makes these roots distinct, so there are exactly `pb.dim` of them. This count is the input `AlgHom.card L F E` in `sum_embeddings_eq_finrank_mul`, which gives the fiber size $[L:K(x)]$ in the proof of `trace_eq_sum_embeddings` in §5.3.1.8. There the power basis of $K(x)$ itself comes from `adjoin.powerBasis` and needs no primitive element; the primitive element is needed for the top extension over $K(x)$. [Mathlib/FieldTheory/PrimitiveElement.lean:346–362](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L346-L362) · [Mathlib/FieldTheory/Separable.lean:767–779](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Separable.lean#L767-L779) · [Mathlib/RingTheory/Trace/Basic.lean:235–262](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Basic.lean#L235-L262)
+
+2. *Trace-form determinant.* `det_traceForm_ne_zero` takes an arbitrary basis $b$ of $E$ over $F$ and sets `pb := Field.powerBasisOfFiniteOfSeparable`. It rewrites the matrix of the trace form in $b$ as $C^{T}\,T\,C$ with $C$ the change-of-basis matrix between $b$ and the power basis and $T$ the trace matrix of the power basis. The determinant of $C$ is a unit, as in the matrices $M$ and $N$ of the examples, so it suffices that $\det T\ne0$. That is `det_traceMatrix_ne_zero'`, which extends scalars to an algebraic closure, indexes the embeddings by `Fin pb.dim` using `AlgHom.card` a second time, and writes $T$ as a Vandermonde matrix in the values $\sigma(\alpha)$ times its transpose. Distinct embeddings take distinct values on the generator, so the Vandermonde determinant is nonzero. [Mathlib/RingTheory/Trace/Basic.lean:462–507](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Trace/Basic.lean#L462-L507)
+
+3. *Nondegeneracy and the additive character.* `traceForm_nondegenerate` applies the determinant criterion to the standard basis, and §5.3.1.7 recorded how `FiniteField.trace_to_zmod_nondegenerate` and `FiniteField.primitiveChar` consume it on the way to the quadratic Gauss sum. For these finite-field consumers only the finite branch of the theorem, Lemma A, is ever exercised, although the declaration is stated and proved for all finite separable extensions.
+
+**Remarks [Expository].**
+
+1. *Which hypothesis the inseparable example violates.* In Example 3 the hypothesis `Algebra.IsSeparable F E` fails: the minimal polynomial $X^p-s$ of $\alpha$ has derivative zero and the single root $\alpha$ with multiplicity $p$. The proof of Lemma C breaks at its second step. With $\gamma=\alpha+c\beta$ and $c\in K$ one computes
+   $$
+   f(\gamma-cX)=(\gamma-cX)^p-s=\gamma^p-c^pX^p-s=(s+c^pt)-c^pX^p-s=-c^p\,g(X),
+   $$
+   so the greatest common divisor is $g=X^p-t=(X-\beta)^p$ itself, of degree $p$, and the separability input to `eq_X_sub_C_of_separable_of_root_eq` is unavailable. The conclusion of Lemma C also fails: $\gamma^p=s+c^pt\in K$, so $[K(\gamma):K]\le p$ while $[K(\alpha,\beta):K]=p^2$. The fields $K(\alpha+c\beta)$ for distinct $c\in K$ are pairwise distinct, since a common field would contain $(c-c')\beta$ and hence $\alpha$ and $\beta$. So there are infinitely many intermediate fields, in accordance with Steinitz's criterion `exists_primitive_element_iff_finite_intermediateField`, which is proved in the same pinned file but not used by the trace consumers. In the same example the trace form is identically zero, as §5.3.1.8 showed for the degree-$p$ case, so the determinant criterion has nothing to work with.
+
+2. *Hypotheses in the classical statements.* Milne's Theorem 5.1 requires only that all generators after the first be separable, and the pinned Lemma C uses exactly that much at each step, although the pinned theorem is stated under the global hypothesis on $E/F$. The Stacks Project proves the infinite case by choosing a vector outside finitely many proper subspaces, namely the kernels of $\sigma_i-\sigma_j$ for distinct embeddings into an algebraic closure. The pinned proof chooses a scalar outside a finite set of root quotients instead. Both rest on the same fact that an infinite field cannot be covered by finitely many excluded values. The finite case is credited by both sources and by the pinned `@[stacks 09HY]` and `@[stacks 030N]` attributes to the cyclicity of the multiplicative group. [Stacks Project, Lemma 9.19.1](https://stacks.math.columbia.edu/tag/030N) · [Stacks Project, Section 9.18](https://stacks.math.columbia.edu/tag/09HY) · [Milne, *Fields and Galois Theory*, v5.10, pp. 53 and 61–62](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+3. *Nonconstructive choice.* The corollary uses `Classical.choose` on the existence statement. The resulting basis is therefore not computable from the data, which is why the examples above exhibit a primitive element and its change-of-basis matrix by hand rather than by evaluating the Lean term.
+
+**Reading boundary.** Archive A2 SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` pins Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`. The bodies of Lemmas A, B and C, the theorem, the corollary, the two embedding-count wrappers, `eq_X_sub_C_of_separable_of_root_eq`, `AlgHom.natCard_of_powerBasis`, `induction_on_adjoin` and `induction_on_adjoin_finset` were read against the source. Cyclicity of $E^\times$ is inherited from §5.3.1.6, and the trace consumers from §5.3.1.7 and §5.3.1.8. The declarations `AdjoinRoot.powerBasis`, `adjoinRootEquivAdjoin`, `PowerBasis.map`, `gcd_map`, `separable_gcd_right`, `Infinite.exists_notMem_finset`, `Module.finite_of_finite` and `IsNoetherian.iff_fg` are used at interface level. No Lean kernel replay or full dependency closure was performed. [Source map](../sources/SOURCES.md#primitive-elements-and-power-bases-5319)
 
 ## 5.4 Lemmas and proofs
 
