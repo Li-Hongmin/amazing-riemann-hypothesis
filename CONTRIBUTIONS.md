@@ -208,6 +208,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Christian Merten; Johan Commelin** — Mathlib’s étale coordinates for standard smooth algebras (`IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial`) and finite type as a quotient of a polynomial ring (`Algebra.FiniteType.iff_quotient_mvPolynomial''`), which give the archive’s algebraic charts and the embedding of an affine piece in $\mathbb C^k$ (Chapter 12, §12.4.4). [StandardSmooth.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/RingHom/StandardSmooth.lean) · [FiniteType.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/FiniteType.lean)
 
+- **Mathlib contributors** — Mathlib's induction principle for monoid algebras (`MonoidAlgebra.induction_on`: cases `of`, `add`, `smul`), through which `aeval_gen_sub_one_surjective` proves that $X_q\mapsto[e_q]-1$ maps $O[X_q]$ onto the group ring $O[(\iota\to\mathbb Z/n)]$ (Chapter 10, §10.4.7.4). [Pinned source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/MonoidAlgebra/Defs.lean)
 - **Christian Merten; Kenny Lau, Chris Hughes and Mario Carneiro** — Mathlib's denominator-clearing lemma for spans over a localization (`multiple_mem_span_of_mem_localization_span`, Christian Merten), which turns $\operatorname{span}_KB=V$ into $\operatorname{span}_K(B\cap W)=W$ in the archive's `span_inf_of_span_top`, and the unit criterion of a local ring (`IsLocalRing.residue_ne_zero_iff_isUnit`, file by Kenny Lau, Chris Hughes and Mario Carneiro), through which the archive's `propE` gets unit left Euler factors (Chapter 10, §10.4.7.3). Credited in the source headers. [Localization/Finiteness.lean:96–118](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Localization/Finiteness.lean#L96-L118) · [LocalRing/ResidueField/Basic.lean:41–42](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean#L41-L42)
 
 ## Sources for the lattice estimates
@@ -559,6 +560,20 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   credited under Mathlib above; the canonical decomposition is Serre's and the Euler-system comparison is Rubin's
   definition as restated by Loeffler and Zerbes. This entry records exposition and reading only.
   [Chapter 10, §10.4.7.3](chapters/10-congruence-modules-to-sha.md#10473-theta-euler-factors-and-the-isotypic-lattice-where-non-divisibility-comes-from)
+
+- **Hongmin Li (with AI assistance)** — Read at local R3 the joint producer of the auxiliary-place family behind Proposition 10.13j,
+  `GlobalTheory.TwSys.galois_twisted_selmer_auxprimes_of_matrix_and_bounds` (one order bound for both parities of $\nu$, one family
+  of $2R$ places for all signatures, the Selmer presentation matrix lifted through `toLam_surjective` to a Selmer polynomial with
+  `SelPoly` and a low-degree coefficient bound), the closed determinant-valuation theorem at statement and assembly level, and the
+  consumer step in which the same places, characters and grid point feed the Selmer, theta and lattice polynomials to one call of
+  `exists_level` and yield the `partAT` clause of `GoodTw`. Wrote the conditional textbook statements (Lemma 10.13ad, Theorem 10.13ae,
+  Proposition 10.13af), separated the Selmer-side non-divisibility (a coefficient of $F_s$) from the theta-side one (the constant
+  term $g(0)$), and gave two exactly checked hand calculations following one input to two outputs ($\mathbb Z_3[\zeta_{27}]$, $\nu=0$;
+  $\mathbb Z_2[\zeta_3]$ with $\zeta_8$, $\nu=1$) and a failure example for two separately chosen families. Corrected Lemma 10.13x(6)
+  by restoring the hypothesis $x\ne0$ of `vK_eq`. Community and literature credit: the formal proofs belong to Alpöge and Claude in
+  the pinned archive; the induction principle is credited under Mathlib above; the Iwasawa-algebra comparison is Sharifi's
+  exposition. This entry records exposition and reading only.
+  [Chapter 10, §10.4.7.4](chapters/10-congruence-modules-to-sha.md#10474-one-family-of-auxiliary-places-for-the-selmer-polynomials-and-the-theta-steps)
 
 - **Hongmin Li (with AI assistance)** — Wrote the planar textbook proof using tagged subdivision and one-dimensional affine increments, with worked examples for a point of nondifferentiability, a discontinuous trace and cancellation between derivatives that are individually nonintegrable. [Textbook subsection](chapters/03-landau-window-criterion.md#rectangular-divergence-with-countable-exceptions)
 
