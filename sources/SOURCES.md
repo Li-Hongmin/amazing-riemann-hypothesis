@@ -146,6 +146,15 @@ SHA-256 as in Section 6. The contents and the section heading both print
 “Constructing coycles”. The book's open PR #2 proposes a separate Chapter 16 example
 comparing cubic and abelian Frobenius traces at 31 and 367. [Book PR #2](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/2)
 
+**Chapter 10, §10.4.7.1.** The pinned archive (§1; tarball SHA-256 rechecked on 2026-11-24, and the twelve
+cited files compared byte for byte with the tarball members) supplies the lattice transport `export_at`, its
+lemmas and the reference family in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:17–496`, the signed-index lemmas in
+`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:16–70` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–75`, the
+all-powers assembly in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–64`, and the `partAB` steps of
+the three producers, read [Lean, read]. The toric supply `PropABCD` (`propABCD_of_rel`), the level lemma behind
+`exists_level` and the integrality suppliers are cited at statement level. The comparison with the classical
+lattice invariant uses SerreLocalFields, Ch. III, §1 (Section 6). [Declaration map](../chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
+
 **Our derived data.** Declaration index, import graph, text scan and citation check, all
 reproducible from the archive (Section 7).
 
@@ -651,6 +660,12 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Riemannian spaces with applications to Dirichlet series", *Journal of the Indian Mathematical
   Society (N.S.)* 20 (1956), 47–87 (cited in Chapter 14).
   Verified: 2026-11-22 via bibliographic records for *J. Indian Math. Soc. (N.S.)* vol. 20 (1956), pp. 47–87 (reprinted in *Atle Selberg: Collected Papers*, Vol. I, Springer, 1989, pp. 423–463).
+- **[SerreLocalFields]** Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer,
+  New York, 1979, doi:10.1007/978-1-4757-5673-9. Chapter III, “Discriminant and Different”, pp. 47–60,
+  doi:10.1007/978-1-4757-5673-9_4; §1 “Lattices” (Lemma 1 and Propositions 1–2, pp. 47–48) is compared
+  with the signed index in Chapter 10, §10.4.7.1.
+  Verified: 2026-11-24 via Crossref (chapter title, pp. 47–60) and the printed text of §1, pp. 47–48
+  (read through a full-text search excerpt; the Springer full text was not opened).
 - **[Shin2011]** S. W. Shin, "Galois representations arising from some compact Shimura varieties",
   *Annals of Mathematics* (2) 173 (2011), no. 3, 1645–1741, doi:10.4007/annals.2011.173.3.9
   (cited in Chapters 12, 16, and 19).

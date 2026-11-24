@@ -8,7 +8,8 @@
 > `ThirdPlaceSeries/LinkEta.lean`, and `GaloisCohomology/Statement.lean` (`R3`), and, in §§10.4.5–10.4.6,
 > for the imported DVR determinant lemma, block-determinant lemmas, GMA Fitting step, peeling lemma,
 > cyclotomic-block $Ш^1$ bound, class-number bound, $\rho$-block Selmer comparison and
-> `twist_kills_selmer` (`R3`), and for the main-path twist construction and Chebotarev producer read in §10.4.7.
+> `twist_kills_selmer` (`R3`), and for the main-path twist construction and Chebotarev producer read in §10.4.7
+> and the lattice-specialization transport read in §10.4.7.1.
 > `[Lean]` marks the remaining statement-level sub-lemmas at the
 > end of §10.4.5 and for the deeper inputs listed in §10.4.7; `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's
 > draft; `[Community]` for public community reports; `[Expository]` for classical Hida/Ribet/Bellaïche–Chenevier
@@ -387,9 +388,10 @@ could depend on the $j$-th automorphic packet and accumulate uncontrollably!
 `ChosenTwistAnnihilatesSelmerGroups.lean`, `LinkNAlongFamilyOfLocalBounds.lean`, and `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean`
 in full (`R3` / `[Lean, read]`). §10.4.6 follows `TwistingCharacterExistence` one level further. It
 enters `Stmt` as the hypothesis `adm2`. Its producers in the archive (`admissibleBounds_of_all`,
-`abstract_form_of_lattice_run`, `admAB_of_toric_parts`) are read at the top level only (`R2` /
-`[Lean]`). The Chebotarev input `GlobalTheory.TwSys.Cheb` is located there. Which producer
-discharges `adm2` on the path from `src/Main.lean` is `[Open]`. The motivating notes are in
+`abstract_form_of_lattice_run`, `admAB_of_toric_parts`) are discussed there, where the Chebotarev
+input `GlobalTheory.TwSys.Cheb` is also located. Section 10.4.7 traces the all-coprime-powers witness
+used on the path from `src/Main.lean`, and §10.4.7.1 reads the lattice transport and the index steps
+of the producers. The motivating notes are in
 `remark.pdf` p. 4, items 14–15, 17 [Paper].
 
 ### 10.4.4 Complete proof of `divinN_of_hypV`: how $\sqrt{b} = \exp(x^\varepsilon/2)$ closes `DIVinN`
@@ -903,7 +905,7 @@ goodness are inputs. This sharpens Proposition 10.3(1).
   the three error clauses `partAT`, `partC`, `partD`, and the lattice-index bound
   `partAB` (`:150`, `:171–173`).
 - `export_at_setting` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456`) transports such a character to a `GoodTw` twist.
-  We read its body, but not its helpers `export_at` and `abHyp_fam`, so it stays [Lean].
+  Its body and its helpers `export_at` and `abHyp_fam` are read in §10.4.7.1 [Lean, read].
 
 **What a good character must satisfy.** The clauses are defined in
 `src/Formalism/SharpRestriction/LevelLetterCocycles/BlochKatoPhases.lean:289–330`; we read these
@@ -937,10 +939,12 @@ occur in the archive.
    read) only specialises the "all coprime powers" version to the power $1$.
 2. `abstract_form_of_lattice_run`
    (`src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`)
-   derives it from `SelmerSeriesChoice` [Lean].
+   derives it from `SelmerSeriesChoice` and `Pack.Main`. Its `partAB` step is read in §10.4.7.1;
+   the two inputs stay [Lean].
 3. `admAB_of_toric_parts`
    (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`;
-   top-level proof read, dependencies not) shows the shape of an actual construction.
+   top-level proof read, with its `partAB` step in §10.4.7.1; deeper dependencies not) shows the shape
+   of an actual construction.
    - Take a tame inertia element $z$.
    - From `GaloisSideTwistedSelmerAuxiliaryPrimes`
      (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:70`),
@@ -1142,8 +1146,185 @@ applications above identify where the witness is passed and read.
 
 **Remark [Open].** The deeper cohomology and determinant arguments behind the Selmer presentation
 and the two order bounds, the cyclotomic prime-norm existence inputs to `chebotarevDegreeOne'`, and the
-full toric and lattice-specialization cones remain to be read. The applications above
-identify these inputs and their quantifiers.
+toric supply `PropABCD` with the level lemma behind `exists_level` remain to be read. Section 10.4.7.1
+reads the lattice-specialization transport. The applications above identify these inputs and their
+quantifiers.
+
+#### 10.4.7.1 Lattice specialization: one index bound for every coprime power
+
+##### Motivation [Expository]
+
+Besides the Selmer, theta and tame clauses used by Proposition 10.12, the predicate `GoodTw` contains three lattice clauses for every block $(j,b)$ with $1\le j\le m$ and $b\in\{\mathrm{true},\mathrm{false}\}$. The twisted theta module must be a lattice, it must lie in a prescribed integral module, and its index may exceed that of the untwisted theta module by at most an error $\varepsilon_{j,b}$, after any further extension of the coefficient ring. The producers of twist existence prove a different statement, the clause `partAB`. It says that every lattice containing the specialized universal theta vectors has bounded index measured from one reference lattice $B$. This subsection reads the transport from `partAB` to the three clauses and traces where `partAB` comes from.
+
+Three features of the transport recur below. The reference lattice is fixed before the twist is chosen, so one $B$ serves every power $\psi_0^a$. The idempotent that cuts out the relevant subspace has a denominator; it is cleared by the same scalar on both sides of each inequality. Indices are normalized by the valuation of $\ell$, so they do not change in the ramified extensions $O\subset O_k\subset O'$ in which the twisted vectors live.
+
+##### Example 10.13a. A specialized rank-two lattice over $\mathbb Z_3[\zeta_9]$ [Expository]
+
+Let $O=\mathbb Z_3$, $V=\mathbb Q_3^2$ and $B=\mathbb Z_3^2$. Let $\zeta$ be a primitive ninth root of unity and $O_k=\mathbb Z_3[\zeta]$. This is a DVR, totally ramified of degree $\varphi(9)=6$ over $\mathbb Z_3$, with uniformizer $\pi=\zeta-1$, so $v_\pi(3)=6$. Model a universal family by the vectors $w_1=(1,0)$ and $w_2=(1,T)$ over $O[T]$, where $T$ plays the role of $[\gamma]-1$ for a generator $\gamma$ of $\mathbb Z/9\mathbb Z$. The character $\gamma\mapsto\zeta^a$ specializes $T$ to $\zeta^a-1$ and gives
+
+$$\Theta_a=\operatorname{span}_{O_k}\{(1,0),\ (1,\zeta^a-1)\}.$$
+
+The coordinate matrix in the standard basis of $B_{O_k}=O_k^2$ is triangular with determinant $\zeta^a-1$, so $O_k^2/\Theta_a\cong O_k/(\zeta^a-1)$. Dividing lengths by $v_\pi(3)=6$ gives three cases.
+
+1. If $3\nmid a$, then $\zeta^a$ is again a primitive ninth root and $\zeta^a-1$ is a uniformizer. Hence $\operatorname{sIdx}(B_{O_k},\Theta_a)=1/6$ for all six residues $a$. This is the lattice form of Example 10.6.
+2. If $a\in\{3,6\}$, then $\zeta^a$ has order $3$. From $\Phi_3(1)=3$ we get $v_\pi(\zeta^a-1)=3$, and the index is $1/2$.
+3. If $9\mid a$, then $T\mapsto 0$ and $\Theta_0=O_k\cdot(1,0)$ has rank one, so it is not a lattice. The lattices $T_n=\Theta_0+\pi^nB_{O_k}=\operatorname{span}\{(1,0),(0,\pi^n)\}$ contain $\Theta_0$, and $\operatorname{sIdx}(B_{O_k},T_n)=n/6$ is unbounded.
+
+Enlarging a lattice lowers its index from a fixed reference. In case 1, every lattice $T\supseteq\Theta_a$ therefore satisfies $\operatorname{sIdx}(B_{O_k},T)\le 1/6$. Take the untwisted theta module to be $\Theta=B$, so that $\operatorname{sIdx}(B,\Theta)=0$. Then the statement "every lattice containing the specialized vectors has index at most $\operatorname{sIdx}(B,\Theta)+\varepsilon$" holds with $\varepsilon=1/6$ for all coprime $a$ at once. With $\varepsilon=1/4$ it excludes $a=3$, and at $9\mid a$ it fails for every $\varepsilon$. Lemma 10.13d shows that the last failure is forced: a uniform bound over all lattices containing a finitely generated module makes that module a lattice.
+
+##### Example 10.13b. Clearing a denominator and extending scalars over $\mathbb Z_2$ [Expository]
+
+Let $\ell=2$ and $O=\mathbb Z_2$. Let a group of order $c_G=2$ act on $W=\mathbb Q_2^2\oplus\mathbb Q_2^2$ by swapping the summands. The idempotent $e=\tfrac12(1+\sigma)$ projects onto the diagonal $V\cong\mathbb Q_2^2$, and its integral multiple is $A=c_Ge=1+\sigma$. Put the untwisted theta vectors in the first summand: $\theta_s=(u_s,0)$ with $u_1=(1,0)$ and $u_2=(0,1)$. In diagonal coordinates $A\theta_s=u_s$ and $e\theta_s=\tfrac12u_s$. With $B=\mathbb Z_2^2$ we get $A\Theta=B$ and $e\Theta=\tfrac12B$, so
+
+$$\operatorname{sIdx}(B,A\Theta)=0,\qquad \operatorname{sIdx}(B,e\Theta)=-2 .$$
+
+Over $O_k=\mathbb Z_2[i]$, with uniformizer $1-i$ and $v(2)=2$, let the twisted vectors give $A\Theta_\psi=\operatorname{span}\{(1,0),(1,i-1)\}$ and $e\Theta_\psi=\tfrac12A\Theta_\psi$. Then
+
+$$\operatorname{sIdx}(B_{O_k},A\Theta_\psi)=\tfrac12,\qquad \operatorname{sIdx}(B_{O_k},e\Theta_\psi)=-\tfrac32,\qquad \operatorname{sIdx}\bigl((e\Theta)_{O_k},e\Theta_\psi\bigr)=\tfrac12 .$$
+
+The scalar $2$ contributes $\operatorname{rank}\cdot v(2)/v(2)=2$ to both indices measured from $B_{O_k}$ and cancels in the difference. Now pass to $O'=\mathbb Z_2[\zeta_8]$, with uniformizer $\pi'=\zeta_8-1$ and $v_{\pi'}(2)=4$. Since $v_{\pi'}(i-1)=2$,
+
+$$\operatorname{sIdx}(O'^2,O'e\Theta_\psi)=\frac{2-8}{4}=-\frac32,\qquad \operatorname{sIdx}\bigl(O'^2,(e\Theta)_{O'}\bigr)=-\frac84=-2 .$$
+
+The difference is again $1/2$. For the other reference $M=\operatorname{span}\{(1,0),(0,\pi')\}$ the two indices are $-7/4$ and $-9/4$, and the difference is still $1/2$. These are the three moves of Theorem 10.13g below. Both sides are measured from one reference, the common scalar is removed, and the coefficient ring is changed with an arbitrary reference.
+
+##### Definitions [Lean, read]
+
+Fix a nonzero-index place $i$. Let $O$ be the coefficient DVR `X.O i`, with fraction field $K$, and let $\ell$ be the prime `X.l i`. It is a nonzero nonunit in $O$ and in every $O_k$ = `X.Ok i k` (`natCast_l_ne_zero`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:362–369`). Each $O_k$ is a DVR with $O\to O_k$ injective and finite (`X.Ok_inj`, `X.Ok_fin`). Integrality makes this map local. For a block $(j,b)$ write $W$ for the $K$-space `Y.Fm i j b` and $W_0$ for `Fm0`, the subspace on which the unipotent group acts through the type character. Write $e$ for `eG`, the endomorphism given by the idempotent `Y.eAlg i b`, and $V=e(W_0)$ for `V0`. Finally $c_G$ is `restRowsFiniteGroupCard`, and $A=c_G\,e$ is `AO` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:16–37`).
+
+1. **Normalized length and signed index** (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:64–70`). For a DVR $R$ and an $R$-module $M$ put $\lambda_\ell(M)=\operatorname{len}_R(M)/v_R(\ell)$, and for submodules
+   $$\operatorname{sIdx}(M,N)=\lambda_\ell\bigl(M/(M\cap N)\bigr)-\lambda_\ell\bigl(N/(M\cap N)\bigr).$$
+   Lengths are converted from $\mathbb N\cup\{\infty\}$ with `toNat`, so an infinite length is recorded as $0$. The definition is used only for two lattices in one space, where both lengths are finite.
+2. **Lattices** (`:72–73`). `IsLatIn M V` means that $M$ is finitely generated, $M\subseteq V$, and every $x\in V$ has a nonzero multiple in $M$. The last condition says that $M$ and $V$ agree after localization at $R\setminus\{0\}$. In this subsection $V$ is the restriction of scalars of a $K$-subspace or a base change of one.
+3. **Theta modules** (`:44–62`). $\Theta=$ `Th Sg` is the $O$-span of the theta vectors $\theta_a$, $a\in Sg$, and $e\Theta=$ `eTh`. For a character $\psi$ of the Galois group with values in $O_k^\times$, $\Theta_\psi=$ `ThPsi` is the $O_k$-span of the twisted theta vectors in $O_k\otimes_OW$, and $e\Theta_\psi=$ `eThPsi` is its image under $e\otimes1$. The module `eThPMt` is the image of the integral structure `MtLat`.
+4. **The three lattice clauses** (`:201–215`, used in `GoodTw` at `:226–230`). `IdxAt` $(\varepsilon)$ says: for every DVR $O'$ with an injective finite map $O_k\to O'$ compatible with $O$, and every lattice $M$ of $O'\otimes V$,
+   $$\operatorname{sIdx}\bigl(M,\ O'\cdot e\Theta_\psi\bigr)\le\operatorname{sIdx}\bigl(M,(e\Theta)_{O'}\bigr)+\varepsilon .$$
+   The second clause says that $e\Theta_\psi$ is a lattice of $O_k\otimes V$. `InclAt` says $e\Theta_\psi\subseteq$ `eThPMt`.
+5. **The index clause of twist existence** (`:150–162`). The specialization `specU χ` evaluates the universal theta series `thU`, whose coefficients lie in the group algebra of the finite group `DelQM`, at a character $\chi$ of that group (`:90–96`). For $b\in\{\mathrm{true},\mathrm{false}\}$ put $\chi_b=$ `psiAt b χ`, which is $\chi$ or $\chi^{-1}$ (`src/Formalism/SharpRestriction/LevelLetterCocycles/BlochKatoPhases.lean:87–88`). Then `partAB F ψ' eps'` asserts: there are $M$ and $\chi$ with $\psi'\circ\mathrm{art}=\chi\circ\mathrm{delU}$, and errors $\varepsilon_{j,b}\ge0$ with $\sum_{j,b}\varepsilon_{j,b}\le\varepsilon'$, such that for each block and each lattice $T_\psi$ of $(\operatorname{span}_KF.B)_{O_k}$ containing the vectors $(F.A\otimes1)(\mathrm{specU}\,\chi_b(\mathrm{thU}\,a))$ for $a\in F.S$,
+   $$\operatorname{sIdx}\bigl((F.B)_{O_k},T_\psi\bigr)\le\operatorname{sIdx}(F.B,F.\mathrm{Th})+\varepsilon_{j,b}.$$
+6. **The reference family** (`fam`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:282–284`). Its fields are the ambient module `Mall` $=$ `Bsup` $\cap\,W_0$ (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:242–243`), an integral lift $z_b$ of $c_G\cdot$`eAlg`, the reference lattice $B=$ `Mall` $\cap\,V$, and the given finite basis sets $S$.
+
+##### Lemma 10.13c (signed-index calculus) [Lean, read]
+
+*Let $R$ be a DVR, $\ell\in R$ a nonzero nonunit and $V$ an $R$-submodule of $W$.*
+
+1. *If $L_1,L_2,L_3$ are lattices in $V$, then $\operatorname{sIdx}(L_1,L_3)=\operatorname{sIdx}(L_1,L_2)+\operatorname{sIdx}(L_2,L_3)$, and $L_3\subseteq L_2$ implies $\operatorname{sIdx}(L_1,L_2)\le\operatorname{sIdx}(L_1,L_3)$.*
+2. *An injective linear map $f$ preserves $\operatorname{sIdx}$ and sends lattices of $V$ to lattices of $f(V)$. If $c\ne0$ and $M$ is a lattice in $V$, so is $cM$.*
+3. *A finitely generated $L$ in a $K$-space is a lattice in $\operatorname{span}_K L$ (restricted to $R$). Conversely, a lattice in the restriction of a $K$-subspace $V$ spans $V$ over $K$.*
+4. *If $R\to S$ is an injective local homomorphism of DVRs and $L_1,L_2$ are lattices in $V$, then $L_1\otimes S$ is a lattice in $V\otimes S$ and $\operatorname{sIdx}_S(L_1\otimes S,L_2\otimes S)=\operatorname{sIdx}_R(L_1,L_2)$.*
+
+*(Lean: `sIdx_add_and_mono`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:54–70`; `sIdx_map`, `isLatIn_map`, `isLatIn_smul`, `isLatIn_of_span`, `span_of_isLatIn`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:17–61`; `isLatIn_baseChange`, `lenR_baseChange_subquotient`, `sIdx_baseChange`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–75`.)*
+
+*Proof.* (1) For lattices $M,N$ in $V$ the quotient $M/(M\cap N)$ is finitely generated, and each element has a nonzero multiple in $N$. A finitely generated torsion module over a DVR has finite length, so lattices are length-commensurable, and $\operatorname{sIdx}$ is their signed length divided by $v(\ell)$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:16–49`). Signed length is additive on commensurable modules and nonnegative when the second module is contained in the first. These are `LengthCommensurable.signedLength_eq_add` and `signedLength_nonneg` [Lean]; the assembly is at `:61–70`. (2) Both relative lengths are preserved by an injective map (`relLength_map_of_injective` [Lean]). An image of a lattice stays finitely generated and contained, and $f(cx)=cf(x)$ transports saturation. If $dx\in M$ with $d\ne0$, then $(cd)x\in cM$ and $cd\ne0$. (3) An element of $\operatorname{span}_KL$ has a nonzero multiple in $L$, by clearing denominators of a finite $K$-combination (`multiple_mem_span_of_mem_localization_span`, Mathlib). Conversely $x=c^{-1}(cx)$ lies in $\operatorname{span}_KL$. (4) For a pure tensor $s\otimes v$ with $cv\in L_1$, the multiple $c\cdot(s\otimes v)=s\otimes cv$ lies in $L_1\otimes S$. Sums and multiples are handled by multiplying the constants (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–44`). For the index, the $S$-length of $(L_1\otimes S)/(L_1\otimes S\cap L_2\otimes S)$ is $e(S/R)$ times the $R$-length of $L_1/(L_1\cap L_2)$ (`length_baseChange_subquotient_dvr` [Lean]). Also $v_S(\ell)=e(S/R)\,v_R(\ell)$ (`addVal_algebraMap`, `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthBaseChangeQuotientOfMapMaximalIdeal.lean:123–132`). The ramification index cancels (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:49–75`). $\square$
+
+##### Lemma 10.13d (bounded index forces full rank) [Lean, read]
+
+*Let $R$ be a DVR, $\ell\in R$ a nonzero nonunit, $B$ a lattice in $V$, $T\subseteq V$ a finitely generated submodule and $C\in\mathbb R$. If every lattice $T'$ of $V$ with $T\subseteq T'$ satisfies $\operatorname{sIdx}(B,T')\le C$, then $T$ is a lattice in $V$.*
+*(Lean: `isLatIn_of_index_le`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:164–219`.)*
+
+*Proof.* Put $P_n=\ell^nB$. Each $P_n$ is a lattice by Lemma 10.13c(2). So is $T+P_n$: it is finitely generated, lies in $V$, and every $x\in V$ has a nonzero multiple in $P_n\subseteq T+P_n$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:168–172`). Since $P_{n+1}\subseteq\ell P_n\subseteq P_n$, the lattices $T+P_n$ decrease (`:173–179`). Suppose $T$ is not a lattice. If $T+P_n=T+P_{n+1}$ for some $n$, then $P_n\subseteq T+\ell P_n$. The module $P_n$ is finitely generated and $\ell$ lies in the maximal ideal, which is the Jacobson radical of $R$. Nakayama's lemma gives $P_n\subseteq T$, and then the saturation of $P_n$ makes $T$ a lattice (`:181–188`). Hence each inclusion $T+P_{n+1}\subsetneq T+P_n$ is strict. Its quotient has length at least $1$, so $\operatorname{sIdx}(T+P_n,T+P_{n+1})\ge1/v(\ell)$, where $v(\ell)>0$ because $\ell$ is a nonzero nonunit (`:189–205`). By additivity, $\operatorname{sIdx}(B,T+P_n)\ge\operatorname{sIdx}(B,T+P_0)+n/v(\ell)$ (`:206–214`). Taking $n>\bigl(C-\operatorname{sIdx}(B,T+P_0)\bigr)v(\ell)$ and $T'=T+P_n$ contradicts the hypothesis (`:215–219`). $\square$
+
+In Example 10.13a, case 3, the lattices $T+P_n$ are exactly the $T_n$ with index $n/6$.
+
+##### Lemma 10.13e (removing a common scalar) [Lean, read]
+
+*Let $W$ be torsion-free over the DVR $R$, let $B,T,L$ be lattices in $V$ and $c\in R\setminus\{0\}$. If $\operatorname{sIdx}(B,cL)\le\operatorname{sIdx}(B,cT)+\varepsilon$, then $\operatorname{sIdx}(T,L)\le\varepsilon$.*
+*(Lean: `index_unscale`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:153–162`.)*
+
+*Proof.* Multiplication by $c$ is injective on $W$. Lemma 10.13c(1) for the lattices $B,cT,cL$ gives $\operatorname{sIdx}(B,cL)=\operatorname{sIdx}(B,cT)+\operatorname{sIdx}(cT,cL)$. Lemma 10.13c(2) gives $\operatorname{sIdx}(cT,cL)=\operatorname{sIdx}(T,L)$. $\square$
+
+##### Lemma 10.13f (passing to a larger coefficient ring) [Lean, read]
+
+*Let $O\to R\to S$ be a tower of algebras with $R,S$ DVRs and $R\to S$ injective and finite. Let $T,V\subseteq W$ be $O$-submodules with $T\otimes R$ a lattice of $V\otimes R$, let $L$ be a lattice of $V\otimes R$, and suppose $\operatorname{sIdx}_R(T\otimes R,L)\le\varepsilon$. Then every lattice $M$ of $V\otimes S$ satisfies $\operatorname{sIdx}_S(M,S\cdot L)\le\operatorname{sIdx}_S(M,T\otimes S)+\varepsilon$, where $S\cdot L$ is the $S$-span of the image of $L$ in $S\otimes_OW$.*
+*(Lean: `index_extend`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:130–151`.)*
+
+*Proof.* The map $R\to S$ is local, being finite and injective. The canonical isomorphism $S\otimes_R(R\otimes_OW)\cong S\otimes_OW$ sends $(T\otimes R)\otimes S$ to $T\otimes S$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:115–126`) and $L\otimes S$ to $S\cdot L$ (`:95–113`). By Lemma 10.13c(2),(4), both are lattices of $V\otimes S$, and $\operatorname{sIdx}_S(T\otimes S,S\cdot L)=\operatorname{sIdx}_R(T\otimes R,L)\le\varepsilon$ (`:139–149`). Additivity with the third lattice $M$ gives $\operatorname{sIdx}(M,S\cdot L)=\operatorname{sIdx}(M,T\otimes S)+\operatorname{sIdx}(T\otimes S,S\cdot L)$ (`:150–151`). $\square$
+
+##### Theorem 10.13g (the lattice-index bridge from `partAB` to the twist clauses) [Lean, read]
+
+*Fix $(i,j,b)$ with $i$ a nonzero-index place and $1\le j\le m$, a finite set $S$, and $k,Q,\psi$ with `TwOK` and `UnrG`. Assume `IsotypicPartsInternalDirectSum`, `admT4`, `FullRk` for $Sg=$ `SgJ` and `BasisOf` for $(Sg,S)$. Let $\Theta=$ `Th SgJ`, $\Theta_\psi=$ `ThPsi SgJ` and $B=$ `Mall` $\cap\,V$. Let $\varepsilon\in\mathbb R$ and suppose*
+
+*(H) every lattice $T$ of $O_k\otimes V$ with $(A\otimes1)\Theta_\psi\subseteq T$ satisfies $\operatorname{sIdx}(B_{O_k},T)\le\operatorname{sIdx}(B,A\Theta)+\varepsilon$.*
+
+*Then `IdxAt` $(\varepsilon)$ holds, $e\Theta_\psi$ is a lattice of $O_k\otimes V$, and `InclAt` holds.*
+*(Lean: `GlobalTheory.ExportFromInputs.export_at`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:371–450`.)*
+
+*Proof.* **Step 0 (the untwisted side).** By `IsotypicPartsInternalDirectSum`, `Mall` is finitely generated and spans $W_0$ over $K$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:385`). Then $B$ is a lattice of $V$: it is finitely generated as a submodule of `Mall` over the Noetherian ring $O$, it lies in $V$, and any $x\in V\subseteq W_0$ has $c\ne0$ with $cx\in$ `Mall` $\cap\,V$ (`isLatIn_B`, `:286–291`; `goodPart_le_typeSubspace`, `src/Development/AbelianVarietyTheory/Counterexamples/NonGaloisSurvey/MemTypeSubspaceIffUnipotentCharacter.lean:80–84`). By `FullRk` and `BasisOf`, $A\Theta$ is spanned by the finitely many $A\theta_a$, $a\in S$, and spans $V$ over $K$. So $A\Theta$ is a lattice of $V$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:424–427`). Next $A\Theta=c_G\cdot e\Theta$, and $c_G\ne0$ in the characteristic-zero domain $O$ (`:228–236`). Hence $e\Theta$ is finitely generated, because multiplication by $c_G$ is injective on $W$. It lies in $V$ because $\Theta\subseteq W_0$ by the equivariance of the base theta vectors, and it inherits saturation from $A\Theta\subseteq e\Theta$ (`:428–442`). Base change gives lattices $B_{O_k}$ and $(e\Theta)_{O_k}$ of $O_k\otimes V$ (`:389–390`, `:443`).
+
+**Step 1 (the twisted module is a lattice).** The last clause of `IsotypicPartsInternalDirectSum`, applied with `TwOK` and `UnrG`, puts the twisted theta vectors in $(W_0)_{O_k}$. Hence $e\Theta_\psi\subseteq(eW_0)_{O_k}=O_k\otimes V$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:406–413`). By `admT4`, $e\Theta_\psi$ lies in the image of the finitely generated module `MtLat`. It is therefore finitely generated over the Noetherian ring $O_k$, and this inclusion is `InclAt` (`:391–392`, `:404–405`). Since $A\otimes1=c_G(e\otimes1)$, we have $(A\otimes1)\Theta_\psi\subseteq e\Theta_\psi$ (`:397–402`, `:414–418`). Every lattice $T'\supseteq e\Theta_\psi$ thus satisfies (H). Lemma 10.13d with reference $B_{O_k}$ shows that $e\Theta_\psi$ is a lattice (`:419–422`).
+
+**Step 2 (one application of (H)).** Apply (H) to $T=(A\otimes1)\Theta_\psi=c_G\cdot e\Theta_\psi$. It is a lattice by Step 1 and Lemma 10.13c(2) (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:444`). Rewrite the right side over $O_k$. By Lemma 10.13c(4), $\operatorname{sIdx}(B,A\Theta)=\operatorname{sIdx}(B_{O_k},(A\Theta)_{O_k})$, and $(A\Theta)_{O_k}=(A\otimes1)\Theta_{O_k}=c_G\cdot(e\Theta)_{O_k}$ (`:445–446`). Hence
+$$\operatorname{sIdx}\bigl(B_{O_k},c_G\,e\Theta_\psi\bigr)\le\operatorname{sIdx}\bigl(B_{O_k},c_G\,(e\Theta)_{O_k}\bigr)+\varepsilon .$$
+
+**Step 3 (removing the denominator).** The module $O_k\otimes_OW$ is torsion-free over $O_k$: $W$ is a $K$-vector space, hence flat over $O$, and tensoring the injection given by a nonzero $c\in O_k$ stays injective (`torsionFree_tensor`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:75–88`, `:393–394`). Lemma 10.13e with $c=c_G$ gives $\operatorname{sIdx}((e\Theta)_{O_k},e\Theta_\psi)\le\varepsilon$ (`:447`).
+
+**Step 4 (all further coefficient rings).** Lemma 10.13f with $R=O_k$, $T=e\Theta$ and $L=e\Theta_\psi$ is `IdxAt` $(\varepsilon)$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:448–450`). $\square$
+
+Only two instances of (H) are used: lattices containing $e\Theta_\psi$, in Step 1, and the module $(A\otimes1)\Theta_\psi$ itself, in Step 2. The hypothesis is stated for all lattices containing the specialized vectors because the producer of the bound does not know $e\Theta_\psi$. Example 10.13a, case 3, shows that it fails when the specialized module drops rank.
+
+##### Proposition 10.13h (the reference family satisfies `ABHyp`) [Lean, read]
+
+*Assume `IsotypicPartsInternalDirectSum`, `GroupAlgebraIntegrality` and `GoodLatticePoints`. Let $z_b\in O[G_0]$ map to $c_G\cdot$`eAlg` in $K[G_0]$, as provided by the first clause of `GroupAlgebraIntegrality`. For `FullRk` and `BasisOf` data $S$, the family `fam z S` satisfies `ABHyp` at every block. Its operator is $F.A=A$ and its theta lattice is $F.\mathrm{Th}=A\Theta$.*
+*(Lean: `abHyp_fam`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:297–360`; `zO_eq`, `:245–252`; the identity $F.\mathrm{Th}=A\Theta$ at `:470–472`.)*
+
+*Proof.* The twelve conjuncts of `ABHyp` (`src/Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean:125–148`) are checked in order (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:325–360`). `Mall` is finitely generated and Hecke stable by `IsotypicPartsInternalDirectSum`. The operator $A$ maps `Mall` into `Mall` $\cap\,V$. It lands in $V$ because $A=c_Ge$ and $V=e(W_0)$. It preserves `Bsup` because `Bsup` is stable under the group and $A$ is an $O$-linear combination of group elements (`zO_mem`, `:266–280`; the inclusion at `:310–314`). The $K$-span of $A(\mathrm{Mall})=c_G\,e(\mathrm{Mall})$ is $e(W_0)=V$ (`:317–322`), and $B$ is a lattice there (`:327–329`). The vectors $A\theta_a$, $a\in S$, are linearly independent, and they span over $K$ the same space as $B$ (`:338–340`). The element $z_b$ is central, because its image $c_G\cdot$`eAlg` is central and $O[G_0]\to K[G_0]$ is injective (`central_of_map`, `:254–264`). $A$ commutes with the Hecke operators because the group action does (`:341–345`), and $B$ is Hecke stable (`:330–337`). The integrality of the universal series is made uniform over $S$. Each $a\in S$ has an exponent $c_a$ with $\ell^{c_a}\,\mathrm{thU}(a)$ integral over `Mall`. Take $c=\max_{a\in S}c_a$ and multiply by $\ell^{c-c_a}$ (`:346–360`). The last conjunct is `GoodLatticePoints`. $\square$
+
+##### Theorem 10.13i (lattice clauses at every coprime power) [Lean, read]
+
+*Assume `admissibleIndexBoundAllPowers`, `IsotypicPartsInternalDirectSum`, `GroupAlgebraIntegrality`, `admT4`, `TwistedSeriesSpecialisation` and `GoodLatticePoints`. Let $i$ be a nonzero-index place satisfying `SetHyp`. Let $\varepsilon'>0$, assume `FullRk` at all blocks, and let $S$ be a family of bases and $A_0$ a finite set of places. Then there are $Q$, $k$ and $\psi_0:\mathrm{RCG}(Q)\to O_k^\times$ such that, for every $a\in\mathbb Z$ coprime to $\ell$, `GoodTw` holds for $\psi_0^a$ with excluded set `levs S` $\cup A_0$. The lattice clauses at $(a,j,b)$ are the conclusions of Theorem 10.13g for $\psi=$ `psiAt b` $(\psi_0^a\circ\mathrm{art})$ and $\varepsilon=\varepsilon^{(a)}_{j,b}$. The reference family $F=$ `fam z S` is the same for all $a$.*
+*(Lean: `twistModule_all_character_powers_of_admissible`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–53`; single character: `export_at_setting`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456–489`.)*
+
+*Proof.* Choose $z$ from `GroupAlgebraIntegrality` and form $F=$ `fam z S`. It satisfies `ABHyp` by Proposition 10.13h (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:22–23`). Apply `admissibleIndexBoundAllPowers` once, to $(i,\varepsilon',F,\ \texttt{levs }S\cup A_0)$, and obtain $(Q,k,\psi_0)$ together with the clauses for all powers (`:24`). Fix $a$ coprime to $\ell$ and put $\psi'=\psi_0^a$ (`:25–27`). The clauses at $a$ give `PsiOk`, `partAT`, `partC`, `partD` and `partAB` for $\psi'$. The last comes with its own $(M,\chi,\varepsilon^{(a)})$ (`:28`). For each block, `twOK_of_psiOk` turns `PsiOk` into `TwOK` and `UnrG` for $\psi=$ `psiAt b` $(\psi'\circ\mathrm{art})$, and into the disjointness of $Q$ from `levs S` $\cup A_0$ (`:30`; `src/Development/AbelianVarietyTheory/Counterexamples/NonGaloisSurvey/MemTypeSubspaceIffUnipotentCharacter.lean:86–110`).
+
+It remains to derive (H) from `partAB` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:32–52`). Let $T$ be a lattice of $O_k\otimes V$ containing $(A\otimes1)\Theta_\psi$. First, $T$ is a lattice of the space named in `partAB`, since $\operatorname{span}_KF.B=V$ by Lemma 10.13c(3) (`:39–41`). Second, $T$ contains the vectors named in `partAB`. Let $a'\in S$. The relation $\psi'\circ\mathrm{art}=\chi\circ\mathrm{delU}$ and `psiAt_comp` give $\psi=\chi_b\circ\mathrm{delU}$. The set $Q$ avoids the level of $a'$, because `Y.lev a'` $\subseteq$ `levs S` (`:44–48`). `TwistedSeriesSpecialisation` then puts $\mathrm{specU}\,\chi_b(\mathrm{thU}\,a')$ in `ThPsi` $\{a'\}\subseteq\Theta_\psi$, since $S\subseteq$ `SgJ`. Applying $A\otimes1$ lands in $T$ (`:49–52`). Third, $F.\mathrm{Th}=A\Theta$ by `BasisOf` (`:35–37`). The inequality of `partAB` is therefore (H) with $\varepsilon=\varepsilon^{(a)}_{j,b}$. Theorem 10.13g gives `IdxAt`, the lattice property and `InclAt`. With $\sum_{j,b}\varepsilon^{(a)}_{j,b}\le\varepsilon'$ these are the second and third components of `GoodTw`; the other components are `PsiOk`, `partAT`, `partC` and `partD` at $a$ (`:53`).
+
+`export_at_setting` is the same argument for one character. It applies `adm2` to $F$ without a power quantifier and runs the identical step for each block (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:460–489`). $\square$
+
+**Quantifier order and witness dependence.** The family $F$ is fixed first: it depends on $z$ and on $S$, hence neither on $\varepsilon'$ nor on the twist. The triple $(Q,k,\psi_0)$ depends on $(i,\varepsilon',F,\texttt{levs }S\cup A_0)$ but not on $a$. The data $(M,\chi,\varepsilon^{(a)})$ of `partAB` are extracted after $a$. On the main path they are $M$ independent of $a$, $\chi=\chi_0^a$ and $\varepsilon^{(a)}_{j,b}=\varepsilon'/C$ (Proposition 10.13j). The output of Theorem 10.13g depends on $a$ only through $\psi$. The excluded set is enlarged by `levs S` exactly so that `TwistedSeriesSpecialisation` applies to every $a'\in S$. The receiver `nonempty_seed_of_kept` reads the resulting clause at each coprime $a$ (§10.4.7, step 5).
+
+##### Proposition 10.13j (where the index bound comes from on the main path) [Lean, read for the displayed step]
+
+*In `admissibleIndexBoundAllPowers_of_conditions`, the clause `partAB` for $\psi_0^a$ holds with $M$ independent of $a$, with $\chi=\chi_0^a$, and with $\varepsilon_{j,b}=\varepsilon:=\varepsilon'/C$ for all $a$ and all blocks, where $C=\lvert\mathrm{SigG}\rvert+2m+4tR+1$. The index inequality is the toric bound `PropABCD` evaluated at a primitive root, and `exists_level` controls the valuation excess.*
+*(Lean: `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:92–222`; `PropABCD`, `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:119–139`; `exists_level`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–353`.)*
+
+*Proof of the displayed step.* For each block $y=(j,b)$, `PropABCD` applied to $F$ supplies an open normal subgroup $H_y$, a finite set of places $A_y$ and integers $v_y,n_y$. For every admissible level $M$, place family $P$ and finite set $Q$ with `IsQ P Q` (the places over those of $P$) it supplies a polynomial $f_y$ over $O$ satisfying `OrdHyp` $(v_y,n_y)$. Its index statement reads as follows. Let $u$ be a root datum with $u_q^{\ell^M}=1$, let $\chi$ be the character $x\mapsto\prod_qu_q^{x_q}$ of `DelQM`, and suppose $f_y(u-1)\ne0$. Then every lattice $T_\psi$ of $(\operatorname{span}_KF.B)_{O_k}$ containing the specialized $A$-images satisfies
+$$\operatorname{sIdx}\bigl(B_{O_k},T_\psi\bigr)\le\operatorname{sIdx}(B,F.\mathrm{Th})+\operatorname{nval}\bigl(f_y(u-1)\bigr)-\frac{v_y}{v(\ell)}$$
+(`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:119–139`; used at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:104–105`, `:120–122`). The auxiliary places avoid every $A_y$, and their Frobenius steps lie in every $H_y$ (`:106–115`). `exists_level` chooses $M$, $k$ and exponents $e_q<k$ with $\ell^{e_q}/\varphi(\ell^k)\le\varepsilon$. For every primitive $\ell^k$-th root $\zeta$ and every $y$, it makes $f_y(\zeta^{\ell^{e_q}}-1)\ne0$ with $\operatorname{nval}\le v_y/v(\ell)+\varepsilon$ (`:133–144`). The character $\chi_0=\prod_q(\zeta_k^{\ell^{e_q}})^{x_q}$, with $\zeta_k=$ `X.zk i k`, and the witness $\psi_0=\chi_0\circ\phi$ are formed before $a$ (`:153–161`). For $a$ coprime to $\ell$, $\zeta=\zeta_k^a$ is primitive (`zpow_prim`, `:31–36`). $\chi_0^a$ is the character attached to $u_q=\zeta^{\ell^{e_q}}$ (`:164–171`). On the side $b=\mathrm{false}$ the root is $\zeta^{-1}$, also primitive (`side_root`, `:24–29`). Therefore $\operatorname{nval}(f_y(u-1))-v_y/v(\ell)\le\varepsilon$, and the displayed bound becomes $\operatorname{sIdx}(B_{O_k},T_\psi)\le\operatorname{sIdx}(B,F.\mathrm{Th})+\varepsilon$ (`:218–222`). Finally $\sum_{j,b}\varepsilon=2m\varepsilon\le\varepsilon'$ because $2m\le C$ (`:216–217`). $\square$
+
+One constant $C$ serves all clauses: it is large enough that $\lvert\mathrm{SigG}\rvert\,\varepsilon$ (Selmer errors), $4tR\,\varepsilon$ (tame price) and $2m\,\varepsilon$ (lattice errors) each stay below $\varepsilon'$. The uniformity in $a$ has one source: `exists_level` fixes $M$, $k$ and $e$ before the root is chosen, and its estimate holds for every primitive root. In Example 10.13a this is the equality of $v_\pi(\zeta^a-1)$ for all $a$ prime to $3$.
+
+The two other producers named in §10.4.6 obtain `partAB` as follows.
+
+- `admAB_of_toric_parts` performs the same step for the single root $\zeta_k$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:433–434`, `:461–467`).
+- `abstract_form_of_lattice_run` argues by monotonicity (`src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183–2198`). For each block, `SelmerSeriesChoice` and `Pack.Main` provide the lattice $Y_l$ spanned by the specialized $A$-images, with
+  $$\operatorname{sIdx}(B_{O_k},Y_l)=\operatorname{nval}(\mathrm{ev})-c\lvert S\rvert\le\operatorname{sIdx}(B,\mathrm{Th})+\varepsilon_{j,b}$$
+  (`run_packs`, `:2039–2099`; `Pack.Main`, `:263–270`; `SelmerSeriesChoice`, `src/Formalism/SharpRestriction/LevelLetterCocycles/LatticeVariant.lean:177–188`). Any $T_\psi$ containing the specialized vectors contains $Y_l$, and `sIdx_mono'` gives the bound for $T_\psi$ (`src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2013–2035`, `:2161–2181`).
+
+Neither of these two producers is called on the path from `src/Main.lean` (§10.4.7).
+
+##### Example 10.13k. Re-choosing a lattice breaks the transport [Expository]
+
+1. **A reference chosen after the twist.** In Example 10.13a, replace the reference on the twisted side by $B'_a=\Theta_a$, chosen once the power is known. The inequality $\operatorname{sIdx}(B'_a,T)\le\operatorname{sIdx}(B,\Theta)+0$ then holds at $T=\Theta_a$ for every $a$, including $a=3$, because both sides vanish. But $\operatorname{sIdx}(\Theta_{O_k},\Theta_a)$ is $1/6$ or $1/2$. If the reference may depend on the twist, every lattice passes, so the inequality says nothing about the twist. The order "for all $F$, there exist $(Q,k,\psi_0)$, for all $a$" in `admissibleIndexBoundAllPowers` excludes this, because $B$ is a field of $F$.
+2. **Different scalars on the two sides.** In Example 10.13b, compare $e\Theta_\psi$ with $A\Theta$ instead of $A\Theta_\psi$ with $A\Theta$. The mixed inequality $\operatorname{sIdx}(B_{O_k},e\Theta_\psi)=-3/2\le0=\operatorname{sIdx}(B,A\Theta)$ holds with $\varepsilon=0$, yet $\operatorname{sIdx}((e\Theta)_{O_k},e\Theta_\psi)=1/2$. The cancellation in Lemma 10.13e needs the same $c$ on both sides.
+3. **Different references in `IdxAt`.** Over $O'$ in Example 10.13b, put $M=O'^2$ on the left and $M'=\operatorname{span}\{(1,0),(0,\pi')\}$ on the right. Then $\operatorname{sIdx}(M,O'e\Theta_\psi)=-3/2$ and $\operatorname{sIdx}(M',(e\Theta)_{O'})=-9/4$, so the inequality needs $\varepsilon\ge3/4$, although the true excess is $1/2$. In the opposite assignment it already holds with $\varepsilon=1/4$. `IdxAt` therefore uses one $M$ on both sides.
+
+##### Remarks and reading boundary
+
+*Remark [Expository].* The signed index is Serre's lattice invariant $\chi(X_1,X_2)=\chi(X_1/X_3)\,\chi(X_2/X_3)^{-1}$, $X_3\subseteq X_1\cap X_2$, read through a valuation and normalized by $v(\ell)$. Serre's Proposition 1(a),(b) is the additivity in Lemma 10.13c(1), and Proposition 2, $\chi(X,uX)=(\det u)$, is the determinant formula used in Examples 10.13a and 10.13b ([SerreLocalFields](../sources/SOURCES.md#6-literature), Ch. III, §1, pp. 47–48). Normalizing by $v(\ell)$ rather than by the valuation of a uniformizer makes the index invariant under the ramified extensions $O_k\subset O'$ (Lemma 10.13c(4)). That invariance is what lets `IdxAt` quantify over all further coefficient rings.
+
+| Item | Source | Level here |
+|---|---|---|
+| Lemmas 10.13c–10.13f, Theorem 10.13g, Proposition 10.13h, `export_at_setting`, `export_of_inputs` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:17–496` | [Lean, read] |
+| signed-index assembly and base change | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:16–70`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–75` | [Lean, read] |
+| signed-length additivity and positivity, `relLength_map_of_injective`, `length_baseChange_subquotient_dvr`, finite length of torsion modules | `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthCommensurableIffOfLeOfLe.lean:168`; `src/Development/AbelianVarietyTheory/Definitions/QuasicoherentCohomology/LengthCommensurableMapIffOfInjective.lean:179,362`; `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthBaseChangeQuotientOfMapMaximalIdeal.lean:143`; `src/Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/LengthLocalizedModuleEqZeroOfNotAnnihilatorLe.lean:13` | [Lean] |
+| Theorem 10.13i, `twOK_of_psiOk`, type-subspace lemmas | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–64`; `src/Development/AbelianVarietyTheory/Counterexamples/NonGaloisSurvey/MemTypeSubspaceIffUnipotentCharacter.lean:61–110` | [Lean, read] |
+| `partAB` step of the main-path producer; `exists_level` top level; `PropABCD`, `SelmerSeriesChoice`, `Pack.Main` definitions | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleIndexBoundAllPowersOfConditions.lean:92–222`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–353,433–467`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:119–139` | [Lean, read] |
+| `partAB` step of `abstract_form_of_lattice_run` | `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2013–2035,2039–2099,2161–2198` | [Lean, read] |
+| toric supply `propABCD_of_rel`; level lemma `GlobalTheory.T.exists_level_order_exponents_small_valuation_determinants`; `Pack.main`; producers of `SelmerSeriesChoice` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AevalOneSubOne.lean:293`; called at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:343`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2219` | [Lean] |
+| main-path suppliers of `IsotypicPartsInternalDirectSum`, `GroupAlgebraIntegrality` and `GoodLatticePoints`; the hypotheses `admT4` and `TwistedSeriesSpecialisation` | `admInt_of_sup_laws`, `admALG_of_commG_var`, `admT3_of_hecke_semisimple` at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistTheoremAllPowersOfSelmerSupLattice.lean:38–40`; hypotheses at `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistAllPowersOfGaloisCohomologyClassField.lean:21–30` | [Lean] |
+| downstream readers of `IdxAt` and `InclAt` after `goodTw_transfer` | `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/TwistDataAgreeAcrossCoefficientsSymm.lean:133–168` and later | not traced here |
+
+The reading upgrades the transport in §10.4.6 from statement level to a read proof. It does not upgrade the toric supply, the level lemma or the integrality inputs. The lattice clauses are proved from those named inputs.
 
 
 ---
@@ -1201,7 +1382,11 @@ Riemann Hypothesis is unique to Alpöge's arithmetic Stepanov engine.
 | `GlobalTheory.Cut.Peel.main`; `GlobalTheory.Cut.CountL.main`; `GlobalTheory.Cut.SelClass.main`; `GlobalTheory.Proof.LocalGlobalSelmer.main` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthEqInfKerAddMap.lean:52`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthGlobalCocyclesLeSumPlacesOver.lean:102`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCocyclesLeCoboundariesAddSelmer.lean:81`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalGlobalSelmer.lean:7` | Lemma 10.9 (peeling $Q_i$) and the $\rho$-block local–global Selmer comparison. | [Lean, read] |
 | `GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha`; `GlobalTheory.Cut.ShaBound.main`; `GlobalTheory.UnramHom.length_le_classNumber` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeShaStatement.lean:6`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCyclotomicBlockCocyclesLeSha.lean:372`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndexDvdClassNumber.lean:172` | Lemma 10.10 (block $e = c - 1$ into $Ш^1$, factor $\operatorname{len}(\mathcal O/\ell)$) and Lemma 10.11 (trivial block bounded by $v_\ell(h_E)$). | [Lean, read] |
 | `TwGoodAt`; `SignatureChoiceCondition`, `KillAt`; `GlobalTheory.TwSys.Cheb`, `GaloisSideTwistedSelmerAuxiliaryPrimes` | `src/Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean:196`; `src/Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean:33,45`; `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:11,70` | §10.4.6: the good-twist hypothesis, the Selmer-bound conclusion, and the Chebotarev and auxiliary-prime `Prop`s. | [Lean, read] (definitions and top-level proofs) |
-| `GlobalTheory.export_of_inputs`; `admAB_of_toric_parts`; `abstract_form_of_lattice_run`; `export_at_setting` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456` | §10.4.6: producers and transport of `TwistingCharacterExistence` (top level read, helpers unread). | [Lean] |
+| `GlobalTheory.export_of_inputs`; `admAB_of_toric_parts`; `abstract_form_of_lattice_run`; `export_at_setting` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:493`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsAuxiliaryPlaceFamilyAtLevelMono.lean:355`; `src/Formalism/SharpRestriction/LevelLetterCocycles/LinearIndependentSmulOfNeZero.lean:2183`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:456` | §10.4.6: producers and transport of `TwistingCharacterExistence`; §10.4.7.1 reads the transport with its helpers and the producers' `partAB` steps. | [Lean, read] (transport, `partAB` steps); [Lean] (`PropABCD`, `SelmerSeriesChoice`, `Pack.Main`) |
+| `export_at`; `isLatIn_of_index_le`; `index_unscale`; `index_extend`; `abHyp_fam` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:371,164,153,130,297` | §10.4.7.1: Theorem 10.13g, Lemmas 10.13d–10.13f, Proposition 10.13h. | [Lean, read] |
+| `sIdx_add_and_mono`; `sIdx_baseChange` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:54`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:70` | §10.4.7.1: Lemma 10.13c. | [Lean, read] |
+| `twistModule_all_character_powers_of_admissible` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17` | §10.4.7.1: Theorem 10.13i, the lattice clauses at every coprime power. | [Lean, read] |
+| `PropABCD`; `propABCD_of_rel` | `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean:119`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AevalOneSubOne.lean:293` | §10.4.7.1: Proposition 10.13j (definition read; producer not read). | [Lean] |
 | `GlobalTheory.LinkFam.main`; `closed_linkEta_of_duty` | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LinkNAlongFamilyOfLocalBounds.lean:11`; `src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkEta.lean:13` | Proposition 10.3(2): sums $\log \ell \cdot \mathrm{vcc}$ over primes $\ell$ (`LinkFam.main` proving `LinkN`) and closes local twisting cover `LinkEta` (`closed_linkEta_of_duty`). | [Lean, read] |
 | `qzTw`, `Sha`, `shaLen`, `PTShaAt`, `VFormula`, `selLen` | `src/Formalism/GaloisCohomology/Statement.lean:67,75,78,101,138,169` | Definition 10.3(1): discrete cyclotomic twist $\mathbb Q_\ell/\mathbb Z_\ell(-e)$, Tate–Shafarevich kernel `Sha`, and $\mathbb Z_\ell$-length `shaLen`. | [Lean, read] |
 | `vvTerm`, `etaSum`, `LinkN_at`, `LinkN`, `LinkEta`, `SmallLevelRankEq`, `DIVinN_at`, `DIVinN`; `UpperTheory.Top.HypV`, `vvRecord`, `log_sq_le_rpow`, `divinN_at`, `UpperTheory.Top.divinN_of_hypV` | `src/Formalism/SharpRestriction/GlobalTheoremInputs.lean:31,36,40,45,49,52,59,62`; `src/Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean:10,17,59,76,117` | Definition 10.3(2)–(3) and Theorem 10.4: defines `vvTerm`, single-step `LinkN_at`/`DIVinN_at`, and `SmallLevelRankEq`, and proves `DIVinN` from `HypV` + `LinkN` + `SmallLevelRankEq` at $B_0 = f m b x^\varepsilon$ (import cone 311). | [Lean, read] |

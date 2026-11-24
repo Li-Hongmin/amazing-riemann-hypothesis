@@ -276,3 +276,12 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 - **Chapter 13 editorial review (internal, same-source)** — The review of the first §13.4.9 draft identified the characteristic-three root choice and the failure of a dimension-based exponent period. Its two findings are addressed in [§13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
 
 - **Hongmin Li (with AI assistance)** — Read the P16 production proofs of (I2) `CuspGL.psi_one` (subspace count and $q$-binomial identity) and (I8) `BI.irr_of_norm_one`, `CuspGL.star_virt_eq_inv` and `CuspGL.extZero_spec`, and wrote the textbook passage from a norm-one virtual character to a positive irreducible character, including the `FDRep` simplicity interface and hand calculations on $\mathrm{GL}_1(\mathbb F_q)$ and $\mathrm{GL}_2(\mathbb F_3)$ showing that the norm and the sign condition are both needed. The formal proofs belong to the archive authors, the Mathlib criterion to its authors credited above, and the classical statement to Green (1955); this entry records exposition only. [Chapter 13, §13.4.10](chapters/13-greens-theorem-and-the-literature-layer.md#13410-from-a-norm-one-virtual-character-to-a-positive-irreducible-character)
+
+- **Hongmin Li (with AI assistance)** — Read the lattice-specialization transport behind the lattice clauses
+  of `GoodTw`: the bounded-index lattice criterion, the removal of the idempotent denominator, the invariance
+  of the normalized index under further coefficient rings, the reference family `fam`, and the assembly at
+  every coprime power, together with the `partAB` steps of the three producers. Wrote two rank-two DVR
+  computations, over $\mathbb Z_3[\zeta_9]$ and over $\mathbb Z_2\subset\mathbb Z_2[i]\subset\mathbb Z_2[\zeta_8]$, and three
+  examples in which re-choosing a lattice breaks the transport. The formal proofs are Alpöge and Claude's in the
+  pinned archive; this entry records exposition and reading only.
+  [Chapter 10, §10.4.7.1](chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
