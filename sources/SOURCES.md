@@ -179,11 +179,13 @@ cited files compared byte for byte with the tarball members) supplies the lattic
 lemmas and the reference family in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:17–496`, the signed-index lemmas in
 `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:16–70` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–75`, the
 all-powers assembly in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–64`, and the `partAB` steps of
-the three producers, read [Lean, read]. The integrality suppliers are cited at statement level, while §10.4.7.2 reads `propABCD_of_rel` and the level lemma behind
-`exists_level`. The comparison with the classical
+the three producers, read [Lean, read]. The integrality suppliers are cited at statement level there; §10.4.7.2 reads `propABCD_of_rel` and the level lemma behind
+`exists_level`, and §10.4.7.3 reads `propE` and `admInt_of_sup`. The comparison with the classical
 lattice invariant uses SerreLocalFields, Ch. III, §1 (Section 6). [Declaration map](../chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
 
 **Chapter 10, §10.4.7.2.** The pinned archive (§1; joined `lean.tar.gz` SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` rechecked on 2026-11-25, with all twenty cited `.lean` files verified byte-identical to their tarball members) supplies the conditional toric determinant proof `GlobalTheory.TwistDet.propABCD_of_rel` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AevalOneSubOne.lean:14–466`, called at `TwistTheoremAllPowersOfSelmerSupLattice.lean:35`) with its grid-vanishing, same-lattice index, common-eigenvector, and open-subgroup helpers (`IndexSpanMatrixEqValDet.lean:17–510`, `ExistsSubgroupIsUnit.lean:37–267`, `IsPlaceOverMoveValCc.lean:16–199`, `DvdTraceOfBalancedTensor.lean:7–34`), and the simultaneous level-order-exponent proof `GlobalTheory.T.exists_level_order_exponents_small_valuation_determinants` / `OrderEval.order_eval` (`ExistsLevelOrderExponentsSmallValuationDeterminaStatement.lean:5–6`, `ExistsLevelOrderExponentsSmallValuationDetermina.lean:15–377`, called in `IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–353`) with its Tychonoff limit, Kronecker weight-separation, prime-power binomial divisibility, Weierstrass cancellation, and Newton-polygon tie-count lemmas (`ExistsLimitFamilyOfFiniteCoefficients.lean:7–26`, `ExistsExponentStrictlyLeastWeight.lean:9–48`, `NotDvdCoeffAevalOneAddXPowSubOne.lean:38–94`, `PowSubDvdChoosePrimePowOfLt.lean:6–35`, `CoeffAevalOneAddXPowSubOneNeZero.lean:23–55`, `ExistsLowCoeffNotDvdOfCongrMul.lean:12–66`, `NormalizedValuationPrimitiveRootPrimePowSubOne.lean:23–52`, `NormalizedValuationAlgebraMapEq.lean:41–49`, `ValuationPolynomialAtRootOfUnitySubOne.lean:10–193`), read at local `[Lean, read]` (`R3`). Deep twisting, Hecke, SNF, and Selmer inputs (`ThURel`, `AllGood`, `HkComm`, `OffRange`, `adm8`, `LengthQuotientSpanValuation.main`, `propE`, `GaloisSideTwistedSelmerAuxiliaryPrimes`) remain at `[Lean]`. Classical comparisons use Alon1999 (Theorem 1.1 and Lemma 2.1), SerreLocalFields (Ch. III, §1, Proposition 2), and Washington1997 (Proposition 2.1) in Section 6; Mathlib supplies `MvPolynomial.eq_zero_of_eval_zero_at_prod_finset` and `exists_clusterPt_of_compactSpace` at commit `0df444a360eaa60ab8c11dca51a86af692955474`. [Declaration map](../chapters/10-congruence-modules-to-sha.md#10472-toric-hecke-relations-and-simultaneous-level-exponent-selection)
+
+**Chapter 10, §10.4.7.3.** The pinned archive (§1; joined `lean.tar.gz` SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` rechecked on 2026-11-25, with all twenty-three cited `.lean` files verified byte-identical to their tarball members) supplies the theta Euler-factor factorization `GlobalTheory.ToricFactor.propE` with its lift, peeling, residual-character and grid-vanishing helpers (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/PropEOfAdmissible.lean:16–561`; wrapper `PropEOfAdmissibleStatement.lean:7–8`), the isotypic-lattice supplier `GlobalTheory.IntSup.admInt_of_sup` with `mall_map_le` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmIntOfSupLaws.lean:16–51`; wrapper `AdmIntOfSupLawsStatement.lean:7–8`) and `span_inf_of_span_top` (`SpanInfOfSpanTop.lean:15–34`), the valuation bookkeeping `vK_eq` and `vK_bounds` (`src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/ToNatAddValMul.lean:14–49`; `IsAuxiliaryPlaceFamilyAtLevelMono.lean:309–321`), and the `propE` call and `partC` step of the main-path producer (`AdmissibleIndexBoundAllPowersOfConditions.lean:100–144,198–208`), read at local `[Lean, read]` (`R3`) together with the definitions they use (`GaloisSideTwistedSelmerAuxiliaryPrimes.lean:16–42`, `IsTameInertiaElementAtTwistPrime.lean:13–44`, `BlochKatoPhases.lean:211–259,317–321,427–448`, `IntegralHeckeForms.lean:32–37,219–258`, `OffRange.lean:14–27`, `AdmissibleIndexBoundAllPowers.lean:55–58`, `HeckeSplitOne.lean:82–84`). The `NTw` structure fields (`lamG_pD`, `Xv_def`, `art_univ`, …), `exists_isFrob`, `exists_tameInertiaElementAtAuxiliaryPrime`, `GaloisSideTwistedSelmerAuxiliaryPrimes`, the producers of `adm9`, `adm10` and of the sup laws, `admALG_of_commG_var` and `admT3_of_hecke_semisimple` remain `[Lean]`. Mathlib supplies `multiple_mem_span_of_mem_localization_span` (`Mathlib/RingTheory/Localization/Finiteness.lean:96–118`, 15,816 bytes, SHA-256 `9958edc7e3e265a031e2e9ae70bcd8070f585920dcefd54891f470750a3f45d7`) and `IsLocalRing.residue_ne_zero_iff_isUnit` (`Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean:41–42`, 10,206 bytes, SHA-256 `54c42de364e08cbc05d5e1c38971bfd31187aa41a3725a902bf1215ea879698f`), both fetched at commit `0df444a360eaa60ab8c11dca51a86af692955474` on 2026-11-25. Classical comparisons use SerreLinearReps (§2.6, Theorem 8 and the example following it), Rubin2000 (Definition 2.1.1) through the restatement in LoefflerZerbes2017 (Definition 2.2), all in Section 6. The examples are certified by the run's exact-arithmetic script (198 checks). [Declaration map](../chapters/10-congruence-modules-to-sha.md#10473-theta-euler-factors-and-the-isotypic-lattice-where-non-divisibility-comes-from)
 
 **Chapter 10, §10.4.8.** The pinned archive (§1) supplies the tame dual-number relation and the conditional first-order Selmer argument in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameLocalRelationDualNumberCocycle.lean:12–159` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:118–350`. The [chapter's declaration map](../chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant) gives the two consumers of `stepAB` and the hypotheses retained at the global Selmer boundary. SerreLocalFields is classical ramification background.
 
@@ -904,6 +906,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   $h(K)\,\ell^{t-1}/(E_K:E_K\cap N L^\times)$, with $t$ the number of ramified primes including the infinite
   ones. Chapter 11 quotes it only for comparison with the archive's bound on the $\ell$-rank of the
   coinvariants, which does not use this formula.
+- **[LoefflerZerbes2017]** D. Loeffler and S. L. Zerbes, "Euler systems with local conditions",
+  arXiv:1710.04956 (v1 13 Oct 2017, v2 7 Jan 2019); published in *Development of Iwasawa Theory — the
+  Centennial of K. Iwasawa's Birth*, Advanced Studies in Pure Mathematics, Mathematical Society of Japan,
+  pp. 1–26, doi:10.2969/aspm/08610001 (cited in Chapter 10, §10.4.7.3).
+  Verified: 2026-11-25 via Crossref (`doi:10.2969/aspm/08610001`: title, authors, pages 1–26, container
+  title; the volume year is not exposed there and is not asserted) and the arXiv v2 PDF (15 pp., sha256
+  `835e0467c96a5440c4f3ba2daee7dd784af89339c7db9f68e9945162a43a8a61`): Definition 2.2, which restates
+  [Rub00, Definition 2.1.1], and the local Euler factor $P_q(X)=\det(1-X\,\mathrm{Frob}_q^{-1}\mid T^\vee(1))$ on the Tate dual, read directly
+  (the source writes the Tate dual with a star).
 - **[MaureyTacchi2005]** B. Maurey and J.-P. Tacchi, "La genèse du théorème de recouvrement de Borel",
   *Revue d'histoire des mathématiques* 11 (2005), no. 2, 163–204, doi:10.24033/rhm.29 (cited in Chapter 3,
   §3.4.1, Cousin's lemma; Cousin's Lemma 10 and its proof quoted on pp. 172–173).
@@ -974,7 +985,9 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Society* (1) 28 (1953), no. 1, 104–109, doi:10.1112/jlms/s1-28.1.104 (cited in Chapter 17).
   Verified: 2026-11-22 via Crossref / LMS (`doi:10.1112/jlms/s1-28.1.104`), *J. London Math. Soc.* vol. s1-28, no. 1 (1953), pp. 104–109.
 - **[Rubin2000]** K. Rubin, *Euler Systems*, Annals of Mathematics Studies 147, Princeton University
-  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10 and 11).
+  Press, Princeton, NJ, 2000, xii+224 pp., ISBN 978-0-691-05076-8 (cited in Chapters 10 and 11;
+  Definition 2.1.1 is compared with `adm10` in Chapter 10, §10.4.7.3, through the restatement in
+  [LoefflerZerbes2017], Definition 2.2; Rubin's page itself was not read for that comparison).
   Verified: 2026-11-21 via Princeton University Press AMS vol. 147 (`ISBN 978-0-691-05076-8`), xii+224 pp.
 - **[Schmidt1976]** W. M. Schmidt, *Equations over Finite Fields: An Elementary Approach*, Lecture
   Notes in Mathematics 536, Springer, Berlin–Heidelberg, 1976, ISBN 978-3-540-07855-5,
@@ -984,6 +997,15 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Riemannian spaces with applications to Dirichlet series", *Journal of the Indian Mathematical
   Society (N.S.)* 20 (1956), 47–87 (cited in Chapter 14).
   Verified: 2026-11-22 via bibliographic records for *J. Indian Math. Soc. (N.S.)* vol. 20 (1956), pp. 47–87 (reprinted in *Atle Selberg: Collected Papers*, Vol. I, Springer, 1989, pp. 423–463).
+- **[SerreLinearReps]** Jean-Pierre Serre, *Linear Representations of Finite Groups*, Graduate Texts in
+  Mathematics, Springer, New York, 1977, doi:10.1007/978-1-4684-9458-7. §2.6 “Canonical decomposition of a
+  representation”, Theorem 8 and the example of the group $\{1,s\}$ following it, pp. 21–22, are compared
+  with `Fm0` and `Mall` in Chapter 10, §10.4.7.3.
+  Verified: 2026-11-25 via Crossref (`doi:10.1007/978-1-4684-9458-7`: title, author, Springer New York,
+  1977, series Graduate Texts in Mathematics) and the printed pp. 21–22, read in a course-hosted scan
+  (<https://math.mcgill.ca/darmon/courses/23-24/algebra4/Serre.pdf>, 10,590,030 bytes, sha256
+  `09c605bbe28070a6d485cf70390bf63ad39491e6aa7db38f4d9f091ba2e33642`; only these two pages were extracted;
+  the displayed projection formulas of the example did not survive text extraction and are not quoted).
 - **[SerreLocalFields]** Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer,
   New York, 1979, doi:10.1007/978-1-4757-5673-9. Chapter III, “Discriminant and Different”, pp. 47–60,
   doi:10.1007/978-1-4757-5673-9_4; §1 “Lattices” (Lemma 1 and Propositions 1–2, pp. 47–48) is compared

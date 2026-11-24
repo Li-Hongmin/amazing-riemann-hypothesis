@@ -205,6 +205,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Christian Merten; Johan Commelin** — Mathlib’s étale coordinates for standard smooth algebras (`IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial`) and finite type as a quotient of a polynomial ring (`Algebra.FiniteType.iff_quotient_mvPolynomial''`), which give the archive’s algebraic charts and the embedding of an affine piece in $\mathbb C^k$ (Chapter 12, §12.4.4). [StandardSmooth.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/RingHom/StandardSmooth.lean) · [FiniteType.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/FiniteType.lean)
 
+- **Christian Merten; Kenny Lau, Chris Hughes and Mario Carneiro** — Mathlib's denominator-clearing lemma for spans over a localization (`multiple_mem_span_of_mem_localization_span`, Christian Merten), which turns $\operatorname{span}_KB=V$ into $\operatorname{span}_K(B\cap W)=W$ in the archive's `span_inf_of_span_top`, and the unit criterion of a local ring (`IsLocalRing.residue_ne_zero_iff_isUnit`, file by Kenny Lau, Chris Hughes and Mario Carneiro), through which the archive's `propE` gets unit left Euler factors (Chapter 10, §10.4.7.3). Credited in the source headers. [Localization/Finiteness.lean:96–118](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Localization/Finiteness.lean#L96-L118) · [LocalRing/ResidueField/Basic.lean:41–42](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean#L41-L42)
+
 ## Sources for the lattice estimates
 
 - The pinned Alpöge archive supplies the inverse-torus bound, its production
@@ -522,6 +524,21 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   and the classical Nullstellensatz, lattice-index, and cyclotomic-ramification precedents to Alon, Serre,
   and Washington; this entry records exposition and reading only.
   [Chapter 10, §10.4.7.2](chapters/10-congruence-modules-to-sha.md#10472-toric-hecke-relations-and-simultaneous-level-exponent-selection)
+
+- **Hongmin Li (with AI assistance)** — Read at local R3 the two remaining direct supplies of the main-path producer behind
+  Proposition 10.13j: the theta Euler-factor factorization `GlobalTheory.ToricFactor.propE` (integral lifts with one uniform
+  exponent $N_0$, Euler-factor peeling through `adm10`, toric grid vanishing, the residual inertia eigenvalue `resChar_ne_one`,
+  unit left Euler factors and the residual right factor `eR_res`) and the isotypic-lattice supplier
+  `GlobalTheory.IntSup.admInt_of_sup` (`span_inf_of_span_top`, `mall_map_le`, the universal-series exponent), with the
+  `partC` step that carries them into `GoodTw`. Wrote the conditional textbook statements (Lemmas 10.13w–10.13x,
+  Theorems 10.13y–10.13z), separated the rational isotypic decomposition, the integral lattice decomposition and
+  nonvanishing after reduction, and gave two exactly checked hand calculations: a split rank-two $\mathbb Z_3$ model
+  with a unit left Euler factor and its failure when the left Frobenius is residually trivial, and a contrast with
+  non-unit denominators ($\ell=2$ idempotents, a universal $\ell^{-1}$, a theta sum $1/3$ forcing $N_0=1$). Community and
+  literature credit: the formal proofs belong to Alpöge and Claude in the pinned archive; the Mathlib lemmas are
+  credited under Mathlib above; the canonical decomposition is Serre's and the Euler-system comparison is Rubin's
+  definition as restated by Loeffler and Zerbes. This entry records exposition and reading only.
+  [Chapter 10, §10.4.7.3](chapters/10-congruence-modules-to-sha.md#10473-theta-euler-factors-and-the-isotypic-lattice-where-non-divisibility-comes-from)
 
 - **Hongmin Li (with AI assistance)** — Wrote the planar textbook proof using tagged subdivision and one-dimensional affine increments, with worked examples for a point of nondifferentiability, a discontinuous trace and cancellation between derivatives that are individually nonintegrable. [Textbook subsection](chapters/03-landau-window-criterion.md#rectangular-divergence-with-countable-exceptions)
 
