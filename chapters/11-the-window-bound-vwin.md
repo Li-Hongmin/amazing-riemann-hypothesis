@@ -808,7 +808,7 @@ The hypothesis $f>1$ is used only in the $\ell=2$ branch, by `unrJ` and `unitSur
 
 *Comparison with the literature.* The theorem behind this step is Ferrero–Washington [FerreroWashington1979]. Sinnott's proof of $\mu=0$ is in [Washington1997, §16.2]. The archive does not pass through the Iwasawa module here. It bounds $d_\ell$ of each finite layer directly, and the rank form `FerreroWashington` consumes exactly this bound. The Iwasawa-theoretic reading of the same bound, under named control and structure inputs, is the last remark of §11.4.3.1 and is not repeated.
 
-**Reading boundary.** Read in full for this subsection [Lean, read]: `cyc` (`FerreroWashington.lean:18–102`), `core` and `card_range_inf_torsion_le_index_pow`, `nilCard`, `cardTors`, `stickH` and `thetaFull`, `ambCyc`, `amb`, `ambHom` and `homCyc`, `pOdd`, `reflOdd` and the counting body of `reflect`, `pTwo`, `sgnAlg`, `sgnCyc` as an assembly, `conjEq` and the definitions in `CycRepApply.lean` and `TwSingle.lean`. Named inputs not read here [Lean]: `memZ` (read in §11.4.3.1), `Stick.coef` (with `carryAll`, `degOne`, `carryPrime`, `combFloor`, `comb`), `relCyc`, `gamGen`, `ineCyc`, `finChar`, `pullEq`, `pullMem`, `reflMap`, `reflTw`, `radXDual`, `reflRoot`, `radClKer`, `unitMinus`, `hMinus` beyond the definition of its sign map, `realGen`, `sgnUnit`, `sgnStab`, `unrJ` and `unitSurj`. No Iwasawa control theorem or structure theorem for $\mathbb Z_\ell[[T]]$-modules is used.
+**Reading boundary.** Read in full for this subsection [Lean, read]: `cyc` (`FerreroWashington.lean:18–102`), `core` and `card_range_inf_torsion_le_index_pow`, `nilCard`, `cardTors`, `stickH` and `thetaFull`, `ambCyc`, `amb`, `ambHom` and `homCyc`, `pOdd`, `reflOdd` and the counting body of `reflect`, `pTwo`, `sgnAlg`, `sgnCyc` as an assembly, `conjEq` and the definitions in `CycRepApply.lean` and `TwSingle.lean`. Named inputs not read here [Lean]: `memZ` (read in §11.4.3.1), `Stick.coef` (with `carryAll`, `degOne`, `carryPrime`, `combFloor`, `comb`), `relCyc`, `gamGen`, `ineCyc`, `finChar`, `pullEq`, `pullMem`, `reflMap`, `reflTw`, `radClKer`, `hMinus` beyond the definition of its sign map, `realGen`, `sgnUnit`, `sgnStab`, `unrJ` and `unitSurj`. No Iwasawa control theorem or structure theorem for $\mathbb Z_\ell[[T]]$-modules is used. Section 11.4.3.3 reads the three direct Kummer producers `radXDual`, `unitMinus` and `reflRoot`.
 
 **Source map.** Paths are relative to the archive root, with joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The prefix `GL/` stands for `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/`.
 
@@ -847,6 +847,106 @@ The hypothesis $f>1$ is used only in the $\ell=2$ branch, by `unrJ` and `unitSur
 | `GL/FerreroWashingtonIndex/UnrJPrime.lean:45` | `unrJ` | [Lean] |
 | `GL/FerreroWashingtonIndex/UnitSurj.lean:77` | `unitSurj` | [Lean] |
 | `GL/FerreroWashingtonIndex/ToKOf.lean:13` | `memZ` (see §11.4.3.1) | [Lean, read] |
+
+#### 11.4.3.3 Kummer reflection and the root-of-unity kernel
+
+The odd-prime branch of §11.4.3.2 has a bound on the image of $1-J$, where $J$ is complex conjugation on the class group of the layer $L=\mathbb Q(\zeta_{f\ell^n})$. To count the remaining classes modulo $\ell$, take characters of the quotient by this image. They are fixed by conjugation. A Kummer character measures how an automorphism moves a root, with values in $\mu_\ell$. Since conjugation inverts those values, a fixed scalar-valued character yields an inverted radical class. The kernel of the resulting map to the negative class group is controlled by the roots of unity. This is the use of reflection in the finite layer.
+
+**Example 1 (a field containing $\mu_3$).** [Expository] Put $K=\mathbb Q(\zeta_3)$ and $\ell=3$. The ring of integers $\mathbb Z[\zeta_3]$ has discriminant $-3$. The imaginary quadratic Minkowski bound $2\sqrt{3}/\pi<2$ makes every ideal class principal. Thus $C=0$, $(1-J)C=C^-=0$, and the dual of $C/(3C+(1-J)C)$ has one element. The unit norm of $x+y\zeta_3$ is $x^2-xy+y^2$. Solving for norm $1$ using $(2x-y)^2+3y^2=4$ gives the six units $\mu_6$. A cube root in $K$ of any of these units would itself be integral with integral inverse. Hence the unit image modulo $K^{\times3}$ has order $3$, represented by $1,\zeta_3,\zeta_3^2$. All three classes are inverted by $J$ and map to the principal ideal class.
+
+Write $\xi=\zeta_9$ with $\xi^3=\zeta_3$. On $E=K(\xi)$ take $u(\xi)=\xi^4$ and let $J$ act by inversion on $\xi$. On the powers of $u$ the pairing is
+$$
+\langle u^i,[\zeta_3^j]\rangle=\zeta_3^{ij}\qquad (i,j\in\mathbb Z/3\mathbb Z).
+$$
+The two automorphisms commute, so the scalar characters $u^i\mapsto ij$ are fixed by conjugation. The target $\mu_3$ contributes the sign $-1$, accounting for inversion on the radical side. Evaluation at $u$ gives the full three-element allowance for root-of-unity characters. In the unramified character space only the zero character survives. Indeed $\Phi_9(1+X)=(1+X)^6+(1+X)^3+1$ has constant term $3$, leading coefficient $1$, and all other coefficients divisible by $3$. Eisenstein gives total ramification at $3$ in $E/\mathbb Q$, hence ramification of degree $3$ in $E/K$. In the rank inequality the negative torsion contributes size $1$ and the kernel estimate permits a factor $3$, while the actual index is $1$.
+
+**Example 2 (a field without $\mu_3$).** [Expository] Put $K_0=\mathbb Q(\sqrt{-23})$ and $\omega=(1+\sqrt{-23})/2$. Then $\mathcal O_{K_0}=\mathbb Z[\omega]$ and $\omega^2-\omega+6=0$. The discriminant is $-23$, so $K_0$ is distinct from the quadratic field $\mathbb Q(\zeta_3)$. The Minkowski bound $2\sqrt{23}/\pi<4$ gives representatives of norm $1$, $2$, or $3$. The polynomial reduces to $X(X-1)$ at both $2$ and $3$. Write $\mathfrak p=(2,\omega)$ and $\mathfrak q=(3,\omega)$, with the other primes their conjugates. Since $\operatorname{Nm}(\omega)=6$, one has $(\omega)=\mathfrak p\mathfrak q$. Thus the classes of norm $2$ and $3$ are represented by $\pm[\mathfrak p]$. The norm formula
+$$
+\operatorname{Nm}(x+y\omega)=(x+y/2)^2+23y^2/4
+$$
+rules out norm $2$ and shows that the units are $\{\pm1\}$. In particular $\mathfrak p$ is nonprincipal. The element $\omega-2$ has norm $8$, vanishes at $\mathfrak p$, and reduces to $1$ at its conjugate. Hence $(\omega-2)=\mathfrak p^3$ and $C=\mathbb Z/3\mathbb Z$ generated by $[\mathfrak p]$. Complex conjugation sends that generator to its inverse class, because $\mathfrak p J\mathfrak p=(2)$. Consequently $1-J$ multiplies by $2$, $(1-J)C=C^-=C[3]=C$, and $[C:3C]=3$. The full class dual has characters $\lambda_j(k[\mathfrak p])=jk$. Their values under precomposition by $J$ change sign, so the fixed dual of $C/(3C+(1-J)C)$ has only the zero character.
+
+The element $a=\omega-2$ has cube-divisible valuations and gives a nonprincipal class by the ideal-root map. Here $aJ(a)=8=2^3$, exhibiting the negative radical class directly. The unit contribution modulo cubes over $K_0$ has order $1$, since both units are cubes. The scalar Kummer formula in the theorem below requires a primitive cube root in its ground field. Over $K'=K_0(\zeta_3)$ the radical $a$ still fails to be a cube: otherwise taking the norm from the quadratic extension $K'/K_0$ makes $a^2$ a cube, which makes $a$ a cube and contradicts the nonprincipality of $\mathfrak p$. Thus a root $\beta$ of $X^3-a$ gives a cyclic cubic extension of $K'$ with generator $u(\beta)=\zeta_3\beta$. The automorphism fixing $K_0$ and inverting $\zeta_3$ lifts to one fixing $\beta$, and conjugates $u$ to $u^{-1}$. The scalar radical character consequently has sign $-1$ under this automorphism, while the radical $a$ is fixed by it. Complex conjugation on $K'$ inverts $\zeta_3$ and sends $a$ to $8/a$. Its lift $\beta\mapsto 2/\beta$ commutes with $u$, so the scalar radical character has sign $+1$ under this lift. These are the two instances of the cyclotomic twist. This calculation concerns the pairing before imposing inertia conditions. The at-most-$3$ estimate belongs to the root-unit character count over a field containing $\mu_3$. The calculation of $[C:3C]=3$ over $K_0$ uses the explicit class group.
+
+**Definitions.** Write class groups additively, and let $C=\mathrm{Cl}(K)$, $D=(1-J)C$, and $C^-=\ker(1+J)$. Here $K$ is a CM number field containing a chosen primitive $\ell$-th root $\zeta$, with $\ell$ odd. For the equivariant statement let $K/F$ be finite Galois, $\Omega$ an algebraic closure, $G=G_F$, and $U=G_K$ inside $G$. Let $\chi(g)$ be the scalar specified by $g(\zeta)=\zeta^{\chi(g)}$, and let $\psi:G\to\mathbb F_\ell^\times$ be a character. Write $X_\psi^+$ for the space of continuous additive characters $\phi:U\to\mathbb F_\ell$ that vanish on all finite inertia groups and satisfy
+$$
+\phi(gug^{-1})=\psi(g)\phi(u),\qquad
+\phi(\widetilde J u\widetilde J^{-1})=\phi(u),
+$$
+where $\widetilde J$ lifts complex conjugation on $K$. These are the conditions of $\mathrm{EqEig}$ at splitting parameter $1$ and eigenvalue $1$. At general splitting parameter the definition also kills the decomposition groups at primes dividing that parameter. The consumer here takes $1$, so that condition is empty. Put $C[\ell]_{\chi\psi^{-1}}=\{c\in C[\ell]:gc=(\chi\psi^{-1})(g)c\ \forall g\in G\}$, with $g$ acting through its restriction to $K$.
+
+A radical for $\phi$ is a nonzero $\beta\in\Omega$ with $u(\beta)=\zeta^{\phi(u)}\beta$. Then $a=\beta^\ell\in K^\times$. Define the valuation subgroup and its radical quotient by
+$$
+V=\{a\in K^\times:v_{\mathfrak p}(a)\in\ell\mathbb Z\ \text{at every finite prime }\mathfrak p\},\qquad R=V/K^{\times\ell}.
+$$
+The ideal-root map sends $[a]$ to $[\prod_{\mathfrak p}\mathfrak p^{v_{\mathfrak p}(a)/\ell}]$. This is $\mathrm{radCl}$ on the empty-set $\mathrm{SelK}$. All finite valuations are normalized to take integer values.
+
+**Lemma (Kummer pairing and valuation condition).** [Lean, read] For any finite Galois extension $E/K$ with abelian group of exponent dividing $\ell$, put $R_E=(K^\times\cap E^{\times\ell})/K^{\times\ell}$. The pairing $\langle u,[a]\rangle=u(\beta)/\beta$, with $\beta^\ell=a$ in $E$, is perfect under the Hilbert 90 input. An unramified character of $U$ has a radical class in $R$ under the inertia-to-valuation input.
+
+**Proof.** Multiplying $\beta$ by an element of $\mu_\ell$ or scaling it along with the representative $a$ by the corresponding element of $K^\times$ leaves the quotient unchanged. Multiplication of roots gives bilinearity, since $U$ fixes the values in $\mu_\ell$. The equation $u(\beta)/\beta=1$ for every $u$ means $\beta$ is fixed and belongs to $K$. Conversely, to recover a root from a character with values in $\mu_\ell$, apply Hilbert 90 to the cocycle $u\mapsto\zeta^{\phi(u)}$, which is locally constant for $U$ and factors through a finite quotient. It gives $\beta\ne0$ with the stated transformation. Taking $\ell$-th powers shows $\beta^\ell\in K^\times$. In the finite pairing this supplies every character of $\mathrm{Gal}(E/K)$, and the characters of that finite elementary abelian group separate its elements.
+
+For the uniqueness assertion of `radXDual`, let $\beta$ and $\beta'$ give the same $\phi$. For every $u$,
+$$
+u(\beta'/\beta)=\frac{\zeta^{\phi(u)}\beta'}{\zeta^{\phi(u)}\beta}=\beta'/\beta.
+$$
+The fixed-field criterion yields $\beta'/\beta\in K^\times$, so $a$ is unique modulo $K^{\times\ell}$. In the production proof the homeomorphism in `toGalDict` transfers local constancy and identifies the inertia condition on $U$ with the one over $K$. Then `radExists` supplies the root and `dvdOfIne` gives $\ell\mid v_{\mathfrak p}(a)$ for each $\mathfrak p$, since inertia fixes $\beta$. In valuation terms the latter step takes the inertia-fixed field inside a finite Galois field containing $\beta$. At the chosen prime its ramification index over $K$ is $1$, so $v_{\mathfrak p}(a)=\ell v(\beta)$ with $v$ integer-valued there. This direction suffices for the proof. At primes over $\ell$ the valuation condition alone allows ramified Kummer extensions, as Example 1 shows. [MilneFT, Theorem 5.30 and Remark 5.32, pp. 75–76](https://www.jmilne.org/math/CourseNotes/FT.pdf).
+
+**Lemma (negative units and the root-character bound).** [Lean, read] Suppose $a$ represents a class of $R$ with trivial ideal-root class and $aJ(a)\in K^{\times\ell}$. Then $a=t b^\ell$ for some $b\in K^\times$ and $t\in\mu(K)$, the group of roots of unity in $K$. Among characters satisfying the $\psi$-condition, those with a root-of-unity radical have cardinality at most $|\mathbb F_\ell^{G,\psi}|$, the size of the invariants of the scalar representation.
+
+**Proof.** The trivial class says the fractional ideal $\prod_{\mathfrak p}\mathfrak p^{v_{\mathfrak p}(a)/\ell}$ is principal, say $(b)$. After division by $b^\ell$, the element is an everywhere finite unit $w$. The production proof of `unitMinus` identifies such a unit with an element of $\mathcal O_K^\times$ by applying the integrality criterion to $w$ and $w^{-1}$. The CM unit identity gives $w/J(w)$ of finite order. Indeed this is an algebraic integer and every complex embedding has modulus one, so Kronecker's theorem applies. The hypothesis gives $wJ(w)\in K^{\times\ell}$, and
+$$
+w^2=(w/J(w))(wJ(w))\in\mu(K)K^{\times\ell}.
+$$
+For $\ell=2k+1$, both $w^\ell$ and $(w^2)^k$ belong to that subgroup, hence so does their quotient $w$. This is precisely the oddness step of `unitMinus`. Writing $a=t b^\ell$ then replaces the radical $\beta$ by $\beta/b$, which has finite order and gives the same character.
+
+Here is the common evaluation argument of `reflRoot`. Let $m=|\mu(K)|$. All roots of unity $\beta$ with $\beta^\ell\in K$ lie in the finite cyclic group
+$$
+T=\{\xi\in\mu_{\ell m}(\Omega):\xi^\ell\in K\}.
+$$
+Indeed $\beta^\ell$ has order dividing $m$. Choose a generator $\xi$ of $T$. The map $u\mapsto u(\xi)/\xi$ is a homomorphism into $\mu_\ell$ because $\xi^\ell\in K$ and $U$ fixes $\mu_\ell$. Choose $u_0\in U$ whose image generates its image, allowing the identity if that image is trivial. Any root character has a radical $\xi^j$. For each $u$ choose an integer $k_u$ with $u(\xi)/\xi=(u_0(\xi)/\xi)^{k_u}$. Taking the $j$-th power shows
+$$
+\zeta^{\phi(u)}=\bigl(\zeta^{\phi(u_0)}\bigr)^{k_u}.
+$$
+Thus a single evaluation at $u_0$ determines the character. Moreover every $g\in G$ and $u_0$ act by powers on the cyclic group generated by the given root of unity $\beta=\xi^j$. Their actions there commute, so $\phi(gu_0g^{-1})=\phi(u_0)$. The $\psi$-condition makes $\phi(u_0)$ an invariant. This proves injectivity into the invariants, including finiteness. With trivial $\psi$ their size is $\ell$. If $\psi$ is nontrivial their size is $1$, since one scalar $\psi(g)-1$ is invertible. The proof counts characters having such a radical and imposes the inertia condition separately.
+
+**Theorem (odd-prime transport of a finite-layer bound).** [Lean, read] Assume radical existence via Hilbert 90 and the inertia-to-valuation implication of the first lemma, and assume the CM unit torsion identity of the second lemma. Then
+$$
+|X_\psi^+|\le |\mathbb F_\ell^{G,\psi}|\,|C[\ell]_{\chi\psi^{-1}}\cap C^-|.
+$$
+Assume also that Artin pullback embeds the fixed class characters into the unramified fixed Galois characters. If $|(1-J)C\cap C[\ell]|\le M$, then
+$$
+[C:\ell C]\le \ell M^2,\qquad
+d_\ell(C)\le 1+2\log_\ell M.
+$$
+
+**Proof.** For $g\in G$ and any radical $\beta$ of $\phi$,
+$$
+\frac{u(g\beta)}{g\beta}
+=g\!\left(\frac{(g^{-1}ug)(\beta)}{\beta}\right)
+=\zeta^{\chi(g)\psi(g)^{-1}\phi(u)}.
+$$
+Thus $g\beta$ and $\beta^{\chi(g)\psi(g)^{-1}}$ have the same character, where an integer representative is used for the exponent. The fixed quotient argument gives $[g(a)]=[a]^{\chi(g)\psi(g)^{-1}}$ in $R$. For $\widetilde J$ the scalar character is fixed and $\widetilde J$ inverts $\zeta$, so $[J(a)]=[a]^{-1}$. This gives $aJ(a)\in K^{\times\ell}$. The ideal-root map respects multiplication and automorphisms, since they add or permute the normalized valuations. Changing $a$ by a power changes its ideal root by a principal ideal. Its image is $\ell$-torsion because the $\ell$-th power of the ideal root is $(a)$. Therefore the map $\kappa:X_\psi^+\to C$ sending a character to its ideal-root class takes values in $C[\ell]_{\chi\psi^{-1}}\cap C^-$. Its kernel has precisely the characters in $X_\psi^+$ that admit root-of-unity radicals. The forward implication is the negative-unit lemma, and a root of unity gives zero valuations for its $\ell$-th power, proving the converse. Counting kernel times image gives the first estimate. The twist formula is the classical mirror-character rule, expressed here for scalar characters and the explicit conjugation convention of `EqHom`. [Gras1998, §4, Lemma and Definition 4.3, p. 419](https://www.numdam.org/item/JTNB_1998__10_2_399_0.pdf).
+
+For the finite-layer call take $F=K=L$, $\chi=\psi=1$ on $G_L$, and impose the separate $\widetilde J$-condition. Let $Q=C/(\ell C+D)$. Its $\mathbb F_\ell$-dual has size $|Q|$ and consists of class characters fixed by $J$. The Artin pullback inputs `pullEq` and `pullMem` identify their images with unramified scalar characters satisfying the $\widetilde J$-condition and give injectivity. The estimate above therefore gives $|Q|\le\ell |C^-\cap C[\ell]|$. One always has $D\subseteq C^-$ since $(1+J)(1-J)=0$. For $x\in C^-\cap C[\ell]$, set $y=((\ell+1)/2)x$. Then $(1-J)y=(\ell+1)x=x$. This identifies $D\cap C[\ell]=C^-\cap C[\ell]$ at the point where the supplied negative-image estimate is used.
+
+The kernel of $C/\ell C\to Q$ is the image of $D/\ell D$ and has order at most $|D/\ell D|=|D[\ell]|$ by multiplication by $\ell$ on $D$. Hence
+$$
+[C:\ell C]\le |D[\ell]|\,|Q|\le\ell |D[\ell]|^2\le\ell M^2.
+$$
+Here the root-unit factor appears only in the fixed-character count $|Q|$. The other factor counts the image of $D$ in $C/\ell C$. In `cyc`, $M=B^N$ by the earlier bound at lines 88–89. Lines 91–97 take a primitive root of order $f\ell^n$ to its $f\ell^{n-1}$-st power to supply $\zeta$. Line 98 identifies the action of $-1$ with $J$. The calls to `reflOdd` and `pOdd` at lines 99 and 101 give the claimed $\ell(B^N)^2$ at line 102. $\square$
+
+**Source map and reading boundary.** All Lean paths here refer to the joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. In the table, `GL/` expands to `src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/`.
+
+| Source and lines | Role and reading |
+|---|---|
+| `GL/KummerTheory/Mk0IdMapCongr.lean:56–82,90–113,126–157` | Class characters, valuation subgroup, $\mathrm{radCl}$, Galois dual and scalar conjugation conditions, twisted class group and radical predicate. |
+| `GL/KummerTheory/RadXDual.lean:8–55` | [Lean, read] Existence with finite-prime divisibility and uniqueness by taking the fixed ratio. |
+| `GL/KummerTheory/UnitMinus.lean:5–37` | [Lean, read] Integrality of the unit and its inverse, CM unit torsion identity and cancellation for odd exponent. |
+| `GL/KummerTheory/ReflRoot.lean:5–89,91–133` | [Lean, read] Finite cyclic root group, a common evaluation element and injection into scalar invariants. |
+| `GL/KummerTheory/Reflect.lean:29–42,44–90` | Kernel normalization and kernel–image consumer. |
+| `GL/FerreroWashingtonIndex/ReflOdd.lean:30–113`, `GL/FerreroWashingtonIndex/POddRelIndexLe.lean:30–51`, `GL/FerreroWashingtonIndex/FerreroWashington.lean:83–102` | Specialization, subgroup index bound and consumption in the odd-prime finite layer. |
+
+The three new R3 readings cover the displayed production bodies with their imported inputs. The proof uses `radExists` via `h90`, `toGalDict`, `exists_isPlaceOver`, `dvdOfIne` and the imported CM unit identity `IsCMField.unitsMulComplexConjInv` as named inputs [Lean]. The archive supplies the ideal-class map, twist and unit criterion in `reflMap`, `reflTw` and `radClKer`. The empty-set and odd-prime deductions above explain the parts needed here. Full proof credit for those imported declarations and for the Artin pullback `pullEq` and `pullMem` stays at [Lean]. The binary sign route retains `hMinus`, `realGen`, `sgnUnit`, `sgnStab`, `unrJ` and `unitSurj` as named inputs. The reading status of the full Ferrero–Washington dependency cone remains as in §11.4.3.
 
 ### 11.4.4 Top-level modularity-to-`VWin` wiring (`vwin_of_row`) and honest map of the 157,603-module cone
 
