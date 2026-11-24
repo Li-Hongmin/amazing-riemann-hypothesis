@@ -363,10 +363,379 @@ Why $\frac{1}{2}$, and not $\frac{2}{3}$ or $\frac{3}{4}$? Compare the two mecha
      diagonal $x = y$ into $\lvert x \rvert_{F, S}^{2a - 1} d\nu_S(x)$, which matches additive Fourier
      measure $d\nu_S(x)$ **if and only if $2a - 1 = 0 \iff a = \frac{1}{2}$** (`p. 16, p. 518`). (Note:
      this alone only identifies $\Re s = \frac{1}{2}$ as the **functional-equation symmetry axis**,
-     which is classical!)
+     which is classical! Subsection 15.4.3.1 below proves it as Theorem 15.3, with the
+     normalizations of $\lvert\cdot\rvert_{F,S}$, the domain $K^\times$ of $\mu_S$, the constant
+     $c_S$ of (12.4.1.17), and two hand calculations.)
   2. *Concentration on that axis:* Zeros are forced onto $\Re s = \frac{1}{2}$ **only if** the trace on
      $W_{[-\alpha, \alpha]}^{s,2}\mathcal H_F$ is independent of $\alpha > 0$ (`Theorem 12.5.1.1`, p. 519)
      — the exact step currently blocked by the `[Open]` issues of Chapter 14!
+
+#### 15.4.3.1 Half-densities: the modulus, the multiplicative Haar measure and the diagonal weight
+
+> **Reading boundary.** This subsection explains only existing measure theory. The Lean
+> correspondence below is `[Lean, read]` at the archive's Mathlib pin
+> `0df444a360eaa60ab8c11dca51a86af692955474` (archive bundle SHA-256
+> `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`); none of these Mathlib
+> declarations is consumed by `src/Main.lean`, so the tag records our reading of the library,
+> not a kernel check of Masullo's draft. The quotations from Masullo are `[Paper; Masullo
+> pp. 16, 518–519]` (PDF SHA-256 `e039d3f6…97bf5`). The $\mathbb Q_5$ normalization is a
+> hand calculation `[Expository]`: the pinned Mathlib has no Haar measure instance on
+> $\mathbb Q_p$ (its `NumberTheory/Padics/Measure/` files define abstract measures
+> $C(X,R)\to E$, not Haar measure).
+
+**Motivation.** Item 1 of the Masullo column above compresses a sentence from the
+introduction of *The Music of the Primes* (§1.2.3 (1), p. 16): the product
+$\lvert x\rvert_{F,S}^{a}\lvert y\rvert_{F,S}^{a}$ produced by the kernel $k_{S,\varphi}(x,y)$
+"turns, along the diagonal, into $\lvert x\rvert_{F,S}^{2a}$. If $a=1/2$ exactly, then this is
+$\lvert x\rvert_{F,S}$, which will multiply the multiplicative Tamagawa measure $\mu_S$ on
+$\mathrm{GL}_1(\mathbb A_{F,S})$ to give the additive measure $\nu_S$, up to a positive
+multiplicative constant." The same identity is used on p. 518, where (12.4.1.17) records
+$\mu_S = c_S\,\lvert\cdot\rvert_{F,S}^{-1}\nu_S$ with
+$c_S=\prod_{v\in S_f} N(\mathfrak p_v)/(N(\mathfrak p_v)-1)$, and (12.4.1.23) performs the
+change of variables $w=xu$, $d\nu_S(x)\otimes d\nu_S(u)=\lvert x\rvert_{F,S}^{-1}d\nu_S(x)\otimes d\nu_S(w)$
+[Paper; Masullo pp. 16, 518]. Three questions are left implicit there and are answered here:
+*what exactly is $\lvert\cdot\rvert_{F,S}$* (a modulus, with a specific normalization at each
+place), *where the measures live* (the multiplicative measure is a measure on $K^\times$, not
+on $K$), and *in what sense $a=1/2$ is forced* (an identity of measures that holds for one
+exponent only, once the modulus is non-constant).
+
+**Example (the real half-line).** On $\mathbb R_{>0}$ the additive measure is $dx$ and the
+multiplicative Haar measure is $dx/x$. Take the window $g=\mathbf 1_{[1,4]}$ and the dilation
+$x\mapsto 2x$, which sends $[1,4]$ to $[2,8]$. Additive masses: $\nu([1,4])=3$, $\nu([2,8])=6$;
+the ratio is $2$. Multiplicative masses: $\mu([1,4])=\log 4=\mu([2,8])$; the ratio is $1$. Now
+weight the multiplicative measure by $x^{2a}$, which is what the diagonal of a kernel
+$x^{a}y^{a}k(x,y)$ does. Then $x^{2a}\,dx/x = x^{2a-1}dx$ and
+$$\int_1^4 x^{2a-1}\,dx=\frac{4^{2a}-1}{2a},\qquad \int_2^8 x^{2a-1}\,dx=2^{2a}\,\frac{4^{2a}-1}{2a},$$
+so the weighted measure scales under $x\mapsto 2x$ by $2^{2a}$. The additive measure scales by
+$2^{1}$. The two agree for exactly one $a$, namely $2a=1$. (Numerically: at $a=1/4$ the two
+masses are $2.000$ and $2.828$, ratio $\sqrt 2$; at $a=1/2$ they are $3$ and $6$, ratio $2$; at
+$a=1$ they are $7.5$ and $30$, ratio $4$.) The point of the subsection is that this is the whole
+content of "$a=1/2$ is forced": a one-parameter family of measures $x^{2a-1}dx$ contains the
+dilation-covariant additive measure for one value of the parameter.
+
+**Definition 15.2 (modulus, additive and multiplicative Haar measure).** Let $K$ be a field with
+a locally compact, non-discrete Hausdorff topology making it a topological field (so
+$K=\mathbb R$, $\mathbb C$, or a non-archimedean local field such as $\mathbb Q_p$). Fix an
+additive Haar measure $\nu$ on $K$.
+
+1. For $t\in K^\times$ the map $x\mapsto tx$ is a topological group automorphism of $(K,+)$, so
+   the pushed-forward measure is again a Haar measure and is a positive multiple of $\nu$. The
+   **modulus** $\Delta_K(t)\in\mathbb R_{>0}$ is the number with
+   $$\nu(tS)=\Delta_K(t)\,\nu(S)\quad\text{for every Borel set } S\subseteq K .$$
+   It does not depend on $\nu$ and $\Delta_K:K^\times\to\mathbb R_{>0}$ is a group homomorphism.
+   In Mathlib this is `MeasureTheory.distribHaarChar K t` for the action of $K^\times$ on $(K,+)$
+   by multiplication; the defining property is `distribHaarChar_mul`
+   ([`DistribChar.lean:83–86`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean#L83-L86)),
+   the independence of $\nu$ is the construction at
+   [`DistribChar.lean:43–55`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean#L43-L55)
+   through `addHaarScalarFactor_smul_congr'`, and multiplicativity is the `map_mul'` field there.
+   Masullo's $\lvert\cdot\rvert_v$ at a place $v$ is $\Delta_{F_v}$, and $\lvert x\rvert_{F,S}=\prod_{v\in S}\Delta_{F_v}(x_v)$
+   on $\mathrm{GL}_1(\mathbb A_{F,S})=\prod_{v\in S}F_v^\times$ [Paper; Masullo p. 518].
+2. The **multiplicative Haar measure** attached to $\nu$ is the measure on the open set
+   $K^\times=K\setminus\{0\}$ with density $\Delta_K^{-1}$ against $\nu$:
+   $$\mu(S)=\int_S \Delta_K(x)^{-1}\,d\nu(x)\qquad (S\subseteq K^\times \text{ Borel}).$$
+   Masullo's $\mu_S$ is $c_S\prod_{v\in S}\mu_v$ for the constant $c_S$ of (12.4.1.17) fixed by
+   the normalizations in Lemma 15.3a(3) below.
+3. The **half-density map** is $U:g\mapsto \Delta_K^{1/2}g$, from functions on $K$ to functions on
+   $K^\times$ (restriction to $K^\times$ understood). Masullo's space
+   $\lvert\cdot\rvert_F^{1/2}H_{0,\mathrm{cont}}(F^\times,\mathcal S_0(\mathbb A_F))$ in the divisor
+   exact sequence of §1.2.1 (p. 13) is the image of such a map.
+
+**Lemma 15.3a (values of the modulus).**
+
+1. $K=\mathbb R$, $\nu=$ Lebesgue measure: $\Delta_{\mathbb R}(t)=\lvert t\rvert$.
+2. $K=\mathbb C$, $\nu=$ Lebesgue measure on $\mathbb R^2$: $\Delta_{\mathbb C}(z)=\lvert z\rvert^2$
+   (the square of the ordinary absolute value; this is the normalization that makes
+   $\Delta_{\mathbb C}$ restrict to $\Delta_{\mathbb R}$ on $\mathbb R\subset\mathbb C$ *only up to the square*,
+   which is why Tate's thesis writes $\lvert z\rvert_{\mathbb C}=z\bar z$).
+3. $K$ non-archimedean with valuation ring $\mathcal O$, maximal ideal $\mathfrak p=(\pi)$, residue
+   field of size $q$, and $\nu(\mathcal O)=1$: $\Delta_K(t)=q^{-v(t)}$ where $t\in\pi^{v(t)}\mathcal O^\times$.
+   Moreover $\nu(\mathcal O^\times)=1-q^{-1}$, so the multiplicative measure $\mu=\Delta_K^{-1}\nu$ gives
+   $\mu(\mathcal O^\times)=1-q^{-1}$, and the measure with $\mu'(\mathcal O^\times)=1$ is
+   $\mu'=\frac{q}{q-1}\,\Delta_K^{-1}\nu$. The factor $\frac{q}{q-1}=\frac{N(\mathfrak p)}{N(\mathfrak p)-1}$
+   is Masullo's local factor of $c_S$ in (12.4.1.17) [Paper; Masullo p. 518].
+
+*Proof.* (1) Both sides are determined on intervals, since two locally finite Borel measures on
+$\mathbb R$ that agree on all rational open intervals agree (`Real.measure_ext_Ioo_rat`). For
+$t>0$ the preimage of $(p,q)$ under $x\mapsto tx$ is $(p/t,q/t)$ of length $(q-p)/t$; for $t<0$
+it is $(q/t,p/t)$, again of length $(q-p)/\lvert t\rvert$. Hence the pushforward of $\nu$ under
+$x\mapsto tx$ is $\lvert t\rvert^{-1}\nu$, i.e. $\nu(tS)=\lvert t\rvert\,\nu(S)$. This is exactly
+the proof of `Real.smul_map_volume_mul_left` and `Real.map_volume_mul_left`
+([`Lebesgue/Basic.lean:312–328`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L312-L328)):
+the two sign cases are `preimage_const_mul_Ioo_of_neg` and `preimage_const_mul_Ioo₀`, and the
+length computation is `Real.volume_Ioo`. Then `Real.volume_preimage_mul_left` (`:331–336`) restates
+it for sets.
+
+(2) Multiplication by $z=re^{i\theta}$ on $\mathbb C=\mathbb R^2$ is the real-linear map with
+matrix $r\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}$, of
+determinant $r^2=\lvert z\rvert^2$. For a Haar measure on a finite-dimensional real vector space
+$E$ the image of a set under a linear map $f$ has measure $\lvert\det f\rvert$ times the original
+(`addHaar_image_linearMap`, [`EqHaar.lean:310–319`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L310-L319)),
+and for real scalars this specializes to `addHaar_smul`:
+$\mu(r\cdot S)=\lvert r^{\dim E}\rvert\,\mu(S)$ ([`EqHaar.lean:362–375`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L362-L375),
+proved by writing $r\cdot$ as the linear map $r\cdot\mathrm{id}$ with determinant $r^{\dim E}$ via
+`LinearMap.det_smul`, and treating $r=0$ separately through `measure_singleton`). With
+$\dim_{\mathbb R}\mathbb C=2$ this gives $\Delta_{\mathbb C}(r)=r^2$ for real $r$; the rotation
+factor has determinant $1$ and we have read only the real-scalar case in Lean, so the
+general $z$ rests on the determinant computation just displayed `[Expository]`.
+
+(3) $\mathcal O$ is the disjoint union of the $q$ cosets $r+\pi\mathcal O$, which are translates
+of $\pi\mathcal O$; translation invariance gives $\nu(\pi\mathcal O)=q^{-1}\nu(\mathcal O)=q^{-1}$,
+and inductively $\nu(\pi^k\mathcal O)=q^{-k}$. Since $\pi\mathcal O=\pi\cdot\mathcal O$ this says
+$\Delta_K(\pi)=q^{-1}$; a unit $u$ satisfies $u\mathcal O=\mathcal O$, so $\Delta_K(u)=1$;
+multiplicativity gives $\Delta_K(\pi^k u)=q^{-k}$. Then
+$\nu(\mathcal O^\times)=\nu(\mathcal O)-\nu(\pi\mathcal O)=1-q^{-1}$, and on $\mathcal O^\times$ the
+density $\Delta_K^{-1}$ is identically $1$, so $\mu(\mathcal O^\times)=1-q^{-1}$. $\square$
+
+**Lemma 15.3b (zero removal and the domain of $\mu$).** With $K,\nu$ as in Definition 15.2:
+
+1. $\nu(\{0\})=0$; hence $L^2(K,\nu)=L^2(K^\times,\nu|_{K^\times})$ and restriction to $K^\times$
+   loses nothing.
+2. $\mu=\Delta_K^{-1}\nu$ is a Radon measure on $K^\times$ but has infinite mass on every
+   neighbourhood of $0$ in $K$. So $\mu$ is a measure on the locally compact group $K^\times$ only;
+   it does not extend to a locally finite measure on $K$.
+
+*Proof.* (1) Suppose $\nu(\{0\})>0$. By translation invariance every singleton has the same
+positive measure. A compact neighbourhood $C$ of $0$ exists by local compactness and is infinite
+because $0$ is not isolated ($K$ is non-discrete); so $\nu(C)=\infty$, contradicting finiteness of
+Haar measure on compact sets. This is verbatim the Lean proof of
+`IsHaarMeasure.nullSingletonClass` ([`Group/Measure.lean:935–944`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Group/Measure.lean#L935-L944)),
+whose hypothesis `(𝓝[≠] 1).NeBot` is precisely non-discreteness; for $\mathbb R$ it is also
+`Real.volume_singleton` (`Lebesgue/Basic.lean:123`). A direct check in $\mathbb Q_5$ is given in
+Example 2 below.
+
+(2) For the fields of Lemma 15.3a let $C=\{x\in K:\Delta_K(x)\le1\}$, the closed unit ball, a
+compact neighbourhood of $0$ with $0<\nu(C)<\infty$, and pick $t\in K^\times$ with $\Delta_K(t)<1$
+($t=1/2$ for $\mathbb R,\mathbb C$; $t=\pi$ in the non-archimedean case). Then $tC=\{\Delta_K\le\Delta_K(t)\}\subseteq C$,
+the shells $C_k=t^kC\setminus t^{k+1}C=\{\Delta_K(t)^{k+1}<\Delta_K\le\Delta_K(t)^k\}$ ($k\ge0$) are
+pairwise disjoint with union $C\setminus\{0\}$, and $C_k=t^kC_0$. By (1) and the defining property
+of the modulus, $\nu(C_0)=\nu(C)-\nu(tC)=(1-\Delta_K(t))\nu(C)>0$, hence $\mu(C_0)>0$; by the
+invariance of $\mu$ under $x\mapsto tx$ (Lemma 15.3c below, whose proof does not use this lemma)
+$\mu(C_k)=\mu(C_0)$ for every $k$, so $\mu(C\setminus\{0\})=\sum_{k\ge0}\mu(C_k)=\infty$. Every
+neighbourhood of $0$ contains some $t^kC$, which has the same infinite $\mu$-mass by invariance. $\square$
+
+**Lemma 15.3c ($\Delta_K^{-1}\nu$ is a Haar measure on $K^\times$, invariant under inversion).**
+For every $t\in K^\times$ and every Borel $S\subseteq K^\times$, $\mu(tS)=\mu(S)$. Moreover
+$\mu(S^{-1})=\mu(S)$. In particular the identity $\mu_S=c_S\lvert\cdot\rvert^{-1}_{F,S}\nu_S$ of
+Masullo's (12.4.1.17) determines $\mu_S$ up to the constant $c_S$, and the inversion invariance
+invoked in (12.4.1.16) holds for it [Paper; Masullo p. 518].
+
+*Proof.* By the defining property of $\Delta_K$ and the density formula
+(`lintegral_withDensity_eq_lintegral_mul`,
+[`WithDensity.lean:398–409`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L398-L409)),
+for a non-negative Borel $f$ on $K^\times$,
+$$\int f(tx)\,\Delta_K(x)^{-1}\,d\nu(x)
+=\Delta_K(t)\int f(tx)\,\Delta_K(tx)^{-1}\,d\nu(x)
+=\Delta_K(t)\,\Delta_K(t)^{-1}\int f(y)\,\Delta_K(y)^{-1}\,d\nu(y),$$
+where the first equality is multiplicativity $\Delta_K(tx)=\Delta_K(t)\Delta_K(x)$ and the
+second is the substitution $y=tx$, i.e. $\int h(tx)\,d\nu(x)=\Delta_K(t)^{-1}\int h\,d\nu$, which
+is the integrated form of $\nu(tS)=\Delta_K(t)\nu(S)$. Taking $f=\mathbf 1_{tS}$ gives
+$\mu(tS)=\mu(S)$. For $K=\mathbb R_{>0}$ the substitution step is literally
+`integral_comp_mul_left_Ioi`: $\int_{(a,\infty)}g(bx)\,dx=b^{-1}\int_{(ba,\infty)}g$
+([`IntegralEqImproper.lean:1187–1195`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean#L1187-L1195),
+proved by rewriting both sides as integrals of indicators and applying
+`Measure.integral_comp_mul_left`, the integrated form of `Real.map_volume_mul_left`), and
+the twisted form $\int f(bt)\,t^{s}\,dt/t=b^{-s}\int f(t)\,t^{s}\,dt/t$ is `mellin_comp_mul_left`
+([`MellinTransform.lean:133–149`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/MellinTransform.lean#L133-L149)),
+whose proof pulls $b^{1-s}$ out of $(bt)^{s-1}$ and then calls `integral_comp_mul_left_Ioi`; at
+$s=0$ it is the invariance of $dt/t$.
+
+Inversion invariance: $K^\times$ is an abelian locally compact group and $\mu$ is a Haar measure
+on it, so its image under $x\mapsto x^{-1}$ is $c\mu$ for some $c>0$ by uniqueness of Haar
+measure; applying inversion twice gives $c^2\mu=\mu$, hence $c=1$. This is the Lean proof of
+`IsHaarMeasure.isInvInvariant_of_regular`
+([`Haar/Unique.lean:978–1000`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L978-L1000)),
+where $c$ is `haarScalarFactor μ.inv μ` and $c^2=1^2$ is extracted on a positive compact.
+Regularity of $\mu$ on $K^\times$ holds because $\nu$ is regular and $\Delta_K^{-1}$ is continuous
+and positive on $K^\times$. $\square$
+
+**Lemma 15.3d (the half-density map is an $L^2$ isometry; the general exponent).** For $a\in\mathbb R$
+let $U_a g=\Delta_K^{a}g$ on $K^\times$. Then for every Borel $g$ on $K$
+$$\int_{K^\times}\lvert U_a g\rvert^2\,\Delta_K^{\,1-2a}\,d\mu=\int_K\lvert g\rvert^2\,d\nu .$$
+Hence $U_a$ is an isometric isomorphism $L^2(K,\nu)\to L^2(K^\times,\Delta_K^{1-2a}\mu)$, and it
+is an isometry into $L^2(K^\times,\mu)$ itself exactly when the weight $\Delta_K^{1-2a}$ equals $1$
+$\nu$-a.e. on $K^\times$, i.e. (Theorem 15.3(2)) exactly when $a=1/2$. For $a=1/2$ the map
+$U=U_{1/2}:L^2(K,\nu)\to L^2(K^\times,\mu)$ is unitary, with inverse $f\mapsto\Delta_K^{-1/2}f$
+extended by $0$ at the $\nu$-null point $0$.
+
+*Proof.* $\lvert U_ag\rvert^2\Delta_K^{1-2a}\,d\mu=\Delta_K^{2a}\lvert g\rvert^2\Delta_K^{1-2a}\Delta_K^{-1}\,d\nu=\lvert g\rvert^2\,d\nu$
+on $K^\times$, by the density formula, and $\{0\}$ is $\nu$-null by Lemma 15.3b(1). Surjectivity:
+$f\in L^2(K^\times,\Delta_K^{1-2a}\mu)$ has preimage $\Delta_K^{-a}f$. (In Mathlib the general
+principle "composition with a measure-preserving map is an isometry of $L^p$" is
+`Lp.isometry_compMeasurePreserving`
+([`LpSpace/Basic.lean:581–583`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L581-L583));
+here the measure-preserving map is the identity $K^\times\to K^\times$ between $\nu$ and the
+weighted multiplicative measure, and the multiplication by $\Delta_K^{a}$ is the change of
+density, so the isometry is the one-line computation above.) $\square$
+
+**Theorem 15.3 (the diagonal weight and the uniqueness of $a=1/2$).** Let $K,\nu,\Delta_K,\mu$ be
+as in Definition 15.2, and assume
+
+- **(H1)** $\Delta_K$ is continuous on $K^\times$ and not identically $1$ (true for
+  $\mathbb R,\mathbb C$ and every non-archimedean local field by Lemma 15.3a: $\Delta(1/2)=1/2$,
+  $\Delta(1/2)=1/4$, $\Delta(\pi)=q^{-1}$);
+- **(H2)** $\nu$ has full support on $K$ (every non-empty open set has positive measure; true for
+  Haar measures).
+
+Let $k(x,y)$ be a Borel function on $K^\times\times K^\times$ whose diagonal restriction
+$x\mapsto k(x,x)$ is Borel (as in Masullo's smoothing along the diagonal, which we take as
+given), and for $a\in\mathbb R$ set $k_a(x,y)=\Delta_K(x)^a\Delta_K(y)^a k(x,y)$. Then:
+
+1. *(Diagonal identity, all $a$.)* For every $a$,
+   $$\int_{K^\times}k_a(x,x)\,d\mu(x)=\int_{K^\times}k(x,x)\,\Delta_K(x)^{2a-1}\,d\nu(x),$$
+   whenever either side converges absolutely.
+2. *(Uniqueness.)* There is a constant $c>0$ with $\Delta_K^{2a}\mu=c\,\nu$ as measures on
+   $K^\times$ if and only if $a=1/2$; and then $c=1$. Equivalently, the weight $\Delta_K^{2a-1}$ in
+   (1) is a constant if and only if $a=1/2$.
+3. *(Product form.)* For a finite set $S$ of places and $K_S=\prod_{v\in S}F_v$ with
+   $\Delta_S=\prod_v\Delta_{F_v}$, $\nu_S=\bigotimes_v\nu_v$, $\mu_S=c_S\bigotimes_v\mu_v$, the
+   same two statements hold on $K_S^\times=\prod_vF_v^\times$ with $c=c_S$ in (2); this is the
+   form of Masullo's (12.4.1.17) and of the p. 16 sentence.
+
+*Proof.* (1) By Definition 15.2(2) and the density formula,
+$k_a(x,x)\,d\mu(x)=\Delta_K(x)^{2a}k(x,x)\Delta_K(x)^{-1}d\nu(x)$.
+
+(2) If $a=1/2$ then $\Delta_K^{2a}\mu=\Delta_K\cdot\Delta_K^{-1}\nu=\nu$ on $K^\times$, so $c=1$.
+Conversely suppose $\Delta_K^{2a}\mu=c\nu$, i.e. $\Delta_K^{2a-1}\nu=c\nu$ on $K^\times$. Then
+$\Delta_K^{2a-1}=c$ $\nu$-almost everywhere on $K^\times$: if, say, $\nu(\{\Delta_K^{2a-1}>c\})>0$, then for some
+$\varepsilon>0$ the set $A_\varepsilon=\{\Delta_K^{2a-1}\ge c+\varepsilon\}\cap C$ has positive finite
+$\nu$-measure for a suitable compact $C$ ($\nu$ is inner regular and the sets increase to
+$\{\Delta_K^{2a-1}>c\}$ as $\varepsilon\downarrow0$), and then
+$(\Delta_K^{2a-1}\nu)(A_\varepsilon)\ge(c+\varepsilon)\nu(A_\varepsilon)>c\,\nu(A_\varepsilon)$, contradicting
+$\Delta_K^{2a-1}\nu=c\nu$; the set $\{\Delta_K^{2a-1}<c\}$ is handled symmetrically.
+A continuous function that equals $c$ almost everywhere for a
+measure of full support equals $c$ everywhere: the set $\{\Delta_K^{2a-1}\ne c\}$ is open and
+null, hence empty by (H2). Evaluating at $x=1$ gives $c=1$. Now pick $t$ with
+$\Delta_K(t)\ne1$ by (H1); from $\Delta_K(t)^{2a-1}=1$ and $\Delta_K(t)>0$, $\Delta_K(t)\neq 1$,
+we get $2a-1=0$.
+
+(3) $\Delta_S$ is the modulus of $K_S$ for $\nu_S$ since the $v$-components scale independently;
+the product of the local densities is the density of the product measure; and the argument of
+(2) goes through with $c=c_S$ because $\Delta_S$ is continuous, non-constant (take
+$t=(t_v)$ with $t_v=1$ except at one place), and $\nu_S$ has full support. $\square$
+
+**Proposition 15.4 (why the exponent is the symmetry centre: unitarity of dilations).**
+For $a\in\mathbb R$ and $t\in K^\times$ define $T^{(a)}_t g(x)=\Delta_K(t)^{a}g(tx)$ on functions
+on $K$.
+
+1. $T^{(a)}_t$ is an isometry of $L^2(K,\nu)$ for every $t$ if and only if $a=1/2$ (under (H1)).
+2. Let $\psi$ be a non-trivial continuous unitary character of $(K,+)$ and
+   $\widehat g(\xi)=\int_K g(x)\psi(x\xi)\,d\nu(x)$ the Fourier transform. Then
+   $\widehat{T^{(a)}_t g}=T^{(1-a)}_{t^{-1}}\widehat g$ for $g\in L^1(K,\nu)$. So the Fourier
+   transform conjugates the $a$-dilation family to the $(1-a)$-dilation family, and $a=1/2$ is the
+   unique fixed point of $a\mapsto1-a$. `[Expository]`
+
+*Proof.* (1) $\int\lvert T^{(a)}_tg\rvert^2d\nu=\Delta_K(t)^{2a}\int\lvert g(tx)\rvert^2d\nu(x)=\Delta_K(t)^{2a-1}\int\lvert g\rvert^2d\nu$
+by the substitution $y=tx$. This equals $\int\lvert g\rvert^2d\nu$ for all $t$ and all $g\ne0$
+iff $\Delta_K(t)^{2a-1}=1$ for all $t$, iff $2a-1=0$ by (H1). (2)
+$\widehat{T^{(a)}_tg}(\xi)=\Delta_K(t)^{a}\int g(tx)\psi(x\xi)\,d\nu(x)=\Delta_K(t)^{a-1}\int g(y)\psi(y\,t^{-1}\xi)\,d\nu(y)=\Delta_K(t^{-1})^{1-a}\,\widehat g(t^{-1}\xi)$,
+again by $y=tx$ and $\Delta_K(t)^{-1}=\Delta_K(t^{-1})$. $\square$
+
+**Example 1 (the real half-line, completed).** With $g=\mathbf 1_{[1,4]}$: $\lVert g\rVert^2_{L^2(dx)}=3$,
+and $U g=x^{1/2}\mathbf 1_{[1,4]}$ has $\lVert Ug\rVert^2_{L^2(dx/x)}=\int_1^4 x\,dx/x=3$, confirming
+Lemma 15.3d; with $a=1$ instead, $\int_1^4x^2\,dx/x=15/2\ne3$. Dilation: $T^{(1/2)}_2g=\sqrt2\,\mathbf 1_{[1/2,2]}$
+has $L^2(dx)$-norm squared $2\cdot\tfrac32=3$, while $T^{(1)}_2g=2\,\mathbf 1_{[1/2,2]}$ has
+$4\cdot\tfrac32=6$. Mellin: with $s=2$, $\int_0^\infty\mathbf 1_{[1,4]}(t)\,t^{2}\,dt/t=15/2$ and
+$\int_0^\infty\mathbf 1_{[1,4]}(2t)\,t^2\,dt/t=\int_{1/2}^{2}t\,dt=15/8=2^{-2}\cdot15/2$, which is
+`mellin_comp_mul_left` at $a=2$, $s=2$. Together with the opening computation (ratios $2^{2a}$
+against $2$), every clause of Theorem 15.3 and Proposition 15.4 has been checked on this window.
+
+**Example 2 (the unit shells of $\mathbb Q_5$).** Take $K=\mathbb Q_5$, $\nu(\mathbb Z_5)=1$,
+$\pi=5$, $q=5$. Local compactness is the `ProperSpace ℚ_[p]` instance in namespace `Padic`
+([`Padics/ProperSpace.lean:64–69`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/ProperSpace.lean#L64-L69),
+from compactness of $\mathbb Z_5$); the measure itself is a hand normalization `[Expository]`.
+The shells $U_k=5^k\mathbb Z_5^\times=\{x:\lvert x\rvert_5=5^{-k}\}$, $k\in\mathbb Z$, partition
+$\mathbb Q_5^\times$.
+
+- *Additive masses.* $\nu(5^k\mathbb Z_5)=5^{-k}$ by Lemma 15.3a(3), so
+  $\nu(U_k)=5^{-k}-5^{-k-1}=\tfrac45\cdot5^{-k}$: the values are $4/5,\,4/25,\,4/125,\dots$
+- *Zero removal, checked directly.* $\sum_{k\ge0}\nu(U_k)=\tfrac45\sum_{k\ge0}5^{-k}=\tfrac45\cdot\tfrac54=1=\nu(\mathbb Z_5)$,
+  so $\nu(\{0\})=\nu(\mathbb Z_5)-\nu(\mathbb Z_5\setminus\{0\})=0$, as Lemma 15.3b(1) predicts.
+- *Modulus.* $\Delta(2)=1$ since $2\mathbb Z_5=\mathbb Z_5$; $\Delta(1/5)=5$ since
+  $\nu(5^{-1}\mathbb Z_5)=5$; in general $\Delta(x)=5^{-k}$ on $U_k$.
+- *Multiplicative masses.* $\mu(U_k)=\int_{U_k}\Delta^{-1}d\nu=5^{k}\cdot\tfrac45\cdot5^{-k}=\tfrac45$
+  for every $k$, so $\mu$ is invariant under $x\mapsto5x$ (which maps $U_k$ to $U_{k+1}$) and under
+  $x\mapsto x^{-1}$ (which maps $U_k$ to $U_{-k}$), as Lemma 15.3c says. The normalization
+  $\mu'(\mathbb Z_5^\times)=1$ needs the factor $c_5=5/4=N(\mathfrak p)/(N(\mathfrak p)-1)$ of
+  (12.4.1.17); then $\mu'(U_k)=1$ for all $k$.
+- *Diagonal weight.* $\int_{U_k}\Delta^{2a}\,d\mu'=5^{-2ak}$. Compare with $\nu(U_k)=\tfrac45 5^{-k}$:
+  the ratio $\nu(U_k)\big/\!\int_{U_k}\Delta^{2a}d\mu'=\tfrac45\,5^{(2a-1)k}$ is independent of $k$
+  if and only if $2a=1$, in which case it is $4/5=1/c_5$ for every shell. At $a=1/4$ the ratios
+  for $k=0,1,2,3$ are $0.8,\,0.358,\,0.16,\,0.072$; at $a=1$ they are $0.8,\,4,\,20,\,100$. This is
+  Theorem 15.3(2) read shell by shell, and the constant $c$ of (2) for Masullo's normalized
+  $\mu_S$ is exactly his $c_S$.
+- *A bonus identity.* $\int_{\mathbb Z_5\setminus\{0\}}\Delta(x)^{s}\,d\mu'(x)=\sum_{k\ge0}5^{-ks}=(1-5^{-s})^{-1}$
+  for $\Re s>0$: the local Euler factor appears as the Mellin transform of
+  $\mathbf 1_{\mathbb Z_5}$ against $\mu'$, which is the non-archimedean analogue of the real
+  Mellin check in Example 1 and the $\mathrm{GL}_1$ content of Masullo's Ch. 3 (Tate's thesis)
+  [Paper; Masullo pp. 117–154].
+
+**Remark 1 (what this does and does not show).** Theorem 15.3 and Proposition 15.4 are local
+statements about one field at a time (or a finite product), and they hold for *every* test
+kernel and every exponent $a$; the exponent $1/2$ is singled out as the only one for which a
+dilation-invariant object (the additive measure, or a unitary dilation action) appears. This is
+the same mechanism that places the symmetry axis of Tate's local functional equation at
+$\Re s=1/2$: Proposition 15.4(2) is the Fourier side of that equation. In particular the
+subsection proves **nothing about zeros**. It does not supply the $\alpha$-independence of the
+spectral trace on $W^{s,2}_{[-\alpha,\alpha]}\mathcal H_F$ asserted in Theorem 12.5.1.1 (p. 519),
+whose proof passes through the Chapter 10 completion and the biorthogonal bound at (10.3.1.18)
+(p. 451) that Chapter 14 records as `[Open]`; nor does it bear on the omitted §12.3 (p. 514). A
+reader who checks every line of §12.4.1 (pp. 515–519) with the lemmas above will have verified
+that the geometric side is correctly normalized at $a=1/2$, and nothing more. Masullo says as
+much on p. 16 ("Connes' expectation on the $S$-adelic Fourier transform playing this role …
+is therefore correct") and on p. 519 ("This is also where the necessity of the choice $a=1/2$ is
+explained") [Paper; Masullo pp. 16, 519]: the necessity is for the *geometric computation to
+close*, which is a different statement from the location of zeros.
+
+**Remark 2 (the two mechanisms compared, with content).** Chapter 5 (`core_gm`,
+`proposition_size_bound`) produces $1/2$ as an *extremal* exponent: the bracket
+$x/m+m\,x^{O(\varepsilon)}$ is minimized at $m\asymp\sqrt x$, and the exponent would move to
+$2/3$ if the per-lift cost compounded to $m^2$ (remark.pdf p. 4, item 14 [Paper]). The value
+$1/2$ there is an output of the arithmetic engine, sensitive to the error profile, and it is a
+*bound*: $G_m(x)\le x^{1/2+O(\varepsilon)}$. Here $1/2$ is a *fixed point*: it is the unique
+solution of $2a-1=0$ (Theorem 15.3(2)), equivalently of $a=1-a$ (Proposition 15.4(2)), and it is
+insensitive to everything except the non-constancy of the modulus. The two can be put in one
+sentence: the Alpöge–Claude route proves that the primes do not fluctuate beyond the
+square-root scale, while the half-density normalization only records that the square-root scale
+is the self-dual one. Both routes then need a second, global input to turn the symmetry axis into
+the zero locus: the Landau-window criterion plus the chain bound in Chapters 3–11, or the
+asserted $\alpha$-independence of Theorem 12.5.1.1.
+
+**Remark 3 (normalizations in the draft).** Masullo's (12.4.1.17) presupposes
+$\nu_v(\mathcal O_v)=1$ and $\mu_v(\mathcal O_v^\times)=1$ at finite places and $c_v=1$ at
+archimedean places, which is how Lemma 15.3a(3) reproduces $c_S$; the statement of Theorem
+12.5.1.1 (p. 519) instead divides each finite-place term by $\mu_v(\mathcal O_{F_v}^\times)$ and is
+therefore normalization-free [Paper; Masullo pp. 518–519]. We have not checked the archimedean
+constants in (12.4.1.25)–(12.4.1.26) and do not use them.
+
+**Source map for this subsection.** Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| File and lines at the pin | Declaration | Role here | Reading |
+|---|---|---|---|
+| `Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean:43–55, 57–58, 83–86, 92–95` | `distribHaarChar`, `distribHaarChar_pos`, `distribHaarChar_mul`, `distribHaarChar_eq_of_measure_smul_eq_mul` | Definition 15.2(1): the modulus as the Haar scalar factor of the pulled-back measure; homomorphism property | R3 (whole file read) |
+| `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:277, 1063–1073` | `haarScalarFactor`, `addHaarScalarFactor_smul_congr'` | supplies independence of $\nu$ in Definition 15.2(1) | statement level |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:96, 123, 312–336` | `Real.volume_Ioo`, `Real.volume_singleton`, `Real.smul_map_volume_mul_left`, `Real.map_volume_mul_left`, `Real.volume_preimage_mul_left` | Lemma 15.3a(1), Lemma 15.3b(1) for $\mathbb R$ | R3 |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:310–319, 336–375` | `addHaar_image_linearMap`, `map_addHaar_smul`, `addHaar_preimage_smul`, `addHaar_smul` | Lemma 15.3a(2), real-scalar case; determinant of complex multiplication is a hand computation | R3 (`:336–375`), statement level (`:310–319`) |
+| `Mathlib/LinearAlgebra/Determinant.lean:256` | `LinearMap.det_smul` | $\det(r\cdot\mathrm{id})=r^{\dim}$ inside `map_addHaar_smul` | statement level |
+| `Mathlib/MeasureTheory/Group/Measure.lean:935–944` | `IsHaarMeasure.nullSingletonClass` | Lemma 15.3b(1) | R3 |
+| `Mathlib/MeasureTheory/Measure/WithDensity.lean:398–409` | `lintegral_withDensity_eq_lintegral_mul` | the density formula in Lemmas 15.3c–d and Theorem 15.3(1) | R3 |
+| `Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean:1187–1195` | `integral_comp_mul_left_Ioi` | Lemma 15.3c substitution on $\mathbb R_{>0}$ | R3 |
+| `Mathlib/Analysis/MellinTransform.lean:91, 133–149` | `mellin`, `mellin_comp_mul_left` | Example 1 Mellin check; twisted invariance of $dt/t$ | R3 |
+| `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:978–1000` | `IsHaarMeasure.isInvInvariant_of_regular` | Lemma 15.3c inversion invariance | R3 |
+| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:560–583` | `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving` | the general isometry principle behind Lemma 15.3d | statement level |
+| `Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.lean:40–68` | `mulEquivHaarChar`, `mulEquivHaarChar_smul_map` | the multiplicative-group analogue of the modulus; not used in the proofs, read for orientation | R3 |
+| `Mathlib/NumberTheory/Padics/ProperSpace.lean:64–69` | `ProperSpace ℚ_[p]` instance (namespace `Padic`) | local compactness of $\mathbb Q_5$ in Example 2 | R3 |
+| `Mathlib/MeasureTheory/Measure/Haar/Basic.lean:584` | `MeasureTheory.Measure.haar` | existence of $\nu$ on any locally compact group | statement level |
+
+**Retained inputs (not read).** The uniqueness theorem for Haar measure behind
+`haarScalarFactor` and `isAddLeftInvariant_eq_smul_of_regular` (`Haar/Unique.lean`); the
+real-linear determinant formula `map_linearMap_addHaar_eq_smul_addHaar` behind
+`addHaar_image_linearMap`; the Fourier transform on a general local field (Proposition 15.4(2)
+is classical `[Expository]`, and for $\mathbb R$ Mathlib's `Real.fourierIntegral` is not cited
+here); a Haar measure on $\mathbb Q_p$ as a Mathlib instance (absent at the pin); and Masullo's
+smoothing of kernels along the diagonal (Hardy–Littlewood and Lebesgue differentiation,
+pp. 15, 517), which we assume as the hypothesis "the diagonal restriction is Borel" in
+Theorem 15.3.
 
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
@@ -427,7 +796,7 @@ Finally, look at the epistemic mirror image between the two works as of `2026-11
 |---|---|---|
 | **I. Target scope** | $\zeta(s)$ and all Dirichlet $L(s, \chi)$ over $\mathbb Q$ (`src/Main.lean:4–12`) + abelian $\zeta_K(s)$ via Kronecker–Weber; non-abelian ERH **not** covered (`[Lean, read]`). | Intended: all unitary Hecke $L(s, \chi)$ over **all** number fields $F$ (`p. 6`), including all Dedekind $\zeta_K(s)$; Ch. 13 (`pp. 521–522`) unwritten (`[Paper]`, `[Open]`). |
 | **II. Zeros $\leftrightarrow$ primes bridge** | **One-sided** Riesz prime sum $G_m(x) \le x^{1/2+O(\varepsilon)}$ on sparse windows $[Y, Y^{1+\delta}]$ + Landau/Pólya real Laplace monotonicity (`P5`, `landau_window`); **no** sum over high zeros! | **Two-sided** convolution trace on $C_F$ for $\varphi \in D(C_F)$ with $\varphi(C_F^1) = 0$ (`Thm. 12.5.1.1`, `p. 519`); avoids Weil positivity (`§1.4.6`, `p. 30`) and requires summing over all strip zeros. |
-| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $\lvert x \rvert_{F,S}^{2a-1} = 1 \iff a = \frac{1}{2}$ (`p. 16, p. 518`) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
+| **III. Origin of exponent $\frac{1}{2}$** | Discrete **AM–GM balance** $\min_m (x/m + m\,x^{O(\varepsilon)}) \asymp x^{1/2+O(\varepsilon)}$ at chain length $m \asymp \sqrt{x}$ (`core_gm` / `proposition_size_bound`, `P6`–`P7`). | Continuous diagonal Haar-measure matching $\lvert x \rvert_{F,S}^{2a-1} = 1 \iff a = \frac{1}{2}$ (`p. 16, p. 518`; proved as Theorem 15.3 in §15.4.3.1) + asserted **$\alpha$-independence** of strip trace on $W_{[-\alpha,\alpha]}^{s,2}\mathcal H_F$ (`p. 519`, `[Open]`). |
 | **IV. Core engine & $\mathbb F_q(X)$** | **Arithmetic-geometric / automorphic:** definite $U(n)$ theta chains (`P17`), supersingular $p$-adic divisibility (`P8`), Bost slopes (`P9`), Rallis/Gram decay (`P10`), GMA congruences & Iwasawa/$U(3)$ $\mathrm{Ш}^1$ (`P11`–`P12`), $\mathrm{GL}_a$ Galois reps (`P14`–`P16`). **Inspired directly by $\mathbb F_q(X)$!** | **Topological / functional-analytic on $\mathrm{GL}_1$:** periodic Schauder bases (`Chs. 4, 7`), Weil $PV_v$ operators (`Ch. 5`), nuclear locally convex duals (`App. C`), Hardy–Sobolev strip spaces (`Ch. 9`), divisorial shells (`Ch. 11`). **Provably fails over $\mathbb F_q(X)$ (`§14.2`, `pp. 534–536`)!** |
 | **V. Verification state (`2026-11-22`)** | **175,187 `.lean` files, 0 `sorry`s, 3 standard axioms**; accepted by `leanchecker`, `nanoda`, `con-leche --compare`, `con-ron --compare`, `lean4lean`; sandboxed rebuild export byte-identical (`[Community]`). Deep ~146k-module proof bodies largely unread by humans (`[Open]`). | **940-page human draft**; Wave 1 (`Chs. 2–4, 9`) mostly formalized in `mccorvie/riemann-masullo`, Wave 2 (`Thm. 5.2.1.1`, `§B.4`) flagged issues `[Community]`; **Ch. 10 `p. 451`/`p. 463` strip nuclearity gap, omitted `§12.3` (`p. 514`), and unwritten Ch. 13 (`pp. 521–522`) remain `[Open]`.** |
 

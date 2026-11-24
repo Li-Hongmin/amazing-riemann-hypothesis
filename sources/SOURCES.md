@@ -300,6 +300,19 @@ All from
 | `Mathlib/Combinatorics/Additive/AP/Three/Behrend.lean` | 2026-11-22T09:15:00Z | 21422 | `44a7d25a608a4242693b5b4f849c27ea0075ba585d9db48f16bbfe84df4ab5b5` |
 | `Mathlib/RepresentationTheory/FinGroupCharZero.lean` | 2026-11-23T09:12Z | 4915 | `a031d85058b58616a33fac9b7f0a812ec6452d95a8e0e330734636fd485753c9` |
 | `Mathlib/RingTheory/WittVector/Teichmuller.lean` | 2026-11-24T10:50Z | 4589 | `d67df6e0011067d6c78f4d9e1ec9914dd7e2fc502d8e1f7f267ac0ae4f0bc957` |
+| `Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean` | 2026-11-24T17:30Z | 4202 | `45a6449a1e3ca411d4392ac096b5f37862453867116d477d0d9951e74cd5f14e` |
+| `Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.lean` | 2026-11-24T17:30Z | 6189 | `e4ae4527769edaabfd137db8a328ed760c096d8da2cd296954d1b1f9b71598be` |
+| `Mathlib/MeasureTheory/Measure/Haar/Unique.lean` | 2026-11-24T17:30Z | 60837 | `a3c699594a136c622ebacb69632d5b250acb9a718123eeb8ef97a3aed7a11782` |
+| `Mathlib/MeasureTheory/Measure/Haar/Basic.lean` | 2026-11-24T17:30Z | 36306 | `ede9dfecb46e2512332b7af9307fc8276df0440ed5ad86053bc4664683dbfe4b` |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean` | 2026-11-24T17:30Z | 32585 | `c831261b75c98f3f9b3f7126c5dae3629215b7bb2ff8bbd2ba9edc7b1abbd659` |
+| `Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean` | 2026-11-24T17:30Z | 45182 | `269a2815cff12469aa8361d9062bfb11f8f7c45787799752b6e5bc3a7705e5a3` |
+| `Mathlib/MeasureTheory/Group/Measure.lean` | 2026-11-24T17:30Z | 44239 | `85fa37958761690fd033fe1648b9f388607f38d8b2eec802ae0a34d7cb945bfc` |
+| `Mathlib/MeasureTheory/Measure/WithDensity.lean` | 2026-11-24T17:30Z | 39584 | `b62c4ad72728e11a87bb3cefc6b968a081a70901030e8ac8e60d43b5ec2a8649` |
+| `Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean` | 2026-11-24T17:30Z | 77011 | `9b23ece88109c97647472e92ac73478da988c81436efc63e17a2acfb2db15353` |
+| `Mathlib/Analysis/MellinTransform.lean` | 2026-11-24T17:30Z | 25264 | `81851086004a6e5424da555061a4b2f9d2e7cece148d9d49c3537a05adba73ff` |
+| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` | 2026-11-24T17:30Z | 44484 | `c333a6caa56906c6203cad3e3214be2114a65728fcfdf95ae639992abefb373f` |
+| `Mathlib/LinearAlgebra/Determinant.lean` | 2026-11-24T17:30Z | 36359 | `daf96bd2883183ffcbb197293271f0a69ff21b8b0acb91da823efa79aeeb6d53` |
+| `Mathlib/NumberTheory/Padics/ProperSpace.lean` | 2026-11-24T17:30Z | 2491 | `b0683c18c6745be2b88f7691e54776597958d64a93980baff0dfda6c764b2d04` |
 | `Mathlib/RingTheory/WittVector/Basic.lean` | 2026-11-24T10:50Z | 13227 | `dc9e2c2285cdfd4e72615841c22310a6312ac1385b0821b47dfa3acc05763045` |
 | `Mathlib/RingTheory/WittVector/Domain.lean` | 2026-11-24T10:50Z | 3733 | `33f6631f8d62536e6e95153b3a4605d90b7a54d41def019ddacd16d5b3506f50` |
 | `Mathlib/RingTheory/WittVector/Compare.lean` | 2026-11-24T10:50Z | 8129 | `998c8b8a4e9762170eb940cd239dab54bccf1323ad7f65e61bd347f3b68c137f` |
@@ -382,6 +395,22 @@ and classroom examples. [Mathlib attribution](https://github.com/leanprover-comm
 | [DLMF §5.8](https://dlmf.nist.gov/5.8), re-fetched for §1.2.2.5 | 2026-11-24T16:57Z | 43709 | `6886f0d6d088cf9389927d41210f95020a6777c2e6ee8f0df3582173f46f7995` |
 | [DLMF §1.7](https://dlmf.nist.gov/1.7) | 2026-11-24T16:57Z | 101044 | `bcd7e880578209c09d13d01c5ae0a7ba9531398bd0033a4c690abf3198109728` |
 | [E. Artin, *The Gamma Function* (1964), scan hosted by the nLab](https://ncatlab.org/nlab/files/Artin-TheGammaFunction.pdf) | 2026-11-24T16:58Z | 1346583 | `8e5e7271dc99119483848d1b79a484dba681f6e9c32254c59b60eff1b66a232b` |
+
+**Chapter 15, §15.4.3.1.** The Mathlib files above from `DistribChar.lean` to
+`Padics/ProperSpace.lean` were retrieved from the pinned commit on 2026-11-24 (UTC) for the
+half-density subsection; `distribHaarChar` (Andrew Yang, Yaël Dillies, Javier López-Contreras),
+the real scaling lemmas (Johannes Hölzl, Sébastien Gouëzel, Yury Kudryashov), the
+finite-dimensional scaling (Floris van Doorn, Sébastien Gouëzel), the no-atoms lemma (Floris van
+Doorn), the density formula (Mario Carneiro, Johannes Hölzl), the half-line change of variables
+(Anatole Dedecker, Bhavik Mehta), the Mellin scaling (David Loeffler), inversion invariance
+(Sébastien Gouëzel) and the $\mathbb Q_p$ proper-space instance (Jou Glasheen, Kevin Buzzard) were
+read as recorded in the subsection's source map. The Masullo pages used are §1.2.3 (1), p. 16,
+and §12.4.1, pp. 516–519, of the PDF listed in §3 (sha256 `e039d3f6…97bf5`, re-downloaded and
+re-verified 2026-11-24). The pinned Mathlib has no Haar measure instance on $\mathbb Q_p$
+(`Mathlib/NumberTheory/Padics/Measure/Basic.lean` defines abstract measures $C(X,R)\to_L E$).
+[Masullo, p. 16](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=16)
+· [Masullo, p. 518](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518)
+· [Pinned `DistribChar.lean`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
 
 ## 5. Verification reports and community guides
 
@@ -2358,3 +2387,11 @@ Retrieved file hashes
 - **I. N. Bernstein and A. V. Zelevinsky**, *Induced representations of reductive p-adic groups I*, Ann. Sci. Éc. Norm. Sup. (4) 10 (1977), no. 4, 441–472, DOI 10.24033/asens.1333. Proposition 1.9(a) (p. 445) gives the exactness of the Jacquet functor. Condition 5.1(3) and Theorem 5.2 (p. 460) give the ordering of the orbits with open initial unions and the filtration. Sections 5.3–5.4 (p. 461) define the subfunctor of an open union by applying the exact Jacquet functor to the sections supported there, and the orbit functor as a quotient of two such subfunctors. PDF retrieved again 2026-11-25; SHA-256 8424600228ab72c5937e45edceefcae410a2a0b8f5ebf282185691542aa89092, unchanged from §7.4.3.2. [Numdam](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0/)
 - **A. V. Zelevinsky**, *Induced representations of reductive p-adic groups II. On irreducible representations of GL(n)*, Ann. Sci. Éc. Norm. Sup. (4) 13 (1980), no. 2, 165–210, DOI 10.24033/asens.1379. Theorem 1.2 (p. 170) and its reformulation 1.3 (p. 171) give the filtration for $\mathrm{GL}_n$, the sufficiency of the open-union condition and the closed cell as a quotient. Section 1.6 (pp. 171–172) indexes the cells by matrices $B(w)$. PDF retrieved 2026-11-25, SHA-256 663c79f2ee236626385d242d83107410c1a3291ba5584d4b8abee9cf8af428ac. [Numdam](https://www.numdam.org/item/ASENS_1980_4_13_2_165_0/)
 - **Alpöge–Claude A2 archive**, SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc. Files read for this subsection, with SHA-256: `GeometricLemmaCells.lean` (ba853ff3a312edc142e82a0c78a4cb9b656067dcfd515b86a12e0b7e48117b1e), `GeometricLemmaFiltration.lean` (4bad875c57ee45fad3e72e893119c7f287102018ac2deaa58246fd019f835dc6), `GeometricLemmaGraded.lean` (df9a16e4b81679afaf56539824b6a2a1fb75afd6128c535bbed3f8cd77aa99fb), `GeometricLemmaUnnormalized.lean` (e45c0c7868be8d144eec809761ee106d437940ccdc183b6beb9ed747857cc999), `BernsteinZelevinskyGeometricLemma.lean` (12244c79a749899a52ae1525c5b279ff4a00b51d64955661ecdbba43e8ce6a55), `JacquetOfInducedFiltration.lean` (7800f6b0ef5dab1e2a0a70eb13446167073175ba0b883117dbb23f2c02a4beda), `ExistsCellOfIsSubquotient.lean` (b4c15a02799ec2356185bb053930eae9eb77d59357793cf9455a630a310a1d28), `NontrivialOfIrreducible.lean` (edb7565dd1908ad144297c27c0ed485a7d7326a631b3f7b4c81d69747afd35ab). Each file hash agrees with the copy extracted from the archive. The archive supplies the rank-array order of the double cosets, the image filtration, the descent of the cell map to coinvariant classes, and the assembly through normalization, block coordinates and multiplicities. [Declaration map](../chapters/07-chains-of-theta-lifts.md#filtration-supply-for-theorems-73o73r)
+
+### Chapter 15 §15.4.3.1, half-density normalization
+
+Mathlib files for the modulus, scaling, density, change of variables, Mellin scaling, inversion
+invariance and $\mathbb Q_p$ local compactness added to Part I, §4 (retrieved 2026-11-24 UTC, pin
+`0df444a360eaa60ab8c11dca51a86af692955474`); Masullo PDF re-downloaded and hash re-verified
+(`e039d3f6cf0a4b14f03c7edb85097752dd65c0a2fe543c76fe992be234f97bf5`). Run
+`rhbook-ch15-halfdensity-1125g-11250125` (`mathlib/`, `masullo/`, `source-sha256.txt`, `handcalc.txt`).

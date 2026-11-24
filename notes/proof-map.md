@@ -221,6 +221,7 @@ compared line by line.
 | Ch. 13 (pp. 521–522) | intended deduction of GRH for Hecke L-functions from 12.5.1.1; only Theorem 13.3.1.1 (restatement of the trace formula) is written | P0 (same type of conclusion, larger scope) |
 | Ch. 14 | multiplicities of zeros, function fields, higher rank | none; §14.2 (function fields) is relevant to the Stepanov motivation of P7–P8 |
 | App. B | convexity bound, explicit formulas, zero-free regions | P5 and P13 (classical analytic inputs) |
+| §1.2.3 (1), p. 16; §12.4.1, (12.4.1.16)–(12.4.1.23), p. 518 | the diagonal weight $\lvert x\rvert_{F,S}^{2a}$ against the multiplicative Tamagawa measure $\mu_S=c_S\lvert\cdot\rvert_{F,S}^{-1}\nu_S$; $a=1/2$ returns the additive measure (§15.4.3.1) | Classical Mathlib correspondence [Lean, read] for `distribHaarChar`, `Real.map_volume_mul_left`, `addHaar_smul`, `integral_comp_mul_left_Ioi`, `mellin_comp_mul_left`, `IsHaarMeasure.isInvInvariant_of_regular`, `IsHaarMeasure.nullSingletonClass` at the fixed pin. Local only: no bearing on the $\alpha$-independence of Theorem 12.5.1.1 [Open]. |
 
 The two arguments share only the classical frame (functional equations, explicit-formula-type
 links between zeros and primes). Their engines are disjoint: an adelic trace formula on
@@ -526,3 +527,28 @@ Inputs retained at this section's boundary (located, statements read, bodies not
 **P17 bump and kernel supply (§7.4.3.3).** Local R3 for `bumpFun` and its three lemmas, `exists_level_near_permGL`, `exists_nonneg_avgOver`, `exists_bump_permGL`, `exists_cellJacquet_bump`, `exists_bump_mem_range`, `eq_on_cellDoubleCoset` and `cellJacquetMap_surjective` (`GeometricLemmaCellSurjective.lean`), and for `exists_avgOver_cellFun_eq_zero`, `avgOver_permGL_mul_mul` and `exists_sub_mem_ker_of_cellJacquet_eq_zero` (`GeometricLemmaCellKernel.lean`), with the cell definitions of `GeometricLemmaJacquetCell.lean`. Named interfaces: `exists_cellSupp` with `exists_unipotentCompactG_support`, `exists_nhds_inter_doubleCoset_subset`, `exists_finset_levi_eq_mul`, `exists_congruence_fixed`, the two-level averaging lemmas of `GeometricLemmaCount.lean`, `fixedProj`, and the graded assembly `gradedJacquetMap_surjective` and `gradedJacquetMap_eq_zero_iff`. Consumers: `GeometricLemmaUnnormalized.lean:82–84` and `BernsteinZelevinskyGeometricLemma.lean:67–69`. [Subsection](../chapters/07-chains-of-theta-lifts.md#7433-compact-bumps-and-averaged-kernels-on-a-single-cell)
 
 **P17 Bruhat filtration (§7.4.3.4).** Local R3 for the rank arrays, heights and closure inclusion (`GeometricLemmaCells.lean`), the cell unions, height enumeration and image filtration (`GeometricLemmaFiltration.lean`), the descent lemma `cellJacquet_eq_zero_of_mk_eq_zero` and the graded map (`GeometricLemmaGraded.lean`), and the assemblies `exists_filtration_jacquetModule_parabolicInd`, `filtration_of_cellEnumeration`, `normalized_piece`, `geometricLemma_uniform`, `jacquetOfInducedFiltration`, `jhMult_eq` and `jhMult_filtration`. This upgrades the filtration assembly cited in the single-cell entry above. Exactness enters the filtration only through `exists_mem_coinvariantsKer`; `exact_jacquetMap` is not called on this path. Named interfaces: `exists_mem_doubleCoset_permGL`, `exists_unipotentCompactG_of_isCompact`, `exists_cellSupp` with `exists_unipotentCompactG_support`, `exists_compactOpen_unipotentRadical`, the averaging identities, `indTwistHom` and `indCongrHom`, the coordinate transports called by `jacquetOfInducedFiltration`, `jhMult_of_le`, and the cell semisimplification. [Subsection](../chapters/07-chains-of-theta-lifts.md#7434-from-one-cell-to-the-full-bruhat-filtration)
+
+### Chapter 15 half-density normalization
+
+[§15.4.3.1](../chapters/15-two-proofs-side-by-side.md#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight)
+follows the Mathlib supply at pin `0df444a360eaa60ab8c11dca51a86af692955474`. R3 covers
+`Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean` (whole file, `distribHaarChar` and its
+three characterizing lemmas), `Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean:312–336`
+(`Real.smul_map_volume_mul_left`, `Real.map_volume_mul_left`, `Real.volume_preimage_mul_left`),
+`Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean:336–375` (`map_addHaar_smul`,
+`addHaar_preimage_smul`, `addHaar_smul`), `Mathlib/MeasureTheory/Group/Measure.lean:935–944`
+(`IsHaarMeasure.nullSingletonClass`), `Mathlib/MeasureTheory/Measure/WithDensity.lean:398–409`
+(`lintegral_withDensity_eq_lintegral_mul`), `Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean:1187–1195`
+(`integral_comp_mul_left_Ioi`), `Mathlib/Analysis/MellinTransform.lean:133–149`
+(`mellin_comp_mul_left`), `Mathlib/MeasureTheory/Measure/Haar/Unique.lean:978–1000`
+(`IsHaarMeasure.isInvInvariant_of_regular`), `Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.lean`
+(whole file, orientation only) and `Mathlib/NumberTheory/Padics/ProperSpace.lean:64–69`.
+Statement level: `haarScalarFactor`/`addHaarScalarFactor_smul_congr'` (`Haar/Unique.lean:277, 1063–1073`),
+`addHaar_image_linearMap` (`EqHaar.lean:310–319`), `LinearMap.det_smul` (`LinearAlgebra/Determinant.lean:256`),
+`Lp.isometry_compMeasurePreserving` (`LpSpace/Basic.lean:581–583`), `MeasureTheory.Measure.haar`
+(`Haar/Basic.lean:584`). Named inputs: Haar uniqueness behind the scalar factor; the determinant of
+complex multiplication (hand computation); Fourier transform on a local field (Proposition 15.4(2),
+classical); a Haar measure instance on $\mathbb Q_p$ (absent at the pin; the $\mathbb Q_5$ example
+is a hand normalization); Masullo's diagonal smoothing (pp. 15, 517). The subsection is local
+measure theory; the Chapter 14 `[Open]` items are unchanged.
+[Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean)
