@@ -200,6 +200,8 @@ Chapter 5, [§5.3.1.3](../chapters/05-the-square-root-barrier-core-gm.md#5313-th
 
 **Chapter 5, P6.** [§5.3.1.9](../chapters/05-the-square-root-barrier-core-gm.md#5319-primitive-elements-and-power-bases-for-separable-extensions) reads the primitive element theorem that supplies the separable power basis to the embedding count and the trace-form determinant. The biquadratic and order-eight calculations and an inseparable failure separate the finite-base and infinite-base branches.
 
+**Chapter 5, P6.** [§5.3.1.10](../chapters/05-the-square-root-barrier-core-gm.md#53110-power-bases-from-the-quotient-ring-remainders-multiplication-matrices-and-transport) opens the quotient construction behind that power basis: unique remainders in $F[X]/(f)$, the multiplication matrix as a companion matrix, the isomorphism with $F(\alpha)$ and the transport by `PowerBasis.map`. It locates separability in the trace determinant rather than in the quotient basis, with complete calculations for $\mathbb Q[X]/(X^3-2)$ and $\mathbb F_2[X]/(X^2+X+1)$ and an inseparable field whose power basis has zero trace form.
+
 Chapter 7, [§7.4.3.1](../chapters/07-chains-of-theta-lifts.md#7431-spherical-transfer-at-a-split-place), develops the split Schwartz pairing, normalized Jacquet bridge, and spherical Hecke parameter transfer, with rank-one and minimal positive-rank examples.
 
 **Chapter 7, §7.4.3.2.** Proposition 7.3g proves the conditional single-cell isomorphism by compact averaging, with two Bruhat cells in $\mathrm{GL}_2$ and the mixed $(2,1)$ cell in $\mathrm{GL}_3$. [Subsection](../chapters/07-chains-of-theta-lifts.md#7432-evaluation-on-a-single-bruhat-cell)
