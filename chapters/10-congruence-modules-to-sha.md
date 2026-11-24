@@ -1600,7 +1600,8 @@ Keep the notation of §10.4.7.2: $i$ is a nonzero-index place, $O=$ `X.O i` is a
    - `QOk Q` says that the places of $Q$ are split, avoid $S_0$, and are closed under conjugation; `SOk` $\lambda\,s$ says $s_2(\lambda)=2s$ and $1\le s\le\mathrm{NFun}+1$.
 2. **Integral normalization `adm9 X N0`** (`:427–430`). For every admissible $Q$, every $\lambda$ with `SOk` and every $\delta$, $\ell^{N_0(i)}\mathrm{th}(Q,\lambda,\delta)\in O$. The exponent does not depend on $Q$.
 3. **Euler-factor removal `adm10 X`** (`:432–448`). Put $\mathrm{eq}'(Y,X,q)=(1-YX)(1-Y^{-1}X)+(q-1)X^2=1-(Y+Y^{-1})X+qX^2$. Let $Q$ be admissible and let $P\ne\bar P$ be conjugate split places in $Q$. For every $k$, every $\psi$ on $\mathrm{RCG}(Q\setminus\{P,\bar P\})$ and every Frobenius $\sigma$ at $P$,
-   $$\mathrm{thEval}(Q,\lambda,k,\psi\circ\mathrm{res})=\mathrm{eq}'\bigl(X_v(P)\,\psi(\mathrm{art}\,\sigma),N(P)^{-s},N(P)\bigr)\cdot\mathrm{thEval}(Q\setminus\{P,\bar P\},\lambda,k,\psi).$$
+   $$\mathrm{thEval}(Q,\lambda,k,\psi\circ\mathrm{res})=E_P\cdot\mathrm{thEval}(Q\setminus\{P,\bar P\},\lambda,k,\psi),$$
+   where $E_P=\mathrm{eq}'\bigl(X_v(P)\,\psi(\mathrm{art}\,\sigma),N(P)^{-s},N(P)\bigr)$.
    The polynomial version is $\mathrm{eR}(Y,Y',w,q)=(1-Yw)(1-Y'w)+(q-1)w^2$ (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/PropEOfAdmissible.lean:106`).
 4. **Residual character** (`:344–357`). $\bar\lambda=$ `resChar i lam` is $\lambda_G$ followed by reduction to $k_O^\times$. Its kernel is open, as the preimage of the open set $1+\mathfrak m$ (`O_adic`, `lamG_cont`).
 5. **Tame inertia element at a twist prime** (`src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/IsTameInertiaElementAtTwistPrime.lean:13–17`). The element $z$ lies in an inertia group above some $v\in$ `pD i`, $\delta(z)^2-1\in O_0^\times$, and for every open normal $U$ some $n$ prime to $\ell N(v)$ has $z^n\in U$.
@@ -1680,8 +1681,8 @@ Keep the notation of §10.4.7.2: $i$ is a nonzero-index place, $O=$ `X.O i` is a
 $$\frac{v}{v_O(\ell)}=c_0(\lambda)+N_0(i).$$
 *Let $M\ge1$ and $R$ be integers, and let $P:\mathrm{Fin}\,R\sqcup\mathrm{Fin}\,R\to$ places, characters $d$ and a set $Q$ satisfy `SlopeTestRemainingChoices` $(M,\varnothing)$, `Steps` $(M,H,z)$ and `IsQ P Q`. Then there is $f\in O[X]$ with the following four properties.*
 
-- *(a) $f-D_dg\in\mathfrak I_M$. Here $g$ is the lift of Lemma 10.13x(1) for the set $Q_1$ of places over the left indices, and*
-  $$D_d=\prod_a\mathrm{eR}\bigl(\lambda_G(\sigma_{\mathrm{inr}\,a})(1+X_{\mathrm{inl}\,a}),\ \lambda_G(\sigma_{\mathrm{inr}\,a})^{-1}(1+X_{\mathrm{inl}\,a})^{\ell^M-1},\ w_{\mathrm{inr}\,a},\ N(P_{\mathrm{inr}\,a})\bigr).$$
+- *(a) $f-D_dg\in\mathfrak I_M$. Here $g$ is the lift of Lemma 10.13x(1) for the set $Q_1$ of places over the left indices, and, with $x_a=\lambda_G(\sigma_{\mathrm{inr}\,a})$,*
+  $$D_d=\prod_a\mathrm{eR}\bigl(x_a(1+X_{\mathrm{inl}\,a}),\ x_a^{-1}(1+X_{\mathrm{inl}\,a})^{\ell^M-1},\ w_{\mathrm{inr}\,a},\ N(P_{\mathrm{inr}\,a})\bigr).$$
 - *(b) $g(0)=\bigl(\prod_aE_L(a)\bigr)\sum_\delta y_\delta$, where each $E_L(a)=\mathrm{eR}(\lambda_G(\sigma_{\mathrm{inl}\,a}),\lambda_G(\sigma_{\mathrm{inl}\,a})^{-1},w_{\mathrm{inl}\,a},N(P_{\mathrm{inl}\,a}))$ is a unit. Hence $v_O(g(0))=v$; in particular $\varpi^{v+1}\nmid g(0)$.*
 - *(c) $\overline{D_d}=\prod_au_a\,X_{\mathrm{inl}\,a}^{e_a}$ in $k_O[X]$, with $u_a(0)\ne0$ and $e_a\in\{0,2\}$.*
 - *(d) For every $k$, every $u$ with $u_q^{\ell^M}=1$ and every $\psi'$ on $\mathrm{RCG}(Q)$ with $\psi'(\mathrm{art}\,g)=\prod_qu_q^{d_q(g)}$, $f(u-1)=\ell^{N_0}\,\mathrm{thEval}(Q,\lambda,k,\psi')$.*
