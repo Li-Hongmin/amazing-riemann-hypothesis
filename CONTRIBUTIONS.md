@@ -205,7 +205,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - Yury Kudryashov, David Loeffler, and Terence Tao contributed the Mathlib removable-singularity, Hurwitz/Gamma, and zeta-asymptotics formalizations cited in Chapter 1. The declaration-level attributions are in the [source ledger](sources/SOURCES.md#chapter-1-1222--removable-values-and-reciprocal-gamma).
 
 - **David Loeffler** — Mathlib's Gamma construction, Euler quotient, reflection and nonvanishing,
-  archimedean factors, and formal sine product. The sine-product file credits David Salwinski's
+  archimedean factors, and formal sine product; also the Euler-integral convergence proofs, the integral
+  recurrence and the exponential-decay integrability test `integrable_of_isBigO_exp_neg` used in §2.3.2.3. The sine-product file credits David Salwinski's
   cosine-integral method. [Gamma proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L228-L457) · [Sine proof and attribution](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L1-L20) · [Salwinski (2018)](https://doi.org/10.1080/07468342.2018.1419703)
 
 - **Chris Hughes, Michael Stoll, Thomas Zhu and Mario Carneiro** — Credited in the pinned Mathlib source headers for the prime and Jacobi reciprocity modules. These supply the classical proofs used by the host sign calculation. [Prime reciprocity](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean) · [Jacobi reciprocity](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean)
@@ -287,6 +288,12 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   convolution, Fubini and translation step, product and quotient forms) and wrote §2.3.2.2, with the
   composite Jacobian, two hand calculations, the sharpness example and the two archive consumers.
   [Chapter 2, §2.3.2.2](chapters/02-functional-equations-and-primitive-characters.md#2322-the-beta-integral-and-the-gamma-product-total-scale-and-proportion-coordinates)
+
+- **Hongmin Li (with AI assistance)** — Read the Euler-integral supply (zero-end power comparison, exponential-decay
+  tail test, complex-power modulus, integration-by-parts recurrence, recursive definition of Gamma and
+  `Gamma_eq_integral`) and wrote §2.3.2.3, with an explicit domination constant, hand calculations at
+  $s=1/2$ and $s=1+i$, the sharpness example $s=it$, and the archive consumer `norm_Gamma_le`.
+  [Chapter 2, §2.3.2.3](chapters/02-functional-equations-and-primitive-characters.md#2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves)
 
 - **Hongmin Li (with AI assistance)** — §2.3.1 proof reading and textbook exposition of the conductor construction, with worked tables modulo 8 and 12. [Chapter 2](chapters/02-functional-equations-and-primitive-characters.md#231-conductors-level-change-and-bundled-primitive-characters)
 - **Hongmin Li (with AI assistance)** — Wrote the finite DVR example and textbook account of tame inertia, dual-number cocycles, and the two determinant/adjugate order tests. The formal argument is by Alpöge with Claude. Serre's classical ramification background is credited in the source ledger. — [Chapter 10, §10.4.8](chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant)
