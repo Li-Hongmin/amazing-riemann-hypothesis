@@ -3230,3 +3230,71 @@ Archive A2 (joined SHA-256 ~9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 
 - **Pinned Mathlib**, commit `0df444a360eaa60ab8c11dca51a86af692955474`, retrieved 2026-11-25. `ZetaAsymp.lean:531–589,620–647` constructs the regular parts and proves the punctured asymptotic. `Dirichlet.lean:296–329,372–442` supplies the nonvanishing and positive-series identity. [ZetaAsymp](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean#L620-L647) · [Dirichlet](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L372-L442)
 - **[Riemann1859]**, p. 671, and **[Tao2014]**, the von Mangoldt Dirichlet series and Proposition 19, re-read online 2026-11-25. The memoir starts with Euler's product on the right half-plane. Tao's notes identify the negative logarithmic derivative with the von Mangoldt series and use the pole-removed function for the local zero formula. [German transcription](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/Zeta.pdf) · [Tao, 254A Notes 2](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)
+
+### Chapter 18 §18.3.13, local invariant transport
+
+- **Alpöge–Claude archive A2**, joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, checked on 2026-11-25. The manifest pins Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474` and the toolchain is Lean v4.33.1. It supplies the conditional invariant producer, continuous cocycle pullback and `hj` call site. The following file digests come from a byte comparison with the archived members.
+
+| File | SHA-256 |
+|---|---|
+| `lean/lake-manifest.json` | `fee57ee9ed399d0a638ca955e5ad40a37a36eeb9b6dfd9f5964114fa7bbe4774` |
+| `lean/lean-toolchain` | `3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71` |
+| `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean` | `bcfbfe5f61dc3c2b76374ca7a9c4a68ff13b626decc01690dc55ee6f40bec6bd` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NineTermExactIff.lean` | `8304c20439bfa3338bd8084f7dfb58ae984e8b2dbbd776cc8d5cfe97aa960348` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PoitouTateSequenceTransport.lean` | `e0578277477bc79ca5216444e7f098f536814a5842734b0fd6f02cea8a4e1dd9` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PoitouTateSequenceTransportStatement.lean` | `c137049a43b43621dd5982603cf9ff742ee78140ad254d0f8deef1b1a9462a81` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingEquivTransportsInertia.lean` | `81cc51801b3ba52f784d268a4ea2969a1e8c142b5fc09b1ef8f3f4581ff16b8c` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingEquivTransportsInertiaStatement.lean` | `6ba7b54d168838cb6e8a998baf33f9bf87b3eb42406cb0bd552e682d1bb4cc01` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtConclOfIsoOf.lean` | `b2c8762cb16379c5a0c01d2ce51ec9a04f9b5371ae4e2d17dda16bf45343c0fa` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsHyp.lean` | `b7416da5521e505ec866a65a8eea70c11fbe1fd293c9293687b81ea1c7dff14b` |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PTConclAt.lean` | `91fc1ddcf77460a64a442bd21b9d484330b890acb1886b903e17232560ecb934` |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PoitouTateExactSecond.lean` | `58eef8050a8fdd718a06701dad24878f174352792808464c31489b7774378ce4` |
+| `lean/src/Formalism/ConjugateSelfDual/Statement.lean` | `8d249d25b306976cf622c4c79137456f46ee90aac3271b3647ee7cb217219dae` |
+| `lean/src/ReciprocityTheory/GaloisValuations/ContinuousConstSMulQuotient.lean` | `610c38bcf79837ed06292f22f6ce7ccdb40dc8df503e0ed41a06e71e9224b55f` |
+| `lean/src/ReciprocityTheory/GaloisValuations/Global.lean` | `c8e9465c22e48ca68c4e2cfec74c1f9407d8c471b2eb5e2440f11b910a6bfbd6` |
+| `lean/src/ReciprocityTheory/GaloisValuations/SeparatedDvrSecondCohomologyMem.lean` | `52e77c27ae46d0c14e80e46af66a7d94d84c36a665165406e512c229ea261bb0` |
+| `lean/src/ReciprocityTheory/Hypotheses/GalCohDefs.lean` | `12342f816a027d1b70de377fa0057306bf64a2986b66b283fc099bb8efd78d31` |
+| `lean/src/ReciprocityTheory/NeutralLocalFields/LocalFieldComparison/TransportA.lean` | `2603474c843da283671e608643b0086469ca58f23606c344f56732fcf157fa5f` |
+
+- **J. S. Milne**, *Class Field Theory*, v4.03, 2020-08-06, Chapter III §4, pp. 112–114 (Theorem 4.4 and its proof). The Kummer cup, Brauer invariant and norm criterion give the two local pairing values. PDF retrieved 2026-11-25, SHA-256 `50d79af78250a9f1117ad9d337e0b231704a533fc707966ed1bfa52e13d498f5`. [Author PDF](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+[Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18313-pulling-back-local-invariants-and-trace-pairings)
+
+### Chapter 18 §18.3.14, residue and normalisation transport
+
+- **Alpöge–Claude archive A2**, joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, verified read-only on 2026-11-25 (`lean/lean-toolchain` `leanprover/lean4:v4.33.1`, SHA-256 `3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71`; `lean/lake-manifest.json` pinning Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`, SHA-256 `fee57ee9ed399d0a638ca955e5ad40a37a36eeb9b6dfd9f5964114fa7bbe4774`). Supplies `ring_equiv_transports_residue`, its production body `isNormalised_transfer`, the place and decomposition helpers, and the consumer assembly of `hζ'`, `hnorm'` and `hS'` in `ptConcl_of_iso_of`. Byte-identical member digests:
+
+| Archive member | SHA-256 | Role in §18.3.14 |
+|---|---|---|
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingEquivTransportsResidueStatement.lean` | `3d45d6de04d0aa1ef081da1f5f072e7fc78a170339af010015ae36ee732a0293` | R3 target wrapper `GlobalTheory.T.ring_equiv_transports_residue` (`:1–9`) |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingEquivTransportsResidue.lean` | `15583e03c9e0f75a44fb22509c1f44ea3c920f661705d9afa6bd4114c9e7aa51` | R3 production proof `PTIso.Norm.isNormalised_transfer` (`:1–55`) |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtConclOfIsoOf.lean` | `b2c8762cb16379c5a0c01d2ce51ec9a04f9b5371ae4e2d17dda16bf45343c0fa` | R3 consumer block `hζ'`, `hnorm'`, `hS'` and `hPT` call (`:64–80`; full consumer map `:22–104`) |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingIsomorphismTransportsPlaces.lean` | `c542eb94cfad5c07939c6f55b87a9115e9f2052cb452112042d1590ca71b7441` | Inherited R3 (§18.3.12) place bijection, `hV2` and `hN`, traced into Mathlib (`:11–60`) |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/RingEquivTransportsDecomposition.lean` | `f2f2367c2fe2cfaf2122a73d671076bc21b00f34d53bbc11ec4a02e24202dc1e` | Inherited R3 (§18.3.12) `isPlaceOver_transfer_fieldIso` (`:9–35`) |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/MemDecompositionSubgroupIff.lean` | `2992c685d2d004c40a31653f2979545d99c099922eb112e4413a3e59f9f369e2` | Inherited R3 (§18.3.10) `locHyp` Frobenius transport clause `.2.2` (`:56–62`) |
+| `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean` | `bcfbfe5f61dc3c2b76374ca7a9c4a68ff13b626decc01690dc55ee6f40bec6bd` | R3 predicate `IsNormalised` (`:28–37`) and sum-zero motivation (`:203–220`) |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PoitouTateExactSecond.lean` | `58eef8050a8fdd718a06701dad24878f174352792808464c31489b7774378ce4` | R3 predicate `InvNormalised` (`:15–18`) |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PTConclAt.lean` | `91fc1ddcf77460a64a442bd21b9d484330b890acb1886b903e17232560ecb934` | R3 target consumer structure `PTConclAt` (`:10–22`) |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/ExistsUniformizerOrd.lean` | `5207e6e9009db4eaac3cc0d91d138c0b0da904d998eb69d1f93fd9fe19f1c3f8` | R2 `[Lean]` statement `hasse_kummer_unram` (`:16–25`) for sign convention comparison |
+
+- **Pinned Mathlib** (`leanprover-community/mathlib4`, commit `0df444a360eaa60ab8c11dca51a86af692955474`), retrieved 2026-11-25. Proof bodies newly read at R3 `[Lean, read]` (plus `Dvr.lean` checked at statement level `[Lean]`):
+
+| Mathlib file at `0df444a` | SHA-256 | Header authors and read declarations |
+|---|---|---|
+| `Mathlib/NumberTheory/NumberField/Basic.lean` | `68833cc080857da33ed2661fac14c281651f140904af0fb587a447e23b81bac6` | Ashvni Narayanan, Anne Baanen — `RingOfIntegers` (`:103–105`), `mapRingHom` and `mapRingEquiv` (`:181–206`) |
+| `Mathlib/RingTheory/IntegralClosure/IsIntegral/Basic.lean` | `bb76f4dbd3f92ef704e9146fbd8b737e417b662ba39e9b2d6732a96684611b03` | Kenny Lau — `map_isIntegral_int` (`:185–188`) |
+| `Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.lean` | `4da6f1436d61a49f8c98f542deeb255708bbb75118da7d6b4c5ae0a7a6ffdb36` | Kenji Nakagawa, Anne Baanen, Filippo A. E. Nuccio — `IsDedekindDomain.HeightOneSpectrum` and `isMaximal` (`:493–506`) |
+| `Mathlib/RingTheory/Ideal/Maps.lean` | `1e30950d4b29d8d433755c4fbefd813c6729e72d7911a3bddbece9d130da12d0` | Kenny Lau — `Ideal.map_comap_of_equiv`, `Ideal.map_symm`, `Ideal.mem_map_of_equiv`, `Ideal.map_mul`, `Ideal.mapHom`, `Ideal.map_pow`, `Ideal.map_isPrime_of_equiv`, `Ideal.map_eq_bot_iff_of_injective` (`:481–513,648–670,1055–1063`) |
+| `Mathlib/RingTheory/Ideal/Quotient/Operations.lean` | `25359917b64f9434dbff99f3033ecba35badb45d0a4e3468aead0ba87743d109` | Kenny Lau, Patrick Massot — `Ideal.quotientMap`, `Ideal.quotientEquiv`, `Ideal.algebraMap_quotient_injective` (`:596–653,756–762`) |
+| `Mathlib/SetTheory/Cardinal/Finite.lean` | `b113177c5ed00662c73a8f3b04002b399c19f0d008920e52c1a6b6c7f16713bf` | Aaron Anderson — `Nat.card_congr` (`:91–92`) |
+| `Mathlib/RingTheory/Valuation/ValuationSubring.lean` | `efdc41f264bb6e4739411b1a22c186b1d7bb5dbee150f5802856853507402dbc` | Adam Topaz, Junyan Xu, Jack McKoen — `valuation_le_one_iff`, `valuation_lt_one_iff`, `ValuationSubring.comap`, `mem_comap` (`:183–185,216–220,858–866`) |
+| `Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean` | `54c42de364e08cbc05d5e1c38971bfd31187aa41a3725a902bf1215ea879698f` | Kenny Lau, Chris Hughes, Mario Carneiro — `IsLocalRing.ResidueField`, `map`, `mapEquiv` (`:32–40,96–146`) |
+| `Mathlib/RingTheory/Localization/AtPrime/Basic.lean` | `7e85b96adecfcd3d965b128cb2ddedd08c16f5bf63a4714279a86c512370c98f` | Kenny Lau, Mario Carneiro, Johan Commelin, Amelia Livingston, Anne Baanen — `Localization.localRingHom`, `localRingEquiv`, `map_eq_maximalIdeal`, `under_maximalIdeal_pow`, `equivQuotMaximalIdeal` (`:226–299,524–588`) |
+| `Mathlib/RingTheory/RootsOfUnity/PrimitiveRoots.lean` | `d9e1f834ca3dbaa0dbce303d2e4216d9bfb8dff45860e7fe3a6fcff9418bc328` | Johan Commelin (copyright 2024 Michael Stoll) — `IsPrimitiveRoot.map_of_injective` and `map_iff_of_injective` (`:296–318`) |
+| `Mathlib/RingTheory/DedekindDomain/Dvr.lean` | `4bbf8a12703d0aea9161c9475d74b2cc6c1ff5c34610531d6268add7466f11af` | Kenji Nakagawa, Anne Baanen, Filippo A. E. Nuccio, Yongle Hu — `isDiscreteValuationRing_of_dedekind_domain` (`:128–138`, statement `[Lean]`) |
+
+- **J. S. Milne**, *Algebraic Number Theory*, v3.08, 2020-05-29, Chapter 6, Theorem 6.4(b), p. 99 ($\mathcal O_{\mathbb Q(\sqrt{-3})}=\mathbb Z[\omega]$). PDF retrieved 2026-11-25, SHA-256 `24b83c789a89f25aebffb3cbe4ae5ca29edd0075acc072de093d140770630847`. [Author PDF](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+- **J. S. Milne**, *Class Field Theory*, v4.03, 2020-08-06, Chapter III, Proposition 1.9 (p. 102, unit norms in unramified extensions), Proposition 3.6 and Lemma 3.7 (p. 109, cup product with unramified characters), and §4 Step 4 and Theorem 4.4 (pp. 112–114, tame Hilbert symbol and dependence of $H^2(K,\mu_n)\cong\mathbb Z/n\mathbb Z$ on $\zeta$). PDF retrieved 2026-11-25, SHA-256 `50d79af78250a9f1117ad9d337e0b231704a533fc707966ed1bfa52e13d498f5`. [Author PDF](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+- **The Stacks Project**, Tags [00IC](https://stacks.math.columbia.edu/tag/00IC) (`b57ea44d0dbfc646eee8caa27aa53882e1df493c17fb13ec06230585626fca85`), [07BU](https://stacks.math.columbia.edu/tag/07BU) (`fb1aad54154973fba9907eee3bd4fdbc04b57d3b1fb06b2744110ca2b33ee06e`), [0BM4](https://stacks.math.columbia.edu/tag/0BM4) (`b76c0930fe9ab5b0aadd40f45c162927dbc8dda75a729b25208475c9afdf9516`), and [00CR](https://stacks.math.columbia.edu/tag/00CR) (`f892b8c5c4cb709442eba91f568a5c616a8c830a0426886c5493664ac5953f4c`), retrieved 2026-11-25: classical background on localization at primes, residue fields, discrete valuation rings and integral closures.
+
+[Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18314-transporting-residue-fields-prime-norms-and-local-brauer-normalizations)
