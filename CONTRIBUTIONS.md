@@ -419,6 +419,21 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   pinned archive; this entry records exposition and reading only.
   [Chapter 10, §10.4.7.1](chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
 
+- **Hongmin Li (with AI assistance)** — Read the two direct producers feeding Proposition 10.13j at local R3:
+  the same-lattice toric Hecke determinant factorization `propABCD_of_rel` (grid vanishing modulo the toric
+  augmentation ideal, universal denominator cancellation on one fixed lattice `sIdx_le_of_coords`, unit left
+  Hecke determinants via common eigenvectors, and residual power extraction) and the simultaneous
+  level-order-exponent selector `exists_level_order_exponents_small_valuation_determinants` / `order_eval`
+  (Tychonoff divisibility limit, super-increasing Kronecker weights, prime-power binomial congruence
+  truncation, and the `card_double_min` Newton-polygon tie bound). Wrote the conditional textbook theorems
+  and two DVR hand calculations: a rank-two $\mathbb Z_5[\zeta_{25}]$ peeling and denominator-cancellation
+  model showing failure under a lattice switch, and a $\mathbb Z_3[\zeta_{81}]$ separated-exponent and
+  Newton-polygon tie model showing failure at non-coprime powers ($3\mid a$). The formal proofs belong to
+  Alpöge and Claude in the pinned archive, the grid-vanishing and compactness lemmas to Mathlib contributors,
+  and the classical Nullstellensatz, lattice-index, and cyclotomic-ramification precedents to Alon, Serre,
+  and Washington; this entry records exposition and reading only.
+  [Chapter 10, §10.4.7.2](chapters/10-congruence-modules-to-sha.md#10472-toric-hecke-relations-and-simultaneous-level-exponent-selection)
+
 - **Hongmin Li (with AI assistance)** — Wrote the planar textbook proof using tagged subdivision and one-dimensional affine increments, with worked examples for a point of nondifferentiability, a discontinuous trace and cancellation between derivatives that are individually nonintegrable. [Textbook subsection](chapters/03-landau-window-criterion.md#rectangular-divergence-with-countable-exceptions)
 
 - **Hongmin Li (with AI assistance)** — Transcribed the rectangle and weighted-annulus arguments for complex scalars, with worked centered kernels and a pole-crossing example in Chapter 3. [Textbook subsection](chapters/03-landau-window-criterion.md#weighted-circle-integrals-and-the-rectangle-theorem)

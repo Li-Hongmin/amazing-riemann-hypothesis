@@ -175,9 +175,11 @@ cited files compared byte for byte with the tarball members) supplies the lattic
 lemmas and the reference family in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean:17–496`, the signed-index lemmas in
 `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LengthCommensurableOfIsLatIn.lean:16–70` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenRBaseChangeSubquotient.lean:14–75`, the
 all-powers assembly in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistModuleAllCharacterPowersOfAdmissible.lean:17–64`, and the `partAB` steps of
-the three producers, read [Lean, read]. The toric supply `PropABCD` (`propABCD_of_rel`), the level lemma behind
-`exists_level` and the integrality suppliers are cited at statement level. The comparison with the classical
+the three producers, read [Lean, read]. The integrality suppliers are cited at statement level, while §10.4.7.2 reads `propABCD_of_rel` and the level lemma behind
+`exists_level`. The comparison with the classical
 lattice invariant uses SerreLocalFields, Ch. III, §1 (Section 6). [Declaration map](../chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
+
+**Chapter 10, §10.4.7.2.** The pinned archive (§1; joined `lean.tar.gz` SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` rechecked on 2026-11-25, with all twenty cited `.lean` files verified byte-identical to their tarball members) supplies the conditional toric determinant proof `GlobalTheory.TwistDet.propABCD_of_rel` (`src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AevalOneSubOne.lean:14–466`, called at `TwistTheoremAllPowersOfSelmerSupLattice.lean:35`) with its grid-vanishing, same-lattice index, common-eigenvector, and open-subgroup helpers (`IndexSpanMatrixEqValDet.lean:17–510`, `ExistsSubgroupIsUnit.lean:37–267`, `IsPlaceOverMoveValCc.lean:16–199`, `DvdTraceOfBalancedTensor.lean:7–34`), and the simultaneous level-order-exponent proof `GlobalTheory.T.exists_level_order_exponents_small_valuation_determinants` / `OrderEval.order_eval` (`ExistsLevelOrderExponentsSmallValuationDeterminaStatement.lean:5–6`, `ExistsLevelOrderExponentsSmallValuationDetermina.lean:15–377`, called in `IsAuxiliaryPlaceFamilyAtLevelMono.lean:321–353`) with its Tychonoff limit, Kronecker weight-separation, prime-power binomial divisibility, Weierstrass cancellation, and Newton-polygon tie-count lemmas (`ExistsLimitFamilyOfFiniteCoefficients.lean:7–26`, `ExistsExponentStrictlyLeastWeight.lean:9–48`, `NotDvdCoeffAevalOneAddXPowSubOne.lean:38–94`, `PowSubDvdChoosePrimePowOfLt.lean:6–35`, `CoeffAevalOneAddXPowSubOneNeZero.lean:23–55`, `ExistsLowCoeffNotDvdOfCongrMul.lean:12–66`, `NormalizedValuationPrimitiveRootPrimePowSubOne.lean:23–52`, `NormalizedValuationAlgebraMapEq.lean:41–49`, `ValuationPolynomialAtRootOfUnitySubOne.lean:10–193`), read at local `[Lean, read]` (`R3`). Deep twisting, Hecke, SNF, and Selmer inputs (`ThURel`, `AllGood`, `HkComm`, `OffRange`, `adm8`, `LengthQuotientSpanValuation.main`, `propE`, `GaloisSideTwistedSelmerAuxiliaryPrimes`) remain at `[Lean]`. Classical comparisons use Alon1999 (Theorem 1.1 and Lemma 2.1), SerreLocalFields (Ch. III, §1, Proposition 2), and Washington1997 (Proposition 2.1) in Section 6; Mathlib supplies `MvPolynomial.eq_zero_of_eval_zero_at_prod_finset` and `exists_clusterPt_of_compactSpace` at commit `0df444a360eaa60ab8c11dca51a86af692955474`. [Declaration map](../chapters/10-congruence-modules-to-sha.md#10472-toric-hecke-relations-and-simultaneous-level-exponent-selection)
 
 **Chapter 10, §10.4.8.** The pinned archive (§1) supplies the tame dual-number relation and the conditional first-order Selmer argument in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TameLocalRelationDualNumberCocycle.lean:12–159` and `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidualSelmerDeterminantOrderBound.lean:118–350`. The [chapter's declaration map](../chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant) gives the two consumers of `stepAB` and the hypotheses retained at the global Selmer boundary. SerreLocalFields is classical ramification background.
 
@@ -398,6 +400,13 @@ cited only through the reports above).
 Bibliographic data checked online on 2026-11-21 and 2026-11-22. Entries cited by `[AuthorYear]` key in the
 textbook chapters carry their key in bold and an explicit `Verified:` record below.
 
+- **[Alon1999]** N. Alon, "Combinatorial Nullstellensatz", *Combinatorics, Probability and
+  Computing* 8 (1999), no. 1–2, 7–29, doi:10.1017/S0963548398003411 (Theorem 1.1 and Lemma 2.1,
+  pp. 7–9, compared with `mem_span_of_aeval_eq_zero` in Chapter 10, §10.4.7.2).
+  Verified: 2026-11-25 via Crossref (`doi:10.1017/S0963548398003411`) and the author-hosted PDF
+  <https://www.tau.ac.il/~nogaa/PDFS/null2.pdf> (305,050 bytes, sha256
+  `5933068242b0ecc6bba6944bf6d396492bb31c630d4cd7616e477b0a3e1646b7`), Theorem 1.1 and Lemma 2.1
+  read directly.
 - **[Artin1924]** E. Artin, "Über eine neue Art von $L$-Reihen", *Abhandlungen aus dem
   Mathematischen Seminar der Universität Hamburg* 3 (1924), 89–108, doi:10.1007/BF02954618 (cited
   in Chapter 16).
@@ -755,7 +764,7 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
 - **[SerreLocalFields]** Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer,
   New York, 1979, doi:10.1007/978-1-4757-5673-9. Chapter III, “Discriminant and Different”, pp. 47–60,
   doi:10.1007/978-1-4757-5673-9_4; §1 “Lattices” (Lemma 1 and Propositions 1–2, pp. 47–48) is compared
-  with the signed index in Chapter 10, §10.4.7.1.
+  with the signed index in Chapter 10, §§10.4.7.1–10.4.7.2.
   Verified: 2026-11-24 via Crossref (chapter title, pp. 47–60) and the printed text of §1, pp. 47–48
   (read through a full-text search excerpt; the Springer full text was not opened).
 - **[Shin2011]** S. W. Shin, "Galois representations arising from some compact Shimura varieties",
@@ -827,8 +836,9 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   (1926), no. 1, 191–228, doi:10.1007/BF01206606 (cited in Chapter 18).
   Verified: 2026-11-22 via Crossref / EuDML (`doi:10.1007/BF01206606`), *Math. Ann.* vol. 95, no. 1 (1926), pp. 191–228.
 - **[Washington1997]** L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Graduate
-  Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Theorem 4.3, cited in
-  Chapters 2 and 11).
+  Texts in Mathematics 83, Springer, New York, 1997, ISBN 978-0-387-94762-4 (Lemma 1.4 and
+  Proposition 2.1, pp. 3, 9–10, cited in Chapter 10, §10.4.7.2; Theorem 4.3, cited in Chapters 2
+  and 11).
   Verified: 2026-11-21 via Springer GTM vol. 83 (`ISBN 978-0-387-94762-4`).
   Chapter 11 §11.4.3.2 also cites §6.2 "Stickelberger's theorem" (p. 93), §10.2 "Reflection
   theorems" (p. 188) and §16.2 "Sinnott's proof that $\mu=0$" (p. 380). Section titles and first pages
