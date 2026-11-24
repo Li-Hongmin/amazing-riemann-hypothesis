@@ -129,6 +129,8 @@ Chapters 14–16 (Section 6).
 
 **Chapter 3, §3.4.1, the Henstock–Sacks inequality.** The comparison proof above groups the cells of an admissible partition by the index $n(p_J)$ and controls each group by the Henstock–Sacks inequality, previously input (N6). The book now reads Yury Kudryashov's pinned proof body: the common completion of two prepartitions with the same union (`dist_integralSum_le_of_memBaseSet`), integrability on subboxes through the Cauchy net, and the $\pi_0$ form with the constant $\delta/(m+1)$ (`dist_integralSum_sum_integral_le_of_memBaseSet_of_iUnion_eq`), together with the admissibility bookkeeping in `Partition/Filter.lean`, `Partition/SubboxInduction.lean`, `Partition/Tagged.lean` and `Partition/Split.lean`. The filter description of the integral, Cousin's lemma, the splitting construction of the complement and two filter facts stay [Lean] as (N6a)–(N6d). The classical statement was checked against [Fremlin2010] and [EoMKurzweilHenstock] (§6). Sources retrieved 2026-11-24. [Textbook subsection](../chapters/03-landau-window-criterion.md#the-henstocksacks-inequality-tagged-sums-over-part-of-a-rectangle) · [Henstock–Sacks bodies](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Basic.lean#L410-L594) · [Admissibility](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Partition/Filter.lean#L282-L493) · [Completion](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Partition/SubboxInduction.lean#L94-L234) · [Grouped call](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Integrability.lean#L261-L285)
 
+**Chapter 3, §3.4.1, Cousin's lemma.** The Henstock–Sacks subsection kept Cousin's lemma as input (N6b). The book now reads Yury Kudryashov's pinned proof: the centre split of a box and the bisection induction principle (`Box/SubboxInduction.lean`), the existence of a Henstock, $r$-fine tagged partition whose cells are dyadically homothetic to the box and keep its distortion (`Box.exists_taggedPartition_isHenstock_isSubordinate_homothetic`), and the nontriviality of the integration filters and uniqueness of box integrals that follow from it. It traces the calls of the lemma at the GP parameter in the planar divergence proof, after the removal of degenerate rectangles. The classical statement and proof were checked against Cousin's paper [Cousin1895], the account in [MaureyTacchi2005] and Kurzweil's existence lemma [Kurzweil1957]; the reverse-mathematics remark follows [BarrettDowneyGreenberg2022] (§6). Sources retrieved 2026-11-25. [Textbook subsection](../chapters/03-landau-window-criterion.md#cousins-lemma-fine-tagged-partitions-of-a-box) · [Induction principle](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Box/SubboxInduction.lean#L43-L161) · [Cousin's lemma](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Partition/SubboxInduction.lean#L94-L131) · [Nontrivial filters](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/BoxIntegral/Partition/Filter.lean#L495-L515)
+
 **Chapter 9, §9.4.5.** The joined Lean archive in §1 supplies the cone predicate
 `src/Formalism/HermitianCurvature/StatementPB.lean:89,125,133` and the two conditional
 proofs `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean:384,602`
@@ -316,6 +318,7 @@ All from
 | `Mathlib/Analysis/BoxIntegral/Partition/Split.lean` | 2026-11-24T14:50Z | 16127 | `d92e9e64b75db511d9f885aeff65ecea19ae4b60ee19b645e99ec58d7aa8d195` |
 | `Mathlib/Analysis/BoxIntegral/Partition/Measure.lean` | 2026-11-24T14:50Z | 4580 | `f209fcff7b6874f83850875c364d67681b5a8e82c0b21b4078d5779c814bff92` |
 | `Mathlib/Analysis/BoxIntegral/Box/Basic.lean` | 2026-11-24T14:50Z | 19219 | `161e399385de199889666ac58c366a723368989a3a1920a5aaea40d57991fe07` |
+| `Mathlib/Analysis/BoxIntegral/Box/SubboxInduction.lean` | 2026-11-24T16:57Z | 7937 | `6ab293c299bb3824e5c85690f5d04d09644b8832f277df676d780a0be9c6e5e0` |
 | `Mathlib/MeasureTheory/Function/SimpleFuncDense.lean` | 2026-11-24T14:23Z | 11999 | `faedff2e7de88c962fa4b94f6c9a3664a82ffa218461930353f424e789a52ba6` |
 | `Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean` | 2026-11-24T13:50Z | 33762 | `7801deae1fa630bca3f1966f17b9005e0e9dfc86be62f7abd14e88bece1a26cc` |
 | `Mathlib/Analysis/Complex/CauchyIntegral.lean` | 2026-11-24T13:50Z | 45558 | `7a2022a8a02dbef3b5466edd2ba9e4123a898f1e0b0dc5dc320104832405f14b` |
@@ -434,6 +437,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Mathematischen Seminar der Universität Hamburg* 5 (1927), 353–363, doi:10.1007/BF02952531 (cited
   in Chapter 18).
   Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/BF02952531`), *Abh. Math. Sem. Univ. Hamburg* vol. 5 (1927), pp. 353–363.
+- **[BarrettDowneyGreenberg2022]** J. M. Barrett, R. G. Downey and N. Greenberg, "Cousin's lemma in second-order
+  arithmetic", *Proceedings of the American Mathematical Society, Series B* 9 (2022), 111–124,
+  doi:10.1090/bproc/111; arXiv:2105.02975 (cited in Chapter 3, §3.4.1, Cousin's lemma).
+  Verified: 2026-11-25 via Crossref (`doi:10.1090/bproc/111`), *Proc. Amer. Math. Soc. Ser. B* vol. 9 (2022), pp. 111–124; the abstract's equivalences and the quoted sentence of §1 were read in arXiv:2105.02975v1 (SHA-256 `9438a366762c489cfc48588d6e08798475a23f6aa9267c1b44fe98296fc64662`).
 - **[Behrend1946]** F. A. Behrend, "On sets of integers which contain no three terms in
   arithmetical progression", *Proceedings of the National Academy of Sciences of the United States
   of America* 32 (1946), no. 12, 331–332, doi:10.1073/pnas.32.12.331 (cited in Chapter 17).
@@ -520,6 +527,9 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   zeta function", *Selecta Mathematica (N.S.)* 5 (1999), no. 1, 29–106, doi:10.1007/s000290050042
   (cited in Chapters 14 and 15).
   Verified: 2026-11-22 via Crossref / Springer (`doi:10.1007/s000290050042`), *Selecta Math. (N.S.)* vol. 5, no. 1 (1999), pp. 29–106.
+- **[Cousin1895]** P. Cousin, "Sur les fonctions de $n$ variables complexes", *Acta Mathematica* 19 (1895),
+  1–61, doi:10.1007/BF02402869 (cited in Chapter 3, §3.4.1, Cousin's lemma; §§9–10 on p. 22).
+  Verified: 2026-11-25 via Crossref (`doi:10.1007/BF02402869`), *Acta Math.* vol. 19 (1895), pp. 1–61; §§9–10 read on p. 22 of the scan at `https://archive.ymsc.tsinghua.edu.cn/pacm_download/117/5005-11511_2006_Article_BF02402869.pdf` (SHA-256 `799c586e6663109f74223207ed639f660ea854f377cf3575f75c0b9612f40810`).
 - **[Davenport2000]** H. Davenport, *Multiplicative Number Theory*, 3rd ed., revised by
   H. L. Montgomery, Graduate Texts in Mathematics 74, Springer, New York, 2000,
   ISBN 978-0-387-95097-6 (cited in Chapters 4, 7, and 16).
@@ -671,6 +681,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   term identity", *Annals of Mathematics* (2) 140 (1994), no. 1, 1–80, doi:10.2307/2118540
   (cited in Chapters 7, 8, 9, 12, 15, 16, and 18).
   Verified: 2026-11-21 via *Annals of Mathematics* / JSTOR (`doi:10.2307/2118540`), vol. 140, no. 1, pp. 1–80.
+- **[Kurzweil1957]** J. Kurzweil, "Generalized ordinary differential equations and continuous dependence on a
+  parameter", *Czechoslovak Mathematical Journal* 7 (1957), no. 3, 418–449, doi:10.21136/CMJ.1957.100258
+  (cited in Chapter 3, §3.4.1, Cousin's lemma; Lemma 1,1,1 on p. 423).
+  Verified: 2026-11-25 via Crossref (`doi:10.21136/CMJ.1957.100258`), vol. 7, no. 3 (1957), pp. 418–449; §1.1 (pp. 422–423) read in the DML-CZ scan `http://dml.cz/dmlcz/100258` (SHA-256 `a38f08a00bdac2bf0306008724fa5d540821be6ecbda19a84c239943df342bfc`).
 - **[Lagarias2002]** J. C. Lagarias, "An elementary problem equivalent to the Riemann hypothesis",
   *The American Mathematical Monthly* 109 (2002), no. 6, 534–543, doi:10.2307/2695443 (cited in
   `CONTRIBUTIONS.md`).
@@ -704,6 +718,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   $h(K)\,\ell^{t-1}/(E_K:E_K\cap N L^\times)$, with $t$ the number of ramified primes including the infinite
   ones. Chapter 11 quotes it only for comparison with the archive's bound on the $\ell$-rank of the
   coinvariants, which does not use this formula.
+- **[MaureyTacchi2005]** B. Maurey and J.-P. Tacchi, "La genèse du théorème de recouvrement de Borel",
+  *Revue d'histoire des mathématiques* 11 (2005), no. 2, 163–204, doi:10.24033/rhm.29 (cited in Chapter 3,
+  §3.4.1, Cousin's lemma; Cousin's Lemma 10 and its proof quoted on pp. 172–173).
+  Verified: 2026-11-25 via Crossref (`doi:10.24033/rhm.29`) and the Numdam PDF `http://numdam.org/article/RHM_2005__11_2_163_0.pdf` (SHA-256 `c9d7edc6401726ae00c3553f7733b1d991ee9adb976d7259129f3b797dc4238e`), whose first page gives vol. 11 (2005), pp. 163–204.
 - **[MazurWiles1984]** B. Mazur and A. Wiles, "Class fields of abelian extensions of $\mathbf Q$",
   *Inventiones Mathematicae* 76 (1984), no. 2, 179–330, doi:10.1007/BF01388599 (cited in
   Chapters 10 and 11).
