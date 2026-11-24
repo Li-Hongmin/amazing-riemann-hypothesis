@@ -1214,7 +1214,7 @@ The canonical embedding $j(x)=(\psi(x))_{\psi}\in\mathbb C^{\operatorname{Hom}(E
 The archive's host data enter as hypotheses [Lean]:
 
 - (H1) $E$ is Galois over $\mathbb Q$ (the field `galois`), and $g\mapsto\sigma_g$ is a group isomorphism from a finite group $G$ onto $\operatorname{Aut}(E/\mathbb Q)$. It is `sigmaOf`, the inverse of the field `gal`, and $G$ is the group `GG`.
-- (H2) $\delta^2=-d$ and $d>0$. These are `sqd_sq` and the inequality $4tr+1<d$ in `qd_big`.
+- (H2) $\delta^2=-d$ and $d>0$. These are `sqd_sq` and the second conjunct `4 * R.t * R.r + 1 < d` of `qd_big`, where `R.t` and `R.r` are parameters of the archive's `Ranks` (`src/Formalism/LocalRingCardinality/Params.lean:9,32`), not the torus variables $t_i$ or the Witt rank $r$ of §§19.3.1–19.3.7.
 - (H3) A homomorphism $\chi:G\to\{\pm1\}$ satisfies $\sigma_g(\delta)=\chi(g)\delta$. This is `gal_sqd`, with $\chi$ the sign `chD`.
 - (H4) An embedding $\varphi_0$ satisfies $\varphi_0(\delta)=i\sqrt d$. This is `φ₀_mem`.
 - (H5) $\Psi=\ker\chi$, which is `Frame.Psi`, and $e:\mathcal T\to\Psi$ is an equivalence, the field `eTau`.
