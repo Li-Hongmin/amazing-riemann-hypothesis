@@ -18,7 +18,7 @@ by us (`R3` / `[Lean, read]`). Of the classical analytic sub-packages imported a
 the sieve, the width-$1/400$ zero-density count and the Landau–Page step across moduli are also
 read in full (Section 4.7). The prime number theorem in progressions modulo divisible-by-$8$
 moduli, Siegel's lower bound and the internal lemmas of the Perron contour tail were read at
-statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail, the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
+statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bodies for the Perron tail, the candidate count and the relative progression estimate, including its numerical lemma (§4.10.5) and the differencing step of its far range (§4.10.6); the deeper analytic suppliers remain at `R2`. We distinguish the two tags explicitly throughout.
 
 ---
 
@@ -1482,7 +1482,7 @@ form, but no ineffective input is used. In the files we have read, ineffectivity
   `PrimeCountOfPsi`, `PNTSharp`, `PNTBAsm`, `PNTZSum`, `PNTDens`, `PNTExplMain`, `PNTZSumL`,
   `PNTDHB` and their imports); `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqTwist.lean:27–229`
   with `MSqTwistB` and `MSqTwistC`; `FinalSiegel`, `ExcBoundOf` and `LDerivNearOne` behind `excBound`; and
-  `NoZeroComplex` behind `zFRDirichlet`.
+  `NoZeroComplex` behind `zFRDirichlet`. Sections 4.10, 4.10.5 and 4.10.6 later read parts of the PNT package (local R3).
 
 ## 4.8 From the zero-free box to the truncated Perron tail
 
@@ -1762,7 +1762,7 @@ ranges of the real parameters $(M,y)$.
 **Proposition 4.10.1 [Lean, read].** Use `abel_core`, the progression orthogonality identity and the prime-power removal bound cited in the source map as named inputs, and the numerical estimate `num_main` proved in §4.10.5. Assume the Dirichlet zero-free-region
 input `ZFRDirichlet`, the per-character bound `PsiChiBound`, and the
 real-zero separation input `ExcBound` at exponent $1$. Assume also the
-far-range inputs `ExplicitS`, `SharpenS`, and `ZeroSum` of §4.10.4.
+far-range inputs `ExplicitS` and `ZeroSum` of §4.10.4, and use the differencing input `SharpenS` proved in §4.10.6.
 Then there are $a,c_N>0$ and $A_N\ge0$ for which
 $S_M(y)\le A_N y\eta(M)e^{-c_N\sqrt{\log y}}$ whenever
 $l\le a\sqrt{\log y}$. For each fixed $v>0$ there are $c_F>0$,
@@ -1855,7 +1855,7 @@ $F_\chi$. The remaining explicit-formula sum is bounded by $2y W_\chi$
 since every listed real part is at least $1/2$, so $|\rho|\ge1/2$, and $|y^\rho|=y^{\operatorname{Re}\rho}$. To see the matching identity directly, write the error with the selected main term as the formula residual minus the sum weighted by $m_\chi-w_\chi$, plus the difference between the selected term and the sum weighted by $w_\chi$. The triangle inequality gives the sum of the three bounds.
 The weighted sum in the differencing error is at most $W_\chi+1$ for the
 selected character and $W_\chi$ for all others. With $\delta\le1/2$,
-`SharpenS` therefore bounds the sum of character errors by
+`SharpenS` (Theorem 4.10.7) therefore bounds the sum of character errors by
 
 $$
 M\bigl(4yE/\delta+4(\delta y+1)\log(2y)\bigr)
@@ -1947,7 +1947,7 @@ at the prime-counting stage. It allows every real $X$ above its
 modulus-dependent lower threshold.
 
 `PNTFinal` supplies `ExplicitS` by the smoothed explicit formula and
-`SharpenS` by the differenced formula. `ZeroSum` is the relative bound
+`SharpenS` by the differenced formula, proved in §4.10.6. `ZeroSum` is the relative bound
 on the weighted zeros after subtracting one copy of the selected pair.
 Its supplier uses the spaced zero-density bound `LogDensityM` and the
 lossy Deuring–Heilbronn input `DeuringHeilbronnMB`. These named analytic
@@ -1980,7 +1980,8 @@ remains R2.
 | Transfer to the relative prime count | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PrimeCountOfPsi.lean:12–91`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiC.lean:11–212` | [Lean, read] |
 | Far-range numerical bound | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:7–63,88–158` | [Lean, read], §4.10.5 |
 | Modulus factor and exceptional term matching | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmA.lean:65–86`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmB.lean:11–153` | [Lean, read] |
-| Smoothed formula, differencing, zero sum, density and repulsion | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHBSt.lean:11` | [Lean] |
+| Differenced explicit formula `SharpenS` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:13–156`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharpA.lean:9–81`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharpB.lean:12–123` | [Lean, read], §4.10.6 |
+| Smoothed formula, zero sum, density and repulsion | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHBSt.lean:11` | [Lean] |
 | Character orthogonality, weighted prime-power removal and Abel summation | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:44`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:102`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:135`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiA.lean:145`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTPiB.lean:212` | [Lean] |
 | Zero-free region and per-character bound, exceptional separation and Siegel input | `src/Formalism/LandauZeroFreeBounds/Statement.lean:9`, `src/Formalism/LandauZeroFreeBounds/NoZeroComplex.lean:32`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:10–31`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:23`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32`, `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52` | [Lean] |
 
@@ -2217,10 +2218,249 @@ Paths are relative to the root of the joined Lean archive with SHA-256 `9631b4f0
 | `PsiRelB`, `ExplicitS`, `SharpenS`, `ZeroSum`, `PsiRelBOf` and the weight $\eta$ | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/DeuringHeilbronnM.lean:19–22,47–75,92–111` | Definitions |
 | $c_1M^{-1}\le\eta(M)$ (`etaOf_lower`) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTEOf.lean:141–167` | [Lean, read], §4.10.3 |
 | The value of $v$ and the splice | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTRangeA.lean:161–167`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTGlue.lean:22–25`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22–24` | [Lean, read], §4.10.3 |
-| Suppliers of $\kappa$, $C$, $E$, the differencing and the zero sum | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13` | [Lean] |
+| The differencing (`SharpenS`) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69–156` | [Lean, read], §4.10.6 |
+| Suppliers of $\kappa$, $C$, $E$ and the zero sum | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTZSumL.lean:30`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDens.lean:19`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHB.lean:13` | [Lean] |
 | Supplier of $h$, through Siegel's lower bound | `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–32` | [Lean] |
 
-The proof bodies of Lemmas 4.10.2 and 4.10.3 are read in full (local R3). Their remaining dependencies are order and field lemmas and facts about $\log$, $\exp$ and real powers in Mathlib at the pinned commit `0df444a`, used at statement level [Lean]. Examples are `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307`), `Real.rpow_def_of_pos` and `Real.rpow_natCast` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:51,62`) and `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`). The numerical lemma is unconditional. Reading it raises the status of no analytic supplier. The smoothed explicit formula (`PNTExplMain`), the differencing (`PNTSharp`), the zero sum (`PNTZSumL`) with its zero-density (`PNTDens`) and Deuring–Heilbronn (`DeuringHeilbronnMB`, `PNTDHB`) inputs, and the Siegel input keep R2. Their proofs remain [Open] for the book's reading record.
+The proof bodies of Lemmas 4.10.2 and 4.10.3 are read in full (local R3). Their remaining dependencies are order and field lemmas and facts about $\log$, $\exp$ and real powers in Mathlib at the pinned commit `0df444a`, used at statement level [Lean]. Examples are `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307`), `Real.rpow_def_of_pos` and `Real.rpow_natCast` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:51,62`) and `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`). The numerical lemma is unconditional. Reading it raises the status of no analytic supplier. The differencing (`PNTSharp`) is read in §4.10.6. The smoothed explicit formula (`PNTExplMain`), the zero sum (`PNTZSumL`) with its zero-density (`PNTDens`) and Deuring–Heilbronn (`DeuringHeilbronnMB`, `PNTDHB`) inputs, and the Siegel input keep R2. Their proofs remain [Open] for the book's reading record.
+
+### 4.10.6 The differenced explicit formula `differenced_explicit_formula`
+
+The far-range proof in §4.10.3 cites three analytic inputs: `ExplicitS`, `SharpenS` and `ZeroSum`. `PNTFinal` supplies `SharpenS` by `differenced_explicit_formula`, and the far-range assembly feeds the output of `ExplicitS`, supplied by `smoothed_explicit_formula`, into it. This subsection proves `SharpenS` from the ten local lemmas of `PNTSharp`, `PNTSharpA` and `PNTSharpB`, and follows that one call. The smoothed formula itself, the zero sum, zero density, Deuring–Heilbronn repulsion and Siegel's bound remain named inputs.
+
+#### 4.10.6.1 Motivation
+
+For a Dirichlet character $\chi$ modulo $M$ write $\psi_\chi(v)=\sum_{n\le v}\Lambda(n)\chi(n)$, as in §4.10.2, and
+
+$$
+S_\chi(v)=\sum_{n\le v}\Lambda(n)\chi(n)\Bigl(\frac vn-1\Bigr),\qquad \frac{S_\chi(v)}{v}=\sum_{n\le v}\Lambda(n)\chi(n)\Bigl(\frac1n-\frac1v\Bigr)=\int_1^v\frac{\psi_\chi(t)}{t^2}\,dt .
+$$
+
+This is the archive's `Schi`, the Riesz-weighted prime sum of [Definition 3.1](03-landau-window-criterion.md#331-riesz-weighted-prime-sums-and-normalized-remainders). Its Mellin kernel is $v^w/(w(w-1))$: the archive's interface `PerronChi` writes $S_\chi(v)$ as $(2\pi i)^{-1}\int_{(\sigma_0)}\bigl(-L'/L\bigr)(w,\chi)\,v^w\,dw/(w(w-1))$ for $\sigma_0>1$. The kernel decays like $\lvert w\rvert^{-2}$. A contour shift therefore produces a zero sum that converges absolutely, and `ExplicitS` states the result in the form
+
+$$
+\frac{S_\chi(v)}{v}=K+\mathbf 1_{\chi=1}(\log v-1)-\sum_{\rho\in Z}m(\rho)\frac{v^{\rho-1}}{\rho(\rho-1)}+(\text{error at most }E).
+$$
+
+Heuristically [Expository], the term $\log v-1$ is the residue of the double pole at $w=1$ for the principal character, $K$ is the constant term there, and each zero $\rho$ contributes $-m(\rho)v^{\rho-1}/(\rho(\rho-1))$.
+
+The far range needs the sharp sum $\psi_\chi(y)$ with zero terms $y^\rho/\rho$, because the exceptional main term $F_\chi(y)$ of §4.10.2 is $-y^{\beta}/\beta$. The passage is a difference quotient. Away from the integers, $\frac{d}{dv}\bigl(S_\chi(v)/v\bigr)=\psi_\chi(v)/v^2$, so in the variable $-1/v$ the derivative of $S_\chi(v)/v$ is $\psi_\chi(v)$. Differencing between $y$ and $u=(1+\delta)y$ recovers $\psi_\chi(y)$ up to the prime powers in $(y,u]$. On the right side the same difference removes $K$, turns $\log v-1$ into approximately $y$, and turns each $v^{\rho-1}/(\rho(\rho-1))$ into approximately $y^\rho/\rho$. There are three costs. The error is multiplied by the reciprocal $c=y(1+\delta)/\delta$ of the step in $-1/v$. The prime powers in the step interval contribute up to $(\delta y+1)\log(2y)$. Each kernel is differenced only approximately, with a defect of at most $2\delta y^{\operatorname{Re}\rho}$. A small step helps the last two costs and hurts the first; §4.10.5 shows how the archive balances them with $\delta=M^{-5}$ and $T=M^{12}$.
+
+The constant $K$ deserves a word. For a nonprincipal $\chi$ it is $-L'/L(1,\chi)$ in the archive's supplier. If $L(s,\chi)$ has a real zero $\beta$ close to $1$, this is, heuristically, about $-1/(1-\beta)$, and nothing in the archive estimates it. Differencing removes $K$ exactly. This works because `ExplicitS` chooses the list $Z$, the weights $m$ and the constant $K$ after the truncation height $T$ but before $y$, so the same data serve both differencing points.
+
+#### 4.10.6.2 Two calculations and two failures [Expository]
+
+Take $M=8$, $y=10$ and the largest permitted step $\delta=1/2$, so that $u=15$ and $c=yu/(u-y)=30$. The characters are the principal character $\chi_0$ modulo $8$ and the character $\chi_8$ of §4.10.1, with values $(1,-1,-1,1)$ on $(1,3,5,7)$. The prime powers in $(10,15]$ are $11$ and $13$. Their weights $c(1/n-1/u)$ are
+
+$$
+30\Bigl(\frac1{11}-\frac1{15}\Bigr)=\frac8{11},\qquad 30\Bigl(\frac1{13}-\frac1{15}\Bigr)=\frac4{13},
+$$
+
+both in $[0,1]$, as Lemma 4.10.4 below asserts. Write $\Phi(v)$ for the residual of the smoothed formula (§4.10.6.3), so that the hypothesis of `SharpenS` is $\lvert\Phi(y)\rvert,\lvert\Phi(u)\rvert\le E$. All numbers below are rounded to six decimals. They were computed with 50-digit arithmetic, and the difference identity of Theorem 4.10.7 holds to that precision in each case.
+
+**Calculation A: the principal character and the removed pole.** Here $L(s,\chi_0)=(1-2^{-s})\zeta(s)$ has a pole at $1$. For $\chi=1$ the archive uses the entire function $(s-1)L(s,\chi_0)$, Mathlib's `LFunctionTrivChar₁`, whose value at $1$ is $\prod_{p\mid 8}(1-p^{-1})=1/2$. Its constant is $K=-\frac{d}{ds}\bigl((s-1)L(s,\chi_0)\bigr)\big|_{s=1}\big/\tfrac12$ (`explicitFormulaConstant`). From $(s-1)\zeta(s)=1+\gamma(s-1)+O((s-1)^2)$ and $\frac{d}{ds}\log(1-2^{-s})=\log2/(2^s-1)$ one gets
+
+$$
+K=-\gamma-\log2\approx-1.270363 .
+$$
+
+Take $Z=\varnothing$. Then $S_{\chi_0}(10)/10=0.512890$ and $S_{\chi_0}(15)/15=0.789080$, so $\Phi(10)=0.480667$ and $\Phi(15)=0.351393$, and $E=0.480667$ is legal. The terms of the identity are:
+
+- the left side $\psi_{\chi_0}(10)-10=\log315-10=-4.247427$, since $\Lambda$ takes the values $\log3,\log5,\log7,\log3$ at $3,5,7,9$;
+- the differenced residual $c(\Phi(15)-\Phi(10))=-3.878242$, within $2cE=28.840042$;
+- the interval term $A=\frac8{11}\log11+\frac4{13}\log13=2.533139$, within $(u-y+1)\log u=6\log15=16.248301$;
+- the pole term $P=30\log\frac32-10=2.163953$, within $[0,\delta y]=[0,5]$.
+
+Indeed $-3.878242-2.533139+2.163953=-4.247427$ up to rounding. The constant $K$ appears in none of the three pieces on the right; another choice of $K$ changes only $E$. The midpoint $K=-0.854333$ gives the smallest legal value $E=0.064637$. The archive's bound $4yE/\delta+4(\delta y+1)\log(2y)$ equals $38.453+71.898=110.351$ for $K=-\gamma-\log 2$ and $77.069$ for the midpoint, against $\lvert-4.247427\rvert$. The pole term shows why $\delta$ is bounded. The difference quotient of $\log v-1$ is $c\log(1+\delta)=y\cdot\frac{1+\delta}{\delta}\log(1+\delta)$, which lies between $y$ and $(1+\delta)y$; at $\delta=1/2$ it exceeds $y$ by $21.6\%$.
+
+**Calculation B: a real character with an exceptional slot and a double pair.** Take $\chi=\chi_8$ and the model list $Z=\{\beta,\rho,\bar\rho\}$ with $\beta=999/1000$, the counterfactual zero of §4.10.1, of weight $m(\beta)=1$, and $\rho=0.96+3i$ with $m(\rho)=m(\bar\rho)=2$. These are not zeros of $L(s,\chi_8)$. `SharpenS` asks of the list only that $1/2\le\operatorname{Re}\rho<1$, and the example follows how weights pass through the differencing. Now $\psi_{\chi_8}(10)=-\log3-\log5+\log7+\log3=\log\frac75=0.336472$, there is no pole term, and $A=-\frac8{11}\log11-\frac4{13}\log13=-2.533139$ because $\chi_8(11)=\chi_8(13)=-1$.
+
+The $\beta$-slot contributes $m(\beta)v^{\beta-1}/(\beta(\beta-1))$ to $\Phi(v)$: $-998.698763$ at $v=10$ and $-998.293907$ at $v=15$. This is close to $-1/(1-\beta)=-1000$ and nearly constant. The weighted pair contributes $-0.233570$ and $0.203849$. With $S_{\chi_8}(10)/10=-0.321684$ and $S_{\chi_8}(15)/15=-0.394906$, the midpoint constant is $K=-998.869490$ and $E=0.384526$. So $K$ absorbs the large, almost constant contribution of the slot. For a genuine exceptional zero the supplier's constant $-L'/L(1,\chi_1)$ is, heuristically, also about $-1/(1-\beta_1)$. The differencing then returns
+
+$$
+\sum_{\rho'\in Z}m(\rho')\frac{y^{\rho'}}{\rho'}=\frac{y^\beta}{\beta}+4\operatorname{Re}\frac{y^\rho}{\rho}=9.986988+4\cdot2.328389=19.300542 ,
+$$
+
+and the left side is $\psi_{\chi_8}(10)+19.300542=19.637014$. The kernel defects (§4.10.6.3) are as follows.
+
+| Zero | Weight | $y^{\rho'}/\rho'$ | Defect $d_\delta(\rho')$ | Bound $2\delta\lvert\rho'\rvert$ | $T(\rho')$ | Bound $2\delta y^{\operatorname{Re}\rho'}$ |
+|---|---|---|---|---|---|---|
+| $\beta=0.999$ | $1$ | $9.986988$ | $0.216149$ | $0.999$ | $2.158675$ | $9.977001$ |
+| $\rho=0.96+3i$ | $2$ | $2.328389-1.721038i$ | $-0.068618+0.646136i$ | $3.149857$ | $0.952254+1.622550i$ | $9.120108$ |
+| $\bar\rho$ | $2$ | conjugate | conjugate | $3.149857$ | conjugate | $9.120108$ |
+
+The identity reads $19.637014=23.071565+2.533139-2.158675-2\cdot2\cdot0.952254$, where $23.071565=c(\Phi(15)-\Phi(10))=2cE$ and the imaginary parts of $T(\rho)$ and $T(\bar\rho)$ cancel. For $\beta$ the first-order value $\beta\delta/2=0.24975$ of the defect is close to the true $0.216149$. For $\rho$, where $\delta\lvert\rho\rvert\approx1.57$, the first-order value $\rho\delta/2=0.24+0.75i$ is no longer accurate. The weights enter the output linearly, and they enter the remainder budget $20\delta y\sum m(\rho')y^{\operatorname{Re}\rho'-1}=100\,(10^{-0.001}+4\cdot10^{-0.04})=464.574$ in the same way. The archive's full bound is $567.234$. The $\beta$-slot leaves the differencing as $y^\beta/\beta$, which is $-F_{\chi_1}(y)$ in the notation of §4.10.2. In the far range `one_char` cancels one copy against $F_\chi$, and the remaining weight, here $0$, goes into $W_\chi$; the pair of weight $2$ goes into $W_\chi$ entirely.
+
+**Two failures without the step remainder.** Keep $\chi_8$, $Z=\varnothing$ and the midpoint $K$. For $9\le y<11$ one has $\psi_{\chi_8}(y)=\log\frac75=0.336472$, and the next prime power is $11$, with $\chi_8(11)=-1$.
+
+- *Dropping the interval term.* Take $y=19/2$ and $\delta=1/5$, so $u=57/5$ and $c=57$. The interval holds $11$ with weight $57(\frac1{11}-\frac5{57})=\frac2{11}$, so $A=-\frac2{11}\log11=-0.435981$. Here $E=0.000873$ and $4yE/\delta=0.165848$. Without its last term the bound would read $0.336472\le0.165848$, which is false. The identity explains why: $\psi_{\chi_8}(y)=c(\Phi(u)-\Phi(y))-A=-0.099509+0.435981$, and no choice of $K$ affects $A$. With the interval term the bound is $34.321$.
+- *Dropping the boundary integer.* Take $y=10.99$ and $u=11.0016$, so $\delta y=0.0116<1$ and $\delta\approx0.001056$. The interval $(10.99,11.0016]$ still contains $11$, with weight $y(u-11)/(11(u-y))=0.137806$, so $A=-0.330443$. Here $E=2.89\cdot10^{-7}$ and $4yE/\delta=0.012045$. Keeping only the length part $4\delta y\log(2y)=0.143382$ of the interval term gives $0.155427<0.336472$, so the inequality fails. The $+1$ in $\delta y+1$ counts the integer that an interval of length less than $1$ can still contain. With it the bound is $12.516$.
+
+#### 4.10.6.3 Definitions
+
+Fix a positive integer $M$, a Dirichlet character $\chi$ modulo $M$, a finite set $Z\subset\mathbb C$, a weight function $m:\mathbb C\to\mathbb N$, a constant $K\in\mathbb C$, and reals $y\ge2$ and $\delta>0$. Put
+
+$$
+u=(1+\delta)y,\qquad c=\frac{yu}{u-y}=\frac{y(1+\delta)}{\delta}.
+$$
+
+The **smoothed residual** at $v>0$ is
+
+$$
+\Phi(v)=\frac{S_\chi(v)}{v}-K-\mathbf 1_{\chi=1}(\log v-1)+\sum_{\rho\in Z}m(\rho)\frac{v^{\rho-1}}{\rho(\rho-1)},
+$$
+
+with $v^{w}$ the principal power of the positive real $v$. The **interval term**, the **pole term** and, for $\rho\notin\{0,1\}$, the **kernel defect** and the **differenced zero term** are
+
+$$
+A=\sum_{y<n\le u}\Lambda(n)\chi(n)\,c\Bigl(\frac1n-\frac1u\Bigr),\qquad P=\mathbf 1_{\chi=1}\bigl(c\log(1+\delta)-y\bigr),
+$$
+
+$$
+d_\delta(\rho)=\frac{1+\delta}{\delta}\cdot\frac{(1+\delta)^{\rho-1}-1}{\rho-1}-1,\qquad T(\rho)=c\,\frac{u^{\rho-1}-y^{\rho-1}}{\rho(\rho-1)}-\frac{y^\rho}{\rho}.
+$$
+
+**The interface `SharpenS`.** Its hypotheses are (i) $1/2\le\operatorname{Re}\rho<1$ for all $\rho\in Z$; (ii) $y\ge2$; (iii) $0<\delta\le1/2$; (iv) $\lvert\Phi(y)\rvert\le E$ and $\lvert\Phi(u)\rvert\le E$ for one real $E$. Its conclusion is
+
+$$
+\Bigl\lvert\psi_\chi(y)-\mathbf 1_{\chi=1}y+\sum_{\rho\in Z}m(\rho)\frac{y^\rho}{\rho}\Bigr\rvert\le\frac{4yE}{\delta}+20\delta y\sum_{\rho\in Z}m(\rho)y^{\operatorname{Re}\rho-1}+4(\delta y+1)\log(2y).
+$$
+
+The hypotheses do not require the elements of $Z$ to be zeros, the weights to be positive, or $K$ to have any particular value. They do require one character, one list with its weights, one constant and one kernel at both points $y$ and $u$.
+
+**The interface `ExplicitS`.** For every $\kappa\in(0,1/20]$ there is $C>0$ such that for every $M\ge3$, every $\chi$ modulo $M$ and every $T\ge2$ there are $Z$, $m$ and $K$ with:
+
+1. each $\rho\in Z$ is a zero of $L(s,\chi)$ other than the pole slot ($\chi\ne1$ or $\rho\ne1$), with $1-\kappa<\operatorname{Re}\rho$ and $\lvert\operatorname{Im}\rho\rvert\le T+1$;
+2. every such zero with $\operatorname{Re}\rho\ge1-\kappa/2$ and $\lvert\operatorname{Im}\rho\rvert\le T$ lies in $Z$;
+3. $m\ge1$ on $Z$, and $m(\rho)=1$ whenever $L'(\rho,\chi)\ne0$;
+4. $\sum_{\rho\in Z,\ \lvert\operatorname{Im}\rho-t\rvert\le1}m(\rho)\le C\log(M(\lvert t\rvert+2))$ for every real $t$;
+5. for every $y\ge2$, $\lvert\Phi(y)\rvert\le C\bigl((MT)^Cy^{-\kappa/2}+\log y\,\log^2(MT)/T\bigr)$.
+
+The supplier `smoothed_explicit_formula` takes for $Z$ the zeros of `exLF` with $\sigma_1<\operatorname{Re}\rho$ and $\lvert\operatorname{Im}\rho\rvert<T'$, where $\sigma_1$ and $T'$ depend only on $(\kappa,M,\chi,T)$. It takes for $m$ the analytic order `exOrd`, and for $K$ the value $-\mathrm{exLF}'(1)/\mathrm{exLF}(1)$ (`explicitFormulaConstant`). Here `exLF` is $L(s,\chi)$ for $\chi\ne1$, and for $\chi=1$ it is $(s-1)L(s,\chi)$, extended to $s=1$ by the value $\prod_{p\mid M}(1-p^{-1})$.
+
+#### 4.10.6.4 Lemmas, theorem and the call
+
+**Lemma 4.10.4 (the difference quotient of the smoothed sum; `sharp_identity`, `sharp_term`, `sharp_arith`) [Lean, read].** Let $\chi$ be a Dirichlet character modulo some $N$, let $1\le y<u$ be real, and put $c=yu/(u-y)$. Then
+
+$$
+c\Bigl(\frac{S_\chi(u)}u-\frac{S_\chi(y)}y\Bigr)-\psi_\chi(y)=\sum_{\lfloor y\rfloor<n\le\lfloor u\rfloor}\Lambda(n)\chi(n)\,c\Bigl(\frac1n-\frac1u\Bigr).
+$$
+
+Every weight $c(1/n-1/u)$ in the sum lies in $[0,1]$, every summand has modulus at most $\log u$, and the left side has modulus at most $(u-y+1)\log u$.
+
+**Lemma 4.10.5 (the kernel defect; `sharp_cpow_sub_one`, `differenced_kernel_bound`, `sharp_kernel`, `sharp_zero_term`) [Lean, read].** Let $\rho\in\mathbb C$ with $\rho\ne0$, $\rho\ne1$ and $\operatorname{Re}\rho\le1$, and let $\delta>0$.
+
+1. For real $t\ge1$, $\lvert t^\rho-1\rvert\le\lvert\rho\rvert(t-1)$.
+2. $\bigl\lvert\frac{(1+\delta)^{\rho-1}-1}{\rho-1}+(1+\delta)^{-1}-1\bigr\rvert\le\lvert\rho\rvert\delta^2$.
+3. If $\delta\le1/2$, then $\lvert d_\delta(\rho)\rvert\le2\delta\lvert\rho\rvert$.
+4. If $1/2\le\operatorname{Re}\rho<1$, $0<\delta\le1/2$ and $y>0$, then $T(\rho)=\frac{y^\rho}{\rho}\,d_\delta(\rho)$ and $\lvert T(\rho)\rvert\le2\delta y\,y^{\operatorname{Re}\rho-1}$.
+
+**Lemma 4.10.6 (the removed pole; `sharp_log_term`) [Lean, read].** For real $y,\delta>0$ and $c=y(1+\delta)/\delta$,
+
+$$
+0\le c\bigl((\log((1+\delta)y)-1)-(\log y-1)\bigr)-y\le\delta y .
+$$
+
+The archive states the two-sided bound $\lvert\cdot\rvert\le\delta y$; the proof gives both inequalities.
+
+**Theorem 4.10.7 (the differenced explicit formula, `differenced_explicit_formula : SharpenS`) [Lean, read].** Let $M\ge1$, $\chi$ modulo $M$, $Z$, $m$, $K$, $E$, $y$, $\delta$ satisfy hypotheses (i)–(iv) of `SharpenS`. Then the **difference identity**
+
+$$
+\psi_\chi(y)-\mathbf 1_{\chi=1}y+\sum_{\rho\in Z}m(\rho)\frac{y^\rho}{\rho}=c\bigl(\Phi(u)-\Phi(y)\bigr)-A+P-\sum_{\rho\in Z}m(\rho)T(\rho),
+$$
+
+and the four terms on the right are bounded by $2cE$, $(\delta y+1)\log((1+\delta)y)$, $\delta y$ and $2\delta y\sum_{\rho\in Z}m(\rho)y^{\operatorname{Re}\rho-1}$. Consequently the conclusion of `SharpenS` holds.
+
+**Corollary 4.10.8 (the call with the smoothed formula) [Lean, read].** Assume `ExplicitS`. Fix $\kappa\in(0,1/20]$ and its constant $C$. Let $M\ge3$, let $\chi$ be a character modulo $M$, let $T\ge2$, and let $(Z,m,K)$ be the data of `ExplicitS` at $(M,\chi,T)$. Then every $\rho\in Z$ satisfies $1-\kappa<\operatorname{Re}\rho<1$. For all $y\ge2$ and $0<\delta\le1/2$,
+
+$$
+\Bigl\lvert\psi_\chi(y)-\mathbf 1_{\chi=1}y+\sum_{\rho\in Z}m(\rho)\frac{y^\rho}{\rho}\Bigr\rvert\le\frac{4yE_T(y)}{\delta}+20\delta y\sum_{\rho\in Z}m(\rho)y^{\operatorname{Re}\rho-1}+4(\delta y+1)\log(2y),
+$$
+
+with $E_T(y)=C\bigl((MT)^Cy^{-\kappa/2}+\log(2y)\log^2(MT)/T\bigr)$.
+
+*Quantifiers and endpoints.* In `ExplicitS` the order is $\forall\kappa\ \exists C\ \forall M,\chi,T\ \exists(Z,m,K)\ \forall y$, and $\delta$ is quantified in `SharpenS`, so the corollary holds for every $\delta\in(0,1/2]$ once $(Z,m,K)$ is fixed. The truncation height enters only through $E_T$ and the clauses on $Z$; `SharpenS` itself mentions neither $T$ nor the lower bound on $M$. The step is strict at $0$ and closed at $1/2$, and $y\ge2$ and $T\ge2$ are closed. `psi_relative_far_range` uses the corollary for $8\mid M$, $T=M^{12}$ (so $T\ge8$) and $\delta=M^{-5}$ (so $\delta\le1/2$).
+
+#### 4.10.6.5 Proofs
+
+*Proof of Lemma 4.10.4.* For $v>0$, $S_\chi(v)/v=\sum_{n\le v}\Lambda(n)\chi(n)(1/n-1/v)$ (`sharp_schi_div`). Split the sum up to $\lfloor u\rfloor$ at $\lfloor y\rfloor$ (`sharp_split`). The terms with $n\le y$ contribute
+
+$$
+\sum_{n\le y}\Lambda(n)\chi(n)\Bigl[\Bigl(\frac1n-\frac1u\Bigr)-\Bigl(\frac1n-\frac1y\Bigr)\Bigr]=\Bigl(\frac1y-\frac1u\Bigr)\psi_\chi(y),
+$$
+
+and $c(1/y-1/u)=1$. This gives the identity. For $\lfloor y\rfloor<n\le\lfloor u\rfloor$ one has $y<n\le u$, so the weight $w_n=c(1/n-1/u)=y(u-n)/(n(u-y))$ is nonnegative. Moreover $w_n\le1$ is equivalent to $y(u-n)\le n(u-y)$, that is, to $y\le n$. With $\lvert\chi(n)\rvert\le1$ and Mathlib's $\Lambda(n)\le\log n\le\log u$, each summand has modulus at most $\log u$. Finally, $\lfloor u\rfloor-\lfloor y\rfloor\le u-y+1$ because $\lfloor u\rfloor\le u$ and $\lfloor y\rfloor>y-1$. Since $\log u\ge0$, the sum has modulus at most $(u-y+1)\log u$. $\square$
+
+*Proof of Lemma 4.10.5.* (1) For $s\in[1,t]$ the map $s\mapsto s^\rho$ has derivative $\rho s^{\rho-1}$, since positive reals lie in the slit plane. Its modulus is $\lvert\rho\rvert s^{\operatorname{Re}\rho-1}\le\lvert\rho\rvert$ because $s\ge1$ and $\operatorname{Re}\rho\le1$. The mean value inequality (Mathlib's `norm_image_sub_le_of_norm_deriv_le_segment'`) gives $\lvert t^\rho-1\rvert\le\lvert\rho\rvert(t-1)$.
+
+(2) Let $f(t)=(t^{\rho-1}-1)/(\rho-1)+(t^{-1}-1)$ on $[1,1+\delta]$. Then $f(1)=0$ and
+
+$$
+f'(t)=t^{\rho-2}-t^{-2}=\frac{t^\rho-1}{t^2}.
+$$
+
+By (1) and $t^2\ge1$, $\lvert f'(t)\rvert\le\lvert\rho\rvert(t-1)\le\lvert\rho\rvert\delta$ on $[1,1+\delta)$. The mean value inequality gives $\lvert f(1+\delta)\rvert\le\lvert\rho\rvert\delta\cdot\delta$.
+
+(3) Put $g=((1+\delta)^{\rho-1}-1)/(\rho-1)$ and $e=g+(1+\delta)^{-1}-1$. Since $\frac{1+\delta}{\delta}\bigl((1+\delta)^{-1}-1\bigr)=-1$, we have $d_\delta(\rho)=\frac{1+\delta}{\delta}g-1=\frac{1+\delta}{\delta}e$. By (2), $\lvert d_\delta(\rho)\rvert\le\frac{1+\delta}{\delta}\lvert\rho\rvert\delta^2=(1+\delta)\delta\lvert\rho\rvert\le2\delta\lvert\rho\rvert$.
+
+(4) The strip condition gives $\rho\ne0$, $\rho\ne1$ and $\operatorname{Re}\rho\le1$. For the positive reals $1+\delta$ and $y$, $((1+\delta)y)^{\rho-1}=(1+\delta)^{\rho-1}y^{\rho-1}$ (Mathlib's `mul_cpow_ofReal_nonneg`), and $y^\rho=y\cdot y^{\rho-1}$. Hence
+
+$$
+c\,\frac{u^{\rho-1}-y^{\rho-1}}{\rho(\rho-1)}-\frac{y^\rho}\rho=\frac{y^\rho}{\rho}\Bigl(\frac{1+\delta}{\delta}\cdot\frac{(1+\delta)^{\rho-1}-1}{\rho-1}-1\Bigr)=\frac{y^\rho}{\rho}\,d_\delta(\rho).
+$$
+
+Since $\lvert y^\rho\rvert=y^{\operatorname{Re}\rho}$, (3) gives $\lvert T(\rho)\rvert\le(y^{\operatorname{Re}\rho}/\lvert\rho\rvert)\,2\delta\lvert\rho\rvert=2\delta y\,y^{\operatorname{Re}\rho-1}$. $\square$
+
+*Proof of Lemma 4.10.6.* The quantity equals $c\log(1+\delta)-y=y\bigl(\frac{1+\delta}{\delta}\log(1+\delta)-1\bigr)$. The inequalities $1-x^{-1}\le\log x\le x-1$ at $x=1+\delta$ give $\delta/(1+\delta)\le\log(1+\delta)\le\delta$, hence $1\le\frac{1+\delta}{\delta}\log(1+\delta)\le1+\delta$. $\square$
+
+*Proof of Theorem 4.10.7.* *Step 1, the identity.* In $c(\Phi(u)-\Phi(y))$ the constant $K$ cancels, and so do the two constants $-1$ of the pole slot:
+
+$$
+c\bigl(\Phi(u)-\Phi(y)\bigr)=c\Bigl(\frac{S_\chi(u)}u-\frac{S_\chi(y)}y\Bigr)-\mathbf 1_{\chi=1}c\log(1+\delta)+\sum_{\rho\in Z}m(\rho)\,c\,\frac{u^{\rho-1}-y^{\rho-1}}{\rho(\rho-1)}.
+$$
+
+By Lemma 4.10.4 the first term is $\psi_\chi(y)+A$. By definition the second is $-\mathbf 1_{\chi=1}y-P$, and each summand of the third is $m(\rho)(y^\rho/\rho+T(\rho))$. Rearranging gives the difference identity. In the archive this is the identity `key`, proved by `ring` after the zero sum has been distributed (`hsum`).
+
+*Step 2, four bounds.* Since $\lvert\Phi(y)\rvert\le E$, $E\ge0$, and $\lvert c(\Phi(u)-\Phi(y))\rvert\le c(\lvert\Phi(u)\rvert+\lvert\Phi(y)\rvert)\le2cE$. Lemma 4.10.4 with $1\le y<u$ gives $\lvert A\rvert\le(u-y+1)\log u=(\delta y+1)\log((1+\delta)y)$. Lemma 4.10.6 gives $\lvert P\rvert\le\delta y$, and $P=0$ if $\chi\ne1$. Lemma 4.10.5(4) and $m\ge0$ give $\bigl\lvert\sum m(\rho)T(\rho)\bigr\rvert\le2\delta y\sum m(\rho)y^{\operatorname{Re}\rho-1}$.
+
+*Step 3, the exported constants.* As $\delta\le1/2$, $c=(1+\delta)y/\delta\le\frac32y/\delta$, so $2cE\le3yE/\delta\le4yE/\delta$. As $(1+\delta)y\le2y$, $\log((1+\delta)y)\le\log(2y)$. As $2y\ge4>e$ (Mathlib's $e<2.7182818286$), $\log(2y)\ge1$, so $\delta y\le(\delta y+1)\log(2y)$. Adding, the left side of the difference identity is at most $4yE/\delta+2(\delta y+1)\log(2y)+2\delta y\sum m(\rho)y^{\operatorname{Re}\rho-1}$, which is at most the conclusion of `SharpenS`. $\square$
+
+*Proof of Corollary 4.10.8.* Each $\rho\in Z$ has $\operatorname{Re}\rho>1-\kappa\ge19/20$. If $\operatorname{Re}\rho\ge1$, Mathlib's `LFunction_ne_zero_of_one_le_re` would contradict $L(\rho,\chi)=0$, because the pole slot is excluded ($\chi\ne1$ or $\rho\ne1$). Hence $Z$ satisfies (i). For $v\in\{y,(1+\delta)y\}$ one has $2\le y\le v\le2y$ since $\delta\le1$. Clause 5 at $v$, together with $v^{-\kappa/2}\le y^{-\kappa/2}$ and $\log v\le\log(2y)$, gives $\lvert\Phi(v)\rvert\le E_T(y)$. Theorem 4.10.7 with $E=E_T(y)$ finishes the proof. In the archive these steps are `hre`, `hEu` and `hsharp` of `psi_relative_far_range`, after `choose Z m K h1 h2 h3 h4 h5 h6` has fixed the data of `ExplicitS` at $T=M^{12}$ for every character. $\square$
+
+#### 4.10.6.6 Remarks
+
+**One character, one list, one kernel.** The theorem compares the smoothed formula at two points with the same character, the same $(Z,m,K)$ and the same kernel $v^{\rho-1}/(\rho(\rho-1))$. This is why $K$ cancels and why each element of $Z$ can be differenced on its own. If $K$ were allowed to depend on the point, the difference would retain $c(K_u-K_y)$, with $c\ge y/\delta$, and nothing in the hypotheses would bound it. The supplier makes the data independent of $y$ by its choice of $\sigma_1$ and $T'$, which depend on $(\kappa,M,\chi,T)$ only.
+
+**The exceptional slot.** Suppose the selected pair $(\chi_1,\beta_1)$ of §4.10.2 is listed. It then occupies the slot $\rho=\beta_1$ of $Z_{\chi_1}$, with the same weight at both points. Its smoothed term is close to the constant $m(\beta_1)/(1-\beta_1)$ (calculation B), and the constant $K$ offsets it. The differencing returns $m(\beta_1)y^{\beta_1}/\beta_1+m(\beta_1)T(\beta_1)$, with $\lvert T(\beta_1)\rvert\le2\delta y^{\beta_1}\le2\delta y$, which has exactly the shape of the exceptional main term $F_{\chi_1}$. In the far range, `one_char` moves one copy into $F_\chi$, and the remainder of that copy is charged once, as $N_4=20\delta y$ in §4.10.5. A selected zero below $1-\kappa/2$ may be absent from the list. `one_char` then pays $2yt$ for it ($N_5$), and the differencing is unaffected.
+
+**Endpoints.** The bound $y\ge2$ is used twice: for $\log(2y)\ge1$, and in the corollary to evaluate `ExplicitS` at $v\ge y\ge2$. The strict bound $\delta>0$ allows the division. The bound $\delta\le1/2$ gives $c\le3y/(2\delta)$. The kernel bound and $u\le2y$ need only $\delta\le1$. At $\delta=1/2$ the pole term reaches $0.216y$ (calculation A). The kernel bound uses the condition $1/2\le\operatorname{Re}\rho$ only to know that $\rho\ne0$. The far-range consumer uses it once more, for $\lvert\rho\rvert\ge1/2$. The condition $\operatorname{Re}\rho<1$ keeps the pole slot $\rho=1$ out of $Z$; the term $\mathbf 1_{\chi=1}(\log v-1)$ accounts for it separately.
+
+**Where the constants go.** The proof gives $3yE/\delta+2(\delta y+1)\log(2y)+2\delta y\sum m(\rho)y^{\operatorname{Re}\rho-1}$; the archive exports $4$, $4$ and $20$. In §4.10.5 the first becomes $N_1+N_2=M\cdot4yE/\delta$ after summing over at most $M$ characters, and the second becomes $N_3=4M(\delta y+1)\log(2y)$. The third becomes $N_4=20\delta y$ for the selected copy, plus $20\delta yW_\chi\le20yW_\chi$, which is absorbed into $22yW_\chi$.
+
+**The kernel defect at large height.** When $\delta\lvert\rho\rvert$ is small, $d_\delta(\rho)=\rho\delta/2+O(\lvert\rho\rvert^2\delta^2)$, so the bound $2\delta\lvert\rho\rvert$ loses a factor of about $4$. When $\delta\lvert\rho\rvert$ is large, the differenced kernel itself is small and $d_\delta(\rho)$ is close to $-1$. The bound $\lvert T(\rho)\rvert\le2\delta y^{\operatorname{Re}\rho}$ is then weaker than the trivial estimate of order $y^{\operatorname{Re}\rho}/\lvert\rho\rvert$. With $\delta=M^{-5}$ and zeros up to height $M^{12}+1$, both regimes can occur in the far range. The archive uses the single height-uniform bound and pays for it through the zero sum $W_\chi$.
+
+**Classical comparison [Paper].** Landau's *Handbuch* (1909, §53, pp. 193–194) passes from a smoothed sum to $\psi$ in the same way. He starts from $\sum_{n\le x}\Lambda(n)\log(x/n)=x+O\bigl(xe^{-\sqrt[11]{\log x}}\bigr)$, sets $\delta=e^{-\sqrt[12]{\log x}}$, replaces $x$ by $(1+\delta)x$ and subtracts. He bounds the step interval by $0\le\sum_{x<n\le x+\delta x}\Lambda(n)\log\frac{x+\delta x}{n}<\log(1+\delta)\log(2x)(\delta x+1)$, using $\Lambda(n)\le\log n$ and $[x+\delta x]-[x]<\delta x+1$, and obtains $\psi(x)=\frac{\delta}{\log(1+\delta)}x+O(\delta x\log x)$. Lemma 4.10.4 is the twisted analogue, with the weight $1/n-1/v$ in place of $\log(v/n)$. The interval weights again lie in $[0,1]$, and the same $+1$ appears. There are two differences. Landau's coefficients are nonnegative, which makes his interval sum at least $0$, while $S_\chi$ has coefficients of both signs, so the archive's bound is two-sided. And the archive keeps the zeros, differencing each kernel term by Lemma 4.10.5 instead of absorbing them into the error. Tao's 254A Notes 2 take the direct route for comparison: Theorem 21 there is a truncated explicit formula for $\psi(x)$ obtained from a truncated Perron formula, and Exercise 22 is a smoothed explicit formula whose zero sum converges absolutely. [Landau1909](https://archive.org/details/handbuchderlehre01landuoft/page/n216/mode/1up) · [Tao2014](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)
+
+#### 4.10.6.7 Source map and reading boundary
+
+Paths are relative to the root of the joined Lean archive with SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The archive files cited here (`PNTSharp`, `PNTSharpA`, `PNTSharpB`, `DeuringHeilbronnM`, `PNTBAsm`, `PNTFinal`, `PNTExplMain`, `PNTExplDefs`, `LogDerivRegionChiOf`, `SiegelWalfiszAP`, `Statement`) were compared byte for byte with the members of that tarball.
+
+| Role | Archive path and lines | Status |
+|---|---|---|
+| `differenced_explicit_formula`: identity `key`, bounds and exported constants | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:69–156` | [Lean, read] |
+| `sharp_zero_term` (Lemma 4.10.5(4)) and `sharp_log_term` (Lemma 4.10.6) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharp.lean:13–42,44–67` | [Lean, read] |
+| `sharp_cpow_sub_one`, `differenced_kernel_bound`, `sharp_kernel` (Lemma 4.10.5(1)–(3)) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharpA.lean:9–24,26–60,62–81` | [Lean, read] |
+| `sharp_split`, `sharp_schi_div`, `sharp_identity`, `sharp_term`, `sharp_arith` (Lemma 4.10.4) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTSharpB.lean:12–23,25–37,39–69,71–104,106–123` | [Lean, read] |
+| `ExplicitS`, `SharpenS`, `PsiRelBOf` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/DeuringHeilbronnM.lean:53–75,111` | Definitions |
+| `Schi`, `Fchi`, `PerronChi`; `psiChi`; `IsLZero` | `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:11–20`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:10–11`, `src/Formalism/LandauZeroFreeBounds/Statement.lean:12–13` | Definitions |
+| `exLF`, `exOrd`, `exKer`, `explicitFormulaConstant` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplDefs.lean:12–20` | Definitions |
+| `smoothed_explicit_formula`: the constant $C$, the choice of $(Z,m,K)$ and list clauses 1–4 from its named inputs | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:15–74` | [Lean, read] |
+| `smoothed_explicit_formula`: the residual estimate (clause 5) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean:75–97`, with `ex_choose`, `ex_box`, `exm_core` and the `PNTExpl*` files | [Lean] |
+| `explicitS_proof'` and the top-level wiring | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:16,22–24` | [Lean, read], §4.10.3 |
+| The call: $C$ at $\kappa$, $T=M^{12}$, $\delta=M^{-5}$, $E$, `hre`, `hEu`, `hsharp` | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsm.lean:18,29–38,52–91` | [Lean, read], §4.10.3 |
+| Consumers of the output (`one_char`, the sum over characters) | `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsm.lean:92–138`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTBAsmB.lean:11–153` | [Lean, read], §4.10.3 |
+
+The proof bodies in the first four rows are read in full (local R3), together with the witness choice in `smoothed_explicit_formula`. Their remaining dependencies are Mathlib declarations at the pinned commit `0df444a`, used at statement level [Lean]: `norm_image_sub_le_of_norm_deriv_le_segment'` (`Mathlib/Analysis/Calculus/MeanValue.lean:326`), `Complex.hasStrictDerivAt_cpow_const` (`Mathlib/Analysis/SpecialFunctions/Pow/Deriv.lean:190`), `Complex.cpow_sub`, `Complex.cpow_natCast` and `Complex.mul_cpow_ofReal_nonneg` (`Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean:94,124,186`), `Complex.norm_cpow_eq_rpow_re_of_pos`, `Real.rpow_sub_one` and `Real.rpow_le_one_of_one_le_of_nonpos` (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:337,455,668`), `Real.log_le_sub_one_of_pos`, `Real.one_sub_inv_le_log_of_pos`, `Real.log_le_log` and `Real.le_log_iff_exp_le` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:307,312,151,165`), `Real.exp_one_lt_d9` (`Mathlib/Analysis/Complex/ExponentialBounds.lean:38`), `ArithmeticFunction.vonMangoldt_nonneg` and `vonMangoldt_le_log` (`Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean:80,151`), `DirichletCharacter.norm_le_one` (`Mathlib/NumberTheory/DirichletCharacter/Bounds.lean:33`), `DirichletCharacter.LFunction_ne_zero_of_one_le_re` (`Mathlib/NumberTheory/LSeries/Nonvanishing.lean:398`) and `DirichletCharacter.LFunctionTrivChar₁` (`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:338`), together with the floor and finite-sum lemmas named in the proofs. Reading `SharpenS` raises the status of no other analytic supplier. The residual estimate of `smoothed_explicit_formula` (its Perron, rectangle and box inputs), the zero sum (`PNTZSumL`) with its zero-density (`PNTDens`) and Deuring–Heilbronn (`DeuringHeilbronnMB`, `PNTDHB`) inputs, and the Siegel input behind $c_1$ keep R2. Their proofs remain [Open] for the book's reading record.
 
 ---
 
