@@ -561,6 +561,19 @@ So "compares a quantity with itself" is not literally correct. Two qualification
    dependency closure of the headline theorems. Membership does not yet show that the `Bk = 0` datum is
    the one fed to `WordFacts` on the live route; a path from `divClausesR_of` to `exists_divStage` is
    still to be extracted.
+
+   *Path extraction* `[Lean, export graph; run by us on TSUBAME]`. Over the 1,476,753 declarations of the
+   export, a breadth-first walk of constant references gives a path of 19 declarations from
+   `riemannHypothesis`, through `nonempty_hyps_definite_side_of_closed_bound`,
+   `member_exists_baseLattice_alt` and `exists_ext_twisted_places`, to
+   `GlobalTheory.Mem.R3.Rw.Second.exists_lt_of_stage`, which calls `exists_divStage`. No path exists from
+   `divClausesR_of` or `WordFacts` themselves; this is expected, since both are stated for an arbitrary
+   divisor datum, which the caller supplies. In `exists_lt_of_stage`
+   (`…/IwasawaDecomposition/ExistsExtTwistedPlaces.lean`) the `Bk = 0` stage `V` is packed, with a row
+   datum whose projection `eOp` is set to `0`, into the witness `⟨W', V, S, N, G⟩`. So the degenerate
+   divisor stage is part of the live construction. Whether the `D7` passed to `WordFacts` on the live
+   route is the one built from this `V` (in which case the lower bound is vacuous) requires following the
+   witness from `exists_lt_of_stage` to the call of `divClausesR_of`; that step remains `[Open]`.
 2. **The upper bound is non-trivial but one-sided.** Its two sides (`R.hu` and `R.rhs`) are distinct
    expressions, proved from a valuation bound, `L3main` and about 35 record facts; but both are built from
    row-side data, so it relates row-side quantities to each other and does not compare an independent
