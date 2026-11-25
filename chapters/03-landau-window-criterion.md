@@ -1535,6 +1535,8 @@ if $\Re s < 1$, then $\Re s > \theta > 0$ puts $s \in Z(F)$, whence $\Re s \le \
 $\Re s > \theta$. This proves `lemmaL`, and combining `lemmaL` with Lemma 3.3 immediately gives
 `zeroFree_of_rpow_window`. $\square$
 
+Lee Crossley applies Alpöge’s criterion to $-g(u)+3g(u-\log 2)-2g(u-2\log 2)$, where $g=\mathrm{gm}(F)$ is extended by zero for $u\le 0$. Its Laplace multiplier $(1-2^{-s})(2\cdot 2^{-s}-1)$ is nonzero in $0<\Re s<1$ and positive on the real interval $(0,1)$. Theorem 3.6(1) therefore gives `ZeroFree F θ` when `WindowHypU` holds for the difference. [Community] [Lean declaration](https://github.com/leecrossley/dirichlet-window-transfer/blob/fa94718cf9d65ee5b143ded4c91dc3873222cfdf/DelayedPole.lean#L176) and [archived proof](https://doi.org/10.5281/zenodo.24410863).
+
 ### 3.4.6 Cyclic levels and the $\varepsilon \to 0$ endgame (`level_family`, `formB`, `level_of_tiedWin`)
 
 It remains only to connect `zeroFree_of_rpow_window` to `Formalism.HC.Level` and let $\varepsilon \to 0$.
