@@ -3298,3 +3298,10 @@ Archive A2 (joined SHA-256 ~9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 - **The Stacks Project**, Tags [00IC](https://stacks.math.columbia.edu/tag/00IC) (`b57ea44d0dbfc646eee8caa27aa53882e1df493c17fb13ec06230585626fca85`), [07BU](https://stacks.math.columbia.edu/tag/07BU) (`fb1aad54154973fba9907eee3bd4fdbc04b57d3b1fb06b2744110ca2b33ee06e`), [0BM4](https://stacks.math.columbia.edu/tag/0BM4) (`b76c0930fe9ab5b0aadd40f45c162927dbc8dda75a729b25208475c9afdf9516`), and [00CR](https://stacks.math.columbia.edu/tag/00CR) (`f892b8c5c4cb709442eba91f568a5c616a8c830a0426886c5493664ac5953f4c`), retrieved 2026-11-25: classical background on localization at primes, residue fields, discrete valuation rings and integral closures.
 
 [Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18314-transporting-residue-fields-prime-norms-and-local-brauer-normalizations)
+
+
+### Chapter 13 §13.4.17 — Mackey orthogonality for cuspidal induction
+
+- **Alpöge–Claude archive A2.** Joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. `MackeyFormulaAll.lean:222–292` supplies the representation-level count, and `CharacterPairingHarishChandraCuspidalMackey.lean:178–263` supplies the prime-field list theorem. See [§13.4.17](../chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction).
+- **George W. Mackey**, *Induced Representations of Locally Compact Groups I*, Annals of Mathematics 55 (1952), 101–139. The introductory discussion describes the double-coset restriction formula in the wider locally compact setting. [Original article](https://doi.org/10.2307/1969423)
+- **R. B. Howlett and G. I. Lehrer**, *Induced cuspidal representations and generalised Hecke rings*, Inventiones Mathematicae 58 (1980), 37–64. Historical context for induced-cuspidal intertwining, with bibliographic record checked on 2026-11-25. [Publication record](https://eudml.org/doc/142713)

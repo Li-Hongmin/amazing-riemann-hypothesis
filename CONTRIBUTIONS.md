@@ -797,3 +797,10 @@ same-model review is recorded separately in the preceding run's audit.
 
 
 - **Hongmin Li (with AI assistance)** wrote §4.10.10, with a local R3 reading of the Laurent remainder producer and its vertical-line and character transfer, explicit witnesses for $C_3$ and $C_2$, two rationally enclosed calculations and the distinction between analytic extension and Lean's values at exceptional points. [Subsection](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41010-the-pole-subtracted-zeta-logarithmic-derivative)
+
+
+### Chapter 13 §13.4.17 — Mackey orthogonality for cuspidal induction
+
+- **Prior mathematical work.** Mackey's double-coset restriction formula and the induced-cuspidal theory of Howlett and Lehrer provide the historical setting. [Bibliography](sources/SOURCES.md#chapter-13-13417--mackey-orthogonality-for-cuspidal-induction)
+- **Alpöge with Claude.** The two formal proofs are from the pinned archive. [Production and consumer table](chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction)
+- **This book.** Hongmin Li with AI assistance gives the simultaneous-flag proof, the factorial count for repeated types, the hand calculations and their exact verification. The scope of the earlier U3 and U4 reviews is recorded separately.

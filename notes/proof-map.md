@@ -766,3 +766,6 @@ Urysohn's lemma `exists_continuous_zero_one_of_isClosed`, `exists_Lp_half`,
 `Lp.simpleFunc.denseRange`, `Lp.edist_toLp_toLp`, `DenseRange.mono` and the
 Hilbert basis expansion. The consumer is `span_fourierLp_closure_eq_top`
 (`AddCircle.lean:261–269`). [Pinned direct proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L365)
+
+
+P16 [§13.4.17](../chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction) reads `mackey_cuspidal` through `MackeyFormulaAll.lean:222` and `ip_hcL_cusp` through `CharacterPairingHarishChandraCuspidalMackey.lean:178–263`. The former counts matching block bijections, while the latter exports zero and the distinct-entry norm. The Whittaker and general label-existence inputs remain at their prior scope.
