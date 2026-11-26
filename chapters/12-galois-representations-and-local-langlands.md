@@ -2063,6 +2063,96 @@ At `NuPairOfDerivativesJacquet.lean:83–97`, the actual right space is `smoothP
 
 The classical statements are due to Bernstein and Zelevinsky. Their 1976 article gives the compact projection and its relation-space kernel in §2.4, the algebraic and smooth duals and the fixed-space identification in §§2.13–2.14, and admissible biduality and irreducibility in §2.15. The GL admissibility input corresponds to their §3.25. Their 1977 paper recalls the admissibility and duality conventions in §§1.1–1.4. Casselman's draft gives the averaging argument in §2.1, duality in Proposition 2.1.10 and irreducibility in Corollary 2.1.13. The archive specializes the coefficient field to $\mathbb C$ and states the compact-open basis explicitly. For a group with that basis, testing finite-dimensionality at compact open subgroups implies the same at every open subgroup by containment. The textbook calculation follows the archive's finite sums and actual consumers. The status is author-level local R3 for the cited declarations. The section-specific Lean replay, declaration reachability from Main and peer review remain open. [Sources and reading status](../sources/SOURCES.md#chapter-12-compact-open-fixed-spaces-and-the-smooth-contragredient)
 
+### 12.4.6 Detecting a vector by all its twisted Jacquet images
+
+#### Motivation
+
+A conductor cutoff in a matrix-coefficient pairing tests one prescribed last-column character. The ordinary step at the end of a highest derivative asks a different question. If every last-column character gives zero on a particular vector, can that vector survive in the original representation? The answer is no, even when the representation has infinite dimension. The point is to pass from a relation witnessed on a different ball at each frequency to relations witnessed on one ball for a whole compact set of frequencies. Only then can a finite character sum act on the original vector. [Chapter 7’s small-box calculation](07-chains-of-theta-lifts.md#74317-separating-mirabolic-vectors-by-small-box-averages)
+
+#### Two compact quotients over $\mathbb Q_3$
+
+Use the character $\psi_0$ with kernel $\mathbb Z_3$ obtained by exponentiating the negative-power part of the $3$-adic expansion, modulo $\mathbb Z$. Put $\zeta=\exp(2\pi i/3)$. To see the quotients on actual vectors, use $V=C_c^\infty(F^n)$, the space of compactly supported locally constant functions, and the mirabolic action
+$$
+ (T(g,y)f)(z)=\psi_0(z\cdot y)f(g^{\mathsf T}z),\qquad
+ (g,y)(h,x)=(gh,y+gx).
+$$
+The formula respects multiplication because $(g^{\mathsf T}z)\cdot x=z\cdot gx$. Each function is supported in a ball and constant on the cosets of some finer ball there. A sufficiently small congruence subgroup of $\mathrm{GL}_n(\mathbb Z_3)$ preserves those cosets and that support ball. A sufficiently small box of columns gives phase $1$ throughout the support. Together they give an open stabilizer. The full twisted quotient at $a$ is evaluation at $a$. Every relation vanishes there. If $f(a)=0$, the support of $f$ is compact and avoids $a$. At each point $z$ in it, choose $y$ with $\psi_0((z-a)\cdot y)\ne1$. Both phases are locally constant. A finite disjoint compact open partition subordinate to these neighborhoods lets us divide the part of $f$ on each cell by the constant nonzero difference $\psi_0(z\cdot y)-\psi_0(a\cdot y)$. This expresses each part as one actual relation. An indicator of a neighborhood of $a$ shows surjectivity.
+
+**One coordinate.** Take $D=3^{-1}\mathbb Z_3$ as the frequency ball, its annihilator $K=3\mathbb Z_3$, and $L=\mathbb Z_3$ as the column ball. The frequency denominator may be $N=\mathbb Z_3$, since $N$ annihilates $L$. With frequency representatives $i/3$ and column representatives $j$, for $i,j=0,1,2$, the matrix of inverse phases is
+$$
+ M=\begin{pmatrix}
+ 1&1&1\\
+ 1&\zeta^2&\zeta\\
+ 1&\zeta&\zeta^2
+ \end{pmatrix}.
+$$
+Its column sums are $(3,0,0)$ and the scalar product of row $i$ against the phase row for $k$ is $\sum_{j=0}^2\zeta^{(k-i)j}=3\delta_{ik}$. Let $f=1_{1/3+9\mathbb Z_3}+2\,1_{2/3+9\mathbb Z_3}$. The inverse-weighted sums of its column translates are $0$, $3\,1_{1/3+9\mathbb Z_3}$ and $6\,1_{2/3+9\mathbb Z_3}$ in frequency order. Their sum is $3f$.
+
+The same columns and frequency classes also illustrate the danger of choosing representatives too early. All three representatives $a_i=i/3+1$ have zero full quotient on $f$. At column level $L$, the sum for $a_1$ is still $3\,1_{1/3+9\mathbb Z_3}$. More precisely, for $a=1/3+1$ the two support cells have differences from $a$ of orders $0$ and $-1$. On $L'=3^{-1}\mathbb Z_3$, the element $1/3$ has distinct phases from that of $a$ on both cells. Division by the differences gives a witness on $L'$. For $a=1/3+3$, the first difference has order $1$ and the second order $-1$. The first phase difference is trivial throughout $L'$ and becomes nontrivial at $1/9$. Their witness neighborhoods are $1/3+1+3\mathbb Z_3$ and $1/3+3+9\mathbb Z_3$. The characters agree with each center on its own witness ball. The union is compact, and the smallest common column ball on this union is $3^{-2}\mathbb Z_3$. To see minimality in either case, evaluate every generator at $z=1/3$ on the immediately smaller ball. It vanishes there while $f(1/3)=1$. Both frequencies kill the same vector in the full quotient. The actual frequency $1/3$ detects it, so the hypothesis of vanishing at **every** frequency is false in this example.
+
+**Two coordinates.** Use $D=(3^{-1}\mathbb Z_3)^2$, $K=(3\mathbb Z_3)^2$, $L=\mathbb Z_3^2$, and $N=\mathbb Z_3^2$. Order pairs lexicographically from $(0,0)$ to $(2,2)$. For $a=(i,k)/3$ and $x=(j,\ell)$ the inverse entry is $\zeta^{-ij-k\ell}$. Thus the full nine-by-nine matrix, in three-by-three blocks, is
+$$
+ \begin{pmatrix}
+ M&M&M\\
+ M&\zeta^2 M&\zeta M\\
+ M&\zeta M&\zeta^2 M
+ \end{pmatrix}.
+$$
+The row tests factor in both coordinates by the one-coordinate scalar product. The column sums factor as $(\sum_i\zeta^{-ij})(\sum_k\zeta^{-k\ell})$, giving $9$ at $(j,\ell)=(0,0)$ and zero on the other eight columns. For $f=1_{(1/3,0)+\mathbb Z_3^2}+2\,1_{(0,2/3)+\mathbb Z_3^2}$ the two row tests at $(i,k)=(1,0),(0,2)$ give nine times the respective weighted support indicators. The other seven give zero, so the total is $9f$. On the entire compact frequency coset $(1,1)/3+\mathbb Z_3^2$, the column ball $L$ itself gives a common relation witness. The column $e_2$ separates the first support cell from this test coset by the phase difference $1-\zeta$, and $e_1$ separates the second by the same difference. Divide the respective weighted indicators by $1-\zeta$ and use these two columns. On $K$ the phase of every testing row in this coset and the phases of both support centers are all $1$, so evaluation at a support center rules out a witness at that smaller ball. This is a common level for a specified compact family of vanishing tests on the same nonzero vector.
+
+At $n=0$ the last-column group and the frequency space each consist of one element. The quotient matrix is $[1]$ and the sole relation space is zero. A nonzero vector already survives in the ordinary image.
+
+#### Definitions and detection lemma
+
+Let $F$ be a nonarchimedean local field with integer ring $\mathcal O$ and uniformizer $\varpi$. Fix a continuous nontrivial character $\psi:F^+\to S^1$. For $n\ge0$, write $P_{n+1}$ for the subgroup of $\mathrm{GL}_{n+1}(F)$ with last row $(0,\ldots,0,1)$, and $u(x)$ for the last-column unipotent with column $x\in F^n$. The archive writes $\mathrm{Mir}(F,n)$ for $P_{n+1}$. For any smooth complex representation $T$ of $P_{n+1}$ on a vector space $V$, set $\rho(x)=T(u(x))$. For a column subgroup $H$ and a row $a\in F^n$, put $\chi_a(x)=\psi(a\cdot x)$ and
+$$
+ R_a(H)=\operatorname{span}_{\mathbb C}
+ \{\rho(x)w-\chi_a(x)w:x\in H,\ w\in V\}.
+$$
+The source calls this subspace `twKer` and uses the algebraic quotient by it. We use $B_j=(\varpi^j\mathcal O)^n$ with $j\in\mathbb Z$, so increasing $j$ shrinks the ball.
+
+**Lemma (joint detection) [Lean, read].** Fix $v\in V$. If its image in $V/R_a(F^n)$ is zero for every $a\in F^n$, then $v=0$. In particular the product of the quotient maps is injective. More precisely, given any compact frequency ball $D$, the hypothesis produces one column ball $L$ with $v\in R_a(L)$ for every $a\in D$.
+
+#### Proof
+
+**Localize the relation in the original carrier.** The last-column map is a continuous group isomorphism onto the last-column subgroup, so $\rho$ is smooth and the displayed relations are precisely the transported mirabolic relations. Membership in the span at a fixed $a$ is a finite linear combination. Put every column occurring in it in a single ball $B_{j(a)}$ by exhaustion. Every larger ball still admits the same expression. This is the pointwise statement $\forall a\,\exists j(a)$.
+
+**Choose a compact frequency domain.** Smoothness of this $v$ gives a column ball $B_b$ contained in its stabilizer. For a frequency subgroup $D$, put $D^\perp=\{x:\chi_a(x)=1\text{ for all }a\in D\}$. Choose $y\in F$ with $\psi(y)\ne1$ and set $D=(y\varpi^{-b}\mathcal O)^n$. If some coordinate of $x$ is outside $\varpi^b\mathcal O$, the row supported in that coordinate with entry $y/x_i$ belongs to $D$ and has value $\psi(y)$ on $x$. Consequently $K=D^\perp\subseteq B_b$. This is the point in the source that uses nontriviality. The case $n=0$ is included.
+
+Continuity gives a ball $\varpi^{c_0}\mathcal O$ on which $\psi=1$. Indeed continuity puts a small additive ball into the open right semicircle, and closure under integer multiples keeps all powers there. A nonidentity point of the circle has a positive power outside that semicircle, by taking the first multiple of its absolute argument reaching $\pi/2$. This trivial ball also shows that $K$ is open. If $D=B_d$, then $B_{c_0-d}\subseteq K$ by multiplying coordinates and adding. If $c$ is the exact conductor exponent, then $K=B_{c-d}$. Each coordinate product lands in the conductor ball for $x\in B_{c-d}$. For any coordinate outside that bound, $x_i\varpi^d\mathcal O$ is a strictly larger ball, and one of its elements has nontrivial character. The production here uses the inclusion obtained from $y$ and the existence of $c_0$.
+
+**Make the level common on $D$.** At a row $a$ the single pointwise witness works unchanged for every $a'$ in
+$$
+ a+B_{c_0-j(a)} .
+$$
+Indeed, $(a'-a)\cdot x\in\varpi^{c_0}\mathcal O$ for all $x\in B_{j(a)}$, so the two characters agree on the entire subgroup and define the same relation space there. These open neighborhoods cover $D$. Compactness gives finitely many centers $a_1,\dots,a_h$. Take $J=\min_i j(a_i)$ and $L=B_J$. For each $a'$ in $D$, use a center whose neighborhood contains it, then enlarge that center's column ball to $L$. Thus $\exists L\,\forall a'\in D$ holds for exactly the same vector. The same proof works for any specified compact frequency ball, and even when the pointwise hypothesis is given only on that compact domain. It uses the pointwise equalities on the witness balls before increasing their radii.
+
+**Produce the two finite quotients.** Write $D=B_d$ and set $N=B_{\max(d,c_0-J)}$. Then $N\subseteq D$ and $\chi_a(x)=1$ for $a\in N$, $x\in L$. The frequency quotient $D/N$ is finite since $D$ is compact and $N$ is open. Choose a full set $R$ of representatives, including a representative of the zero class, and put $S=L\cap K$. The source takes this intersection as a subgroup of $L$. Since $S$ is open in compact $L$, $L/S$ is finite too. Every $\chi_a$ with $a\in R$ descends on $L/S$, and $S$ fixes $v$. The inverse phase sum indexed by $R$ is $|R|$ on $S$. For $x\in L\setminus S$, some $b\in D$ has $\chi_b(x)\ne1$ by the definition of $K$. The function $a\mapsto\chi_a(x)^{-1}$ descends on $D/N$. Translating its sum by $b$ multiplies it by $\chi_b(x)^{-1}$ and leaves the sum unchanged. The sum is therefore zero at $x$. This works even if some distinct classes in $D/N$ give the same character on $L$.
+
+**Use the relation-to-sum interface.** The small-box averaging result in §7.4.3.17 applies to the actual span $R_a(L)$. Refine $S$ by the finite-index subgroup supplied for the relation witness at $a$. Since $S$ fixes $v$ and lies in the character kernel, the fine sum is $[S:H]$ times the sum on $L/S$, where $H$ is the common refinement. The fine sum is zero by the averaging result. Dividing by the positive index gives
+$$
+ \sum_{x\in L/S}\chi_a(x)^{-1}\rho(x)v=0\qquad(a\in R).
+$$
+Summing the displayed equalities over $R$ and interchanging the two finite sums leaves exactly $|R|v$ at the identity coset. The frequency quotient is nonempty and $\mathbb C$ has characteristic zero, so $v=0$. $\square$
+
+#### Where the original vector enters
+
+| Source call | What is put in the relation space | What the call supplies |
+|---|---|---|
+| `ExistsNontrivialDerivative.lean:80–92` | A fixed nonzero $v$ is in the ordinary kernel. Assuming all Levi translates lie in the distinguished twisted kernel gives all rows by completing each nonzero row to the last row of an invertible matrix. | Line 85 calls the **Chapter 7** separation production. It gives a surviving Levi translate. Lines 87–92 use the smooth first twisted quotient, induction and the one-step quotient comparison to obtain a nonzero grouped derivative. |
+| `InvariantPairingMirabolicVanishing.lean:59–71` | For fixed $u,v$, use $w=T(u)v-v$. For row zero it is itself a relation. For every other row, conjugation transports its kernel to the distinguished kernel, which is the whole space because the distinguished twisted quotient is zero. | Line 71 calls this section’s `MirFourier.fourier` on $w$, giving $T(u)v=v$. |
+| `InvariantPairingMirabolicVanishing.lean:134–154` | The left last-column action is now trivial. Pairing covariance at a unipotent, of determinant $1$, gives invariance under the right action in that slot. | The pairing descends through the two ordinary relation spaces, keeps its determinant exponent and retains left separation. |
+
+For the first call, if $g$ has last row $a$, apply $T(\ell(g)^{-1})$ to a distinguished relation at column $gx$. Its scalar is $\psi((gx)_n)=\chi_a(x)$. This is why the all-row test concerns the original $v$. The second call has a zero **representation** as its distinguished twisted quotient and applies the theorem to each difference $T(u)v-v$. It explains the ordinary final step after the twisted conductor pairing. That earlier construction uses a single-ball Fourier indicator, Haar cutoff and finite shear orbit in the scope of one twisted step. In `IsSmoothIterPhi.lean:139–144` the base of `pair_iter` uses this ordinary descent, and each earlier twisted step adds one to the determinant exponent. The invariant starting form in `pair_deriv` has exponent zero, so $j$ twisted steps leave exponent $j$ at the ordinary step. Smooth biduality is a separate input to NuPair. [Compact-open smooth duality](#1245-compact-open-fixed-spaces-and-the-smooth-contragredient)
+
+#### Hypothesis tests and attribution
+
+For $n>0$, deleting nontriviality makes every test ordinary. In the same smooth function model over $\mathbb Q_3$ retain the action defined with $\psi_0$ and use the trivial character for the tests. The indicator of $e_1+3\mathbb Z_3^n$ is nonzero and is killed by every test. In fact the column $e_1/3$ acts on it by $\zeta$, so dividing it by $\zeta-1$ gives a single ordinary relation. The scalar test outside the annihilator in the proof cannot be obtained from a trivial character.
+
+For smoothness use the algebraic group algebra $\mathbb C[F^n]$ for $F=\mathbb Q_3$ and $n>0$, with basis $[x]$, and let $E$ be its field of fractions. The group algebra is a domain because any two finite supports lie in a finitely generated torsion-free abelian subgroup, whose group algebra is Laurent polynomial. Let $u(y)$ act by multiplication by $[y]$ and let $g$ act by the field automorphism $[x]\mapsto[gx]$. The actions satisfy the mirabolic semidirect product law. For any nonzero $y$ and any row $a$, multiplication by $[y]-\chi_a(y)[0]$ is invertible in $E$. The vector $1$ is in every relation space, witnessed at any column ball containing such a $y$, and has trivial column stabilizer. Thus even common **relation** balls may exist after deleting smoothness. The fixing annihilator and the smooth relation-to-sum passage need smoothness.
+
+Bernstein and Zelevinsky’s 1976 paper parametrizes the characters using a fixed nontrivial additive character in §5.3 and describes the two Levi orbits in §5.4. Their §§5.9–5.10 apply to smooth complex representations, identify the original space with compactly supported sheaf sections on the additive dual, and identify each twisted relation subspace with the sections vanishing at the corresponding stalk. A section with every germ zero is zero. This gives the same detection theorem with its whole family of quotient maps. Proposition 5.12(e) gives the last-column triviality used in the second row of the table. The 1977 derivative and pairing conventions are in §§3.2, 3.5 and 3.7–3.8. The present account explains the A2 route through a compact cover, a finite frequency quotient and a finite column quotient. Its local R3 status records proof-body reading and the two source consumers at the stated spans. Lean kernel replay, declaration-level reachability from Main and independent review of this reading remain to be checked. [Bernstein–Zelevinsky 1976, pp. 44–48](https://www.uni-muenster.de/imperia/md/content/theoretische_mathematik/topologie/bernstein-zelevinsky.pdf) · [Bernstein–Zelevinsky I, pp. 450–453](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf) · [Pinned source map](../sources/SOURCES.md#chapter-12-joint-twisted-jacquet-detection)
+
 ## 12.5 Remarks, formalization notes, and Masullo's counterpart
 
 ### 12.5.1 Comparison with Harris–Taylor, Henniart, Shin, and Caraiani
