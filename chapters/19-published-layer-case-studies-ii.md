@@ -243,7 +243,8 @@ side of this boundary. [GanQiuTakeda2014]
 measure bound, rational cover, lattice majorant, arithmetic supply, Schwartz input,
 adelic coordinates, weighted lattice count, CM-type place identification, the host
 fields behind it, the construction of the raw host with the choice of $\varphi_0$, and the
-layer host of the second constructor.
+layer host of the second constructor. [§19.3.17](#19317-cyclotomic-integer-quotients-and-translated-integral-bases) explains the cyclotomic
+integer-ring input used when comparing residue maps out of the ambient field.
 
 ### 19.3.1 Siegel sets and the integrable majorant
 
@@ -1826,6 +1827,81 @@ The level, the roles and the labelling are determined rather than chosen, and Ex
 
 Named inputs at statement level [Lean]: the derivations `hostConj_of`, `hostReal_of` and `hostCMType_of`; the producers of `ps_d` and of the twenty arithmetic fields of `HostDer` in the table, with `discriminant_real_subfield`; the helpers `gal_eq_art`, `gal_eq_cc`, `galE_conj` and `cc_mem_zpowers`; `exact_art`, `Final.host_field` and its component `HostMu` behind `muPM`; `hostGroup`; `prime_large`; Dirichlet's theorem in Mathlib; and Mathlib's `ramificationIdx_eq_of_not_dvd`, `IntermediateField.adjoin.finrank`, `cyclotomic_eq_minpoly_rat`, `IsGalois.card_fixingSubgroup_eq_finrank`, `IsGalois.fixedField_fixingSubgroup`, `IsGalois.card_aut_eq_finrank`, `IntermediateField.finrank_fixedField_eq_card`, `IsGalois.of_fixedField_normal_subgroup`, `AlgEquiv.liftNormal`, `AlgEquiv.restrictNormal`, `IntermediateField.nonempty_algHom_of_adjoin_splits` and `IsPrimitiveRoot.autToPow`. The three examples are textbook exposition checked by a script; only `hostEx` and `H0` are archive declarations [Expository]. The dependency statements are a computation on DeDeo's export [Checked]. Nothing here is a Lean kernel check; the reading is of source text at the pinned hash.
 
+### 19.3.17 Cyclotomic integer quotients and translated integral bases
+
+**Motivation.** Two ring maps out of a cyclotomic ring of integers agree everywhere if they agree on the same primitive root. The host uses this when it compares residue maps for Frobenius. The arithmetic input is that the primitive root generates the entire integer ring. We use Chapter 5's multiplication and trace conventions to describe its polynomial relation and the integral coordinates after shifting the root by $1$. [Pinned integral generation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean#L736-L813) · [§5.3.1.10](05-the-square-root-barrier-core-gm.md#53110-power-bases-from-the-quotient-ring-remainders-multiplication-matrices-and-transport)
+
+**First example.** If $z$ is a primitive twelfth root of unity, then $z^4-z^2+1=0$. To use $s=z-1$ as a coordinate, substitute $z=s+1$. The relation becomes $s^4+4s^3+5s^2+2s+1=0$. In particular, multiplication by $s$ sends $s^3$ to $-1-2s-5s^2-4s^3$. The full calculation below explains how this rule carries the very same multiplication operation as its matrix in the $z$-coordinates.
+
+**Definitions.** Fix an integer $n>0$, a cyclotomic number field $K$ of order $n$ over $\mathbb Q$, and any primitive $n$-th root $z$ in $K$. Thus $K=\mathbb Q(z)$. Write $O_K$ for the integral closure of $\mathbb Z$ in $K$, $d=\varphi(n)$, $s=z-1$, and $\Psi_n(T)=\Phi_n(T+1)$. Put $B=(z^j)_{0\le j<d}$ and $C=(s^j)_{0\le j<d}$ in increasing exponent order. For an ordered basis $D$, use column coordinates $[x]_D$, let $M_D(x)$ denote left multiplication by $x$, and let $G_D$ have entries $\operatorname{Tr}_{K/\mathbb Q}(D_iD_j)$.
+
+**Lemma (the integer presentation). [Expository]** Evaluation gives $\mathbb Z$-algebra isomorphisms
+$\mathbb Z[T]/(\Phi_n(T))\to O_K$, $[T]\mapsto z$, and
+$\mathbb Z[U]/(\Psi_n(U))\to O_K$, $[U]\mapsto s$.
+The map from the first quotient to the second sends $[T]$ to $[U+1]$, and its inverse sends $[U]$ to $[T-1]$.
+
+*Proof.* Use the classical identity $O_K=\mathbb Z[z]$ and the fact that the rational minimal polynomial of $z$ is $\Phi_n$ of degree $d$. The image of integer evaluation at $z$ is the whole of $O_K$. If $f(z)=0$, divide $f$ by the monic $\Phi_n$ over $\mathbb Z$. The remainder vanishes at $z$ and has degree less than $d$, so it is zero by rational minimality. This proves the kernel equality over $\mathbb Z$. The polynomial substitutions $T\mapsto U+1$ and $U\mapsto T-1$ are inverse and carry the two principal ideals to one another. Their evaluations agree under $z=s+1$. This gives the second presentation with its specified generator. The same substitution over $\mathbb Q$ shows that $\Psi_n$ is the rational minimal polynomial of $s$. For $n=1$ the relations are $T-1$ and $U$, and both bases consist of $1$. For $n=2$ the relations are $T+1$ and $U+2$, again with basis $(1)$. $\square$
+
+**Theorem 19.3.17 (translation and the trace form). [Expository]** For every such $n,K,z$, both $B$ and $C$ are $\mathbb Z$-bases of $O_K$. With $P$ taking $C$-coordinates to $B$-coordinates and $Q$ taking $B$-coordinates to $C$-coordinates, their entries for $0\le i\le j<d$ are
+$P_{ij}=(-1)^{j-i}\binom ji$ and $Q_{ij}=\binom ji$.
+Entries with $i>j$ are zero, $PQ=QP=I$, and $\det P=\det Q=1$. For each $x\in O_K$,
+$M_C(x)=Q M_B(x) P$ and $M_B(x)=P M_C(x) Q$ over $\mathbb Z$. These formulas also hold over $\mathbb Q$ for each $x\in K$. The trace is invariant and $G_C=P^{\mathsf T}G_B P$. In particular both discriminants equal the signed field discriminant.
+
+*Proof.* Integer generation and monic reduction span $O_K$ by $B$, and rational minimality gives independence. Expand $s^j=(z-1)^j$ and $z^j=(s+1)^j$. In both expansions every exponent is at most $j<d$, so each coefficient already belongs to its proposed coordinate column. Substituting the second expansion in the first and conversely gives identity matrices, since $T\mapsto T+1$ and $T\mapsto T-1$ are inverse on polynomials of degree less than $d$. Both matrices are upper unitriangular. Thus $C$ spans the same integer lattice and is independent, and both determinants are $1$ by triangularity.
+
+For $x,y\in O_K$, the equality $[xy]_B=M_B(x)P[y]_C=P M_C(x)[y]_C$ holds for every coordinate vector. This gives the similarity formulas. Rational extension of the bases gives the same formulas on $K$. Taking matrix traces proves trace invariance by $\operatorname{tr}(AB)=\operatorname{tr}(BA)$. For the Gram matrices, bilinearity gives
+$(G_C)_{ij}=\sum_{a,b}P_{ai}\operatorname{Tr}_{K/\mathbb Q}(z^{a+b})P_{bj}$.
+Taking determinants gives $\det G_C=(\det P)^2\det G_B=\det G_B$. The equality identifies the trace form of the same ring on two integral bases. The scalar field and trace pairing stay fixed throughout the argument. For the separate compositum identity, linear disjointness lets one extend scalars in a multiplication matrix. $\square$ [Pinned relative trace theorem](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/LinearDisjoint.lean#L741-L749)
+
+**Calculation at $n=12$.** The primitive twelfth roots are exactly the roots of $T^6+1$ left after removing the primitive fourth roots. Dividing by $T^2+1$ gives $\Phi_{12}(T)=T^4-T^2+1$. Expansion gives $\Psi_{12}(U)=U^4+4U^3+5U^2+2U+1$. The bases are $B=(1,z,z^2,z^3)$ and $C=(1,s,s^2,s^3)$. Expanding their powers by degrees $0,1,2,3$ gives
+$P=\begin{pmatrix}1&-1&1&-1\\0&1&-2&3\\0&0&1&-3\\0&0&0&1\end{pmatrix}$
+and
+$Q=\begin{pmatrix}1&1&1&1\\0&1&2&3\\0&0&1&3\\0&0&0&1\end{pmatrix}$.
+For multiplication by $s$ in $B$, the first three columns are the coordinates of $z-1,z^2-z,z^3-z^2$. The last comes from $z^4-z^3=-1+z^2-z^3$. In $C$ the first three columns shift once and the last is the remainder from $\Psi_{12}$. Thus
+$M_B(s)=\begin{pmatrix}-1&0&0&-1\\1&-1&0&0\\0&1&-1&1\\0&0&1&-1\end{pmatrix}$
+and
+$M_C(s)=\begin{pmatrix}0&0&0&-1\\1&0&0&-2\\0&1&0&-5\\0&0&1&-4\end{pmatrix}$.
+Both have trace $-4$.
+
+For the trace form, the conjugates of $z$ are $z^a$ for $a=1,5,7,11$. Pairing $a$ with $a+6$ modulo $12$ kills the odd moments. For $k=2$ the sum is $2(z^2+z^{-2})=2$. For $k=4$ it is $2(z^4+z^{-4})=-2$, and for $k=6$ all terms are $-1$. These give the moments $(4,0,2,0,-2,0,-4)$ for $B$. For $C$ the binomial expansion gives $(4,-4,6,-10,14,-14,0)$. In each case the entry $(i,j)$ of the Gram matrix is the moment of index $i+j$. In $B$ the even and odd exponent blocks are $\begin{pmatrix}4&2\\2&-2\end{pmatrix}$ and $\begin{pmatrix}2&-2\\-2&-4\end{pmatrix}$. Simultaneous permutation of rows and columns leaves the determinant unchanged. Both blocks have determinant $-12$, so both bases have discriminant $144$.
+
+**Calculation at $n=15$.** Removing roots of orders $1,3,5$ from $T^{15}-1$ gives
+$\Phi_{15}(T)=(T^{15}-1)(T-1)/((T^5-1)(T^3-1))=T^8-T^7+T^5-T^4+T^3-T+1$.
+The quotient identity can also be checked by multiplying by the denominator. Substituting $T=U+1$ and collecting coefficients gives
+$\Psi_{15}(U)=U^8+7U^7+21U^6+36U^5+39U^4+28U^3+14U^2+4U+1$.
+The bases are $B=(1,z,z^2,z^3,z^4,z^5,z^6,z^7)$ and $C=(1,s,s^2,s^3,s^4,s^5,s^6,s^7)$. Pascal's rule gives rows of $Q$ in the table. For the same row of $P$, multiply the displayed entry in column $j$ by $(-1)^{j-i}$. Both matrices therefore include the diagonal $1$ and all entries below it.
+
+| Row $i$ | Entries of $Q$ in columns $0$ through $7$ | Entries of $P$ in columns $0$ through $7$ |
+|---|---|---|
+| 0 | $1,1,1,1,1,1,1,1$ | $1,-1,1,-1,1,-1,1,-1$ |
+| 1 | $0,1,2,3,4,5,6,7$ | $0,1,-2,3,-4,5,-6,7$ |
+| 2 | $0,0,1,3,6,10,15,21$ | $0,0,1,-3,6,-10,15,-21$ |
+| 3 | $0,0,0,1,4,10,20,35$ | $0,0,0,1,-4,10,-20,35$ |
+| 4 | $0,0,0,0,1,5,15,35$ | $0,0,0,0,1,-5,15,-35$ |
+| 5 | $0,0,0,0,0,1,6,21$ | $0,0,0,0,0,1,-6,21$ |
+| 6 | $0,0,0,0,0,0,1,7$ | $0,0,0,0,0,0,1,-7$ |
+| 7 | $0,0,0,0,0,0,0,1$ | $0,0,0,0,0,0,0,1$ |
+
+Write $e_j$ for coordinate column $j$ of the identity, starting at $0$. The columns of $M_C(s)$ are $e_1,e_2,\ldots,e_7$ and $(-1,-4,-14,-28,-39,-36,-21,-7)^{\mathsf T}$. Those of $M_B(s)$ are $e_{j+1}-e_j$ for $0\le j\le6$, followed by $(-1,1,0,-1,1,-1,0,0)^{\mathsf T}$ from $z^8-z^7$. Thus the two traces are $-7$.
+
+For the Gram matrices, sum $z^{ak}$ over the residues $a$ coprime to $15$. Sum first over all residues, subtract the multiples of $3$ and of $5$, and add back $0$. Evaluating each geometric sum gives
+$\operatorname{Tr}(z^k)=15\,\mathbf 1_{15\mid k}-5\,\mathbf 1_{5\mid k}-3\,\mathbf 1_{3\mid k}+1$.
+For $0\le k\le14$ the result is
+$(8,1,1,-2,1,-4,-2,1,1,-2,-4,1,-2,1,1)$.
+In the shifted basis use $\sum_{r=0}^k(-1)^{k-r}\binom kr\operatorname{Tr}(z^r)$ to obtain
+$(8,-7,7,-10,19,-42,94,-196,371,-640,1022,-1536,2182,-2828,2828)$.
+These again specify every Gram entry. The discriminant formula for a cyclotomic field yields $15^8/(3^4 5^2)=1\,265\,625$, with positive sign from four pairs of complex embeddings. The congruence of the two Gram matrices gives this discriminant in both bases.
+
+**Why integral generation matters.** In the cyclotomic field $\mathbb Q(i)$ take the integral generator $\alpha=2i$ of the field over $\mathbb Q$. Its rational power basis is $(1,2i)$ and its polynomial is $T^2+4$. The resulting integer order is $\mathbb Z[\alpha]=\mathbb Z+2i\mathbb Z$. Indeed $\alpha^2=-4$ reduces every higher power, and $1,i$ are rationally independent. Since $O_K=\mathbb Z[i]$ by the inherited result at $n=4$, the order has index $2$. The integer $i$ is missing. Its trace Gram in $(1,\alpha)$ is $\operatorname{diag}(2,-8)$ with determinant $-16$, whereas $(1,i)$ gives $\operatorname{diag}(2,-2)$ and $-4$. Translation to $\alpha-1$ keeps the index at $2$ because $\mathbb Z[\alpha-1]=\mathbb Z[\alpha]$. This example retains integrality, a monic minimal polynomial and a rational power basis while dropping generation of the full integer ring.
+
+**Source proofs.** [Lean, read] In the fixed Mathlib, `CyclotomicRing n ℤ ℚ` is the subalgebra generated by **all** $n$-th roots of unity in the chosen splitting field `CyclotomicField n ℚ`. In `IsCyclotomicExtension.Rat.cyclotomicRing_isIntegralClosure`, the fraction-ring algebra map provides injectivity. An integral element belongs to the singleton adjoin by the integral-closure theorem for the singleton adjoin. The primitive root lies in the all-roots set, so adjoin monotonicity puts that element in `CyclotomicRing`. In the other direction each root satisfies the monic $T^n-1$. Adjoin integrality and the algebra map to the splitting field give integrality of every element. The quotient above presents this identified ring by evaluation. [Integral-closure proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean#L819-L828) · [Ring construction](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Cyclotomic/Basic.lean#L727-L835)
+
+In `IsPrimitiveRoot.subOneIntegralPowerBasis`, the integral lift of $z-1$ is the proposed generator. Its singleton adjoin contains the old generator because $z=(z-1)+1$. The lemma `PowerBasis.adjoin_eq_top_of_gen_mem_adjoin` therefore gives the top adjoin, and `PowerBasis.ofAdjoinEqTop'` transports the integral adjoin basis across that equality. This constructor uses a monic minimal-polynomial quotient. The next declaration identifies its generator with the integral lift of $z-1$. The binomial matrices and the conjugacy formulas make the resulting coordinate change explicit in the textbook. [Translated basis](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean#L869-L886) · [Integral adjoin basis](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Minpoly/IsIntegrallyClosed.lean#L205-L262)
+
+**Return to the host.** [Lean, read] In A2, `RootEqOfSubMem.lean:74–85` compares integer-ring maps agreeing at `zO N`. It calls the inherited `Rat.adjoin_singleton_eq_top` and applies adjoin induction. In the presentation above the same test is equality on $[T]$ and hence on every polynomial class. For a rational prime $l$ and a prime $Q$ above $(l)$, write $\rho\colon O_{\mathrm{Cond.Cyc}(N)}\to O_{\mathrm{Cond.Cyc}(N)}/Q$ for reduction. The reverse inertia implication compares $\rho\circ\tau_N(u)$ with $\rho$ at `:160–168` and uses $u\equiv1$ modulo the prime-to-$l$ part of $N$. For Frobenius at `:179–185` the comparison is with $\operatorname{Frob}_l\circ\rho$ and the congruence is $u\equiv l$ modulo the same part of $N$. In the host discriminant argument `RdDiff.lean:134–152` uses the inherited integer generation to enlarge scalars to the subfield's integer ring, and `DiscriminantRealSubfield.lean:128–144` uses it for the pure two-power field. These calls account for the relation to the original host arguments. The two newly read Mathlib declarations provide a textbook side branch. The direct host proofs use the singleton-generation theorem described above. The local reading leaves the complete Main dependency check and the existing full same-host `FieldChi` and `HostDer` production boundary [Open]. [Source record](../sources/SOURCES.md#chapter-19-19317-cyclotomic-integer-quotients-and-translated-integral-bases)
+
+**Attribution.** [Paper] Milne's *Algebraic Number Theory*, Theorem 6.4(a–b), covers the positive-order rational cyclotomic field, its degree and its primitive-root integral basis. Lemma 2.23 gives the determinant-square rule over a finite free algebra and Remark 6.6(c) gives the cyclotomic discriminant formula for the nontrivial orders used above. The translated presentation and binomial computations are textbook deductions from these inputs and the cited Mathlib bodies. [Milne, pp. 33, 99–101](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
 ## 19.4 Global doubling
 
 **Motivation.** Unfolding identifies an Eisenstein period with a doubling zeta integral
@@ -2131,6 +2207,7 @@ so the comparison with Gan–Qiu–Takeda Theorem 1.2(ii) has no Lean counterpar
 | 19.3.9 | Host fields behind the place identification | [Lean, read] for the general producer `HostRaw.der` and the bodies of `cm`, `conj_iff`, `finrank_E`, `finrank_F`, `mem_F` and `cmType`. The raw-host constructors and the choice of $\varphi_0$ are read in §19.3.10; the other twenty-four `HostDer` fields stay [Lean] |
 | 19.3.10 | Construction of the raw host and the choice of $\varphi_0$ | [Lean, read] for `AnyGrp.host` through `ModData.host`, `CharData.toHostRaw` and the modulus `EvenGrp.QS`, for `art_surj`, `exists_gen` and `exists_cmType`, and for the wiring from `fieldChi` to `exists_hostNF`. Theorem 19.3.10 is the conditional existence statement under `HostHyp`, $\gcd(M,qd)=1$, $e\ge2$ and the splitting at the odd primes dividing $M$. The second constructor `D7.hostRaw` is read for `layer_emb` and its field list here and in full in §19.3.11. `hostGroup`, `ordAny` and the `FieldRows` producers stay [Lean] |
 | 19.3.11 | Layer host of the second constructor | [Lean, read] for `layerExists`, `layerGalois`, `hostFixed`, `hostGalois`, `hostGalSpec`, `galEquiv`, the compatibility of `art0` under every embedding, `hostRaw` and `exists_hostAx`. Theorem 19.3.11 is the conditional statement under `HostHyp`, $e\ge2$ and injective $h$. In the exported RH proof the constructor enters only through the sample host `H0`, which serves `record_nonempty`. The twenty arithmetic `HostDer` producers stay [Lean] |
+| 19.3.17 | Cyclotomic integer presentation and translation | [Lean, read] for the two fixed Mathlib proofs and the named host call sites. The presentations and matrix formulas are textbook deductions. |
 | 19.4 | Does the RH proof consume the full `DoublingMethod`? How does the normalization compare? | Closed for the named full interface and `SiegelEisensteinSimplePole`: both are absent from the `riemannHypothesis` closure. Upstream `SiegelEisensteinContinuation`, the use of `DM` beyond the two bundle readers, and the $Z^*$ normalization remain [Open] |
 | 19.5 | Split-place comparison with the published normalization | [Open]: needs $d_v$ from [LapidRallis2005, p. 334] |
 | 19.6 | Second-term identity | [Open]: not stated by the inputs traced here; reader of the Rallis field not found |
