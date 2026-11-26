@@ -3500,3 +3500,75 @@ Archive A2 (joined SHA-256 ~9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 - **Levent Alpöge with Claude, archive A2.** The real embedding producer is `src/Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsIsRealEmbeddingEqHom.lean:12–23` (SHA-256 `ba2583277124cd42e339bb451839a56c40a534b0d021721b2b2cba369e895a04`). The consumer is `src/Development/AutomorphicArithmetic/Foundations/Convolution/HermitianDescent/HasseEt.lean:81–88` (SHA-256 `613513ad64daf5144ef37c1cab372dba393be0f39be428f4fe561a2d0d897c4f`). Lines 49–67 and 21–32 transport the original witness and multiply its images in the common factor. `NormAlmostAll.lean:55–58` in the same directory gives the original hypotheses, and `NmHasse.lean:26–36` gives the call with the unit root of the characteristic polynomial. Local R3 covers the real branch and the embedding producer. The general tensor norm map, earlier finite-place transport and cyclic tensor splitting are inherited. `GlobalTheory.T.hasseNormPrinciple_of_isCyclic` at `src/Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/HasseNormPrincipleOfIsCyclicStatement.lean:7–8` is a named [Lean] input here. [Archive A2](#1-the-lean-archive-primary-source) · [Chapter 5](../chapters/05-the-square-root-barrier-core-gm.md#53118-the-same-tensor-norm-witness-at-a-real-place)
 - **Mathlib community.** The archive manifest pins `0df444a360eaa60ab8c11dca51a86af692955474`. Salvatore Mercuri's `Completion/InfinitePlace.lean:71–74,186–202,229–250,307–324` gives the isometry, coercion, extension, original-point law and identification with the real field (SHA-256 `3ae13a50bff981678aa5a2e5da0049501e4dffb1ef21dd584e7fee1ad5b27092`). Xavier Roblot's `InfinitePlace/Basic.lean:184–204,239–250` and Alex J. Best and Roblot's `InfinitePlace/Embeddings.lean:191–234` recover the actual real map from the place. The completion extension uses the ring-map extension on the dense image. [Completion/InfinitePlace.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/Completion/InfinitePlace.lean#L229-L250) · [InfinitePlace/Basic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean#L184-L250) · [InfinitePlace/Embeddings.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean#L191-L234) · [UniformRing.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/UniformRing.lean#L128-L148)
 - **J. S. Milne and the Stacks Project.** In Milne's *Algebraic Number Theory*, v3.08, printed p. 31 gives the finite-free determinant norm, Theorem 7.23 and Remark 7.24 on pp. 115–116 give the isometric completion extension, and Propositions 8.1–8.2 and Corollary 8.4 on pp. 135–136 give the tensor product of local fields and its coordinate norm on original field elements in a finite separable extension. *Fields and Galois Theory*, Theorem 5.6 on pp. 63–64 proves algebraic closedness of the complex field. Stacks Lemma 10.143.4 gives the finite separable product decomposition for commutative étale algebras over a field. The textbook derives the unit norm image from the resulting real and complex blocks and follows the same tensor witness through the archive maps. [Milne ANT](https://www.jmilne.org/math/CourseNotes/ANT.pdf) · [Milne FT](https://www.jmilne.org/math/CourseNotes/FT.pdf) · [Stacks 00U3](https://stacks.math.columbia.edu/tag/00U3)
+
+### Chapter 9 translation and the formal-degree constant
+
+[Chapter 9 §9.4.26](../chapters/09-heights-slopes-and-near-orthogonality.md#9426-recovering-the-formal-degree-constant-from-a-translation-ray) explains the large-gap
+calibration in archive A2, joined SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+Levent Alpöge with Claude supplied the archived Lean development.
+
+- **Local production.** In
+  `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/`,
+  `FdStep.lean:14–154` proves invariance under legal integral steps.
+  `FdPointwise.lean:16–169`, `FdLower.lean:18–72`,
+  `FdLowerA.lean:17–100`, and `FdScale.lean:14–33` produce the lower bound.
+  `FdUpper.lean:22–136`, `FdUpperA.lean:14–77`,
+  `FdUpperB.lean:17–206` and `HsEighthLeOfSmall.lean:14–93`
+  produce the upper bound using the log-minor estimates. The
+  `ThmFD.lean:21–103` squeeze ends in `FdConst.lean:78–153`.
+  `FdConsA.lean:69–141` and `FdCons.lean:17–88` supply the family at
+  their named interfaces. The deeper tensor recurrence, smooth coefficient
+  construction and uniform tangent estimate remain at their precise interfaces
+  stated in the subsection. [Lean, read] for the indicated bodies.
+- **Measure and consumers.** Under
+  `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/`,
+  `HarishChandraFormalDegreeCompactDualLargeGaps.lean:29–106`
+  transfers the equality to the scaled Haar from `CDHaar`.
+  `FormalDegreeEqHarishChandraOfGap.lean:11–35` supplies `D.dsig`.
+  `NormalizedFormalDegreeEqVandermondeOfSizes.lean:41–52` uses the
+  corresponding wrapper, and
+  `FormalDegreeRatioEqVandermondeRatioAlongLine.lean:65–103,105–173`
+  uses the matched Haar formula for an existing `GoodS`. Its wrapper
+  enters `DecoratedLatticeProofs/RowAmplitudeBoundsUniformSingletonWidth.lean:104,119–120`.
+  Local R3 covers the direct degree production and the central Cayley
+  comparison. The full `GoodS` construction, the universal
+  `LowestKTypeMultiplicity.HCFdeg` and the Main dependency question
+  retain their previous status. The earlier ratio derived conditionally from
+  `HCFdeg` and `DegIUp.up_G` have no uses in A2. The `linkS_all`
+  unit-bound call takes its ratio from `AllHyp.s47`.
+- **Pinned Mathlib.** Commit `0df444a360eaa60ab8c11dca51a86af692955474`.
+  The dilation uses Floris van Doorn and Sébastien Gouëzel's determinant
+  formula. The upper and lower bounds invoke the reverse Fatou and
+  Fatou files of Mario Carneiro and Johannes Hölzl. The archived
+  one-coordinate integrals use Gouëzel's Gaussian result and Xavier
+  Roblot's complex radial Gamma integral. Roblot supplies product integrability
+  and integration. Yury Kudryashov's complex measure comparison identifies
+  the plane normalization.
+  [Dilation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L336)
+  · [Fatou](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/Add.lean#L214)
+  · [Reverse Fatou](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/DominatedConvergence.lean#L27)
+  · [Gaussian](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean#L329)
+  · [Gamma](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Gamma.lean#L138)
+  · [Product integration](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Pi.lean#L106)
+  · [Complex volume](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Complex.lean#L60)
+- **Classical sources.** Harish-Chandra, *Discrete series for semisimple
+  Lie groups II*, Acta Math. 116 (1966), 1–111, §37 and Theorem 16,
+  gives the coefficient definition, regular classification and the degree
+  proportional to the full root product. Atiyah and Schmid, *A geometric
+  construction of the discrete series for semisimple Lie groups*, Invent. Math.
+  42 (1977), 1–62, (3.15), (3.16), (8.1), (8.5), give the compact-dual
+  normalization, positive-root formula and lowest compact weight in the
+  finite-center semisimple setting. Both originals were checked online on
+  2026-11-26. SHA-256 of the Harish-Chandra scan is
+  `3ad72529bddbfe96e537bc3f49df6aa3223169c2abbe265d858c32c48545f3d9`.
+  SHA-256 of the Atiyah–Schmid PDF is
+  `6aeed6b336b91ec8606c41d0c544f614fbb027768043fc10e6e9ad9b43317a2f`.
+  [Harish-Chandra DOI](https://doi.org/10.1007/BF02392813)
+  · [Harish-Chandra scan](https://archive.ymsc.tsinghua.edu.cn/pacm_download/117/6013-11511_2006_Article_BF02392813.pdf)
+  · [Atiyah–Schmid PDF](https://www.math.utah.edu/~ptrapa/math-library/schmid/atiyah-schmid.pdf)
+- **Verification.** The proof reading here is local and author-level.
+  The Lean community's archive compilation and kernel replay are reported
+  separately. This subsection's computation checks the examples and source
+  fingerprints. Independent mathematical review of the subsection is open.
+  [Community verification](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)

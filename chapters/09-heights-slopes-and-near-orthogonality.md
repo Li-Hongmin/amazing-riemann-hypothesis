@@ -4,7 +4,8 @@
 > in full across `LatticeSlopes/`, `HarderNarasimhan/`, `DivisionHeightBoundStatement.lean`,
 > `src/Formalism/QuotientMetricDivisors/HermitianTwistDivisors/GlobalBoundRefinements.lean`, `GlobalTheoremInputs.lean`, `TieGlobal.lean`, `ThirdPlaceSeries/LinkG.lean`,
 > `ThirdPlaceSeries/LinkAltAltBis.lean`, `GlobalInterpolation/LinkGl.lean`, and `ThirdPlaceSeries/Link.lean`
-> (`R3`); `[Lean]` for statement-level inspections of deep period and archimedean sub-packages (`R2`);
+> (`R3`), and for the local translation and two-limit bodies cited in §9.4.26;
+> `[Lean]` for statement-level inspections of deep period and archimedean sub-packages (`R2`);
 > `[Paper]` for citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public
 > community guides; `[Expository]` for classical Arakelov/theta-period background and worked examples;
 > `[Open]` for unread deep proof cones (`12,612` to `15,578` modules).
@@ -627,6 +628,185 @@ been read in full. The concrete arithmetic supplying the matrix bound,
 the remaining estimates in the deep `LinkS` cone, and the deep gain
 cone of `LinkG` remain [Lean] at cited interfaces and [Open] as
 expository work.
+
+---
+
+### 9.4.26 Recovering the formal-degree constant from a translation ray
+
+A ratio of two discrete-series degrees cancels their common Haar constant. In the size estimates of Chapter 9 the field `D.dsig` enters on its own. Its compact-dual normalization fixes the absolute scale of the Vandermonde factor used there. The archive recovers the constant by translating the Harish–Chandra parameter away from the root walls. On this ray, the compact-type dimension has a computable leading term, and a rescaling of the noncompact coordinates makes two coefficient estimates meet at the same Gaussian mass.
+
+**First example.** Let the ordered signature be $(+,-)$ and take $\lambda=(101/2,1/2)$. Its sole gap is $50$, and translation gives $\lambda_t=(101/2+t,1/2)$. The lowest compact type is one-dimensional, of weight $(51+t,0)$. The exponential of the $2$ by $2$ off-diagonal Hermitian matrix with entries $z,\bar z$ has both diagonal entries equal to $\cosh r$, where $r=|z|$. Compact conjugation preserves $r$. The one-dimensional lowest-type compression thus has self-coefficient $(\cosh r)^{-(51+t)}$ by the principal-minor formula below. On the compact-dual Haar, the angular measures have mass one after multiplying the plane polar element $2\pi r\,dr$ by the Jacobian $\sinh(2r)/(2r)$ and the prefactor $1/\pi$. The squared coefficient integral is
+$$
+\int_0^\infty (\cosh r)^{-2(51+t)}\sinh(2r)\,dr
+=\int_1^\infty u^{-51-t}\,du=\frac1{50+t},
+\qquad u=\cosh^2 r.
+$$
+Schur orthogonality gives degree $50+t$. In particular $t/(50+t)\to1$. In the general proof the limit comes from the plane Gaussian of mass $\pi$ and the factor $1/\pi$. Here $\lambda_i-1/2$ is integral, and $h=50>\max\{3,32+8\sqrt2\}+1$ since $\sqrt 2<3/2$. The Vandermonde is $50+t$, the denominator $F_2$ is $1$, and the single step $e_0$ multiplies the degree by $(51+t)/(50+t)$. The lowest type is the torus character $(u,v)\mapsto u^{51+t}$, and the archived compressed family is available at every $t$ by the supplies described below. [Expository]
+
+**Definitions.** Fix a sign pattern $\varepsilon$ on $0,\ldots,n-1$, with $p$ positive and $q$ negative entries, both at least one. Put $m=pq$, $q_0=\min(p,q)$ and $F_j=\prod_{i=0}^{j-1}i!$. Let $\mathcal C$ and $\mathcal N$ be the pairs $i<j$ of equal and unequal signs respectively, so $|\mathcal N|=m$. The archive's `PCoord` stores an unequal-sign pair in reverse order. We denote its coordinate by $z_{ij}$, and the Hermitian matrix $P(z)=\mathrm{pmat}(z)$ has that entry at $(j,i)$ and its conjugate at $(i,j)$, with all other entries zero. The real coordinate dimension is $2m$. For $G=U(\varepsilon)$, the group preserving the diagonal Hermitian form with signs $\varepsilon$, write the polar decomposition as $k\exp P(z)$, let $dk$ be probability Haar on $K=U(p)\times U(q)$, and give each complex coordinate ordinary plane Lebesgue measure. The compact-dual Haar $\mu_{\rm CD}$ on the full group is
+$$
+d\mu_{\rm CD}=c_{p,q}J(z)\,dz\,dk,\qquad
+c_{p,q}=\frac{F_n}{\pi^m F_p F_q}.
+$$
+Here $J$ is the product over $i<j$ of $\operatorname{sinhc}$ of the eigenvalue differences of $P(z)$, with $\operatorname{sinhc}(0)=1$. The polar measure and its identification with the matched compact-dual density are measure inputs. [Lean] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/PmatIsHermitian.lean:19–25,40–43,75–92`, `HaarMirror.lean:14–42` and `HaarVolumes/OmegaDensityUnique.lean:298–337` under the same directory.
+
+An archive Harish–Chandra parameter is strictly decreasing and satisfies $\lambda_i-(n-1)/2\in\mathbb Z$. Write $\rho_A$ for the half sum of the positive roots in a set $A$. Fix such a $\lambda$ with $|\lambda_i-\lambda_j|\ge h$ for every unequal-sign pair and
+$$
+h>1+\max\{npq+1,16nq_0+8\sqrt{2q_0}\}=\mathrm{thrStar}(\varepsilon)+1.
+$$
+Define $D_i=n-1-i$, $\lambda_t=\lambda+tD$ for $t\in\mathbb N$, and $V(\lambda)=\prod_{i<j}(\lambda_i-\lambda_j)$. The lowest compact weight is $\mathrm{lowK}_\varepsilon(\lambda)=\lambda+\rho_{\mathcal N}-\rho_{\mathcal C}$, where the two half sums are over $\mathcal N$ and $\mathcal C$. At each $t$ give an archive compact type $T_t$ at $\mathrm{lowK}_\varepsilon(\lambda_t)$. Its underlying space is finite-dimensional and complex, with a continuous irreducible unitary action of $K$, the complex-linear differential of that action, and a unit vector $w_t$ of the specified diagonal weight killed by the compact positive-root operators. Put $N_t=\dim_\mathbb C T_t$.
+
+For a parameter vector $\mu$ put $\Phi_\mu(z)=\mathrm{Ph}(\mu,P(z))$. It is the sum for $1\le i\le n-1$ of $(\mu_{i-1}-\mu_i+1)\log\Delta_i(\exp P(z))$, where $\Delta_i$ is the leading $i$ by $i$ principal determinant. These determinants are positive because $\exp P(z)$ is positive definite. The operator $\mathcal F_t(z)$, called `fF` in the archive, is $N_t$ times the $dk$-average of the projector on $T_t(k)w_t$ weighted by $\exp[-\mathrm{Ph}(\lambda_t,k^{-1}P(z)k)]$. Write $a_t(z)=\langle w_t,\mathcal F_t(z)w_t\rangle$, with the inner product linear in the second slot. Set
+$$
+Q(y)=\sum_{(i,j)\in\mathcal N}(j-i)|y_{ij}|^2,\qquad
+M=\prod_{(i,j)\in\mathcal N}(j-i),\qquad
+\Pi=\frac{\pi^m}{M}.
+$$
+These are the quadratic form `Qf 0`, the noncompact slope product, and `PiW ε 0`, respectively. The zero in `Qf 0` labels a quadratic form. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/FdDefs.lean:15–19`, `PmatIsHermitian.lean:45–71,94–110` and `FdConst.lean:17–52` under the same directory.
+
+**Theorem (conditional local calibration).** Let $d$ be a real function on all real parameter vectors. Assume, for every archive parameter $\mu$ and coordinate $s$,
+$$
+d(\mu+e_s)=d(\mu)\prod_{j\ne s}\frac{\mu_s+1-\mu_j}{\mu_s-\mu_j}
+$$
+whenever both endpoints have gap at least $h$ and the target is strictly decreasing. For all natural $t$ give complex Hilbert spaces $H_t$, matrix-to-operator maps $\sigma_t$ into bounded complex-linear operators, and continuous linear maps $j_t:T_t\to H_t$. Impose the following three conditions on an eventual tail of $t$.
+
+1. `FData` holds. The restriction of $\sigma_t$ to the group is a strongly continuous unitary representation, $j_t$ is an isometric $K$-intertwiner, and $j_t^\dagger\sigma_t(\exp P(z))j_t=\mathcal F_t(z)$ for every $z$.
+2. There are a complex inner-product space $H'_t$, a matrix-to-operator map $\sigma'_t$ into bounded complex-linear operators whose group restriction is a strongly continuous unitary representation, and a unit vector $w'_t$ in its smooth derived domain of compact highest weight $\mathrm{lowK}_\varepsilon(\lambda_t)$ and Casimir eigenvalue $\mathrm{casVal}(\lambda_t)$. Its self-coefficient on $\exp P(z)$ equals $a_t(z)$ for every $z$. This is the archive's `IsHWSmooth` witness. Assume the uniform tangent pairing estimate stated in the lower-bound proof, with $\mathrm{casVal}(\mu)=\sum_i\mu_i^2-\sum_i\rho_i^2$ and $\rho=\rho_{\mathcal C}+\rho_{\mathcal N}$.
+3. `IsFdeg` holds for $\sigma_t$ on $\mu_{\rm CD}$ with degree $d(\lambda_t)$. For $d_t=d(\lambda_t)$ this means $d_t>0$ and for every $v,w,v',w'\in H_t$ the product in the integral below is integrable and satisfies
+   $$
+   \int_G \langle w,\sigma_t(g)v\rangle\overline{\langle w',\sigma_t(g)v'\rangle}\,d\mu_{\rm CD}(g)
+   =\frac{\langle v',v\rangle\langle w,w'\rangle}{d_t}.
+   $$
+
+Then $d(\lambda_t)/V(\lambda_t)=d(\lambda)/V(\lambda)>0$ for every $t$, and
+$$
+\lim_{t\to\infty}\frac{t^mN_t}{d(\lambda_t)}
+=c_{p,q}\Pi,\qquad
+d(\lambda)=\frac{V(\lambda)}{F_n}=\mathrm{fdegHC}(\lambda).
+$$
+[Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/ThmFD.lean:21–103`.
+
+**Proof of the translation assertion.** On the ray the $i,j$ gap increases by $(j-i)t$. More generally, adding any weakly decreasing vector $c$ of nonnegative integers maintains the order and shifted integrality and increases each ordered gap by $c_i-c_j\ge0$. Induct on $\sum_i c_i$ to reach $\lambda+c$ by legal unit steps. For a positive sum, let $s$ be the last index with $c_s>0$. Subtracting one there preserves weak decrease, since every entry to its right is zero and every entry to its left was at least $c_s$. The recurrence applies from this predecessor to $\lambda+c$. Each root factor incident to $s$ changes by the corresponding factor in the recurrence, including when $s$ is the second index, since negating both differences preserves their ratio. All other factors cancel. Both Vandermondes are positive, so the quotient by Vandermonde is invariant. Take $c=tD$. The Schur degree is positive at some index in the tail, so the constant quotient transports positivity to every index, including $0$. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/FdStep.lean:14–154` and `ProdSubLtEqFactorial.lean:88–158` under the same directory.
+
+**Lemma (rescaled integral bounds).** Use nonnegative integrals, allowing $+\infty$, and set $s_t=t^{-1/2}$ for $t\ge1$. Then
+$$
+\begin{aligned}
+\Pi
+&\le \liminf_{t\to\infty} t^m\int |a_t(z)|^2J(z)\,dz,\\
+\limsup_{t\to\infty}t^m\int e^{-2\Phi_{\lambda_t}(z)}J(z)\,dz
+&\le\Pi.
+\end{aligned}
+$$
+
+**Proof of the lower bound.** The `TangentPairingStatement` fixes $n,\varepsilon$, a real direction vector $D$, an initial compact weight $\Lambda_0$ and a real radius $R$ first. It gives a constant $C$ uniform in real $t\ge1$, the inner-product space, the representation and parameter and the smooth highest vector of compact weight $tD+\Lambda_0$, and every Lie-algebra direction $Y$ of squared Frobenius norm at most $R^2$. The self-coefficient on $\exp(s_tY)$, multiplied by $\exp(-\sqrt t\operatorname{tr}(\operatorname{diag}(D)Y))$, differs from $\exp(-\mathrm{qForm}(\varepsilon,D,Y)/2)$ by at most $C/\sqrt t$.
+
+Take $\Lambda_0=\mathrm{lowK}_\varepsilon(\lambda)$ and $Y=P(y)$, with $R=\|P(y)\|_F^2+1$ for each fixed $y$. The matrix is Hermitian and anticommutes with the signature matrix, so it is a permitted Lie-algebra direction. Its diagonal vanishes, eliminating the phase. The quadratic form is $-\operatorname{tr}(\operatorname{diag}(D)[Y,\mathrm{partNM}(\varepsilon,D,Y)])$. The projection `partNM` keeps only the upper entry of each unequal-sign pair of $Y$. In the trace the product of lower and upper entries contributes $(D_i-D_j)|y_{ij}|^2=(j-i)|y_{ij}|^2$ once. Thus the coefficient agreement gives $a_t(s_ty)\to e^{-Q(y)/2}$ for every $y$ and $|a_t(s_ty)|^2\to e^{-Q(y)}$.
+
+Each $a_t$ is continuous because the compact-average integrand is jointly continuous and is uniformly continuous on a compact neighborhood of a given $z$ times $K$. The real dilation $z=s_ty$ has determinant $s_t^{2m}=t^{-m}$. Every Jacobian factor is at least one, by $\sinh x\ge x$ for $x\ge0$ and evenness of $\operatorname{sinhc}$. Fatou's lemma then yields
+$$
+\int e^{-Q(y)}\,dy\le\liminf_t\int |a_t(s_ty)|^2\,dy
+\le\liminf_t t^m\int |a_t(z)|^2J(z)\,dz.
+$$
+For $b=j-i>0$ the plane integral is $2\pi\int_0^\infty r e^{-br^2}\,dr=\pi/b$. Tonelli on the finite product gives $\int e^{-Q(y)}\,dy=\Pi$. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/FdPointwise.lean:16–169`, `FdLower.lean:18–72`, `FdLowerA.lean:17–100` and `FdScale.lean:14–33` under the same directory.
+
+**Proof of the upper bound.** Write $k_0=\sqrt{2q_0}$ and $r(z)=\|P(z)\|_F$. To obtain the potential estimates, let $A$ be the first $i$ coordinate indices and write $P(z)=U\operatorname{diag}(\xi)U^\dagger$. Cauchy–Binet gives
+$$
+\Delta_i(e^{uP(z)})=\sum_{|S|=i} w_S e^{u y_S},\qquad
+w_S=|\det U_{A,S}|^2,\qquad y_S=\sum_{j\in S}\xi_j.
+$$
+The weights sum to one by setting $u=0$. Define $P_{AA}$ to be the leading compression of $P=P(z)$. Comparing coefficients in the identical Cauchy–Binet expansion of $\det(I_A+uP_{AA})$ gives $\sum_S w_S y_S=\operatorname{tr}(P_{AA})=0$. The coefficient of $u^2$ is $\sum_S w_S\sum_{j<k\in S}\xi_j\xi_k=-\operatorname{tr}(P_{AA}^2)/2$. The linear coefficient for the same expansion with $P^2$ gives $\sum_S w_S\sum_{j\in S}\xi_j^2=\operatorname{tr}((P^2)_{AA})$. Hence the second moment is
+$$
+V_i=\sum_S w_S y_S^2=\operatorname{tr}((P^2)_{AA})-\operatorname{tr}(P_{AA}^2)
+=\sum_{b<i\le a}|P_{ab}|^2.
+$$
+After grouping the signs, $P$ has off-diagonal blocks $B,B^\dagger$. Its nonzero eigenvalues are the positive and negative singular values of $B$, as is seen by applying it to the paired singular vectors. There are at most $q_0$ positive eigenvalues and their squares sum to $r(z)^2/2$. Therefore $|y_S|\le k_0r(z)/2$ for every $S$ by Cauchy–Schwarz.
+
+The inequality $e^x\ge 1+x$ proves $\log\Delta_i(e^P)\ge0$. The log of the weighted exponential sum is convex as a function of $u$, since its second derivative is the variance under the weights proportional to $w_S e^{uy_S}$. Its value at zero is zero. This proves $\Phi_0(uz)\ge u\Phi_0(z)$ for $u\ge1$. For the local inequality assume $k_0r(z)\le e\le 1$. Taylor's formula with integral remainder gives $e^x\ge1+x+(1-e/2)x^2/2$ for $|x|\le e/2$, since $e^{vx}\ge1-e/2$ for $0\le v\le1$. Put $u_0=(1-e/2)V_i/2\le e^2/8$. Then
+$$
+\log\Delta_i(e^P)\ge \log(1+u_0)\ge u_0(1-u_0/2)
+\ge (1-e)V_i/2.
+$$
+The middle inequality follows by integrating $1/(1+s)\ge 1-s$ on $[0,u_0]$. The last uses $e^2/16\le e/16$, so $(1-e/2)(1-e^2/16)\ge1-e/2-e/16\ge1-e$. Summing the $V_i$ counts each unequal-sign root $j-i$ times. This yields $2\Phi_0(z)\ge(1-e)Q(z)$, while $\Phi_\lambda\ge0$ follows from the nonnegative log determinants and positive adjacent-gap coefficients. The archive uses the same weighted moments with a cubic remainder bound. [Lean, read] A2, `EigenvectorUnitaryMulStar.lean:66–165`, `FiPmatEqFiOneSmulPmat.lean:18–73`, `LseConvexOn.lean:11–143`, `PSpecB.lean:272–318` and `SCoefGeTwoOfHc.lean:34–141,191–199` under `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/`.
+
+If $k_0r(z)\le1/2$, then $Q(z)\ge r(z)^2/2$ gives $\Phi_0(z)\ge r(z)^2/8$. If $k_0r(z)>1/2$, apply the small-ball bound at $z/(2k_0r(z))$ and the scaling inequality. Together they give
+$$
+\Phi_0(z)\ge\frac1{16}\min\{r(z)^2,r(z)/k_0\}.
+$$
+The adjacent-gap coefficients give $\Phi_{\lambda_t}=\Phi_\lambda+t\Phi_0$. For each real $x$, $\operatorname{sinhc}(x)=\int_0^1\cosh(ux)\,du\le e^{|x|}$. Each eigenvalue occurs in $n-1$ pairwise differences, so the exponent is bounded by $(n-1)\sum_i|\xi_i|\le(n-1)k_0r(z)$ by the paired singular values above. This gives $J(z)\le\exp((n-1)k_0r(z))$. For fixed $y$, eventually $s_t\rho_P(y)\le1$. The local quadratic estimate and $ts_t^2=1$ thus bound $e^{-2\Phi_{\lambda_t}(s_ty)}J(s_ty)$ above by
+$$
+\exp\!\bigl(-(1-s_t\rho_P(y))Q(y)+(n-1)k_0s_tr(y)\bigr),
+$$
+whose limit is $e^{-Q(y)}$.
+
+For a uniform majorant on the tail choose $T=16nq_0+1$, $X=\sqrt T$ and $a=X/k_0$. With $r=r(y)$ and $t\ge T$, the global bound gives
+$$
+2\Phi_{\lambda_t}(s_ty)\ge\tfrac18\min\{r^2,\sqrt t\,r/k_0\}
+\ge \frac{ar}{8}-\frac{a^2}{32}.
+$$
+The last step uses $(r-a/2)^2\ge0$ for the first term and $\sqrt t\ge X$ for the second. Combining with the Jacobian bound and $s_t\le1/X$ gives an integrand at most $e^{a^2/32}e^{-br}$, where
+$$
+b=\frac{X}{8k_0}-\frac{(n-1)k_0}{X}=\frac{16q_0+1}{8Xk_0}>0.
+$$
+Each $|y_{ij}|\le r$, so $e^{-br}\le\prod_{\mathcal N}e^{-b|y_{ij}|/(m+1)}$. The product has finite integral since $\int_{\mathbb C}e^{-c|y|}\,dy=2\pi/c^2$ for $c>0$. The rescaled potential integrands are continuous and nonnegative. The majorant permits reverse Fatou on the shifted sequence starting at $T$. Indeed the integral of a tail supremum dominates the supremum of the tail integrals, and the decreasing tail suprema converge under the integral by domination. The pointwise upper limit, the Gaussian mass, and the same change of variables prove the second inequality. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/FdUpper.lean:22–136`, `FdUpperA.lean:14–77`, `FdUpperB.lean:17–206`, `FdCons.lean:14–32` and `HsEighthLeOfSmall.lean:27–93` under the same directory. The continuity and conjugation invariance of the polar Jacobian are used at their cited interfaces.
+
+**Proof of the squeeze.** Put $S_t=t^mN_t/d(\lambda_t)$. The two finite-parameter Schur estimates give, eventually,
+$$
+c_{p,q}\,t^m\int |a_t(z)|^2 J(z)\,dz
+\le S_t\le c_{p,q}\,t^m\int e^{-2\Phi_{\lambda_t}(z)}J(z)\,dz.
+$$
+To see the factors, sum the group Schur identity over the $N_t^2$ matrix entries on the embedded compact type. In polar coordinates the compact factor is unitary on the compression and drops from its Hilbert–Schmidt norm. This gives $N_t^2/d(\lambda_t)=c_{p,q}\int\|\mathcal F_t(z)\|_{\rm HS}^2J(z)\,dz$. For the rotated vector $v_k=T_t(k)w_t$, compact Schur gives $N_t\int|\langle v_k,v\rangle|^2dk=\|v\|^2$. Apply Cauchy–Schwarz to the product of $\langle u,v_k\rangle$ and $e^{-\mathrm{Ph}(\lambda_t,k^{-1}P(z)k)}\langle v_k,v\rangle$ in the compact average. Taking the supremum over unit $u$ and summing over an orthonormal basis of $v$ bounds the Hilbert–Schmidt square above by $N_t$ times the compact average of the squared potential factor. For the lower bound apply $|\langle v_k,\mathcal F_t(z)v_k\rangle|^2\le\|\mathcal F_t(z)v_k\|^2$, then average and use compact Schur to get $\|\mathcal F_t(z)\|_{\rm HS}^2/N_t$ on the right. Compact conjugation preserves $J(z)\,dz$ in both estimates. Equivariance moves the rotated vector back to $w_t$ in the lower integral. Divide by $N_t>0$. This accounts for the two inequalities using the existing Schur and polar identities. Hence
+$$
+c_{p,q}\Pi\le\liminf_t S_t\le\limsup_t S_t\le c_{p,q}\Pi.
+$$
+The archive uses extended nonnegative reals here. The sequence is nonnegative and the limit finite, so the same limit holds in real numbers. The eventual comparison with $S_t$ also bounds the lower integral's limsup and the upper integral's liminf. Thus each of the two rescaled integrals in the lemma converges to $\Pi$ under the theorem's hypotheses. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/ThmFD.lean:38–103`, `SumInnerBasisSqEqAdjoint.lean:77–157`, `SumNormAdjointSqEqHsOp.lean:52–166` and `IntegrableOfContinuousCompact.lean:239–359` under the same directory.
+
+**Proof of uniqueness of the constant.** For $(i,j)\in\mathcal C$ let $b_{ij}$ count the opposite-sign indices strictly between $i$ and $j$. Write $g_{ij}(t)=\lambda_i-\lambda_j+t(j-i)$. The compact Weyl formula, applied block by block, gives
+$$
+N_t=\frac{\prod_{\mathcal C}(g_{ij}(t)+b_{ij})}{F_p F_q}.
+$$
+Indeed each opposite-sign index outside the interval contributes equally to $\rho_{\mathcal N}(i)$ and $\rho_{\mathcal N}(j)$, and each one inside contributes a difference of one. The compact Weyl shift cancels $-\rho_{\mathcal C}$ in the lowest weight. After dividing by $V(\lambda_t)$ each compact factor therefore contributes $(g_{ij}(t)+b_{ij})/g_{ij}(t)\to1$. Each noncompact factor contributes $t/g_{ij}(t)\to1/(j-i)$. The constant quotient gives
+$$
+S_t=\frac{V(\lambda)}{d(\lambda)F_pF_q}
+\prod_{\mathcal C}\frac{g_{ij}(t)+b_{ij}}{g_{ij}(t)}
+\prod_{\mathcal N}\frac{t}{g_{ij}(t)}
+\longrightarrow \frac{V(\lambda)}{d(\lambda)F_pF_qM}.
+$$
+Equating this to $c_{p,q}\Pi=F_n/(F_p F_q M)$ gives $V(\lambda)/d(\lambda)=F_n$. All canceled factors are positive. The root denominator $\prod_{i<j}(j-i)$ is exactly $F_n$ by collecting the factors for each fixed $j$. [Lean, read] A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/RhoNSubNab.lean:15–55`, `FdConst.lean:78–153` and `ProdSubLtEqFactorial.lean:160–205` under the same directory.
+
+**Second example.** Take $U(2,1)$ in ordered signature $(+,-,+)$ and $\lambda=(128,64,0)$. Its coordinates belong to the required shifted lattice. Set $h=64$, since $\mathrm{thrStar}+1=\max\{7,48+8\sqrt2\}+1<61<64$. For $\lambda_t=(128+2t,64+t,0)$ the gaps at $(0,1),(0,2),(1,2)$ are $64+t,128+2t,64+t$. The first and last are noncompact, so
+$$
+V(\lambda_t)=2(64+t)^3,\qquad
+Q(y)=|y_{01}|^2+|y_{12}|^2,\qquad M=1,\qquad \Pi=\pi^2.
+$$
+The compact root $(0,2)$ passes over the negative coordinate, giving $b_{02}=1$. The two half sums agree, so $\mathrm{lowK}(\lambda_t)=\lambda_t$ and $N_t=129+2t$. Since $F_3=2$ and $F_2F_1=1$, the polar prefactor is $2/\pi^2$ and the squeezed limit is $2$. The root-side limit is $524288/d(\lambda)$. Thus $d(\lambda)=262144$ and $d(\lambda_t)=(64+t)^3$. Writing $u=64+t$, translation from $t$ to $t+1$ uses $e_0,e_0,e_1$ in order. The triples of gaps $(g_{01},g_{02},g_{12})$ are
+$$
+(u,2u,u),\quad (u+1,2u+1,u),\quad (u+2,2u+2,u),\quad (u+1,2u+2,u+1).
+$$
+Every noncompact gap stays at least $64$. Multiplying the changed root factors gives
+$$
+\frac{(u+1)(2u+1)}{u(2u)}\,
+\frac{(u+2)(2u+2)}{(u+1)(2u+1)}\,
+\frac{(u+1)^2}{(u+2)u}=\frac{(u+1)^3}{u^3}.
+$$
+The compact model here is $\operatorname{Sym}^{128+2t}(\mathbb C^2)$ on indices $0,2$ with the $U(1)$ character of weight $64+t$ on index $1$. The monomials of degree $128+2t$ give its dimension $129+2t$. In both examples the archive supplies the compact types and representation families at every $t$ by the following interfaces, since the rays have gap at least $h+t$. The examples concern the real-group theorem. The ambient $D7$ record has rank $n=D.R.r\ge6$. [Expository]
+
+**The family and its consumers.** The function `fdcD` chooses an `IsDS` degree on $\mu_{\rm CD}$ at the parameter, with a zero fallback when no witness exists. `fdc_ds_exists` and `fdcGood_unique` supply existence and choice independence on the original gap domain. `fdc_step` chooses both representations and applies `fdeg_ratio_V` on the same Haar, then uses uniqueness at the target. The tensor argument in `Sandwich` supplies this ratio at its interface. The earlier conditional ratio derived from `HCFdeg` takes the numerical formula as input. Its unused producer and `up_G` are distinct from the calls traced here. The unit-bound application in `linkS_all` takes its ratio from `AllHyp.s47`. This is the boundary of the previous ratio audit.
+
+For each $t$, `fdc_cd` uses the gap bound $h+t$, which exceeds $\mathrm{thrStar}+1$. This implies the standard gap threshold $npq+1$ and the seed's threshold $8nq_0$. `HW.kType_exists`, `fdc_model` and `fdc_ds_exists` supply the compact type, the explicit `PsiM` satisfying `IsPsiFor`, and a Hilbert model with degree. `anyF` gives the isometric compression. The identities `psiM_exp_pmat` and `psM_exp_pmat` identify the compressed operator with $\mathcal F_t(z)$. `Lap.Base.link` works in the right regular $L^2$ model. It divides the nonzero image of the seed highest vector by its norm and uses the smooth embedding derivative and the seed Casimir identity for `IsHWSmooth`. The coefficient formula cancels the squared norm against this normalization. `Lap.Base.b3` assembles the uniform tangent estimate from highest-weight bounds, conjugation, differentiation, a second-order bound, and infinitesimal unitarity. These deeper supplies are used at their named interfaces. [Lean, read] for the assembly. A2, `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/FdConsA.lean:69–141`, `FdCons.lean:17–86` under the same directory, and `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/LaplaceFoundations/Imports.lean:12–13`, `ImportsAlt.lean:13–44`.
+
+Choice independence and diagonal Schur give the degree of any supplied gapped `IsDS` base model. Here `IsDS` includes a complete nonzero Hilbert space, an irreducible strongly continuous unitary action, full-group square-integrability of every coefficient, and an irreducible compact type of highest weight $\mathrm{lowK}_\varepsilon(\mu)$, and minimality of $\|\mathrm{lowK}_\varepsilon(\mu)+2\rho_{\mathcal C}\|^2$ against $\|\eta+2\rho_{\mathcal C}\|^2$ for every occurring compact highest weight $\eta$. The all-parameter seed premise of `fdCons_cd` is supplied in `fdeg_gap` by `psiFor` at the fixed bound $h$. The body of `fdCons_cd` obtains its actual family from `fdc_cd`. In the `FlagMeasures` consumer, `fdeg_gap` identifies $\mu_{\rm CD}$ with $\mathrm{sc}(n,\varepsilon)\mu_G$ using the `CDHaar` compact probability and common exponential-coordinate density and the tie for every sign-respecting reindexing of every measurable set. For fixed signs, choose the reindexing that puts all positive indices first. The tied measure and the polar measure agree on each measurable set by their common `CDHaar` value under this reindexing. Measure extensionality gives equality. The scalar is positive because $\mu_{\rm CD}$ is nonzero. The full Schur identity on the scaled measure now has degree $\mathrm{fdegHC}(\lambda)$ by uniqueness of the diagonal degree.
+
+For each $D$ of type `D7` keep all of `Ties D`, the original parameter $\lambda=\mathrm{lamSH}(D.R,D.\mathrm{hc}(\tau))$, signature $\varepsilon=\mathrm{epsSH}(D.R)$ and threshold $\mathrm{thrE}(\varepsilon)+1<h$. `dsExistsG_closed` supplies the base representation, `minpq_pos` gives both sign blocks, and `Ties.dsig_tie` identifies its degree with $D.\mathrm{dsig}(\tau)$. This is `dsig_eq_fdegHC_of_gap`, called by `DsigSize.dsigHC` and directly in `TypeFrameAllMembers.lean:42`. The size-stage normalization `vv_eq_vand_of_sizes` uses the exported wrapper at line 46. There $\mathrm{VV}(D,\tau)=D.\mathrm{dsig}(\tau)F_{D.R.r}$ and $D.R.r=2D.R.rS+D.R.k+1=n$, so the denominator cancels. A separate call in `DegLine.deg_eq_fdegHC` takes an existing `GoodS` datum. It conjugates between its two Cayley realizations and obtains the value of its field `A.deg` on the same scaled measure. The two Cayley actions are related by conjugation by $QP^{-1}\in U(\varepsilon)$, implemented by a unitary on the representation space. The four-vector formula keeps its degree under this transport, and evaluating it on a nonzero vector identifies the two degrees. The subsequent `deg_eq_near` uses the gap after an $\ell^1$ displacement and `deg_VandLine_of_gap` uses the two numerical values in the line comparison. Its wrapper is consumed in `RowAmplitudeBoundsUniformSingletonWidth.lean:104`. On $\mu_G$ the gapped degree is $\mathrm{sc}(n,\varepsilon)\mathrm{fdegHC}(\lambda)$. The universal `LowestKTypeMultiplicity.HCFdeg` asks for every signature and every regular parameter on $\mu_G$. Here the numerical supply covers the large-gap mixed-signature range. [Lean, read] for the handoff. A2, `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/HarishChandraFormalDegreeCompactDualLargeGaps.lean:29–106`, `FormalDegreeEqHarishChandraOfGap.lean:11–35`, `ThrEAddOneLt.lean:38–41`, `NormalizedFormalDegreeEqVandermondeOfSizes.lean:41–46` and `FormalDegreeRatioEqVandermondeRatioAlongLine.lean:65–103` under the same directory.
+
+**What the hypotheses control.** Replacing $\mu_{\rm CD}$ by $a\mu_{\rm CD}$ for $a>0$ divides every Schur degree by $a$, since all coefficient integrals are multiplied by $a$. The quotient is now $1/(aF_n)$ and the squeezed limit is $a c_{p,q}\Pi$. With $a=2$ the two base degrees become $25$ and $131072$. Using the old degree in the rescaled Schur identity gives twice the predicted integral.
+
+To test the base gap, keep the recurrence domain at $h=50$ in signature $(+,-)$. Take the regular $\nu=(3/2,1/2)$ of gap $1$. Set $d(\mu)=V(\mu)$ for $\mu\ne\nu$ and set $d(\nu)=2$. The modified value appears in neither endpoint of a legal recurrence. On the ray $\nu_t$ the gap is $1+t$. For all $t\ge49$ the archive supplies the same eventual families and degrees $1+t$, and the two limiting bounds still meet at $1$ in compact-dual normalization. Yet $d(\nu)/V(\nu)=2$ and the tail quotient is $1$. This refutes the inference with the base-gap hypothesis removed and the recurrence domain fixed. For the small-gap disk representation at $\nu$, weight two gives degree one by the same radial integral. At a collision the parameter fails regularity itself, and the putative weight-one disk coefficient has squared integral $\int_1^\infty du/u=\infty$. [Expository]
+
+**Classical attribution and scope.** Harish-Chandra's Theorem 16 gives a fixed-Haar constant times the absolute root product for the regular discrete series. The positive degree is defined by a coefficient integral in §37. Theorem 16 uses the connected reductive setting with compact Cartan from §7 and Part III, and the acceptability assumption retained from §38. [Paper] [Harish-Chandra, *Acta Mathematica* 116 (1966), pp. 87–88, 96–100](https://doi.org/10.1007/BF02392813)
+
+Atiyah and Schmid's Theorem (8.1), p. 41, gives the positive-root product for connected real semisimple groups of finite center with compact Cartan and nonsingular shifted integral parameter. Their (3.15) and Theorem (3.16), p. 14, specify probability on the compact factor and a compact-dual symmetric space of volume one. Theorem (8.5), p. 42, gives the lowest-type weight $\lambda+\rho_{\mathcal N}-\rho_{\mathcal C}$. For the usual parameter convention on $U(p,q)$, restriction of the shifted weight to the compact torus of $SU(p,q)$ preserves shifted integrality because the weight lattice restricts and the roots restrict to the same type-$A$ roots. It preserves regularity and root differences, represented by subtracting the coordinate mean. With the order given by $\lambda$, pairing a root with the ordered $\rho$ gives $j-i$ in the same metric units as its pairing with $\lambda$. Multiplication $U(1)\times SU(p,q)\to U(p,q)$ is a finite covering of degree $n$. An irreducible unitary representation has scalar action on the central circle. The restricted $SU(p,q)$ representation is irreducible since the product map is onto and the circle acts by scalars. Push forward probability on the circle times the semisimple Haar under the covering. The squared coefficient magnitude is constant in the circle coordinate, so its integral equals the integral on $SU(p,q)$. On the compact side the corresponding covering of $U(n)$ also has degree $n$, and the compact-dual symmetric spaces identify with the same Grassmannian. The central circle lies in the compact subgroup. On the compact Grassmannian the quotient of probability Haar is the invariant measure of total mass one. Identify the tangent spaces using the shared off-block matrices $P(z)$, with $iP(z)$ on the compact side. The compact-dual match uses the same local exponential-coordinate density at the identity, with compact factors given probability. This is the normalization in `CDHaar` used above. Thus the classical theorem gives the same numerical root formula for the classical discrete series with the compact-dual normalization, including smaller regular gaps. Identifying the archive's lowest-type predicate with the classical parameter throughout the regular range is a separate representation-theoretic input. Atiyah and Schmid use the $L^2$ index and character translation. The archive uses the recurrence and two integral bounds above and identifies the concrete tied Haar. The textbook contribution is this reconstruction and the handoff to the tied degree. [Paper] [Atiyah–Schmid, pp. 5, 12–14, 41–46](https://www.math.utah.edu/~ptrapa/math-library/schmid/atiyah-schmid.pdf)
+
+The indicated proof bodies have author-level local R3. The deeper family, smooth-domain and tangent-estimate proofs remain at the stated interfaces. Public archival compilation and kernel replay are separate from this source reading. Reachability from the corresponding Main exports, same-source initial review, different-source mathematical review, and peer review of the RH argument are separate open items for this exposition. [Source and verification record](../sources/SOURCES.md#chapter-9-translation-and-the-formal-degree-constant)
 
 ---
 

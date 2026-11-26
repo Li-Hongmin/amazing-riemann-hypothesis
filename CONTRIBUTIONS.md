@@ -24,6 +24,13 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Levent Alpöge with Claude** — Supplied the real embedding producer and the Hermitian descent tensor-norm consumer read in Chapter 5. [Archive record](sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
 
+- **Harish-Chandra** established the discrete-series character and
+  formal-degree theorem. **Michael Atiyah and Wilfried Schmid** gave the
+  compact-dual-normalized formula and the lowest-type theorem via their
+  geometric construction. **Levent Alpöge with Claude** supplied A2's
+  unitary-group translation, integral bounds and the uses of the calibrated
+  degree. [Source record](sources/SOURCES.md#chapter-9-translation-and-the-formal-degree-constant)
+
 ## Checking and formalization
 
 ### Compilation, axiom audits and kernel checks (Alpöge archive)
@@ -868,3 +875,18 @@ same-model review is recorded separately in the preceding run's audit.
 
 
 - **Hongmin Li (with AI assistance)** — Read the real scalar square and followed the original tensor witness through the residue-field norm calculation. Wrote the sign classification, quadratic examples and counterexamples. [Chapter 5 §5.3.1.18](chapters/05-the-square-root-barrier-core-gm.md#53118-the-same-tensor-norm-witness-at-a-real-place)
+
+### Chapter 9 formal-degree normalization (§9.4.26)
+
+- **Mathlib contributors** Floris van Doorn, Sébastien Gouëzel, Mario
+  Carneiro, Johannes Hölzl, Xavier Roblot and Yury Kudryashov authored
+  the pinned measure and integral supplies identified by file in the source
+  record. The **Lean and Mathlib communities** verified the archived export
+  through the separately reported compilation and kernel checks.
+  [Pinned sources](sources/SOURCES.md#chapter-9-translation-and-the-formal-degree-constant)
+  · [Community verification](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+- **Hongmin Li with Codex assistance** explains the legal translation path,
+  positivity, log-minor and coefficient limits, and the root leading terms
+  for the calibrated constant. The subsection adds two exact low-rank
+  calculations, controls for the Haar scale and gap premise, and the call
+  trace to the two tied degrees. [Chapter 9](./chapters/09-heights-slopes-and-near-orthogonality.md#9426-recovering-the-formal-degree-constant-from-a-translation-ray)
