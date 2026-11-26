@@ -300,3 +300,5 @@ Chapter 13 [§13.4.17](../chapters/13-greens-theorem-and-the-literature-layer.md
 
 
 **Chapter 15, §15.4.3.10.** Reads the unique-maximum normalized-power branch at author-level local R3. Gives the relative-support denominator bound, uniform off-neighborhood estimate, weak convergence and Banach-valued point recovery. Works out an interval polynomial peak and a circle with a two-point limiting measure. The finite-window and Gaussian scaling arguments enter as references. [Subsection](../chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point)
+
+Chapter 17, §17.4.25 follows the radial Haar and Gamma suppliers of the weighted Minkowski volume. It derives equality of open and closed ball volumes, null spheres, the radius measure and the positive-power exponential moment, and checks the real and planar factors with the original $du\,dv$ normalization. The arithmetic consumers retain their prior scope. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17425-radial-haar-measure-and-the-gamma-factor-in-minkowski-volume)

@@ -1420,6 +1420,69 @@ archive's plane-basis reduction, its integral-basis construction) remain named a
 imported Mathlib factorization lemmas used at interface (`UniqueFactorizationMonoid.induction_on_prime`,
 `WfDvdMonoid.max_power_factor`). [Archive source map](../sources/SOURCES.md#p13-ideal-weight-convolution-and-real-character-square)
 
+### 17.4.25 Radial Haar measure and the Gamma factor in Minkowski volume
+
+The weighted Minkowski body uses the sum of the real moduli and twice the complex moduli. Its volume computation uses the equality of open and closed unit ball volumes and recovers that volume from an exponential integral. The real dimension determines the radial power, and the choice of Haar measure fixes the unit ball constant. [Source and consumer map](../sources/SOURCES.md#chapter-17-radial-haar-measure-and-the-gamma-factor)
+
+**Example A (a cubic exponential on a line).** Give $\mathbb R$ the norm $\rho(x)=2|x|$ and the measure $3\,dx$. For $r>0$, the radius-$r$ ball is $(-r/2,r/2)$, of measure $3r$. The radial density is $3\,dr$ on $(0,\infty)$. With $p=3$ and $b=8$ the original integral is $6\int_0^\infty e^{-64x^3}\,dx$. Put $t=64x^3$, so $dx=t^{-2/3}\,dt/12$. Then
+
+$$
+6\int_0^\infty e^{-64x^3}\,dx
+=\frac12\Gamma(1/3)
+=\frac32\Gamma(4/3)
+=3\cdot8^{-1/3}\Gamma(1+1/3).
+$$
+
+Reflection gives the factor $2$, the norm scale divides the unit ball length by $2$, and the measure multiplier is $3$. On the ordinary Lebesgue half-line at $b=1$, the substitution $t=x^3$ gives $\Gamma(1/3)/3=\Gamma(4/3)$, the value used by the real Mathlib declaration.
+
+**Example B (one complex coordinate).** Give $\mathbb C$ the modulus and Haar measure $du\,dv$ for $z=u+iv$. Its real dimension is $2$. Slicing its unit disk gives $2\int_{-1}^1\sqrt{1-u^2}\,du=\pi$ by the substitution $u=\sin\theta$. A disk of radius $r$ has area $\pi r^2$, with radial density $2\pi r\,dr$. At $p=1$ and $b=2$, set $t=2r$ to obtain
+
+$$
+\int_{\mathbb C}e^{-2|z|}\,du\,dv
+=2\pi\int_0^\infty r e^{-2r}\,dr
+=\frac{2\pi}{4}\Gamma(2)
+=\pi\,2^{-2}\Gamma(3)
+=\frac{\pi}{2}.
+$$
+
+Here $\Gamma(2)=1$ and $\Gamma(3)=2$. The weighted radius $s=2r$ has density $(\pi/2)s\,ds$, and $2|z|\le B$ has area $\pi B^2/4$ for $B\ge0$. For comparison, at $p=1/2$ and $b=2$ the substitution $t=2\sqrt r$ gives $r\,dr=t^3\,dt/8$. The same Haar measure then gives $(\pi/4)\Gamma(4)=3\pi/2$, equal to $\pi\,2^{-4}\Gamma(5)$ since $\Gamma(4)=6$ and $\Gamma(5)=24$.
+
+**Definition (the radius measure).** Let $E$ be a finite-dimensional real normed space, with $\rho(x)=\|x\|$, $d=\dim_{\mathbb R}E$, and nonzero additive Haar measure $\mu$ on its Borel sets. Put $c=\mu\{\rho<1\}$. Haar measure is positive on nonempty open sets and finite on compact sets, and the closed unit ball is compact. Thus $0<c<\infty$. Define the pushforward $\nu=\rho_*\mu$ on $[0,\infty)$ by $\nu(A)=\mu(\rho^{-1}(A))$ for Borel $A$.
+
+**Lemma (balls and spheres).** If $d>0$, for every center $a\in E$ and $r\ge0$ the open and closed balls both have measure $cr^d$, and the sphere has measure zero. At negative radii all three sets are empty. The measure $\nu$ has density $dc\,r^{d-1}$ on $(0,\infty)$ and zero mass at the origin.
+
+*Proof.* For $r>0$, dilation by $r$ carries each unit ball to its radius-$r$ version. It multiplies Haar volume by $|\det(r\,\mathrm{id}_E)|=r^d$, by transporting the measure to a linear real coordinate chart, using Haar uniqueness there, and applying the Lebesgue change of variables. For $0<s<1$ the closed ball of radius $s$ lies in the open unit ball. Writing $C$ for the closed unit ball measure gives $s^d C\le c\le C$. Taking $s\uparrow1$ proves $c=C$. At radius zero the open ball is empty, and the singleton in the closed ball has measure at most $cr^d$ for every $r>0$, tending to zero because $d>0$. Translation invariance supplies all centers. The sphere is the difference of the closed and open balls, whose common volume is finite.
+
+For $t\ge0$ we have $\nu([0,t])=ct^d$. The claimed density has the same cumulative measure by integration. The two measures restrict to finite measures on each $[0,m]$, with $m$ a positive integer, and agree on the intersection-stable generating family of intervals $[0,t]$ there. Uniqueness of finite measures gives equality on each $[0,m]$, and exhaustion gives equality on $[0,\infty)$. Hence for every nonnegative Borel $F$,
+
+$$
+\int_E F(\rho(x))\,d\mu(x)=dc\int_0^\infty F(r)r^{d-1}\,dr
+$$
+
+as an equality of nonnegative integrals. [Pinned ball and sphere proofs](../sources/SOURCES.md#chapter-17-radial-haar-measure-and-the-gamma-factor)
+
+**Lemma (the exponential moment).** Under these assumptions, for every $p>0$ and $b>0$,
+
+$$
+\int_E e^{-b\rho(x)^p}\,d\mu(x)=c\,b^{-d/p}\Gamma(1+d/p).
+$$
+
+*Proof.* Write $e^{-b\rho(x)^p}=\int_0^\infty \mathbf 1_{\{b\rho(x)^p\le t\}}e^{-t}\,dt$. The integrand is measurable and nonnegative, and the measures are sigma finite since the balls of integral radius have finite measure and exhaust $E$. Tonelli and the closed ball volume now give $c\,b^{-d/p}\int_0^\infty e^{-t}t^{d/p}\,dt$. The inverse radius $(t/b)^{1/p}$ uses both positive parameters. Euler's integral is finite because $1+d/p>0$, proving integrability as well. Alternatively, substituting $t=br^p$ in the radial formula gives $r^{d-1}\,dr=b^{-d/p}t^{d/p-1}\,dt/p$. The resulting factor $(d/p)\Gamma(d/p)$ equals $\Gamma(1+d/p)$ by recurrence at $d/p>0$. [Euler's integral](https://dlmf.nist.gov/5.2.E1) · [Gamma recurrence](https://dlmf.nist.gov/5.5.E1)
+
+**The mixed-coordinate volume.** For a number field $K$ of signature $(r_1,r_2)$ use all real places and one complex coordinate per conjugate pair. On $E=\mathbb R^{r_1}\times\mathbb C^{r_2}$ take the original product measure, with $du\,dv$ on each complex coordinate. Set $g(x,z)=\sum_i |x_i|+2\sum_j |z_j|$ and $S_B=\{g\le B\}$. This is a norm sublevel set in real dimension $n=r_1+2r_2=[K:\mathbb Q]>0$. The moment identity at $p=b=1$ gives $\int_E e^{-g}=n!\operatorname{vol}(S_1)$ by the boundary equality and $\Gamma(n+1)=n!$.
+
+The pushforward by $g$ is the convolution of the coordinate radius measures, with an empty family contributing the unit mass at zero. Coordinate pushforward first gives the product of the radius measures, and the sum map gives their convolution. Its mass on bounded intervals is finite because every radius is nonnegative, so bounding the sum also bounds each radius. The real density for $|x|$ is $2\,ds$ and the complex density for $2|z|$ is $(\pi/2)s\,ds$. Tonelli factors the moment at $e^{-\sum s}$ into $2\Gamma(1)=2$ per real place and $(\pi/2)\Gamma(2)=\pi/2$ per complex place. Consequently for $B\ge0$,
+
+$$
+\operatorname{vol}(S_B)=\frac{2^{r_1}(\pi/2)^{r_2}}{n!}B^n.
+$$
+
+For $B<0$ the set is empty. For example, one real and one complex factor give $\int_0^B 2\cdot\pi(B-s)^2/4\,ds=\pi B^3/6$. The complex weight scales planar area by $2^{-2}$. The inherited $2^{-r_2}$ in the ideal covolume comes from converting conjugate rows to real coordinates. Both formulas use the same $du\,dv$. [Milne, Lemmas 4.22–4.23 and Proposition 4.26](https://www.jmilne.org/math/CourseNotes/ANT.pdf) · [Pinned mixed-body consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/ConvexBody.lean#L377-L426)
+
+**Notes on endpoints and formal scope.** In dimension zero, $E=\{0\}$ with $\mu=m\delta_0$ and $0<m<\infty$. At positive radii both balls have measure $m$. At radius zero the open ball is empty and the closed ball and sphere have measure $m$. The radius measure is $m\delta_0$ and the positive-$p$, positive-$b$ exponential has integral $m$, consistent with $\Gamma(1)=1$. In positive dimension, deleting $b>0$ permits $b=0$, giving integral $\mu(E)=\infty$ since $cr^d\to\infty$. If $b<0$ the integrand is at least $1$, with the same divergence. Deleting $p>0$ permits $p=0$, giving the constant $e^{-b}$ off the null singleton zero and again an infinite integral.
+
+In the pin, `measure_le_eq_lt` puts the supplied gauge on a copy of the space as a norm, pushes Haar measure through the identity continuous linear equivalence between the two topologies, and pulls both balls back using `Measure.map_apply`. The equality theorem compares the two ball formulas. The sphere lemma takes their difference at positive radius and uses singleton nullity at zero. The real `integral_exp_neg_rpow` is on $(0,\infty)$ for $p>0$ and uses the weighted half-line integral at weight exponent zero. `Complex.integral_exp_neg_mul_rpow` assumes $1\le p$ and $0<b$. Its weighted supplier uses polar coordinates on the slit plane, the radial Jacobian and the angular length $2\pi$ before applying the real weighted formula. The recurrence gives $\Gamma(1+2/p)$. In `convexBodySum_volume` both coordinate calls use $p=1$, with $b=2$ in the complex call. The Haar proof above covers $0<p<1$ as in Example B. The scope of this reading is the integral supply to the previously established ordinary-class and ray-cardinality applications. [Declaration and evidence ledger](../sources/SOURCES.md#chapter-17-radial-haar-measure-and-the-gamma-factor)
+
 ## 17.5 Remarks, formalization notes, and Masullo's counterpart
 
 ### 17.5.1 Mathlib's `C = 4` for 3-APs versus the archive's `C_T = 64` for `NoRel`
