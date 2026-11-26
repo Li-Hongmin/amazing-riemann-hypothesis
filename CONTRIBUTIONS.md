@@ -900,3 +900,13 @@ same-model review is recorded separately in the preceding run's audit.
 - **John Tate, Jean-Pierre Serre and J. S. Milne.** Tate supplied the classical cup-duality theorem. Serre and Milne supplied the cited local-field and class field theory proofs and comparisons. [Source ledger](sources/SOURCES.md#chapter-11-finite-perfect-local-cup-pairing)
 - **Levent Alpöge with Claude and the Mathlib community.** The A2 proof builds finite Kummer cohomology from unit powers and installs both adjoint bijections in the local duality bundle. Mathlib contributors Yaël Dillies and Bhavik Mehta supplied the finite-character bound used in that proof, and the complex circle construction comes from the pinned community library. [Source ledger](sources/SOURCES.md#chapter-11-finite-perfect-local-cup-pairing)
 - **Hongmin Li with AI assistance.** Read the pinned production and consumers, wrote the textbook proof, computed two Kummer pairings including the wild character over $\mathbb Q_5$, and gave the finiteness counterexample and torsion implication. [Chapter 11 §11.4.5](chapters/11-the-window-bound-vwin.md#1145-from-two-zero-annihilators-to-a-perfect-local-cup-pairing)
+
+### Chapter 7 §7.4.3.18 — Successive and grouped mirabolic quotients
+
+**I. N. Bernstein and A. V. Zelevinsky.** Proved the classical transitivity of localization and developed the mirabolic derivative functors, including the modulus convention. [Original, §§1.8–1.9 and 3.1–3.5](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf)
+
+**Levent Alpöge with Claude.** Produced the A2 matrix and relation-space lemmas, the successive quotient and its iteration, and the use of nonvanishing in the highest-product proof. [Declaration map](chapters/07-chains-of-theta-lifts.md#mirabolic-quotient-comparison-supply)
+
+**Mathlib contributors and community verifiers.** Mathlib supplies quotient maps, transport by equality of submodules and the third isomorphism theorem at the archive's pinned revision. The community verification records above retain their documented scopes. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra) · [Verification records](#checking-and-formalization)
+
+**Hongmin Li with AI assistance.** Read the local production and consumer bodies, wrote the representative and Levi-action proof, and gave the two smooth local models and the deletion counterexamples. This is author-level local R3. [§7.4.3.18](chapters/07-chains-of-theta-lifts.md#74318-from-successive-mirabolic-quotients-to-one-grouped-derivative)
