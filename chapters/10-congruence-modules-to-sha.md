@@ -14,6 +14,7 @@
 > the joint supply of one auxiliary-place family with the Selmer polynomials read in §10.4.7.4,
 > the two order-bound production wrappers and initial assemblies read in §10.4.7.5,
 > the initial positive-order seed `StartInd.start_of_resBound` with its scalar-descent, unused-left-place, tame-scalar and ramified-subgroup suppliers read in §10.4.7.6,
+> the [compatible Tate generator](#10414-a-compatible-tate-generator-for-torsion-coefficients) and its local top-degree consumer in §10.4.14,
 > and for the local and conditional matrix proofs in
 > §§10.4.8–10.4.13, including the global invariant sum read in §10.4.11.1. Each subsection records its reading boundary.
 > `[Lean]` marks the remaining statement-level sub-lemmas at the
@@ -3488,6 +3489,121 @@ Archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 - **Named inputs.** The degree-one supplier retains its reading scope in §10.4.7. The deeper inputs are §10.4.7’s cyclotomic irreducibility (`exists_prime_dvd_sub_one_cyclotomic_irreducible_over`), crossing-field construction (`exists_cyclotomic_crossing_field_deciding_frobenius`), prime norm existence (`exists_prime_absNorm_eq_of_irreducible_cyclotomic'`) and restriction of Frobenius (`isFrob_restrictScalars_of_prime_absNorm'`), called at lines 22–40 of `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChebotarevDegreeOne.lean`. Valuation transport uses `exists_smul_eq_of_isPlaceOver` and `inv_mul_mem_Ine_of_isFrob` in `src/ReciprocityTheory/GaloisValuations/Global.lean:340,239` and `isFrob_smul` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsPlaceOverMoveValCc.lean:148`. The decomposition test uses `closure_frob_sup_Ine` in `src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ExistsCoprimePowOfMemIneKer.lean:188`. The finite-ramification and degree/norm suppliers are `finite_ramified` in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FinitePlacesInertiaNotFixingFiniteExtension.lean:62` and `absNorm_prime_iff_inertiaDeg_eq_one_and_finite_ramified` in `src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified.lean:8`. The construction of `AdmFam`, the joint `ChooseH` test, small-subgroup actions, first-half inertia vanishing, reciprocity and Poitou–Tate remain inputs with the reading boundaries of the preceding subsections.
 
 Positive density gives existence with the stated finite exclusions. A bound on the least eligible norm would need an effective Chebotarev estimate for these extensions and quantitative control of the exclusions. The argument makes no bounded-norm claim.
+
+### 10.4.14 A compatible Tate generator for torsion coefficients
+
+The finite-coefficient descent used in the residual Bloch–Kato pairing compares a cocycle and a primitive at one common bounded level. Here the object is a single representative that can be evaluated on coefficients of any $\ell$-power order. Two generators chosen separately can differ by a unit in cohomology and by a coboundary as functions. The construction corrects these two differences at each step. It then gives the local top-degree isomorphism used by the period-data interface. [A2, CobOfGen.lean:68–108; H2EquivOfTorsionCharacter.lean:159–305,464–504]
+
+For a preview, put $\ell=3$ and suppose a generator modulo $9$ reduces modulo $3$ to $2C+\delta B$, where $C$ is the chosen lower generator. Multiplying by $2$ matches the class of $C$ because $2\cdot2\equiv1\pmod3$. Subtracting $\delta(2B)$ matches the function $C$. Both operations can be performed upstairs. The first hand calculation below gives this discrepancy on an actual Galois group.
+
+#### Cochains and the finite input [Lean, read]
+
+Let $\ell$ be prime, $R=\mathbb Z_\ell$ and $R_r=R/\ell^rR$. Let $G$ be a group with a topology and continuous multiplication, and let $\chi:G\to R^\times$ be a homomorphism whose values are continuous as an $R$-valued function. For an $R$-module $T$ use the scalar action $g\cdot t=\chi(g)t$. In cochains with torsion coefficients the coefficient set is discrete. Write
+$$
+\begin{aligned}
+(\delta b)(g,h)&=\chi(g)b(h)-b(gh)+b(g),\\
+(d_2z)(g,h,k)&=\chi(g)z(h,k)-z(gh,k)+z(g,hk)-z(g,h).
+\end{aligned}
+$$
+A 2-cocycle is a locally constant function on $G\times G$ with $d_2z=0$. The group $H^2$ is the quotient of these cocycles by the differentials of locally constant 1-cochains. For $\ell^r T=0$, $\delta b$ is locally constant because $\chi$ acts through the locally constant reduction $\chi_r$ and multiplication in $G$ is continuous. Expanding $d_2\delta b$ cancels all terms, using $\chi(g)\chi(h)=\chi(gh)$. For a pointwise $\ell$-primary torsion $T$, the action on discrete $T$ is continuous: near $(g,t)$ keep $t$ fixed and take a neighbourhood of $g$ on which $\chi$ has constant residue modulo a power killing $t$. The same argument applied to the three terms of $\delta b$ gives local constancy in this case. These are the cochains of $\mathrm{H2}(\pi,\top)$ in the archive when $\pi$ is the scalar representation. [A2, H2EquivOfTorsionCharacter.lean:70–115; ContinuousFixingSubgroupEquiv.lean:169–186; AdRep.lean:10–49]
+
+For a function $C:G\times G\to R$, the condition $\operatorname{Gen}(\chi,r,C)$ consists of three clauses for **every finite** $R$-module $T$ killed by $\ell^r$.
+
+1. For every $x\in T$, $Cx$ is a 2-cocycle, where $(Cx)(g,h)=C(g,h)x$.
+2. Every 2-cocycle $z$ in $T$ has the form $z=Cx+\delta b$ for some $x\in T$ and a locally constant $b:G\to T$.
+3. If $Cx=\delta b$ for a locally constant $b$, then $x=0$.
+
+Thus one function supplies all finite modules of the given exponent. The arithmetic input for the construction is $\forall r\ge1\ \exists C\ \operatorname{Gen}(\chi,r,C)$, with the same $G$ and $\chi$ throughout. In A2, the first and last fields of the named finite local Tate duality supply this input through the finite generator lemma. The decomposition-group input is `LocalTateDuality`, and the completed-field consumer below uses `LocalTateDualityK`. The first field identifies $H^2(G,R_r(\chi_r))$ with $R_r$. The last field detects degree-two classes by the degree-zero invariants of the twisted dual. On scalar-twist coefficients every $R_r$-linear functional belongs to those invariants, since $\chi_r(g)\phi(\chi_r(g)^{-1}m)=\phi(m)$. Thus a representative of the class of $1$ works simultaneously for all finite modules by finite biduality. This is the finite supply already used for descent. [A2, H2EquivOfTorsionCharacter.lean:77–82,334–416; GalCoh.lean:22–34,201–205; LocalTateDualityK.lean:32–35,47–55]
+
+#### Lemma. Correcting one step [Lean, read]
+
+If $C$ satisfies $\operatorname{Gen}(\chi,r,C)$ and $D$ satisfies $\operatorname{Gen}(\chi,r+1,D)$, there is a function $D'$ satisfying $\operatorname{Gen}(\chi,r+1,D')$ and $D'\equiv C\pmod{\ell^r}$ pointwise.
+
+**Level zero.** At $r=0$ the finite test module is zero because $\ell^0=1$. All three clauses are automatic, and congruence modulo $1$ is automatic. Take $D'=D$. No unit needs to be extracted at this step.
+
+**Positive levels and the unit.** Let $r>0$. Every module killed by $\ell^r$ is also killed by $\ell^{r+1}$, so $D$ satisfies the lower-level clauses. On $T=R_r$, the first clause for $C$ makes its residue $\bar C$ a cocycle. The second clause for $D$ gives
+$$
+\bar C=\bar D x+\delta b,\qquad x\in R_r,\quad b:G\to R_r\ \text{locally constant}.
+$$
+If $x$ were divisible by $\ell$ in $R_r$, multiplication by $y=\ell^{r-1}\bmod\ell^r$ would give $\bar C y=\delta(yb)$, since $yx=0$. The third clause for $C$ would give $y=0$, contrary to $r>0$. Hence the representative $u$ of $x$ in $\{0,\ldots,\ell^r-1\}$ is prime to $\ell$, so it is a unit of $R$. The $r=1$ test uses $y=1$.
+
+**Sign and preservation.** Lift $b$ by the same integer representatives to a locally constant $\beta:G\to R$ and set $D'=uD+\delta\beta$. Its reduction is exactly $\bar C$. On a finite module $T$ killed by $\ell^{r+1}$,
+$$
+D' t=D(ut)+\delta(\beta t).
+$$
+This is a cocycle by the first clause for $D$. If $z=Dx+\delta a$, put $t=u^{-1}x$ and obtain $z=D't+\delta(a-\beta t)$. If $D't=\delta a$, then $D(ut)=\delta(a-\beta t)$, so $ut=0$ and $t=0$. These are the three clauses at level $r+1$. The comparison equation has $+\delta b$, so the correction has $+\delta\beta$. In an example where the **unadjusted upper** representative already has an added coboundary $\delta B$, the correct $\beta$ cancels its scaled contribution with the opposite sign. [A2, H2EquivOfTorsionCharacter.lean:86–157,159–193]
+
+#### Theorem. A single generator and the top-degree quotient [Lean, read]
+
+Assume the finite input for $(G,\chi)$ above. There is a single $c:G\times G\to R$ satisfying $\operatorname{Gen}(\chi,r,c)$ for every $r\ge0$. Its reductions are locally constant and it is a continuous $R$-valued 2-cocycle for the $\ell$-adic topology.
+
+If $G$ is compact, let $O$ be any commutative ring and let $M$ be an $R$-module and an $O$-module on the same additive group, with commuting scalar actions. Assume
+$$
+\forall m\in M\ \exists r\ge0\quad \ell^r m=0.
+$$
+Let $\pi$ be an $O$-linear representation of $G$ on $M$ such that $\pi(g)m=\chi(g)m$ for every $g,m$. For this **same** $c$, the assignment $x\mapsto[cx]$ is an $O$-linear isomorphism $M\to H^2(G,M(\chi))$. Its inverse sends $[z]$ to the unique $x$ for which $z=cx+\delta b$ with a locally constant $b:G\to M$. In particular it is the direction $H^2(G,M(\chi))\to M$ returned by the local top-degree interface.
+
+**Proof of the common representative.** Start with $C_0=0$. Inductively use one supplied generator at level $r+1$ and apply the lemma with the already chosen $C_r$. The corrected $C_{r+1}$ generates at its own level and satisfies $C_{r+1}-C_r\in\ell^rR$ pointwise. For each pair $p=(g,h)$, telescoping gives $C_m(p)-C_n(p)\in\ell^nR$ whenever $m\ge n$. The sequence is Cauchy for the $\ell$-adic norm, so completeness gives a limit $c(p)$. Every coset of $\ell^nR$ is closed, so $c(p)-C_n(p)\in\ell^nR$. Separation gives uniqueness for this chosen sequence. Two functions congruent modulo $\ell^n$ act identically on every module killed by $\ell^n$, so all three clauses for $C_n$ carry to $c$. In the formal proof the Cauchy sequence uses the least integer representatives of $C_n(p)\bmod\ell^n$ and gives the same residues.
+
+Testing the first clause on $1\in R_n$ shows that $c\bmod\ell^n$ is locally constant and satisfies the twisted cocycle identity at every $n$. Since the residue cosets form a basis of $R$, their open preimages give continuity of $c$ into $R$ with its $\ell$-adic topology. The value of $d_2c$ at each triple is in every $\ell^nR$ and hence zero. For a torsion element $x$, choose $n$ killing $x$. Then $cx$ is obtained by postcomposing $c\bmod\ell^n$ with $a\mapsto ax$. Each coefficient calculation therefore has the requisite local constancy using its own level. The neighbourhood used for a torsion evaluation may depend on its exponent. [A2, H2EquivOfTorsionCharacter.lean:124–132,195–227,277–279; Mathlib, PadicIntegers.lean:166–188,470–480; RingHoms.lean:447–459,713–718,733–779]
+
+**Finite spans.** A locally constant function on a compact space has finite image, since its open fibres cover the space and admit a finite subcover. This applies to $G$ and $G\times G$. For a finite subset $S$ of $M$, choose a common killing exponent $r$ by taking the maximum of the individual exponents, with $0$ sufficient for the zero span. The $R$-span $T$ of $S$ is a quotient of $(R_r)^S$. It is finite, killed by $\ell^r$, and stable under the scalar action. We need only its $R$-module structure. For any cochain whose values lie in $T$, its local constancy carries to the restricted cochain because inclusion is injective. The cocycle and coboundary identities also carry to $T$ by that injection. [A2, H2EquivOfTorsionCharacter.lean:229–259; Mathlib, Topology/LocallyConstant/Basic.lean:154–158,176–181]
+
+**Surjectivity and the quotient.** Let $[z]$ be any class, and take $T=\operatorname{span}_R z(G\times G)$. Use its exponent $r$ and the second generator clause on the restricted $z$. It gives $z=cx+\delta b$ in $T$, hence in $M$ by inclusion. The quotient test for $[z]=[cx]$ is $z-cx\in B^2$. With the order $[cx]=[z]$ the difference is $cx-z=\delta(-b)$. Both give the desired preimage.
+
+**Injectivity and linearity.** If $[cx]=0$, choose a locally constant $b:G\to M$ with $\delta b=cx$ and take $T=\operatorname{span}_R(\{x\}\cup b(G))$. Both sides of the equality lie in this finite $T$. Applying the third clause once in $T$ gives $x=0$. Pointwise, $c\,(x+y)=cx+cy$ and $c\,(ax)=a(cx)$ for $a\in O$, the latter by commutation of the two scalar actions. Passage to the quotient is $O$-linear because $\pi$ and the differentials are $O$-linear. This proves that $x\mapsto[cx]$ is a bijective $O$-linear map. Its inverse is $O$-linear as well, and injectivity gives exactly the claimed independence of the coordinate from the representative and primitive. [A2, H2EquivOfTorsionCharacter.lean:261–305; Mathlib, LinearAlgebra/Quotient/Defs.lean:81–98,207–234]
+
+**Bounded and unbounded torsion.** A global bound $\ell^rM=0$ would allow one fixed level for all finite spans, even for an infinite bounded module. In $M=\mathbb Q_\ell/\mathbb Z_\ell$, the elements $\ell^{-n}+\mathbb Z_\ell$ have order $\ell^n$, and no such bound exists. The span for surjectivity depends on a representative. The span for injectivity depends on the particular primitive as well as the element. The generator remains the same in both arguments.
+
+#### Two computations on decomposition groups [Expository]
+
+Take the decomposition group of a prolongation of the $p$-adic place from $\mathbb Q$ to $\overline{\mathbb Q}$ and use its identification with $G_{\mathbb Q_p}$. The identification comes from finite decomposition groups of completions and Krasner approximation, followed by the inverse limit. In each computation $\ell=3$ and $p\in\{19,7\}$. For $n=3^r$ choose compatible primitive $n$th roots of unity $\zeta_n$ and compatible roots $\alpha_n=p^{1/n}$. Write $i_n(g)$ for the unramified character sending arithmetic Frobenius to $1$ modulo $n$, and $j_n(g)$ for the exponent of $\zeta_n$ in $g(\alpha_n)/\alpha_n$.
+
+Since $p\equiv1\pmod3$, iterating the cubing identity for $1+3a$ gives $p^{3^r}\equiv1\pmod{3^r}$. The unramified extension of degree $n$ therefore contains $\mu_n$: all roots occur in its residue field and lift uniquely by Hensel's lemma because $p\nmid n$. Over this extension $X^n-p$ is Eisenstein, and its roots are the $\zeta_n^j\alpha_n$. The compositum is Galois over $\mathbb Q_p$ of degree $n^2$. Frobenius on the unramified field extends to a lift $s$ fixing $\alpha_n$, by applying Frobenius to the coefficients in the presentation by $X^n-p$. Choose $t$ in the relative Galois group taking $\alpha_n$ to $\zeta_n\alpha_n$. Thus $(i,j)=(i_n(g),j_n(g))$ runs over all residues in $(\mathbb Z/n)^2$, with $s=(1,0)$, $t=(0,1)$ and
+$$
+(i,j)(i',j')=(i+i',\,j+p^i j'),\qquad \chi_n(i,j)=p^i\bmod n.
+$$
+In additive notation the cup of $i_n$ with the Kummer class of $p$ is
+$$
+U_n\big((i,j),(i',j')\big)=i\,p^i j'\pmod n.
+$$
+The character $i_n$ adds under multiplication, while $j_n(gh)=j_n(g)+\chi_n(g)j_n(h)$. Substitution of these two identities in $d_2U_n$ gives
+$\chi_n(g)\chi_n(h)\big(i_n(h)-i_n(gh)+i_n(g)\big)j_n(k)=0$.
+The roots and unramified characters are compatible, so the $U_n$ reduce to each other. Local reciprocity gives their invariant $1/n$ in $\mathbb Q/\mathbb Z$ since the unramified character sends the Artin symbol of the uniformizer to $1$. Thus these are actual generators on $G_{\mathbb Q_p}$. For a cyclic coefficient $R_m$ of exponent $3^m$ with $m\le r$, evaluation by the representative at level $r$ is evaluation by its reduction $U_{3^m}$. The invariant identifies $H^2(G,R_m(\chi_m))$ with the cyclic group generated by this class. Every finite $R$-module killed by $3^r$ is a finite direct sum of these cyclic modules, and the cochain operations and quotients are coordinatewise. This proves the three finite generator clauses for these representatives. The finite quotients give explicit values of the representatives. [Milne, Algebraic Number Theory, §7, Proposition 7.60 and the approximation argument, pp. 131–133, and §8, Proposition 8.10, p. 139](https://www.jmilne.org/math/CourseNotes/ANT.pdf) · [Milne, Class Field Theory, I §1, pp. 19–23, and III §3, Proposition 3.6 and Lemma 3.7, and §4, Steps 2–3, pp. 109–113](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**First calculation. Two levels with trivial reduced action.** Take $p=19$, so $\chi_3=\chi_9=1$, and use $C=U_3$ downstairs. Upstairs put $D=5U_9+\delta B$ with $B(i,j)=i^2\bmod9$. On the degree-$9^2$ quotient, the differential is $-2ii'\bmod9$, since squaring respects reduction modulo $9$. The lower reduction is $2U_3+\delta\bar B$, so $C=2\bar D+\delta(-2\bar B)$. Set $u=2$ and lift the primitive by the integer function $-2i^2$ with $i\in\{0,\ldots,8\}$. The corrected residue is
+$$
+D'=2D+\delta(-2B)=10U_9=U_9\bmod9.
+$$
+At $(s,t)$ the lower value is $1$ and the raw upper value is $5$, giving raw residue $2$ modulo $3$. At $(s,s)$ the lower value is $0$ and the raw upper value is $-2=7\bmod9$. Scaling alone gives $2\cdot7=5\bmod9$, still $2\bmod3$. The correction adds $4\bmod9$, making the value $0$. Multiplying a normalized generator by $3$ destroys the generator property. In $\mathbb Z/9$ the nonzero coordinate $3$ gives $(3U_9)3=0=\delta 0$. The invariant of $3U_9$ is $1/3$, so the generated classes miss the class of invariant $1/9$. If one tries to use $3U_9$ as the lower representative and $U_{27}$ upstairs, the comparison coordinate is $3$ modulo $9$. Every level-three generator restricts to a level-two generator by monotonicity. Therefore no corrected level-three generator can have $3U_9$ as its residue.
+
+**Second calculation. A nontrivial twist and a tower.** Take $p=7$, and use $C=U_9$ and $D=2U_{27}+\delta B$ with $B(i,j)=j^2\bmod27$. The full twisted formula is
+$$
+(\delta B)((i,j),(i',j'))=7^i(j')^2-(j+7^i j')^2+j^2\pmod{27}.
+$$
+In particular the term $\chi(s) B(t)$ is $7$, and $\delta B(s,t)=12$. At $(t,t)$ it is $-2$. Use $u=5$, a lift of $2^{-1}\bmod9$, and use $\beta=-5B$ with integer representatives of $B$. Then $D'=5D+\delta\beta$ is $10U_{27}$ modulo $27$, reducing to $U_9$ modulo $9$. At $(s,t)$, $U_{27}=7$, $D=26$ and $D'=5\cdot26-5\cdot12=70=16\bmod27$. This reduces to $7\bmod9$. At $(t,t)$, scaling alone gives $-10\bmod27$, which is $8\bmod9$ while $C(t,t)=0$. Using the wrong sign $\beta=+5B$ gives $-20$, which is $7\bmod9$ there. The two residues detect omission of the coboundary and reversal of its sign.
+
+Take the residues $U_3$, $U_9$, and $10U_{3^r}$ for $r\ge3$. They agree successively. With $i=\lim i_{3^r}$ and $j=\lim j_{3^r}$ the common representative is $c(g,h)=10i(g)\chi(g)j(h)$. On $M=\mathbb Q_3/\mathbb Z_3$ the element $x_r=3^{-r}+\mathbb Z_3$ produces the cocycle with numerator $10U_{3^r}$ over $3^r$. At $(s,t)$ its values for $r=1,2,3$ are respectively $1/3$, $7/9$ and $16/27$ modulo $\mathbb Z_3$. Its class has order $3^r$ by the invariant of $U_{3^r}$ and the isomorphism just proved. The full $R$-valued $c$ has infinite image: fix $g$ with $i(g)=1$, then $j(h)$ ranges over $\mathbb Z_3$ by compactness and surjectivity at each level. A globally locally constant $c$ on the compact square would have finite image. Here every fixed torsion evaluation $cx_r$ is locally constant despite this infinite image.
+
+**Omitting the correction.** On the $p=19$ group one can choose the genuine generators $U_3$ and $5U_9+\delta B$ independently. At $(s,t)$ their residues modulo $3$ are $1$ and $2$. No $3$-adic function can have both as its prescribed residues. A coboundary alone also fails, since the two lower classes have invariants $1/3$ and $2/3$. Even after multiplication by the unit, the discrepancy at $(s,s)$ witnesses failure without the coboundary correction. The $p=7$ computation gives the corresponding discrepancy with nontrivial reduced action. These failures concern representative matching and preservation of generation.
+
+#### The completed-field consumer and the arithmetic boundary
+
+In the local period-data interface, take a prime $\ell$, a finite extension $K/\mathbb Q_\ell$ inside the chosen algebraic closure, and the group denoted `GK K` on the period side. The archive compares it with the absolute group over $K$ by the bicontinuous group isomorphism $\Phi=\texttt{K.1.fixingSubgroupEquiv}$. The cyclotomic character $\chi_Z$ on the absolute group agrees, after transport and inclusion into $\mathbb Q_\ell$, with the period character by cyclotomic uniqueness. Consequently it is continuous as a $\mathbb Z_\ell$-valued function. Pullback along $\Phi$ carries the all-level generator to the period group, which is compact by the continuous inverse map from the compact absolute group. This pullback carries the cochain formulas and their local constancy in both directions, as in `Gen.transport`. [A2, ContinuousFixingSubgroupEquiv.lean:286–305; H2EquivOfTorsionCharacter.lean:307–332,464–483]
+
+The coefficient field $L$ and ring $O$ satisfy `GoodO`. Here $L$ is finite over $\mathbb Q_\ell$ with its module topology and is a topological ring. The DVR $O$ has fraction field $L$ and open image in $L$. The rank-one cyclotomic lattice $L_1$ in the interface has $L_1.T$ equal to the image of $O$. The target module is $M=L/L_1.T$, with the quotient representation `repD L1`. Here is how the consumer pays the scalar hypotheses.
+
+- Openness at zero shows that for any $x\in L$ and sufficiently large $m$, the entire set $\ell^m R x$ lies in the image of $O$. Indeed $a\mapsto ax$ is continuous from $\mathbb Q_\ell$ into $L$, and the sets $\ell^mR$ form a neighbourhood basis of zero. In particular each class $[x]$ is killed by $\ell^m$.
+- Apply the same argument to $x=1$. Any $a\in R$ is the sum of an integer representative modulo $\ell^m$ and an element of $\ell^mR$. Both summands have images in $O\subset L$. Fraction-field injectivity then gives the ring map $R\to O$, with composite equal to the given map into $L$. The scalar actions commute because multiplication in $O$ is commutative.
+- The quotient action on $[x]$ is multiplication by the image of the period character. Its equality in $L$ with the image of $\chi_Z(\Phi g)$ gives the pointwise scalar identity required by the theorem.
+
+Thus the inverse of $x\mapsto[cx]$ yields $H^2(\texttt{repD}\,L_1,\top)\simeq_O L/L_1.T$. The call passes the same $c$ at every level after transport. The choice $K=L=\mathbb Q_\ell$, $O=R$, and $L_1.T=R$ is legal for this coefficient interface: $R$ is an open DVR with fraction field $\mathbb Q_\ell$, and the cyclotomic units and their inverses preserve it. For example at $\ell=3$, the compatible cups of the unramified characters with the Kummer classes of $3$ again have invariants $1/3^r$ by the same reciprocity formula. This witnesses the positive finite input on the actual absolute local group in residue characteristic $\ell$, where the finite tame presentation used in the two calculations is unnecessary. The coefficient quotient already has unbounded exponent in this choice. [A2, LocCoh.lean:25–32,99–109,171–175; LocalSituation.lean:609–611; H2EquivOfTorsionCharacter.lean:425–460,477–504; TateH2OfFiniteDuality.lean:11–12; TateDualityH2FiniteCoefficients.lean:147–188]
+
+The next call is in the assembly `Bk.forms`. It passes the resulting `LocalTateTopDegree`, together with its separate `CobLO` input, to `h2_line_of_tate_h2_and_coboundaries`. This identifies the exact use of the quotient equivalence in the local Bloch–Kato chain. [A2, BkMain.lean:126–139]
+
+Tate's finite local theorem supplies the arithmetic comparison with the dual. Hilbert 90 and Kummer identify the cohomology of roots of unity with the corresponding Brauer torsion. The passage through finite spans is the cochain argument for the classical commutation with directed unions of discrete coefficients. The representative-level normalization here follows A2. The full finite arithmetic suppliers `LocalTateDuality` and `LocalTateDualityK` retain their named scopes, including the completed-field, roots-of-unity and cohomology comparisons and the Tate core. [Tate, ICM Stockholm 1962, §2, Theorem 2.1, p. 289](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM1962.1/ICM1962.1.ocr.pdf) · [Milne, Arithmetic Duality Theorems, I §2, Corollary 2.3, p. 28](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Milne, Class Field Theory, II §4, Proposition 4.4, p. 88](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**Reading scope.** The construction and quotient proof above are author-level R3 on A2. The predecessor's same-source preliminary review applies to its bounded descent. Kernel replay, compiled reachability from `Main.riemannHypothesis`, independent adjudication of this section and peer review are separate open checks. The two hand calculations are expository. [Pinned declarations and reading record](../sources/SOURCES.md#chapter-10-10414-a-compatible-tate-generator-for-torsion-coefficients)
 
 ## 10.5 Remarks, formalization notes, and Masullo's counterpart
 
