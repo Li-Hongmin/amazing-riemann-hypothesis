@@ -1483,6 +1483,90 @@ For $B<0$ the set is empty. For example, one real and one complex factor give $\
 
 In the pin, `measure_le_eq_lt` puts the supplied gauge on a copy of the space as a norm, pushes Haar measure through the identity continuous linear equivalence between the two topologies, and pulls both balls back using `Measure.map_apply`. The equality theorem compares the two ball formulas. The sphere lemma takes their difference at positive radius and uses singleton nullity at zero. The real `integral_exp_neg_rpow` is on $(0,\infty)$ for $p>0$ and uses the weighted half-line integral at weight exponent zero. `Complex.integral_exp_neg_mul_rpow` assumes $1\le p$ and $0<b$. Its weighted supplier uses polar coordinates on the slit plane, the radial Jacobian and the angular length $2\pi$ before applying the real weighted formula. The recurrence gives $\Gamma(1+2/p)$. In `convexBodySum_volume` both coordinate calls use $p=1$, with $b=2$ in the complex call. The Haar proof above covers $0<p<1$ as in Example B. The scope of this reading is the integral supply to the previously established ordinary-class and ray-cardinality applications. [Declaration and evidence ledger](../sources/SOURCES.md#chapter-17-radial-haar-measure-and-the-gamma-factor)
 
+### 17.4.26 Angular measure and the Haar product in polar coordinates
+
+A radius measure tells us the volume of a shell. To integrate a function that varies over the shell, we also need the volume assigned to each set of directions. The unit ball supplies that information. A patch of the unit sphere is assigned a multiple of the volume of its cone inside the ball. Dilation then determines the mass of that patch in every shell. [Source and consumer map](../sources/SOURCES.md#chapter-17-angular-measure-and-the-haar-product)
+
+**Example A (a nonradial integral on the plane).** Use Euclidean length and ordinary area on $\mathbb R^2$. An arc of angular length $\theta$ cuts out a unit sector of area $\theta/2$. Indeed, rotations divide the unit disk of area $\pi$ into equal sectors at rational fractions of a turn. The boundary rays have area zero, and squeezing the angle between rational fractions gives the formula for every angle. Twice the cone area gives the usual angle measure $d\theta$, by agreement of the two finite measures on a generating family of half-open arcs in a fixed angular parametrization. The circle has angular mass $2\pi$, and its first quadrant has mass $\pi/2$.
+
+Take $F(x,y)=x\,\mathbf 1_D(x,y)$ for the open first-quadrant unit sector $D=\{x>0,\ y>0,\ x^2+y^2<1\}$. At the same radius it takes different values at different angles. The radial factor is $r\,dr$, and $F$ supplies another $r$.
+
+$$
+\int F(x,y)\,dx\,dy
+=\int_0^1 r^2\,dr\int_0^{\pi/2}\cos\theta\,d\theta
+=\frac13.
+$$
+
+Cartesian slices give $\int_0^1 x\sqrt{1-x^2}\,dx=1/3$, using $t=1-x^2$. With the indicator of $D$ alone the product gives $(\pi/2)(1/2)=\pi/4$. Over all angles the same radial integral gives $\pi$.
+
+**Example B (two three-dimensional sectors in different shells).** Use $\|(x,y,z)\|_\infty=\max(|x|,|y|,|z|)$ and ordinary volume. The unit cube has volume $8$. On its boundary choose the disjoint face patches
+
+$$
+A=\{(u,v,1): 0<u<1,\ -1<v<1/2\},\qquad
+B=\{(-1,u,v): -1/2<u<1/2,\ 0<v<1/2\}.
+$$
+
+At radius $r$ the first cone has the slice $z=r$, with $0<x<r$ and $-r<y<r/2$. Its Cartesian slice area is $3r^2/2$. The second cone has the slice $x=-r$, with $-r/2<y<r/2$ and $0<z<r/2$. Its slice area is $r^2/2$, and $|dx|=dr$. Integrating those areas from zero to one gives unit cone volumes $1/2$ and $1/6$. Multiplying by the dimension $3$ gives angular masses $3/2$ and $1/2$. For the first patch in $1<r<2$ and the second in $0<r<3$ the volumes are
+
+$$
+\frac32\frac{2^3-1^3}{3}=\frac72,\qquad
+\frac12\frac{3^3}{3}=\frac92.
+$$
+
+Their disjoint union has volume $8$, in agreement with integrating the Cartesian slice areas over those intervals. Each full open face has angular mass $4$, by the same slice calculation with both transverse intervals equal to $(-r,r)$. The cones over the edges lie in the planes $x_i=\pm x_j$ for distinct coordinates and have volume zero. Thus the angular mass is $24$, giving cube volume $24\int_0^R r^2\,dr=8R^3$ for every $R>0$. This calculation uses the radial factor on a sphere with corners.
+
+**Definition (direction, radius and angular measure).** Let $E$ have finite real dimension $d>0$, with a norm, its Borel sets, and nonzero additive Haar measure $\mu$. Write $E^\times=E\setminus\{0\}$, $S=\{u:\|u\|=1\}$, and $P=(0,\infty)$. Set
+
+$$
+\Phi(x)=(\|x\|^{-1}x,\|x\|),\qquad
+\Psi(u,r)=ru.
+$$
+
+Write $\mu^\times$ for the restriction of $\mu$ viewed as a measure on $E^\times$. For Borel $A\subseteq S$ write $C_t(A)=\{ru:u\in A,\ 0<r<t\}$ and set
+
+$$
+\sigma(A)=d\,\mu(C_1(A)),\qquad \eta_d(dr)=r^{d-1}\,dr\quad(r>0).
+$$
+
+With $c=\mu\{\|x\|<1\}$, the angular mass is $dc$. The probability version $\sigma/(dc)$ describes the direction of a point chosen uniformly by volume in the unit ball.
+
+**Lemma (the angular and radial product).** [Lean, read] The maps $\Phi$ and $\Psi$ are inverse Borel isomorphisms, and $\Phi_*\mu^\times=\sigma\otimes\eta_d$. Consequently, for any nonnegative Borel $F$ on $E$,
+
+$$
+\int_E F(x)\,d\mu(x)
+=\int_S\int_0^\infty F(ru)\,r^{d-1}\,dr\,d\sigma(u)
+$$
+
+in the extended nonnegative reals. For real or complex $F$ in $L^1(\mu)$ it holds as an ordinary integral, and the two orders of integration agree.
+
+*Proof.* The norm of $\|x\|^{-1}x$ is one and $\|ru\|=r$ for $r>0$. These identities give the inverses. The two maps are continuous on their displayed domains, since inversion of the radius is continuous on $P$. The subspace Borel structures agree with the subtype measurable structures. The Borel sets of the product agree with the product sigma algebra since both factors are second countable. Thus $C_t(A)=\Phi^{-1}(A\times(0,t))$ is Borel. Restrict $\Phi_*\mu^\times$ to $S\times(0,1)$ and project to $S$. Multiplying this finite measure by $d$ gives $\sigma$. Its total mass is $dc$ by the nullity of the origin and finiteness of the unit ball volume from §17.4.25.
+
+For each Borel $A$ and $t>0$, $C_t(A)=tC_1(A)$, so the Haar dilation law gives
+
+$$
+(\Phi_*\mu^\times)(A\times(0,t))
+=t^d\mu(C_1(A))
+=\sigma(A)\frac{t^d}{d}
+=(\sigma\otimes\eta_d)(A\times(0,t)).
+$$
+
+This is scaling the *image* of the unit cone. The pushforward of Haar measure on $E$ by $x\mapsto tx$ has factor $t^{-d}$, since evaluating it on a fixed set takes the inverse image. The division by $d$ comes from integrating $r^{d-1}$ on $(0,t)$.
+
+The tested rectangles form a pi-system. Intervals $(0,t)$ generate the Borel sets of $P$, and the angular side ranges over all Borel sets. The rectangles generate the product sigma algebra, since $A\times P$ is the increasing union of $A\times(0,m)$. On each strip $S\times(0,m)$ the two measures are finite and agree on the intersected rectangles, including the entire strip. Finite-measure uniqueness on each strip and increasing exhaustion prove the product identity. Evaluating it on $A\times(0,1)$ also proves uniqueness of $\sigma$ with this radial factor. Pushforward integration transports indicators, then nonnegative functions by monotone convergence. The null singleton permits integration over $E$. Tonelli gives the iterated integral. Applying the same identity to $|F|$ gives absolute integrability on the product when $F\in L^1(\mu)$, and Fubini gives both ordinary iterated integrals. [Pinned product proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/HaarToSphere.lean#L139-L158)
+
+**How the marginal enters Minkowski volume.** In the pin, `toSphere` uses the comap along the inverse polar map followed by the inclusion of the punctured subtype into $E$. On Borel sets this gives the same measure as pushing $\mu^\times$ forward by $\Phi$. The definition then restricts to the unit strip and takes the first marginal. `volumeIoiPow n` is Lebesgue measure on the positive-ray subtype with density $r^n$. The product theorem uses $n=d-1$. Its proof uses positive dimension to simplify $(d-1)+1=d$ in the interval mass. The proof compares the measures on rectangles via `prod_eq_generateFrom`, using the finite sphere factor and the spanning intervals $(0,k+1)$. [Pinned construction and proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/HaarToSphere.lean#L48-L158)
+
+For a radial test $F(x)=h(\|x\|)$ the function on the product depends only on the second projection. `integral_fun_norm_addHaar` first replaces the ambient integral by the subtype integral using the null singleton. It transports the integral along the measure-preserving homeomorphism, applies `integral_fun_snd` to extract the sphere mass, and moves the density into the positive-ray integral. In real notation the result is $dc\int_0^\infty h(r)r^{d-1}\,dr$. The companion `integrable_fun_norm_addHaar` uses the sphere's finite, strictly positive mass to give the integrability equivalence with the weighted radial function. Mathlib states its radial equality with the totalized Bochner integral. The ordinary signed and complex formulas above require actual integrability. [Pinned marginal](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/HaarToSphere.lean#L250-L314)
+
+`measure_unitBall_eq_integral_div_gamma` calls this marginal in the nontrivial branch with $h(r)=\exp(-r^p)$ and $p>0$. Its subsingleton branch integrates over the singleton. The gauge wrapper `measure_lt_one_eq_integral_div_gamma` transfers the existing weighted sum gauge and Haar measure to a normed copy, and `convexBodySum_volume` calls the wrapper with $p=1$. The real half-line and complex coordinate Gamma calls in the same mixed-volume proof have their own paths. The complex call uses the slit-plane chart from §17.4.25. The sphere product supplies the generic ball-to-integral step, before the coordinate integrals evaluate the mixed exponential moment. [Generic ball consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean#L50-L111) · [Mixed-body consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/ConvexBody.lean#L377-L426)
+
+**Notes.**
+
+- In dimension one write $\|x\|=a|x|$ and $\mu=k\,dx$, with $a,k>0$. The sphere is $\{-1/a,1/a\}$. Each unit cone has length $1/a$, so each atom has mass $k/a$. The radial factor is $dr$. The product formula reads $(k/a)\int_0^\infty (F(r/a)+F(-r/a))\,dr$, exactly the two half-line substitutions. In dimension zero the coordinate homeomorphism still identifies two empty spaces. The punctured measure and the product are zero, but the original measure is $m\delta_0$ with $m>0$. The constant function $1$ is integrable and has integral $m$, whereas its punctured integral is zero. Positive dimension lets us discard the origin from the full-space integral and divide by $d$. The pinned measure-preservation statement handles the trivial case through the empty spaces, with natural subtraction truncated at zero.
+- Without Haar homogeneity, the same radial marginal can hide different angular behavior. On the real line with the ordinary norm, give $dx$ density $1+\tfrac12\operatorname{sgn}(x)\mathbf 1_{\{1<|x|<2\}}$. The densities at $r$ and $-r$ sum to $2$ for all $r>0$. The unit cones have mass one each. The positive half of the shell $1<|x|<2$ has actual mass $3/2$, while the product of the unit-cone angular measure and the radial factor assigns it mass one.
+- Angular measure depends on the norm and the Haar normalization. In the norm $\max(|x|/2,|y|)$ the unit rectangle has vertical sides of length two and horizontal sides of length four. Each full side cuts out a triangle of area two, so all four sides have angular mass four. Euclidean boundary length gives different proportions even after normalization to a probability. The radial factor here comes from homogeneous dilation. The general nonlinear Jacobian theorem and the compact-dual density of Chapter 9 have their own hypotheses and sources.
+- Naor and Romik give the integrable formula and its product-measure form for Lebesgue volume with the Minkowski functional of a convex body. For the closed unit ball of a norm, their normalized cone measure is $\sigma/(dc)$. Linear coordinates and the Haar normalization give the version above. Folland gives the Euclidean special case with the factors in the opposite order. [Naor–Romik, p. 244, Proposition 1 and Note 1](https://www.numdam.org/article/AIHPB_2003__39_2_241_0.pdf#page=4) · [Folland, Theorem 2.49](https://buchholzmd.github.io/paying-in-attention/Assets/Folland---Real-Analysis--Modern-Techniques-and-Their-Applications.pdf)
+
 ## 17.5 Remarks, formalization notes, and Masullo's counterpart
 
 ### 17.5.1 Mathlib's `C = 4` for 3-APs versus the archive's `C_T = 64` for `NoRel`

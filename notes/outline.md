@@ -364,3 +364,5 @@ remain outside this reading. [Subsection](../chapters/09-heights-slopes-and-near
 calibration (§9.4.26) enter at their recorded scopes; universal `HCFdeg`,
 `AllHyp.s47`, full `GoodS` and Main reachability remain unchanged.
 [Subsection](../chapters/09-heights-slopes-and-near-orthogonality.md#9427-paying-the-shared-compact-dual-haar-normalization-from-coordinate-densities)
+
+Chapter 17, §17.4.26 builds the angular cone measure and proves the full sphere–radius product for finite-dimensional additive Haar measure. It checks a nonradial planar integral, two distinct cube sectors, and the one- and zero-dimensional cases before following the radial marginal into the Minkowski volume proof. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17426-angular-measure-and-the-haar-product-in-polar-coordinates)

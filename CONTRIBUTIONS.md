@@ -993,3 +993,9 @@ same-model review is recorded separately in the preceding run's audit.
   calculations (`(P,Q)=(1,1)` and interleaved `(2,1)`), three premise
   counter-controls, and the consumer trace across all four scale wrappers.
   [Chapter 9](./chapters/09-heights-slopes-and-near-orthogonality.md#9427-paying-the-shared-compact-dual-haar-normalization-from-coordinate-densities)
+
+### Chapter 17 angular Haar decomposition (§17.4.26)
+
+- **Original sources.** Assaf Naor and Dan Romik give the cone probability and polar product for the Minkowski functional. Gerald B. Folland gives the Euclidean product and its integration theorem. Levent Alpöge with Claude supply the archived arithmetic context that uses the Mathlib volume computation.
+- **Mathlib contributors.** Yury Kudryashov authored the norm-sphere coordinate equivalence and Haar-to-sphere construction. Floris van Doorn authored the product-measure and product-integral files supplying rectangle uniqueness and Fubini.
+- **Textbook contribution.** Hongmin Li with Codex read the pinned proof and the marginal call into Minkowski volume, explained the normalization and proved the arbitrary-integrand rule from the measure identity, and worked the plane, cube and hypothesis-deletion examples. [Source and consumer map](sources/SOURCES.md#chapter-17-angular-measure-and-the-haar-product)
