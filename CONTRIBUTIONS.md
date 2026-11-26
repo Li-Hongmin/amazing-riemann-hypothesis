@@ -22,6 +22,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Levent Alpöge (with Claude)** — Announced a claimed proof of the Riemann Hypothesis and of the Generalized Riemann Hypothesis for all Dirichlet $L$-functions in a four-page note and a 14-part Lean 4 archive (175,187 `.lean` files on Lean `v4.33.1` and Mathlib `v4.33.1`, joined sha256 `9631b4f0…49c7fc`), without releasing a human-readable proof manuscript. — `proof` · `formalization` — [Paper] / [Lean] Claimed formal proof; machine checks reported below; human mathematical review not completed [Open] — [remark.pdf](https://alpo.ge/remark.pdf), [lean.tar.gz.part01](https://alpo.ge/lean.tar.gz.part01)–[part14](https://alpo.ge/lean.tar.gz.part14) (2026-11-20)
 - **Alessandro Maria Masullo** — Released a 940-page human-written manuscript draft, *The Music of the Primes* (sha256 `e039d3f6…97bf5`), proposing an adelic trace-formula proof of the Generalized Riemann Hypothesis for all unitary Hecke characters of all number fields, in which Chapter 13 (deducing GRH from Theorem 12.5.1.1) remains a two-page placeholder. — `proof` — [Paper] Unfinished draft undergoing major revision; gaps and disputes reported below, peer review not completed [Open] — [the-music-of-the-primes.pdf](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf) via [Vakil's announcement](https://math216.wordpress.com/2026/11/20/hurried-announcement-alessandro-masullo-grh/) (2026-11-20)
 
+- **Levent Alpöge with Claude** — Supplied the real embedding producer and the Hermitian descent tensor-norm consumer read in Chapter 5. [Archive record](sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
+
 ## Checking and formalization
 
 ### Compilation, axiom audits and kernel checks (Alpöge archive)
@@ -255,6 +257,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Lawrence Wu** — Authored Mathlib’s Mellin inversion proof from Fourier inversion, used in the archive’s Perron formula. [Pinned source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/MellinInversion.lean#L1-L17)
 
 - **Yury Kudryashov; Vincent Beffara and Stefan Kebekus** — Mathlib's maximum modulus theorem on bounded domains (`Complex.norm_le_of_forall_mem_frontier_norm_le`), holomorphy of slopes (`differentiableOn_dslope`) and the analytic-order API (`analyticOrderNatAt`), used by statement in the disc and rectangle proofs of Chapter 4, §4.10.8. [AbsMax](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Complex/AbsMax.lean#L405) · [Order](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Order.lean#L61-L90)
+
+- **Salvatore Mercuri, Xavier Roblot and Alex J. Best (Mathlib)** — Supplied the infinite-place completion and embedding declarations used in the real scalar square. [Pinned source record](sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
 
 ## Sources for the lattice estimates
 
@@ -861,3 +865,6 @@ same-model review is recorded separately in the preceding run's audit.
 - **Classical results** — I. M. Gel’fand and M. I. Graev supplied finite-group multiplicity one as credited by S. I. Gel’fand. His 1970 paper links cuspidal radical vanishing to genericity. Gan, Gross and Prasad state the finite-field top derivative result in the twisted-quotient convention. [Sources](sources/SOURCES.md#p16-the-levi-whittaker-line)
 - **Formal proofs and library** — Levent Alpöge's A2 archive supplies the column descent and block compression used by both consumers. Mathlib contributors supply the character sums, matrix tools, Maschke splitting and eigenvalue interfaces. [Sources](sources/SOURCES.md#p16-the-levi-whittaker-line)
 - **Textbook** — Hongmin Li with OpenAI Codex assistance traced the six direct proof bodies and both consumers, wrote the conditional proof, and checked the two explicit matrix models and two hypothesis deletions. The source reading is author-level local R3. [§13.4.25](chapters/13-greens-theorem-and-the-literature-layer.md#13425-why-the-levi-whittaker-space-is-a-line)
+
+
+- **Hongmin Li (with AI assistance)** — Read the real scalar square and followed the original tensor witness through the residue-field norm calculation. Wrote the sign classification, quadratic examples and counterexamples. [Chapter 5 §5.3.1.18](chapters/05-the-square-root-barrier-core-gm.md#53118-the-same-tensor-norm-witness-at-a-real-place)
