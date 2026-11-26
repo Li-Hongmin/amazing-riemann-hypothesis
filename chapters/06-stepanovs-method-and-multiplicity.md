@@ -42,6 +42,8 @@ This chapter does two jobs:
 
 ---
 
+The local coefficient step for the prismatic datum uses the normalized Frobenius matrix of a quasi-logarithm basis. [Adapted Frobenius matrices (§6.4.21)](#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)
+
 ## 6.1 Motivation
 
 ### 6.1.1 Why multiplicity beats the trivial bound without algebraic geometry
@@ -1777,6 +1779,135 @@ A real embedding $\rho:F\hookrightarrow\mathbb R$ makes $\mathbb C$ an $F$-algeb
 **Remark (the two extensions give one sign).** Example 1 illustrates the general fact used in §6.4.14: the Hermitian value $H_J(x,x)$ lies in $\iota(F)$, so its image under any extension of $\rho$ is $\rho(a)$ and does not depend on the extension. For a quadratic host the two extensions of a given $\rho$ are $\tau$ and $\overline{\tau}$, and both compute the same real number. The archive never needs to compare them; it applies the signature hypothesis `hsig` at the one $\tau$ returned by `exists_ext`.
 
 **Remark (source boundaries).** Lean readings are pinned to A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, and to Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`, the manifest pin of the archive. Proof bodies read: `exists_ext`; the Zorn, chain-union and single-root steps `exists_algHom_adjoin_of_splits`, `union`, `le_union`, `exists_lift_of_splits'`, `exists_lift_of_splits`, `nonempty_algHom_of_adjoin_splits`, `liftAux`; `rootOfSplits` and `Splits.exists_eval_eq_zero`; `PowerBasis.lift`, `lift_gen`, `liftEquiv'`; `algHomAdjoinIntegralEquiv`; `RingHom.injective`; `Module.finite_of_finrank_pos`; `Algebra.IsAlgebraic.of_finite` and `IsIntegral.of_finite`; and the field case of `lift`. Statements read without proof bodies: `FractionRing.liftAlgebra` and `isScalarTower_liftAlgebra`, `FractionRing.isAlgebraic`, `minpoly_splits_tower_top'`, `algHomEquivSigma`, `Subalgebra.iSupLift`, `zorn_le_nonempty_Ici₀`, `Complex.isAlgClosed`. These are source-level readings of the pinned text; they are not a kernel check, and the inference of the algebraicity instance in `gram0Def` is read from the source, not replayed. The Lean proofs are by Thomas Browning, Junyan Xu and Kenny Lau and the Mathlib community; the archive wrapper is by Alpöge with Claude. The published argument is [Milne, *Fields and Galois Theory*, Theorem 6.6, p. 90](https://www.jmilne.org/math/CourseNotes/FT.pdf) and Stacks [Tag 09GU](https://stacks.math.columbia.edu/tag/09GU); Mathlib's chain formulation cites I. M. Isaacs, *Roots of polynomials in algebraic extensions of fields*, Amer. Math. Monthly 87 (1980), 543–544. [Source register](../sources/SOURCES.md#host-gram-definiteness)
+
+### 6.4.21 Why the Frobenius matrix in an adapted basis is a unit
+
+A quasi-logarithm has a Frobenius operation on both coefficients and variables. The archive writes its columns in an adapted basis as $UD$, with $D=\operatorname{diag}(pI_d,I_k)$. The factor $p$ records extra divisibility of the first $d$ columns. To form the dual Frobenius, the archive needs an inverse to $U$ over the original ring, before inverting $p$. It detects each coordinate of a hypothetical residue-field kernel vector, then lifts a determinant unit through the frame. This is a local step in the chapter's $p$-adic divisibility machinery. Its hypotheses are independent of the Gauss seminorm construction for crystalline periods. [Source register](../sources/SOURCES.md#adapted-frobenius-matrix-unit)
+
+#### Two hand calculations [Expository]
+
+Both calculations use the ordered basis $(e_L,e_R)$ of a split free module of rank two. The semilinear map has columns $UD$ for $D=\operatorname{diag}(2,1)$ and the endomorphism $\sigma$ specified in each example. In both examples $s$ is the extension of $\sigma$ to $Q$ that fixes $1/2$. They model the coefficient-ring calculation. The adapted basis in the theorem below is a basis of quasi-logarithms modulo integral series.
+
+**A nonzero kernel correction.** Take $B=\mathbb Z_2[t]/(t^2-2t)$, $O=\mathbb Z_2$, $\theta(t)=0$, and $Q=B[1/2]$. Let $\sigma$ fix $\mathbb Z_2$ and send $t$ to zero. In the basis $1,t$, $B$ is complete and separated for $(2)$. Its kernel under $\theta$ is $\mathbb Z_2t$, and $(at)^2=2a^2t$. Modulo $2$, $\sigma(a+bt)=a\equiv(a+bt)^2$. Take
+$$
+U=\begin{pmatrix}1+t&2\\1&5\end{pmatrix},
+\qquad UD=\begin{pmatrix}2+2t&2\\2&5\end{pmatrix},
+\qquad M=\begin{pmatrix}1&0\\1&1\end{pmatrix}\quad\text{over }\mathbb F_2.
+$$
+For $w=(1+t,3)^{\mathsf T}$ we have $\sigma(w)=(1,3)^{\mathsf T}$ and $U\sigma(w)=(7+t,16)^{\mathsf T}$. The squared residues of $w$ are $(1,1)^{\mathsf T}$, with image $(1,0)^{\mathsf T}$ under $M$. The target residues $(1,1)$ lift through $O$ as $(1,1)$ with the same square roots, and $w$ is one choice of subsequent lift modulo $J$. The row $(1,0)$ applied to $M$ detects the first input coordinate. On a right-supported input, $M(0,b)^{\mathsf T}=(0,b)^{\mathsf T}$.
+
+We have $\det U=3+5t$ and can lift the inverse of its $\theta$-image by $b'=1/3$. The error $x=(3+5t)/3-1$ is $5t/3$ and $x^2=2(25t/9)$. Thus $(1+x)(1-x)=1-50t/9$ is a unit by the $2$-adic geometric series. Direct multiplication gives $(3+5t)^{-1}=1/3-(5/39)t$. The matrix inverse is this scalar times $\begin{pmatrix}5&-2\\-1&1+t\end{pmatrix}$. The determinant of $UD$ has image $6$ in $O$, hence $UD$ is a nonunit.
+
+**A nontrivial residue Frobenius.** Take $O=B=\mathbb Z_2[\alpha]$ with $\alpha^2+\alpha+1=0$, $\theta=\operatorname{id}$ and $Q=B[1/2]$. The ring is complete in the basis $1,\alpha$. Its reduction is the field $\mathbb F_4$ because the defining polynomial has no root modulo $2$. Elements with nonzero residue are units by lifting a residue inverse and summing a geometric series. Every nonzero element is $2^m$ times such a unit, by taking the smaller valuation of its two coefficients. Products of nonzero elements are therefore nonzero, and $B$ is a discrete valuation ring. The automorphism $\sigma(\alpha)=\alpha^2=-1-\alpha$ fixes $\mathbb Z_2$ and reduces to squaring. Take
+$$
+U=\begin{pmatrix}\alpha&2\\1&1\end{pmatrix},
+\qquad UD=\begin{pmatrix}2\alpha&2\\2&1\end{pmatrix},
+\qquad M=\begin{pmatrix}\bar\alpha&0\\1&1\end{pmatrix}\quad\text{over }\mathbb F_4.
+$$
+For $z=(\bar\alpha,1)^{\mathsf T}$ choose the root lift $w=(\alpha^2,1)^{\mathsf T}$. Since $\alpha^3=1$, squaring its residue gives $z$, and $\sigma(w)=(\alpha,1)^{\mathsf T}$. Then $U\sigma(w)=(\alpha^2+2,\alpha+1)^{\mathsf T}$, with residue $Mz=(\bar\alpha^2,\bar\alpha+1)^{\mathsf T}$. The row $(\bar\alpha^{-1},0)$ applied to $M$ reads off the left input coordinate. On a right-supported input the second row of $M$ reads off the right coordinate. The determinant $\alpha-2$ reduces to $\bar\alpha$. Here $\theta$ is the identity, so the frame lift of the determinant inverse has zero error. Since $(\alpha-2)(\alpha^2-2)=7$, the matrix inverse is $(\alpha^2-2)/7$ times $\begin{pmatrix}1&-2\\-1&\alpha\end{pmatrix}$.
+
+Both examples are scalar frames with injective coefficient embedding in $Q$, denominators powers of $2$, odd integers invertible and $O$ torsion-free. The second has zero frame kernel. Both residue fields are perfect. An instance with the full BFrame record and an algebraically closed ambient field is given below.
+
+#### Frame, adaptation and the matrix hypothesis
+
+Fix a prime $p$, an algebraically closed field $C$ of characteristic zero with a multiplicative valuation $v:C\to\mathbb R_{\ge0}$, and a commutative ring $O$ with an $O$-algebra structure on $C$ that identifies $O$ with the valuation integers. The map $O\to C$ is injective with image the elements of value at most one. Assume $O$ is a domain, $p$ is a nonunit in $O$, and $O$ is separated and complete for $(p)$. Fix a pretilt element $\varepsilon$ with a primitive system of $p$-power roots of unity and any BFrame $F$ for it. Write $B=F.B$, $Q=F.Q$, $\iota:B\hookrightarrow Q$, $\theta=F.\theta$, $\sigma=F.\sigma$ and $s=F.s$. The full record includes $a:A_{\inf}\to B$ with $\theta a$ the Fontaine map and $\sigma a=a\varphi$ for Witt Frobenius $\varphi$. It includes $\tau\in B$ with $p\tau=a(\mu(\varepsilon))$ and $\tau^2=0$, where $\mu(\varepsilon)$ denotes the cyclotomic Witt element. Every $b\in B$ has the form $a(x)+\tau a(y)$. The remaining clauses are $\tau a(y)=0$ exactly when $\mu(\varepsilon)\mid y$, and $\tau\mid a(x)$ exactly when $\mu(\varepsilon)\mid x$.
+
+The scalar frame gives a surjective $\theta$, an injective $\iota$, denominators in $Q$ cleared by powers of $p$, invertibility of $p$ in $Q$ and of integers prime to $p$ in $B$, and $p$-torsion freeness of $O$. It requires $B$ separated and complete for $(p)$ and
+$$
+x\in\ker\theta\ \Longrightarrow\ \exists y\in\ker\theta,\quad x^p=py.
+$$
+This last law follows in a divided-power ideal from $x^p=p!\gamma_p(x)$. Also $s\iota=\iota\sigma$ and $\sigma(b)-b^p\in pB$ for all $b\in B$.
+
+For any $p$-divisible group $G$ over $O$, fix a QLog chart $c$ of dimension $d$ and a lift $\mu'$ of its law $\mu=c.\mu$. The condition IsLift gives zero constants, the right unit law, symmetry and a formal group law after reduction. Require also $\theta(\mu'_i)=\mu_i$ coefficientwise. For an ideal $N$ of $B$ write $f\in[N]$ if all coefficients are in $\iota(N)$. Put $\operatorname{lin}_i f=[X_i]f$ and $\delta_{\mu'} f=f(\mu'(X,Y))-f(X)-f(Y)$, extending coefficients to $Q$ as needed. A quasi-logarithm for $N$ has zero constant term, linear coefficients in $\iota(N)$, and $\delta_{\mu'} f\in[N]$.
+
+For any $k\ge0$, let $I=L\sqcup R$ with $L=\operatorname{Fin}(d)$ and $R=\operatorname{Fin}(k)$ tagged disjointly. Fix $e_l\in Q[[X_1,\ldots,X_d]]$ for $l\in I$. The condition IsBasis requires that each $e_l$ is a quasi-logarithm for $B$ and every such $f$ admits a unique $b\in B^I$ with $f-\sum_l\iota(b_l)e_l\in[B]$. The condition IsAdapted requires $\delta_{\mu'}e_i\in[\ker\theta]$ and $\operatorname{lin}_j e_i=\delta_{ji}$ for each $i\in L$ and each variable $j$. Define $\Phi f$ by applying $s$ to the coefficients and substituting $X_j^p$ for $X_j$. For a matrix $U$ over $B$ on $I$, put
+$$
+E_m=\Phi e_m-\sum_l\iota((UD)_{lm})e_l,\qquad D=\operatorname{diag}(pI_d,I_k).
+$$
+
+**Theorem (adapted Frobenius matrix).** For every choice of the data above, if $E_m\in[B]$ for all $m\in I$ and $E_m\in[pB]$ for all $m\in L$, then $U$ is invertible over $B$. The proof produces the first block from coefficients and the second from a cotangent test. Lemma 4 identifies the archive results used for that test. [Lean, read] [Source register](../sources/SOURCES.md#adapted-frobenius-matrix-unit)
+
+#### Lemma 1. Reflection of units along the frame
+
+Suppose $\theta(b)$ is a unit. Surjectivity lifts its inverse to $b'\in B$, so $x=bb'-1$ belongs to the kernel. The frame gives $x^p=py$ with $y$ in the kernel. For any $a\in pB$, the sums $\sum_{i=0}^{n-1}a^i$ give compatible residues at increasing precision. Completeness gives a limit, and separatedness makes its product with $1-a$ equal to $1$, since the finite products equal $1-a^n$. Applying this to every multiple of $a$ proves $pB\subseteq\operatorname{Jac}(B)$. In particular $1-(-x)^p=1-(-1)^ppy$ is a unit. Now
+$$
+(1+x)\sum_{i=0}^{p-1}(-x)^i=1-(-x)^p.
+$$
+The product on the left is a unit in a commutative ring, so its first factor $bb'$ is a unit, as is $b$. The lifting uses the divisibility $x^p=py$. The extra conclusion $\theta(y)=0$ is part of the frame.
+
+#### Lemma 2. Lifting root coordinates
+
+The units of the valuation ring are the elements of value one, since both an element and its reciprocal must have value at most one. The elements of value strictly less than one form an ideal by the valuation laws, so they form the unique maximal ideal. Write $\mathfrak m$ for that ideal, $\kappa=O/\mathfrak m$ for the residue field, $\rho:B\to\kappa$ for the composite with $\theta$, and $J=\ker\rho$. Since $p$ is a nonunit in $O$, $pB\subseteq J$. For $a\in O$ choose a root $z$ of $T^p-a$ in $C$. Then $v(z)^p=v(a)\le1$, hence $v(z)\le1$ since $p>0$. Thus $z$ comes from $r\in O$ and injectivity gives $r^p=a$. The argument includes $a=0$. Given $x\in\kappa$, lift it to $a\in O$, choose such $r$ and lift $r$ along $\theta$ to $w\in B$. This gives $\rho(w)^p=x$. For all $b\in B$,
+$$
+\rho(\sigma(b))=\rho(b)^p
+$$
+because the error is in $pB$. Therefore $\sigma$ preserves $J$ and $\sigma(b)\in J$ implies $b\in J$, since a field has no nonzero nilpotents. This identity is in the residue field of $O$.
+
+#### Lemma 3. Detecting the first block by coefficients of $X_i^p$
+
+**Weighted coefficient integrality.** For a quasi-logarithm $f$ for $N$, differentiate the composite $f(\mu'(X,Y))$ with respect to $Y_i$ and set $Y=0$. Put $A_{ji}=\partial_{Y_i}\mu'_j(X,0)$. The resulting row has entries
+$$
+g_i=\sum_j(\partial_j f)\,\iota(A_{ji})
+    =\partial_{Y_i}(\delta_{\mu'} f)(X,0)+\operatorname{lin}_i f.
+$$
+The first identity uses $\mu'(X,0)=X$ and the formal chain rule, which follows by differentiating monomials and comparing coefficients. The coefficient of $X^\alpha$ in the derivative of the coboundary is exactly its coefficient at $X^\alpha Y_i$. Thus $g_i\in[N]$. Symmetry gives $\mu'(0,Y)=Y$, so $A(0)=I_d$. The series $\sum_{n\ge0}(I_d-A)^n$ defines its inverse over $B$, coefficientwise, since the $n$th power contributes only in degrees at least $n$. Multiplication by this inverse preserves coefficient membership in $\iota(N)$, since each coefficient uses finite sums of products by $\iota(B)$. Therefore every coefficient of $\partial_j f$ belongs to $\iota(N)$. Reading the coefficient at $\alpha-\mathbf e_j$ when $\alpha_j>0$ proves $\alpha_j[X^\alpha]f\in\iota(N)$, and for $\alpha_j=0$ the assertion is zero. The archive solves the same row equation by a unit determinant and the constant-coefficient criterion for formal series.
+
+**The coordinate rows.** Write $M=\rho(U)$ entrywise. For $i\in L$ choose $c_l\in B$ with $\iota(c_l)=p[X_i^p]e_l$ by weighted coefficient integrality. The coefficient of $X_i^p$ in $\Phi e_m$ is $s(\operatorname{lin}_i e_m)$. If $m\in L$ this equals $\delta_{im}$ and the column of $UD$ is $p$ times that of $U$. The stronger error condition and injectivity of $\iota$ yield
+$$
+\delta_{im}-\sum_lU_{lm}c_l\in pB.
+$$
+If $m\in R$, the linear coefficient is integral and $s$ preserves the embedded $B$ because $s\iota=\iota\sigma$. As the error lies in $[B]$, so does the indicated coefficient of the combination. Multiplying by $p$ and using injectivity gives $\sum_lU_{lm}c_l\in pB$. Consequently $(\rho(c_l))_l M$ is the $i$th coordinate row. If $U\sigma(w)\in J^I$, multiply its zero residue by this row to obtain $\rho(w_i)^p=0$, hence $w_i\in J$. This proves the first-block supplier. Both column congruences hold modulo $pB$ before passage to the residue field.
+
+#### Lemma 4. Detecting the second block by the dual Lie coordinates
+
+Take $b\in B^R$, write $\widetilde b=(0,b)$, and assume $W=U\sigma(\widetilde b)$ has all coordinates in $J$. Write $\delta'=\delta_{\mu'}$ and $\delta=\delta_\mu$. The integer frame and `frame_fraction_map` extend $\theta$ to $\Theta:Q\to C$. Indeed the frame identifies $Q$ with $B[1/p]$, and $\theta$ followed by $O\hookrightarrow C$ sends $p$ to a unit. The identity map of $O$ also gives a scalar frame with $C=O[1/p]$. To see denominator clearing here, use $v(p)<1$ and multiply a given element of $C$ by a sufficiently large $p$-power. Integers prime to $p$ are units in $O$ by Bézout and locality, and the identity kernel is zero. Hence the required frame clauses follow from the hypotheses on $O$ and $C$.
+
+Coefficient transport makes each $e_l^C=\Theta(e_l)$ a quasi-logarithm for $\mu$ and gives $\delta e_i^C=0$ on $L$ by adaptation. The geometric supply `quasiLogarithm_secondBlock_tangent_basis_dual_lie` gives an $O$-basis $(\lambda_j)_{j\in R}$ of $\operatorname{Lie}(G^\vee)$ with $c.\operatorname{IsLie}(e_j^C,\lambda_j)$. The chart's `IsLie` tests an integral representative of $p^n e_j^C-e_j^C\circ[p^n]$ at every level $n$. Its value on a dual point with prescribed differential gives the pairing with $\lambda_j$ modulo $p^n$.
+
+Set $f=\sum_{j\in R}\iota(b_j)e_j$. Semilinearity gives
+$$
+\Phi f-\sum_l\iota(W_l)e_l=\sum_{j\in R}\iota(\sigma(b_j))E_j\in[B].
+$$
+Here the right block of $D$ is the identity. There is a series $T$ over $B$ whose image is the left-hand side, and a series $F_1$ over $B$ whose image is $\delta'f$, by coefficientwise integrality. The archive gives $\delta'\Phi f-\Phi\delta'f\in[pB]$ by comparing the two substitutions with entries $(\mu'_i)^p$ and $\Phi\mu'_i$ in $s(f)$. The pure $X$ and pure $Y$ terms commute with $\Phi$ and cancel. The two substitution tuples have zero constants and agree modulo $pB$ by the coefficient Frobenius relation and characteristic-$p$ powering. The Lean proof applies `GlobalTheory.KatzCongr.subst_sub_in` with ideal $pB$. In this special case one can see the denominator control directly. For any formal series $a,h$ over $B$ and positive integer $n$, expand
+$$
+(a+ph)^n-a^n=n\sum_{j=1}^{n}\binom{n-1}{j-1}\frac{p^j}{j}a^{n-j}h^j.
+$$
+The fraction $p^j/j$ denotes an element of $pB$. Indeed write $j=p^r m$ with $m$ prime to $p$ and use $r<j$ and the unit $m$. Applying this identity to one variable at a time in a monomial difference produces a factor of its exponent in that variable, times a series over $pB$. The weighted coefficient of $s(f)$ times that exponent is integral by Lemma 3 and $s\iota=\iota\sigma$. Thus each monomial contribution to the substitution difference lies in $[pB]$. Both substitution tuples have zero constants, so each coefficient involves only finitely many monomials.
+
+Take $t=\theta(T)$. To see the exact congruence, lift the integral series $\delta'e_l$ to series $g_l$ over $B$. Then, after bringing all integral terms back to $B$ using $\iota$,
+$$
+\delta_{\mu'}T=\sigma(F_1)(Z^p)+H-\sum_l W_l g_l
+\qquad\text{with all coefficients of }H\text{ in }pB.
+$$
+Here $Z=(X,Y)$ and $\sigma(F_1)$ means coefficientwise action. Reduction along $\rho$ kills $H$ and the terms with $W_l$. Thus the coefficient of $\delta t$ at $p\beta$ is $\theta([Z^\beta]F_1)^p$ modulo $\mathfrak m$, and the remaining coefficients have zero residue. The linear coefficients of $t$ also have zero residue. Indeed $\Phi f$ has no linear terms, each $e_l$ has integral linear coefficients, and $W_l\in J$.
+
+Write bars for reduction from $O$ to $\kappa$, and consider $\overline t$ over the reduced law $\overline\mu$. Every derivative of the reduced coboundary is zero since its support consists of exponents divisible coordinatewise by $p$. Differentiating in $Y$, setting $Y=0$ and using the vanishing linear coefficients of $\overline t$ gives the row equation $d\overline t\,A=0$ with $A(0)=I_d$, as in Lemma 3. Hence all partial derivatives of $\overline t$ vanish. Any coefficient whose exponent has a coordinate that is not divisible by $p$ occurs multiplied by a nonzero scalar in one of these partial derivatives and is zero. Therefore $\overline t$ itself has support in the exponents $p\beta$.
+
+For every such exponent choose an integral $p$th root of the corresponding coefficient of $t$ by Lemma 2 and use it as the coefficient of an integral series $u$ at $\beta$. Then $\overline t=\overline u^p$. This equality follows by applying the finite characteristic-$p$ sum rule to the finitely many monomials relevant to each coefficient. Since composition with the zero-constant reduced law commutes with powering, $\delta_{\overline\mu}\overline t=(\delta_{\overline\mu}\overline u)^p$. Compare coefficients at $p\beta$ with the congruence for $\delta t$ and use injectivity of Frobenius in $\kappa$. This gives $\theta(F_1)-\delta u$ coefficientwise in $\mathfrak m$.
+
+Applying $\Theta$ to $\iota(F_1)=\delta'f$ identifies the image of $\theta(F_1)$ in $C$ with the coboundary of $\sum_j\theta(b_j)e_j^C$. The second geometric supply `tangent_coords_nonunit_alt` takes this coefficientwise difference with the integral coboundary $\delta u$, the quasi-logarithms $e_l^C$, the left logarithms and the right Lie basis. It concludes $\theta(b_j)\in\mathfrak m$ for every $j\in R$. This proves the second-block implication given the two named geometric results. [Source register](../sources/SOURCES.md#adapted-frobenius-matrix-unit)
+
+#### Proof of the theorem
+
+If $\theta(\det U)$ is a nonunit, entrywise reduction commutes with determinant and gives $\det M=0$. A singular square matrix over $\kappa$ has a nonzero kernel vector $x$. Indeed, injectivity would imply bijectivity by finite-dimensional rank-nullity, and an inverse would give nonzero determinant. In size zero the determinant is $1$ by the empty-product convention.
+
+Choose $w_l$ as in Lemma 2 with $\rho(w_l)^p=x_l$ for every $l\in I$. Then $\rho(U\sigma(w))=Mx=0$, since $\rho(\sigma(w_l))=x_l$. Lemma 3 forces all left coordinates of $w$ into $J$. Write $w=w_L+w_R$ by extending both blocks by zero. As $\sigma(J)\subseteq J$, all coordinates of $U\sigma(w_L)$ belong to $J$. Subtract this vector from $U\sigma(w)$ to obtain $U\sigma(w_R)\in J^I$. Lemma 4 forces all right coordinates of $w$ into $J$. Thus $x_l=\rho(w_l)^p=0$ for all $l$, contradicting the choice of $x$. This proves that $\theta(\det U)$ is a unit. Lemma 1 lifts it to a unit determinant, and $(\det U)^{-1}\operatorname{adj}(U)$ is a two-sided inverse.
+
+#### Remarks and the original consumer
+
+**A witness on the original objects.** Take $C=\mathbb C_p$ with its extended $p$-adic absolute value and $O$ its valuation integers. The ideals $p^nO$ are the closed balls of radii $|p|^n$, since division by $p^n$ gives the reverse inclusion. Hence $O$ is separated and complete for $(p)$. Start at $1$, choose a primitive $p$th root of unity, and recursively take a $p$th root of the last chosen root. For $n\ge1$, a root of a primitive root of order $p^n$ has order $p^{n+1}$, by the order formula for $p$th powers. All chosen roots are units of $O$. Their reductions modulo $p$ form $\varepsilon$ in the pretilt, and untilting the shifted sequence at index $n$ gives the original root there, since its exact lifts satisfy $\zeta_{n+r}^{p^r}=\zeta_n$ for every $r$. The archive's `exists_bFrame` provides the frame over this $O$.
+
+For the height-zero group take $G.A(n)=O$ with the unit Hopf algebra and identity restrictions. The counit is the identity, so its augmentation ideal is zero. Its levels have rank $1=p^{n\cdot0}$ and the torsion ideals and restriction kernels are zero. Take $d=k=0$. The evaluations are the constant-coefficient identifications $O[[\varnothing]]\cong O$ and $O[[\varnothing]]\cong O\otimes_O O$. All variable and law conditions are vacuous. In the filtration condition for evaluation one can take degree cutoff $1$, and in the chart's kernel condition any level works since evaluation is injective. A series in zero variables with zero constant coefficient is zero. Thus the empty family is the adapted basis with unique coordinates and the empty matrix satisfies the column conditions and has determinant $1$. This witnesses the theorem's domain, including its zero-size boundary. The two rank-two calculations above exercise both blocks in coefficient frames. [Source register](../sources/SOURCES.md#adapted-frobenius-matrix-unit)
+
+**The general matrix lemma modulo $p$.** In a separated $p$-adically complete commutative ring, a square matrix invertible modulo $pB$ is invertible over $B$. Lift an inverse to the reduced determinant and invert the resulting product in $1+pB$ by a geometric series. The converse is reduction. In the adapted argument the two smallness proofs supply invertibility over $B/J$. The quotient $B/pB$ can have nonzero nilpotents, as witnessed by $\bar t$ in the first example. The frame kernel law makes each element of $\ker\theta$ nilpotent modulo $pB$, and completeness puts $pB$ in the Jacobson radical. Lemma 1 gives the final lift and shows that $J$ is the ideal of nonunits of $B$. Hence $B$ is local with maximal ideal $J$, and $B/pB$ is local with maximal ideal $J/pB$. Over these rings, invertibility of $U$ over $B$, $B/pB$ and $\kappa$ is therefore equivalent. The general lifting lemma alone supplies no test for invertibility over either quotient.
+
+**Deleting completeness in Lemma 1.** Take the subring $B$ of $\mathbb Q_p[T]$ generated over $\mathbb Z_p$ by $g_n=T^n/n!$ for all $n\ge1$, with $\theta$ the constant term to $\mathbb Z_p$ and $Q=B[1/p]=\mathbb Q_p[T]$. Products of generators are integer multiples of the generator of the summed degree by the multinomial formula, so kernel elements are finite $\mathbb Z_p$-linear combinations of positive-degree generators. In $g_n^p$, the coefficient of $g_{pn}$ is divisible by $p$ because $v_p((pn)!)-p v_p(n!)=s_p(n)\ge1$, where $s_p(n)$ is the sum of base-$p$ digits. The factorial identity follows by counting multiples of each power of $p$. Mixed multinomial terms of the $p$th power of any such combination have coefficients divisible by $p$, since all individual exponents are less than $p$. Thus $x^p/p\in\ker\theta$ for every kernel element. The remaining frame conditions, apart from completeness, follow from the specified embedding, localization, and target. In particular, separation follows degree by degree from $\bigcap_m p^m(1/n!)\mathbb Z_p=0$. But $1+T$ maps to $1$ and is a nonunit already in $\mathbb Q_p[T]$. The partial sums of $\sum_{n\ge0}(-T)^n$ are Cauchy since $T^n=n!g_n$ and $v_p(n!)$ tends to infinity. A limit in $B$ would invert $1+T$, proving the failure of completeness.
+
+**Deleting the kernel law in Lemma 1.** Take $B=\mathbb Z_p\times\mathbb Z_p$, $\theta$ the first projection, and $Q=\mathbb Q_p\times\mathbb Q_p$. Every other scalar frame condition holds, including completeness and separation. The kernel element $(0,1)$ is idempotent and lies outside $pB$. The element $(1,0)$ has unit image and is a nonunit in $B$.
+
+**Where the inverse is used.** In *HasPeriodIntegral.lean*, *GlobalTheory.QLog.WindowMat.window_matrices* starts with $G$ and $G^\vee$ connected. It chooses a chart, an adapted basis over the valuation integers and its lift, then $U$ with exactly the two column conditions of the theorem. It invokes *GlobalTheory.T.frobenius_matrix_isUnit_adapted_basis* on that same matrix. The result *hUu* goes into the window record and is passed to *isNil_dual_frobenius_alt* for $(U^{\mathsf T})^{-1}\operatorname{diag}(I_d,pI_k)$. The forward matrix is $UD$. The period equations preserve this order of factors, for example $\sigma(Y)=DU^{\mathsf T}Y$. The later *prismaticDieudonneHodge* proof passes *window_matrices* to *hasDatum_biconn_of*. That consumer forwards the same $U$ and its unit proof to *window_lift_to_fontaineAinf_matrices*, whose first step lifts a unit matrix modulo $\tau$ to $A_{\inf}$. Chart, law lift, adapted basis, normalized-column existence and the nilpotence arguments are separate inputs here.
+
+**Classical context and reading status.** Fontaine constructs the universal completed divided-power thickening. The Jacobson radical criterion and the determinant criterion give the scalar and matrix lifting steps in this setting. Zink's normal decomposition has an invertible normalized Frobenius matrix by the display generation axiom. Scholze and Weinstein define the quasi-logarithm map and its projection to the logarithm of a lift. Here the coordinate test is proved for the archive's series and chart, and the two named geometric results supply the bridge to the dual Lie algebra. Local R3 [Lean, read] covers the unit argument, the first block, the second block through the named inputs in Lemma 4 and the indicated consumer calls. The archive is due to Levent Alpöge with Claude. This subsection records an author-level reading and uses expository examples. The static import path from Main reaches the module. Declaration-level dependence of the exported theorem, local kernel replay and peer review are separate verification questions. [Source and attribution register](../sources/SOURCES.md#adapted-frobenius-matrix-unit)
 
 ## 6.5 Remarks and formalization notes
 

@@ -327,3 +327,5 @@ and existing-data `A.deg` comparison. The gapped representation family,
 tangent estimate and Haar density match enter through the named supplies.
 The whole `GoodS` predicate, universal `HCFdeg` and Main reachability
 remain outside this reading. [Subsection](../chapters/09-heights-slopes-and-near-orthogonality.md#9426-recovering-the-formal-degree-constant-from-a-translation-ray)
+
+**Chapter 6 §6.4.21.** The $p$-adic divisibility strand uses the normalized columns of the adapted quasi-logarithm Frobenius, the left coefficient rows and the right coboundary test. Local R3 covers the frame lift, both smallness proof bodies through the two named geometric inputs and the return of the original unit matrix into the prismatic datum. [Subsection](../chapters/06-stepanovs-method-and-multiplicity.md#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)

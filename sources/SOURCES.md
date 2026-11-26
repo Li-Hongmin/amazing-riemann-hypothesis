@@ -3572,3 +3572,126 @@ Levent Alpöge with Claude supplied the archived Lean development.
   separately. This subsection's computation checks the examples and source
   fingerprints. Independent mathematical review of the subsection is open.
   [Community verification](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+
+<a id="adapted-frobenius-matrix-unit"></a>
+
+### Chapter 6 §6.4.21. Adapted Frobenius matrix unit
+
+[Chapter subsection](../chapters/06-stepanovs-method-and-multiplicity.md#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)
+
+A2 joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474` from `lean/lake-manifest.json:3–13`, member SHA-256 `fee57ee9ed399d0a638ca955e5ad40a37a36eeb9b6dfd9f5964114fa7bbe4774`. The extracted A2 members cited below were checked byte-for-byte against the archive. [Alpöge release](https://alpo.ge/)
+
+| Prefix | Full directory relative to the archive's `lean/` |
+|---|---|
+| DP | `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/` |
+| DF | `src/Development/AbelianVarietyTheory/Definitions/Divisors/` |
+| EZ | `src/Development/AbelianVarietyTheory/BlockTheory/DivisorBase/` |
+| PD | `src/Development/AutomorphicArithmetic/ThetaCorrespondence/PrismaticDieudonne/` |
+
+#### Bodies and definitions used
+
+| Declaration and location | Reading or interface | Member SHA-256 |
+|---|---|---|
+| `DF/EqZeroOfForallPowDvd.lean:19–35` | `QLog.IsFrame` and its eight fields, including the precise power law and adic completeness. | `5dff9e3e18663b3988bc77591e43fba03799ddc2c3fdc301728305c286f5e23a` |
+| `DF/EqZeroOfForallPowDvd.lean:39–86` | `In`, `DIn`, `up`, `IsLift`, `QL`, `comb`, `IsBasis`, `IsAdapted`, `nmul`, `defect`, and `frob`. | `5dff9e3e18663b3988bc77591e43fba03799ddc2c3fdc301728305c286f5e23a` |
+| `DF/EqZeroOfForallPowDvd.lean:88–109` | `IsEval`, `In.top_iff` and the coefficientwise integral lift used in the second block. | `5dff9e3e18663b3988bc77591e43fba03799ddc2c3fdc301728305c286f5e23a` |
+| `DF/EqZeroOfForallPowDvd.lean:168–214` | `QLog.Chart` and `Chart.IsLie`, including all evaluation and kernel requirements. | `5dff9e3e18663b3988bc77591e43fba03799ddc2c3fdc301728305c286f5e23a` |
+| `DF/EqZeroOfForallPowDvd.lean:283–326` | `BFrame` including Witt map, square-zero element, generation, divisibility, Frobenius compatibility and `blk`. | `5dff9e3e18663b3988bc77591e43fba03799ddc2c3fdc301728305c286f5e23a` |
+| `DF/FormalCoboundarySmul.lean:15–61` | `inL`, `inR`, `op`, `cob1`, `lin` and `IsLaw`. | `fd5a0c1cae11a729c549871185ebe653ec6953e7411f5d7e77714c8dae6fbf08` |
+| `DP/FrobeniusMatrixIsUnitAdaptedBasis.lean:9–27` | `FrobUnit.isUnit_of_isUnit_map`: lift an inverse using surjectivity, apply pd to its kernel correction, and use Jacobson plus finite geometric sum. | `c6b13a05539d3897d17960d9bc501b3298c1574dbd1475d4551b7b8f1933c8b1` |
+| `DP/FrobeniusMatrixIsUnitAdaptedBasis.lean:29–38` | `FrobUnit.exists_pow_eq`: the root in C has valuation at most one and comes uniquely from O. | `c6b13a05539d3897d17960d9bc501b3298c1574dbd1475d4551b7b8f1933c8b1` |
+| `DP/FrobeniusMatrixIsUnitAdaptedBasis.lean:40–82` | `FrobUnit.frob_matrix_isUnit`, first part: σ mod the maximal ideal, first block, subtract its image and apply second block with left coordinates zero. | `c6b13a05539d3897d17960d9bc501b3298c1574dbd1475d4551b7b8f1933c8b1` |
+| `DP/FrobeniusMatrixIsUnitAdaptedBasis.lean:83–114` | Same theorem: determinant, singular residue matrix, nonzero kernel column, coordinate root lifts and contradiction. | `c6b13a05539d3897d17960d9bc501b3298c1574dbd1475d4551b7b8f1933c8b1` |
+| `DP/FrobeniusMatrixIsUnitAdaptedBasisStatement.lean:6–7` | `T.frobenius_matrix_isUnit_adapted_basis`, forwarding proof. | `6dafd43f9e493708df3edd3a2861be10818eec571aafaabfac76189d3a9d3161` |
+| `DP/QuasiLogFirstBlockSmallOfFrobenius.lean:9–24` | `SmallFirst.coeff_single_frob`, `SmallFirst.coeff_comb`, the coefficient at the pth variable power. | `476e743d0214f5fb771e08acb15200e70088f509e96cc672f14e2ba87b496c23` |
+| `DP/QuasiLogFirstBlockSmallOfFrobenius.lean:28–121` | `QLog.small_first_of_frob`, left and right column reductions, and the product with Uσ(w). | `476e743d0214f5fb771e08acb15200e70088f509e96cc672f14e2ba87b496c23` |
+| `DP/QuasiLogFirstBlockSmallOfFrobeniusStatement.lean:6–7` | `T.quasiLog_first_block_small_of_frobenius`, forwarding proof. | `c525f73c1361f3d8e9f39b79dc141333cca0e463c435a19269531c12e11ab36e` |
+| `DP/DividedInOfQuasiLogarithm.lean:15–79` | `restr_inL_inR`, `pderiv_map_eq`, `in_add`, `coeff_inr_of_unit`, rules for the differentiated coboundary. | `5dea524510d2334e6697623f564b59170aec2b2291d0ead9708dd221fba3e6d9` |
+| `DP/DividedInOfQuasiLogarithm.lean:81–161` | `QLogDiff.dIn_of_QL`, weighted coefficient integrality for every ideal, multi-index and coordinate. | `5dea524510d2334e6697623f564b59170aec2b2291d0ead9708dd221fba3e6d9` |
+| `DP/PderivSubstChainRule.lean:14–72` | `continuous_pderiv_discrete` and `pderiv_subst_chain`. The section uses the coefficientwise monomial proof of the same chain rule. | `1a42f8e7ff8593d273b3a36acbed1b354115fecb1788112b2f7a75466c997621` |
+| `DP/CoeffSubstRestrictSumVariables.lean:8–61` | `coeff_prod_pow_of_embedding`, `coeff_subst_of_embedding` and `coeff_subst_restrict_sum`. | `d539713269af25b6b78e3253d56e9e9f666c231643f34835c1da2bb020e235fa` |
+| `DP/CoeffsInIdealSolutionOfUnipotentSeriesMatrix.lean:7–54` | `InvSolve.in_iff_mem`, `in_mul_map`, `in_sum`, `solve`. In the prose the inverse of the identity-constant matrix is a degreewise geometric series. | `5a483c9a33998398c3cb18ae355099bb9fe395447cff3af1df69f49ddb0a066e` |
+| `DP/SmallModMaximalOfFrobeniusImageSmall.lean:17–44` | `SmallSecond.small_second`, entire assembly. Extension, second-block Lie basis, congruences, inverse Frobenius, tangent-coordinate test. | `e4d5460058d0e7656018e2c5ed3f4f31e246f445846fb43fc33a9133634ecd04` |
+| `DP/SmallModMaximalOfFrobeniusImageSmallStatement.lean:6–7` | `T.small_mod_maximal_of_frobenius_image_small`, forwarding proof. | `5b85ed8098e5c4e6e814c892452d14880886e49de3379357d2774a55e8ea3030` |
+| `DP/IsLocalizationAway.lean:6–24` | `IsFrame.isLocalization_away`, `frame_fraction_map`. | `8f5e88ea74d6acedc0ce61ae6c6780e0fbd6e84b7c1692012585919b75768fd3` |
+| `DP/IsTorsionFreePDThickeningFrameValuationIntegers.lean:6–64` | `FrameIntegers.isFrame_integers`: real-valued bound on powers of p, coprime units and zero kernel. | `a41d68b0de2b3a835dc020260ef401d952750b3b87fafd2adceef86187223ff2` |
+| `DP/MapComb.lean:7–67` | `map_formalGroupLawCoboundaryOne_eq`, `map_up`, `map_formalGroupLawCoboundaryOne_square`, `map_comb`, `ql_map`, `formalGroupLawCoboundaryOne_map_eq_zero`. | `918866de72d27f09e704fa16b84c9ad1a990c3724cbfe1e6aeeecc4ba11675c4` |
+| `DP/FrobeniusLinearCombinationZeroLeftAinfFrame.lean:13–60` | `in_top_sum`, `frob_sum`, `frob_comb_zero_left`, summing the original right columns. | `38980c0f9da9b45bb845c66a9dee0b2dd119e0b36ec08a76d5be795765568e09` |
+| `DP/CoboundaryFrobeniusCommuteModPQuasiLog.lean:15–133` | `frob_eq_expand`, `subst_frob`, `frob_subst`, `coeff_pow_sub_expand_mem`, `dIn_comb`, `dIn_map` and `FrobCongr.frob_cong`. The prose proves the pB specialization of the substitution step directly. | `4312751d27fca1359a1a0624ba5b269bf734496587552d120cf3e95bd004b51b` |
+| `DP/SubstSubIn.lean:45–118` | `pow_add_sub_pow`, `prod_sub_mem`, `subst_sub_in`: exact use and general binomial structure. The all-ideals factorial supplier at line 92 is outside the pB specialization. | `121a5b5b3f8dae4900f3ba72f455bbfc046f55c35bd58940bbd21f003a2d050c` |
+| `DP/FrobeniusCongruenceCombinationOverIntegers.lean:10–136` | Coefficient Frobenius on and off p-multiple exponents, coboundary linearity, and `SmallSecond.frob_congr_to_O` with the same T and F₁. | `8664158a2eaa31dff7306182e52ef5c9ddd7623a6e3940a588571dee51770822` |
+| `DP/NotIsUnitCoeffOfCoboundarySmall.lean:142–209` | `Katz.not_isUnit_coeff_of_coboundary_small`, reduce the derivative equation and use its invertible constant part. | `e9f4c11688a20be8db53edab0c87b221e88685973c5aeef92f1d491221363625` |
+| `DP/ExistsIntegralCoboundaryOneCongrFrobenius.lean:8–61` | Coefficient identities for pth powers from finite truncations. | `123eaaa6f745e9dcc978aa1b2a65ad7785b2d0c20954a45ffeb37eb7d91d658f` |
+| `DP/ExistsIntegralCoboundaryOneCongrFrobenius.lean:67–117` | `SmallSecondRoot.exists_integral_cob1_congr_of_frobenius_congr`, coefficientwise roots over O and Frobenius cancellation over κ. | `123eaaa6f745e9dcc978aa1b2a65ad7785b2d0c20954a45ffeb37eb7d91d658f` |
+| `DP/HasPeriodIntegral.lean:95–107` | `QLog.WindowMat.window_matrices`: choose the objects, invoke the unit theorem on the same U at 105, then use hUu in the dual nilpotence input. | `b2e8878e8cd3bb2bcfea7f46e8cd83db8d8e0b2340717f3826db1033bb886d9c` |
+| `DP/HasPeriodIntegral.lean:125–129` | `window_matrices` also consumes the same `dIn_of_QL` for its period-existence proof. | `b2e8878e8cd3bb2bcfea7f46e8cd83db8d8e0b2340717f3826db1033bb886d9c` |
+| `DP/HasPeriodIntegral.lean:153–155` | `window_matrices` returns the original U, its unit proof, period equations and both nilpotence proofs. | `b2e8878e8cd3bb2bcfea7f46e8cd83db8d8e0b2340717f3826db1033bb886d9c` |
+| `DP/HasDatumBiconnOf.lean:10–25` | `PDivLat.hasDatum_biconn_of` passes the same window including hU to the lift and returns the datum. | `48a6541136819a37632f9930f0d301751c3b7135136e7888b32df2a30755139a` |
+| `DP/WindowLiftToFontaineAinfMatrices.lean:115–129` | `window_lift` receives the window and starts with `c_lift` for U and hU. | `adb507b63f5bb89d7c69a784c4871bb9e4b41956c4b570a30d5aebb0ec38be49` |
+| `PD/PrismaticDieudonneHodge.lean:19–28` | `UpperTheory.Lit.prismaticDieudonneHodge` and its immediate use at `farguesExact`. | `f373c278cbb71a580a1052147e25e85666959dd13537db8d7aeff16bc160f5ed` |
+| `DF/ToSpanSingletonConstGenInjective.lean:12–29` | `PDivGroup` record has natural-number height, including zero, with exact rank and kernel clauses. | `fa91ff8159dd4dc0cd306114cb206f033fedbc41de3a10cf6c375eb33d0ffb0e` |
+| `DF/KerIdealCompOfSurjective.lean:115–121` | `augIdeal`, `kerIdeal`, `torsionIdeal` for the zero-height witness. | `03a678ea9185a8eaedc56c5cea45164a661068b7cdd197fdd44d988bad60adae` |
+| `EZ/EpsilonPairingZeta.lean:23–31` | `zeta`, `zeta_succ_pow`, `IsPrimitiveSystem`. | `1f674d7744d47a6fedfa30c2048a860cc559e36fe59aa530deed0e731479186a` |
+| `DP/ExistsBFrame.lean:142–174` | `BRing.σ_pow` and `BRing.pd` for the constructed frame. The input theta-kernel generator is used at line 164. | `23074c2bdd26d88b838f6079b25bb5220370fdceaf6ce8a78565f962a66b6e19` |
+| `DP/ExistsBFrame.lean:185–209` | `BRing.isFrame` and `BRing.exists_bFrame`, construction assembly used for the original-domain witness. | `23074c2bdd26d88b838f6079b25bb5220370fdceaf6ce8a78565f962a66b6e19` |
+| `DP/FrobeniusLinearCombinationZeroLeftAinfFrameStatement.lean:6–7` | `T.frobenius_linearCombination_zero_left_ainfFrame`, forwarding proof. | `4a94805f8d912599c66b6041386df92c0f04905952865a9f2ba7e6b7664616d9` |
+| `DP/CoboundaryFrobeniusCommuteModPQuasiLogStatement.lean:6–7` | `T.coboundary_frobenius_commute_mod_p_quasiLog`, forwarding proof. | `fbf273eb21e60eb582b4ea13d2ccb8665734c4fa412145144fb1d868e82eb990` |
+| `DP/FrobeniusCongruenceCombinationOverIntegersStatement.lean:7–8` | `T.frobenius_congruence_combination_over_integers`, forwarding proof. | `2bcd75a019ab28fc673ef592094199adf2e6fac07e6e9e15ca6358a781ce4748` |
+| `DP/NotIsUnitCoeffOfCoboundarySmallStatement.lean:6–7` | `T.not_isUnit_coeff_of_coboundary_small'`, forwarding proof. | `637395b10ce60a2d1734df30c4c3770a7391f5e832e8acbe2df4b1bc9cbd1d03` |
+| `DP/ExistsIntegralCoboundaryOneCongrFrobeniusStatement.lean:6–7` | `T.exists_integral_coboundaryOne_congr_frobenius`, forwarding proof. | `2325871ad516b775e205fba0e486ab508169c2d1983856aeeccfcc6396cdafac` |
+| `DP/PderivSubstChainRuleStatement.lean:7–8` | `T.pderiv_subst_chain_rule`, forwarding proof. | `27330ed6349110c56173319b473cc997c437676ac0a83ee3858eca97b9f908d0` |
+| `DP/CoeffSubstRestrictSumVariablesStatement.lean:7–8` | `T.coeff_subst_restrict_sum_variables`, forwarding proof. | `a3f6e5c43ddd68d9a30702fa85b2c5836b4e9f9f247fcfdfef396194d8faeedd` |
+| `DP/CoeffsInIdealSolutionOfUnipotentSeriesMatrixStatement.lean:7–8` | `T.coeffsInIdeal_solution_of_unipotent_series_matrix`, forwarding proof. | `affe40d675265a6a9e3a18bb506890260ba53baf24df82cb931ee741cc7ab6a4` |
+
+#### Named boundaries
+
+| Declaration and location | Reading or interface | Member SHA-256 |
+|---|---|---|
+| `DP/QuasiLogarithmSecondBlockTangentBasisDualLieStatement.lean:7–8` | `T.quasiLogarithm_secondBlock_tangent_basis_dual_lie`, with the fixed Θ and original family. | `f3cf3f5921affc24c710292eb97d327de59235b47eb4c410ae3f55cb1c74bbfd` |
+| `DP/QuasiLogarithmSecondBlockTangentBasisDualLie.lean:18` | `SmallSecondTangent.tangent_basis` body boundary. Its construction uses basis comparison and tangent identification. | `ce2d7b0bf0ecdcad157b7a9e846467e4c1b52e805bd7660c0b56bc06ea781177` |
+| `DP/TangentCoordsNonunitStatement.lean:6–7` | `T.tangent_coords_nonunit_alt`, fixed Lie basis, logarithms and integral coboundary test. | `5e57d22eb93d7773b750b0ff7672247239d986a6c2fac1d7003a32bb4bd19aaa` |
+| `DP/TangentCoordsNonunit.lean:95` | `TangentIndep.tangent_coords_nonunit` body boundary. | `cb05d440d9e8336213ad2c5816a890818a3cccef4062a6aa20adb87bea0572b4` |
+| `DP/MvPowerSeriesCoeffsInIdealPowEqFactorialMulStatement.lean:6–7` | General factorial-divisibility interface used by the archive substitution theorem. The pB proof in the book uses the explicit binomial identity. | `992df055bd7128f0447633d7cb2703a329b0041370392413fc5d4fdd9adb7786` |
+| `DP/ExistsPDivGroupFormalChartOfConnectedStatement.lean:6–7` | `T.exists_pDivGroupFormalChart_of_connected`, used by the window. | `dcb7c79b27fb28ddc6e198abaa9e59ba71e9dd78f8d9e4ed67450ab9775b7afd` |
+| `DP/ChartDimAddFinrankDualLieEqHeightStatement.lean:6–7` | `T.chartDim_add_finrank_dual_lie_eq_height`, used by the window. | `80dfcec775043b25c597b591e3be3ffe8a82fc9b10eefba0f7952d61633a4091` |
+| `DP/ExistsAdaptedQuasiLogBasisPDivGroupLieDualStatement.lean:6–7` | `T.exists_adapted_quasiLog_basis_pDivGroup_lieDual`, geometry over O. | `8875739d8f61e42fb107c0081743cc5a354f3e9862c5344e405efe4eaa84c4d6` |
+| `DP/ExistsFormalGroupLawLiftOfSurjectiveStatement.lean:6–7` | `T.exists_formalGroupLawLift_of_surjective`, given the actual law of c and the frame surjection. | `feff849bdc912b5a56e3bec010cbf8289f1fc345ac9a6dc23074041cf7decd3b` |
+| `DP/ExistsLiftAdaptedBasisQuasiLogarithmsFrameStatement.lean:6–7` | `T.exists_lift_adapted_basis_quasi_logarithms_frame`, over the given frame. | `36b2d8605479fb16cec94f1865673f0cdeb6eea2c5f2a25744a78b6a51049fb8` |
+| `DP/ExistsFrobeniusMatrixQuasiLogarithmBasisStatement.lean:6–7` | `T.exists_frobenius_matrix_quasiLogarithm_basis`, produces both needed column conditions for the same U. | `c9a397a565743b0fd0ffc0072263eeda01b13921b187d2253fca62cc503d048a` |
+| `DP/FrobeniusNilpotentModMaximalConnectedPDivGroupStatement.lean:6–7` | `T.frobenius_nilpotent_mod_maximal_connected_pDivGroup`, forward nilpotence. | `314797e1b1d4222c93c46891593838f039b4f1b3d75306566ab69092f61ebcab` |
+| `DP/IsNilDualFrobeniusStatement.lean:6–7` | `T.isNil_dual_frobenius_alt`, still a named geometry theorem with the original unit witness as input. | `81aef290f7be22884fed80f73c0b9598bd57341370e6b1f70987bbdbc402793b` |
+| `DP/ExistsUnitMatrixLiftModTauAinfStatement.lean:9–10` | `T.exists_unit_matrix_lift_mod_tau_ainf`, downstream unit lift interface. | `b4a11e5e0a1af7674f7292b1be842e9a2dddef69469f908df77be29521c73da4` |
+
+The existence witness uses the actual BFrame constructor through `exists_bFrame`. Its deeper Ainf kernel, torsion and completeness construction is an archive input for that witness. The theorem itself takes the complete BFrame as data. The terminal comparison of crystalline Gauss norms, line units, crys-to-sst, and Tate–Sen belong to the separate predecessor files.
+
+#### Pinned Mathlib
+
+| Pinned declaration | Member SHA-256 |
+|---|---|
+| `IsAdicComplete.le_jacobson_bot`, compatible geometric sums and separation. [`Mathlib/RingTheory/AdicCompletion/Basic.lean:870–903`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/AdicCompletion/Basic.lean#L870-L903) | `8d78c71fe403b05eb542231c9dbe0a2609fea1b7e81e14839e5e2c76f3b1fcf5` |
+| `Ideal.mem_jacobson_bot` and unit criterion. [`Mathlib/RingTheory/Jacobson/Ideal.lean:282–298`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Jacobson/Ideal.lean#L282-L298) | `d7a9e97afb320332c618049a2d3863782a0b4900f50435c3c91d1ff15906ae38` |
+| `mul_neg_geom_sum`, finite product identity. [`Mathlib/Algebra/Ring/GeomSum.lean:245–246`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Ring/GeomSum.lean#L245-L246) | `fa716192e3640a250181738b02d8be769b66d6dfb72fd955942cb158138134b4` |
+| `RingHom.map_det` by the determinant expansion. [`Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:318–320`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean#L318-L320) | `37646a248748fd65e37c20a21b4a20fea11539d4312aae4f277e4faef8ed2b87` |
+| `Matrix.invertibleEquivDetInvertible` and `Matrix.isUnit_iff_isUnit_det`. [`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean:92–129`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean#L92-L129) | `1ee785b6ebd213ad2ed971bf3c804afee8cc6ce52be69e63572b4cf1bdb5e880` |
+| `Matrix.exists_mulVec_eq_zero_iff`, field proof and domain extension. [`Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.lean:109–164`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.lean#L109-L164) | `7e68e3b13653e7e9891c5e40ce0ef753adee3bcee8702d8649e0a6f2eef8d5bb` |
+| `IsAlgClosed.exists_root` and `exists_pow_nat_eq`, using the power polynomial. [`Mathlib/FieldTheory/IsAlgClosed/Basic.lean:76–87`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/IsAlgClosed/Basic.lean#L76-L87) | `87c1116c746be4329038b669ca67118a9e008472fb44ca4cc2ff9e7c6347e3f1` |
+| `Valuation.Integers`, injectivity and the value-one bound. [`Mathlib/RingTheory/Valuation/Integers.lean:52–55`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Valuation/Integers.lean#L52-L55) | `c85b2a8a8aa5026790493ffc06d4208557f2fbb29b9e90de2d29658e0cf21baa` |
+| `ValuationRing.of_integers`, use total divisibility of two nonzero values. [`Mathlib/RingTheory/Valuation/ValuationRing.lean:467–478`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Valuation/ValuationRing.lean#L467-L478) | `ccdf1ddc7ceb8c0f3eaf2b7e82c72e851b448dfefbffb6e253818eb4ff259338` |
+| `IsLocalRing.mem_maximalIdeal`, nonunits. [`Mathlib/RingTheory/LocalRing/MaximalIdeal/Basic.lean:31–32`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/LocalRing/MaximalIdeal/Basic.lean#L31-L32) | `ae962127c67ce8d20a7bf59df50c39e7f18097f33b448478a081e999a99af268` |
+| `residue_eq_zero_iff` and `residue_surjective`. [`Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean:34–47`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean#L34-L47) | `54c42de364e08cbc05d5e1c38971bfd31187aa41a3725a902bf1215ea879698f` |
+| `MvPowerSeries.isUnit_iff_constantCoeff`. [`Mathlib/RingTheory/MvPowerSeries/Inverse.lean:124–145`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/MvPowerSeries/Inverse.lean#L124-L145) | `88aa16350e36e9b306e70cfdbe146a758266dd7a6e3b84ae73e8da168faeed0d` |
+| `coeff_expand` and `coeff_expand_smul`. [`Mathlib/RingTheory/MvPowerSeries/Expand.lean:81–109`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/MvPowerSeries/Expand.lean#L81-L109) | `f89c7e25fe89263f1091b1838bad5cd3e5405d8ee0656c2b5f5af9003b78f6cd` |
+| `map_frobenius_expand` via finite truncation. [`Mathlib/RingTheory/MvPowerSeries/Expand.lean:229–249`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/MvPowerSeries/Expand.lean#L229-L249) | `f89c7e25fe89263f1091b1838bad5cd3e5405d8ee0656c2b5f5af9003b78f6cd` |
+| `PadicComplex`, completion and normed field. [`Mathlib/NumberTheory/Padics/Complex.lean:177–185`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/Complex.lean#L177-L185) | `871e53b99b7b974bdd68a596d91663eef37ebb2bb9585511f6ca841a909dbfe6` |
+| `PadicComplex.isAlgClosed` and `PadicComplexInt`. [`Mathlib/NumberTheory/Padics/Complex.lean:239–255`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/Complex.lean#L239-L255) | `871e53b99b7b974bdd68a596d91663eef37ebb2bb9585511f6ca841a909dbfe6` |
+#### Primary sources and assumption attribution
+
+- Jean-Marc Fontaine, *Le corps des périodes p-adiques*, Astérisque 223 (1994), Exposé II, §§2.2.1–2.2.2, pp. 76–77. The base ring $V$ is separated and complete for $(p)$ and Frobenius is surjective modulo $p$. The original construction takes the completed divided-power envelope of the kernel of a Witt surjection and keeps the induced map to $V$. The classical divided-power identity $x^p=p!\gamma_p(x)$ explains the power law used in the argument. The archive instead takes the weaker power law as a record field and uses its own square-zero BFrame construction. PDF SHA-256 `74b6bfbaa3a5b5a1eb1f1cd33b0e49aaffa5bde1b8761a91f7cb51a550e9a46e`. [Original scan](https://www.numdam.org/item/AST_1994__223__59_0.pdf)
+- Thomas Zink, *The display of a formal p-divisible group*, Astérisque 278 (2002), Definition 1 and the normal decomposition, pp. 128–129. The introductory base has nilpotent $p$. The submodule $Q=L\oplus I_RT$ and the generation condition for the semilinear $V^{-1}$ give the isomorphism with columns $V^{-1}$ on $L$ and $F$ on $T$. The matrix is invertible in local Witt bases and $F=pV^{-1}$ on $Q$. This is the classical normalized display matrix. To apply the display axiom directly here would require producing a display and identifying its normal basis and linearized columns with this archive's quasi-logarithm data. The local proof instead verifies injectivity over the residue field via the two coordinate implications. PDF SHA-256 `2293c932bb6147a116eab9418b47646b34756d6b946e799d5eb16366c6b8ba69`. [Original scan](https://www.numdam.org/item/AST_2002__278__127_0.pdf)
+- Peter Scholze and Jared Weinstein, *Moduli of p-divisible groups*, arXiv:1211.6357, Definition 3.2.3, Lemma 3.2.5 and Remark 3.2.6, pp. 25–26, on the quasi-logarithm from the universal cover and its logarithmic projection. Their base is a topological $\mathbb Z_p$-algebra with a surjection whose kernel is topologically nilpotent and carries divided powers. Proposition 4.1.3, p. 30, gives Fontaine's completed thickening of a semiperfect base and its Frobenius. The map on p. 42 is the map to the untilt for the specified $T^+$. These constructions provide context for the period rings and dual Lie interpretation. The production proof at the specified series basis is from A2. PDF SHA-256 `984411ef6c3d735a713684d4c9251fbad411a40eab33cefed8ab5c8412b09f6d`. [Authors' preprint](https://arxiv.org/abs/1211.6357)
+- Stacks Project, Lemma 10.19.1. The ambient ring is commutative and $I$ lies in the Jacobson radical exactly when every element of $1+I$ is a unit. Apply the final assertion with $I=\ker\theta$ after the frame power relation and completeness show $I\subseteq\operatorname{Jac}(B)$. This specializes classical unit reflection. The determinant criterion also closes a separate novelty route for the general matrix lifting lemma. HTML SHA-256 `38206e485a246ad3aed490b5717590a24934c23304279e7cd80116965eb8c359`. [Lemma 10.19.1](https://stacks.math.columbia.edu/tag/0AME)
+
+Retrieved 2026-11-26. Attribution of the exact two-block assembly is to Levent Alpöge with Claude, with pinned algebraic lemmas attributed to the Mathlib contributors. The book supplies the exposition, examples, hypothesis-deletion controls and consumer trace. A targeted literature check establishes the relations above and cannot certify priority.
+
+
+**Reading status.** Author-level local R3 covers the bodies and calls listed above. The named geometric inputs retain [Lean] status. Static module reachability from Main was verified. The separate community records describe archive compilation and kernel work. The local reading carries no new kernel or independent audit grade. [Community verification register](#v5)
