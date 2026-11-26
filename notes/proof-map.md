@@ -134,8 +134,7 @@ only Mathlib. Detail and prose: Chapter 1.
 **P1 supply (Chapter 2, §2.3.2.1).** Local R3 for the beta-integral evaluation, the Euler quotient
 limit, the cosine recurrence and normalized sine-product limit wrapper, the Gamma reflection
 formula, and the real/nonreal split proving `Complex.Gamma_ne_zero`. The positive-real-part
-specialization feeds `Complex.Gammaℝ_ne_zero_of_re_pos` and the parity reader. General peak-function
-convergence, Gamma integral foundations, and complex power/logarithm foundations stay [Lean].
+specialization feeds `Complex.Gammaℝ_ne_zero_of_re_pos` and the parity reader. The normalized-power theorem used by this cosine specialization is read in [§15.4.3.10](../chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point). Gamma integral foundations and complex power/logarithm foundations stay [Lean] here.
 [Beta.lean:141–457](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean#L141-L457) · [EulerSineProd.lean:41–292](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L41-L292) ·
 [Deligne.lean:66–71](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gamma/Deligne.lean#L66-L71)
 
@@ -769,3 +768,8 @@ Hilbert basis expansion. The consumer is `span_fourierLp_closure_eq_top`
 
 
 P16 [§13.4.17](../chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction) reads `mackey_cuspidal` through `MackeyFormulaAll.lean:222` and `ip_hcL_cusp` through `CharacterPairingHarishChandraCuspidalMackey.lean:178–263`. The former counts matching block bijections, while the latter exports zero and the distinct-entry norm. The Whittaker and general label-existence inputs remain at their prior scope.
+
+
+### Chapter 15 unique-maximum powers
+
+[§15.4.3.10](../chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point) reads the three pinned power declarations at author-level local R3. The direct relative-support version is at lines 249–339, the open-positive closure-of-interior version at 350–365 and the continuous-input version at 371–379. Lines 335–337 call the finite-window theorem with the compact set as both domains. The direct Mathlib consumer is the Euler sine product specialization. A2 call sites are documented at interface level for the Herglotz lower-semicontinuity estimate and compact-group representation extension. The parallel FlagMeasures archive supplier remains a named input. Main declaration reachability and local kernel replay are unassessed. [Pinned source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L236-L380)

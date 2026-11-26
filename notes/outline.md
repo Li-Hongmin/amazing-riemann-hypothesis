@@ -295,3 +295,6 @@ Chapter 7, [§7.4.3.1](../chapters/07-chains-of-theta-lifts.md#7431-spherical-tr
 
 
 Chapter 13 [§13.4.17](../chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction) proves the finite GL cuspidal Mackey formula, tracks the two production paths and works the complete rank-two and rank-four double-coset examples.
+
+
+**Chapter 15, §15.4.3.10.** Reads the unique-maximum normalized-power branch at author-level local R3. Gives the relative-support denominator bound, uniform off-neighborhood estimate, weak convergence and Banach-valued point recovery. Works out an interval polynomial peak and a circle with a two-point limiting measure. The finite-window and Gaussian scaling arguments enter as references. [Subsection](../chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point)

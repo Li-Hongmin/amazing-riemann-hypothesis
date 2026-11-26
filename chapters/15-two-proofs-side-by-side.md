@@ -1955,6 +1955,92 @@ paths under `Mathlib/`.
 | Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the regularity and $\sigma$-finiteness instances; measurability of multiplication under second countability; the archive's own call sites of these theorems |
 | Literature | Halmos, *Measure Theory* (1950), Ch. XI, §§59–60, as cited by `Group/Prod.lean` [Halmos1950; bibliographic record checked, text not consulted]; F. van Doorn, "Formalized Haar Measure", ITP 2021, §6 [vanDoorn2021]; C. McQuillan's answer to S. Gouëzel's MathOverflow question 456670 [McQuillan2024] |
 
+#### 15.4.3.10 How powers of a unique peak concentrate at a point
+
+**Motivation.** A continuous profile on a compact set can generate narrower averages without a change of coordinates. Raise the profile to the $n$th power and divide by its integral. The division is essential. If the peak height is less than one, the entire unnormalized profile decays. The ratio compares the height away from the peak with a strictly larger height attained throughout a small set of positive measure. This is the mechanism behind the cosine averages already used in [the Euler sine product](02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane).
+
+**Example 1 (a polynomial peak on an interval).** On $S=[-1,1]$ with Lebesgue measure take $c(x)=1-x^2$. Its unique maximum is at zero. For integers $n\ge0$, let $Z_n=\int_{-1}^1(1-x^2)^n\,dx$ and $J_n=\int_{-1}^1 x^2(1-x^2)^n\,dx$. The derivative of $x(1-x^2)^{n+1}$ is $(1-x^2)^{n+1}-2(n+1)x^2(1-x^2)^n$. Both boundary values vanish. Hence $Z_{n+1}=2(n+1)J_n$. Since $Z_{n+1}=Z_n-J_n$, we get
+$$
+ Z_n=2\prod_{j=1}^n\frac{2j}{2j+1}
+     =\frac{2^{2n+1}(n!)^2}{(2n+1)!},
+ \qquad \frac{J_n}{Z_n}=\frac{1}{2n+3}.
+$$
+The reciprocal of $Z_n$ is the normalizing multiplier. For the vector input $g(x)=(x,x^2)$, oddness makes the first coordinate of the average zero. In the maximum norm the exact error from $g(0)$ is $1/(2n+3)$. For $0<r\le1$, the integral of the normalized kernel over $|x|\ge r$ is at most $1/((2n+3)r^2)$ by integrating $r^2\mathbf 1_{\{|x|\ge r\}}\le x^2$. A second bound is
+$$
+ \frac{2(1-r)}{r}
+ \left(\frac{1-r^2}{1-r^2/4}\right)^n
+ \qquad (0<r<1),
+$$
+since the numerator is at most $2(1-r)(1-r^2)^n$ and the interval $[-r/2,r/2]$ contributes at least $r(1-r^2/4)^n$ to $Z_n$. At $r=1$ the tail has zero mass. The two bounds measure the same concentration at different scales.
+
+**Example 2 (two equal peaks on the circle).** Take $S=\mathbb R/(2\pi\mathbb Z)$ with probability Haar measure $d\theta/(2\pi)$, and put $c(\theta)=\cos^2\theta$. The two maximizing points are $0$ and $\pi$. Write $Z_n=\int_S \cos^{2n}\theta\,d\theta/(2\pi)$. The periodic derivative of $\sin\theta\cos^{2n+1}\theta$ integrates to zero, so
+$$
+ Z_{n+1}=(2n+1)(Z_n-Z_{n+1}),\qquad
+ Z_n=\prod_{j=1}^n\frac{2j-1}{2j}
+     =\frac{\binom{2n}{n}}{4^n}.
+$$
+Here $Z_0=1$. For the normalized probability $\nu_n$, this recurrence gives $\int_S\sin^2\theta\,d\nu_n=1/(2n+2)$. The half turn preserves both $c$ and Haar measure, so it exchanges two semicircles of mass $1/2$ each. Use the arcs $[-\pi/2,\pi/2)$ and $[\pi/2,3\pi/2)$ modulo $2\pi$, assigning each to its center. For $0<r\le\pi/2$, let $T_r$ be the set at circular distance at least $r$ from both centers. On $T_r$ we have $\sin^2\theta\ge\sin^2 r$, so $\nu_n(T_r)\le 1/((2n+2)\sin^2 r)$. For any bounded Borel input $h$ continuous at both centers, write $\omega_h(r)$ for the larger of its two oscillations from the respective center on the open arcs of radius $r$. Subtract the assigned center value on each semicircle. Exact half mass on each, the near-arc bound and the tail estimate give
+$$
+ \left|\int_S h\,d\nu_n-\frac{h(0)+h(\pi)}2\right|
+ \le \omega_h(r)+\frac{2\sup_S|h|}{(2n+2)\sin^2 r}.
+$$
+First choose $r$ small and then $n$ large. This proves the limit $\tfrac12\delta_0+\tfrac12\delta_\pi$. For $g(\theta)=(\cos\theta,\sin^2\theta)$ the average is exactly $(0,1/(2n+2))$. The first coordinate vanishes by the half turn. The error from the mixed value is $1/(2n+2)$ in the maximum norm, while the distance from $g(0)=(1,0)$ is one for every $n$. The equal split is forced by the symmetry of this profile and measure.
+
+**Definition (normalized powers and support).** Let $X$ be a metrizable space with its Borel $\sigma$-algebra, $\mu$ a locally finite Borel measure, and $S\subseteq X$ compact. Let $E$ be a real Banach space and $x_0\in S$. For a continuous profile $c:S\to[0,\infty)$ set
+$$
+ Z_n=\int_S c(y)^n\,d\mu(y),\qquad
+ K_n(x)=\frac{c(x)^n}{Z_n}\quad(x\in S),\qquad n=0,1,2,\ldots ,
+$$
+whenever $Z_n>0$. The power at $n=0$ is one even at zeros of $c$. The corresponding measure on $X$ is $\nu_n(B)=\int_{B\cap S} K_n\,d\mu$. Thus the density is extended by zero outside $S$, even at $n=0$. The positivity condition at the center is $\mu(U\cap S)>0$ for every open $U\ni x_0$. This says that $x_0$ belongs to the support of the *restricted measure* $\mu|_S$. Local finiteness gives $\mu(S)<\infty$ by a finite cover by finite-measure neighborhoods. The ambient measure may have infinite total mass. There is no assumption on $c$ off $S$.
+
+**Theorem (concentration and pointwise recovery) [Lean, read].** Suppose $c(x_0)>0$, $c(x)<c(x_0)$ for every $x\in S\setminus\{x_0\}$, and $x_0$ belongs to the support of $\mu|_S$. Then $0<Z_n<\infty$ for every $n$ and the probability measures $\nu_n$ converge weakly to $\delta_{x_0}$, meaning convergence against every bounded continuous real test function on $X$, or equivalently here on $S$. For every specified $g:S\to E$ that is Bochner integrable for $\mu|_S$ and continuous at $x_0$ relative to $S$, the weighted functions are Bochner integrable for every $n$ and
+$$
+ \int_S K_n(x)g(x)\,d\mu(x)
+   = Z_n^{-1}\int_S c(x)^n g(x)\,d\mu(x)
+   \longrightarrow g(x_0).
+$$
+The pinned theorem gives the norm limit on the right. Weak convergence and the explicit estimates follow from its proof. In the source $c$ and $g$ are functions on $X$ tested only on $S$. A function on $S$ can be extended by zero for this purpose. [Pinned power theorem][ch15-maxpeak-core]
+
+**Proof.** The powers are Borel measurable and bounded on $S$, so their integrals are finite. Positivity at $x_0$ and continuity give an open $V$ about $x_0$ with $c\ge c(x_0)/2$ on $V\cap S$. This subset has finite positive measure. Its contribution gives $Z_n\ge (c(x_0)/2)^n\mu(V\cap S)>0$. Consequently $K_n$ is nonnegative, bounded for each fixed $n$, and has integral one. Its product with $g$ is strongly measurable almost everywhere and has integrable norm by boundedness for each $n$. The scalar can therefore be taken outside the Bochner integral.
+
+Fix an open $U\ni x_0$. When $S\setminus U$ is empty the far term vanishes. Otherwise $S\setminus U$ is compact, so $c$ attains its maximum there, say $t$. The strict maximum hypothesis gives $0\le t<c(x_0)$. Choose $t<b<c(x_0)$, and take an open $V\ni x_0$ on which $c>b$ relative to $S$. Put $m=\mu(V\cap S)$, so $0<m<\infty$. Monotonicity of the integral and nonnegativity give
+$$
+ Z_n\ge m b^n,\qquad
+ 0\le K_n(x)\le \frac{1}{m}\left(\frac{t}{b}\right)^n
+ \quad(x\in S\setminus U).
+$$
+The ratio is strictly less than one. For $t=0$ the bound is $1/m$ at $n=0$ and zero for $n\ge1$. Integrating the uniform bound gives $\nu_n(S\setminus U)\le\mu(S\setminus U)(t/b)^n/m$.
+
+For any $\varepsilon>0$, continuity at $x_0$ gives $U$ with $\|g(x)-g(x_0)\|\le\varepsilon$ on $U\cap S$. The constant $g(x_0)$ is integrable on $S$ by finite measure. Subtract it from the integrand using mass one and apply the Bochner norm inequality on the two pieces. With $t,b,m$ as above the result is
+$$
+ \left\|\int_S K_n g\,d\mu-g(x_0)\right\|
+ \le\varepsilon+
+ \frac{(t/b)^n}{m}
+ \left(\int_{S\setminus U}\|g\|\,d\mu+
+       \mu(S\setminus U)\|g(x_0)\|\right).
+$$
+The near term uses the oscillation and the total kernel mass. The far term uses the uniform bound so that $g$ may be unbounded there. Taking $n$ to infinity, then using arbitrary $\varepsilon$, proves recovery. A continuous real test on $S$ is bounded there and hence integrable. Its limit integral equals evaluation against the Dirac mass, proving weak convergence. The ambient and restricted formulations also agree directly for this limit. Fix a compatible metric $d$ and radius $r>0$. The ambient continuous test $x\mapsto\min(1,d(x,x_0)/r)$ is zero at $x_0$ and one off the open radius-$r$ ball. Its integral bounds the tail mass there. If ambient weak convergence holds, that mass tends to zero, which proves convergence for any continuous test on $S$ by its local oscillation and boundedness on $S$. [Pinned denominator, uniform tail and limit][ch15-maxpeak-core]
+
+**Two ways to discharge the support and input conditions.** The second pinned declaration uses a measure positive on all nonempty open subsets of $X$ and $x_0\in\overline{\operatorname{int}S}$. Since compact $S$ is closed, this puts $x_0$ in $S$. Each open $U\ni x_0$ meets $\operatorname{int}S$, so $U\cap\operatorname{int}S$ is nonempty open and gives $\mu(U\cap S)>0$. The most general declaration makes the latter condition directly. For example, it applies with $X=\mathbb R$, $\mu=\delta_0$, $S=\{0\}$ and $c(0)=1$, where the interior of $S$ is empty.
+
+The third declaration uses the same open-set positivity and closure-of-interior condition and assumes $g$ continuous on all of $S$. Then $g$ is bounded and strongly measurable on $S$: cover its compact image by finitely many balls of radius $1/k$ and choose the first center whose ball contains the value. These simple Borel functions converge uniformly to $g$. Finite measure then gives Bochner integrability, and the relative continuity at $x_0$ is immediate. The first two declarations admit an integrable input with jumps away from the peak. For instance $\mathbf1_{[1/2,1]}$ in Example 1 is locally constant at zero. [Pinned corollaries][ch15-maxpeak-versions]
+
+**Connection with the finite-window argument.** In the [finite-window theorem][ch15-maxpeak-window], use $S$ itself as both integration set and window. Its mass under the kernel is exactly one at every index. The preceding estimates give nonnegativity and uniform vanishing off each neighborhood, and measurability follows from continuity of the powers on $S$. This is the call in the pinned proof. The Gaussian and translated kernels used in [Fourier inversion][ch15-maxpeak-gaussian] arise from the scaling branch of the same finite-window argument. The finite-window result, treated in the companion §15.4.3.9 manuscript, permits a limiting window mass. This accommodates the scaling branch's growing domains in the unscaled variable.
+
+**Where the limit is consumed.** The cosine case in Chapter 2 uses the continuous-input version with $c(x)=\cos x$ on $[0,\pi/2]$ and the complex Banach input $g(x)=\cos(2zx)$. The endpoint $0$ lies in the closure of the interior. The normalized integral tends to $1$ along the even exponents, the factor needed in the sine-product limit. [Pinned Euler sine consumer][ch15-maxpeak-euler]
+
+Two A2 source call sites use this same Mathlib branch. In `lean/src/Formalism/HermitianCurvature/HermitianCurvatureProofs/HerglotzLowerSemicontinuous.lean:426–475`, the cube $[-1/2,1/2]^d$ carries the profile $\prod_j |1+e^{2\pi i y_j}|^2$. Its unique maximum is at zero because each factor is at most $4$ and equals $4$ in this cube only at coordinate zero. The integrable input is an indicator of an open neighborhood of zero, locally constant there. Its normalized average tends to one, allowing the proof to pass a finite-sum lower bound to the limit. In `lean/src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/HolomorphicExtensionCompactRep.lean:74–108`, the continuous-input version is used on the compact group subtype with Haar measure and center $1$. On unitary matrices the profile is $1+\operatorname{tr}((g+1)^\dagger(g+1))$ and its drop from the maximum is $\operatorname{tr}((g-1)^\dagger(g-1))$, the sum of squared moduli of the matrix entries of $g-1$. The normalized average of the representation tends to the algebra unit. An index at distance less than one gives an invertible normalized average by the norm criterion for invertibility. Undoing the scalar normalization supplies the right inverse used in the extension proof. These are local consumer links. The FlagMeasures wrapper `TendstoIntegralNormalisedPowPeakStatement.lean:6–7` refers to the separate archive supplier `GlobalTheory.tendsto_integral_normalised_pow_peak`. [A2 archive and verification record](../sources/SOURCES.md#1-the-lean-archive-primary-source)
+
+**Remarks on the hypotheses and the reading.** Full ambient support alone can miss the relative support condition. For $X=\mathbb R$ with Lebesgue measure, take $S=[1,2]\cup\{0\}$, $c(0)=2$, $c=1$ on $[1,2]$, and $g(0)=1$, $g=0$ on $[1,2]$. Both functions are continuous on $S$ and the positive maximum is unique, but the open interval $(-1/2,1/2)$ meets $S$ only at a null point. Every $Z_n$ is one and every average of $g$ is zero. Example 2 shows the distinct effect of deleting uniqueness with relative support intact. Point continuity selects the actual value of the chosen function: in Example 1 assign $g(0)=1$ and $g(x)=0$ elsewhere. Every weighted integral is zero, since the singleton is null.
+
+Sébastien Gouëzel's three declarations are the formal source. [Lean, read] denotes author-level local R3 for those bodies at Mathlib revision `0df444a360eaa60ab8c11dca51a86af692955474`, fixed by A2's `lean/lake-manifest.json:6–13` in archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The estimates and examples are textbook derivations. The local source calls are documented in the proof map. Kernel replay, declaration reachability from `src/Main.lean`, and independent review of this increment are unassessed here. [Source ledger](../sources/SOURCES.md#chapter-15-154310-unique-maximum-powers) · [Proof map](../notes/proof-map.md#chapter-15-unique-maximum-powers)
+
+[ch15-maxpeak-core]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L249-L339
+[ch15-maxpeak-versions]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L350-L379
+[ch15-maxpeak-window]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L179-L221
+[ch15-maxpeak-gaussian]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/Inversion.lean#L109-L171
+[ch15-maxpeak-euler]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L251-L292
+
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
 Perhaps the single deepest conceptual contrast in the entire book is how the **global function-field

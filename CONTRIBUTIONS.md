@@ -805,3 +805,9 @@ same-model review is recorded separately in the preceding run's audit.
 - **Prior mathematical work.** Mackey's double-coset restriction formula and the induced-cuspidal theory of Howlett and Lehrer provide the historical setting. [Bibliography](sources/SOURCES.md#chapter-13-13417--mackey-orthogonality-for-cuspidal-induction)
 - **Alpöge with Claude.** The two formal proofs are from the pinned archive. [Production and consumer table](chapters/13-greens-theorem-and-the-literature-layer.md#13417-mackey-orthogonality-for-cuspidal-induction)
 - **This book.** Hongmin Li with AI assistance gives the simultaneous-flag proof, the factorial count for repeated types, the hand calculations and their exact verification. The scope of the earlier U3 and U4 reviews is recorded separately.
+
+
+### Chapter 15 §15.4.3.10 Unique-maximum powers
+
+- **Sébastien Gouëzel and Mathlib contributors.** Gouëzel's pinned file proves the three normalized-power versions and supplies the finite-window argument. The Mathlib Euler sine product is a direct consumer. **Levent Alpöge with Claude** supplied the two A2 applications in the Herglotz and compact-representation proofs. [Source ledger](sources/SOURCES.md#chapter-15-154310-unique-maximum-powers)
+- **Hongmin Li with AI assistance.** Author-level source reading and textbook derivation of the error estimates, weak limit and Banach-valued recovery. The polynomial moments and the exact two-center distribution make the limiting values checkable. [Chapter text](chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point)
