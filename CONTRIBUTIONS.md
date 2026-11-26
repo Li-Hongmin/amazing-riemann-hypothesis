@@ -927,6 +927,8 @@ same-model review is recorded separately in the preceding run's audit.
 
 **Chapter 4 §4.11.** Alpöge with Claude supplies the A2 coordinate, permutation, root-orbit and residual representation proofs. Évariste Galois supplies the finite-field root-orbit precedent. Camille Jordan supplies the classical primitive prime-cycle theorem in the range used here. Hongmin Li with AI assistance supplies the local source reading, textbook proofs, examples, deletion tests and declaration map. The checking ledger records community kernel verification separately. [§4.11](chapters/04-auxiliary-prime-pairs-and-host-fields.md#411-from-separated-inertia-lines-to-residual-irreducibility) · [Source and consumer register](sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
 
+**Chapter 4 §4.11.1.** Alpöge with Claude supplies the two formal prime-cycle proof bodies. Antoine Chambert-Loir and the cited Mathlib contributors supply the action, permutation and arithmetic lemmas. Binzhou Xia gives the block-size argument, and Camille Jordan supplies the higher-transitivity and alternating-containment results. Simon DeDeo supplies the Main export used for the declaration paths. Hongmin Li with AI assistance supplies the textbook proof, the hand calculations, the sharpness and transitivity examples, and the local source and consumer reading. [§4.11.1](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) · [Source register](sources/SOURCES.md#chapter-4-4111-prime-cycle-primitivity)
+
 
 ### Chapter 5 cyclic norm assembly (§5.3.1.19)
 
