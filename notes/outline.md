@@ -368,3 +368,5 @@ calibration (§9.4.26) enter at their recorded scopes; universal `HCFdeg`,
 [Subsection](../chapters/09-heights-slopes-and-near-orthogonality.md#9427-paying-the-shared-compact-dual-haar-normalization-from-coordinate-densities)
 
 Chapter 17, §17.4.26 builds the angular cone measure and proves the full sphere–radius product for finite-dimensional additive Haar measure. It checks a nonradial planar integral, two distinct cube sectors, and the one- and zero-dimensional cases before following the radial marginal into the Minkowski volume proof. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17426-angular-measure-and-the-haar-product-in-polar-coordinates)
+
+**Chapter 18 §18.3.24 (P18).** Fixed-exponent compact duality assembled from the exact prime-power open-subgroup inputs. The reading covers CRT on the coefficients and their roots-valued duals, the common local invariant, and the two character reconstruction steps. Examples at $15$ and $8\cdot9$ and the two deletion controls. [§18.3.24](../chapters/18-auditing-the-published-layer-case-studies.md#18324-combining-prime-power-compact-pairings-on-the-same-module)
