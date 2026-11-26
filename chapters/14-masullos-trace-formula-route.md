@@ -1676,6 +1676,94 @@ so $\|p_n\| r^n \le c_n r^n$ ($n \ge 1$) is summable for all $r \ge 0$ and the a
 
 **Scope and sources.** D'Alembert's 1768 *Mémoire XXXV* (§I, pp. 171–183, especially Art. 31, pp. 181–182) introduced geometric-ratio tail comparison and noted the eventual decay of factorial terms at arbitrary real arguments. Walter Rudin's *Principles of Mathematical Analysis* (3rd ed., 1976, Theorems 3.33–3.34, Examples 3.35, Theorem 3.37, Theorem 3.39, Example 3.40(b), pp. 65–70, and Chapter 8, eq. (25), p. 178) gives the modern ratio and root tests, oscillating failure examples, and the entire scalar exponential series; Ovidiu Costin's *Functional Analysis 7212* notes (2020, §1.0–§1.1, pp. 2–6) present the Banach-algebra exponential and commuting addition formula. In pinned Mathlib (`0df444a360eaa60ab8c11dca51a86af692955474`), `OfScalars.lean` is due to Edward Watine, `Exponential.lean` to Anatole Dedecker, Eric Wieser, and Yuyang Zhao, and the upstream multilinear-norm, convergence-radius, and ratio-test files to Sébastien Gouëzel, Yury Kudryashov, Sophie Morel, Patrick Massot, Johannes Hölzl, Dylan MacKenzie, and Heather Macbeth. Our non-circular threshold $N_{\mathrm{arch}}(R,\varepsilon)$, the coherent-block proof of the exact $\ell^2(\mathbb N_0)$ shift tail, the non-normal matrix comparison across operator and Frobenius norms, and the boundary classification are textbook exposition, with no claim of research priority on the classical theorems. Reverse exponential spectral inclusion, general holomorphic functional calculus, and the `[Open]` positive-width strip $I = [-\alpha,\alpha]$ nuclearity and $\alpha$-independence questions in Masullo's Chapters 10–12 remain completely untouched by this local reading. [Rudin 1976, pp. 65–70, 178](https://www.lehman.edu/faculty/rbettiol/lehman_teaching/2020mat320/baby_Rudin.pdf) · [Costin 2020, §§1.0–1.1, pp. 2–6](https://math.osu.edu/~costin.9/7212-2020/FA1.pdf) · [Source ledger](../sources/SOURCES.md#chapter-14-factorial-ratios-and-the-banach-exponential)
 
+#### Differentiating the Banach exponential
+
+The entire series gives $\exp A$ at every point of a Banach algebra. Differentiation requires a linear approximation that controls increments in all directions. In $(A+H)^3$ the terms linear in $H$ are $HA^2$, $AHA$ and $A^2H$. Each records a different position of the perturbation. Along $t\mapsto\exp(tA)$ the base point and increment are scalar multiples of $A$, so these placements give the same product.
+
+**First calculation.** In $M_2(\mathbb C)$ with the Euclidean operator norm, let $N=E_{12}$, $H=E_{21}$ and $I=E_{11}+E_{22}$. Then $N^2=H^2=0$, $NH=E_{11}$, $HN=E_{22}$ and $NHN=N$. In particular $NN^\ast=E_{11}\ne E_{22}=N^\ast N$, so $N$ is non-normal. Put $M(t)=N+tH$. Because $M(t)^2=tI$, grouping even and odd degrees gives
+$$
+\exp M(t)=
+\left(\sum_{k\ge0}\frac{t^k}{(2k)!}\right)I+
+\left(\sum_{k\ge0}\frac{t^k}{(2k+1)!}\right)(N+tH).
+$$
+For $|t|\le1$, each scalar tail from $k=2$ has modulus at most $|t|^2$ times its factorial sum at $1$. The constant and linear coefficients give $\exp N=I+N$ and
+$$
+D\exp_N(H)=H+\frac I2+\frac N6,\qquad
+(\exp N)H=H+E_{11},\qquad
+D\exp_N(H)-(\exp N)H=\frac{E_{22}-E_{11}}2+\frac N6.
+$$
+The $(1,1)$ entry of the difference is $-1/2$. The surviving insertion sums are $H$, $NH+HN$ and $NHN$ in degrees $1,2,3$. In every higher degree, each insertion has at least two adjacent factors $N$ on one side of $H$ and vanishes.
+
+**Second calculation.** In $\mathcal B(\ell^2(\mathbb N_0))$ with the operator norm, take the unilateral shift $Se_j=e_{j+1}$ and the projection $Pe_0=e_0$, $Pe_j=0$ for $j\ge1$. Both have norm one. The right factor acts first, so $PS=0$, while $SPe_0=e_1$. Thus $S^jPS^k=0$ for $k\ge1$, and $S^jP$ sends $e_0$ to $e_j$ and vanishes on its orthogonal complement. The insertion series below gives, for every $v=(v_j)_{j\ge0}$,
+$$
+D\exp_S(P)v=v_0\sum_{j\ge0}\frac{e_j}{(j+1)!},\qquad
+(\exp S)Pv=v_0\sum_{j\ge0}\frac{e_j}{j!}.
+$$
+The error has first nonzero coordinate $-v_0/2$ at $e_1$. Its exact operator norm is $\bigl(\sum_{j\ge1}(j/(j+1)!)^2\bigr)^{1/2}\ge1/2$. The error maps $v$ to $v_0$ times a fixed vector, and its norm is attained at $e_0$. Every insertion degree contributes. [Expository]
+
+**Definition.** Let $\mathcal A$ be an associative unital Banach algebra over $\mathbb K=\mathbb R$ or $\mathbb C$ with submultiplicative norm and the usual scalar norm. A Fréchet derivative of $f$ at $A$ is a continuous $\mathbb K$-linear map $L$ with $\|f(A+H)-f(A)-L(H)\|=o(\|H\|)$ as $H\to0$. The strict derivative asks for $f(B)-f(C)-L(B-C)=o(\|B-C\|)$ as $(B,C)\to(A,A)$. Write $X^n/n!$ for multiplication by the scalar reciprocal of $n!$. The norm of the unit may differ from one.
+
+**Lemma (from a power series on a ball to a derivative).** Let $E,F$ be normed spaces over a nontrivially normed field and $p_n:E^n\to F$ continuous multilinear maps. Suppose $0<r\le\operatorname{radius}(p)$ and diagonal evaluations of $p$ sum to $f(x+h)$ for all $\|h\|<r$. This is `HasFPowerSeriesOnBall f p x r`. At the centre the strict derivative is the linear map $p_1$. If $F$ is complete and $\|a\|<r$, the derivative at $x+a$ is the first coefficient of the series recentered by $a$. [Lean, read]
+
+*Proof.* Choose finite $0<b<s<r$. The strict-radius estimate supplies $\sum_n\|p_n\|s^n<\infty$. For $u,v$ of norm at most $b$, replace one slot at a time in $p_n(u,\ldots,u)-p_n(v,\ldots,v)$. Multilinearity gives $n$ terms with one slot $u-v$ and the others of norm at most $m=\max(\|u\|,\|v\|)$. Degrees zero and one in the difference of the value series give $0$ and $p_1(u-v)$. The rest has norm at most
+$$
+m\|u-v\|\sum_{n\ge2}n\|p_n\|b^{n-2}.
+$$
+The constant is finite since $n(b/s)^{n-2}$ is bounded. This proves strict differentiability at $x$ and ordinary differentiability by setting $v=0$. Both value sums are given in the premise, so completeness is unnecessary at the centre. The pinned proof uses a degree-weighted geometric series and passes from a two-point big-$O$ bound to little-$o$ at $(x,x)$. [Analytic/Basic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Basic.lean#L775-L886) · [FDeriv/Analytic.lean](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/Analytic.lean#L83-L111)
+
+To change centre, reserve $k$ slots for the increment and fill the remaining $l=n-k$ slots with $a$, keeping their original order. Sum over the subsets of fixed slots, then over $l\ge0$. For $d>0$ with $\|a\|+d<r$, a partially applied $k$-linear map has norm at most $\|p_{k+l}\|\|a\|^l$. Weighting by $d^k$ and counting subsets gives
+$$
+\sum_{n\ge0}\|p_n\|\sum_{l=0}^n {n\choose l}\|a\|^l d^{n-l}
+=\sum_{n\ge0}\|p_n\|(\|a\|+d)^n<\infty.
+$$
+For fixed $k$, divide by $d^k>0$ to obtain summable norms for its coefficient. Completeness of $F$ gives completeness of the map space and hence the coefficient sum. This majorant bounds the weighted coefficient norms at every such $d$, giving radius at least $r-\|a\|$. For $\|h\|<r-\|a\|$, choose such a $d>\|h\|$. Absolute summability allows grouping evaluations by $k$ or by original degree $n$ and subset of fixed slots. Grouped by $n$ the inner sum is $p_n(a+h,\ldots,a+h)$ by multilinearity. Grouped by $k$ it gives the new series. Apply the centre result at $x+a$. Lean uses `changeOriginIndexEquiv`, `changeOriginSeries_summable_aux₁`, `changeOrigin_eval` and `HasFPowerSeriesOnBall.changeOrigin`. The derivative theorem curries the single remaining slot into a continuous linear map. [ChangeOrigin.lean, lines 118–226](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/ChangeOrigin.lean#L118-L226) · [ChangeOrigin.lean, lines 248–341](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/ChangeOrigin.lean#L248-L341) · [FDeriv/Analytic.lean, lines 193–208](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/Analytic.lean#L193-L208)
+
+**Proposition (ordered derivative and effective bounds).** For every $A,H\in\mathcal A$,
+$$
+D\exp_A(H)=\sum_{n\ge1}\frac1{n!}\sum_{j=0}^{n-1}A^jHA^{n-1-j}.
+$$
+Let $L_A^{(N)}$ be the sum through degree $N\ge1$ and $T_N(R)=\sum_{m\ge N}R^m/m!$. For all $R,\delta\ge0$, $\|A\|\le R$ and $\|H\|\le\delta$,
+$$
+\begin{aligned}
+\|D\exp_A\|_{\mathrm{op}}&\le e^R,\\
+\|D\exp_A-L_A^{(N)}\|_{\mathrm{op}}&\le T_N(R),\\
+\|\exp(A+H)-\exp A-D\exp_A(H)\|&\le\tfrac12 e^{R+\delta}\|H\|^2,\\
+\|\exp(A+H)-\exp A-L_A^{(N)}(H)\|&\le
+\tfrac12 e^{R+\delta}\|H\|^2+T_N(R)\|H\|.
+\end{aligned}
+$$
+For $N+1>R$, the preceding factorial estimate gives $T_N(R)\le(R^N/N!)(N+1)/(N+1-R)$. The dyadic bound there gives a cutoff for any positive tolerance. To bound $e^{R+\delta}$ above by a rational, choose rational $b\ge R+\delta$ and integer $J\ge1$ with $J+1>b$. Use the finite sum through degree $J-1$ at $b$ plus its rational tail bound. [Al-Mohy and Higham, 2009, Theorems 3.1–3.2, pp. 1642–1643](https://eprints.maths.manchester.ac.uk/1218/1/covered/MIMS_ep2008_26.pdf) · [Factorial tail](#factorial-ratios-and-the-infinite-radius-of-the-banach-exponential)
+
+*Proof.* `NormedSpace.expSeries` uses the ordered product map with coefficient $1/n!$. `NormedSpace.exp_hasFPowerSeriesOnBall` packages the sum on the full extended ball about zero using the infinite radius. Set $k=1$ in the change of centre. The complement of the fixed slots is a singleton, say slot $j$, giving the word $A^jHA^{n-1-j}$. The ball derivative theorem identifies its summed first coefficient with $D\exp_A(H)$. [Ordered coefficient](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L101-L112) · [Global ball](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L478-L499) · [Ball derivative](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/Analytic.lean#L193-L208)
+
+Each insertion is a product of $n$ actual factors with norm at most $\|A\|^{n-1}\|H\|$. An exponent zero contributes no factors, so it incurs no factor $\|1\|$. Including degree one, the degree-$n$ linear operator has norm at most $\|A\|^{n-1}/(n-1)!$. Use $0^0=1$ in scalar majorants. Completeness gives absolute convergence in operator norm. Summing and truncating this bound give the first two estimates.
+
+In $(A+H)^n$ the word with no $H$ cancels against $A^n$, and words with one $H$ give the insertion sum. A word with $k\ge2$ copies of $H$ has norm at most $\|H\|^k\|A\|^{n-k}$, and there are $\binom{n}{k}$ of them. Writing $l=n-k$ in the nonnegative majorant gives
+$$
+\sum_{n\ge2}\sum_{k=2}^n\frac{\binom{n}{k}}{n!}\|A\|^{n-k}\|H\|^k
+=e^{\|A\|}\sum_{k\ge2}\frac{\|H\|^k}{k!}
+\le\tfrac12\|H\|^2 e^{\|A\|+\|H\|}.
+$$
+Here $k!\ge2(k-2)!$. Subtract finite prefixes and take norm limits to obtain the remainder, including at $H=0$. Dividing by $\|H\|$ for $H\ne0$ also proves the Fréchet limit directly. Adding the derivative tail gives the last inequality. [Expository]
+
+**Commuting directions and exponential paths.** If $AH=HA$, all $n$ insertions in degree $n$ are $A^{n-1}H$. Since $n/n!=1/(n-1)!$, continuity of multiplication gives
+$$
+D\exp_A(H)=(\exp A)H=H(\exp A).
+$$
+The two calculations show that deleting commutation invalidates the general simplification. Equality at a single pair can occur even when $AH\ne HA$. Choose $y\in(2\pi,5\pi/2)$ with $y\cot y=1+\log(y/\sin y)$. The difference of the two sides tends to $+\infty$ on the left and is negative on the right, so such a $y$ exists. Put $z=\log(y/\sin y)+iy$, which gives $e^z=1+z$. At $A=\operatorname{diag}(0,z)$ and $H=E_{12}$, only $j=0$ contributes to each degree. Thus $D\exp_A(H)=((e^z-1)/z)H=H=(\exp A)H$, although $AH=0$ and $HA=zH\ne0$.
+
+The derivative of $t\mapsto tA$ in scalar direction $u$ is $uA$. Since $(tA)A=A(tA)$, the scalar derivative of $t\mapsto\exp(tA)$ is $(\exp(tA))A=A\exp(tA)$ for every $t\in\mathbb K$. The real statement applies to a complex algebra by restriction of scalars. The pinned `hasFDerivAt_exp_smul_const_of_mem_ball` composes the identity derivative at zero with the scalar line, then translates using $\exp((t+h)A)=\exp(tA)\exp(hA)$ for small $h$. Its strict version identifies that derivative by uniqueness with the strict derivative of the analytic composite. `hasDerivAt_exp_smul_const` and its primed version use the infinite radius and place the generator on the right and left, respectively. The separate theorem `hasFDerivAt_exp` assumes a commutative algebra. [Zero and commutative proofs](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Exponential.lean#L65-L118) · [Path proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Exponential.lean#L248-L335) · [Global path declarations](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Exponential.lean#L370-L389)
+
+**Integral form.** Higham gives the matrix formula with the exponential factors on opposite sides of the direction. In a Banach algebra the continuous integrand on the compact real interval has a norm-valued integral. The ordered product series for $\exp((1-s)A)H\exp(sA)$ converges uniformly there, since each $(j,k)$ term has norm at most $\|A\|^{j+k}\|H\|/(j!k!)$, including when either power is zero. Integration by parts yields $\int_0^1(1-s)^js^k\,ds=j!k!/(j+k+1)!$. At $j=0$ the integral is $1/(k+1)$, and for $j>0$ it is $j/(k+1)$ times the integral with indices $(j-1,k+1)$. Integrate term by term and group by $j+k+1$ to get
+$$
+D\exp_A(H)=\int_0^1\exp((1-s)A)H\exp(sA)\,ds.
+$$
+The integral is a textbook corollary. The pinned production chain uses the recentered coefficient. Its exponential-specific file discusses an integral approach in a comment. [Higham, *What Is a Fréchet Derivative?*, 23 June 2020](https://nhigham.com/2020/06/23/what-is-a-frechet-derivative/) · [Pinned comment](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Exponential.lean#L219-L235)
+
+**Hypotheses and the chapter's interfaces.** To test the strict ball inequality, take $1/(1-x)$ for $|x|<1$ and assign value zero elsewhere. Its geometric series represents it on the open unit ball, and the function is discontinuous at $1$. To test completeness, equip $\mathbb R[X]$ with the sup norm on $[0,1]$. The exponential series at $X$ has summable norms and its uniform limit is $e^x$. No polynomial equals that function, by repeated differentiation on $(0,1)$. Characteristic zero keeps scalar factorials nonzero. Beyond $\mathbb R,\mathbb C$, the pinned entire-radius supplier also assumes continuous rational scalar multiplication. The inherited ratio test requires eventual nonvanishing because field division is totalized. For coefficients $1,0,1,0,\ldots$, every consecutive quotient is zero under that convention, while the scalar radius is one. [Scalar ratio premise](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/OfScalars.lean#L243-L260) · [Exponential radius hypotheses](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L443-L499)
+
+For self-adjoint $a$ in a unital complex $C^\ast$-algebra, the path computation gives $U'(t)=U(t)\,ia$ for $U(t)=\exp(ita)$ and real $t$. The real-spectrum argument uses unitarity, forward spectral inclusion and the unit-circle norm constraint. For each spectral $\lambda$ these give $|e^{it\lambda}|=1$, so $t=1$ suffices to deduce $\operatorname{Im}\lambda=0$. A2's `LConv.lean:154` invokes spectral reality on $S^\ast S$. There are direct differentiation consumers elsewhere. `OneParam.lean:118–142` uses the path derivative to make $F(t)\exp(-tA)$ constant. `JacBaseA.lean:20–43,245–265` uses existence of the ambient Fréchet derivative and its value at zero in a matrix coordinate argument. The expanded ordered formula and the quantitative estimates serve as textbook background, with zero direct A2 calls identified for those expressions. Masullo's positive-width strip trace questions remain [Open]. [Pinned forward inclusion](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Spectrum.lean#L374-L400) · [Pinned spectral reality](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/CStarAlgebra/Spectrum.lean#L173-L195) · [Source ledger](../sources/SOURCES.md#chapter-14-differentiating-the-banach-exponential)
+
 ### 14.4.3 Surgical anatomy of the Chapter 10 gap, Pei's $I = \{0\}$ window note, and why $I = [-\alpha, \alpha]$ remains `[Open]`
 
 We can now state with complete mathematical precision **what goes wrong in Chapter 10**, **what Yan Ru
