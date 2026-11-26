@@ -3605,6 +3605,109 @@ Tate's finite local theorem supplies the arithmetic comparison with the dual. Hi
 
 **Reading scope.** The construction and quotient proof above are author-level R3 on A2. The predecessor's same-source preliminary review applies to its bounded descent. Kernel replay, compiled reachability from `Main.riemannHypothesis`, independent adjudication of this section and peer review are separate open checks. The two hand calculations are expository. [Pinned declarations and reading record](../sources/SOURCES.md#chapter-10-10414-a-compatible-tate-generator-for-torsion-coefficients)
 
+### 10.4.15 Finite first cohomology for the fundamental local cocycle
+
+The fundamental local cocycle carries two kinds of information. Its degree-two coordinates use the compatible representative of [§10.4.14](#10414-a-compatible-tate-generator-for-torsion-coefficients). Its last field gives finite first cohomology at every positive reduction of the same character. This second assertion is used when choosing compatible primitives across levels. The two assertions draw on different fields of local Tate duality. [Source notes](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+#### Two local computations [Expository]
+
+Use coefficient prime $\ell=3$ and level $r=2$. In either local field below, choose a primitive ninth root $\zeta$ in the chosen separable closure. Writing $g\zeta=\zeta^{\chi_2(g)}$ identifies the positive cyclotomic module $\mathbb Z/9(\chi_2)$ with $\mu_9$ by $i\mapsto\zeta^i$. For $a\in K^\times$, choose $b^9=a$ and write $g(b)/b=\zeta^{f_a(g)}$. Then
+$$
+ f_a(gh)=f_a(g)+\chi_2(g)f_a(h).
+$$
+Changing $b$ to $\zeta^j b$ adds the coboundary $g\mapsto(\chi_2(g)-1)j$. The cochains are continuous because the roots involved lie in finite extensions. The Kummer sequence and Hilbert 90 give the isomorphism $a\mapsto[f_a]$ from $K^\times/(K^\times)^9$ onto $H^1_{\mathrm{cts}}(G_K,\mathbb Z/9(\chi_2))$. Both fields have characteristic zero. [Milne, Arithmetic Duality Theorems, I §2, pp. 26–28](https://www.jmilne.org/math/Books/ADTnot.pdf)
+
+**Residue characteristic equal to the coefficient prime.** For $K=\mathbb Q_3$, put $U_j=1+3^j\mathbb Z_3$ for $j\ge1$. The valuation and the sign of the residue give $\mathbb Q_3^\times=3^{\mathbb Z}\times\{1,-1\}\times U_1$. Ninth powers are bijective on the sign factor. For $j\ge1$,
+$$
+ (1+3^j x)^3=1+3^{j+1}\bigl(x+3^j x^2+3^{2j-1}x^3\bigr).
+$$
+For each $y\in\mathbb Z_3$, the equation $x+3^j x^2+3^{2j-1}x^3=y$ has one solution modulo $3$ and derivative $1$ modulo $3$. Simple-root Hensel lifting gives a unique solution in $\mathbb Z_3$. Thus $U_j^3=U_{j+1}$ and $U_1^9=U_3$. Reduction modulo $27$ identifies $U_1/U_3$ with the nine residues congruent to $1$ modulo $3$. The class of $4$ generates them because $4^3\equiv10$ and $4^9\equiv1\pmod{27}$. The independent classes of $3$ and $4$ give
+$$
+ H^1_{\mathrm{cts}}(G_{\mathbb Q_3},\mathbb Z/9(\chi_2))\simeq(\mathbb Z/9)^2.
+$$
+The coordinates are the valuation modulo $9$ and the unique $j\bmod 9$ for which the principal-unit part equals $4^j\bmod 27$. Both are attained, so the order is $81$. On the coefficients, $\Phi_9(1+X)=X^6+6X^5+15X^4+21X^3+18X^2+9X+3$ is Eisenstein at $3$. The extension $\mathbb Q_3(\zeta)/\mathbb Q_3$ is therefore totally ramified of degree six. Its six automorphisms act by the six unit exponents modulo $9$. Inertia has full image on the coefficient module. Multiplication by $2$ has only zero as a fixed vector, so the coefficient invariants vanish. [Serre, Local Fields, I §6 and III §5](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Serre-Local.pdf)
+
+**Residue characteristic prime to the coefficient prime.** For $K=\mathbb Q_2$, every unit $u$ has a unique ninth root in $\mathbb Z_2^\times$. Indeed $X^9-u$ has the simple root $1$ modulo $2$, with derivative $9$ at that residue. Every class of $\mathbb Q_2^\times/(\mathbb Q_2^\times)^9$ is represented uniquely by $2^i$, $0\le i<9$. Thus the Kummer class of $2$ generates $H^1_{\mathrm{cts}}(G_{\mathbb Q_2},\mathbb Z/9(\chi_2))$, of order $9$. The ninth roots lift uniquely from the residue algebraic closure. The order of $2$ modulo $9$ is six since $2^3\equiv-1$ and $2^2\equiv4$. The roots generate the unramified degree-six extension. The coefficient action is trivial on inertia and multiplication by $2$ on arithmetic Frobenius, again with zero invariants. The Kummer class of $2$ detects inertia even here. Over that unramified field $X^9-2$ is Eisenstein and its splitting field has an automorphism sending $2^{1/9}$ to $\zeta\,2^{1/9}$. This gives inertia value $1$ for $f_2$. Coboundaries restrict to zero there. For the finite quotient used in the arithmetic check, write $L=\mathbb Q_2(\zeta)$ and $\beta=2^{1/9}$. Over $L$, the basis $1,\beta,\dots,\beta^8$ comes from the Eisenstein polynomial. Frobenius on $L$ extends to $s$ fixing $\beta$ by acting on the coefficients in this basis, since $\beta^9=2$ is rational. If $t(\beta)=\zeta\beta$ and $t$ fixes $L$, then $sts^{-1}=t^2$. Consequently $t^js^i$ has character $2^i\bmod9$ and Kummer coordinate $j\bmod9$, in agreement with the crossed-homomorphism formula on the absolute group. [Milne, Class Field Theory, I §1 and III §3](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+#### The local input and the two adjoints [Lean, read]
+
+Fix a prime $\ell$, an intermediate field $K$ finite over $\mathbb Q_\ell$ inside $\Omega=\overline{\mathbb Q_\ell}$, and $G=\operatorname{Gal}(\Omega/K)$ with its Krull topology. Write $\chi_Z:G\to\mathbb Z_\ell^\times$ for the positive cyclotomic character. At a fixed integer $r>0$ let $n=\ell^r$, $R_r=\mathbb Z/n$ and $\chi_r=\chi_Z\bmod n$. Let $M$ be a finite $R_r$-module with the discrete topology and a continuous $R_r$-linear action $\rho$. Its twisted dual is $M^\dagger=\operatorname{Hom}_{R_r}(M,R_r)$, discrete, with action
+$$
+ (g\lambda)(m)=\chi_r(g)\lambda(\rho(g^{-1})m).
+$$
+Evaluation satisfies $(g\lambda)(\rho(g)m)=\chi_r(g)\lambda(m)$. In particular for $M=R_r(\chi_r)$ the dual is the constant $R_r$. All cohomology here uses continuous cochains. [A2, GalCohDefs.lean:21–81,100–111](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+The input `LocalTateDualityK` gives five fields at these arguments. For $C=H^2(G,R_r(\chi_r))$, field 1 gives an $R_r$-linear isomorphism $\eta:C\to R_r$. Field 2 gives the adjoint from $H^0(G,M)$ into the linear dual of $H^2(G,M^\dagger)$ with values in $C$. Fields 3 and 4 give both adjoints of
+$$
+ b:H^1(G,M^\dagger)\times H^1(G,M)\longrightarrow C
+$$
+as bijections. This is the cup in the displayed order, with the flipped evaluation on coefficients. Field 5 gives a bijective map $H^2(G,M)\to\operatorname{Hom}_{R_r}(H^0(G,M^\dagger),C)$. The source composes the representations in the cup maps with the identity homomorphism on $G$, which preserves the action. [A2, LocalTateDualityK.lean:32–35,47–61](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+#### Lemma. Two bijective adjoints force finite modules [Lean, read]
+
+Let $n>0$ and $R=\mathbb Z/n$. Suppose $A,B$ are $R$-modules and $C\simeq_R R$. If both adjoints of an $R$-bilinear pairing $A\times B\to C$ are bijections onto the full $R$-linear duals with target $C$, then $A$ and $B$ are finite.
+
+**Proof.** First show that any infinite abelian group $X$ killed by $n$ satisfies
+$$
+ |X|<|\operatorname{Hom}_{\mathbb Z}(X,\mathbb Z/n)|.
+$$
+For $n=1$ there is no infinite $X$. When $n=p$ is prime, choose a basis $I$ over $\mathbb F_p$. Since vectors have finite support over a finite field, $|X|=|I|$ for infinite $X$. Arbitrary values on $I$ give all linear functionals, including the $2^{|I|}$ distinct assignments with values in $\{0,1\}$. Cantor's theorem gives the strict inequality. This is the cardinal consequence used by A2, whose prime step calls the pinned Mathlib Erdős–Kaplansky lemmas.
+
+For general $n>1$, factor $n=pm$ for a prime $p$ and induct on $n$. Set $P=pX$ and $Q=X/P$. Choosing coset representatives gives $|X|=|P||Q|$. Since $X$ is infinite and both factors are at most $|X|$, at least one factor has cardinal $|X|$. If $|P|=|X|$, then $P$ is killed by $m$ and induction applies to $P$. If $|P|<|X|$, then $|Q|=|X|$, $Q$ is killed by $p$, and the prime step applies to $Q$. Use the surjection $x\mapsto px$ onto $P$ in the first case and the quotient map onto $Q$ in the second. For the corresponding divisor $a=m$ or $a=p$, multiplication by $n/a$ embeds $\mathbb Z/a$ into $\mathbb Z/n$. Precomposing with the surjection and postcomposing with this injection embeds the larger character set of $P$ or $Q$ into the character set of $X$. This proves the inequality.
+
+Now assume that $A$ is infinite. The adjoint from $B$ gives $|B|=|\operatorname{Hom}_R(A,R)|>|A|$, since additive maps between $R$-modules respect scalar multiplication by integer residues. Thus $B$ is infinite, and the other adjoint gives $|A|>|B|$, a contradiction. If $B$ is infinite, the adjoint from $A$ forces $A$ infinite and gives the same contradiction. [A2, FiniteOfPerfectPairingZmod.lean:7–151 and pinned Mathlib](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+#### Theorem. Finite $H^1$ and $H^2$ on the same layer [Lean, read]
+
+Under the local hypotheses and `LocalTateDualityK` above, $H^1(G,M)$ and $H^2(G,M)$ are finite.
+
+**Proof.** Field 1 gives $|C|=n$. Apply the lemma to fields 3 and 4 with $A=H^1(G,M^\dagger)$ and $B=H^1(G,M)$. A2 takes the second member of the resulting finiteness pair. In degree two, $\operatorname{Hom}_{R_r}(M,R_r)$ embeds in the finite function set from $M$ to $R_r$. Its fixed submodule $H^0(G,M^\dagger)$ is finite. Field 5 injects $H^2(G,M)$ into the linear maps from this submodule to $C$, hence into a finite function set. In particular,
+$$
+ |H^2(G,M)|\le n^{|H^0(G,M^\dagger)|}\le n^{\,n^{|M|}}.
+$$
+The proof uses the duality fields and bounded-exponent character algebra. The separate `LocalEulerCharK` gives a cardinality formula with factor $|M|^{[K:\mathbb Q_\ell]}$ once the groups are finite. The Euler characteristic identity and finite generation of $G$ play no role in this deduction. Compactness gives finite images for individual cochains, with no bound on the number of classes. [A2, FiniteH1H2Local.lean:8–25 and FiniteH1H2LocalStatement.lean:6–7](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+For $M=R_r(\chi_r)$, field 5 has target $\operatorname{Hom}_{R_r}(R_r,C)\simeq C$ by evaluation at $1$. Thus $|H^2|=9$ in each example. Independently, the Euler characteristic formula gives $|H^1|=|H^0||H^2|[\mathcal O_K:9\mathcal O_K]$. Here $|H^0|=1$, and the last index is $9$ in $\mathbb Q_3$ and $1$ in $\mathbb Q_2$. This agrees with the direct Kummer calculations. [Tate, ICM 1962, §2, Theorems 2.1–2.2](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf)
+
+#### Lemma. Transport with the same action [Lean, read]
+
+Let $D=K.\mathrm{fixingSubgroup}\subseteq\operatorname{Gal}(\Omega/\mathbb Q_\ell)$. The map $\Phi:D\to G$ called `fixingSubgroupEquiv` views the same automorphism of $\Omega$ as an automorphism over $K$. Both directions are continuous. To check $\Phi^{-1}$ at the identity, test against the pointwise stabilizer of a finite extension $E/\mathbb Q_\ell$ inside $\Omega$, a basic neighborhood in the ambient Krull group. Its preimage contains the stabilizer of $KE/K$, a finite extension because generators of $E$ over $\mathbb Q_\ell$ remain algebraic over $K$. Translations give continuity everywhere. The compact Krull group $G$ maps bijectively to the Hausdorff space $D$, yielding continuity of $\Phi$. [A2, ContinuousFixingSubgroupEquiv.lean:286–305](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+For a bicontinuous group isomorphism $\Phi:D\to G$, use the same discrete $R$-module $M$ and suppose $\rho'(d)m=\rho(\Phi d)m$. Precomposition sends a continuous crossed homomorphism $f$ to $f\circ\Phi$, since
+$$
+ (f\circ\Phi)(d_1d_2)=(f\circ\Phi)(d_1)+\rho'(d_1)(f\circ\Phi)(d_2).
+$$
+The coboundary of $m$ pulls back to $d\mapsto\rho'(d)m-m$, the coboundary of the same $m$. Precomposition with $\Phi^{-1}$ respects the inverse action equation, and the two composites are identities on representatives and quotients. This proves the degree-one component of `contCohomology_transport_mulEquiv`. In degree two the pullback evaluates $f$ at $(\Phi d_1,\Phi d_2)$. Each term of the differential commutes with pullback by multiplicativity and the action equation, including the differential of a continuous primitive. Precomposition with the inverse again gives the inverse on the quotient. [A2, ContCohomologyTransportMulEquiv.lean:25–54 and SeparatedDvrSecondCohomologyMem.lean:217–242](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+#### The last field of the fundamental cocycle [Lean, read]
+
+Fix the original `LocPrime` datum $P$ and the same $K$. Set $\chi=\chi_Z\circ\Phi$. The root-of-unity specifications of $P.\chi_Q$ and $\chi_Z$ determine the same exponents modulo $\ell^s$ on a primitive $\ell^s$th root for every $s>0$. The defining $\ell$-adic approximations then give equal values in $\mathbb Q_\ell$. Thus `PD_χ` identifies $\chi$ with the period character $(P.\mathrm{PD}\,K).\chi$ after inclusion in $\mathbb Q_\ell$. The scalar map $\chi_Z$ is continuous since each finite reduction acts on roots of unity in a finite Galois extension and the open residue cosets form a basis. The reduced action on the discrete coefficient module is jointly continuous. Pullback commutes with reduction:
+$$
+ (\chi\bmod \ell^r)(d)=(\chi_Z\bmod\ell^r)(\Phi d).
+$$
+
+The proof of `exists_fundamental_cocycle_loc` obtains the compatible representative on $G$ by the earlier generator construction, using fields 1 and 5 separately at each $r+1$. It pulls the representative back along $\Phi$. The tuple records compactness, continuity, equality with the period character and the inherited `Gen` properties. For its last field, take any $r>0$. In `finite_H1_H2_local` use the original $K$, the same `redChar χZ r`, and $M=R_r$ with that scalar action. Its first projection supplies finite $H^1$ on $G$. The first projection of `contCohomology_transport_mulEquiv` sends that group to the $H^1$ of the scalar representation of the reduction of $\chi$ on $D$. The action equation above is definitional in the call. The conclusion by `Finite.of_equiv` is
+$$
+ \forall r>0,\qquad \#H^1(D,R_r(\chi\bmod\ell^r))<\infty .
+$$
+This field depends on the character and the level. Its proof is independent of the choice of the compatible representative. The whole datum supplies `GlobalTheory.InvLine.spanQ` and `GlobalTheory.IntTateTop.admH2_of_duality`. At `IntegralTateH2Top.lean:101`, `int_span` uses this finiteness in `mem_coboundaries_of_forall_pow` when passing from finite-level primitives to a continuous integral coboundary. That passage enters here as a named input. [A2, ExistsFundamentalTwoCocycleOfLocalTateDuality.lean:16–55 and consumers](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+The $\mathbb Q_3$ example realizes the original signature with the bottom intermediate field of $\overline{\mathbb Q_3}/\mathbb Q_3$ and a $P$ supplied by the named `GlobalTheory.MemLoc.exists_locPrime_tied 3`. The two Kummer coordinates therefore belong to the transported finite group in the last field. The $\mathbb Q_2$ computation with coefficient prime $3$ uses the classical local theorem with distinct primes, as does A2's broader `dualityFor_absGal` interface. The fundamental-cocycle signature requires a field finite over $\mathbb Q_\ell$, hence its residue characteristic is $\ell$. [A2, ExistsLocalPrimeAinf.lean:281–285 and DualityForAbsGal.lean:17–54](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+#### Failure boundaries and attribution
+
+**Remove the local-field hypothesis.** Keep $\ell=3$, $r=2$, the positive cyclotomic action and continuous cochains, but take $K=\mathbb Q$ with its absolute Galois group. Kummer theory identifies $H^1$ with $\mathbb Q^\times/(\mathbb Q^\times)^9$. The prime valuations modulo nine give one independent cyclic summand of order nine for every rational prime. Unique factorization and the fact that both signs are ninth powers give the direct sum of these cyclic summands. This group is infinite although the absolute Galois group is profinite and the coefficient module is finite discrete.
+
+**Remove inverse continuity in the transport.** Let $V$ be the additive group of measurable $\mathbb F_2$-valued functions on $[0,1]$ modulo equality almost everywhere, with the translation-invariant metric $d(f,h)=\mu\{f\ne h\}$ for Lebesgue measure $\mu$. Addition is continuous by the union bound. The path $t\mapsto f1_{[0,t]}$ joins zero to $f$ and has distance at most $|s-t|$ between times $s,t$. Thus $V$ is path connected and its continuous $H^1$ with trivial discrete $\mathbb F_2$ coefficients is zero, since a continuous homomorphism to a discrete group is constant on paths. Give the same additive group the discrete topology to obtain $D_0$. The identity $D_0\to V$ is continuous and its inverse is discontinuous, as shown by the indicators of intervals of positive lengths tending to zero. The indicators of infinitely many disjoint intervals of positive measure are linearly independent. Extend them to a basis. Assigning values independently on those indicators gives infinitely many homomorphisms, all continuous on $D_0$. Coboundaries vanish for both groups. This example also gives infinite degree-one cohomology on $V$ if all algebraic cochains are allowed.
+
+**Keep only zero radicals.** With $R=\mathbb Z/n$, $n>1$, the finite-support module $R^{(\mathbb N)}$ pairs with itself by the dot product into $R$. Testing coordinate vectors gives zero radicals. The functional adding all coordinates takes $1$ on every coordinate vector. A dot product with a fixed finite-support vector vanishes on almost all such vectors, so neither adjoint hits this functional. Mere nondegeneracy with a finite target permits infinite modules.
+
+Tate's 1962 Theorem 2.1 includes finiteness and the local cup dualities for finite Galois modules of order invertible in the field, over a complete discretely valued field with finite residue field in the nonarchimedean case. Each finite $R_r$-module here has $\ell$-power order, which is invertible in the characteristic-zero field even when the residue characteristic is $\ell$. Under $R_r(\chi_r)\simeq\mu_{\ell^r}$, the dual in the theorem is $\operatorname{Hom}(M,\Omega^\times)=\operatorname{Hom}(M,\mu_{\ell^r})$. Kummer and Hilbert 90 identify the degree-two target with the $\ell^r$-torsion of the Brauer group, and the local invariant gives $\tfrac{1}{\ell^r}\mathbb Z/\mathbb Z$. A2's fields use those coordinates in degrees $(1,1)$ and $(2,0)$. Milne also gives a proof of finiteness starting from the Kummer power quotient and finite Galois dévissage. The classical theorem covers the local conclusion, and A2 contains the cardinal argument and its assembly. The textbook follows that assembly through the actual last field and works out the two arithmetic examples. [Tate, ICM 1962, §§1–2](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf) · [Milne, I §2, Theorem 2.1 and Corollary 2.3](https://www.jmilne.org/math/Books/ADTnot.pdf)
+
+The deeper supplier `Gcoh.top_tate` itself invokes `finite_cohomology_galois_top` for an auxiliary first-cohomology input to `tate_core`. The present deduction runs from the completed duality package to its finite cyclic-coordinate interface. [A2, GcohTate.lean:9–18,46–73 and GcohTop.lean:11](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
+The local R3 reading covers the bounded-exponent cardinal proof, the extraction of the four duality fields, the degree-one and degree-two cochain and quotient maps, and the actual positive-layer call. `LocalTateDualityK`, the period datum and the later passage to integral primitives are named inputs. The compatible generator and the bounded-layer comparison retain their earlier reading and review scopes. This reading records a static declaration trace. Lean kernel replay, declaration-level reachability from `Main.riemannHypothesis`, independent audit and peer review have separate evidence. [Pinned declarations](../sources/SOURCES.md#chapter-10-finite-first-cohomology-for-the-fundamental-local-cocycle)
+
 ## 10.5 Remarks, formalization notes, and Masullo's counterpart
 
 ### 10.5.1 Import-cone anatomy of node P11
