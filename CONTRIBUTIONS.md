@@ -894,3 +894,9 @@ same-model review is recorded separately in the preceding run's audit.
   trace to the two tied degrees. [Chapter 9](./chapters/09-heights-slopes-and-near-orthogonality.md#9426-recovering-the-formal-degree-constant-from-a-translation-ray)
 
 **Chapter 6 §6.4.21.** Hongmin Li with Codex contributed the English derivation on the original frame, the coefficient proof of the two block implications through the named geometric inputs, two hand calculations, the height-zero witness, the completeness and kernel-law counterexamples and the consumer trace. [Chapter subsection](chapters/06-stepanovs-method-and-multiplicity.md#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)
+
+### Chapter 11 finite perfect local cup pairing
+
+- **John Tate, Jean-Pierre Serre and J. S. Milne.** Tate supplied the classical cup-duality theorem. Serre and Milne supplied the cited local-field and class field theory proofs and comparisons. [Source ledger](sources/SOURCES.md#chapter-11-finite-perfect-local-cup-pairing)
+- **Levent Alpöge with Claude and the Mathlib community.** The A2 proof builds finite Kummer cohomology from unit powers and installs both adjoint bijections in the local duality bundle. Mathlib contributors Yaël Dillies and Bhavik Mehta supplied the finite-character bound used in that proof, and the complex circle construction comes from the pinned community library. [Source ledger](sources/SOURCES.md#chapter-11-finite-perfect-local-cup-pairing)
+- **Hongmin Li with AI assistance.** Read the pinned production and consumers, wrote the textbook proof, computed two Kummer pairings including the wild character over $\mathbb Q_5$, and gave the finiteness counterexample and torsion implication. [Chapter 11 §11.4.5](chapters/11-the-window-bound-vwin.md#1145-from-two-zero-annihilators-to-a-perfect-local-cup-pairing)
