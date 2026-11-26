@@ -1691,7 +1691,124 @@ In `HasseEt` the input is a unit $x_A\in A^\times$ of a finite reduced commutati
 | `HasseEt.lean:34–47,76–78,98–129` | The field witness in $L$ has norm $x_K$. Put it in one coordinate and $1$ elsewhere via `norm_up`, giving the witness in $K\otimes_F E$. Lift the basis coordinates of these witnesses simultaneously across all residue fields and use determinant base change and injectivity into their product to obtain a norm $x_A$ in $A\otimes_F E$. |
 | `NmHasse.lean:9–36` | For invertible $\gamma$ with separable characteristic polynomial, $A=F[X]/(\operatorname{cp}(\gamma))$ is finite reduced and its root $x_A$ is a unit by the nonzero constant term. The local `nmAlg` equivalences send both families of characteristic-polynomial witnesses into the ring-valued norm equations. The reverse global implication consumes the resulting equation for that root and returns a matrix norm witness commuting with the scalar extension of $\gamma$. |
 
-The finite-place transport fixes the contracted place, and §5.3.1.18 identifies the required real structure. The all-degree assembly now explains the field-level call there. The direct source calls have local R3 status for the tower and degree assembly. Prime-degree proofs and the indicated tensor lemmas remain named [Lean] inputs. Kernel replay, a declaration-level path from `Main`, independent review of this exposition, and peer review are separate records. Hasse’s 1931 paper already proves the all-degree norm theorem by induction from prime degree. His intermediate field has prime degree **over the base**, and he corrects a lower norm preimage using norm-residue symbols and class field theory. Here the intermediate field has prime index **in the top field**. The calculation follows the archive’s upper-first argument with tensor norms. [Hasse, 1931, §1, pp. 64–68](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Source ledger](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+The finite-place transport fixes the contracted place, and §5.3.1.18 identifies the required real structure. The all-degree assembly now explains the field-level call there. The direct source calls have local R3 status for the tower and degree assembly. The prime-degree proofs and the upper tensor lemma remain named [Lean] inputs. [§5.3.1.20](#53120-cancelling-a-power-in-a-local-tensor-norm) reads the lower tensor power cancellation. Kernel replay, a declaration-level path from `Main`, independent review of this exposition, and peer review are separate records. Hasse’s 1931 paper already proves the all-degree norm theorem by induction from prime degree. His intermediate field has prime degree **over the base**, and he corrects a lower norm preimage using norm-residue symbols and class field theory. Here the intermediate field has prime index **in the top field**. The calculation follows the archive’s upper-first argument with tensor norms. [Hasse, 1931, §1, pp. 64–68](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Source ledger](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+
+### 5.3.1.20 Cancelling a power in a local tensor norm
+
+In §5.3.1.19 the cyclic tower correction gives $x=b^r N_{E/F}(c)$ with $r=[E:M]$. At an original place of $F$, dividing the supplied tensor witness by $1\otimes c$ leaves a witness of norm $b^r$. To use the lower Hasse norm input we need a witness of norm $b$ in the smaller tensor algebra. The construction changes the witness by a quotient of conjugates. This makes it invariant under the subgroup fixing $M$, so it comes from the smaller algebra.
+
+#### Two forms of the tensor algebra
+
+Use the tower $\mathbb Q\subset \mathbb Q(\zeta+\zeta^{-1})\subset \mathbb Q(\zeta)$ of §5.3.1.19, with $\zeta$ a primitive fifth root of unity and $\sigma(\zeta)=\zeta^2$. Both steps have degree two. At $11$, a fifth root of order five in $\mathbb Q_{11}$ gives four scalar coordinates. At the real place the four embeddings occur in two complex-conjugate pairs, so the large tensor algebra is $\mathbb C\times\mathbb C$ over $\mathbb R$. In both algebras a witness of norm $25$ will give one of norm $5$. The permutation of four coordinates and the combination of swapping and conjugating two complex coordinates are instances of the same action.
+
+#### The tensor norm and the cancellation lemma
+
+Let $F$ be a field of characteristic zero, let $F\to M\to E$ be a compatible tower of fields with $E/F$ finite Galois and cyclic, and let $j:F\to K$ give a field $K$ its $F$-algebra structure. Write
+$$
+A=K\otimes_F E,\qquad B=K\otimes_F M,\qquad
+\iota=1\otimes(M\to E):B\longrightarrow A,
+\qquad d=[M:F],\quad r=[E:M].
+$$
+The norm $N_{A/K}(y)$ is the determinant of $K$-linear multiplication by $y$. Likewise for $B$. Scalars in either tensor algebra enter as $k\otimes 1$. The tensor spaces are finite free of ranks $dr$ and $d$, by extending bases over $F$. All maps into $K$ in this construction come from $j$.
+
+**Lemma (cancellation of the top degree) [Lean, read].** For each $b\in F^\times$ and each $y\in A$ with $N_{A/K}(y)=j(b)^r$, there is $z\in B$ with $N_{B/K}(z)=j(b)$. This gives the original implication $\operatorname{TNorm}(F,E,K,b^r)\Rightarrow\operatorname{TNorm}(F,M,K,b)$ of `CNorm.tnorm_of_tnorm_pow`. [A2, `IsNormFromBaseChangeOfPowFinrankCyclic.lean:114–188`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+
+**The determinant as a product of conjugates.** For any finite Galois field extension $L/F$, let $C=K\otimes_F L$ and $J=\operatorname{Gal}(L/F)$. The action of $g\in J$ on $C$ is $1\otimes g$. In $C$ we have
+$$
+N_{C/K}(v)\otimes 1=\prod_{g\in J}(1\otimes g)(v).
+$$
+Here the matrix argument also works with any commutative $F$-algebra $K$. Choose an $F$-basis $(e_j)$ of $L$ of size $|J|$ and form the square matrix $Q=(g(e_j))_{g,j}$ over $L$. If a row relation holds on that basis, $F$-linearity extends it to all of $L$. The independence of distinct field embeddings forces its coefficients to vanish, so $\det Q\ne0$. Write $Q_C$ for the image of $Q$ under $e\mapsto1\otimes e$, and $D$ for the multiplication matrix of $v$ in the extended basis. Applying $1\otimes g$ to the multiplication equations yields
+$$
+\operatorname{diag}\bigl((1\otimes g)(v)\bigr)Q_C
+   =Q_C(D\otimes1),
+$$
+where $D\otimes1$ means the entrywise scalar map. On taking determinants, $\det Q_C$ is a unit because it is the image of the nonzero field element $\det Q$. Cancelling that unit gives the formula even when $C$ has zero divisors. We will use this identity first for $L=E$ and finally for $L=M$. [A2, `AlgebraMapNormTensorEqProdConjugates.lean:11–69`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120) · [Milne, *Fields and Galois Theory*, Corollaries 5.15–5.16 and Remark 5.47](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+**Hilbert 90 after scalar extension.** Suppose $\tau$ is an $F$-automorphism of $E$ of order $r$ and $U=1\otimes\tau$ on $A$. If $u\in A$ satisfies $\prod_{i=0}^{r-1}U^i(u)=1$, we claim that some $h\in A^\times$ satisfies $uU(h)=h$. Set $q_0=1$, $q_i=\prod_{j=0}^{i-1}U^j(u)$, and define the $K$-linear map
+$$
+\Theta(v)=\sum_{i=0}^{r-1} q_i U^i(v).
+$$
+We have $uU(q_i)=q_{i+1}$, $q_r=q_0=1$ and $U^r=1$ as an operator. Shifting the sum gives $uU(\Theta(v))=\Theta(v)$ for every $v$.
+
+To get a *unit* in its image, work modulo each maximal ideal $\mathfrak m$ of $A$. The composite $E\to A\to A/\mathfrak m$ is a unital map of fields, hence injective. Composing it with $\tau^0,\ldots,\tau^{r-1}$ gives distinct embeddings into $A/\mathfrak m$. If $\Theta(A)\subseteq\mathfrak m$, then evaluating on $1\otimes e$ for every $e\in E$ gives a linear relation among these embeddings, with the coefficient of the identity embedding equal to $1$. The independence used here and for $Q$ follows by taking a nonzero relation of minimal support among distinct embeddings $f_i$. For two embeddings in its support, choose $a$ on which they differ. Subtract $f_1(a)$ times the relation at $e$ from the relation at $ae$. The $f_1$ coefficient is killed and a second coefficient survives, contradicting minimality. A one-term relation is impossible by evaluation at $1$. This calculation evaluates each term in the quotient and requires no action of $U$ on that quotient.
+
+Consequently each $\Theta^{-1}(\mathfrak m)$ is a proper $K$-subspace. The finite-dimensional $K$-algebra $A$ is Artinian, so it has finitely many maximal ideals. The field $K$ is infinite by characteristic zero. A finite union of proper subspaces cannot exhaust a finite-dimensional vector space over an infinite field. Indeed, choose a nonzero linear form vanishing on each subspace and take their product. This nonzero polynomial has a nonzero value somewhere over an infinite field, by induction on the number of variables using the univariate root bound. Choose $v$ outside the union. Then $h=\Theta(v)$ avoids every maximal ideal and is a unit. This proves the claim including the product-algebra case. [A2, `Hilbert90BaseChange.lean:8–28,30–98`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120) · [Hilbert, *Zahlbericht*, Satz 90](https://gdz.sub.uni-goettingen.de/download/pdf/PPN237821559/LOG_0023.pdf)
+
+**Proof of cancellation.** Choose a generator $\sigma$ of $\operatorname{Gal}(E/F)$ and let $T=1\otimes\sigma$ on $A$. The tower law gives $|\sigma|=dr$. The subgroup fixing $M$ has order $r$ and equals $\langle\sigma^d\rangle$, the unique subgroup of that order. In particular $M/F$ is Galois, and $\bar\sigma=\sigma|_M$ generates its group of order $d$. Let $s=j(b)\otimes1\in A^\times$. The determinant formula gives $\prod_{i=0}^{dr-1}T^i(y)=s^r$. Set $U=T^d$ and
+$$
+P(v)=\prod_{j=0}^{d-1}T^j(v),\qquad u=P(y)s^{-1}.
+$$
+The identity $i=dk+j$, with $0\le k<r$ and $0\le j<d$, enumerates the full product exactly once. The scalar $s$ is fixed by $T$. It follows that
+$$
+\prod_{k=0}^{r-1}U^k(u)
+ =\left(\prod_{i=0}^{dr-1}T^i(y)\right)s^{-r}=1.
+$$
+Apply the preceding Hilbert 90 construction with $\tau=\sigma^d$ to get a unit $h$ with $uU(h)=h$. Put $w=yT(h)h^{-1}$. The product telescopes to
+$$
+P(w)=P(y)\frac{U(h)}{h}=s.
+$$
+For every $v$, shifting the $d$ factors gives $P(Tv)v=P(v)U(v)$. Here $P(Tw)=T(P(w))=s$, so $sw=sU(w)$. Cancelling the scalar unit $s$ gives $U(w)=w$. Every element of $\operatorname{Gal}(E/M)$ is a power of $\sigma^d$. Thus $w$ is fixed by its entire action on $A$. This is the calculation in `LocStep.core`, followed by the subgroup check at the call site. [A2, `IsNormFromBaseChangeOfPowFinrankCyclic.lean:11–107,115–160`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+
+**Descending the fixed tensor.** Over the original base $F$, apply the $F$-linear trace map $\operatorname{Tr}_{E/M}:E\to M$ on the right tensor factor. For a pure tensor $k\otimes e$, the image of $k\otimes\operatorname{Tr}_{E/M}(e)$ under $\iota$ is the sum of its $E/M$ conjugates, by the Galois trace formula. Both operations are additive, so this holds for any tensor. Applied to $w$ this sum is $rw$. Since $r$ is invertible in $F$, the tensor
+$$
+z=r^{-1}(1\otimes\operatorname{Tr}_{E/M})(w)\in B
+$$
+has $\iota(z)=w$. This proof uses a commutative $F$-algebra $K$ and the Galois top step. The factor $r^{-1}$ acts through the original base $F$. [A2, `TensorExistsOfGaloisFixed.lean:8–35`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+
+**Reading the determinant in the smaller algebra.** Put $T_M=1\otimes\bar\sigma$ on $B$. Restriction of automorphisms gives $\iota T_M=T\iota$ on pure tensors and hence on all of $B$. The lower determinant formula and this identity give
+$$
+\iota\bigl(N_{B/K}(z)\otimes1\bigr)
+ =\iota\left(\prod_{j=0}^{d-1} T_M^j(z)\right)
+ =\prod_{j=0}^{d-1}T^j(w)=s.
+$$
+Tensoring the injective $F$-linear map $M\to E$ by the $F$-vector space $K$ preserves injectivity. One can see this by extending an $F$-basis of $M$ to one of $E$. Also $K\to B$ is injective, as a basis of $M$ over $F$ can begin with $1$. These are the two injections in the final Lean step. They give $N_{B/K}(z)=j(b)$ in $K$. [A2, `IsNormFromBaseChangeOfPowFinrankCyclic.lean:161–188`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+
+#### Calculating the corrected witness
+
+Continue with the fifth-root tower above. The values $b=5$ and $c=1-\zeta$ belong to the $x=125$ example of §5.3.1.19. The input to cancellation has norm $25$. In each calculation one can take the original local witness for $125$ to be $y(1\otimes c)$ for the displayed $y$, since $N_{E/\mathbb Q}(c)=\Phi_5(1)=5$. In particular these examples allow local choices that are not preimages from the lower tensor before correction.
+
+**Split at $11$.** In $K=\mathbb Q_{11}$ the residue $3$ satisfies $3^5=1\pmod{11}$ and $3\ne1\pmod{11}$, and $5\cdot3^4$ is a unit modulo $11$. Simple-root lifting gives a primitive fifth root $\lambda$ reducing to $3$. Evaluating at $\lambda,\lambda^2,\lambda^4,\lambda^3$ gives $A=K^4$, with $T$ the left shift and $U=T^2$. The fixed subalgebra $B=K^2$ embeds as $(a,b,a,b)$, since opposite indices correspond to the same root of the quadratic polynomial for $\zeta+\zeta^{-1}$. Take $y=(25,1,1,1)$. Multiplication is diagonal, with determinant $25$. The construction gives
+$$
+\begin{aligned}
+P(y)&=(25,1,1,25), &u&=(5,1/5,1/5,5),\
+v&=(5,0,0,5), &h=v+uU(v)&=(5,1,1,5),\
+T(h)&=(1,1,5,5), &w=yT(h)h^{-1}&=(5,1,5,1).
+\end{aligned}
+$$
+Here $uU(u)=(1,1,1,1)$ and $uU(h)=h$. The average of $w$ and $U(w)$ is $w$, which descends to $(5,1)$. Multiplication on $B$ is diagonal with entries $5,1$, hence determinant $5$. All displayed coordinates are exact in $K$.
+
+**Non-split at the real place.** Evaluate at $\zeta$ and $\zeta^2$ in $\mathbb C$, with $\zeta=\exp(2\pi i/5)$. The other two roots are their conjugates. The Chinese remainder isomorphism gives $A=\mathbb C\times\mathbb C$ with $T(a,b)=(b,\overline a)$ and $U(a,b)=(\overline a,\overline b)$. The real subalgebra $B=\mathbb R\times\mathbb R$ is the fixed algebra of $U$. For $y=(5i,1)$, the two real multiplication matrices in the basis $(1,i)$ are
+$$
+\begin{pmatrix}0&-5\\5&0\end{pmatrix},\qquad
+\begin{pmatrix}1&0\\0&1\end{pmatrix}.
+$$
+The determinant of their direct sum is $25$. Now
+$$
+\begin{aligned}
+P(y)&=(5i,-5i), &u&=(i,-i),\
+v&=(1,1), &h=v+uU(v)&=(1+i,1-i),\
+T(h)&=(1-i,1-i), &w=yT(h)h^{-1}&=(5,1).
+\end{aligned}
+$$
+Indeed $uU(u)=(1,1)$, $uU(h)=h$, and $i(1-i)=1+i$. The average fixes $w$ and gives the lower real pair $(5,1)$, whose multiplication determinant is $5$. This time conjugation within each factor matters to the correction.
+
+**A connected non-split case at $2$.** The same tower also gives a field tensor at $K=\mathbb Q_2$. Modulo $2$, $\Phi_5$ has no linear factor. The only monic irreducible quadratic is $X^2+X+1$, and the remainder of $\Phi_5$ on division by it is $X+1$. Hence $\Phi_5$ is irreducible modulo $2$ and over $K$, so $A=K[X]/(\Phi_5)$ is a field. Denote its root by $\lambda$ and put $t=\lambda+\lambda^{-1}$. Then $t^2+t-1=0$, and this polynomial is irreducible modulo $2$. Thus $B=K(t)$. For $m=2-t$ we have $T(m)=3+t$ and $mT(m)=5$. Multiplication by $m$ on the basis $(1,t)$ has columns $(2,-1)$ and $(-1,3)$, hence determinant $5$. In a $B$-basis of $A$, multiplication by $m$ is the scalar matrix of size two. Over $K$ this has two copies of the lower matrix, so its determinant is $25$. Multiplication by $\lambda^{-1}$ has determinant $1$, since the characteristic polynomial of multiplication by $\lambda$ is $\Phi_5$ with constant coefficient $1$. Thus $y=m\lambda^{-1}$ has determinant $25$. Here
+$$
+P(y)=5\lambda^2,\qquad u=\lambda^2,\qquad
+v=\lambda/2,\qquad h=v+uU(v)=\lambda,\qquad
+w=yT(h)h^{-1}=m.
+$$
+Indeed $U(\lambda)=\lambda^{-1}$, $uU(u)=1$ and $uU(h)=h$. The fixed tensor averages to itself and descends to $m\in B$ with determinant $5$.
+
+#### Hypotheses and the return to the tower
+
+**Cyclicity matters.** Take $F=\mathbb Q$, $M=\mathbb Q(i)$, $E=\mathbb Q(i,\sqrt2)$, $K=\mathbb R$ and $b=-1$. The upper degree is two and the full Galois group is $C_2\times C_2$, given by the independent signs of $i$ and $\sqrt2$. The upper tensor is $\mathbb C\times\mathbb C$ and its identity has norm $1=b^2$. Every lower tensor element is $a+bi$ with real coordinates, and its determinant is the sum of their squares, so the target $-1$ is excluded. This deletes only cyclicity from the cancellation lemma. Even *within* the fifth-root cyclic tower, $(-1)^2$ has the identity as a witness at every place. Yet $-1$ cannot be an $E/\mathbb Q$ norm, since a nonzero real tensor norm is a product of positive squared moduli. The conclusion concerns the lower extension and the specified scalar. The exponent must match the upper degree. In the cyclic seventh-root tower of §5.3.1.19, take $M=\mathbb Q(\sqrt{-7})$, $K=\mathbb R$ and $b=-1$. The upper degree is three. Replacing it by two would make the upper equation true with the identity witness, while the lower target $-1$ is excluded by the complex multiplication determinant. This example also has no real algebra structure extending the map through $M$.
+
+**Use of the hypotheses.** The compatible tower supplies the map $B\to A$ and the Galois restriction. The finite Galois degree supplies two full conjugate products and finite multiplication matrices. Cyclicity orders the full product and identifies the subgroup and quotient generators. The field structure on $K$ makes $j(b)$ a unit and supplies vector spaces for the unit selection. The characteristic-zero assumption makes $K$ infinite and $r$ invertible in $F$. These are uses in this proof. The determinant identity works already over a commutative scalar algebra, while the unit selection here uses the field. The archive proves the implication for $b\ne0$. For the omitted scalar $0$ the zero tensor witnesses norm zero, since both ranks are positive.
+
+**The same $b$ at every original place.** Fix the original $x$ and the one pair $b,c$ produced in §5.3.1.19, with $x=b^rN_{E/F}(c)$ and $b,c\ne0$. For every finite $v$ of $F$ take $K=F_v$ and the original witness $z_v\in K\otimes_F E$ for $x$. For every real $F$-algebra structure $a$ take $K=\mathbb R_a$ and the original witness $z_a$ for that very structure. In each case the inherited tensor norm identities give $y=z_v(1\otimes c^{-1})$ or $y=z_a(1\otimes c^{-1})$ with norm $j(b)^r$. The lemma uses only the specified $F$-algebra of each $K$, including real structures that do not extend to $M$. The resulting two families for $b$ are exactly the input to $\operatorname{NP}(F,M)$. Its output $m\in M$ has norm $b$, and the original tower consumer takes $mc$ in $E$. The upward finite and real transports, the tower correction producing $b,c$, and the full-degree induction are those of §§5.3.1.17–19. [A2, `HasseNormPrincipleOfCyclicTower.lean:184–198`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120) · [§5.3.1.19](#53119-from-prime-degree-norms-to-the-cyclic-hasse-norm-principle)
+
+**Attribution and reading scope.** The cyclic norm theorem for number fields is due to Hasse, with the prime-degree antecedent credited there to Hilbert and Furtwängler. The algebraic power implication is also a consequence of the classical cyclic-algebra norm criterion and the additivity of the cyclic character under multiplication by the top degree. The witness proof here follows the A2 bodies of `LocStep.core`, `hilbert90_baseChange`, `tensor_exists_of_galois_fixed` and `algebraMap_norm_tensor_eq_prod_conjugates`, and their return through the lower determinant. These bodies have local author-level R3 [Lean, read]. The prime-degree Hasse inputs retain their named status. Lean kernel replay, declaration-level reachability from `Main`, and peer review have separate records. [Source ledger](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
 
 ## 5.4 Lemmas and proofs
 
