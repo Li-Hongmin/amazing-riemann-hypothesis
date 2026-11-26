@@ -180,6 +180,8 @@ against a fixed archimedean degree cost $x$ plus a congruence/Selmer error from 
 
 [Real-place tensor norms in the Hermitian descent prerequisite](#53118-the-same-tensor-norm-witness-at-a-real-place)
 
+[Cyclic Hasse norm assembly](#53119-from-prime-degree-norms-to-the-cyclic-hasse-norm-principle)
+
 We now state the exact Lean definitions used in `ChBalance`, `ChCore`, `ChTop`, and `CoreGm`.
 
 ### 5.3.1 Finite group arithmetic data, `ASK`, `MAIN`, and `De`
@@ -1586,6 +1588,110 @@ For $E=\mathbb Q(i)$, the scalar $a=0$ has witness $0$ but has no unit witness a
 The direct caller `nmHasse` makes the coefficient algebra concrete. It takes the algebra obtained by adjoining a root of the characteristic polynomial of an invertible matrix $\gamma$. Separability makes this algebra reduced. The nonzero constant coefficient makes the distinguished root a unit. At lines 34–36 the local `nmAlg` implications supply the two hypotheses of `hasseEt`, and the global `nmAlg` implication consumes its result. Thus the real step concerns the image of that same distinguished root in each residue field. [A2, NmHasse.lean:9–36](../sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
 
 **Reading scope.** The real embedding production proof, the indicated real completion declarations and the real branch are read locally at R3. The real norm-image lemma and hand calculations are expository proofs of classical facts. The finite-place transport, general determinant base change, étale decomposition and cyclic tensor splitting retain their existing proofs and scope. The global theorem `GlobalTheory.T.hasseNormPrinciple_of_isCyclic` is a named [Lean] input here. Local source reading, kernel replay, declaration reachability from `Main`, and peer review are distinct checks. This section provides the local source reading and the mathematical reconstruction of the real input. [Source ledger](../sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
+
+### 5.3.1.19 From prime-degree norms to the cyclic Hasse norm principle
+
+**Motivation.** The finite and real arguments supply local witnesses for one element of a residue field. Hermitian descent needs a field element whose global norm is that same value. To see how the cyclic Hasse norm theorem supplies it, put an intermediate field $M$ between $F$ and $E$. Norm transitivity can combine two global norm equations once their targets match. The work is to produce those equations from the local data, using the cyclic action to correct the target for the lower extension.
+
+**Two towers [Expository].** Start with $\mathbb Q\subset\mathbb Q(\sqrt5)\subset\mathbb Q(\zeta_5)$, with top degree $2$ and bottom degree $2$. A nonzero norm to $\mathbb R$ from the full extension is positive because the real tensor algebra has two complex factors. In $\mathbb Q\subset\mathbb Q(\sqrt{-7})\subset\mathbb Q(\zeta_7)$ the top degree is $3$ and the bottom degree is $2$. The intermediate field has no real embedding, although the original real input over $\mathbb Q$ still imposes positivity. We will calculate witnesses in both towers after deriving the norm equations they must satisfy.
+
+#### The field-level statement
+
+For a finite field extension $E/F$ and a field $K$ with a specified map $j:F\to K$, write $N_{E/F}$ for the field norm and $N_{K\otimes_F E/K}$ for the determinant of multiplication over $K$. The tensor algebra may have several factors. The original definitions in A2 are
+$$
+\begin{aligned}
+\operatorname{TNorm}(F,E,K,x)&\iff
+  \exists z\in K\otimes_F E,\quad N_{K\otimes_F E/K}(z)=j(x),\\
+\operatorname{LocNorm}(F,E,x)&\iff
+  \bigl(\forall v\text{ finite in }F,\ \operatorname{TNorm}(F,E,F_v,x)\bigr)\\
+&\qquad{}\land
+  \bigl(\forall (j:F\hookrightarrow\mathbb R),\ \operatorname{TNorm}(F,E,\mathbb R_j,x)\bigr),\\
+\operatorname{NP}(F,E)&\iff
+  \forall x\in F,\quad x\ne 0\ \Longrightarrow\
+    \bigl(\operatorname{LocNorm}(F,E,x)\Longrightarrow
+             \exists y\in E,\ N_{E/F}(y)=x\bigr).
+\end{aligned}
+$$
+The finite index is the height-one spectrum of $\mathcal O_F$. In the real family each Lean parameter $a:\mathrm{Algebra}\ F\ \mathbb R$ installs its own scalar map. The number $x$ is fixed before the two local families are supplied. Each field or scalar structure has its own existential witness. The determinant equation for $x\ne0$ makes that witness a unit, since multiplication by it is invertible and the inverse image of $1$ is its inverse. At a complex completion the finite separable tensor algebra is a product of copies of $\mathbb C$ and any nonzero scalar is a coordinate product. Thus the original $\operatorname{LocNorm}$ has all the content of the usual all-place condition. For a totally imaginary $F$ the real family is empty. [A2 definitions](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119) · [Milne, *Algebraic Number Theory*, Propositions 8.1–8.2 and Corollary 8.4](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+**Prime-degree input [Lean].** The quadratic supply gives $\operatorname{NP}(F,E)$ for number fields with $[E:F]=2$. Its interface needs no Galois argument, since a quadratic extension of number fields is Galois. The odd-prime supply requires number fields, a Galois extension, a prime $p\ne2$ and $[E:F]=p$. The body of `np_of_finrank_prime` tests $p=2$ and dispatches to these two inputs. Their local-to-global proofs remain named. [A2, `HasseNormPrincipleOfIsCyclic.lean:18–23` and the two prime-degree interfaces](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+
+#### The cyclic tower lemma [Lean, read]
+
+Let $F\subseteq M\subseteq E$ be a tower of number fields with $E/F$ finite Galois and cyclic. Put $d=[M:F]$ and $r=[E:M]$. Given $\operatorname{NP}(M,E)$ and $\operatorname{NP}(F,M)$, we prove $\operatorname{NP}(F,E)$. The proof uses two tensor lemmas at their named interfaces.
+
+The first, `TNorm.of_tower`, takes a compatible tower $F\subseteq M\to K$ of fields and sends a witness over $K\otimes_F E$ for $x$ to one over $K\otimes_M E$ for the image of $x$ in $M$. In the cyclic case, let $\tau$ generate $\operatorname{Gal}(E/F)$ and let $q:K\otimes_F E\to K\otimes_M E$ impose the $M$-balancing relation. For a witness $z$ the construction is $q(\prod_{i=0}^{d-1}\tau^i(z))$, with $\tau$ acting on the right tensor factor. Its upper norm is the product over $\langle\tau^d\rangle$ of these $d$ factors. They exhaust the full group as $\tau^{dj+i}$, so the norm is the same scalar. The archive uses coset representatives in the full Galois statement.
+
+The second, `tnorm_of_tnorm_pow`, applies to any field $K$ with an $F$-algebra structure, with no choice of $M$-structure on $K$. For $b\in F^\times$, it gives
+$$
+\operatorname{TNorm}(F,E,K,b^r)\ \Longrightarrow\
+\operatorname{TNorm}(F,M,K,b).
+$$
+Its hypotheses are a compatible finite Galois cyclic tower over a field $F$ of characteristic zero. Its proof is a named input here. The inference concerns a change of norm algebra and uses cyclicity. The lower witness cannot be obtained just by taking an $r$th root of a determinant. [A2, `OfIntermediateFieldTower.lean:32–35` and `IsNormFromBaseChangeOfPowFinrankCyclic.lean:114`](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+
+**Proof of the tower lemma.** Fix $x\in F^\times$ with both local families.
+
+1. For a finite place $w$ of $M$, contract it to the finite place $v$ of $F$. The compatible map $F_v\to M_w$ takes the original witness to $M_w\otimes_F E$ by tensoring with the identity. Determinant base change gives the image of $x$ as its norm. Apply the first tensor lemma with $K=M_w$. For any real embedding $a:M\to\mathbb R$, use the original real witness indexed by $a|_F$ and the same tensor lemma for $\mathbb R$ with that compatible tower. This produces $\operatorname{LocNorm}(M,E,x_M)$ for $x_M$ the image of $x$ in $M$. Since the scalar map is injective, $x_M\ne0$. The upper input gives $e_0\in E^\times$ with $N_{E/M}(e_0)=x_M$. [A2, `HasseNormPrincipleOfCyclicTower.lean:163–183`](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+
+2. Write $G=\langle\tau\rangle$ of order $dr$. The subgroup fixing $M$ has order $r$ and is generated by $g=\tau^d$. We identify scalars with their images when calculating inside $E$. Since $G$ is abelian, $\tau$ commutes with the conjugates in $N_{E/M}$. Therefore $N_{E/M}(\tau(e_0)/e_0)=1$, because $\tau$ fixes $x$. Multiplicative Hilbert 90 for $E/M$ gives $u\in E^\times$ with
+   $$\frac{\tau(e_0)}{e_0}=\frac{u}{g(u)}.$$
+   Set $P=\prod_{i=0}^{d-1}\tau^i(u)$. Shifting the factors gives $\tau(P)/P=g(u)/u$, so $\tau(e_0P)=e_0P$. Since $\tau$ generates $G$, $e_0P$ is the image of a unique $b\in F^\times$. Furthermore,
+   $$
+   N_{E/M}(P)=\prod_{j=0}^{r-1}\prod_{i=0}^{d-1}\tau^{dj+i}(u)
+             =N_{E/F}(u).
+   $$
+   Here the last scalar is embedded in $M$. Taking $N_{E/M}$ of $e_0P=b$ gives $b^r=xN_{E/F}(u)$ in $F$ by scalar injectivity. With $c=u^{-1}$ we obtain $x=b^rN_{E/F}(c)$. The production proof lifts $g$ to an $M$-automorphism, proves the two product identities and returns the inverse of the Hilbert 90 unit. [A2, `HasseNormPrincipleOfCyclicTower.lean:14–155`](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119) · [Milne, *Fields and Galois Theory*, Corollary 5.25](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+3. Return to each original scalar field $K=F_v$ or $K=\mathbb R_a$ of $F$. Let $z$ be the originally supplied witness for $x$. The tensor $1\otimes c$ has norm $j(N_{E/F}(c))\ne0$. The witness $z(1\otimes c^{-1})$ therefore has norm $j(b)^r$. The second tensor lemma produces a witness for $b$ in $K\otimes_F M$. This proves $\operatorname{LocNorm}(F,M,b)$ for the same $b$ at every place, so $\operatorname{NP}(F,M)$ yields $m\in M$ with $N_{M/F}(m)=b$. Finally the witness in $E$ is $mc$, where $m$ is mapped along $M\to E$. Scalar norms and norm transitivity give
+   $$N_{E/F}(mc)=N_{M/F}(m^r)N_{E/F}(c)=b^rN_{E/F}(c)=x.$$
+   This completes the implication for the original $x$. [A2, `HasseNormPrincipleOfCyclicTower.lean:184–198`](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119) · [Milne, *Fields and Galois Theory*, Proposition 5.48](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+#### Assembly in every finite cyclic degree [Lean, read]
+
+**Theorem.** For a finite cyclic Galois extension $E/F$ of number fields, the two prime-degree inputs and the tower lemma give $\operatorname{NP}(F,E)$.
+
+**Proof.** Use strong induction on $n=[E:F]$, with the claim ranging over every pair of number fields of degree $n$. Finiteness over $\mathbb Q$ gives finiteness over $F$, so $n>0$. In degree $1$ the scalar image of $x$ itself has norm $x^1=x$. If $n>1$, choose a prime divisor $p$ of $n$. Since $|G|=n$, a generator $\tau$ gives the order-$p$ subgroup $H=\langle\tau^{n/p}\rangle$. The archive obtains an element of order $p$ and takes the subgroup it generates. The subgroup is normal since $G$ is abelian. Its fixed field $M=E^H$ is a number field, with $[E:M]=|H|=p$. By the Galois correspondence $M/F$ is Galois and its group is a quotient of $G$ by restriction, hence cyclic. The tower formula is $n=[M:F]p$, and $[M:F]>0$ and $p>1$ give $[M:F]<n$. The prime-degree input applies upstairs to $E/M$, which is Galois, and the induction hypothesis applies downstairs to $M/F$. The tower lemma consumes the upper principle first and the lower one second. For prime $n$ this proof permits $M=F$, so the recursive use is the degree-one case. The wrapper `np_cyclic` instantiates the induction at the actual finrank. [A2, `HasseNormPrincipleOfIsCyclic.lean:12–68`](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119) · [Milne, *Fields and Galois Theory*, Theorem 3.17](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+#### The two towers worked out [Expository]
+
+Use $E=\mathbb Q(\zeta_\ell)$ with $\ell=5$ or $7$ and put $a=1-\zeta_\ell$. The polynomial $\Phi_\ell(X)=1+X+\cdots+X^{\ell-1}$ is irreducible by Eisenstein after shifting $X$ by $1$. The Galois group acts by the nonzero exponents modulo $\ell$. In each example choose the indicated $H$ fixing $M$, write $h=N_{E/M}(a)$, and choose $y=ha\in E$. We have $N_{E/\mathbb Q}(a)=\Phi_\ell(1)=\ell$, $N_{M/\mathbb Q}(h)=\ell$ and $N_{E/\mathbb Q}(y)=\ell^{r+1}$. To supply *all* original places, take $z=1\otimes y$ in each original tensor. The multiplication matrix in the scalar extension of the rational basis has the original coefficients mapped to the completion, so each is an exact witness. For the choices of $e_0,u,b,c$ below, the corrected local witness is $z(1\otimes a^{-1})=1\otimes h$ in the full tensor. Since $h\in M$, its lower realization is $1\otimes h$ in $K\otimes_F M$, with norm $b$. Thus the examples exhibit the actual norm equations on both levels. [Milne, *Fields and Galois Theory*, Lemmas 1.42 and 5.9](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+**Degree four and the positive real target.** Let $\ell=5$, take $\tau:\zeta_5\mapsto\zeta_5^2$ and $H=\{1,\tau^2\}$. Put $t=\zeta_5+\zeta_5^{-1}$. The primitive roots sum to $-1$, so $t^2+t-1=0$ and $\tau(t)=-1-t$. Thus $M=\mathbb Q(t)=\mathbb Q(\sqrt5)$. Direct multiplication gives
+$$
+h=(1-\zeta_5)(1-\zeta_5^{-1})=2-t,\qquad
+h'=\tau(h)=3+t,\qquad hh'=5.
+$$
+Here $r=d=2$ and $x=125$. The product of the two coset representatives applied to $y$ is $e_0=y\tau(y)=5a\tau(a)$. Its upper norm is $25hh'=125$. In the Hilbert 90 step we can take $u=a^{-1}$, since $\tau(e_0)/e_0=\tau^2(a)/a=u/\tau^2(u)$. It gives $b=5$, $c=a$. The lower witness is $m=h$, with norm $5$, and the final witness is $ha$. At the real place the two coordinates of $z$ are $h_j(1-\zeta_5^j)$ for $j=1,2$ in the two complex factors, where $h_1=h$ and $h_2=h'$ under the chosen complex embedding. Their squared absolute values are $h^3,(h')^3$, with product $125$. In each real structure of $M$ the upper tensor is complex and $e_0$ has squared absolute value $25hh'=125$. The lower real tensor has the witness $(h,h')$ with product $5$. In the original tensor a target of $-125$ has no real witness by the same block determinants.
+
+For a finite calculation use $11$. The residue $3$ has order $5$ in $\mathbb F_{11}^\times$. Simple-root lifting for $X^5-1$ gives a primitive root $\lambda\in\mathbb Q_{11}$ reducing to $3$. The original coordinates, ordered by exponents $j=1,2,4,3$, are $(2-\lambda^j-\lambda^{-j})(1-\lambda^j)$. Galois products evaluated at $\lambda$ give the exact norm $125$. Modulo $11$ the paired $h$ values are $6,10,6,10$ and the $a$ values are $9,3,8,7$, giving witness coordinates $10,8,4,4$. Each upper tensor at a place of $M$ above $11$ groups indices $j,-j$ and the coordinates of $e_0$ are $5(1-\lambda^j)(1-\lambda^{2j})$. The product within either pair is $25hh'=125$. The lower coordinates are the two values of $h$, with product $5$. [Milne, *Algebraic Number Theory*, Proposition 7.31](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+**Degree six and an odd top step.** Let $\ell=7$, take $\tau:\zeta_7\mapsto\zeta_7^3$ and $H=\langle\tau^2\rangle$, acting by exponents $\{1,2,4\}$. Set $s=\zeta_7+\zeta_7^2+\zeta_7^4$ and $s'=\zeta_7^3+\zeta_7^5+\zeta_7^6$. The sum $s+s'=-1$. In the nine terms of $ss'$ the exponents modulo $7$ are $0$ three times and each nonzero exponent once, so $ss'=2$. The polynomial $X^2+X+2$ now gives $M=\mathbb Q(s)=\mathbb Q(\sqrt{-7})$. Multiplying the three factors of $h$ gives
+$$
+h=1-s+s'-1=s'-s,\qquad
+h'=\tau(h)=-h,\qquad hh'=7.
+$$
+With $r=3,d=2$ we have $x=2401$. Again $e_0=y\tau(y)=7a\tau(a)$, with upper norm $7^3hh'=2401$. The identity $\tau(e_0)/e_0=\tau^2(a)/a$ gives the choice $u=a^{-1}$, hence $b=7$ and $c=a$. The lower witness $m=h$ has norm $7$. The real tensor of $E/\mathbb Q$ has three complex factors represented by exponents $1,2,4$. In each factor $|h|^2=7$, and the product of the three squared absolute values of $1-\zeta_7^j$ is $hh'=7$. Hence the local norm of the same $y$ is $7^3\cdot7$. The upper real family is empty since $M$ is imaginary. Downstairs the real tensor of $M/\mathbb Q$ is complex and $h$ has squared absolute value $7$.
+
+For $29$, the residue $16$ has order $7$ and lifts to a primitive seventh root $\lambda$ by the same simple-root criterion. In exponent order $1,3,2,6,4,5$, evaluate $a$ at $\lambda^j$ and use $h$ defined by the three factors with exponents $j,2j,4j$. Modulo $29$ those $h$ values alternate $14,15$ and the $a$ values are $14,23,6,10,5,7$. Thus $z$ has residues $22,26,26,5,12,18$. The upper coordinates of $e_0$ are $7(1-\lambda^j)(1-\lambda^{3j})$. Within each of the two three-element orbits their product is $7^3hh'=2401$. The lower witness has the two evaluations of $h$, with product $7$. These are exact evaluations via the lifted root. The residues are a check on coordinates and do not supply the all-place quantifier. [Milne, *Algebraic Number Theory*, Proposition 7.31](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+#### Where the cyclic hypothesis is used
+
+In the splitting field $E=\mathbb Q(\sqrt[3]{2},\zeta_3)$ the group is $S_3$: the cubic is Eisenstein, its real root field has degree three, and adjoining the nonreal $\zeta_3$ adds degree two. Complex conjugation generates an order-two subgroup $H$ with fixed field $\mathbb Q(\sqrt[3]{2})$. Conjugating this transposition by a three-cycle produces a different transposition. The fixed field is consequently nonnormal over $\mathbb Q$, so the lower induction hypothesis requiring a Galois cyclic extension is unavailable even though its degree has decreased. Choosing the normal order-three subgroup instead gives a cyclic lower extension, but the whole group still has no cyclic generator for the tower lemma.
+
+The power-norm interface can itself fail upon dropping cyclicity. Take $E=\mathbb Q(\sqrt2,\sqrt5)$, $M=\mathbb Q(\sqrt2)$, $K=\mathbb Q_3$, and $b=3$. The distinct quadratic subfields give the sign-change group $C_2\times C_2$, and $r=2$. A simple root of $X^2-10$ modulo $3$ lifts to a unit $v\in K$ with $v^2=10$. In $D=K(\sqrt2)$ the two possible images of $\sqrt5$ are $\pm v/\sqrt2$. Thus $K\otimes_\mathbb Q E\simeq D\times D$ and $(3,1)$ has determinant norm $9=b^2$. But $3$ is no norm from $D=K\otimes_\mathbb Q M$. For $\alpha+\beta\sqrt2\ne0$ divide both coefficients by $3^{\min(\operatorname{ord}_3\alpha,\operatorname{ord}_3\beta)}$. The resulting integral pair has at least one unit and its norm $\alpha_0^2-2\beta_0^2$ is nonzero modulo $3$. The original norm therefore has even valuation. This refutes the power-norm implication for one specified scalar field and value after deleting cyclicity. It gives no all-place claim about the Hasse norm principle for $E/\mathbb Q$.
+
+#### Return to Hermitian descent
+
+In `HasseEt` the input is a unit $x_A\in A^\times$ of a finite reduced commutative $F$-algebra. For a maximal ideal take $K=A/\mathfrak m$ and $x_K=\pi(x_A)\ne0$. Use the inherited splitting $K\otimes_F E\simeq\prod_{i\in I}L$ into a finite nonempty family with a common cyclic Galois field $L/K$. The theorem just proved applies to $L/K$. In particular the end fields of the tower proof here are $K$ and $L$.
+
+| Original call site | Types and witness |
+|---|---|
+| `HasseEt.lean:49–67,79–88` | For a target finite completion of $K$, or a prescribed real $K$-structure, write $T$ for the target field and $F'$ for the prescribed source completion of $F$. The square makes $\psi:F'\to T$ and $\rho:A\to K\to T$ compatible over $F$. The witness in $(F'\otimes_F A)\otimes_F E$ for $1\otimes x_A$ is sent by `transfer` to $T\otimes_F E$ with norm $\rho(x_A)$. The base of the determinant changes from the coefficient ring $F'\otimes_F A$ to the field $T$. |
+| `HasseEt.lean:21–32,66–67,78` | The compatible tower $F\to K\to T$ gives $T\otimes_F E\simeq\prod_{i\in I}(T\otimes_K L)$. `norm_down` multiplies the transported coordinates in $T\otimes_K L$ to preserve the determinant value. The result is `TNorm K L T` for $x_K$. Both complete families are supplied to the cyclic theorem. |
+| `HasseEt.lean:34–47,76–78,98–129` | The field witness in $L$ has norm $x_K$. Put it in one coordinate and $1$ elsewhere via `norm_up`, giving the witness in $K\otimes_F E$. Lift the basis coordinates of these witnesses simultaneously across all residue fields and use determinant base change and injectivity into their product to obtain a norm $x_A$ in $A\otimes_F E$. |
+| `NmHasse.lean:9–36` | For invertible $\gamma$ with separable characteristic polynomial, $A=F[X]/(\operatorname{cp}(\gamma))$ is finite reduced and its root $x_A$ is a unit by the nonzero constant term. The local `nmAlg` equivalences send both families of characteristic-polynomial witnesses into the ring-valued norm equations. The reverse global implication consumes the resulting equation for that root and returns a matrix norm witness commuting with the scalar extension of $\gamma$. |
+
+The finite-place transport fixes the contracted place, and §5.3.1.18 identifies the required real structure. The all-degree assembly now explains the field-level call there. The direct source calls have local R3 status for the tower and degree assembly. Prime-degree proofs and the indicated tensor lemmas remain named [Lean] inputs. Kernel replay, a declaration-level path from `Main`, independent review of this exposition, and peer review are separate records. Hasse’s 1931 paper already proves the all-degree norm theorem by induction from prime degree. His intermediate field has prime degree **over the base**, and he corrects a lower norm preimage using norm-residue symbols and class field theory. Here the intermediate field has prime index **in the top field**. The calculation follows the archive’s upper-first argument with tensor norms. [Hasse, 1931, §1, pp. 64–68](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Source ledger](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
 
 ## 5.4 Lemmas and proofs
 
