@@ -105,6 +105,9 @@ Chapter 17, §17.4.15 produces the fixed-modulus family size and the common clas
 Chapter 17, §17.4.10 follows the P13 exceptional zero from the fixed-modulus family to the weighted interval. It includes the zero-free region, uniqueness with multiplicity, power separation and the two-endpoint deduction, conditional on the analytic inputs listed in the source map.
 
 Chapter 17, §17.4.16 reads `lamRay_props` (relocated to `ExistsLFamRay.lean`), `aRay_mul_log` and `conv_real_char`, the ideal-level producers of `LFam`'s weight, convolution and real-character square fields. It proves the prime-power ideal support, the $2\Lambda$ bound (sharp exactly at split primes), and the convolution and square identities, with full hand computations at modulus $8$ over $\mathbb Q$ and modulus $3$ over $\mathbb Q(\sqrt{-103})$ (split, inert, ramified and excluded bad-modulus primes), and a failure example from dropping the coprimality-to-modulus condition. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17416-the-ideal-level-weight-lamray-its-convolution-and-the-real-character-square)
+
+**Chapter 4 §4.11.** Inertia-coordinate elimination, normal translates and the block dichotomy, the normal image quotient, prime-to-part root transport, Frobenius divisor descent, and both `IsGood` consumer calls. Local R3 covers the full-group and restricted irreducibility bodies listed in the register. The general Jordan and multiset producers, the local–global transport and the construction of good signatures have separate reading scopes. [§4.11](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#411-from-separated-inertia-lines-to-residual-irreducibility) · [Source register](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
+
 ## Next batch
 
 Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
