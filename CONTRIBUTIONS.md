@@ -1011,3 +1011,11 @@ same-model review is recorded separately in the preceding run's audit.
 ### Chapter 18 §18.3.24
 
 John Tate and Georges Poitou supplied the classical global duality. J. S. Milne supplies the local invariant normalization and arithmetic duality reference. Levent Alpöge with Claude supplied the pinned Lean assembly, using the Mathlib contributors' factorization and Bézout infrastructure, including Stuart Presnell's induction. Andrew Sutherland records the community verification of the published archive. Hongmin Li's book, with Codex assistance, explains the common-target pairing, the two character reconstructions, the degree-$(3,0)$ real-place control and the normalization control, with worked examples over $\mathbb Q$ and $\mathbb Q(i)$. [Source ledger](sources/SOURCES.md#chapter-18-18324-combining-prime-power-compact-pairings) · [Community verification](https://math.mit.edu/~drew/grh/)
+
+
+### Chapter 10 §10.4.16 — Compatible integral primitives
+
+- **Levent Alpöge with Claude** supplied the compactness proof on the original cochains, scalar-coordinate descent and integral Tate assembly in A2. **Mathlib contributors** supplied the compactness, topology and finite-group lemmas at the pinned revision. [Source record](sources/SOURCES.md#chapter-10-compatible-integral-primitives)
+- **Uwe Jannsen** supplied the classical inverse-limit cohomology comparison. **John Tate** supplied the finite local cohomology and duality theorem, and **J. S. Milne** supplied the local-field references for the Frobenius and root-lifting calculations. [Classical sources](sources/SOURCES.md#chapter-10-compatible-integral-primitives)
+- **Aapo Lipponen and the LUMI contributors** supplied broader source-level context for the local arithmetic interfaces. [LUMI Frontier K](https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md)
+- **Hongmin Li with Codex** reconstructed the cochain proof and actual integral consumer, worked out the two all-level examples, and supplied the three failure controls and the original-signature witness. [§10.4.16](chapters/10-congruence-modules-to-sha.md#10416-one-integral-primitive-from-coboundaries-at-every-level)
