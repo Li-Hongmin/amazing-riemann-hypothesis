@@ -373,3 +373,5 @@ Chapter 17, §17.4.26 builds the angular cone measure and proves the full sphere
 
 
 **Chapter 10, §10.4.16.** Finite $H^1$ makes each positive-level primitive set finite and closed. A compact intersection in the pointwise product gives compatible reductions. Those reductions give continuity and the integral differential equation. The reading follows the resulting primitive through the original integral Tate basis; the two calculations and three controls are expository. [Subsection](../chapters/10-congruence-modules-to-sha.md#10416-one-integral-primitive-from-coboundaries-at-every-level)
+
+**Chapter 8, §8.4.32 (P8).** [§8.4.32](../chapters/08-divisibility-at-inert-primes.md#8432-why-the-two-controls-differ-by-a-multiple-of-p) follows `two_sums` from integral linear substitution through the two Frobenius comparisons, exact same-parity contraction and the four terms of the correction. It supplies the shift in `ThmSCore_of` and works out two original `OmOK` models. Author-level local R3 covers the comparison. The outer Theorem S assembly and Gauss kernels remain named.

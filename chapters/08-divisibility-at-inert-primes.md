@@ -321,6 +321,8 @@ does `gainS` connect to `ASK`?
 
 ## 8.4 Lemmas and proofs
 
+The local comparison of the two controls is proved in [§8.4.32](#8432-why-the-two-controls-differ-by-a-multiple-of-p).
+
 We now give complete, hand-checkable proofs of the `R3`-verified deduction chain inside
 `src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` — showing how `val_step` (`:401`) and `period_ge` (`:419–437`) pair a
 composite column bound `ColGe` against period functionals (`PairInt`), and how `off_level_bound`
@@ -1736,6 +1738,165 @@ $$(X + X^{p^2}) \circ \mathrm{altR}_{\overline R,p} = \mathrm{altR}_{\overline R
   In `FinalS.lean:26, 35–41, 63`, `classChange_statement`, `log_rescale_alt`, and `log_rescale_unique` instantiate `h3`, `h6`, and `h7` in `thmSCore`, which feeds `theorem_s_from_k_one` (`CyclicPowerClassOfExpEquiv`) and `thmSFull`; `Top.logRescale` is also called directly in `ThetaIntegerIsSSubstitution.lean:264` (`kernel_of_f`) and `WChain.lean:54` (`chainModel_statement`). Meanwhile `TwoSums` (`two_sums`), the deeper comparison helpers inside `integral_sSub` (`cg_subst_of_small`, `cg_altF_lin`, `wE_step2`, `norm_pow_sub_pow`), `SimeqRules`, `theorem_s_from_k_one_of`, `ThmSFull_of`, and the three Gauss kernels (`kernel_a_one_generic`, `kernel_a_two_generic`, `kernel_b_generic`), `ea_brClass`, and `minor_hits` remain at their named `[Lean]` boundaries.
 
 - **Literature precedent and attribution [Expository].** Existence and uniqueness of the two-sided compositional inverse of a zero-constant formal power series $P(X) = uX + O(X^2)$ ($u \in R^\times$) over an arbitrary commutative ring $R$ are classical (`[Lazard1955]`, §I, p. 253, eq. (1.4), citing Bourbaki *Algèbre*, Ch. IV, §5) and are formalized in pinned Mathlib (`PowerSeries/Substitution.lean:434–599`, by Antoine Chambert-Loir and María Inés de Frutos Fernández), while iterated Frobenius compatibility with `expand` comes from `MvPowerSeries/Expand.lean:233–258` (by Wenrong Zou). The height-two logarithm $\sum_{j \ge 0} X^{p^{2j}}/p^j$ is the classical Lubin–Tate formal logarithm associated with the endomorphism $pT + T^{p^2}$ (`[LubinTate1965]`, pp. 380–384; cf. `[Hazewinkel1978]`), and the root $\varpi^{p^2-1} = p$ mirrors Dwork's splitting-function scaling (`[Dwork1962]`, §4(a), pp. 55–56) [Paper]. Specializing ring-level inversion to $\mathcal O_K$ and $\mathcal O_K/(p)$ to extract `hμa` for `lamF` and `altF`, together with the arbitrary-variable binomial control-class shift `ClassChange` and the `ThmSCore_of` assembly, belongs to the Alpöge–Claude A2 archive. Our worked calculations at $p = 2, 3$, the sharp degree-$16$ check, and the original-definition counter-controls are textbook exposition verified by exact rational arithmetic (`710` assertions in `verify_examples.py`), distinct from Lean kernel replay or full export verification. [Source record](../sources/SOURCES.md#ch08-control-class-change-log-rescale-sources)
+
+### 8.4.32 Why the two controls differ by a multiple of p
+
+**Motivation.** The class after integral substitution has control $\Phi(\mathrm{hh1})$, where $\Phi=\operatorname{subst}(\mathrm{sSub}(\mathrm{om},\mathrm{oms},\mu))$. The target control is the cyclic sum $\mathrm{hhS}_p(u_S(c,c'))$. The discrepancy matters because the class uses powers of the control divided by powers of $p$. [§8.4.31](#8431-control-class-change-and-the-existence-and-uniqueness-of-the-rescaled-logarithm) permits an integral change in the control divided by $p$, provided the change has zero constant coefficient. To find that change, we first compare each substituted coordinate with a series that stays within its parity class. Raising a coordinate to the $p$th power shifts the **coefficient index** one step. Same-parity duality then pairs the shifted coefficient with its matching index in the second factor. The result is the cyclic sum.
+
+**Worked examples [Expository].** In both examples take $\nu=r_0=r_1=1$, suppress the singleton indices, and write $x,y$ for the even and odd target variables. Put $A(t)=\sum_{j\ge0}(-1)^jt^{p^{2j}}$, $\mu(t)=A(t)+pt^2$, and take $c=1$, $c'=2$. This gives $\mu(0)=0$ and the all-coefficient bound on $\mu-A$, with the only nonzero difference equal to $p$ in degree two. If $U=\mu(\mathrm{oms}(0)x)$ and $V=\mu(\mathrm{om}(1)y)$, the two controls in these examples are the full series
+$$
+ H=UV^p-2U^pV,\qquad H'=A(y)^pA(x)-2A(x)^pA(y).
+$$
+Indeed, the shift by $2j$ is trivial in $\mathbb Z/2$. The displayed coefficient computations below use these series in the given fields.
+
+1. **At $p=2$ over $\mathbb Q_2$.** Take $\mathrm{om}=(3,3)$ and $\mathrm{oms}=(1/3,1/3)$. Both rows consist of units. Their one-step Frobenius differences are $3-9=-6$ and $1/3-1/9=2/9$ at both indices, and $\mathrm{oms}(s)\mathrm{om}(s)=1$ on each parity. Write $U=x/3+2x^2/9+O(x^4)$ and $V=3y+18y^2+O(y^4)$. The degree-two and degree-three parts of $V^2$ are $9y^2$ and $108y^3$, and those of $U^2$ are $x^2/9$ and $4x^3/27$. Through degree four,
+   $$
+   \begin{aligned}
+   H&=3xy^2-\tfrac23x^2y+36xy^3-2x^2y^2-\tfrac89x^3y+O(5),\\
+   H'&=xy^2-2x^2y+O(5),\\
+   Y&=xy^2+\tfrac23x^2y+18xy^3-x^2y^2-\tfrac49x^3y+O(5).
+   \end{aligned}
+   $$
+   Here $O(d)$ denotes terms of total degree at least $d$. At $x^2y^2$, the two products of $H$ give $(2/9)9=2$ and $-2(1/9)18=-4$. The coefficient of $xy^2$ in $H-H'$ is $2$ and attains the bound $1/2$. A factor from the first sparse tail, of degree four in one coordinate, can first enter either control in degree six.
+
+2. **At $p=3$ over $\mathbb Q_3(i)$, $i^2=-1$.** The polynomial $t^2+1$ is irreducible modulo $3$, and the norm of $a+bi$ is $\max(|a|_3,|b|_3)$. To see multiplicativity directly, scale each nonzero factor by a power of $3$ to make its coefficients integral with a nonzero reduction. Their product has nonzero reduction in $\mathbb F_3[t]/(t^2+1)$. Take $\mathrm{om}=(i,-i)$ and $\mathrm{oms}=(-i,i)$ in even–odd order. Cubing sends each entry to the next in its row, including the wrap from odd to even. The entries are units and the two same-parity products are $1$. Now $U=-ix-3x^2+O(x^9)$ and $V=-iy-3y^2+O(y^9)$, so $U^3=ix^3+9x^4+O(x^5)$ and $V^3=iy^3+9y^4+O(y^5)$. Through degree five,
+   $$
+   \begin{aligned}
+   H&=xy^3-2x^3y-9ixy^4-3ix^2y^3+6ix^3y^2+18ix^4y+O(6),\\
+   H'&=xy^3-2x^3y+O(6),\\
+   Y&=-3ixy^4-ix^2y^3+2ix^3y^2+6ix^4y+O(6).
+   \end{aligned}
+   $$
+   For instance $[x^2y^3]H=(-3)i$, and $[x^3y^2]H=-2i(-3)$. The coefficient $-3i$ of $H-H'$ has norm $1/3$. The first sparse tail has degree nine and can first enter either control in degree twelve.
+
+**Definitions [Lean, read].** Let $K$ be an ultrametric normed field, let $p$ be prime with $|p|=p^{-1}$, and put $q=p^2$. Let $S=\mathbb Z/(2\nu)$ for $\nu>0$, $B=\mathrm{Fin}(r_0)\times\mathrm{Fin}(r_1)$, $E=\mathrm{Fin}(\nu)\times B$, and $J=S\times B$. These last two sets are the archive's `EV` and `ZV`. The parity of $s\in S$ is the parity of its standard representative. Addition by one exchanges the two parities even at wraparound, since reducing modulo $2\nu$ subtracts a multiple of two. Addition by two preserves parity. For $b\in B$ write $Z_{s,b}$ for the target variables and $X_{0,e},X_{1,e}$ for the false and true source variables.
+
+For $\mathrm{om},\mathrm{oms}:\mathrm{Fin}(\nu)\times S\to K$, the three `OmOK` conditions are
+$$
+ \begin{aligned}
+ |u(r,s)|&\le1,\qquad |u(r,s+1)-u(r,s)^p|\le p^{-1}
+ &&(u=\mathrm{om},\mathrm{oms};\ r,s\text{ arbitrary}),\\
+ \sum_r\mathrm{oms}(r,t)\mathrm{om}(r,s)&=\delta_{t,s}
+ &&(s,t\text{ of the same parity}).
+ \end{aligned}
+$$
+The first line gives the norm and Frobenius hypotheses, and the second is exact same-parity duality. Define
+$$
+ A(T)=\mathrm{altF}_{K,p}(T)=\sum_{j\ge0}(-1)^jT^{q^j},\qquad
+ P_{s,b}=\mathrm{sPos}_p(s,b)=\sum_{j\ge0}(-1)^j Z_{s-2j,b}^{q^j}.
+$$
+The powers and cyclic shifts have separate roles. At degree $d$, a displayed sum only uses $j$ with $q^j\le d$. Let $c,c'\in K$ have norms at most one. Set
+$$
+ \begin{aligned}
+ \mathrm{hh1}&=\sum_{e\in E}(cX_{0,e}X_{1,e}^p-c'X_{0,e}^pX_{1,e}),\\
+ u_S(c,c')(s)&=\begin{cases}-c'&s\text{ even},\\c&s\text{ odd},\end{cases}\qquad
+ \mathrm{hhS}_p(u)=\sum_{s\in S}\sum_{b\in B}u(s)P_{s,b}^pP_{s+1,b}.
+ \end{aligned}
+$$
+Given one $\mu\in K\llbracket T\rrbracket$ with $\mu(0)=0$ and $|[T^n](\mu-A)|\le p^{-1}$ for every $n\ge0$, define
+$$
+ L_{0,e}=\sum_{s\text{ even}}\mathrm{oms}(r,s)Z_{s,b},\qquad
+ L_{1,e}=\sum_{s\text{ odd}}\mathrm{om}(r,s)Z_{s,b},\qquad
+ F_{k,e}=\mu(L_{k,e})\quad(e=(r,b)).
+$$
+Thus $F_{k,e}$ is the original `sSub` and $\Phi$ sends $X_{k,e}$ to $F_{k,e}$. Write $C(a)$ for the constant series with value $a$ whenever scalar multiplication is written explicitly. The finite source and the zero constants of $F_{k,e}$ give `HasSubst`. The substitution algebra map fixes $C(a)$ and sends variables to $F_{k,e}$. [Source record](../sources/SOURCES.md#ch08-two-sums-sources)
+
+**Lemma (the coordinate and its powered comparison) [Lean, read].** For fixed $e=(r,b)$ and $k=0,1$, take $u=\mathrm{oms}(r,\cdot)$ for $k=0$ and $u=\mathrm{om}(r,\cdot)$ for $k=1$. Define the two masks, corresponding to `wE` and `wE'`, by
+$$
+ w(s)=\mathbf1_{s\equiv k\bmod 2}\,u(s),\qquad
+ w'(s)=\mathbf1_{s\equiv k\bmod 2}\,u(s+1).
+$$
+Set $D_{k,e}=\sum_s w(s)P_{s,b}$ and $Q_{k,e}=\sum_s w'(s)P_{s,b}^p$, the corresponding `posW` and `posW'`. They are integral and have zero constant term. For every coefficient,
+$$
+ F_{k,e}\equiv D_{k,e},\qquad F_{k,e}^p\equiv Q_{k,e}\pmod {p}.
+$$
+Here integral means that coefficients lie in $\mathcal O=\{a\in K:|a|\le1\}$, and the congruences mean that every difference coefficient has norm at most $p^{-1}$.
+
+*Proof.* The norm relation gives $p\ne0$ in $K$ and $a\in p\mathcal O$ exactly when $|a|\le p^{-1}$. The coefficient reduction $\mathcal O\llbracket Z_J\rrbracket\to(\mathcal O/p\mathcal O)\llbracket Z_J\rrbracket$ is a ring homomorphism by finite Cauchy products. The quotient has characteristic $p$ since $p$ is prime and $1\notin p\mathcal O$. This argument works even if $\mathcal O/p\mathcal O$ has nilpotents. Use a bar for reduction. The integral series available here include $A$, the $P_{s,b}$, the masks and their sums, and the substituted coordinates by the inherited integrality supply. In the proof, integral powers and sums use the closure results of [§8.4.31](#8431-control-class-change-and-the-existence-and-uniqueness-of-the-rescaled-logarithm).
+
+First compare $\mu(L_{k,e})$ with $A(L_{k,e})$. If $L=L_{k,e}$ and $d$ is the degree of the target index $m$, the difference is
+$$
+ [m]\bigl(\mu(L)-A(L)\bigr)=
+ \sum_{n=0}^{d}[T^n](\mu-A)\,[m]L^n.
+$$
+The formula is the pinned coefficient formula at a zero-constant input. Terms with $n>d$ vanish and each displayed summand belongs to $p\mathcal O$ by integrality of $L^n$. This is `cg_subst_of_small`.
+
+Next, the one-step congruence gives $\bar u(s+1)=\bar u(s)^p$. Iterating twice and using unchanged parity gives $\bar w(s+2)=\bar w(s)^q$, including the inactive parity where both sides vanish. The archive proves this through `wE_step2` using the estimate on powers of unit-ball elements. That estimate follows by induction from
+$$
+ a^{m+1}-b^{m+1}=a^m(a-b)+(a^m-b^m)b.
+$$
+Multiplication by either integral factor and the ultrametric bound preserve $|a-b|\le p^{-1}$ through the induction, starting at $a^0-b^0=0$. Equivalently, equality of the reductions is preserved by powers.
+
+By the binomial theorem in characteristic $p$, the $p$th power of a finite sum is the sum of its $p$th powers. The middle binomial coefficients for two summands are divisible by $p$, and induction adds further summands. Iterating $2j$ times in the target ring gives
+$$
+ \overline{L^{q^j}}
+ =\sum_{s\in S}\bar w(s+2j) Z_{s,b}^{q^j}.
+$$
+Consequently
+$$
+ \overline{A(L)}
+ =\sum_{j\ge0}(-1)^j\sum_s\bar w(s+2j)Z_{s,b}^{q^j}
+ =\sum_s \bar w(s)\overline{P_{s,b}}.
+$$
+The second equality makes the change $s\mapsto s+2j$ at each $j$. Each coefficient uses finitely many $j$, which justifies reducing and reorganizing the full series. This is `cg_lin_pow` followed by `cg_altF_lin`. It proves the first congruence with the same $\mu$ as in the substitution.
+
+For the powered comparison, $\bar w(s)^p=\bar w'(s)$ by the one-step congruence on the active parity and the zero masks on the other parity. Thus
+$$
+ \overline{F_{k,e}^p}=\overline{D_{k,e}}^{,p}
+ =\sum_s\bar w(s)^p\overline{P_{s,b}}^{,p}
+ =\overline{Q_{k,e}}.
+$$
+The mask in $w'$ is still tested at $s$. Its coefficient is sampled at $s+1$ while the variable series is $P_{s,b}^p$. This is the distinction that yields the required adjacent pairing. [Source record](../sources/SOURCES.md#ch08-two-sums-sources)
+
+**Theorem (comparison of the two original controls, `TwoSums`) [Lean, read].** For every choice of the field, parameters, matrices, scalars and single series $\mu$ under the hypotheses above, there is an integral $Y\in K\llbracket Z_J\rrbracket$ with $Y(0)=0$ and
+$$
+ \operatorname{subst}(\mathrm{sSub}(\mathrm{om},\mathrm{oms},\mu))(\mathrm{hh1})
+ =\mathrm{hhS}_p(u_S(c,c'))+C(p)Y.
+$$
+
+*Proof.* The algebra map gives the first exact expansion, `subst_hh_eq_sum`,
+$$
+ H=\Phi(\mathrm{hh1})=\sum_e(cF_{0,e}F_{1,e}^p-c'F_{0,e}^pF_{1,e}).
+$$
+For the second, fix $b\in B$ and expand the product of the two finite cyclic sums in each term. In $\sum_r D_{0,e}Q_{1,e}$, the coefficient of the product written as $P_{t,b}P_{s,b}^p$ in the double sum is zero unless $t$ is even and $s$ odd. At those indices it is
+$$
+ \sum_r \mathrm{oms}(r,t)\mathrm{om}(r,s+1)=\delta_{t,s+1}.
+$$
+Here $t$ and $s+1$ have the same parity. For $\sum_r Q_{0,e}D_{1,e}$ the indices are $s$ even and $t$ odd, with coefficient $\sum_r\mathrm{oms}(r,s+1)\mathrm{om}(r,t)=\delta_{s+1,t}$. These are weights in a finite expansion before collecting power-series coefficients. Both contractions therefore leave $P_{s,b}^pP_{s+1,b}$, with weight $c$ on odd $s$ and $-c'$ on even $s$. It follows that the second exact expansion, `hhS_eq`, is
+$$
+ H'=\mathrm{hhS}_p(u_S(c,c'))=\sum_e(cD_{0,e}Q_{1,e}-c'Q_{0,e}D_{1,e}).
+$$
+
+To construct the correction term by term, put
+$$
+ R_{k,e}=\frac{F_{k,e}-D_{k,e}}p,\qquad
+ T_{k,e}=\frac{F_{k,e}^p-Q_{k,e}}p .
+$$
+The lemma gives norm at most one for every coefficient of both quotients. Their constants vanish because $F_{k,e}$, $D_{k,e}$ and $Q_{k,e}$ have zero constant and the norm relation ensures that $(p:K)\ne0$. Define
+$$
+ Y=\sum_e\bigl(
+   cF_{0,e}T_{1,e}+cQ_{1,e}R_{0,e}
+   -c'F_{0,e}^pR_{1,e}-c'D_{1,e}T_{0,e}
+ \bigr).
+$$
+Each product is integral by closure under multiplication and the scalar unit bounds. Its constant vanishes, and the same holds for the finite sum. The two differences of products telescope as
+$$
+ \begin{aligned}
+ F_{0,e}F_{1,e}^p-D_{0,e}Q_{1,e}
+   &=F_{0,e}(F_{1,e}^p-Q_{1,e})+Q_{1,e}(F_{0,e}-D_{0,e}),\\
+ F_{0,e}^pF_{1,e}-Q_{0,e}D_{1,e}
+   &=F_{0,e}^p(F_{1,e}-D_{1,e})+D_{1,e}(F_{0,e}^p-Q_{0,e}).
+ \end{aligned}
+$$
+Multiplying the definition of $Y$ by $p$ now gives $H-H'$. Since $p$ is nonzero, the result is exactly the archive's witness $C(p^{-1})(H-H')$. At each multi-index the proof of `cg_two_sums` supplies $|[m](H-H')|\le p^{-1}$, and `two_sums` multiplies that coefficient bound by $|p^{-1}|=p$. Thus the construction and the archive agree in all degrees. [Source record](../sources/SOURCES.md#ch08-two-sums-sources)
+
+**Notes.**
+
+- **Boundary cases.** At $p=2$, the norm and Frobenius arguments still apply, and the signs in the asserted identity are identities over $K$ even when their reductions coincide. The parity comes from $2\nu$, independent of $p$. If $r_0=0$ or $r_1=0$, both $E$ and $J$ are empty, the two controls vanish and the quotient gives $Y=0$. The `OmOK` hypotheses remain as stated on the matrices indexed by $\mathrm{Fin}(\nu)\times S$.
+- **Deleting same-parity duality [Expository].** In the legal $p=3$ example multiply the entire $\mathrm{oms}$ row by $2$ and leave everything else fixed, including $\mu$. The entries retain norm one and the new Frobenius difference for that row is $(2-2^3)u(s+1)=-6u(s+1)$, which belongs to $3\mathcal O$. The diagonal pairings are now $2$. At $xy^3$ only the linear term of $U$ and the cubed linear term of $V$ can contribute. They give $[xy^3]H=(-2i)i=2$, whereas $[xy^3]H'=1$. Hence $[xy^3]Y=1/3$ would have norm three. No integral correction exists.
+- **Deleting the one-step Frobenius congruence [Expository].** In the same $p=3$ example use constant rows $\mathrm{om}=(i,i)$, $\mathrm{oms}=(-i,-i)$, leaving the other inputs fixed. The unit bounds and same-parity duality hold. In the $\mathrm{om}$ row the Frobenius difference is $i-i^3=2i$, a unit, and the $\mathrm{oms}$ row has the opposite difference. Now $[xy^3]H=(-i)i^3=-1$, so the difference from $H'$ has coefficient $-2$. The forced coefficient $-2/3$ of $Y$ has norm three. In fact the two-step congruence still holds exactly in these constant rows because $i^9=i$ and $(-i)^9=-i$. The comparison of the powered coordinate needs the one-step condition.
+- **The actual direction of the change [Lean, read].** In `ThmSCore_of`, lines 686–687 apply `LogRescale` and `LogRescaleUnique` from §8.4.31 to identify the caller's right inverse with the inverse carrying the all-coefficient bound `hμa`. Lines 698 and 717 use that same series for `integral_sSub` and the `ClassSubst` conclusion `a3` with control $H$. At line 718, `h5` receives the same $K,p,\nu,r_0,r_1,\mathrm{om},\mathrm{oms},c,c',\mu$, the same `OmOK`, and `hμa`. Lines 719–725 call `ClassChange` on `a3` with shift $-Y$, since $H+p(-Y)=H'$. The zero constant and integrality conditions hold for $-Y$. The class witness formula from §8.4.31 consequently uses powers of $Y$ inside the new witnesses. [Source record](../sources/SOURCES.md#ch08-two-sums-sources)
+- **Reading scope and attribution.** The comparison is the Alpöge–Claude archive's `two_sums`. The formal substitution API is pinned Mathlib. The quotient calculation specializes the classical Frobenius endomorphism in characteristic $p$. The two local models, deleted-hypothesis examples and coefficientwise exposition are contributions of this book. `SimeqRules`, the outer Theorem S assembly and the three Gauss kernels are named inputs or downstream steps. The local proof-body reading, exact arithmetic examples, Lean kernel replay and peer review are distinct records. [Source record](../sources/SOURCES.md#ch08-two-sums-sources)
 
 ---
 
