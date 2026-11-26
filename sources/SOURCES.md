@@ -3900,3 +3900,104 @@ The Mathlib pin is `0df444a360eaa60ab8c11dca51a86af692955474`. The inverse-actio
 - W. Casselman, *Introduction to the Theory of Admissible Representations of p-adic Reductive Groups*, draft dated 1 May 1995. §2.1 (pp. 19–22) develops compact projection and fixed-vector exactness. Proposition 2.1.10 gives fixed-space duality and admissible biduality, Proposition 2.1.11 gives contravariant exactness, and Corollary 2.1.13 gives the irreducibility equivalence. Retrieved 2026-11-26, 635,502 bytes, SHA-256 `78b921fc6331ad2b75389f37d15bd5ac3399e6cfc2d7555e1a4d666e0d42612a`. [Original PDF](https://www.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf)
 
 The local source reading and finite examples are expository checks. The independent LUMI build is community evidence for the archive. This section records no section-specific kernel replay or declaration-level Main path. [§12.4.5](../chapters/12-galois-representations-and-local-langlands.md#1245-compact-open-fixed-spaces-and-the-smooth-contragredient) · [LUMI archive check](https://github.com/aapolipponen/rh-lean-check-lumi)
+
+### Chapter 9 compact-dual coordinate density and Haar normalization
+
+[Chapter 9 §9.4.27](../chapters/09-heights-slopes-and-near-orthogonality.md#9427-paying-the-shared-compact-dual-haar-normalization-from-coordinate-densities) explains the coordinate-density
+and invariant-measure comparison in archive A2, joined SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+Levent Alpöge with Claude supplied the archived Lean development.
+
+- **Local production.** Under
+  `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/FormalDegree/`,
+  `VolUFactProdMulLe.lean:14–62` defines `volU` and proves `cPQ_eq_volU`.
+  In `HaarVolumes/`, `TriDens.lean:13–49` and `DensOn.lean:13–35` define the
+  skew-Hermitian, upper-triangular, compact-pair and polar Lie charts.
+  `DetNull.lean:13–107`, `QrMapMeasurableSetImage.lean:13–288`,
+  `LeftMulMapEqTransposeConj.lean:13–170`, `TriHaarA.lean:13–224`,
+  `TriHaar.lean:13–126`, `TriUniq.lean:47–256`, `QRHaarA.lean:16–312` and
+  `QRHaar.lean:17–102` prove the complex QR integration formula with weight
+  $\prod_{j=0}^{N-1} t_{1,j}^{2(N-j)-1}$. `GaussA.lean:10–116`,
+  `GaussB.lean:13–115` and `LintegralGaussTri.lean:13–86` evaluate the
+  proportionality constant as `volU N` against the matrix Gaussian.
+  `ChartWRA.lean:34–184`, `ChartWRB.lean:13–72`, `ChartWR.lean:15–89`,
+  `VolUSetMeasurable.lean:13–92`, `VolUMeasurableSetTriPos.lean:14–98`,
+  `VolUDensity.lean:16–137`, `BridgeA.lean:16–336` and `Bridge.lean:15–37`
+  establish the unit-Jacobian shear at the identity and `omegaDensity_cd`.
+  `OmegaA.lean:67–276`, `IntegralGaussEOmPhiOmE.lean:15–173`,
+  `OmegaPQB.lean:14–113`, `OmegaPQA.lean:34–255` and `OmegaPQ.lean:17–127`
+  prove complexification determinant $4^{n(n-1)/2}$ and the $\kappa_n = 2^{n(n-1)/2}$
+  pushforward factor for `IsOmegaLeb`. `HaarExpA.lean:13–244`,
+  `HaarExpB.lean:11–386`, `HaarExpC.lean:15–92`, `HaarExpD.lean:14–121`,
+  `HaarExp.lean:19–91`, `HaarPolA.lean:17–202`, `HaarPolB.lean:50–210`,
+  `HaarPol.lean:14–94`, `ContinuousMatrixExpCompact.lean:15–186`,
+  `JacobianNearOneOfSmall.lean:15–103`, `KDensA.lean:15–278`,
+  `KDensB.lean:13–261`, `KDensC.lean:15–105`, `KdMeasImageProd.lean:16–140`,
+  `MeasurableEmbeddingUpqMat.lean:68–311` and
+  `OmegaDensityMuCDtr.lean:20–239` prove `omegaDensity_muCDtr`.
+  `OmegaDensityUnique.lean:20–337` proves `isOmegaLeb_unique`,
+  `omegaDensity_rel` and `muCD_eq_cd_vol`. [Lean, read] for all listed bodies.
+- **Definitions, witnesses, and consumers.**
+  `src/Formalism/LocalRingCardinality/DataCD.lean:10–62` and
+  `DataTies.lean:10–21,38–47` define `UpqT`, `lieU`, `IsOmegaLeb`, `ballU`,
+  `OmegaDensity`, `CDHaar` and `cdScaleTie`.
+  `SpanPowerMembership/HaarDensityNeZero.lean:18–225` and
+  `SignSplitEquivInl.lean:156–249` unconditionally construct `cdHaar : CDHaar`,
+  `e0`, and positive `cdScaleOf`. The four direct archive callers of
+  `muCD_eq_cd_vol` are
+  `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/HarishChandraFormalDegreeCompactDualLargeGaps.lean:29–40,53–106`
+  (`muCD_eq_scaled` at `:38` $\to$ `fdeg_gap`, also called in
+  `src/Development/WeilBound/RepresentationTheoryGL/FormalDegree/FormalDegreeHilbert/NormIndOfSteps.lean:49`),
+  `src/Formalism/PeriodIntegrals/UnitaryGroupMassFormula/FormalDegreeGap/HCFdegRGapHolds.lean:16–35,83–112`
+  (`muCD_eq_smul` at `:33` $\to$ `hCFdegRGap_holds`, consumed in
+  `src/Formalism/PeriodIntegrals/OrbitalBoundsConclusion/HCFdegRGap.lean:10–19`,
+  `DimensionBoundOfGapUniform.lean:37–98`,
+  `DimensionFamilyOfWeylMultiplicity.lean:43,106`, and
+  `src/Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeFamilyOfGappedMultiplicity.lean:126,203`),
+  `src/Formalism/LocalToGlobal/SiegelLatticeTheory/BesselDiscreteSeries/FdegUniqG.lean:38–100`
+  (`muCD_eq_cdScale` at `:46` $\to$ `fdegUniq_of_gap`), and
+  `src/Formalism/LocalToGlobal/SiegelLatticeTheory/WeightedGaugeFactors/FactsFD.lean:15–22,54–104`
+  (`cdScale_eq_muCD` at `:20` $\to$ `dsig_eq`), paired globally with
+  `src/Development/AbelianVarietyTheory/Definitions/Foundations/CdScaleTieIff.lean:24–68,101–105`.
+  Polar Haar invariance (§9.4.25) and the translation-ray calibration (§9.4.26)
+  enter at their recorded scopes; universal `LowestKTypeMultiplicity.HCFdeg`,
+  `AllHyp.s47`, full `GoodS`, and `Main` reachability remain unchanged.
+- **Pinned Mathlib.** Commit `0df444a360eaa60ab8c11dca51a86af692955474`.
+  Haar scalar uniqueness, linear-map determinant scaling, Jacobian change of
+  variables, Gaussian integrals, and Besicovitch–Vitali differentiation are due
+  to Sébastien Gouëzel (with Floris van Doorn on `EqHaar`). Yury Kudryashov
+  supplies complex plane volume preservation; Junyan Xu supplies
+  `LinearMap.det_restrictScalars`; Jiale Miao, Kevin Buzzard and Alexander
+  Bentkamp supply `gramSchmidtOrthonormalBasis`; Xavier Roblot supplies radial
+  Gamma integrals; Anatole Dedecker, Eric Wieser and Yuyang Zhao supply the
+  Banach-algebra exponential.
+  [Haar unique](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Unique.lean#L921)
+  · [EqHaar](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/EqHaar.lean#L226)
+  · [Complex volume](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Complex.lean#L60)
+  · [RestrictScalars det](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Norm/Transitivity.lean#L180)
+  · [Gram–Schmidt](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/InnerProductSpace/GramSchmidtOrtho.lean#L319)
+  · [Gaussian](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean#L211)
+  · [Gamma](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Gamma.lean#L25)
+  · [Jacobian](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/Jacobian.lean#L1183)
+  · [Exponential](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L127)
+  · [Besicovitch](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Covering/Besicovitch.lean#L1078)
+  · [Differentiation](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Covering/Differentiation.lean#L685)
+- **Classical sources.** Hurwitz, *Nachr. Ges. Wiss. Göttingen* (1897), 71–90
+  (unitary volume); Hirzebruch, *Symposium Internacional de Topología Algebraica*
+  (1958), 129–144, and Atiyah–Schmid, *Invent. Math.* 42 (1977), 1–62, §3
+  (3.6)–(3.16), pp. 12–14 (compact-dual tangent proportionality and volume
+  normalization, PDF SHA-256
+  `6aeed6b336b91ec8606c41d0c544f614fbb027768043fc10e6e9ad9b43317a2f`);
+  Macdonald, *Invent. Math.* 56 (1980), 93–95 (compact Lie group volumes);
+  Edelman, MIT Ph.D. thesis (1989), §3.2–3.3, Theorem 3.1, pp. 31–35 (complex
+  triangular Jacobian and Gaussian evaluation of $U(n)$ volume, PDF SHA-256
+  `6e9b85326a21565a0af359c30807ef250f69d07917d98aca6d71460831b85ad0`);
+  Knapp, *Lie Groups Beyond an Introduction*, 2nd ed. (2002), pp. 535–540
+  (Iwasawa and Cartan Haar decompositions, PDF SHA-256
+  `bd7e983a2389349ba5b5e95fdd8b46789b8bc26f9602b3efa20e9c0f80762332`).
+- **Verification.** Author-level local R3 for the listed production, witness,
+  and consumer files; exact rational/Laurent-monomial and matrix-Jacobian
+  verification in `verify.py`. Community Lean kernel replay, `Main`
+  reachability, same-source initial review, different-source mathematical audit,
+  and peer review are accounted separately.
+  [Community verification](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)

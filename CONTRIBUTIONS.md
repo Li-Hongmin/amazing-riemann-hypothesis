@@ -31,6 +31,13 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   unitary-group translation, integral bounds and the uses of the calibrated
   degree. [Source record](sources/SOURCES.md#chapter-9-translation-and-the-formal-degree-constant)
 
+- **Adolf Hurwitz, Friedrich Hirzebruch, Ian G. Macdonald, Alan Edelman,
+  Anthony W. Knapp, and Michael Atiyah and Wilfried Schmid** established the
+  unitary-group volume formula, complex QR/Iwasawa measure decompositions, and
+  compact-dual Haar proportionality normalization. **Levent Alpöge with Claude**
+  supplied A2's `HaarVolumes` coordinate-density chain, `CDHaar` witnesses, and
+  formal-degree scale bridges. [Source record](sources/SOURCES.md#chapter-9-compact-dual-coordinate-density-and-haar-normalization)
+
 ## Checking and formalization
 
 ### Compilation, axiom audits and kernel checks (Alpöge archive)
@@ -967,3 +974,22 @@ same-model review is recorded separately in the preceding run's audit.
 - **I. N. Bernstein and A. V. Zelevinsky** gave the classical compact averaging and admissible contragredient results and applied them to local GL. **W. Casselman** gives the corresponding treatment for smooth representations of reductive p-adic groups. [Bernstein–Zelevinsky](https://www.uni-muenster.de/imperia/md/content/theoretische_mathematik/topologie/bernstein-zelevinsky.pdf) · [Casselman](https://www.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf)
 - **Levent Alpöge with Claude** supplied the A2 formalization. Mathlib contributors supplied the algebraic dual, finite-dimensional evaluation and locally constant finite-range lemmas. **Aapo Lipponen** supplied an independent archive build and a guide to the chapter’s broader proof context. [Attributions](sources/SOURCES.md#chapter-12-compact-open-fixed-spaces-and-the-smooth-contragredient)
 - **Hongmin Li with Codex** supplied the textbook reconstruction, the two worked representations, the counterexamples and the map from fixed-space duality to the actual NuPair calls. [§12.4.5](chapters/12-galois-representations-and-local-langlands.md#1245-compact-open-fixed-spaces-and-the-smooth-contragredient)
+
+### Chapter 9 compact-dual coordinate density (§9.4.27)
+
+- **Mathlib contributors** Sébastien Gouëzel, Floris van Doorn, Yury Kudryashov,
+  Junyan Xu, Jiale Miao, Kevin Buzzard, Alexander Bentkamp, Xavier Roblot,
+  Anatole Dedecker, Eric Wieser and Yuyang Zhao authored the pinned Haar,
+  determinant, Gram–Schmidt, Gaussian/Gamma, exponential and Besicovitch
+  differentiation supplies identified in the source record. The **Lean and
+  Mathlib communities** verified the archived export through the separately
+  reported compilation and kernel checks.
+  [Pinned sources](sources/SOURCES.md#chapter-9-compact-dual-coordinate-density-and-haar-normalization)
+  · [Community verification](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+- **Hongmin Li (with AI assistance)** reconstructed the complete
+  `HaarVolumes` coordinate-density proof (`muCD_eq_cd_vol`), including the
+  $2^{n(n-1)/2}$ complexification factor, complex QR Gaussian evaluation of
+  `volU N`, polar-to-exponential identity derivative, two worked hand
+  calculations (`(P,Q)=(1,1)` and interleaved `(2,1)`), three premise
+  counter-controls, and the consumer trace across all four scale wrappers.
+  [Chapter 9](./chapters/09-heights-slopes-and-near-orthogonality.md#9427-paying-the-shared-compact-dual-haar-normalization-from-coordinate-densities)
