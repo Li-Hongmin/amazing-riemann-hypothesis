@@ -668,6 +668,8 @@ $\int_0^\infty\mathbf 1_{[1,4]}(2t)\,t^2\,dt/t=\int_{1/2}^{2}t\,dt=15/8=2^{-2}\c
 `mellin_comp_mul_left` at $a=2$, $s=2$. Together with the opening computation (ratios $2^{2a}$
 against $2$), every clause of Theorem 15.3 and Proposition 15.4 has been checked on this window.
 
+The local measure and its normalization are proved in [§15.4.3.11 Haar measure on p-adic balls and shells](#154311-haar-measure-on-p-adic-balls-and-shells).
+
 **Example 2 (the unit shells of $\mathbb Q_5$).** Take $K=\mathbb Q_5$, $\nu(\mathbb Z_5)=1$,
 $\pi=5$, $q=5$. Local compactness is the `ProperSpace ℚ_[p]` instance in namespace `Padic`
 ([`Padics/ProperSpace.lean:64–69`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/ProperSpace.lean#L64-L69),
@@ -2040,6 +2042,83 @@ Sébastien Gouëzel's three declarations are the formal source. [Lean, read] den
 [ch15-maxpeak-window]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L179-L221
 [ch15-maxpeak-gaussian]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/Inversion.lean#L109-L171
 [ch15-maxpeak-euler]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Trigonometric/EulerSineProd.lean#L251-L292
+
+#### 15.4.3.11 Haar measure on p-adic balls and shells
+
+**Motivation.** The finite-place half-density in [§15.4.3.1](#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight) uses two measures on the same local coordinate. Multiplication by $p$ shrinks additive volume by $1/p$. On the multiplicative group it moves one valuation shell to the next and preserves its mass. The factor $c_p$ is determined by the additive volume of the unit shell.
+
+For example, $\mathbb Z_2$ splits into $2\mathbb Z_2$ and $1+2\mathbb Z_2$. Each piece has additive mass $1/2$ when $\mathbb Z_2$ has mass one. The second piece is the unit shell. Multiplication by $2$ takes it to $2+4\mathbb Z_2$, of additive mass $1/4$. The inverse absolute value there is $2$, so weighting both shells by $|x|_2^{-1}$ gives each mass $1/2$. A further factor of $2$ makes both masses one.
+
+**Definition.** Fix a prime $p$. Equip $K=\mathbb Q_p$ with the Borel sets of the metric $d(x,y)=|x-y|_p$, where $|p|_p=p^{-1}$. Write
+$$
+O=\mathbb Z_p=\{x:|x|_p\le 1\},\qquad H_n=p^n O,\qquad
+B_n(b)=b+H_n,\qquad U_n=p^n O^\times
+$$
+for $b\in K$ and $n\in\mathbb Z$. Regard $O$ as a subset of $K$ via the inclusion of $p$-adic integers. Identify $K^\times$ with the open subspace $K\setminus\{0\}$, with its subspace topology and Borel sets. For $a\ne 0$, set $D_a(x)=ax$.
+
+**Lemma (the residue partition).** Each $B_n(b)$ is the closed ball of radius $p^{-n}$ centered at $b$, and it is compact and open. The ball has the disjoint partition
+$$
+B_n(b)=\bigsqcup_{j=0}^{p-1} B_{n+1}(b+jp^n).
+$$
+Also $U_n=H_n\setminus H_{n+1}=\{x:|x|_p=p^{-n}\}$.
+
+*Proof.* The pinned `PadicInt.appr` supplies at natural level $k$ an integer $j$, $0\le j<p^k$, with $x-j\in p^k O$, for each $x\in O$. These representatives give finite covers at arbitrarily small radii since $p^{-k}\to0$. The proof of `PadicInt.compactSpace` combines total boundedness with completeness of the closed norm sublevel in the complete field. Its image in $K$ is compact. An ultrametric closed ball of positive radius is open because the open ball of that radius about any of its points lies inside it. The affine map $y\mapsto b+p^ny$ is a homeomorphism. Norm multiplicativity and $|p^n|_p=p^{-n}$ identify its image of $O$ with the indicated closed ball. [Integer compactness][ch15-padic-compact] · [Open integer embedding][ch15-padic-open] · [Powers][ch15-padic-powers] · [Discrete norm values][ch15-padic-values]
+
+Reduction $O\to\mathbb Z/p\mathbb Z$ is onto since it preserves integer casts. Its kernel is $pO$. The pinned proof first approximates a $p$-adic integer by a rational at distance $<1$. The rational is integral and its reduced denominator is prime to $p$. Inverting the denominator modulo $p$ supplies a representative in $0,\ldots,p-1$. The ultrametric inequality transfers the congruence to the original point. Two representatives with the same residue differ by a multiple of $p$, hence agree in this range. The higher digit step divides the error by $p^k$, reduces it modulo $p$ and appends the resulting digit. This supplies the representatives used for compactness. The first reduction fibers are $j+pO$. Transport them by the affine map to obtain the partition for every integer $n$. A unit of $O$ has norm one because both it and its inverse have norm at most one. Conversely the inverse of a norm-one element lies in $O$. Since nonzero norms lie in $p^\mathbb Z$, the gap between $p^{-n}$ and $p^{-(n+1)}$ isolates $U_n$. $\square$ [Residue representatives and kernel][ch15-padic-residue] · [Units][ch15-padic-units]
+
+**Theorem (normalized additive and multiplicative Haar measures).** There is a unique additive Haar measure $\mu$ on $K$ with $\mu(O)=1$. For every $b\in K$, $n\in\mathbb Z$, $a\in K^\times$ and Borel $E\subseteq K$,
+$$
+\mu(B_n(b))=p^{-n},\qquad
+\mu(U_n)=p^{-n}(1-1/p),\qquad
+\mu(aE)=|a|_p\,\mu(E),\qquad
+(D_a)_*\mu=|a|_p^{-1}\mu .
+$$
+The origin has mass zero. Put $\rho=\mu|_{K^\times}$. The unique multiplicative Haar measure $\lambda$ on $K^\times$ with $\lambda(O^\times)=1$ is
+$$
+d\lambda(x)=c_p\,|x|_p^{-1}d\rho(x),\qquad c_p=(1-1/p)^{-1}=\frac{p}{p-1}.
+$$
+In particular $\lambda(U_n)=1$ for every $n\in\mathbb Z$.
+
+*Proof.* The local topological inputs are the Hausdorff topological field structure, local compactness and second countability. The closed unit ball gives a compact neighborhood of zero, and the pinned `ProperSpace` instance supplies local compactness. The pinned proper-metric instance also supplies second countability, which can be seen directly from the countable dense rational image. The multiplicative group is an open subspace and inherits these three properties. Apply the general `Measure.addHaarMeasure` construction and its Haar, regularity and normalization declarations to the positive compact $O$, whose interior contains $0$. The Haar measure is $\sigma$-finite under these topological inputs. The inherited uniqueness theorem with normalizing set $O$ fixes $\mu$. [Rational density][ch15-padic-dense] · [General Haar construction and normalization][ch15-padic-haar]
+
+By translation invariance all children of $H_n$ have mass $\mu(H_{n+1})$. Finite additivity gives $\mu(H_n)=p\mu(H_{n+1})$. Compactness gives finite masses. Starting at $\mu(H_0)=1$, division by $p$ gives $\mu(H_m)=p^{-m}$ for $m\ge0$. Multiplying by $p$ backwards gives $\mu(H_{-m})=p^m$ for $m\ge0$. Translation gives $B_n(b)$, and subtraction of the two finite concentric masses gives the shell formula. Since $0\le\mu(\{0\})\le p^{-m}$ for every $m\ge0$, the origin is null. The valuation of each nonzero point gives the disjoint decomposition $H_n\setminus\{0\}=\bigsqcup_{k\ge n}U_k$. Its additive mass is still $p^{-n}$.
+
+For $a\ne0$, let $k$ be the unique integer with $|a|_p=p^{-k}$. The element $p^{-k}a$ has norm one, so multiplication by it carries $O$ onto itself. Thus $aO=H_k$. The image-side identity for the distributive Haar character of scalar multiplication reads $\mu(aE)=\Delta(a)\mu(E)$ for our regular Haar measure. Evaluate it on $O$ to get $\Delta(a)=p^{-k}=|a|_p$. The preimage of $E$ under $D_a$ is $a^{-1}E$, so its pushforward uses the reciprocal. [Haar character identity and calibration][ch15-padic-char]
+
+Apply the multiplicative Haar construction of §15.4.3.1 to $\rho$ with modulus $|\cdot|_p$. The inverse modulus is continuous and positive on $K^\times$, and bounded on each compact subset there. The change of variables uses $\mu(a\,dx)=|a|_p\,\mu(dx)$ against $|ax|_p^{-1}=|a|_p^{-1}|x|_p^{-1}$. These factors cancel, giving a multiplicatively invariant density measure, finite on compact sets and positive on nonempty opens. On $U_0$ the density is one and $\rho(U_0)=1-1/p>0$. The extra factor $c_p$ normalizes the unit shell. Haar uniqueness on $K^\times$ applies since $U_0$ is compact open and contains $1$. Every $U_n$ is a multiplicative translate of $U_0$ and has mass one. In particular the punctured ball $H_n\setminus\{0\}$ has infinite multiplicative mass by countable additivity over $k\ge n$. $\square$
+
+**Two calculations in the original fields.**
+
+1. **At $p=2$.** In $\mathbb Q_2$, the ball $2^{-1}O$ splits as $O\sqcup(1/2+O)$, of mass two. Two reductions give $O=\bigsqcup_{j=0}^3(j+4O)$ with each cell of mass $1/4$. The translated ball $B_2(3/2)=3/2+4O$ also has mass $1/4$. The balls at levels $-1,0,2$ have masses $2,1,1/4$ and their next levels have masses $1,1/2,1/8$. Subtracting gives $\mu(U_{-1}),\mu(U_0),\mu(U_2)=1,1/2,1/8$. These shells contain $1/2,1,4$, respectively. Their inverse-norm weights are $1/2,1,4$, so the three weighted masses before normalization are $1/2,1/2,1/2$. Multiplying by $c_2=2$ gives three unit masses. For $a=3/2$, $aU_0=U_{-1}$ and $a^{-1}U_0=U_1$. Their additive masses are $1$ and $1/4$, while $\mu(U_0)=1/2$ and $|a|_2=2$. The punctured ball $2^{-1}O\setminus\{0\}$ has additive mass $\sum_{k=-1}^\infty 2^{-k}/2=2$ and multiplicative mass $\sum_{k=-1}^\infty 1=\infty$. The origin lies in every $2^m O$, whose masses tend to zero. For $g=\mathbf 1_{U_2}$ the squared half-density multiplier $c_2^{-1}|x|_2$ is $1/8$ on $U_2$. Its integral against the unit multiplicative mass recovers $\|g\|_{L^2(\mu)}^2=1/8$.
+2. **At $p=5$.** In $\mathbb Q_5$, $5^{-2}O=\bigsqcup_{j=0}^{24}(j/25+O)$ and $5^{-1}O=\bigsqcup_{j=0}^{4}(j/5+O)$. Their masses are $25$ and $5$. The five cosets of $5O$ in $O$ have mass $1/5$ each and the five cosets of $25O$ in $5O$ have mass $1/25$ each. The translated ball $B_1(2/5)=2/5+5O$ has mass $1/5$. The shells at $-2,0,1$ have masses $25-5=20$, $1-1/5=4/5$ and $1/5-1/25=4/25$. They contain $1/25,1,5$, respectively. The inverse-norm weights are $1/25,1,5$, so each weighted mass is $4/5$. Multiplying by $c_5=5/4$ gives one in each case. For $a=3/25$, $aU_0=U_{-2}$ has mass $20=25(4/5)$, and the preimage of $U_0$ is $U_2$, of mass $4/125=(4/5)/25$. The punctured ball $5^{-2}O\setminus\{0\}$ has additive mass $\sum_{k=-2}^\infty (4/5)5^{-k}=25$ and infinite multiplicative mass since all these shells have mass one. The origin has mass zero by the bound $5^{-m}$. For $g=\mathbf 1_{U_1}$ the squared half-density multiplier is $(4/5)(1/5)=4/25$ on $U_1$. Integration against the unit multiplicative mass recovers the same additive squared norm.
+
+**Remarks on the normalization.** If the additive normalization is deleted, $2\mu$ is still a regular additive Haar measure on the same field. Its ball and shell masses double, and its scalar modulus stays $|a|_p$. Using the same $c_p$ with $2\mu$ gives unit-shell mass $2$. Keeping $\mu(O)=1$ and dropping only $c_p$ preserves multiplicative invariance, with unit-shell mass $1-1/p$. The unweighted restriction $\rho$ fails multiplicative invariance: $D_p$ carries $U_0$ to $U_1$, whose positive $\rho$-mass is $1/p$ times that of $U_0$.
+
+In Theorem 15.6 take $\nu_p=\mu$, $\mu_p=\lambda$ and the local half-density multiplier $c_p^{-1/2}|x|_p^{1/2}$. The additive nullity of zero identifies $L^2(K,\mu)$ with $L^2(K^\times,\rho)$. The factor $c_p$ enters $c_S$ in the finite-place product formula. Masullo's Example A.3.1.7 uses this additive normalization over $\mathbb Q_p$. His Definition A.3.2.2 and Lemma A.3.2.3 give the density ratio $q_v/(q_v-1)$ at a finite place, hence the factor in (12.4.1.17) for $q_v=p$. For an extension $F_v/\mathbb Q_p$, the two Tamagawa masses on the integer ball and unit group both carry the factor $|\operatorname{disc}(\mathcal O_{F_v}/\mathbb Z_p)|_p^{1/2}$. Over $\mathbb Q_p$ this factor is one. The one-place computation supplies a factor of the measure formula. The trace theorem uses additional restrictions on $S$ and on the test function, specified on p. 520. [Masullo, Appendix A][ch15-padic-masullo] · [The finite-place product constant][ch15-padic-cs]
+
+**Where the archive uses the measures.** The theorem is a textbook specialization. The Mathlib construction takes the `PadicInt` image as a `PositiveCompacts` and uses generic Haar measure with values in the extended nonnegative reals. The A2 archive has the actual local-field declarations under `lean/src/GroundTheory/LocalFields/`, and `Examples.lean:7–38` supplies the valuative local-field instance on `ℚ_[p]`. Valuation compatibility identifies its integer ring with the norm sublevel $O$. The actual ring equivalence and order calculation are `Padic.padicIntRingEquivInteger` and `Padic.ord_p` in `LocalFourierPadic.lean:31–51`. Transporting the quotient through this ring equivalence and the pinned integer residue equivalence gives $\mathbb Z/p\mathbb Z$. Every $a\ne0$ has the form $p^ku$ with $u\in O^\times$. The archive order adds under multiplication and vanishes on $u$, so it takes value $k$ on $a$. This identifies the A2 ball and shell indices with $H_n$ and $U_n$. [A2 pin and file references](../sources/SOURCES.md#chapter-15-p-adic-haar-measure)
+
+| Actual A2 declaration or call | What its proof uses |
+| --- | --- |
+| `LocalFourierHaar.lean:237–281, 285–323` | `measure_valBall_zero_eq_mul` partitions into measurable translates indexed by residue classes. `measure_valBall_eq_mul_succ` transports the identity by a scalar of order $n$. `measure_valBall` uses successor and predecessor inductions. |
+| `LocalFourierHaar.lean:327–340, 347–382, 384–396` | `haarIntegers` calls `addHaarMeasure` at the positive compact integer ball. `distribHaarChar_eq_modulus` evaluates the image formula on this ball. The pushforward and integral identities use the inverse modulus. |
+| `LocalFourier.lean:135–186, 188–276, 278–312` | `multHaar` uses `withDensity` and `Measure.comap Units.val`. Invariance cancels two modulus factors. Unit normalization subtracts nested ball masses and applies `multHaarConst`. |
+| `LocalZetaShell.lean:66–85, 113–141` | `multHaar_ordShell` pulls each shell back to the unit shell by a uniformizer power. The shell decomposition supplies the corresponding integral sum. |
+| `LocalZetaTate.lean:51–77, 82–102` and `LocalZetaIntegral.lean:210–231` | The former uses the additive ball bounds to remove zero, then changes multiplicative to additive integration with the explicit constant. The latter sums the local zeta integral by shells and extracts the constant modulus on each shell. `LocalZetaChar.lean:162–175` explicitly uses shell mass one to integrate the unramified character after transport to the unit shell. |
+
+The half-density call is the textbook formula in §15.4.3.1 and Theorem 15.6. The A2 calls above concern Haar measures and integration. Local R3 [Lean, read] covers the named production bodies and the displayed consumer calls. The full local zeta theorem enters at its interface. The general Haar construction, uniqueness, finite products and density transport are inherited. Whole-archive replay and independent adjudication are separate. Masullo's strip nuclearity and independence of the strip parameter retain their [Open] status.
+
+[ch15-padic-compact]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/ProperSpace.lean#L39-L69
+[ch15-padic-open]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/PadicIntegers.lean#L144-L148
+[ch15-padic-residue]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/RingHoms.lean#L145-L475
+[ch15-padic-powers]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/PadicNumbers.lean#L853-L866
+[ch15-padic-units]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/PadicIntegers.lean#L370-L403
+[ch15-padic-dense]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/PadicNumbers.lean#L815-L823
+[ch15-padic-haar]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L515-L585
+[ch15-padic-char]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/DistribChar.lean#L80-L95
+[ch15-padic-masullo]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=560
+[ch15-padic-cs]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518
+[ch15-padic-values]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Padics/PadicNumbers.lean#L1049-L1062
 
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
