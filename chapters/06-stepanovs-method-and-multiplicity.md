@@ -44,6 +44,10 @@ This chapter does two jobs:
 
 The host geometry supplies the pure signatures used by `gram0Def` and the finite adelic sign change. [Pure host signatures (§6.4.16)](#6416-producing-pure-signatures-from-the-host-spaces) · [Finite adelic norm minus one (§6.4.17)](#6417-producing-the-finite-adelic-element-of-norm-minus-one)
 
+<a id="crystalline-period-module"></a>
+
+The crystalline period module follows the fixed-ratio and stable-line inputs to the local comparison. [Tensor injectivity and stable lines (§6.4.18)](#crystalline-tensor-and-lines) · [Gauss endpoint and slope (§6.4.19)](#acris-gauss-slope) · [Localization and completion (§6.4.20)](#acris-gauss-extension)
+
 The local coefficient step for the prismatic datum uses the normalized Frobenius matrix of a quasi-logarithm basis. [Adapted Frobenius matrices (§6.4.21)](#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit) · [First torsion group (§6.4.22)](#6422-reading-the-second-block-on-the-first-torsion-group)
 
 ## 6.1 Motivation
@@ -1952,6 +1956,457 @@ In `dSpace_congr` a coordinate whose sign must change is multiplied by $y$, and 
 **Remark (comparison with Chapter 11) [Expository].** §§11.4.3.5–11.4.3.6 read a different producer in the same archive, `normIntegerUnits_surjective` for arbitrary unramified local extensions and the restricted-product description `mem_range_ideleNorm_iff` of idelic norms. Here the archive uses neither. It fixes one global basis $1,\vartheta$, solves one explicit equation per place and glues coefficients, not norms. [§11.4.3.5](11-the-window-bound-vwin.md#11435-norms-of-local-units-in-unramified-extensions) · [§11.4.3.6](11-the-window-bound-vwin.md#11436-the-idelic-norm-as-a-restricted-product-from-local-norms-to-one-idele)
 
 **Remark (source boundaries).** Readings are pinned to A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, and to Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`. Proof bodies read for the first time here: all of `Adelic.lean` (lines 18–571), comprising the local completeness, Henselian, residue-field and unit lemmas, `adicInt_exists_norm`, the host identities, `adel_not_both`, `adel_local`, `adel_finite_d`, the choices `adelSv`/`adelTv`, `adelS`/`adelT`, `adel_key`, `adel_hom_key`, `adel_alg` and `exists_adelic_neg_one`; the quadratic section of `UnimodUnramUnique.lean` (lines 10–140); `star_eq_conj` and `emb_star` (`ExampleLayerExistsGenerators.lean:40–53`); and Mathlib's counting proof of `exists_root_sum_quadratic`. Mathlib statements read without proof bodies: `HenselianLocalRing`, `IsAdicComplete.henselianRing`, `FiniteAdeleRing`, `RestrictedProduct` with its one-line `ext`, `Ideal.finite_factors`, `maximalRealSubfield` with `mem_maximalRealSubfield_iff`, `IsCMField.complexEmbedding_complexConj`, `valuation_exists_uniformizer`, `exists_valuation_sub_lt_of_integer`, `denseRange_algebraMap`, `valuedAdicCompletion_eq_valuation'` and `isSquare_of_char_two`. Named but not read: the finiteness of $\mathcal O_F/\mathfrak p_v$ (`Ideal.finiteQuotientOfFreeOfNeBot` or an instance, tried inside `first`) and the tensor-product maps `Algebra.TensorProduct.map`, `includeLeftRingHom` and `includeRight`. The host fields `hyp`, `sqq_sq`, `sqd_sq`, `gal_sqq`, `gal_sqd`, `der.conj_iff` and `Frame.cc` enter as record inputs, read by statement. The construction of the example host `H0` (`D7.hostAx`, `layerExists`) is covered in [§19.3.11](19-published-layer-case-studies-ii.md#19311-the-layer-host-of-the-second-constructor). `hostSpacesOfNorm`, `spacesOfRanks` and `dSpace_congr` are inherited from §6.4.16, with the call and the type of `hy` rechecked here. Several archive proofs try alternative tactic scripts with `first`. Reading the source does not decide which alternative elaborates, and none of this is a Lean kernel check. The ordinary projection identification remains [Open]. [Source register](../sources/SOURCES.md#finite-adelic-norm-minus-one)
+
+---
+
+<a id="crystalline-tensor-and-lines"></a>
+
+### 6.4.18 Tensor injectivity and stable lines in the crystalline period ring
+
+#### Motivation
+
+Two facts about $B_{\mathrm{cris}}$ enter the comparison of fixed spaces built by `IsSstAtOfIsCrysAt`. An algebraic scalar that is a ratio of crystalline periods must be unramified. A nonzero crystalline period spanning a Galois-stable rational line must be invertible in the original ring. The first fact concerns the intersection of two fields inside $B_{\mathrm{dR}}$. The second detects fixed periods by their nonzero residues after a filtration shift. [Source register](../sources/SOURCES.md#crystalline-tensor-and-lines-source)
+
+#### Examples: two quadratic calculations
+
+**A ramified quadratic orbit.** Let $F=\mathbb Q_5$ and $s^2=5$. The polynomial $X^2-5$ is Eisenstein. Both branches have absolute value $5^{-1/2}$, so they lie outside the maximal unramified field $U$ of $\overline F$. Write $\tau$ for the nonidentity element of $\operatorname{Gal}(F(s)/F)$. In the coefficient-field model $F(s)$ with the action of $G_F$ through this quotient, $G_{F(s)}$ fixes $b=2+s$, and the two coset representatives give
+$$
+P=b\,\tau(b)=(2+s)(2-s)=4-5=-1,\qquad b^{-1}=-(2-s).
+$$
+The $s$-terms cancel and the product is a nonzero fixed scalar. On the line $Fs$ the two branches give $s(-s)=-5$, so the individual sign disappears and the inverse recovered from the product is $s/5$.
+
+**An inertia sign and a Frobenius twist.** Keep $F$ and $s$ as above. Let $a^2=2$ and choose $r$ with $r^2=a$. The polynomial $X^2-2$ is irreducible over $\mathbb F_5$. In $\mathbb F_{25}$ the residue $\bar a$ has order eight since $\bar a^4=-1$ and $\bar a^8=1$. A square in $\mathbb F_{25}^{\times}$ has order dividing twelve, so $X^2-\bar a$ is irreducible there. By Hensel lifting, $E_4=F(r)$ is unramified of degree four. Write $i\in F$ for the root of $i^2=-1$ with $i\equiv2\bmod 5$. Arithmetic Frobenius on $E_4$ takes $r$ to $ir$: the four roots of $X^4-2$ have distinct residues and $\bar r^5=2\bar r$. It therefore takes $a$ to $-a$.
+
+Use $E=E_4(s)$ as the coefficient-field model with trivial filtration degree on its nonzero scalars. The ramified quadratic and the unramified quartic have trivial intersection and are linearly disjoint, since both are Galois. In the quotient on $E$, inertia is generated by $\tau$ with $\tau(s)=-s$, $\tau(r)=r$. Choose the Frobenius lift $\mathcal F$ fixing $s$ and sending $r$ to $ir$. On $b=sr$ the multipliers are $-1$ on $\tau$ and $i$ on $\mathcal F$. Taking $N=2$ gives $b^2=5a$, fixed by inertia and with Frobenius multiplier $-1$. In $W(\mathbb F_{25})$ let $w=a$ be the Hensel lift of $\bar a$ solving $X^2=2$. Witt Frobenius takes the lift to $-a$ by reduction and uniqueness. Thus the unramified unit $w$ has the inverse multiplier $-1$, and
+$$
+b^2w=10,\qquad b\,(ba/10)=1.
+$$
+The Witt unit maps into $A_{\inf}$ in the period construction. The ramified scalar $sr$ has absolute value $5^{-1/2}$. The calculation models the inertia and Frobenius cancellation, with crystalline membership governed by the intersection criterion below.
+
+#### Definitions and statements
+
+Fix a prime $\ell$, let $F=\mathbb Q_\ell$, $\Omega=\overline F$, and let $U=F^{\mathrm{ur}}\subset\Omega$ be the algebraic maximal unramified extension. For each finite intermediate field $K/F$ put $K_0=K\cap U$, $G_K=\operatorname{Gal}(\Omega/K)$ and $I=\operatorname{Gal}(\Omega/U)$. In the archive $U$ is generated by the roots of unity of order prime to $\ell$. Write $A=A_{\mathrm{cris}}$, $B=B_{\mathrm{cris}}$, $D^+=B_{\mathrm{dR}}^+$ and $D=B_{\mathrm{dR}}$. For a fixed `Core` record the maps used here are
+$$
+j:A\longrightarrow D^+,\quad d:D^+\longrightarrow D,\quad
+\iota:B\longrightarrow D,\quad o:\Omega\longrightarrow D^+,\quad
+o_D=d\circ o,\quad u:U\longrightarrow B.
+$$
+They satisfy $\iota u=o_D|_U$ and $d j=\iota j_B$ for the structural map $j_B:A\to B$. Put $q_B=u|_F$ and write $a_B:A_{\inf}\to B$, $a_D:A_{\inf}\to D^+$ for the compatible structural maps. Use $\theta:D^+\to\mathbb C_\ell$ for the residue map, $\varphi_A$ for Witt Frobenius on $A_{\inf}$, and $t_B=j_B(t)$ for the cyclotomic period. We use the period-ring action and embedding laws, including injectivity of $j,d,\iota$, and $g(t_B)=q_B(\chi(g))t_B$ for the cyclotomic character $\chi$. The residue map is equivariant and sends $o(x)$ to the image of $x$ in $\mathbb C_\ell$. The linked source register identifies the inputs.
+
+**Theorem [Lean, read].** Fix any prime $\ell$ and any `Core` record. Then the following hold.
+
+1. The multiplication map
+   $$
+   \Omega\otimes_U B\longrightarrow D,\qquad x\otimes b\longmapsto o_D(x)\iota(b)
+   $$
+   is injective (`Core.TensorInj`).
+2. For every finite $K/F$ in $\Omega$ and every $b\in B$ with $b\ne0$, if for every $g\in G_K$ there exists $x_g\in F$ with $g(b)=q_B(x_g)b$, then $b\in B^\times$ (`Core.Regular`).
+
+In Brinon–Conrad's terminology, regularity also includes the fixed-fraction-field identity.
+
+#### Lemma 1. The norm of an algebraic ratio
+
+**Lemma [Lean, read].** Normalize the absolute value on $\Omega$ by $|\ell|=\ell^{-1}$. If $a,b\in A$, $b\ne0$, $x\in\Omega^\times$, and $j(a)=o(x)j(b)$, then $|x|=\ell^k$ for some $k\in\mathbb Z$.
+
+**Proof.** The input `exists_gauss_norm_extension_acris` [Lean] gives, for every $r\in[\ell^{-1},1)$, a multiplicative ultrametric function $N_r:A\to[0,1]$, invariant under negation, with the Gauss formula $N_r(\sum_{j\ge0}\ell^j[\xi_j])=\sup_{j\ge0}|\xi_j^\sharp|r^j$ on $A_{\inf}$. Here $[\xi_j]$ is the Teichmüller lift and $\xi_j^\sharp$ is its untilt. In ordinary Witt coordinates $c_j$, the same coefficient is $|c_j^\sharp|^{1/\ell^j}$ since $c_j=\xi_j^{\ell^j}$ over the perfect tilt. In particular $N_r(\ell)=r$ since in Witt coordinates $\ell$ has the sole nonzero coordinate $1$ at index one. Multiplicativity then gives $N_r(1)=1$ and $N_r(0)=0$. For any such family and any nonzero $f\in A$, `acris_norm_of_nonzero` [Lean] ensures the endpoint norm $N_{\ell^{-1}}(f)$ is positive. For any $f$ positive at this endpoint, `acris_gauss_norm_eventually_monomial` [Lean] gives $N_r(f)=c_f r^{k_f}$ with $c_f>0$, $k_f\in\mathbb Z$, on an open interval immediately above $\ell^{-1}$. The interval can depend on $f$. The proofs of the two estimates are in [§6.4.19](#acris-gauss-slope). The existence input is proved in [§6.4.20](#acris-gauss-extension).
+
+Suppose $j(f)=o(y)j(h)$ and $|y|\le1$. All conjugates of $y$ over $F$ have the same absolute value by uniqueness of the extension of the absolute value. Its monic minimal polynomial has coefficients in $\mathbb Z_\ell$. If its degree is $d_0$, multiply its equation by $j(h)^{d_0}$ and use injectivity of $j$ to obtain
+$$
+f^{d_0}+\sum_{i<d_0}c_i f^i h^{d_0-i}=0
+$$
+in $A$, with $c_i$ the structural images of the integral coefficients. If $N_r(f)>N_r(h)$, every summand has norm strictly below $N_r(f)^{d_0}$ because $N_r(c_i)\le1$ and $d_0-i>0$. The ultrametric inequality contradicts the equation. Thus $N_r(f)\le N_r(h)$. For $|y|=1$, use the equation with $y^{-1}$ and the roles reversed to obtain equality.
+
+The product of the conjugates of $x$ gives $|x|^e=\ell^s$ for $e=[F(x):F]>0$ and $s\in\mathbb Z$, since the constant minimal-polynomial coefficient is nonzero. Choose $m,n\ge0$ with $s=m-n$. Then $y=x^e\ell^m/\ell^n$ has $|y|=1$ and relates $f=a^e\ell^m$ to $h=b^e\ell^n$ as above. Both $a,b$ are nonzero by the original equation and injectivity. Choose one Gauss family and use it for both elements. On the intersection of their monomial intervals we obtain
+$$
+c_a^e r^{e k_a+m}=c_b^e r^{e k_b+n}.
+$$
+Dividing the equalities at two distinct positive radii forces $e k_a+m=e k_b+n$. Hence $s=e(k_b-k_a)$ and $|x|=\ell^{k_b-k_a}$. This proves `GaussCore.norm_eq_zpow` using the extended absolute value. The group product below is a separate norm operation.
+
+#### Lemma 2. The pullback field and the tensor
+
+**Lemma [Lean, read].** For a finite subextension $L/F$ of $\Omega/F$, if every $z\in L^\times$ has $|z|\in\ell^{\mathbb Z}$, then $L\subset U$.
+
+**Proof.** Set $R=\mathcal O_L$. Every element of the maximal ideal has absolute value at most $\ell^{-1}$, so that ideal is exactly $\ell R$. If the residue field has size $q$, the derivative of $X^q-X$ is $-1$ in that field. Hensel's lemma lifts each residue class to a root in the complete ring $R$. Each nonzero root is a $(q-1)$-st root of unity, with $\ell\nmid q-1$, and belongs to $U$. The $\mathbb Z_\ell$-module $M=R\cap U$ consequently satisfies $R=M+\ell R$. The finite $\mathbb Z_\ell$-module $R/M$ equals $\ell(R/M)$ and vanishes by Nakayama's lemma. Taking fractions gives $L\subset U$. This proves `UnramValue.le_Kur_of_norm` using the finite complete DVR and residue-field facts. The hypothesis concerns every nonzero element of $L$. For example, $1+s$ has absolute value one, while its difference with $1$ has absolute value $5^{-1/2}$.
+
+**Proof of tensor injectivity.** The localization result `bcris_eq_acris_localization_periodT_alt` [Lean] supplies $B=A[t^{-1}]$ in the concrete form $t_B^h b=j_B(a)$ for some $h\ge0$ and $a\in A$ for each $b\in B$. The denominator $d j(t^h)$ is nonzero because $t_B$ is a unit and $\iota$ is injective. Let $L_B$ be the field generated by $d j(A)$ in $D$. Fractions of a subring of a field form a field, so every element of $L_B$ is such a fraction. The denominator equation puts $\iota(B)$ inside $L_B$, and $d j(A)\subset\iota(B)$ gives $L_B=\operatorname{Frac}(\iota(B))$.
+
+Let $L'=o_D^{-1}(L_B)$. The identity $\iota u=o_D|_U$ gives $U\subset L'$. For any $y\in L'$, the finite extension $F(y)$ is contained in $L'$. For each $0\ne z\in F(y)$ choose a fraction $o_D(z)=d j(a)/d j(b)$ with $d j(b)\ne0$. Multiplying out and using injectivity of $d$ gives $j(a)=o(z)j(b)$ in $D^+$. Lemma 1 gives $|z|\in\ell^{\mathbb Z}$. Applying the preceding lemma to $F(y)$ gives $y\in U$. We have proved $o_D(\Omega)\cap L_B=o_D(U)$.
+
+Start with a finite $U$-linearly independent family $(x_j)$ in $\Omega$. It lies in a finite separable extension $U(\alpha)/U$ by the primitive element theorem. Identify $U,\Omega$ with their images in $D$. The minimal polynomial $P$ of $\alpha$ over $U$ splits in $\Omega$. Its monic minimal polynomial $Q$ over $L_B$ divides $P$ in $L_B[X]$. All roots of $Q$ therefore belong to $\Omega$, so its coefficients belong to $L_B\cap\Omega=U$ by the elementary symmetric formulas. Since $Q(\alpha)=0$, the degrees coincide. The power basis of $U(\alpha)$ stays independent over $L_B$. In that basis the coordinate matrix of $(x_j)$ has full column rank over $U$. A nonzero maximal minor stays nonzero over $L_B$, so $(x_j)$ stays independent there. This is the `GaloisLinearDisjoint` argument.
+
+Given a tensor, combine its finitely many left factors in a basis $(x_j)$ of their span, writing it as $\sum_j x_j\otimes b_j$. If its image is zero, independence over $L_B$ gives $\iota(b_j)=0$ for every $j$, hence $b_j=0$. Conversely, for an independent family $(x_j)$ a zero tensor forces all $b_j=0$ by applying the coordinate functionals on its span, extended to $\Omega$. The empty family has no coefficients. This identifies the tensor assertion with the finite-sum statement of Core.TensorInj.
+
+#### Lemma 3. Passing from finite index to the full group
+
+**Lemma [Lean, read].** Let $S$ be a commutative domain with a group $G$ acting by $F$-algebra automorphisms. Suppose every nonzero element spanning a $G$-stable $F$-line is a unit. For every subgroup $H$ of finite index in $G$, every nonzero element $b$ spanning an $H$-stable $F$-line is also a unit.
+
+**Proof.** For $h\in H$ write $h(b)=\lambda(h)b$ with $\lambda(h)\in F^\times$, since $h$ is an automorphism. Choose representatives $s_q$ of the left cosets $q\in G/H$. The finite product $P=\prod_q s_q(b)$ is nonzero by the domain hypothesis. For each $g\in G$ there is a unique $h(g,q)\in H$ with $g s_q=s_{gq}h(g,q)$. As the action fixes $F$,
+$$
+g(P)=\left(\prod_q\lambda(h(g,q))\right)\prod_q s_{gq}(b)
+     =\left(\prod_q\lambda(h(g,q))\right)P.
+$$
+Left multiplication permutes the cosets, including when $H$ is nonnormal. By hypothesis $P$ is a unit. Multiplication of the other factors by $P^{-1}$ gives the inverse of each factor. Applying the inverse automorphism of the representative of the identity coset gives $b\in S^\times$. In `regular_of_full` the index $[G_F:G_K]=[K:F]$ is finite and $B$ is a domain via $\iota:B\hookrightarrow D$.
+
+#### Proof of the full-group unit clause
+
+**Normalize the period.** The filtration input `bcris_exists_tPow_mul_theta_ne_zero` [Lean] gives, for each $0\ne b\in B$, nonnegative integers $m,n$, $b'\in B$ and $y\in D^+$ with
+$$
+b\,t_B^m=t_B^n b',\qquad \iota(b')=d(y),\qquad \theta(y)\ne0.
+$$
+Geometrically, $t_B$ maps to a uniformizer of $D^+$ and the operation shifts the exact filtration degree of $\iota(b)$ to zero. If the degree is $k\in\mathbb Z$, multiplication by $t_B^{-k}$ has this effect, with $m-n=-k$. The input supplies this statement in the archive's ring interfaces. Apply $g$ to the displayed equation and use $g(b)=q_B(x_g)b$, then cancel $t_B^n$ and $\chi(g)^n$ to obtain
+$$
+g(b')=q_B\!\left(x_g\chi(g)^m\chi(g)^{-n}\right)b'.
+$$
+The normalized element spans a full-group rational line. It suffices to invert $b'$ because $t_B$ is a unit.
+
+**Trivialize inertia and Frobenius on the residue.** Rename the normalized element $v$ and write $\rho=\theta(y)\ne0$. Whenever $g(v)=q_B(\alpha_g)v$ with $\alpha_g\in F$, equivariance of $d,\iota$, injectivity of $d$ and application of $\theta$ give $g(\rho)=\alpha_g\rho$. The stable-line character theorem `exists_unitCharacter_of_galoisStable_line_cLTate` [Lean] supplies a homomorphism $\eta:G_F\to\mathbb Z_\ell^\times$ with $g(\rho)=\eta(g)\rho$. Its multiplier is unique by cancellation. The inertia theorem `tate_character_finite_on_inertia_of_eigenvector` [Lean] supplies one $N>0$ with $\eta(h)^N=1$ for every $h\in I$. This input applies to nonzero eigenvectors in $\mathbb C_\ell$. In the classical setting continuity of the character follows from $g\mapsto g(\rho)/\rho$, and the isometric action makes its values units.
+
+Choose an arithmetic Frobenius lift $\mathcal F\in G_F$. It extends the arithmetic Frobenius on $U$ and raises prime-to-$\ell$ roots of unity to the $\ell$-th power. Set $\mu=\eta(\mathcal F)^{-N}\in\mathbb Z_\ell^\times$. The unramified Frobenius-period input `exists_unramified_period_ainf_unit` [Lean] supplies $w\in A_{\inf}^\times$ such that
+$$
+h(w)=w\quad(h\in I),\qquad \mathcal F(w)=\mu w,\qquad
+\varphi_A(w)=\mu w.
+$$
+Put $z=v^N a_B(w)$ and $y_z=y^N a_D(w)$. The structural maps give $\iota(z)=d(y_z)$. Its residue $R=\rho^N\theta(a_D(w))$ is nonzero since $\rho\ne0$ and unital ring maps send units to units. Inertia fixes $R$, and the multiplier of $\mathcal F$ on $R$ is $\eta(\mathcal F)^N\mu=1$. The input `fixed_of_fixed_inertia_of_fixed_frobenius` [Lean] gives $g(R)=R$ for all $g\in G_F$. The classical argument uses the closed stabilizer of $R$ and the density of the subgroup generated by inertia and an arithmetic Frobenius lift.
+
+**Lift the fixed residue and descend the unit.** The input `ainf_frobenius_unit_eigenvector_galois_line` [Lean] gives, for each $g$, some $z_g\in\mathbb Z_\ell$ with $g(a_B(w))=q_B(z_g)a_B(w)$. This step uses the Witt Frobenius equation. Consequently $g(z)=q_B(\alpha_g^N z_g)z$. Applying the residue calculation again gives $R=\alpha_g^N z_g R$. Since $R\ne0$ and $F\hookrightarrow\mathbb C_\ell$ is injective, $\alpha_g^N z_g=1$ in $F$. Thus $g(z)=z$ in $B$.
+
+The crystalline fixed-ring input `galoisInvariants_Bcris_eq_maxUnramified` [Lean] gives $B^{G_K}=u(K\cap U)$, with the inclusion of fixed scalars from equivariance of $u$. Here $K=F$, so $z=q_B(c)$ for some $c\in F$. Nonzero residue gives $c\ne0$. Thus $z$ is a unit with inverse $q_B(c^{-1})$, and $v^{N-1}a_B(w)q_B(c^{-1})$ is an inverse of $v$. Undoing the shift gives $b\in B^\times$. Lemma 3 gives the result for all finite $K/F$. This proves core_regular.
+
+#### Remarks, witnesses and sharp hypotheses
+
+**Actual objects.** For each prime $\ell$ the archive supplies a `Core` record by `nonempty_core` [Lean]. A genuine crystalline line is $F t_B^{-2}$ with multiplier $\chi^{-2}$. Its normalization takes $(m,n)=(2,0)$ with normalized element $1$ and residue $1$. At $\ell=5$ the actual cyclotomic action also realizes a sign in the quadratic coset product. The action on fifth roots surjects onto $(\mathbb Z/5\mathbb Z)^\times$ since $\Phi_5(1+X)$ is Eisenstein. Let $K$ be the quadratic subfield of $F(\zeta_5)$ fixed by the squares in this quotient. It is totally ramified because $F(\zeta_5)/F$ is totally ramified. The full cyclotomic character surjects onto $\mathbb Z_5^\times$: for each $j\ge1$, $\Phi_{5^j}(1+X)$ is Eisenstein, and the inverse limit of these finite quotients is $\mathbb Z_5^\times$. Choose $g$ with $\chi(g)=i$. Its reduction $2$ is a nonsquare, so $1,g$ represent the two cosets of $G_K$. For $b=t_B^2$ one has $g(b)=-t_B^2$ and $b\,g(b)=-t_B^4$, so the product gives the inverse $t_B^{-2}$. At $\ell=5$, the period $u(a)t_B^{-2}$ with $a^2=2$ as above normalizes to $u(a)$, of unramified sign, and twisting by $w=a$ with $N=1$ gives the fixed scalar $2$. Its inverse is $t_B^2u(a)/2$. The unramified Witt lift maps to $u(a)$ in $B$: their images solve $X^2=2$ in $D^+$ and have the same residue $a$, so the roots agree. The other root has residue $-a$. In the latter example the inertia action before the shift comes from the cyclotomic character, and the normalized residue has trivial inertia. The quadratic inertia sign on a normalized residue was calculated above in a coefficient-field model.
+
+For the actual ring at $\ell=5$, take the same scalar $s$ and the unramified unit $u(a)$ from the examples. The tensor $s\otimes u(a)$ is nonzero, and its image cannot coincide with the image of $1\otimes c$ for any $c\in B$. Indeed, $1,s$ are independent over $U$, and the coefficient of $s$ in the difference is the nonzero unit $u(a)$.
+
+**Finite-base-change specialization.** Over $K/F$ the tensor assertion gives $K\otimes_{K_0}B\hookrightarrow D$. To see this, let $\alpha$ generate $K/K_0$. Its minimal polynomial over $U$ divides its minimal polynomial over $K_0$. The coefficients of the divisor lie in a finite unramified extension $U_0/F$ containing $K_0$. The extension $K/K_0$ is totally ramified and $U_0/K_0$ is unramified. Indeed a uniformizer of $K$ generates $K/K_0$, because its value generates the full value group, and its minimal polynomial is Eisenstein over $K_0$. That polynomial remains Eisenstein over $U_0$, so $[KU_0:U_0]=[K:K_0]$. This forces equality of the two minimal polynomials of $\alpha$ and proves that any $K_0$-basis of $K$ remains independent over $U$. Apply the tensor statement to that basis.
+
+Fontaine gave the classical finite-base-change statement in Exposé II, §4.1.3. Brinon–Conrad, Theorem 9.1.5, note a gap in the cited argument when $K$ is ramified and state injectivity together with an associated-graded comparison. The proof here uses the Gauss norm of the archive. Brinon–Conrad's Proposition 9.1.6 also shifts the filtration degree and uses finite inertia from the Tate–Sen theorem, then lifts an algebraic residue and uses scalar-extension injectivity to prove invertibility. The archive proof above uses the Frobenius twist and fixed-ring input. [Classical references](../sources/SOURCES.md#crystalline-tensor-and-lines-source)
+
+**Dropping the absolute-value condition.** Take $D=\Omega$, $o_D$ the identity and $B=U(s)$ with $s^2=5$ as above. Set $A=\mathcal O_{U(s)}$, the valuation ring for the extended absolute value, and invert $t=5$. Each element of $U(s)$ can be multiplied by a nonnegative power of $5$ to enter $A$, so $B=A[1/t]$. All embeddings and the unramified inclusion are literal. The pullback contains $s$ and fails the norm condition on the ratio $s/1$. In the tensor product over $U$, the element
+$$
+s\otimes 1-1\otimes s
+$$
+is nonzero since $(1,s)$ is $U$-independent and its two coefficients are $-s,1$. Its product image is zero. The proved intersection identity excludes $s$ and $sr$ from the genuine crystalline fraction field.
+
+**Dropping the domain or finite-index condition.** With $S=F\times F$ and $G$ of order two swapping the factors, every nonzero $G$-eigenvector over $F$ is a nonzero multiple of $(1,1)$ or $(1,-1)$, and thus a unit. For $H=\{1\}$, $(1,0)$ lies on a stable line and is a nonunit. Its product with its conjugate is zero. For a domain counterexample at infinite index take $S=F[X_j:j\in\mathbb Z]$, $G=\mathbb Z$ shifting the indices, and $H=\{0\}$. The finite set of indices on which a polynomial depends would have to be shift-invariant for a stable line. It must be empty, so the full-group nonzero eigenvectors are constants and units. The element $X_0$ gives the strict failure for $H$.
+
+**Consumers.** The assembly in `FontaineBcrisHolds.lean:19–22` passes the tensor proof to bcris_regular_of_tensorInj. The function in `BcrisRegularOfTensorInj.lean:136–137` ignores that argument and returns core_regular. At the next layer, `fracInv` applies tensor independence to $(1,c)$ to force the de Rham scalar ratio $c$ into $K_0$ via the `Fits` transport. The `lineUnit` proof uses `Core.Regular` and transports the unit through the tied crystalline ring equivalence. The `stRegular` proof uses the two results in its fixed-ratio and stable-line clauses respectively. The rank bound `finrank_Dst_le` in `IsSstAtOfIsCrysAt.lean:29–40` consumes the domain and fixed-ratio clauses. These calls concern the supplied local model. The residue character results, Frobenius-unit constructions, fixed-ring theorem, full model supply and general period comparison, including `PcRes.main`, retain their named [Lean] interfaces. [Source register](../sources/SOURCES.md#crystalline-tensor-and-lines-source)
+
+[Chapter 6 module links](#crystalline-period-module) · [Finite adelic norm (§6.4.17)](#6417-producing-the-finite-adelic-element-of-norm-minus-one) · [Endpoint slope (§6.4.19)](#acris-gauss-slope)
+
+---
+
+<a id="acris-gauss-slope"></a>
+
+### 6.4.19 Gauss norms on crystalline periods near the lower endpoint
+
+#### Motivation
+
+The algebraic-ratio criterion used in [§6.4.18](#crystalline-tensor-and-lines) extracts an integer from a family of real-valued functions on the integral crystalline ring. The parameter is an auxiliary radius $r$. The two inputs needed for that extraction are positivity at $r=\ell^{-1}$ and an exact monomial law just to its right. On a Witt vector the law is a statement about competing terms. On a completed crystalline period it requires an approximation and, before that approximation can be used, a proof that the endpoint value detects the element. [Sources for this section](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Examples
+
+Take $\ell=2$, and choose $w$ in the integral tilt with $w^\sharp=2$ by taking compatible square roots of $2$. Brackets designate Teichmüller lifts. We write the image of a Witt vector in the crystalline ring by the same expression.
+
+**A tie in the Witt digits.** Put
+$$
+a_{\mathrm{tie}}=[w^2]+2[w]+4+\sum_{j\ge3}2^j.
+$$
+The infinite sum here specifies the Teichmüller digits $1$ in positions $j\ge3$. The weighted terms at radius $r$ are $1/4,\ r/2,\ r^2,\ r^3,\ldots$. At $r=1/2$ the first three give $1/4$, and the tail is at most $1/8$. For $1/2<r<1$ the term $r^2$ strictly beats the first two and every term in the tail. For $0<r<1/2$ the same Witt coefficient formula as a function of $r$ gives $1/4$. Thus the right exponent is $2$ and the formal left exponent is $0$. The computation to the left uses the displayed coefficients only. The crystalline family in the theorem below is supplied on $[1/2,1)$.
+
+**A strict winner that later changes.** Put
+$$
+a_{\mathrm{strict}}=[w]+\sum_{j\ge2}2^j .
+$$
+The terms are $1/2,\ 0,\ r^2,\ r^3,\ldots$. At $r=1/2$ the constant term wins, with gap $1/4$ above the largest competitor. At $r=3/5$ the strongest competitor gives $9/25<1/2$. The first change is at $r=2^{-1/2}$, where indices $0$ and $2$ tie. At $r=3/4$ the term $9/16$ wins. These are actual crystalline elements. The Witt formula gives positive values, which show that their images are nonzero because the same formula gives value zero at the zero element.
+
+#### Definitions and theorem
+
+Fix a prime $\ell$ and normalize the absolute value by $|\ell|=\rho=\ell^{-1}$. Let $V=\mathcal O_{\mathbb C_\ell^\flat}$, $W=A_{\inf}=W(V)$, $\theta:W\to\mathcal O_{\mathbb C_\ell}$ the Fontaine map, and $I=\ker\theta$. Let $P=W[1/\ell]$ and let $J$ be the kernel of the extended Fontaine map $P\to\mathbb C_\ell$. The divided-power subring $A^0=A_{\mathrm{cris}}^0$ of $P$ contains $W$ and the divided powers $x^d/d!$ for $x\in I$. Write $A=A_{\mathrm{cris}}$ for its $\ell$-adic completion and $D^+=B_{\mathrm{dR}}^+$ for the $J$-adic completion of $P$. We denote the quotient maps from $P$ and $D^+$ to $P/J^m$ by $q_m$ and $\operatorname{ev}_m$, respectively. In congruences, maps between these rings are the specified structural maps.
+
+Write the Teichmüller expansion of $a\in W$ as $\sum_{i\ge0}\ell^i[u_i]$. If $a_i$ denotes the ordinary Witt coordinate, then $u_i$ is the inverse $i$-fold Frobenius of $a_i$ in the perfect ring $V$. Hence
+$$
+\gamma_i(a)=|u_i^\sharp|=|a_i^\sharp|^{1/\ell^i}\in[0,1].
+$$
+This conversion uses multiplicativity of the untilt and the ordinary absolute value, and includes the zero digit. The Witt truncation through index $M$ agrees with $a$ modulo $\ell^{M+1}W$.
+
+**Gauss family [Lean].** For each $\rho\le r<1$, the archive supplies a function $N_r:A\to[0,1]$ satisfying
+$$
+N_r(f+g)\le\max(N_r(f),N_r(g)),\qquad
+N_r(-f)=N_r(f),\qquad N_r(fg)=N_r(f)N_r(g)
+$$
+and, on the structural image of $W$,
+$$
+N_r(a)=\sup_{i\ge0}\gamma_i(a)r^i .
+$$
+We may choose one function for each admissible radius. The results hold for every such family. The digit of $\ell$ in position $1$ is $1$, and all its other digits are zero. Thus $N_r(\ell)=r$. Applying the formula to $0$ and $1$ gives $N_r(0)=0$ and $N_r(1)=1$. These laws initially give multiplicative ultrametric seminorms. The construction of the family by *exists_gauss_norm_extension_acris* is proved in [§6.4.20](#acris-gauss-extension). [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+**Crystalline and de Rham inputs [Lean].** We use the following supplies in the pinned model.
+
+1. The completion and $\ell$-torsion-freeness package *acris_basic* gives, in particular, for every $b\in A$ and $d\ge0$ a decomposition $b=s+\ell^d z$ with $s\in A^0$ and $z\in A$. The two proofs here use this approximation clause directly.
+2. There is an injective map $j:A\to D^+$ satisfying *IsCrisP*. It agrees on $A^0$ with the map through $P$. For each $m$ there exists $L\ge0$ such that for **every** $x\in A$ there is an $a\in W$ with $\operatorname{ev}_m(\ell^L j(x))=q_m(a)$. Equality of the evaluations at every $m$ implies equality in $D^+$.
+3. For each $m$, the additive subgroup $E_m=q_m(W)\subseteq P/J^m$ is $\ell$-adically separated in its own filtration, so $\bigcap_{k\ge0}\ell^k E_m=0$. This is *image_kerP_pow_separated*. The ambient ring $P/J^m$ has $\ell$ invertible, so the filtration used here is specifically the one on $E_m$. For this input, the archive identifies the pullback of $J^m$ to $W$ with $(\xi^m)$ for a Fontaine generator $\xi$. It clears a power of $\ell$ and uses $\ell$-torsion-freeness of $W/(\xi^m)$ to descend membership, then applies $\ell$-adic separation of that quotient.
+
+**Theorem [Lean, read].** For each prime $\ell$ and each family as above, the endpoint value $N_\rho(b)$ is positive for every $0\ne b\in A$. For every $b\in A$ with $N_\rho(b)\ne0$ there are $r_1,c\in\mathbb R$ and $h\in\mathbb Z$ such that
+$$
+\rho<r_1<1,\qquad c>0,\qquad
+N_r(b)=c r^h\quad(\rho<r<r_1).
+$$
+The positivity result and the slope result are the production theorems *gauss_ne_zero* and *gauss_slope* respectively. The right interval is chosen after $b$.
+
+#### Lemma 1. Turning a small Witt vector into a prime power modulo a kernel power
+
+Suppose $a\in W$, $M,m\ge0$, and $\gamma_i(a)\rho^i\le \rho^M$ for every $i$. Then for some $c\in W$,
+$$
+a-\ell^{(M-m)_+}c\in I^m,\qquad (M-m)_+=\max(M-m,0).
+$$
+
+**Proof.** Choose $w\in V$ with $w^\sharp=\ell$ from a compatible system of roots of $\ell$. Then $X=[w]-\ell$ belongs to $I$. For $i\le M$, the bound gives $|u_i^\sharp|\le|\ell|^{M-i}$. The valuation-ring test implies that $(w^{M-i})^\sharp$ divides $u_i^\sharp$ in $\mathcal O_{\mathbb C_\ell}$. Divisibility lifts to $V$, so $u_i=w^{M-i}v_i$ for some $v_i\in V$. The lift can be seen on compatible roots: divide the components of $u_i$ by the corresponding components of $w^{M-i}$, which are nonzero. The norm inequality on the initial components persists after taking roots, so each quotient is integral. The quotients form a compatible sequence and give $v_i$.
+
+Split the binomial expansion of $(X+\ell)^{M-i}$ at degree $m$ in $X$. Terms of degree at least $m$ contain $X^m$. In the remaining terms, the exponent of $\ell$ after multiplying by $\ell^i$ is $M-j$ for the term of degree $j<m$. It is at least $(M-m)_+$. By multiplicativity of Teichmüller lifts this proves $\ell^i[u_i]\in I^m+\ell^{(M-m)_+}W$. The truncation error belongs to $\ell^{M+1}W$, also inside $\ell^{(M-m)_+}W$. Summing gives the assertion. For $m=0$, $I^0=W$, as required. This is *split_of_small*. The auxiliary *add_pow_split* in the source groups the binomial terms into $X^m$ times one coefficient and $\ell^{(M-i-m)_+}$ times another. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Lemma 2. Clearing a denominator in the divided-power subring
+
+Suppose $s\in A^0$ and $N_\rho(s)\le\rho^{k+m}$ with $k,m\ge0$. There is $c\in W$ such that $s-\ell^k c\in J^m$ in $P$.
+
+**Proof.** Since $s\in P$, there exist $K\ge0$ and $a\in W$ with $\ell^K s=a$ in $P$. Both sides belong to the subring $A^0$. Thus the equality holds after mapping to $A$, giving
+$$
+N_\rho(a)=\rho^K N_\rho(s)\le\rho^{K+k+m}.
+$$
+Every Witt term at $\rho$ is bounded by this supremum. Lemma 1 with $M=K+k+m$ yields $a-\ell^{K+k}c\in I^m$. The map $W\to P$ carries $I^m$ into $J^m$. In $P$, multiplication by $\ell^K$ is invertible and hence preserves the ideal membership in both directions. This gives the result. The source *envelope_split* uses only nonnegativity, multiplicativity and the endpoint Witt formula, with the upper bound $N_\rho(\ell^K)\le\rho^K$ obtained directly from the Witt coordinates of $\ell^K$. The denominator clearing used here is also the equality transported to $A$ in *exists_pow_mul_eq*. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Proof of nondegeneracy
+
+Suppose $N_\rho(b)=0$. Fix $m$ and choose $L$ from the bounded quotient property of $j$. In this quotient let $B_m=\operatorname{ev}_m(\ell^L j(b))\in E_m$. For each $k\ge0$ choose $b=s+\ell^{k+m}z$ by approximation. The ultrametric inequality, negation invariance and boundedness give
+$$
+N_\rho(s)\le\max\{0,\rho^{k+m}N_\rho(z)\}\le\rho^{k+m}.
+$$
+By Lemma 2, $q_m(s)=\ell^k q_m(c)$ for some $c\in W$. Choose $a'\in W$ with $\operatorname{ev}_m(\ell^L j(z))=q_m(a')$, using the same $L$ as for $b$. Compatibility on $A^0$ gives the identity
+$$
+B_m=\ell^L q_m(s)+\ell^{k+m}q_m(a')
+   =\ell^k q_m(\ell^L c+\ell^m a').
+$$
+For fixed $m$ this puts the same $B_m$ in $\ell^k E_m$ for every $k$. Separation of $E_m$ forces $B_m=0$. The image of $\ell^L$ is a unit in $P/J^m$, so $\operatorname{ev}_m(j(b))=0$. This holds for every $m$. Equality by evaluations and injectivity of $j$ give $b=0$. Thus nonnegativity yields $N_\rho(b)>0$ for every nonzero $b$. This argument uses the filtration of the integral image and the evaluations of the de Rham ring. Topological boundedness of a seminorm by itself supplies neither step. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Lemma 3. Finite competition at a radius below one
+
+Let $0<\rho<1$, $0\le c_i\le1$, and $G(\rho)>0$ for $G(r)=\sup_{i\ge0} c_i r^i$. There is an index $i$ and a right neighborhood $[\rho,u)$ on which $G(r)=c_i r^i$. At the endpoint $i$ may be taken to be the largest maximizing index.
+
+**Proof.** Choose $j$ with $c_j>0$. Choose $\rho<\sigma<1$, then an integer $M$ with $\sigma^M<c_j\rho^j$. On $[\rho,\sigma)$, every index $n\ge M$ has
+$$
+c_n r^n\le\sigma^n\le\sigma^M<c_j\rho^j\le c_jr^j.
+$$
+The same finite set $\{0,\dots,M-1\}\cup\{j\}$ therefore controls the supremum at all these radii. The upper bound on each digit controls the entire tail. For the tied example, taking $\sigma=3/4$ and $j=0$ permits $M=5$, since $(3/4)^5=243/1024<1/4$. In this finite set choose the lexicographically maximal pair $(c_i\rho^i,i)$. Any strict inequality at $\rho$ persists in a neighborhood by continuity. Intersect those finitely many neighborhoods. If $n$ ties with $i$ at $\rho$, then $n\le i$ and
+$$
+c_n r^n=(c_i\rho^i)(r/\rho)^n\le(c_i\rho^i)(r/\rho)^i=c_i r^i\qquad(r\ge\rho).
+$$
+For a distinct tied index and $r>\rho$ this comparison is strict. For $0<r<\rho$, the power comparison reverses. Thus a genuine tie can produce a different branch on the left. The tail bound, the strict comparisons and the tie comparisons cover every index. Taking the supremum gives the claimed equality, including at $\rho$. This proves *eventually_iSup_eq_monomial* in the right-neighborhood formulation. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Lemma 4. Transport of a strict leading term
+
+In a commutative ring $R$, suppose the functions $N_r$ for $\rho\le r<1$ satisfy the ultrametric, negation and multiplicative laws, $N_r(x)\le1$ for all $x$, and $N_r(p)=r$ for some $p\in R$. Let $N_\rho(b)>0$. Assume that for every $d\ge0$ there are $K\ge0$ and $a,z\in R$ such that
+$$
+p^K b=a+p^{K+d}z,\qquad
+N_r(a)=\sup_{i\ge0}c_i r^i\quad(\rho\le r<1)
+$$
+for one sequence $0\le c_i\le1$ attached to this approximation. Then on some interval $\rho<r<r_1<1$, $N_r(b)=c_i r^{i-K}$ with $c_i>0$.
+
+**Proof.** The strict ultrametric rule is $N(x+y)=N(x)$ if $N(y)<N(x)$. The upper bound follows from the triangle inequality. Applying that inequality to $x=(x+y)-y$ forces $N(x)\le N(x+y)$. Multiplicativity gives $N_r(p^K b)=r^K N_r(b)$ by induction, with the identity at $K=0$. It also gives $N_r(p^{K+d}z)\le r^{K+d}$.
+
+First choose $d$ with $\rho^d<N_\rho(b)$, then take the stated approximation at that $d$. Writing $a=p^Kb-p^{K+d}z$ and applying the strict rule at $\rho$ gives
+$$
+N_\rho(a)=\rho^K N_\rho(b)>\rho^{K+d}.
+$$
+By Lemma 3, $N_r(a)=c_i r^i$ on a right neighborhood including $\rho$, and $c_i>0$. Two ordinary monomials are now being compared. By continuity of these monomials, $r^{K+d}<c_i r^i$ persists on a possibly smaller right neighborhood. The strict rule, this time applied to $p^K b=a+p^{K+d}z$, gives $r^K N_r(b)=c_i r^i$. Divide by $r^K>0$. The exponent is the difference of two natural numbers, viewed in $\mathbb Z$. Shrinking the interval if needed gives the stated $r_1<1$. The proof uses no continuity assumption on $r\mapsto N_r(b)$ or on the choice of family. This is *slope_abstract*, with *add_eq_of_lt* and *map_pow_mul* proved by the two elementary arguments above. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+**Proof of the crystalline slope law.** For each $d$ choose $b=s+\ell^d z$ by the completion supply. Clear a denominator of $s\in A^0$ as in Lemma 2, obtaining $\ell^K s=a$ in $A$ with $a$ the image of a Witt vector. Multiplication by $\ell^K$ gives exactly the approximation in Lemma 4. Its coefficient sequence is $\gamma_i(a)$, independent of $r$. Each entry is at most $1$ because the tilted coordinates are integral. The prime-value computation supplies $N_r(\ell)=r$. Apply Lemma 4 with $p=\ell$. In the source the prime-value computation is *gauss_l*, and the two steps assembling the approximation and applying the lemma are *gauss_slope*. The public wrappers forward *gauss_ne_zero* and *gauss_slope*. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+#### Remarks and use in the algebraic-ratio criterion
+
+**An actual divided power.** With $\ell=2$ and $w^\sharp=2$ set $X=[w]-2\in I$. In $W(\mathbb F_2)=\mathbb Z_2$, the Teichmüller digits of $-2$ are $0,1,1,\ldots$. Thus $X$ has constant digit $w$ and all higher digits $1$. The formula gives $N_r(X)=\max(1/2,r)=r$ for $1/2\le r<1$. The genuine element $y=X^2/2\in A^0$ is the second divided power. Its image in $A$ satisfies $2y=X^2$ and hence $rN_r(y)=r^2$, giving $N_r(y)=r$. This calculation divides values by $r$. The ring equality already holds in $A^0$ and no inverse to $2$ in $A$ is required.
+
+**A negative exponent in an abstract model.** Give $\mathbb Q_2((T))$ its formal Laurent series convention, with finitely many negative indices, and let $R$ consist of the series $\sum a_i T^i$ with $|a_i|_2\le1$ for $i\ge0$ and $|a_i|_2\le 2^i$ for $i<0$. For $1/2\le r<1$ let $N_r=\max_i |a_i|_2 r^i$, with value zero on the zero series. These bounds are equivalent to the joint bounds $|a_i|_2\le1$ and $|a_i|_2(1/2)^i\le1$. They are closed under addition and multiplication by the coefficientwise ultrametric estimate. At fixed $r$, the terms tend to zero along the positive tail. To prove multiplicativity for two nonzero series, choose the smallest maximizing index in each. In the coefficient at the sum of those indices their product is the unique contribution of maximal weighted size. Any other pair with that sum has one index smaller than its first maximizing index. This gives equality in the multiplicative upper bound. Also $N_r(T)=r$.
+
+For $b=4T^{-1}+T^2/(1-T)\in R$ the exact equality $Tb=4+T^3/(1-T)$ realizes $K=1,d=2$ and $N_r(4)=1/4$. The approximation interface for all $d$ holds as well: $Tb$ itself has only nonnegative indices and all coefficients bounded by one, so we can use $a=Tb$ and $z=0$ at any depth. At $\rho=1/2$, the value of $b$ is $1/2$ and $\rho^2=1/4$. For $1/2<r<4^{-1/3}$ the remainder in $Tb$ has value $r^3<1/4$, hence $N_r(b)=(1/4)r^{-1}$. At $r=3/5$, $N_r(b)=5/12>9/25$ and at $r=3/4$, $N_r(b)=9/16>1/3$. This is a Laurent series model. The division by $T$ models the subtraction of the clearing exponent and does not assert a negative slope for a specified crystalline element.
+
+**Failure at the upper endpoint.** Take $c_n=(n+1)/(n+2)$ and try $\rho=1$. The supremum equals $1$ there and no term attains it. At each $0<r<1$ it is attained, since the positive terms tend to zero, and it tends to $1$ as $r$ approaches $1$ from below: each fixed term tends to $c_n$, and $\sup c_n=1$. If a monomial $C r^h$ held on a left interval ending at $1$, the limit would force $C=1$. For every integer $h$, the terms with $n\ge h$ satisfy $c_n r^n<r^h$. The finitely many nonnegative indices $n<h$ also satisfy this inequality near $1$, by continuity and $c_n<1$. Since the maximum is attained at every $r<1$, this contradicts $G(r)=r^h$. For $r>1$ the terms are unbounded. In the lemma the strict gap below one is essential. Boundedness of digits can also be tested separately: fix $0<\rho<1$ and take $c_n=\rho^{-n}(n+1)/(n+2)$. Then the supremum at $\rho$ is again $1$ and at every $r>\rho$ the terms are unbounded. Endpoint finiteness alone therefore does not supply a real-valued monomial neighborhood after removing the coefficient bound.
+
+**Dependence of the interval on the period.** Already at $\ell=2$, choose positive rational numbers $q<1$ approaching $1$, and choose $v\in V$ with $|v^\sharp|=2^{-q}$ using compatible roots of an algebraic element of that value. For $[v]+2$, the value is $\max(2^{-q},r)$, with an interior break at $2^{-q}$. These breaks approach $1/2$ from above, so no common interval can have a single monomial for each of these elements. For a fixed nonzero $b$, the theorem supplies its own interval. For a finite list one can intersect the individual intervals.
+
+**The two-radii calculation in §6.4.18.** The original consumer is *GaussCore.norm_eq_zpow* in *ExistsPowNorm.lean*. Given its same *Core* record, let $a,b\in A$ and $x\in\overline{\mathbb Q}_\ell$ satisfy $j(a)=o(x)j(b)$, $b\ne0$ and $x\ne0$. Since $o(x)$ is invertible and $j$ is injective, $a\ne0$. The consumer chooses a family of Gauss functions once, applies the endpoint result to both $a$ and $b$, and obtains the monomials $c_a r^{h_a}$ and $c_b r^{h_b}$ on their two right intervals.
+
+The starting algebraic bound *exists_pow_norm* gives $|x|^e=\ell^s$ for $e>0$, $s\in\mathbb Z$. Indeed, if $e$ is the degree of the monic minimal polynomial, then its nonzero constant term has absolute value $|x|^e$ because all conjugates have the same absolute value. The value of that coefficient in $\mathbb Q_\ell^\times$ is an integral power of $\ell$. Write $s=m-n$ with $m,n\ge0$. Set $y=x^e\ell^m/\ell^n$. Its value is $\ell^{s-m+n}=1$. In $D^+$ the relation becomes $j(a^e\ell^m)=o(y)j(b^e\ell^n)$, and the inverse relation uses $y^{-1}$.
+
+By the homogeneous monic comparison of §6.4.18, each relation gives an inequality for the Gauss values of its two arguments. The comparison uses a monic equation with integral coefficients for each of $y,y^{-1}$, homogenizes it using the compatibility of integral scalars and injectivity of $j$, and excludes a strictly larger leading power by the ultrametric inequality. Together the inequalities give equality. On the intersection of the right intervals this reads
+$$
+c_a^e r^{e h_a+m}=c_b^e r^{e h_b+n}.
+$$
+The interval has positive length because the smaller of its two upper endpoints still exceeds $\rho$. Taking the ratio of the equalities at two distinct positive radii cancels the positive constants. Since a real number greater than one has distinct integer powers, $e h_a+m=e h_b+n$. Thus $s=e(h_b-h_a)$ and $|x|=\ell^{h_b-h_a}$. The power bound supplies the initial rescaling and the slopes remove its denominator.
+
+The later tensor and stable-line conclusions retain the hypotheses of [§6.4.18](#crystalline-tensor-and-lines). The semistable consumer is `IsSstAtOfIsCrysAt` on the same local model and within its finite coefficient-field hypotheses.
+
+For a concrete ratio in the same model at $\ell=2$, take $a=1$, $b=2$ and $x=1/2$. The unital maps give $j(1)=o(1/2)j(2)$, and $N_r(2)=r>0$. The absolute value of $x$ is $2$, so $(e,s,m,n)=(1,1,1,0)$ makes $y=1$. Here $h_a=0$ and $h_b=1$, giving the same sign in the final exponent. [Source register](../sources/SOURCES.md#acris-gauss-slope-source)
+
+**Classical context.** Fontaine's construction via a completed divided-power envelope and the classical map to $B_{\mathrm{dR}}^+$ are described in the sources below. Kedlaya's Witt Gauss construction and Newton polygons explain the coefficient and weighted-maximum viewpoint. The smallness-to-kernel congruence, the separation argument in the integral quotient image, and the use of the two radii in the algebraic-ratio criterion here follow the cited A2 proof bodies. The concrete calculations are expository. [Primary references and reading status](../sources/SOURCES.md#acris-gauss-slope-source)
+
+[Chapter 6 module links](#crystalline-period-module) · [Tensor injectivity and stable lines (§6.4.18)](#crystalline-tensor-and-lines) · [Existence (§6.4.20)](#acris-gauss-extension)
+
+---
+
+<a id="acris-gauss-extension"></a>
+
+### 6.4.20 Extending the crystalline Gauss seminorm through localization and completion
+
+#### Motivation
+
+The family used in [§6.4.19](#acris-gauss-slope) starts with a formula for Witt vectors. Its arguments in the algebraic-ratio proof are elements of the completed crystalline ring. To move between these rings, first invert the prime, then take the subalgebra generated by divided powers of the Fontaine kernel, and finally complete that subalgebra at the prime. Inverting the prime gives a simple fraction formula. For completion, the uniform bound on the divided-power subalgebra makes the value of an error divisible by a high prime power small. The bound would already fail on the inverse of the prime.
+
+#### Two calculations in the crystalline rings
+
+Write $W=A_{\mathrm{inf}}$, $P=W[1/\ell]$, $A^0=A_{\mathrm{cris}}^0\subset P$, and $A=A_{\mathrm{cris}}$. Map $A^0$ into $A$ by $f$. Let $w$ in the integral tilt have $w^\sharp=\ell$, where $\sharp$ denotes untilting. Such a $w$ is obtained by choosing integral successive $\ell$-th roots of $\ell$ in $\mathbb C_\ell$. Their reductions form a Frobenius-compatible sequence whose untilt is $\ell$. Put $X=[w]-\ell$, with brackets denoting the Teichmüller lift. Fontaine's map sends $[w]$ to $\ell$, so $X$ belongs to its kernel. The zeroth ordinary Witt coordinate of $X$ is $w$. Modulo $\ell^2$ one has $X=[w]+\ell[-1]$, since $-1$ and $[-1]$ agree modulo $\ell$. Thus the first ordinary coordinate is $(-1)^\ell$ in the tilt, of absolute value one. The zeroth weighted term is $\ell^{-1}$, the first is $r$, and the later ones are at most $r^2$. At every $\ell^{-1}\le r<1$ the Witt formula therefore gives $G_r(X)=r$. The calculations use the Witt laws and the extension theorem proved below. All equalities of fractions below take place in $P$.
+
+**At $\ell=2$, $r=3/4$ [Expository].** Take the third divided power
+$$
+y=\frac{X^3}{6}=\frac{3^{-1}X^3}{2}=\frac{2\cdot3^{-1}X^3}{4}.
+$$
+The integer $3$ is a unit in $\mathbb Z_2$, whose unital map into $W$ supplies $3^{-1}$; both it and its inverse have value at most one, so both have value one. The two presentations give the same localized value $r^3/r=r^4/r^2=r^2=9/16$. The defining factorial identity puts $y$ in $A^0$. In $A$ take $b=3^{-1}f(y)$. For $k\ge0$ put $u_k=\sum_{j=0}^{k-1}(-2)^j$ (empty sum zero), $s_k=u_k y$ and $t_k=(u_k+2^k)y$. The exact identities
+$$
+b-f(s_k)=(-2)^k b,\qquad b-f(t_k)=2^k\bigl((-1)^k b-f(y)\bigr)
+$$
+give both approximations at depth $k$. For $k\ge1$ the scalar factors of $y$ in the two sequences are odd, hence units via the same map from $\mathbb Z_2$, with value one. Both sequences of values are $9/16$ from depth one onward. For example the depth-two factors are $-1$ and $3$. The limit gives $N_r(b)=9/16$.
+
+**At $\ell=3$, $r=1/3$ [Expository].** Take the sixth divided power
+$$
+y=\frac{X^6}{720}=\frac{80^{-1}X^6}{9}=\frac{3\cdot80^{-1}X^6}{27}.
+$$
+Here $720=9\cdot80$ and $80$ is a unit in $\mathbb Z_3$ with inverse of value one. The two localized values are $r^6/r^2=r^7/r^3=r^4=1/81$. Again $y\in A^0$ by the factorial identity. Set $b=(-2)^{-1}f(y)$ using the scalar unit $1-3=-2$ in $\mathbb Z_3$. For $v_k=\sum_{j=0}^{k-1}3^j$ use $s_k=v_k y$ and $t_k=(v_k-3^k)y$. Then $b-f(s_k)=3^k b$ and $b-f(t_k)=3^k(b+f(y))$. For $k\ge1$ both scalar factors are congruent to $1$ modulo $3$. Their values are one, so both limiting values are $1/81$. At depth two the two factors are $4$ and $-5$. In both examples $N_r(0)=0$ by the Witt formula. Thus the computed positive values certify nonzero elements of the actual completed rings.
+
+#### Definitions and extension theorem
+
+A multiplicative ultrametric seminorm $N$ takes nonnegative real values, satisfies $N(0)=0$, $N(1)=1$, $N(-x)=N(x)$ and $N(xy)=N(x)N(y)$, and satisfies $N(x+y)\le \max\{N(x),N(y)\}$. Its kernel may contain nonzero elements. Write $p^k\mid z$ to mean $z=p^k u$ for some element of the ring in which $z$ lies. In the completion statement the symbol $p$ means the image of the same natural number in each ring.
+
+**Extension theorem [Lean, read].** Let all rings be commutative with unit and all ring maps preserve the unit.
+
+1. If $D$ is a multiplicative subset of a ring $R$ with $N(d)\ne 0$ for all $d\in D$, then the localization carries an extending seminorm $L(a/d)=N(a)/N(d)$. The source assumes the four laws of nonnegativity, the strong triangle inequality, negation invariance and multiplication. It derives normalization at one from $1\in D$. The localized values may exceed one.
+2. Let $f:R\to B$, let $p\in \mathbb N$, and assume $0\le N(s)\le1$ for every $s\in R$, with $q=N(p)<1$. Assume
+   $$
+   \begin{aligned}
+   &\forall x\in B \forall k\ge0 \exists s\in R\ \exists z\in B,\qquad x=f(s)+p^k z,\\
+   &\forall s\in R \forall k\ge0,\qquad p^k\mid f(s)\text{ in }B \Longrightarrow p^k\mid s\text{ in }R.
+   \end{aligned}
+   $$
+   Then there is an extending multiplicative ultrametric seminorm $\widehat N:B\to[0,1]$. Its value at $x$ is the limit of $N(s_k)$ for **every** sequence with $p^k\mid x-f(s_k)$ at each $k$. The source gives this result for the four laws in part 1 without separately assuming normalization. The two displayed clauses are the entire adic interface used in the proof. The limits are taken in $\mathbb R$.
+
+These are the two extension lemmas *GaussExt.exists_ext_loc* and *GaussExt.exists_ext_compl*. For a normalized input, the zero and one values on either target follow by extension. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+#### Proof of the fraction formula
+
+Equality $a/d=b/e$ in $D^{-1}R$ means that some $c\in D$ satisfies $cea=cdb$ in $R$. This includes the case where $R\to D^{-1}R$ identifies distinct elements. Multiplicativity gives $N(c)N(e)N(a)=N(c)N(d)N(b)$; cancel $N(c)>0$ and divide by $N(d)N(e)>0$. This proves independence of the representative. In Lean the same cancellation is first used for equality of two base-ring images. A chosen section then gives the quotient value for **any** presentation, expressed as $x\,f(d)=f(a)$ for the localization map $f$.
+
+Multiplication of fractions multiplies numerators and denominators, so the quotient formula and multiplicativity give $L((a/d)(b/e))=L(a/d)L(b/e)$. Negating the numerator proves the law for negatives. For sums use the common denominator $de$ and the inequality
+$$
+L(a/d+b/e)=\frac{N(ae+bd)}{N(de)}
+\le\frac{\max\{N(ae),N(bd)\}}{N(de)}
+=\max\{L(a/d),L(b/e)\}.
+$$
+All values are nonnegative. Since $N(1)=N(1)^2$ and $N(1)>0$, $N(1)=1$ even under the weaker source hypotheses. The fraction $a/1$ therefore gives the extension identity. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+#### Proof of the completion extension
+
+For all $k\ge0$ and $u\in R$, multiplicativity and the unit bound give $N(p^k u)\le q^k$. The case $k=0$ is simply $N(u)\le1$, including when $q=0$. The induction step multiplies the previous bound by $q\ge0$. If $p^k\mid f(s)-f(t)$, reflection applied to $s-t$ gives $s-t=p^k u$ in $R$. Thus
+$$
+N(s)\le \max\{N(t),q^k\}\le N(t)+q^k.
+$$
+Interchanging $s$ and $t$ gives
+$$
+|N(s)-N(t)|\le q^k. \tag{1}
+$$
+The error bound refers to the difference of the real values and comes from divisibility of a ring difference.
+
+For each $x$ choose $s_k$ at every depth using approximation. For $m\ge k$, both $x-f(s_m)$ and $x-f(s_k)$ lie in $p^kB$, so (1) bounds the difference of the real values by $q^k$. Since $q^k\to0$, the values are Cauchy and converge in $\mathbb R$. If $t_k$ is another choice at each depth, $f(s_k)-f(t_k)$ belongs to $p^kB$ for each $k$. Inequality (1) makes the distance of the two value sequences tend to zero. They have the same limit. Define $\widehat N(x)$ to be this common limit. The interval $[0,1]$ is closed, so it contains the limit.
+
+For $x,y\in B$, choose $s_k,t_k\in R$ approximating $x,y$ respectively. The sum $s_k+t_k$ approximates $x+y$ because
+$$
+(x+y)-f(s_k+t_k)=(x-f(s_k))+(y-f(t_k))\in p^kB.
+$$
+Apply the strong triangle inequality on $R$ to each sum. Continuity of $\max$ in its two real arguments gives convergence of the upper bound to $\max\{\widehat N(x),\widehat N(y)\}$. Real order is closed under simultaneous convergence of the two sides of an inequality. This proves the strong triangle inequality at the limit. For negation, $-s_k$ approximates $-x$ since $-x-f(-s_k)=-(x-f(s_k))\in p^kB$. Each value equals $N(s_k)$, giving $\widehat N(-x)=\widehat N(x)$.
+
+For multiplication, the precise error decomposition is
+$$
+xy-f(s_kt_k)=(x-f(s_k))y+f(s_k)(y-f(t_k)).
+$$
+Each summand belongs to the ideal $p^kB$, so the product sequence approximates $xy$ at the same depth. By choice independence its values converge to $\widehat N(xy)$. Each value is $N(s_k)N(t_k)$, whose limit by real multiplication is $\widehat N(x)\widehat N(y)$. Finally, at $f(a)$ the constant sequence $a$ satisfies all congruences. Its limiting value is $N(a)$. This yields extension along the original ring map and finishes the proof. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+#### The Witt seminorm before localization
+
+The actual coefficient ring $V=\mathcal O_{\mathbb C_\ell}^{\flat}$ in the archive is *Per.Fl*, a perfect ring of characteristic $\ell$. Put $\alpha(v)=|v^\sharp|$ using $|\ell|=\ell^{-1}$. The values are in $[0,1]$, with $\alpha(0)=0$, $\alpha(1)=1$, and $\alpha(vu)=\alpha(v)\alpha(u)$ by multiplicativity of untilting. To prove the triangle inequality we use the additive reduction of the untilt. Modulo $\ell$ the untilt is the zeroth reduction of the perfection, which is additive. For $n\ge0$ let $v_n=(F^{-n}(v))^\sharp$, where $F$ is Frobenius on $V$. The same reduction identity for the inverse Frobenius powers gives $(v+u)_n=v_n+u_n+\ell z_n$ with $z_n$ integral. Taking absolute values and then $\ell^n$-th powers gives
+$$
+\alpha(v+u)\le \max\{\alpha(v),\alpha(u),\ell^{-\ell^n}\}.
+$$
+The last entry tends to zero. This is the first projection of *TiltAbs.untilt_ultrametric_definite*. Its second projection follows because a vanishing untilt makes every $v_n$ zero, hence all perfection coordinates zero. The extension uses only the first projection for the triangle inequality. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+For any perfect commutative ring of prime characteristic $\ell$ with these coefficient seminorm laws and bound, write $a_n$ for the ordinary coordinates of a Witt vector $a$ and $d_n$ for its Teichmüller digits, so $d_n^{\ell^n}=a_n$. At $0<r<1$ put
+$$
+G_r(a)=\sup_{n\ge0}\alpha(a_n)^{1/\ell^n}r^n
+      =\sup_{n\ge0}\alpha(d_n)r^n.
+$$
+The individual terms lie in $[0,r^n]$ and give $0\le G_r\le1$. The formulas for the zero vector and the Teichmüller lift of one give the zero and one values. We record the two direct Witt supplies used in the archive.
+
+**Addition and submultiplication [Lean, read].** First, if the coordinates of $a,b$ up to index $n$ satisfy $\alpha(a_i),\alpha(b_i)\le c^{\ell^i}$ for some $c\ge0$, the $n$th coordinate of $a+b$ has value at most $c^{\ell^n}$. Here is the weight argument in *WittGauss.weight_add_trunc*. Polynomials in an indeterminate $T$ whose degree-$j$ coefficients have value at most $c^j$ form a subring. For products use the finite ultrametric sum bound and $c^i c^{j-i}=c^j$ in degree $j$. The finite sum bound follows by induction from the triangle inequality with the zero term as the empty sum. For negation the coefficient norm of $-1$ is one, since its square is one. Replace coordinates above $n$ by zero, which leaves the first $n+1$ coordinates of the sum unchanged by Witt truncation. Multiply each resulting vector over the polynomial ring by $[T]$. On coordinate $i$ this multiplies by $T^{\ell^i}$, putting each coordinate polynomial in the subring. To see the scaling identity, in the $n$th ghost polynomial every term is multiplied by $T^{\ell^n}$ under this coordinate scaling. Over the polynomial ring on universal variables over $\mathbb Q$ the ghost map is injective because its triangular diagonal entries are powers of $\ell$. The identity descends to the integral polynomial ring by coefficientwise injectivity, then to the given ring by evaluation. The sum of the scaled vectors has its coordinates in the subring since Witt addition is defined over it. By distributivity this sum is the scaled sum, so extraction of the coefficient of $T^{\ell^n}$ gives the claimed bound.
+
+For $H=\max\{G_r(a),G_r(b)\}$ and $i\le n$, one has $\alpha(a_i)^{1/\ell^i}r^n\le H$, and the same for $b_i$, since $r^n\le r^i$. The preceding bound with $c=H/r^n$ gives $\alpha((a+b)_n)^{1/\ell^n}r^n\le H$. Take the supremum over $n$.
+
+For each $n$, the truncations of the Teichmüller expansions of $a,b$ at index $n$ agree with the original vectors modulo $\ell^{n+1}$. Therefore the product of these truncations agrees with $ab$ modulo $\ell^{n+1}$: the difference is the sum of the first truncation error times $b$ and the first truncated vector times the second error. In the Witt ring of a perfect characteristic-$\ell$ ring, congruence modulo this power implies equality of ordinary coordinates through index $n$. Each term in the finite product is $\ell^{i+j}[d_i e_j]$ for the digits of the two factors. Its only possible nonzero weighted term has value $\alpha(d_i)\alpha(e_j)r^{i+j}\le G_r(a)G_r(b)$. The finite ultrametric bound bounds the entire truncated product and hence the $n$th term of the actual product. Taking the supremum proves submultiplication. Now $G_r(-a)\le G_r(-1)G_r(a)\le G_r(a)$, and replacing $a$ by $-a$ gives equality. The argument uses the pinned Witt coordinate, power and truncation identities listed in the source register. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+**Multiplication [Lean, read].** If either factor has value zero, the upper bound just proved gives the result. Otherwise the bounds $r^n\to0$ ensure each supremum is attained. Choose a tail bound strictly below the positive supremum and take the maximum of the finite head. Let $i,j$ be the *first* maximizing indices for $a,b$. Split $a=a_{<i}+\ell^i u$ at index $i$ and $b=b_{<j}+\ell^j v$ at index $j$, using the Witt head and tail, obtained by setting the ordinary coordinates outside the respective ranges to zero. Their sum recovers the original vector by the identity for addition of Witt vectors with disjoint coordinate supports. Each tail has initial coordinates zero, so it is divisible by the indicated prime power by the Witt truncation criterion. The heads have values strictly below the respective maxima and the tails have values at most those maxima. The coordinate shift for multiplication by $\ell^i$ gives $\alpha(u_0)r^i=G_r(a)$, where $u_0$ is the zeroth coordinate of $u$. Likewise $\alpha(v_0)r^j=G_r(b)$. The zeroth coordinate of $uv$ is $u_0v_0$, so the term at index $i+j$ gives
+$$
+G_r(\ell^{i+j}uv) \ge \alpha(u_0v_0)r^{i+j}=G_r(a)G_r(b).
+$$
+The remaining terms in $ab$ are $a_{<i}b+\ell^i u b_{<j}$. Each has value strictly less than $G_r(a)G_r(b)$ by submultiplication, and so does their sum. Subtracting this sum from $ab$ and using the triangle inequality and the law for negatives gives $G_r(a)G_r(b)\le G_r(ab)$. Combined with the upper bound this proves multiplication. This is the first-maximizer argument of *witt_gaussNorm_mul*. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+#### Boundedness on the divided-power ring and existence on the completion
+
+**Crystalline existence theorem [Lean, read].** For every prime $\ell$ and every real $r$ with $\ell^{-1}\le r<1$, there exists a real-valued multiplicative ultrametric seminorm $N_r$ on $A$ with $0\le N_r(x)\le1$ for every $x\in A$ and $N_r(\operatorname{algebraMap}_{W,A}(a))=G_r(a)$ for every $a\in W$. Here the objects and maps are exactly *Per.Ainf*, *Per.AinfP*, *Per.Acris0*, *Per.Acris*, and the corresponding algebra maps.
+
+**Proof.** The single nonzero Witt coordinate of $\ell$ is $1$ in degree $1$, so $G_r(\ell)=r$. Thus $G_r(\ell^k)=r^k>0$ for all $k\ge0$. Apply the fraction theorem with $D=\{\ell^k:k\ge0\}$ to obtain $L_r$ on $P$.
+
+Let $\theta:W\to \mathcal O_{\mathbb C_\ell}$ denote Fontaine's map. If $\theta(x)=0$, its reduction modulo $\ell$ agrees with the reduction of $(x_0)^\sharp$. Thus $(x_0)^\sharp \in \ell \mathcal O_{\mathbb C_\ell}$ and the zeroth term in $G_r(x)$ is at most $\ell^{-1}$. For $n\ge1$ the weighted term is at most $r^n\le r$. Since $\ell^{-1}\le r$, we get $G_r(x)\le r$ for every $x\in \ker\theta$.
+
+For a natural number $n$, write $n!=\ell^e m$ with $\ell\nmid m$. By Bézout, $a\ell+bm=1$ for integers $a,b$. Since the images of $a,b$ in $W$ have value at most one,
+$$
+1\le \max\{r,G_r(m)\}.
+$$
+It follows that $G_r(m)=1$. Also $e=\sum_{j\ge1}\lfloor n/\ell^j\rfloor \le n/(\ell-1)\le n$ by counting the factors divisible by each power. The case $n=0$ gives $e=0$ and $m=1$. Consequently $G_r(n!)=r^e\ge r^n>0$. The source *pow_le_factorial* uses the pinned library's Legendre identity for the same bound.
+
+The subset $\{s\in P:L_r(s)\le1\}$ is a $W$-subalgebra, since the image of $W$ is bounded by one and addition, negation and multiplication preserve the bound. If $x\in \ker\theta$ and $y\in P$ satisfies $n!y=x^n$ in $P$, then
+$$
+G_r(n!)L_r(y)=G_r(x)^n\le r^n\le G_r(n!).
+$$
+Division by the positive factorial value gives $L_r(y)\le1$. Every divided-power generator of $A^0$ satisfies this factorial identity. By *RingIface.Acris0_le_of_dividedPowers* the entire $A^0$ lies in the unit-bounded subalgebra. The bound needed for the next step holds on $A^0$. In $P$ itself $L_r(1/\ell)=1/r>1$.
+
+Now use the approximation and forward divisibility-reflection clauses of *acris_basic* [Lean] for $A^0\to A$. For every $x\in A$ and $k\ge0$ the first gives $x=f(s)+\ell^k z$ for some $s\in A^0$, $z\in A$. For every $s\in A^0$ and $k\ge0$ the second sends $\ell^k\mid f(s)$ in $A$ back to $\ell^k\mid s$ within $A^0$. Thus the bounded restriction of $L_r$ satisfies both hypotheses of the completion theorem with $p=\ell$ and $q=r<1$. We obtain $N_r$, and the algebra-map identity *RingIface.tower* identifies its values on $W$ with $G_r$. The proof uses those two projections of *acris_basic*; its other projections supply adic completeness and prime torsion-freeness. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+#### Remarks on the hypotheses
+
+**With reflection removed [Expository].** Let $R=\mathbb Z_p\times \mathbb Z_p$, $B=\mathbb Z_p$ and $f$ the second projection. Take $N(u,v)=|u|_p$. It is multiplicative and ultrametric with bound one and $q=1/p$. Surjectivity gives every approximation. But $e=(1,0)$ maps to zero, so $p^k\mid f(e)$ for every $k$, while $p\nmid e$. The element zero of $B$ has two constant approximating sequences $0$ and $e$ with values zero and one. In fact an extension would have to give $f(e)=f(0)$ both values. This is an abstract dense-map example.
+
+**With $q<1$ removed [Expository].** Take $R=\mathbb Z[T]$ and its $p$-adic completion $B=\mathbb Z_p\langle T\rangle$, the ring of power series with coefficients in $\mathbb Z_p$ tending to zero $p$-adically. To see the completion description, an element of the inverse limit of $(\mathbb Z/p^k)[T]$ has compatible coefficients in $\mathbb Z_p$ and only finitely many nonzero coefficients at each fixed precision. Conversely such coefficients give a compatible polynomial at every precision. Every element is approximable by integer polynomials modulo $p^k$ by lifting that finite polynomial. If an integer polynomial is divisible by $p^k$ in $B$, each of its coefficients is divisible by $p^k$ in $\mathbb Z_p$ and hence in $\mathbb Z$. This proves reflection. Give $R$ the trivial seminorm, which is one on nonzero elements and zero at zero. Then $q=1$. The sequences $0$ and $p^k$ both approximate zero at depth $k$, with limits of their values zero and one.
+
+There are also two bounded multiplicative extensions in this model. The ring $B$ is a domain as a subring of $\mathbb Z_p[[T]]$, so it has the trivial norm. Choose $c\in \mathbb Z_p$ transcendental over $\mathbb Q$, possible because digit sequences make $\mathbb Z_p$ uncountable and algebraic numbers form a countable set. Evaluation at $c$ is defined by taking evaluations of the finite reductions in $(\mathbb Z/p^k)[T]$ at $c\bmod p^k$ and forming their compatible limit. Its composite with the trivial norm on $\mathbb Z_p$ is a bounded multiplicative seminorm on $B$. Both extend the original trivial norm on $R$, since a nonzero integer polynomial has nonzero value at $c$. They differ at $T-c$, where the trivial norm is one and the evaluation seminorm is zero. This example uses a genuine $p$-adic completion.
+
+**Kernels under the stated hypotheses [Expository].** For a legal example take $R=\mathbb Z\times \mathbb Z$, $B=\mathbb Z_p\times \mathbb Z_p$, the componentwise map and $N(u,v)=|u|_p$. Approximation and reflection hold in each coordinate. The completion theorem gives the first-coordinate seminorm, which vanishes at $(0,1)\ne 0$. This illustrates the kernel boundary of the abstract theorem. The endpoint nondegeneracy of the crystalline family is proved in [§6.4.19](#acris-gauss-slope).
+
+#### Return to the chosen family
+
+The public forwarding theorem *GlobalTheory.T.exists_gauss_norm_extension_acris* calls *GaussExt.exists_gauss_acris*. In *GaussCore.norm_eq_zpow*, the author uses this forwarder to choose $N_r$ once for all real $r$, choosing the constant zero function outside the admissible interval where the hypotheses are vacuous. For the same *Core*, both periods in the relation $C.j(a)=C.o(x)C.j(b)$ use this very family. The consumer retains $b\ne 0$ and $x\ne 0$ and invokes the endpoint and the right-neighborhood integer slope on each period. It then compares the two homogeneous identities at common radii of that family as in [§6.4.18](#crystalline-tensor-and-lines) and [§6.4.19](#acris-gauss-slope). The named function *gC* has its own choice in *IsGauss.lean* and is used by other consumers. The ratio proof uses the family chosen in *ExistsPowNorm.lean*.
+
+The existence theorem gives a seminorm at each admissible radius and the construction makes the limit independent of approximants. Uniqueness among all functions with the specified Witt restriction, positive definiteness at every admissible radius, and the interior two-sided slope law have their own archive declarations. Tensor injectivity and stable-line regularity use the hypotheses in [§6.4.18](#crystalline-tensor-and-lines). The downstream declaration `IsSstAtOfIsCrysAt` retains its same-model and finite coefficient-field scope.
+
+**Classical context [Paper].** Fontaine constructs the completed divided-power envelope, and Brinon–Conrad describe the integral subalgebra and its identification modulo every prime power with the corresponding quotient of the completion. Kedlaya proves the fixed-weight Witt Gauss laws, and Kedlaya–Liu extend the weighted Witt construction and explain localization and continuous extension in their Robba-ring setting. The source of the crystalline unit bound, the pair of extension proofs and their actual consumer here is the pinned A2 code. The two hand calculations and hypothesis-deletion examples are textbook contributions. [Source register](../sources/SOURCES.md#acris-gauss-extension-source)
+
+[Chapter 6 module links](#crystalline-period-module) · [Endpoint slope (§6.4.19)](#acris-gauss-slope) · [Adapted Frobenius matrices (§6.4.21)](#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit) · [First torsion group (§6.4.22)](#6422-reading-the-second-block-on-the-first-torsion-group)
+
+---
 
 ### 6.4.21 Why the Frobenius matrix in an adapted basis is a unit
 
