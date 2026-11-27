@@ -4774,3 +4774,48 @@ Archive A2 ([original archive parts](https://alpo.ge/lean.tar.gz.part01), joined
 | §5.3.1.17, *Finite-place completion embeddings and tensor norm transport* | The completed manuscript gives the finite-place scalar square, transport of the supplied witness and residue-field reassembly. The same-source preliminary review accepted these steps. The finite-place call is `HasseEt.lean:79–80` in archive A2. |
 
 The three manuscripts are awaiting publication. The published section numbers refer to the headings in [Chapter 5](../chapters/05-the-square-root-barrier-core-gm.md).
+
+### Chapter 7 §7.4.3.8 — Jacquet modules and induction of exterior tensors
+
+- **Alpöge–Claude archive A2.** Verified 2026-11-25, SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc, Lean v4.33.1, Mathlib 0df444a360eaa60ab8c11dca51a86af692955474. The following files supply the reviewed exchange and direct arguments. RelativeJacquetFunctorPiTensorEquiv.lean:24–160 (c9651854c687a6fe0d1a2d4b44ac01cbd26506f7a705f1000c591f250f74f965); NormalisedInductionProductParabolicPiTensor.lean:19–287 (2a9e4e969cff87da6815c3d3e6b72b71dd8c3a19dc76235c1dae4dd8d43a85c7); RelativeJacquetFunctorPiTensorEquivStatement.lean:9–10 (b1fce3cc32bb454b50108f1e4b367d36699e748425fbb7d290a5088820eefcaa); NormalisedInductionProductParabolicPiTensorStatement.lean:9–10 (b0dbf4b30e23de503b25616664ea203b83f8c6245234e49d9f6f461433a12c4d); RelativeJacquetPiExteriorTensorEquivNormalized.lean:15–74 (1808a1ee64842126760d4481fc22a0f39d8a07926f94cd9c32a217b4e34135b3); ExistsInvariantForm.lean:12–60 (5fcc03ffa2dd3806c7bf16a5fa4a331ee9153ae34dd3fbc228fb7778323872dc); IwahoriProjSurjective.lean:16–50 (d62c028e1813c19e5cc6fb8aec3a7c8a7fac063c11ab3f5d657afb1718eeaf40); InductionContragredient.lean:28–109, 123–168 (11adff6acc2ab0ba31346321a86db86b298425006ba13aa52feb7cd5c6d35b73); IsSubquotientDetRepParInd.lean:197–271 (633bdfbc117fc7f2998f717c505babeb271dc9d05d71083767d85f2693b2ff0e); ExistsCellOfIsSubquotient.lean:24–87 (b4c15a02799ec2356185bb053930eae9eb77d59357793cf9455a630a310a1d28).
+- **Bernstein–Zelevinsky 1977, §§1.8–1.9, pp. 444–445.** Covariant functions and product functors. PDF checked 2026-11-25, SHA-256 8424600228ab72c5937e45edceefcae410a2a0b8f5ebf282185691542aa89092. [Primary source](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0/)
+- **Zelevinsky 1980, §1.1, p. 170, and §§1.5(a–b)–1.6, pp. 171–172.** Normalization, coordinate exchange and composition-factor application. PDF checked 2026-11-25, SHA-256 663c79f2ee236626385d242d83107410c1a3291ba5584d4b8abee9cf8af428ac. [Primary source](https://www.numdam.org/item/ASENS_1980_4_13_2_165_0/)
+- **Casselman, 1 May 1995 draft, §§2.4 and 3.1, pp. 26–27, 32–33.** Finite tubes on the compact quotient and the positive half-power. PDF checked 2026-11-25, SHA-256 78b921fc6331ad2b75389f37d15bd5ac3399e6cfc2d7555e1a4d666e0d42612a. [Primary source](https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf)
+- The theorem statements are classical. The archive-specific descent and bump argument, and the two textbook calculations, are located in the [public section](../chapters/07-chains-of-theta-lifts.md#7438-jacquet-modules-and-induction-of-exterior-tensors). [Archive authors and verification record](https://math.mit.edu/~drew/grh/)
+
+### Chapter 7 §7.4.3.9 — Open normal levels in compact groups
+
+- **Mathlib**, commit 0df444a360eaa60ab8c11dca51a86af692955474, read 2026-11-25 and retrieved again 2026-11-28. The previously named open-normal-level proof is now read in its range Mathlib/Topology/Algebra/ClopenNhdofOne.lean:30–54, with the compactness and powers argument in Mathlib/Topology/Algebra/OpenSubgroup.lean:477–545 and the clopen basis in Mathlib/Topology/Separation/Profinite.lean:41–64. [Pinned primary source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/ClopenNhdofOne.lean#L30-L54)
+- **A2**, archive SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc. Under lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators, ExistsOpenNormalisedSubgroupSubset.lean:12–44 calls Mathlib, NormalisedInductionProductParabolicPiTensor.lean:218–257,278–287 uses the resulting basis, and JordanHolderMultNormalisedInductionExact.lean:38–52,79–92 passes it to SmIndCoinvariants.lean:23–34,65–80. The bump and orbit-average proofs are inherited. [Subsection](../chapters/07-chains-of-theta-lifts.md#7439-open-normal-levels-in-compact-groups)
+- File credits from the pinned Mathlib header for `ClopenNhdofOne.lean` are Nailin Guan, Yi Song, Xuchun Li and Bryan Wang. SHA-256 `398bc71dbcd937b0a7595cbf2e967581af094b55511b6b3b78b1cd1a2752c565`.
+- File credits from the pinned Mathlib header for `OpenSubgroup.lean` are Johan Commelin, Nailin Guan, Yi Song and Xuchun Li. SHA-256 `acb578afcb63960092eabfa79d1a49741a99ef3051130a2c134e5c65b62bef67`.
+- File credits from the pinned Mathlib header for `Profinite.lean` are Johannes Hölzl and Mario Carneiro. SHA-256 `c8c3dfec6a72051c884730d200ec9f836275ef072e17aa5d8f05c0d48254ae29`.
+- The A2 consumer ranges and its archive identity refer to the [archive authors' record](https://math.mit.edu/~drew/grh/).
+
+### Chapter 7 §7.4.3.10 Local Iwasawa supply
+
+A2 archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The files and cited extracts were checked against the archive on 25 November 2026. Local R3 for the following new ranges.
+
+| Archive file:line | File SHA-256 | Contribution |
+|---|---|---|
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/IwasawaBlockTriangular.lean:9–264` | `06fe456b45c35f17e0b60e97898d1f58ca82b8b945a41bd9e312e6d2d4ea68e0` | Integral inverse pairs, pivot addition, row clearing, complementary inverse and induction |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/IsLocallyConstantModulus.lean:205–210, 220–253, 266–271` | `2357632c452e270956755994f2214882620ecdcd5acb583c3951cc147b55e660` | Local constancy, integral factors, ordered block labels and NMK factorization |
+| `lean/src/Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/LeviEmbMemNormalizerLower.lean:325–351` | `b4339053a50af23cb4e31f02b972ff7070ca8f5f61528e1f946bfa0a3c8c787b` | Levi normalization and splitting using the kernel of the diagonal projection |
+| `lean/src/Development/AbelianVarietyTheory/Definitions/Divisors/T2SpaceGeneralLinearGroup.lean:14–81` | `a2402143ca30413553866c281062b110f03f20072ee7542701d7fb5659aab4a5` | Integral inverse criterion, matrix embedding and compact-open subgroup |
+| `lean/src/Development/AbelianVarietyTheory/Definitions/Foundations/SecondCountableAndT2LocalField.lean:42–54` | `0df6902f8b42b8dcabcf7935ca9a24067e39850268fe9edf846f4cb325aa7b8a` | Rank-one norm and proper-space supply of second countability and Hausdorff separation |
+| `lean/src/Development/AbelianVarietyTheory/Definitions/Foundations/MatrixMeasurableSpace.lean:18–25` | `fa6c75518903c431a0ea7c7db484c717d52eb3d4ea6c43781953af865bb8e963` | Haar scalar factor and the image of integral matrix units |
+
+**Inherited proofs and consumer wiring.**
+
+| Archive file:line | File SHA-256 | Contribution |
+|---|---|---|
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/LeviIntegralFacts.lean:70–117` | `5b02c6c81cd937f5187e42af1ab7472d6469d58c14b8a41e85dd74f7ef2625ae` | Multiplicativity, continuity, closedness and forwarding of existence |
+| `lean/src/Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/IsSubquotientDetRepParInd.lean:197–245, 253–271` | `633bdfbc117fc7f2998f717c505babeb271dc9d05d71083767d85f2693b2ff0e` | Exponents, positive square root, normalized covariance and inverse Jacquet twist |
+| `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/ExistsCellOfIsSubquotient.lean:17–64, 71–73` | `b4c15a02799ec2356185bb053930eae9eb77d59357793cf9455a630a310a1d28` | Actual product group, projections and normalization |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/NormalisedInductionProductParabolicPiTensor.lean:233–248, 264–287` | `2a9e4e969cff87da6815c3d3e6b72b71dd8c3a19dc76235c1dae4dd8d43a85c7` | Compact double coset expansion, coefficient fixed spaces and factorwise application |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/JordanHolderMultNormalisedInductionExact.lean:69–91, 99–107` | `cb71f6730472bc8af0b5d4c3a287364062a09711cc203082ef4e45ab1599e1b3` | Product compact-open input for induction exactness |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/ExistsOpenNormalisedSubgroupSubset.lean:12–44` | `87a94613917b1cefb500876b8dde9614d76ed42602486950c890802996f78fc5` | Existing level-selection interface |
+
+The separate GroundTheory block-Iwasawa proof and the Mathlib valuation-topology leaves retain their interface status here. The open-normal level proof is traced in [§7.4.3.9](../chapters/07-chains-of-theta-lifts.md#7439-open-normal-levels-in-compact-groups). Classical compact restriction and normalization appear in [Casselman, §3.1, pp. 32–33](https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf) and [Bernstein–Zelevinsky, §§1.7–1.9, pp. 444–445](https://doi.org/10.24033/asens.1333), both retrieved and checked on 25 November 2026.
+
+Classical PDFs fetched again on 2026-11-28 agree with the SHA-256 entries above. [Archive authors and verification record](https://math.mit.edu/~drew/grh/) · [Public section](../chapters/07-chains-of-theta-lifts.md#74310-local-iwasawa-decomposition-for-normalized-induction)
