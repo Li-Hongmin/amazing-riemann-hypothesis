@@ -361,7 +361,11 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 **Chapter 6 §6.4.21.** Levent Alpöge with Claude supplies the A2 adapted quasi-logarithm matrix and two smallness proofs. Jean-Marc Fontaine supplies the divided-power thickening background, Thomas Zink the classical normalized display matrix, and Peter Scholze with Jared Weinstein the universal-cover quasi-logarithm. The Mathlib contributors supply the determinant, residue, valuation and completion lemmas at the archive pin. Community build and kernel work is credited in the separate verification records above. [Declaration and literature register](sources/SOURCES.md#adapted-frobenius-matrix-unit)
 
+**Chapter 6 §6.4.22.** Levent Alpöge with Claude supplies `TangentIndep.tangent_coords_nonunit`, its finite-level Lie-linearity and the actual second-block call. The Mathlib community supplies the pinned substitution, cotangent and module infrastructure. Michiel Hazewinkel supplies formal-law integrality, John Tate attributes finite duality to Cartier and supplies the divisible formal group construction, and Peter Scholze with Jared Weinstein supply the universal-cover context. Community build and kernel work has its own verification entries. [Sources](sources/SOURCES.md#tangent-coordinate-nonunits)
+
 ## Our contributions
+
+**Hongmin Li with AI assistance** explained the first-torsion nonunit test, proved the model pairings at every level, worked out the two coordinate calculations and deletion examples, and traced the original integral series through the second-block call. [Chapter 6 §6.4.22](chapters/06-stepanovs-method-and-multiplicity.md#6422-reading-the-second-block-on-the-first-torsion-group)
 
 **Hongmin Li with AI assistance** wrote the trace-realization proof exposition, two original-lattice matrix calculations, two hypothesis-deletion examples and the local consumer map. The inherited same-source preliminary review identified the required integer restriction for the earlier theta tail. [Chapter 1 §1.2.2.14](chapters/01-statement-and-fidelity.md#12214-from-a-rational-hermitian-trace-form-to-a-euclidean-lattice)
 

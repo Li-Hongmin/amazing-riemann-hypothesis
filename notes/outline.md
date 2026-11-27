@@ -344,6 +344,8 @@ remain outside this reading. [Subsection](../chapters/09-heights-slopes-and-near
 
 **Chapter 6 §6.4.21.** The $p$-adic divisibility strand uses the normalized columns of the adapted quasi-logarithm Frobenius, the left coefficient rows and the right coboundary test. Local R3 covers the frame lift, both smallness proof bodies through the two named geometric inputs and the return of the original unit matrix into the prismatic datum. [Subsection](../chapters/06-stepanovs-method-and-multiplicity.md#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)
 
+**Chapter 6 §6.4.22.** Local R3 for the actual tangent-coordinate production proof, Lie linearity, first Cartier pairing and same-object call in `SmallSecond.small_second`. The height-two and product examples realize both clauses of `Chart.IsLie` in all layers. The basis existence for the original lifted family, dimension–height and both nilpotence calls are named inputs. [Subsection](../chapters/06-stepanovs-method-and-multiplicity.md#6422-reading-the-second-block-on-the-first-torsion-group)
+
 **Chapter 11, local cup-pairing supply.** [§11.4.5](../chapters/11-the-window-bound-vwin.md#1145-from-two-zero-annihilators-to-a-perfect-local-cup-pairing) takes the cyclic Kummer cup and its two zero annihilators as named inputs. The principal-unit filtration, power quotient and finite Kummer cohomology feed the character-count argument for both adjoint surjections. The listed bodies and bundle assignment are read at author-level local R3. General coefficient local duality and global assembly retain their named status.
 
 
