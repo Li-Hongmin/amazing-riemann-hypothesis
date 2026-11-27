@@ -4275,3 +4275,21 @@ norm used in the quadratic example. [Lecture 8](https://math.mit.edu/classes/18.
 **Community reachability evidence.** James Shore v0.2.1 lists both descent declarations and their two local downstream declarations in the union of the five theorem closures extracted from Andrew Sutherland’s kernel export. List SHA-256 `b0c968a99cd89ab1aa8db9d4af2f69722810903181d6f6094553e3420b02f297`. [Dependency data](https://github.com/james-shore/rh-proof-dependencies/releases/tag/v0.2.1)
 
 **J. S. Milne**, *Fields and Galois Theory*, v5.10, Proposition 2.12, Proposition 4.23 and Example 3.3, for splitting-field embeddings, finite-field Frobenius and the inseparable field example. [Author PDF](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+### Chapter 18 §18.3.25 Fixed-exponent compact duality
+
+Alpöge with Claude, A2 joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Lean 4.33.1. File locations are relative to `lean/src/GroundTheory/ProfiniteCohomology/`.
+
+| Declaration or dependency | Pinned range and reading |
+| --- | --- |
+| Connection sign, base record, enlargement | `PoincarePairs/Devissage.lean:81–129,137–165,175–233`. The compact-first pairing uses the original trace and the dual exact sequence reverses the arrows. |
+| Degree-zero and successor injections and surjections | `PoincarePairs/Devissage.lean:253–310,316–410,430–446`. Fourth compact vanishing applies to the dual of the actual quotient. The successor extends two characters along different compact maps. |
+| Chain sign and lifted coboundary | `CompactSupportCohomology/HomApplyHomApplyEqOfCompEq.lean:26–37,68–82`, `CompactSupportCohomology/ConePairing.lean:29–93`, `CompactSupportCohomology/Pairing.lean:141–206`, `CompactSupportCohomology/CompactCupEqCompactCupRight.lean:166–231`. |
+| Existing exactness, character and finite-sum supplies | `PoincarePairs/Devissage.lean:23–70`, `PoincareDuality/Torsion.lean:72–96`, `PoincareDuality/TensorHomZmodDualIsoZmodMulPairing.lean:109–176`, `PoincarePairs/Natural.lean:137–147,194–226,239–307`. |
+| Immediate bridge and arithmetic consumer | `PoincarePairs.lean:127–191,209–232`, `RestrictedRamification/BaseMain.lean:37–64`, `PoitouTate/ZmodToQZCompactCohomologyResMapOfLocalInv.lean:207–232`, in particular the callback at line 226. |
+
+Pinned Mathlib `0df444a360eaa60ab8c11dca51a86af692955474` supplies the adjunction at `Mathlib/RepresentationTheory/Coinduced.lean:247–259`, character separation at `Mathlib/Algebra/Module/CharacterModule.lean:192–223`, and the snake-lemma connection and exactness at `Mathlib/Algebra/Homology/HomologySequence.lean:290–351`. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474)
+
+Tate's ICM 1962 §3, pp. 290–291, gives localization duality and acknowledges Poitou. Milne's *Arithmetic Duality Theorems*, 2nd ed., II.2.3 and II.2.9 give the compact cone and comparison with restricted Galois cohomology. II §3, pp. 176–178, specifies the local-invariant normalization and the finite perfect pairing for locally constant constructible sheaves killed by an invertible integer. The finite-place application uses the odd-or-totally-complex guard. The original texts and Sutherland's community verification report were retrieved on 2026-11-28. [Tate](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf) · [Milne](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Community verification](https://math.mit.edu/~drew/grh/)
+
+Author-level local R3 covers the fixed-exponent production. The arithmetic input conclusions and their existing reviews retain their own scope. The chapter's cochain examples and community reports are separate from declaration-level Main reachability, local kernel replay and peer review. [Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent)

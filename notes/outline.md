@@ -390,3 +390,5 @@ Chapter 7 [§7.4.3.20](../chapters/07-chains-of-theta-lifts.md#74320-from-positi
 
 
 **Chapter 13, [§13.4.9.1](../chapters/13-greens-theorem-and-the-literature-layer.md#13491-from-one-eigenspace-to-the-polynomial-kernel).** Polynomial kernel descent for every original square matrix over a finite field. Two matrix calculations distinguish ordinary and generalized eigenspaces. Local R3 covers the finite-field producer, its forwarding declaration and the two uses in the primary branch.
+
+**Chapter 18 §18.3.25 (P18).** At a fixed exponent, embed each finite coefficient in a coinduced sum below the original open witness. Follow the quotient and its contravariant dual through the compact-first cup, the alternating sign $-(-1)^s$, and the four complementary adjoints without finiteness hypotheses on cohomology. Two finite-group fibre calculations keep the same nonzero diagonal restriction and trace. [§18.3.25](../chapters/18-auditing-the-published-layer-case-studies.md#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent)
