@@ -6,7 +6,7 @@
 > `DIVRecBridgeSel.lean` (`R3`); `[Lean]` for upstream formal-group and row-bound theorems whose
 > statement headers were inspected while their deep proof cones remain unread (`R2`); Sections
 > 8.4.4–8.4.5 add `[Lean, read]` for the formal-group producers in `MultisetValuation/` and the
-> reader in `JointsTw.lean`, while their Gauss-bound and `admitted` inputs stay `[Lean]`/`[Open]`; Section 8.4.14 reads the producers `restSIntA` and `ea_restSExpV_of` of `ea_RestSU` (`AtPiEqRescale.lean`, `EaRestSExpVOf.lean`, `InParamMap.lean`, `IntRPsubst.lean`) and their assembly at the three place bounds (local `R3`, awaiting independent review); Section 8.4.16 reads the biadditive supply `restBeta` (`BiadditiveSecondVariable.lean`, `BiadditiveFirstVariable.lean`, `IntegralExpParamOfEquivZero.lean`, `PositivityConditionHolds.lean`) behind the Frobenius-fixed $c$ and the $Y$-factor of `ea_reduce`, with `lawExists` and the Teichmüller root kept named, and Section 8.4.17 reads the conditional classification assembly `BetaIsG_of` (`NormLiftLeOne.lean`, `PartialCoboundaryLinear.lean`, `ConstantCoeffFirstTwoOfThree.lean`, `TopsChoicePartA.lean`, `ScalingSwapLemmas.lean`) through `StepII_of`, `StepH_of`, `StepIII`, and `StepIV_of`, keeping `DworkMv`, `DivDeriv`, `DeIntegral`, `LawSymm`, `LemmaTwo`, `StepZero`, `StepI`, and `SimeqRules` named (local `R3`, awaiting independent review); [§8.4.31](#8431-control-class-change-and-the-existence-and-uniqueness-of-the-rescaled-logarithm) reads `ClassChange` (`TopsChoicePartB.lean:86–176`), `LogRescaleUnique` and `LogRescale` (`LogarithmEquivalence.lean:172–482`, `BallRing.lean:1–29`, `TopsChoicePartA.lean:109–162`, plus pinned Mathlib `substInvOfIsUnit` and `map_iterateFrobenius_expand`), and their consumption in `ThmSCore_of` (`TheoremSFromKOneOf.lean:682–726`), keeping `TwoSums`, the deeper comparison helpers, `SimeqRules`, and the three Gauss kernels named (local `R3`, awaiting independent review); `[Paper]` for
+> reader in `JointsTw.lean`, with the second Gauss bound and the local `adm7` comparison detailed in §§8.4.7–8.4.9 and the deeper inputs marked `[Lean]`/`[Open]`; Section 8.4.14 reads the producers `restSIntA` and `ea_restSExpV_of` of `ea_RestSU` (`AtPiEqRescale.lean`, `EaRestSExpVOf.lean`, `InParamMap.lean`, `IntRPsubst.lean`) and their assembly at the three place bounds (local `R3`, awaiting independent review); Section 8.4.16 reads the biadditive supply `restBeta` (`BiadditiveSecondVariable.lean`, `BiadditiveFirstVariable.lean`, `IntegralExpParamOfEquivZero.lean`, `PositivityConditionHolds.lean`) behind the Frobenius-fixed $c$ and the $Y$-factor of `ea_reduce`, with `lawExists` and the Teichmüller root kept named, and Section 8.4.17 reads the conditional classification assembly `BetaIsG_of` (`NormLiftLeOne.lean`, `PartialCoboundaryLinear.lean`, `ConstantCoeffFirstTwoOfThree.lean`, `TopsChoicePartA.lean`, `ScalingSwapLemmas.lean`) through `StepII_of`, `StepH_of`, `StepIII`, and `StepIV_of`, keeping `DworkMv`, `DivDeriv`, `DeIntegral`, `LawSymm`, `LemmaTwo`, `StepZero`, `StepI`, and `SimeqRules` named (local `R3`, awaiting independent review); [§8.4.31](#8431-control-class-change-and-the-existence-and-uniqueness-of-the-rescaled-logarithm) reads `ClassChange` (`TopsChoicePartB.lean:86–176`), `LogRescaleUnique` and `LogRescale` (`LogarithmEquivalence.lean:172–482`, `BallRing.lean:1–29`, `TopsChoicePartA.lean:109–162`, plus pinned Mathlib `substInvOfIsUnit` and `map_iterateFrobenius_expand`), and their consumption in `ThmSCore_of` (`TheoremSFromKOneOf.lean:682–726`), keeping `TwoSums`, the deeper comparison helpers, `SimeqRules`, and the three Gauss kernels named (local `R3`, awaiting independent review); `[Paper]` for
 > citations to Alpöge's `remark.pdf` and Masullo's draft; `[Community]` for public community guides;
 > `[Expository]` for classical background and worked examples; `[Open]` for unread deep proof
 > obligations.
@@ -771,8 +771,7 @@ place $v$ and step $j<m$:*
 
 *The proof uses inputs whose statements we read but whose proofs we did not read
 [Lean]: `restGc`, `nm_restNorm_of_place`, `eb_brJet`,
-`ea_brClass`, `ea_brNum`, `ea_brScale`, and the Gauss bounds `kernel_a_one_generic`,
-`kernel_a_two_generic` and `kernel_b_generic`; the biadditive supply `restBeta` and its `BetaIsG_of` classification assembly are read in Sections 8.4.16–8.4.17; the producers `ea_restSExpV_of` and `restSIntA`
+`ea_brClass`, `ea_brNum`, `ea_brScale`, and `kernel_a_one_generic` and `kernel_b_generic`. [§8.4.9](#849-the-second-gauss-bound-and-the-even-position-loss) reads the second Gauss bound `kernel_a_two_generic` and its direct consumer; the biadditive supply `restBeta` and its `BetaIsG_of` classification assembly are read in Sections 8.4.16–8.4.17; the producers `ea_restSExpV_of` and `restSIntA`
 of `ea_RestSU` are read in Section 8.4.14.*
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/FirstTheoremPlaceBound.lean:17,20,24,28`,
 `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:32,50,53,56,64`,
@@ -929,8 +928,7 @@ exponents.*
    `SumOverPrimesHypotheses` (`:116–136,201`). So the jet-to-lattice step that Section
    8.4.4 left open is an assumption at this level. Where `SumOverPrimesHypotheses` is
    proved lies outside this chapter.
-2. *Proofs not read.* The Gauss bounds reduce to `gauss_a_one_generic` and its
-   companions (`EGaussK.lean:186–220`). We have also not read the proofs of
+2. *Proof inputs.* The two unweighted Gauss bounds enter here by their statements. [§8.4.9](#849-the-second-gauss-bound-and-the-even-position-loss) reads the second bound and identifies its use. The named inputs here also include
    `theorem_of_alternate_form`, `restGc`, `eb_brJet`, `ea_brClass`, `ea_brNum`
    and `ea_brScale`; Section 8.4.14 reads `ea_restSExpV_of` and `restSIntA`, and Sections 8.4.16–8.4.17 read `restBeta` and `BetaIsG_of`. LUMI's guide reports a full reading of `ea_A1U` and `ea_BrNum`
    and outlines `kernel_a_one_generic` and `main_ind`
@@ -949,6 +947,418 @@ exponents.*
    through $\lceil ge_O\rceil$.
    `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NmRestNormOfPlace.lean:21`,
    `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:270,309`.
+
+### 8.4.7 Frame changes and integral normalization in local interpolation
+
+**Motivation [Expository].** The hypothesis of `adm7` starts with a lower bound for the coefficients of a column-test polynomial in the source frame variables. The target lattice is detected by Fock pairings with bideterminants in a different frame. The Hecke edge introduces entries $p^{-1}$ in the change of coordinates. To transfer the bounds, we first express each changed pairing by an actual column test. We then combine its scalar with the lattice normalization before applying the valuation inequality.
+
+The local interpolation interface `adm7` is introduced in [§8.4.5](#845-from-the-single-kernel-expansion-to-the-low-term-lattice-bound-lowtermbound). The separate selection-service manuscript (§8.4.6) locates its supply as the eleventh conjunct of `admitted`. The statement is `FormalGroupSystem.lean:613–622` and the call is `AdmissibleEntriesOfKernelLaw.lean:62–73`. The source and destination tuples and their edge relation are fixed before the choice of frame.
+
+**Example [Expository].** Work over $R=\mathbb Z_5$ in $\mathbb Q_5^2$. Take $g=\operatorname{diag}(10,1)$, $g'=\operatorname{diag}(1,3)$, $D=\operatorname{diag}(1/5,1)$ and $h'=g'D$. These bases generate $5Re_1+Re_2$, $R^2$, and $(1/5)Re_1+Re_2$ respectively. The last inclusion from $R^2$ has quotient of order $5$. The target coordinates of $(a,b)^t$ are $(5a,b/3)^t$.
+
+For the even matrix calculation let $x=(1,2)^t$ and $d=\left(\begin{smallmatrix}5&1\\0&2\end{smallmatrix}\right)$. Then $d^t x=(5,5)^t$ and $z=(g d g'^{-1})^t g^{-t}x=(5,5/3)^t$. Applying $(g'D)^t$ gives $(1,5)^t=D d^t x$. In a column of height one, the two row choices give $1=5^{-1}5^0\cdot5$ and $5=5^{-1}5^1\cdot5$. The same extracted denominator applies to both tests. The second test has a compensating power of $5$ in its column polynomial.
+
+For the scalar calculation take a single even block in the exponent table below with $i=w=e=1$, $e_0=0$, $e_1=-1$, $\lambda=0$ and $M=1$. The determinant orders are $n=1$ and $n'=0$. Then $S_1=1/5$, $s=1$, $s'=3/5$ and $U=\det(g)/5=2$. The combined scalar is $A=2/3$. For $q=(5,10)^t$, the vector $h'Aq=(2/3,20)^t$ lies in $5h'R^2$ because its target coordinates are $(10/3,20/3)^t$.
+
+For a counterexample to the unit-cancellation argument with merely integral residual factors, replace the target residual factor $3$ by $5$ and keep the claimed exponent $n'=0$. The target frame is still invertible over the field. Its determinant order has increased by one and the residual factor $5$ has inverse $1/5$ outside $R$. With the stated exponents the combined scalar is $2/5$ and the target coordinates of the resulting vector are $(2,4)^t$, outside $5R^2$. For the new lattice, recomputing $n'=1$ restores the length ratio and gives $A=2$. These are explicit matrix and lattice calculations in the two local steps of the proof.
+
+**Definitions [Lean, read].** Fix a system $X$, prime $p$, step $j$, characteristic-zero coefficient field $K_c$ with the archive's $K_0(p)$ and $K_f$ algebra structures, and write $\iota:K_f\to K_c$ for scalar extension. In a block $b=(v,s_b)$, write $\Gamma_b=\mathrm{mF}(j,b,g_v)$ and $\Gamma'_b=\mathrm{mF}(j+1,b,g'_v)$ for the images of the source frame and the intermediate target frame. The map `mF` applies the $s_b$-fold Frobenius and the place embedding entrywise and reindexes the matrix. The diagonal $D_b$ has $p^{-1}$ on the first $i=i_0(v)$ positions and $1$ elsewhere. Write $c_b=\mathrm{cX}(j,b)$ for the number of columns, $\ell_{bk}=\mathrm{colHt}(v,j+1,s_b,k)$ for their heights, $M_b=\sum_{k<c_b}\min(\ell_{bk},i)$, and $e_b=\mathrm{eX}(j,b)$ for the even source determinant exponent. Define $U=\mathrm{numericalIdentityScalar}$ as the product of the odd factors $\iota(\det\Gamma_b)^{-c_b}\iota(\det(\Gamma'_bD_b))^{c_b}$ and the even factors $\iota(\det\Gamma_b)^{e_b}p^{-M_b}$. The Fock normalization is $C_T=\prod_b\mathrm{cN}(K_c,\nu_T(j,b))$, nonzero in characteristic zero. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/NumericalIdentityScalar.lean:18–29,39–51` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/NuTAntitone.lean:55–65`.
+
+**Lemma (pairing in the edge frame, `xMid_of`) [Lean, read].** Assume `XShape`, `XA`, `XB`, `TransposedFrameImageBlockwise`, `XC` and `XG`. Fix $\varphi=(g,g')$ for the source and intermediate target tuples, the indices $i_0$ and injective row choices $I_{bk}$ for the target minors. Let $G_x$ be the product of the source polynomials `HgX` evaluated at $x:\mathrm{FrI}(j)\to K_f$, acted on by the inverse source matrices and renamed into the full variables. Let $T_I$ be the product of target bideterminants acted on by $(\Gamma'_bD_b)^t$, renamed and extended to $K_c$. Their initial minors use the rows $I_{bk}$ and sizes `szT`, namely $\ell_{bk}$ in the even blocks and the complementary sizes in the odd blocks. There are a column choice $J$ of type `ColCh` and a sign $\epsilon=\pm1$, fixed before $f$ and $x$, such that
+$\langle\mathrm{delF}(G_x,\mathrm{linSub}(\mathrm{bc}_\varphi,f)),T_I\rangle_F
+=\epsilon U C_T\,\mathrm{ev}_{\iota x}(\mathrm{applyD}(\mathrm{PI}(j,J,i_0),f))$
+for every series $f$ in the `ZA` variables and every $x$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/NumericalIdentityScalar.lean:39–51`.
+
+*Proof.* Evaluation of `HgX` gives `srcN` blockwise. The inverse row action in the odd block moves $\Gamma_b$ onto the parameter array and contributes $\det(\Gamma_b^{-1})^{c_b}$. The even action moves $\Gamma_b^{-t}$ onto the array. The square array of its first rank-many columns then has determinant multiplied by $\det(\Gamma_b)^{-1}$, so the source determinant twist contributes $\det(\Gamma_b)^{e_b}$ when extracted. The mapped inverse matrices really are inverses since `mF` preserves products and identity. Pull the product of source scalars through the linear pairing. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/ProdItePow.lean:91–107,273–288,321–352,508–516` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/YVMapRowAct.lean:56–91`.
+
+The `XA` identity rewrites `subD` of the source product as the product of tgtD. Its supplier `xA_of` uses `polDel_hv`, the common source and target heights in the odd case, and `highest_vector_full_holds` in the even case to separate the full-height determinants from the shortened shape. Evaluate the kernel variables at a temporary array $d_0$. The `XC` supplier commutes evaluation with the highest-vector determinants, producing `tgtN` evaluated on the transpose of the block variable matrix applied to the parameter array. `TransposedFrameImageBlockwise` splits the substitution sum using `bc_ne` and inserts the entries of the frame matrices using bc_same. In one block put $d=\mathrm{dM}(d_0)$ and $y=x_B$. The even input is $z=(\Gamma d\Gamma'^{-1})^t\Gamma^{-t}y$, and the odd input is $z=(\Gamma^{-t} d\Gamma'^t)^t\Gamma y$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SubDRenameHvE.lean:77–130` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/TransposedFrameImageBlockwiseHolds.lean:132–182`.
+
+Put $h=\Gamma'D$ and $w=d^t y$. The identities `z_even` and `z_odd` give $h^t z=Dw$ in the even case and $h^{-1}z=D^{-1}w$ in the odd case. Both follow by reversing the order under transpose and cancelling inverse products. The inverse in the odd case is $D^{-1}\Gamma'^{-1}$. For an even minor of height $\ell$, the selected rows of $Dw$ contribute $p^{-a}$ where $a$ is the count below $i$. Injectivity gives $a\le\min(\ell,i)$, so $p^{-a}=p^{-\min(\ell,i)}p^{\min(\ell,i)-a}$. Take the original row choices as the selected indices and extract $p^{-M_b}$ from the block. For the odd pairing, transferring the row action to the highest vector contributes $\det(h)^{c_b}$. The odd Fock formula uses a matrix with coordinate unit columns indexed by $I_{bk}$. Extend this injection to a permutation and expand on the unit columns to get the complementary indices and the permutation sign. The complementary minor of $D^{-1}w$ contributes $p^a$. Both cases give a determinant with entries $w_{J(i'),i}$ and the exponent `colExp` after extraction. The Fock formulas contribute their respective `cN` factors. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/ProdItePow.lean:115–229,237–256,362–414` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/HighestVectorFullHolds.lean:33–83,153`.
+
+Assemble the choices with `IstOf` and multiply the signs. Injective block renaming gives disjoint variables, so the Fock monomial matchings and factorial weights factor blockwise. The lemmas `eval_colFac` and `eval_PI` recover the determinant product and powers of the actual `PI` at $(x,d_0)$. The lemma `scal` uses multiplicativity of determinant, the inverse identity and commutation of determinant with scalar extension to assemble the source and target factors into $U$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/ProdItePow.lean:301–308,422–469,482–497,504–544` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/CoefficientProductHolds.lean:30–94`.
+
+To return from all evaluations at $d_0$ to the pairing with $f$, use XB. It moves the series substitution onto the dual polynomial. The substitution is blockwise and so preserves each block degree, including the restriction GoodDeg. The supplier identifies the coefficients of the evaluated identity using polynomial extensionality over the infinite field. Applying the target Fock form as a linear functional consequently gives a finite derivative-weighted sum. The lemma `pair_of_hyp` extracts its constant scalar and uses `XG` to identify the sum with the evaluation of applyD. For `XG`, each determinant in `PI` is homogeneous of its column height in its block, and the sum of heights gives `GoodDeg` throughout the support. Thus `derAt` there is the factorial-weighted coefficient used in applyD. The identity holds for the whole input series. $\square$ See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/TransposedFrameImageBlockwiseHolds.lean:17–56,67–130,204–261` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/ProdItePow.lean:44–57,471–480`.
+
+**Lemma (normalized scalar integrality, `xUnit_of`) [Lean, read].** Assume `XShape`, $p\ne0$ in $K_c$, and that the image of $O$ lies in the subring $O_c$. This lemma only requires a field $K_c$ over $K_f$. Let the field-invertible matrices $g_v,g'_v$ span the prescribed local lattices of $L,L''$ over $W_v$, and suppose $i_0(v)\le r$. Put $e_{0b}=\mathrm{eJ}(j,v,s_b)$, $e_{1b}=\mathrm{eJ}(j+1,v,s_b)$, $s=\mathrm{sX}(j,g)=\prod_b\det(\Gamma_b)^{-e_{0b}}$, and $s'=\prod_b\det(\Gamma'_bD_b)^{-e_{1b}}$. Let $S_1=\prod_v p^{N'_v+\mathrm{vm}_v(\mathrm{len}_v L-\mathrm{len}_v L'')}$, with $N'_v$ and $\mathrm{vm}_v$ evaluated at $j+1$. Then $A=\iota(S_1s(s')^{-1})U$ belongs to $O_c$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/NumericalIdentityScalar.lean:61–74` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/SzTLe.lean:40–41`.
+
+*Proof.* Write $a\sim_n$ if $a=u p^n$ with $u,u^{-1}\in O_c$, the relation Sim. The witnesses used for determinants are nonzero. Multiplication adds the exponents, inversion negates them, and an integer power $k$ multiplies the exponent by $k$. This follows by multiplying or inverting the witnesses and applying the integer-power identities for $p\ne0$. Induction gives the finite product rule, and at exponent zero `Sim.mem` gives membership in $O_c$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SumIccEqRange.lean:21–67`.
+
+Let $n_v=\mathrm{ord}_p\det(g_v)$ and $n'_v=\mathrm{ord}_p\det(g'_v)$ in the fraction field of $W_v$. Write a nonzero element there as a quotient and factor numerator and denominator in the DVR. This gives a unit of $W_v$ times $p^{\mathrm{ord}_p}$. The formula $\sigma(x)=x^p+p y$ for $x\in W_v$ proves by induction that each iterate maps $W_v$ into itself. Apply it both to the unit and to its inverse. The embedding compatibility and the hypothesis on the image of $O$ send both into $O_c$, while the ring maps fix $p$ and the matrix reindexing preserves determinant. This gives $\iota(\det\Gamma_b)\sim_{n_v}$. The bound on $i$ and `two_r` give $i\le m+1\le\mathrm{NJ}(j+1)$. Hence exactly $i$ diagonal factors are $p^{-1}$ and $\iota(\det(\Gamma'_bD_b))\sim_{n'_v-i}$. See `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/DetOfColSpanEq.lean:48–87` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SumIccEqRange.lean:131–156,197–252`.
+
+The length is minus the determinant order. For two bases of the same lattice, the columns of each basis are integral combinations of the other. The two coefficient matrices multiply to the identity by cancellation over the field. Their determinants multiply to one over $W_v$, so their orders are zero. This shows that the determinant order in `lenLat` is independent of its chosen basis and gives $\mathrm{len}_v L=-n_v$ and $\mathrm{len}_v L''=-n'_v$. See `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/DetOfColSpanEq.lean:89–133` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SumIccEqRange.lean:158–168`.
+
+At a place write $n=n_v$, $n'=n'_v$, $i=i_0(v)$, $w_b=w(v,j+1,s_b)$ and $\lambda_b=\sum_{a=1}^i\mathrm{lamI}(\mathrm{lam0}_v,s_b,a)$. Distributing the exponent of $A$ over the blocks gives the following terms.
+
+| Factor | Even block | Odd block |
+|---|---|---|
+| $p^{N'_v}$ | $\lambda_b$ | $i w_b$ |
+| Length ratio | $w_b(n'-n)$ | $-w_b(n'-n)$ |
+| $s$ | $-e_{0b}n$ | $-e_{0b}n$ |
+| $(s')^{-1}$ | $e_{1b}(n'-i)$ | $e_{1b}(n'-i)$ |
+| $U$ | $e_bn-M_b$ | $-c_bn+c_b(n'-i)$ |
+
+For the even block, $M_b=\lambda_b+iw_b$. Count boxes in the first $i$ rows of the antitone shape. Column $k$ contributes $\min(\ell_{bk},i)$ and each of the first $i$ rows contributes its full length. On those rows `nuv_lam` expresses the length as $\mathrm{lamI}+w_b$. The natural-to-integer casts use nonnegativity of nuv. The last two `XShape` identities give even $e_b=e_{0b}+w_b$ and $e_{1b}=-w_b$, and odd $c_b=w_b-e_{0b}$ and $e_{1b}=e_{0b}$. The even sum reduces to $w_b(n'-n)-w_b(n'-i)+w_bn-iw_b=0$. In the odd sum the coefficient of $n$ is $w_b-e_{0b}-c_b=0$ and the coefficients of $n'$ and $i$ are its negative and itself. This is place_arith. In `xUnit_of`, `hU` treats the last row, `h1` the first, `h2` and the inverse of `h3` the second, `h4` the third, and the inverse of `h5` the fourth. The product has exponent zero, so `Sim.mem` proves the claim. $\square$ See `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:72–74,357–359`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/XShape.lean:174–220` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SumIccEqRange.lean:71–125,170–193,253–308`.
+
+**Remarks and the arguments to `adm7` [Lean, read].** In `xPair`, the edge identity identifies the image of the final target basis $h'$ with $\Gamma'_bD_b$. Source interpolation contributes $s$, and the normalized target functional contributes $C_T^{-1}\iota(S_1(s')^{-1})$. The pairing lemma cancels $C_T^{-1}$ and gives the polynomial $\epsilon A\,\mathrm{applyD}(\mathrm{PI}(j,J,i_0),f)$. For each coefficient $a$, the valuation test for $\epsilon Aa$ is $(\epsilon A)^d(a^d p^{-m})$ for $d>0$ and $m\le gd$. Both factors lie in $O_c$, which is geX_mul. Thus a scalar of nonnegative valuation suffices in the consumer. The proof of scalar cancellation uses local units and their inverses to track exact powers. Repeated target rows give zero minors. The target reconstruction in [§8.4.8](#848-from-target-pairings-to-the-lattice-bound) uses $s'\ne0$ to cancel a field scalar at the last step. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/GeXZero.lean:9–17`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/NuTAntitone.lean:55–99` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/AdmissibleGeneralLatticeTuple.lean:35–80`.
+
+The actual supplier `lattice_shape_middle_holds` passes `frame_shape_identity_holds`, `lattice_shape_a_holds`, `frame_change_pairing_holds`, `transposed_frame_image_blockwise_holds`, `frame_change_compatibility_holds` and `frame_change_group_action_holds` to xMid_of. The same shape theorem feeds `xUnit_of` to give lattice_shape_unit_holds. These occupy `hMid` and `hU` in pending_tuple_admissible_of_shape. That proof takes $K_c=\mathbb C_p$, $O_c=\mathrm{OcC}(p)$, scalar extension from $E$, and the integral-image proof from pendT.Oc_K. It forwards $j,\mathrm{La},c',L',L'',i_0$ and the two lattice, index and edge hypotheses to admissible_general_lattice_tuple. `XEdge` supplies $g'$ for $L''$ and $h'$ for $L'$, and the source basis comes from exists_frm. The frame is fixed before $f$, the level, and the source vector. In the conclusion the factor $\prod_v p^{N'_v}$ is outside `kerF`, the length ratio inside `kerF`, and the target closure is `inLatC` for $L'$. See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/LatticeShapeMiddleHolds.lean:16–28`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/FinalOf.lean:15–21` and `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:510–527,613–622`.
+
+At the call that fills the eleventh conjunct of `admitted`, the series family parameter $F$ is `FrecG` with the local data of pendG. This is the family passed to `pendT` by its definition. The projection `ThF` uses the resulting normalized series family. The definition `thFOf` reindexes the variables of $F$ using `pos`, with the target and source coordinates in that order. The constructions `thGeo` and `thFN` act on that family before it is passed as ThF. In the pending structure `DelF` is `delF` and `len` is the lattice length used above. See `src/Formalism/LocalToGlobal/InertKernelTheory/StatementAdmAt.lean:21–27`, `src/Formalism/LocalToGlobal/InertKernelTheory/InertCoprimeLemmas/AdmissibleEntriesOfKernelLaw.lean:62–69`, `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/InvarianceIffAdditiveMapsExist.lean:54`, `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/ConditionIffAdditiveMaps.lean:38–43`, `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/InvarianceRepresentativesTrivial.lean:308–310,396–399,431–434` and `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/WittFractionAlgebraCp.lean:53–60,69–74`.
+
+In `entry_mem`, the source tuple is the class representative $\mathrm{La}(x,y)$ and the source vector is the value of $G$ there, integral by mem_Int_iff. The series passed to the frame witness is $f=\mathrm{ThZA}(\mathrm{ThA}(j,\mathrm{La}(x,y),(c',L''),\varphi))$. `ThZA` substitutes `coordZA` into the actual kernel series and `EntB` supplies all column and frame coefficient bounds. The subsequent `linSub` is the frame substitution. The identity `ThF_frm` identifies its result with `ThF`, so `adm7` bounds the summand ker. The production proof `thF_frm` first composes the substitutions so that `coordZA` after `invF` yields `linI` on each variable, and `linF` composed with `linI` yields the original variable. Substitution by the resulting identity leaves the full series intact. See `src/Formalism/LocalToGlobal/GroupLattices/PendingLemmas/SubstZOfXCoordZA.lean:266–281`. The class-weight denominator is a separate operation controlled by `wt_inv` and `inLatC_smulC`, costing at most $d_G(j)$. See `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:384–394,464–470,515–520` and `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelSumOfClassData.lean:206–239`.
+
+**Reading boundary.** The highest-weight Fock formula behind `pairing_even_holds` and the generic invertible-matrix identity `pairO_inv` behind `pairing_odd_holds` are [Lean] inputs here. The odd supplier proves the identity over the fraction field of a generic polynomial matrix, descends it by injectivity, and then specializes the entries to the given array. This specialization works even for singular arrays. The matrix inverses used in the changed pairing belong to the frames. At the arithmetic boundary the site data supply `setting.frob`, `setting.ι_comp`, `setting.p_unif` and std.two_r. Their construction, `FrecG`, `descent_core` and the geometric production of `CM2` retain the [Lean]/[Open] scope of the selection-service manuscript. The pairing tests pass to `tgt_abs` in [§8.4.8](#848-from-target-pairings-to-the-lattice-bound). See `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/EvalIdFrameRowAct.lean:481–526` and `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/SumIccEqRange.lean:131–139,161–168,197–218,233–242`.
+
+LUMI records the jet-bound and chain-accumulation outlines and its reading of the gain identity [Community]. [LUMI, fixed revision, lines 149–158](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06/docs/04-chain-and-one-half.md#L149-L158).
+
+All Lean locations in this subsection refer to [archive A2](../sources/SOURCES.md#a2), SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+[Publication source map](../sources/SOURCES.md#ch08-frame-target-second-gauss-sources)
+
+### 8.4.8 From target pairings to the lattice bound
+
+The estimate in [§8.4.7](#847-frame-changes-and-integral-normalization-in-local-interpolation) controls scalar tests of a polynomial output. The next step
+asks whether the output belongs to a specified target lattice ball. This
+requires two pieces of information. The output must lie in the correct
+rational span, and the tests must recover its coordinates in the integral
+lattice. A common scalar in the Fock pairing matters when its valuation is
+positive.
+
+**Example (a target frame and a boundary coordinate) [Expository].**
+Work over $O=\mathbb Z_{(5)}$, $K=K_c=\mathbb Q$, with one block in the
+degree-one model of shape $(1,0)$. Write $x_1,x_2$ for the variables of the
+first column. The integral Weyl and dual Weyl lattices in this model both have
+basis $x_1,x_2$, and their Fock matrix is the identity. With
+$H=\operatorname{diag}(5,1)$ the target generators become $x_1/5,x_2$,
+while the tests become $5x_1,x_2$. For $y=5x_1+125x_2$, the two readings are
+$25$ and $125$. Thus the minimum coordinate valuation is exactly $2$, and
+$y$ belongs to the radius-$5^{-2}$ ball. The coefficient $5$ of $x_1$ in the
+ambient monomial basis would give the wrong target level.
+
+**Example (a Fock scalar of positive valuation) [Expository].**
+Use the one-variable, weight-five model over the same ring, with identity
+frame. The generator and integral test are both $x^5$, and their pairing is
+$5!=120$. At level $g=1$, $y=5x^5$ gives $600=120\cdot5$ and lies exactly on
+the boundary. For $y=x^5$, the raw pairing $120$ is divisible by $5$, but
+the normalized reading is $1$, of valuation zero. The test at level $1$
+requires a pairing in $120\cdot5O$. Both polynomials are already in the
+rational span.
+
+**Definitions (the target ball and its scalar tests).**
+
+Let $O$ be a principal ideal domain with characteristic-zero fraction field
+$K$, and let $K_c/K$ be a field extension. Use finitely many blocks $b$
+of square matrix variables with injective joint renaming $r_b$ into the
+target variables. For each block use an antitone highest weight $\nu_b$,
+the integral Weyl module $D_b$ and the integral dual Weyl module $D_b'$,
+both embedded in the polynomial ring over $K$. Let $W_b$ be the rational dual
+Weyl space. Write $R(A)$ for the row action and $H_b$ for an invertible target
+matrix over $K$. The pulled-back lattice is
+$\Delta_b=\{F:R(H_b)F\in D_b\}$, the archive's `deltaL`. In what follows,
+scalar extension of polynomials to $K_c$ is implicit.
+
+Given an additive subgroup $M$ of $K_c$, write $\mathcal L_H(M)$ for the
+additive subgroup generated by the products $a\prod_b r_b(F_b)$ with
+$a\in M$ and $F_b\in\Delta_b$. The local choice $M=M_g$ is `MG`, the set of
+coefficients satisfying `geX`. For every integer $a$ and positive integer
+$d$ with $a\le gd$, a coefficient $u$ in $M_g$ must have
+$u^d p^{-a}\in O_c$, where $O_c$ is the given valuation subring of $K_c$.
+Multiplication by an element of $O_c$ preserves this property by taking the
+$d$th power. For addition, when both terms are nonzero the valuation-ring
+condition makes one a multiple of the other by an element of $O_c$, so the
+sum is an integral multiple of one of the terms. The case of a zero summand
+is immediate. If $O_c$ comes from a real valuation with $v(p)=1$, the
+condition is equivalent to $v(u)\ge g$ by density of the rationals.
+In this situation the ball below is the one defined by the maximum absolute
+value of the coordinates in the pulled-back product basis. The source uses
+the power tests, which also specify the bound without choosing a real
+valuation on the abstract coefficient field.
+
+**Lemma (the normalized block duals) [Lean, read].**
+Assume the finite semistandard basis for $D_b'$, Weyl inclusion over $O$ and $K$, Weyl equality
+over $K$, base change for the Weyl generators, nondegeneracy of the Fock
+form on $W_b$, and the integral dual-Weyl criterion `Top.dualWeylIn`.
+There is an $O$-basis $e_{b,i}$ of $D_b$ spanning $W_b$ over $K$ and a family
+$e'_{b,i}\in D_b'$ with pairings
+$\langle e_{b,i},e'_{b,k}\rangle=C_b\delta_{ik}$, where
+$C_b=\langle \mathrm{hw}_{\nu_b},\mathrm{hw}_{\nu_b}\rangle$.
+
+*Proof.* The Weyl module lies in the finite integral dual Weyl module and is
+torsion-free in the ambient polynomial space, so it is finite free over
+the principal ideal domain. Its basis remains independent over $K$ by
+clearing denominators. Weyl generators over $K$ come from integral
+generators by base change, and Weyl equals dual Weyl over $K$, so the basis
+spans $W_b$. Take its ordinary Fock dual $d_{b,k}$ in $W_b$ and put
+$e'_{b,k}=C_bd_{b,k}$. Pairing with any $P\in D_b$ gives $C_b$ times the
+$k$th integral coordinate of $P$. The integral dual-Weyl criterion puts
+$e'_{b,k}$ in $D_b'$. This is the construction `dual_bases_holds`. The
+highest-weight norm supplier `Top.hWNorm` gives a positive natural number
+for $C_b$, hence its image is nonzero and commutes with scalar extension.
+$\square$
+
+**Theorem (conditional target comparison) [Lean, read].**
+Keep the block hypotheses of the lemma and the row stability of $W_b$.
+Put $C=\prod_b C_b$. Suppose $y$ belongs to the $K_c$-span of products
+$\prod_b r_b(F_b)$ with $F_b\in W_b$. If for every $Q_b\in D_b'$ the Fock
+pairing satisfies
+$\langle y,\prod_b r_b(R(H_b^{\mathsf T})Q_b)\rangle\in C M$,
+then $y\in\mathcal L_H(M)$. If $M$ is stable under $O$-multiples and
+the integral standard-monomial span theorem applies, it is sufficient to test
+the bideterminants of a single prescribed list of column heights in each
+block, with shape $\nu_b$. The prescribed heights may include zeros.
+
+*Proof.* Row stability and invertibility let us first apply $R(H_b)$ to
+each rational factor, then expand in the basis from the lemma and apply
+$R(H_b^{-1})$ back. By distributivity in the blocks and scalar extension, this
+gives $y=\sum_i u_i E_i$, indexed by tuples of basis indices, where
+$E_i=\prod_b r_b(R(H_b^{-1})e_{b,i_b})$. Define
+$E'_k=\prod_b r_b(R(H_b^{\mathsf T})e'_{b,k_b})$. The Fock transpose rule
+moves the inverse row action to the second argument where it cancels the
+transpose action. The Fock product rule then gives
+$\langle E_i,E'_k\rangle=C\delta_{ik}$. Indeed the joint renaming distinguishes
+all tuples of monomial exponents and the factorial weights multiply on
+disjoint variable sets. A differing block index therefore gives a zero
+factor, and identical tuples give $C$.
+
+By bilinearity the reading on $E'_k$ equals $Cu_k$. By hypothesis the same
+reading equals $Ca$ for some $a\in M$. Cancel $C$ in $K_c$ to get $u_k=a$.
+Each factor of $E_i$ before renaming lies in $\Delta_b$, since applying
+$R(H_b)$ gives the integral basis element. Each term in the expansion is
+therefore a generator of the ball. In particular the $E_i$ are independent,
+as pairing a zero combination with the $E'_k$ forces all its coefficients to
+vanish. Conversely, each $F_b\in\Delta_b$ has integral coordinates in the
+pulled-back basis. Expanding any generator gives coefficients in $M$ when
+$M$ is stable under $O$-multiples. This proves the coordinate description
+for $M_g$. The cancellation
+uses exactly $C\ne0$, so it also applies when $C$ is a nonunit in $O_c$.
+
+For the restricted tests, consider the polynomials whose pairing with $y$
+belongs to $CM$ after scalar extension. They form an $O$-submodule by
+bilinearity and the assumed $O$-stability. In each block the integral span
+theorem expresses $Q_b$ by bideterminants of shape $\nu_b$. Taking
+coefficients to $K$ commutes with minors by the determinant formula.
+The entry of the shape at row $t$, counted from $1$, counts columns of
+height at least $t$. Subtract consecutive counts to recover the
+multiplicity of each positive height. Thus every such bideterminant can
+be written using the prescribed list by moving the column selections
+along height-preserving bijections and using the empty determinant $1$
+at height zero. Row action and renaming are linear, and multiplying the
+block expansions gives the required pairing condition for all $Q_b$.
+$\square$
+
+**The frames that occur in the kernel.**
+
+**Corollary (local comparison on a Hecke edge) [Lean, read].**
+Take the actual system $X$ with `XShape`, `XBrS`, `XBrT`, `XInj`,
+`XSpanN`, `XMid`, `XUnit` and `XEdge`, with the valuation ring above
+containing the image of $O=X.G.O$. Fix $j<X.\mathrm{mm}$, a lattice source $\mathrm{La}$,
+the next component $c'$, a lattice tuple $L'$, and a tuple $L''$ equal to
+$L'$ on index-zero components and related by the required positive-index
+edges on the others. The place indices $i_0(v)$ lie in the allowed range
+$i_0(v)\le r$. There is a frame $\phi$ for $(\mathrm{La},(c',L''))$,
+chosen before the series, source vector, and bound. For every series $f$
+whose tested coefficients of every $\operatorname{applyD}(X.PI(j,I,i_0),f)$
+are in $M_g$ at a real level $g$, and every $G$ in the source tuple lattice, one has
+$$(\prod_v p^{N'_v})\,
+  Y.\mathrm{kerF}(j,\mathrm{La},(c',L''),\operatorname{linSub}(bc(\phi),f),G)
+ \in \mathcal B_Y(j+1,g,L').$$
+Here $\mathcal B_Y(j+1,g,L')$ denotes the ball defined by `inLatC`.
+The exponent $N'_v$ is `Nprime` at step $j+1$ and index $i_0(v)$.
+The model $Y$ is the actual pending model `pendT`.
+
+*Proof.* The edge input supplies the target part $g'$ of $\phi$ at $L''$
+and a frame $h'$ at $L'$. It makes their block matrices satisfy
+$H_b=m_F(h'_b)=m_F(g'_b)D_b^{\mathrm{edge}}$, with
+$D_b^{\mathrm{edge}}$ the `DgX` matrix. Choose the source part of $\phi$
+from a frame for the source and $L'$. Write $s'=s_X(j+1,h')$ for the
+product of determinant characters at the destination. It is nonzero.
+The edge identity expresses it using the matrices $m_F(g'_b)D_b^{\mathrm{edge}}$
+that occur in the tests. Let $S_1$ be the product of the gain and the ratio of
+length powers,
+$$S_1=\left(\prod_v p^{N'_v}\right)
+ \frac{\prod_v p^{\mathrm{vm}(v,j+1)\mathrm{len}(v,j,\mathrm{La}.2)}}
+ {\prod_v p^{\mathrm{vm}(v,j+1)\mathrm{len}(v,j+1,L'')}}.$$
+Put $P=\mathrm{delF}(j,G,\operatorname{linSub}(bc(\phi),f))$.
+The theorem is applied to $y=(S_1/s')P$.
+
+Here `xSpan` supplies the rational span independently of the coefficient
+bound. Its proof tests by a linear functional annihilating the target
+span and uses the source interpolation with coefficient subgroup zero.
+The normal-form image condition `XSpanN` annihilates the source generators
+under this functional. Source branching extends the vanishing to every
+integral $G$, which rules out a separating functional. The target shape
+`nuT` is antitone and is the shape of the prescribed column heights
+`szT`: on the even branch these are the column heights themselves, and on
+the odd branch they are the complementary heights. The shape identity
+also identifies `nuT` with the weight of the target lattice at step $j+1$.
+
+For injective column selections `xPair` evaluates the normalized pairing
+with $y$ as a scalar in $M_g$ times $C$. The source interpolation uses the
+coefficient bound after multiplication by the integral scalar from
+`XUnit` and the sign from `XMid`, as shown in [§8.4.7](#847-frame-changes-and-integral-normalization-in-local-interpolation). A repeated selection
+in a column gives a repeated row in the initial minor and hence a zero
+product and a zero reading. These are all the prescribed tests, so
+`tgt_bidet` places $y$ in $\mathcal L_H(M_g)$.
+
+For each generator of this ball, `XBrT` puts
+$s'\prod_b r_b(F_b)$ in the actual tuple lattice at $L'$. Multiplying by $s'$
+commutes with the coefficient $a\in M_g$ and extends by addition and
+negation to the whole ball. On $y$ this multiplication cancels $s'^{-1}$
+and gives $S_1 P$. The length ratio in $S_1$ is the ratio in
+`kerF`. This is the claimed ball inclusion. In `pending_tuple_admissible`
+the coefficient field and valuation subring are those of the pending
+$\mathbb C_p$ model, and `geX` and the target closure become `geC` and
+`inLatC`. $\square$
+
+**Consumption by the whole kernel and the low-term bound.**
+
+The producer `admissible_general_of_kernel_law` inserts `pending_tuple_admissible` into the packet alongside the supplied kernel laws and signature matching. In `entry_mem`, `adm7` is taken from the eleventh conjunct of `admitted`.
+`ArchimedeanSignatureMatching` supplies the class-sum description, using
+the ordinary sum before the last step and the supplied last-step class data
+there. For every source in this sum, the edge relation ensures that $L''$
+is a lattice tuple. The actual series passed to the frame-specific
+conclusion is `ThZA (ThA … φ)`, and `EntB` supplies its coefficients at
+level $g$ in that frame. The chain input in `Int` supplies an integral
+local $G$. The identity `ThF_frm` replaces the substituted series by
+`ThF`, so the comparison bounds the normalized actual local kernel
+`ker` in the ball at $L'$.
+
+Addition preserves the ball. For each class weight $N$ the hypotheses give
+$0<N$ and $v_p(N)\le d_G(j)$. With the common integral scalar $c_K$, one has
+$p^{d_G(j)} c_K/N\in O_c$. Thus multiplying a class contribution at level
+$g$ by $c_K/N$ puts it at level $g-d_G(j)$. This loss enters after target
+comparison. Descent gives the actual entry of the scaled lattice with
+exponent $\lceil e_O(g-d_G(j))\rceil$. The equivariance and finite Hecke
+neighbor sum in `formB_of` give the same bound for `FormB`.
+
+The statement `LowTermBound` uses further inputs. In the positive
+ramification branch `lift_bound_of_integrality` passes `FormB`,
+the whole-kernel entry estimates `EntCondition`, the alternate-expansion
+result `Conclusion4`, linearity and integral preservation under the
+auxiliary operations to the chain induction. On generators of `Iprod`,
+the induction composes the selected one-step estimates. At a place in the
+generator's selected subset, a step uses the alternate branch when
+$G_n(v,k)-PR_n(v,k)\ge G_{0n}(v,k)$. Its gain before the alternate-branch
+cost is $G_n(v,k)$, with actual cost $X.\mathrm{Conclusion}_2(v,k)\le PR_n(v,k)$.
+Otherwise the step uses $G_{0n}(v,k)$. At each step the lattice estimate
+spends $d_G(j)$, and the induction carries the real cumulative level to
+the corresponding ceiling exponent. The
+comparison in `basic₂` charges each omitted selected place against its
+initial $S(v)$ allowance. With the four hypotheses on $G_n,G_{0n},PR_n,S$
+in [§8.4.5](#845-from-the-single-kernel-expansion-to-the-low-term-lattice-bound-lowtermbound), the resulting terminal level is
+$$
+\sum_{k=1}^{m}
+  \left(\sum_{v\in VV}\max(G_n(v,k)-PR_n(v,k),G_{0n}(v,k))
+       +\sum_{v\notin VV}G_{0n}(v,k)\right)
+   -\sum_{j=0}^{m-1}d_G(j).
+$$
+The packet proof treats $e_O=0$ separately with
+`low_term_bound_of_eO_eq_zero_of_aux0` and `form_valuation_of_bound`.
+It then installs the low-term estimate as the final field of
+`Conclusion₂`. The target comparison supplies the conversion from the
+entry bounds to the lattice at each step. The numerical gains and the
+geometric production of the entry bounds remain separate hypotheses in
+this derivation. [§8.4.9](#849-the-second-gauss-bound-and-the-even-position-loss) follows the second Gauss estimate into the entry condition used here.
+
+**Source map.** All paths are relative to the extracted root of [A2](../sources/SOURCES.md#a2),
+SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+| Step | Archive location |
+|---|---|
+| Normalized coordinates and target reconstruction | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/FockRSmulLeft.lean:11–64,78–177,192–201` |
+| Integral Weyl basis and normalized Fock duals | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/PolyKTorsionFree.lean:17–40,44–124` |
+| Product pairing and multilinear span | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/CoefficientProductHolds.lean:15–94`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/InterpolationHolds.lean:33–70` |
+| Prescribed bideterminants and their reordering | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/TgtBidet.lean:20–74`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/ShapeEvenHolds.lean:133–152,158–223` |
+| Coefficient ball, rational span and local tests | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/GeXZero.lean:9–52`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/HinjX.lean:19–60`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/NuTAntitone.lean:17–99` |
+| Two frames and packaging | `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/NumericalIdentityScalar.lean:76–84`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/XFacts.lean:46–76`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/AdmissibleGeneralLatticeTuple.lean:17–80`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/FinalOf.lean:15–21`, `src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/LatticeShapeMiddleHolds.lean:26–28` |
+| Integral weight shift | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/InLatCSmulC.lean:14–27,105–123` |
+| Actual pending model, kernel and chain | `src/Formalism/LocalToGlobal/InertKernelTheory/InertCoprimeLemmas/AdmissibleEntriesOfKernelLaw.lean:62–73`, `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:515–527,613–622,708–716`, `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelSumOfClassData.lean:178–239,255–277`, `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean:103`, `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:80–108` |
+
+**Reading boundary.** The block comparison uses the graded Weyl inputs
+`sSBasis`, `weylLeDual`, `sw_weyl_eq`, `Top.nondegK`,
+`Top.dualWeylIn`, `Top.hWNorm`, the Fock row-action and base-change
+identities, and `standardMonomialSpanDomain`
+(`src/Formalism/GradedWeylDivisibility/FinalC.lean:37–38`).
+Their deeper proofs are [Lean] inputs here. The local conclusion uses the
+named shape, branching, disjointness, span, frame-pairing, scalar and
+edge suppliers in `pending_tuple_admissible`. The geometric construction
+of the joint site, `FrecG`, `CM2`, the kernel laws and the other conjuncts
+of `admitted` retain the named scope of the formal-group and selection-service inputs. In particular the
+highest-weight Fock pairing and `pairO_inv`
+(`src/Formalism/LocalToGlobal/PairingIndexBounds/RowActionCoefficients/AdmissibleInterpolation/EvalIdFrameRowAct.lean:374`),
+and the descent proof `descent_core`
+(`src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/DescentCore.lean:98`)
+are named inputs. The LUMI guide gives community context for the jet
+estimate and induction over the chain. [LUMI, lines 149–158](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/04-chain-and-one-half.md#L149-L158)
+
+[Publication source map](../sources/SOURCES.md#ch08-frame-target-second-gauss-sources)
+
+### 8.4.9 The second Gauss bound and the even-position loss
+
+**Motivation [Expository].** The comparison in [§8.4.8](#848-from-target-pairings-to-the-lattice-bound) needs coefficient bounds for the local tests. A determinantal jet tests a formal kernel against a product of minors. The second bound on the unshifted jet uses a common degree budget for paired top terms and single terms starting at even positions. The single terms starting at odd positions have their own bound, which combines a top-degree constraint with the capacity of the residual minors. This second estimate supplies a zero-index alternative in the entry condition for the lattice chain.
+
+**Examples [Expository].** Work over $K=\mathbb Q_5(\pi)$ with $p=5$, $\pi^{24}=5$, $v(5)=1$, and the radius-one Gauss valuation, the minimum coefficient valuation. Take $S=TT=\mathbb Z/2$ and $r_0=r_1=1$, suppressing the two singleton indices in $Y_s,Z_s$. In both examples the scaled input $F(Z)=\mathrm{Th}(\pi Z)$ is integral. This gives the kernel class condition with $U_0=F$ and $U_i=0$ for $i>0$.
+
+1. For one height-one column at the odd site the operator is $Y_1 Z_1$. Take $\mathrm{Th}=\pi^{-1}Z_1$. The scaled jet is $Y_1$, of Gauss valuation $0$, and the unscaled jet is $\pi^{-1}Y_1$, of valuation $-1/24$. The top count is one, the residual capacity is zero, and the common logarithmic loss is $2$. The first bound omits shift $1$ and gives $1/120-2$, while the second gives $5/24-2$, an improvement of $1/5$.
+2. For two height-one columns at the even site the operator is $Y_0^2 Z_0^2$. Take $\mathrm{Th}=5\pi^{-2}Z_0^2$. The factorial pairing gives $10Y_0^2$ on $F$ and $10\pi^{-2}Y_0^2$ on $\mathrm{Th}$, of Gauss valuations $1$ and $11/12$. The top count is two, the residual capacity is zero, and the logarithmic loss is again $2$. The first threshold is $2/120-2$ and the second is $10/24-2-2=-43/12$. The first gives the stronger bound here.
+
+**Definitions.** Let $p>2$ be prime and let $K$ be a characteristic-zero ultrametric normed field with $|p|=p^{-1}$. Put $v(x)=-\log_p|x|$ for nonzero $x$ and $v(0)=+\infty$. Let $S=\mathbb Z/(2\nu)$ with $\nu>0$, and fix $TT\subset S$. Write $O$ for its odd sites and $V=TT\setminus O$. Parity uses the least nonnegative representative. At site $s$ take $\mathrm{colN}(s)$ minors. Minor $c$ has height $q_{sc}\le r_0$, uses the first $q_{sc}$ rows of the matrix with entries $\sum_a Y_{sia}Z_{sab}$, and selects columns by $I_{sc}:\mathrm{Fin}(q_{sc})\to\mathrm{Fin}(r_1)$. The frame variables $Y$ are independent. The jet $J(H)$ pairs this product with $H$ in the kernel variables $Z$ by matching monomials and multiplying their coefficients with the coordinate factorials.
+
+The top factors are the height-one factors at sites in $TT$. Let $A_s$ be their number, $B_s$ the number of remaining factors at $s$, and $L_s$ the sum of the heights of those remaining factors. These are `alG`, `capG` and `lsG`. Write $d=\sum_{s,c}q_{sc}=\sum_s(A_s+L_s)$, $\rho=1/(p^2-1)$ and $\gamma=p\rho$. With $\ell(0)=0$ and $\ell(m)=1+\lfloor\log_p m\rfloor$ for $m>0$, the common loss is $\Delta=\sum_s(r_1\ell(A_s)+r_0r_1\ell(L_s))+\sum_{s\in TT}\ell(A_s)^2$.
+
+For $t\ge0$ put $\delta_t=2t+1$, $a_{st}=A_s/p^{\delta_t}$ and $m_{st}=\min(a_{st},B_{s+\delta_t})$. Site indices are taken modulo $2\nu$. Let $D_s$ be the set of least nonnegative representatives of $s'-s$ for the opposite-parity sites $s'\in TT$. The two thresholds are
+$G_1=\sum_{s\in TT}\sum_{t\ge0,\ \delta_t\notin D_s}(a_{st}-m_{st})-\Delta$
+and
+$G_2=\gamma\sum_{s\in TT}A_s-\sum_{s\in O}\sum_{t\ge0}m_{st}-\Delta-\sum_{s\in V}A_s$.
+In $G_1$ exclusion is tested against the natural number $\delta_t$. A larger shift congruent to an excluded representative can still contribute. Each sitewise series is dominated by $\sum_t a_{st}=\gamma A_s$. The formulas are `excessGain` and `gainG` minus the even top count, respectively.
+
+For coordinates $(a,b)$, the formal series `sPos` at $s$ is
+$H_s(Z;a,b)=\sum_{l\ge0}(-1)^l Z_{s-2l,a,b}^{p^{2l}}$. The class reference
+series is $hhS(p,u)=\sum_{s,a,b}u_s H_s(Z;a,b)^pH_{s+1}(Z;a,b)$. These
+sums are taken coefficientwise. See `CyclicPowerClassOfExpEquiv.lean:81–87`.
+
+**Theorem (the second unshifted Gauss bound) [Lean, read].** Suppose $\pi^{p^2-1}=p$ in $K$, $|u_s|\le1$, and $F(Z)=\mathrm{Th}(\pi Z)$ belongs to `InClass` for $(p,hhS(p,u))$. In this class each degree-$m$ coefficient agrees with that of $\sum_{i=0}^m p^{-i}hhS^i U_i$ for a family of integral series $U_i$. Then $v([Y^n]J(\mathrm{Th}))\ge G_2$ for every frame coefficient. The scaled estimate is $v([Y^n]J(F))\ge G_2+\rho d$. The first Gauss bound, `kernel_a_one_generic` (`EGaussK.lean:213–214`), gives the bounds with $G_1$ on the same inputs. Its proof is in the separate first-bound manuscript (§8.4.5.1). Both apply, so the unscaled threshold can be taken to be $\max(G_1,G_2)$.
+
+**Lemma (even top degree and odd residual capacity) [Lean, read].** Write $e(s,b)$ for the number of top factors at site $s$ using column $b$. For a nonzero entry, take the finite `EntryStar` witness from the separate finite-jet manuscript (§8.4.5.2) with paired multiplicities $\alpha_\phi$ and single multiplicities $\beta_{s,t,b}$ for $0\le t<E$. Put $i_{st}=\sum_b\beta_{s,t,b}$, with $i_{st}=0$ for $t\ge E$. Then
+$\sum_\phi\alpha_\phi+\sum_{s\in V}\sum_t i_{st}\le\sum_{s\in V}A_s$
+and $i_{st}\le m_{st}$.
+
+**Proof.** A paired term $\phi=(x,h,k,a,b)$ uses two top slots in column $b$, at sites $x-2h$ and $x+1-2k$, with positive degree costs $p^{1+2h}$ and $p^{2k}$. When $\alpha_\phi>0$, both sites lie in $TT$. Their difference is odd, and reduction modulo $2\nu$ preserves parity. Thus exactly one lies in $V$. A single term $(s,t,b)$ uses $p^{\delta_t}$ degrees in the top slot $(s,b)$ and its source belongs to $TT$ when its multiplicity is positive. The witness bounds the combined top consumption at each slot by $e(s,b)$. Sum over all even top slots. Each paired occurrence and each even-source single occurrence contributes at least one unit. Reordering the finite sums yields the first inequality.
+
+For fixed $(s,t)$, retain only the contribution from $(s,t,b)$ in the top inequality for $(s,b)$ and then sum over $b$. This yields $p^{\delta_t}i_{st}\le A_s$. The corresponding low directions are at the single site $s+\delta_t$ in their respective columns $b$. They share the vector with entries $\xi_{sa}^{p^{\delta_t}}$, where $\xi_{sa}=Y_{s0a}$ after evaluation at the Gauss point. In the Hasse translation, a residual minor at another site is independent of these direction parameters. A minor at the target site has degree at most one in them. Each perturbed column gains a scalar multiple of the same row-evaluated vector. Two replacement columns are proportional, even with other translation parameters present. The conclusion also holds for repeated column indices and empty determinants. Distributing the Hasse orders over the product now gives zero whenever this family has more than $B_{s+\delta_t}$ hits. This is `HitsCapPos`. The witness has a nonzero coefficient in that translation, giving $i_{st}\le B_{s+\delta_t}$. Division by the positive $p^{\delta_t}$ and the capacity inequality give the minimum. For $t\ge E$ the inequality follows from nonnegativity.
+
+**Proof of the theorem.** Evaluate the frame at the radius-one Gauss point in $K(Y)$ with the multiplicative norm $\|P/Q\|_{\mathrm G}=\max_n|[Y^n]P|/\max_n|[Y^n]Q|$ for $Q\ne0$. This gives the maximum of the coefficient norms. Constants embed isometrically, and each frame variable has norm one. Group the height-one factors in $TT$ as powers of the forms $\sum_a \xi_{sa}Z_{sab}$, and leave the remaining minors as factors indexed by the residual columns. This is the operator identity of `EGauss.struct`. The scaled series maps coefficientwise to the Gauss field. The integral coefficient series $U_i$ stay integral and $hhS$ maps to the series for the mapped parameters, so the class condition is preserved. The top exponents vanish outside $TT$, the row vectors are integral and the three entry statistics equal $A_s,B_s,L_s$. The entry therefore meets `EntryHyp`.
+
+A zero entry satisfies the estimate. For a nonzero entry, `EntryStar` gives valuation at least
+$W=\gamma\sum_{s\in TT}A_s-\sum_\phi\alpha_\phi-\sum_{s,t}i_{st}-\Delta+\rho d$.
+The support and regrouping of the single terms give the indicated sum. The even budget pays the paired multiplicities and the even-source single multiplicities at once. The odd-source multiplicities are bounded by $\sum_{s\in O}\sum_{0\le t<E}m_{st}$. Each $m_{st}$ is nonnegative and at most $(A_s/p)(p^{-2})^t$. Since $p^{-2}<1$, the full series converges and bounds the finite sum. The inequality $W\ge G_2+\rho d$ is the calculation in `cappedGainSubLE` that yields `EntryCappedBound`. Taking each coefficient's norm below the evaluated Gauss norm gives `gauss_a_two_generic`.
+
+The determinant expansion is homogeneous of degree $d$ in $Z$. In the factorial pairing every coefficient of $F$ that is used has therefore acquired the same multiplier $\pi^d$. Hence $J(F)=\pi^dJ(\mathrm{Th})$. The relation on $\pi$ gives $|\pi|=p^{-\rho}$. Dividing by its positive $d$th power removes exactly $\rho d$ from the threshold. This proves `kernel_a_two_generic`.
+
+**Equality and failure of the class premise [Expository].** If $TT$ consists only of odd sites, $D_s$ and $V$ are empty and the identity $\sum_t a_{st}=\gamma A_s$ gives $G_1=G_2$. In the first calculation above, replacing $\mathrm{Th}$ by $5^{-3}\pi^{-1}Z_1$ gives valuation $-3-1/24<G_2$. The scaled linear coefficient is nonintegral. Each term of $hhS$ is a product of two positive-degree series, so a degree-one coefficient in the class comes from the integral $U_0$.
+
+**Corollary (the branch used in the lattice bound) [Lean, read].** Fix the admitted packet $D,X,Y$, a place $v$, and $j<X.\mathrm{mm}$. In `ea_A2U` the field is the extension $K'$ of `ea_NormExt`, with `vp` as $\pi$. The dimensions are $\nu=X.G.P.n'(v)/2$, $r_0=NN(X.G.P.m,X.t,j)$ and $r_1=NN(X.G.P.m,X.t,j+1)$. The equivalence `ea_e` sends the place's top set to $TT$ and transports $u$ by precomposition with its inverse. The counts and heights come from `nuv` at coordinate $1$ and `colHt` at level $j+1$. The map `ea_Ic` selects the given column indices at this place. The series input is $\mathrm{Th}=\mathrm{resV}(\mathrm{ea_eps},F_{\mathrm{loc}})$. In the norm test $F_{\mathrm{loc}}$ is the scalar extension of the theta-coordinate series of $\exp(-Y.\mathrm{PhAt}(j,v))U$, with $U$ integral in parameter coordinates. The class premise comes from `ea_RestSU` and is transferred to the scaled restriction by `ea_BrClass`. At this call $5\le p$ implies $2<p$.
+
+The test applies to the unweighted `PIv`. For each coefficient of `applyD`, `ea_BrJet` gives zero or an equal coefficient of $J(\mathrm{Th})$. In the nonzero case `ea_BrNum` identifies the first threshold with $X.\mathrm{g0v}(v,j+1)$, the unshifted `gainG` with $X.\mathrm{gv}(v,j+1)$, and the even top count with $X.\mathrm{alEven}(v)$. Thus `ea_A2U` calls `ea_lowN` with $g=X.\mathrm{gv}(v,j+1)-X.\mathrm{alEven}(v)$. The zero coefficient satisfies the same norm inequality. The test commutes with scalar extension. The valuation ball cuts out $Y.Oc$ on the original coefficient field. If $b>0$ and $a/b\le g$, a coefficient $x$ with $|x|\le p^{-g}$ has $|x^bp^{-a}|\le p^{a-bg}\le1$. This proves `geC` and then `LowAt` at $g$, the assertion `PlacewiseLowerBoundEvenShift` supplied by `second_lemma_place_bound`.
+
+Fix $j$ and the indices $i_0(v)$ and rational thresholds $g_P(v)$ in `EntCondition`. The premises `PlaceB` give three cases. At index zero with a supplied `LowAt`, use that premise. At index zero with $g_P(v)\le X.\mathrm{gv}(v,j+1)-X.\mathrm{alEven}(v)$, use the second bound and monotonicity. In both cases `PIvS` at zero equals `PIv`. At $1\le i_0(v)\le X.G.P.r$ with $g_P(v)\le X.\mathrm{gv}(v,j+1)$, use the separate `RestBU`. These placewise estimates are the inputs to `RestPlaces`, which gives `EntB` at $\sum_v g_P(v)$.
+
+In `rests` this route supplies `R.Ent`. The first bound supplies `R.U2` through the first place theorem. In the positive-ramification case the packet proof invokes `lift_bound_of_integrality` with `R.Ent`, `FormB`, the alternate-form data `Conclusion4`, the fraction-field and nonvanishing premises, the linearity and commutation package, and initial-lattice stability under `yv`. To see where the loss is paid, take the selected list $B$ at a step of `main_ind` and put $g_P(v)=G_n(v,j+1)$ on $B$ and $g_P(v)=G_{0n}(v,j+1)$ elsewhere. On expanding the correction operators, a summand at a selected place has Hecke index $i_0(v)=r-l$. Index zero occurs at $l=r$, where the coefficient has valuation at least $X.\mathrm{alEven}(v)$. Let $A=\sum_{v\in B,\ i_0(v)=0}X.\mathrm{alEven}(v)$. The product scalar has valuation at least $A$ by `Zop_gen` and `ZL_mem`. In `ZL_bound` use $g_Q(v)=g_P(v)-X.\mathrm{alEven}(v)$ on those zero-index selected places and $g_Q(v)=g_P(v)$ elsewhere. The numerical zero-index alternative applies because $G_n(v,j+1)\le X.\mathrm{gv}(v,j+1)$. Unselected places have index zero and use the supplied baseline. The $g_Q(v)$ may be real. For any strict target below their sum, choose rational thresholds just below each $g_Q(v)$, keeping their sum above the target. Monotonicity retains the local tests and `EntCondition` applies. The lattice bound uses the ceiling of the gain times the ramification index, so a sufficiently small shift down preserves that ceiling. This is the passage through `ent_strict` and `formB_lim`. After the lattice comparison the summand has threshold $\sum_v g_P(v)-A-X.dG(j)$ before the scalar. Multiplying by the scalar restores $A$. The valuation inequality is preserved under integral linear combinations, so the entire step has threshold $\sum_v g_P(v)-X.dG(j)$. The commutation in `main_ind` then subtracts the penalty for $B$. The baseline `LowAt` and the gain, penalty and slack conditions are further premises of `LowTermBound`. Under these conditions the induction adds the step gains, followed by the numerical comparison and ceiling in [§8.4.5](#845-from-the-single-kernel-expansion-to-the-low-term-lattice-bound-lowtermbound). The zero-ramification case uses `Conclusion0` and the absence of places at that index.
+
+**Reading boundary.** The proof covers the second generic estimate from the finite entry witness and its direct use in the zero-index numerical branch. The positive-index hypothesis comes from `kernel_b_generic`. Its production, including `EntryB_of` and `BCore`, remains [Lean] at this depth, as do `theorem_s_uniform`, the deeper supply of `restGc`, `KGLt.first_kernel_law_global_small` and `thetaLocalModels_of_splitUnramified_joints`. The finite entry witness is the named input `Top.entryStar` (`KOneConsequence.lean:39–41`). The first and second generic bounds concern the same jet. The production call here uses the second threshold in the numerical zero-index alternative.
+
+**Sources.** [A2](../sources/SOURCES.md#a2) has SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The LUMI guide identifies the first jet bound and the class and accumulation context [Community]. The polynomial Gauss norm is the finite case of Kedlaya's definition and multiplicativity lemma. [LUMI, lines 149–158](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/04-chain-and-one-half.md#L149-L158) · [Kedlaya, Tate algebras, pp. 1–2, Lemma 1(c)](https://kskedlaya.org/18.727/tate-algebras.pdf)
+
+| Reading scope | A2 archive paths and lines |
+|---|---|
+| Definitions | `src/Formalism/GrowthSums/StatementA.lean:63–65,104–112`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementAB.lean:95–101`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementE.lean:93–120,153–184,201–211`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementG.lean:19–29`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementGK.lean:34–46,63–87`; `src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean:522–533,708–716`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PlaceB.lean:27–28`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/OddLogRelation.lean:76–79`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/CyclicPowerClassOfExpEquiv.lean:81–87` |
+| R3, even budget and saturation by capacity | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EntryATwoAndB.lean:17–168,220–266`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/MinorProdBlockDegree.lean:11–56`; `src/Formalism/GrowthSums/FactorialBaseGrowth/PathBasisOfCount.lean:10–37`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/KOneConsequence.lean:44` |
+| R3, Gauss reduction and division by the uniformizer | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:16–32,38–101,103–144,158–164,188,199–204,216–217`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EKernel.lean:18–84` |
+| R3, place norm and entry consumers | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaGeCOfNorm.lean:37–69,71–108,110–147,156–192,194–196,211–222`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/FirstTheoremPlaceBound.lean:17–26`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AuxUOfFirstTheoremPlaceBound.lean:40–73`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RestEntOf.lean:60–63` |
+| R3, selected summand and chain consumer | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AofUpdate.lean:91–170,172–217`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/RamifiedLatticeOfChainEstimates.lean:46–94`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/YEPEComm.lean:127–185`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean:103–174`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:80–105` |
+| Named inputs, no new R3 claim | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGauss.lean:111`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/FinsuppStepInduction.lean:227,746`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EbBrJet.lean:41`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaDegreeMapDomain.lean:162`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/GainOfCapacityLoss.lean:252`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/CommonEigenvectorThird.lean:21`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:219–220`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/OmegaOfTraceDuality.lean:31–32`; `src/Formalism/LocalToGlobal/InertKernelTheory/InertCoprimeLemmas/FirstKernelSmallOfFrameTwist.lean:124` |
+
+[Publication source map](../sources/SOURCES.md#ch08-frame-target-second-gauss-sources)
 
 ### 8.4.14 Producing `ea_RestSU`: logarithmic-coordinate integrality (`restSIntA`) and the exponential-factor reduction (`ea_restSExpV_of`)
 
@@ -1992,7 +2402,7 @@ supersingular CM reductions, Lubin–Tate formal groups, or `Conclusion1` [Expos
 | StepZero_of, LamModule_of, FirstDeriv_of, CobLin_of, StepI_of | src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/ScalingSwapLemmas.lean:314–447 and ConstantCoeffLawFirstTwoOfThree.lean:178–474 | [§8.4.18](#8418-projection-and-first-derivatives-for-betaisg): congruence projection, integral derivatives on two coordinate faces and the bounded scalars passed to BetaIsG_of. | [Lean, read] |
 | `Top.lemmaOne`, `LemmaOne_of`; `not_dvd_choose_pow_mul`, `exists_not_dvd_choose`, `padicValNat_choose_pow`, `coeff_pow_top`, `norm_coeff_mul_choose`, `low_up`, `correct`, `g_zero_low_coeff_norm`, `lg_low`, `cob_rem_integral`, `good_zero`, `good_succ`, `exists_limit`; `norm_natCast_eq_one_of_not_dvd`, `norm_natCast_eq_pow_padicValNat` | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FinalS.lean:48`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/NotDvdChoosePowMul.lean:16–539`; `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NormNatCastEqOneOfNotDvd.lean:7–28`; `src/Formalism/GaussJetBounds/GaussJetProofs/NormNatCastEqPowPadicValNat.lean:17–29` | [§8.4.19](#8419-classifying-slice-coboundaries-and-the-lemmaone-supply): Lazard binomial dichotomy, two-step $g_0$/$\ell$ Cauchy approximation for one-variable slice coboundaries $f=\alpha g_0+\beta\ell+R$ ($\lVert\alpha\rVert\le 1$), and congruence elimination of $\beta\,\ell$ in `StepI_of` (`DeIntegral`, `LawSymm`, `LemmaTwo`, `DworkMv` kept named). | [Lean, read] |
 | `ClassChange`, `chT`, `chU`, `low_chT`, `low_chU`, `integral_chU`, `sum_triangle`, `term_change`, `classChange_statement`; `lamF`, `altF`, `LogRescale`, `LogRescaleUnique`, `ballRing`, `right_inv_eq`, `logRescaleUnique`, `subst_lgF_scale`, `geom_sum_mul_pred`, `norm_lamF_sub`, `altR_add_expand`, `altR_pow`, `subst_altR`, `mem_span_p_iff`, `charP_quot`, `map_mk_eq_zero_iff`, `logRescale`; `ThmSCore_of` | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/OddLogRelation.lean:81–85`; `TopsChoicePartB.lean:86–176`; `CyclicPowerClassOfExpEquiv.lean:35–58,112–122`; `LogarithmEquivalence.lean:18–23,172–482`; `BallRing.lean:3–29`; `TopsChoicePartA.lean:109–162`; `TheoremSFromKOneOf.lean:682–726`; `FinalS.lean:26,35–40` | [§8.4.31](#8431-control-class-change-and-the-existence-and-uniqueness-of-the-rescaled-logarithm): triangular binomial witness rearrangement for $H \mapsto H + \pi Y$ on arbitrary variable sets, two-sided unit-ball inversion and mod-$(p)$ alternating congruence for $\mathrm{lamF}_{p,\varpi}$, right-inverse uniqueness transferring `hμa` to the caller's $\mu$, and the `-Y` control shift in `ThmSCore_of` (`TwoSums`, deeper `integral_sSub` helpers, and `SimeqRules` kept named). | [Lean, read] |
-| `restGc`, `th_restGcV_of` (proof body), `nm_restNorm_of_place`, `eb_brJet`, `ea_brClass`, `ea_brNum`, `ea_brScale`, `kernel_a_one_generic`, `kernel_a_two_generic`, `kernel_b_generic`, `formB`, `entry_mem`, `theorem_of_alternate_form` | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/CommonEigenvectorThird.lean:21`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/ThRestGcVOf.lean:27`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NmRestNormOfPlace.lean:21`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EbBrJet.lean:41`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaDegreeMapDomain.lean:162`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/GainOfCapacityLoss.lean:252`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaApplyDScale.lean:98`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:213,216,219`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/SmulUpdate.lean:99`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/KernelSumOfClassData.lean:206`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/TheoremOfAlternateForm.lean:561` | Inputs of Theorems 8.6–8.7 whose proofs we have not read; `entry_mem` takes `adm7` and `ArchimedeanSignatureMatching` from `admitted`. | [Lean] |
+| `restGc`, `th_restGcV_of` (proof body), `nm_restNorm_of_place`, `eb_brJet`, `ea_brClass`, `ea_brNum`, `ea_brScale`, `kernel_a_one_generic`, `kernel_b_generic`, `theorem_of_alternate_form` | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/CommonEigenvectorThird.lean:21`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/ThRestGcVOf.lean:27`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/NmRestNormOfPlace.lean:21`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EbBrJet.lean:41`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaDegreeMapDomain.lean:162`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/GainOfCapacityLoss.lean:252`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/EaApplyDScale.lean:98`; `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean:213,219`; `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/TheoremOfAlternateForm.lean:561` | Named inputs of Theorems 8.6–8.7. The first generic estimate has a separate source-reading record. | [Lean] |
 
 **Summary of the chapter.** At primes $p$ inert in the imaginary quadratic core $K = \mathbb Q(\sqrt{-d})$,
 supersingular height-$2$ formal groups have $D^p \equiv 0 \pmod p$ and Newton-polygon slope

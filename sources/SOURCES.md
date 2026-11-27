@@ -5021,3 +5021,33 @@ A2 joined archive SHA-256: `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc433
 | List-to-fine identification | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtDec.lean:33–38` | R3 |
 | JuxtP branches and wrapper | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtPOfFineUniq.lean:15–48` | R3 |
 | Unlinked interaction path | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/LUnlinkedIrrOfSeg.lean:12` | R2 [Lean] [Open] |
+
+### Chapter 8.4.7–8.4.9: frame comparison and the second Gauss bound
+
+<a id="ch08-frame-target-second-gauss-sources"></a>
+
+The mathematical source is Levent Alpöge with Claude's [A2 archive](#a2), SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The declaration names below refer to that pin. The section links give file paths and line ranges.
+
+| Original textbook manuscript | Archive declarations and hypotheses | Actual consumer | Published explanation |
+|---|---|---|---|
+| Frame integrality (23 November, 20:13 run) | `xMid_of`, `xUnit_of`, `XShape`, `XA`, `XB`, `TransposedFrameImageBlockwise`, `XC`, `XG`. The block pairing gives the sign, common determinant scalar and Fock normalization. The determinant orders and length powers give the integral scalar in `xPair`. | `lattice_shape_middle_holds` and `lattice_shape_unit_holds` supply `hMid` and `hU` to `pending_tuple_admissible_of_shape`. | [§8.4.7](../chapters/08-divisibility-at-inert-primes.md#847-frame-changes-and-integral-normalization-in-local-interpolation) |
+| Target comparison (23 November, 21:31 continuation, manuscript delivered after its report) | `dual_bases_holds`, `tgt_abs` and `tgt_bidet`, with Weyl and Fock inputs. `xSpan` gives rational span, `xPair` gives normalized tests, and `XBrT` multiplies back the nonzero target character. | `admissible_general_lattice_tuple` in the `pendT` model supplies `adm7` with `FrecG` as its series family. In `entry_mem`, `EntB` tests `ThZA (ThA … φ)`. `ThF_frm` identifies the actual series, and `wt_inv` gives the separate loss `dG` in the class sum, on the way to `FormB`. | [§8.4.8](../chapters/08-divisibility-at-inert-primes.md#848-from-target-pairings-to-the-lattice-bound) |
+| Second Gauss bound (23 November, 22:19 run) | `EntryStar`, `HitsCapPos` and `cappedGainSubLE` give `entryCappedBound_of`. Grouping into the Gauss field gives `gauss_a_two_generic`. Division by the common power of the uniformizer gives `kernel_a_two_generic`. | `second_lemma_place_bound` calls `ea_A2U`, which passes the unweighted `PIv` coefficient test to `ea_lowN` at `gv - alEven`. `restEnt_of_rest` combines the place bounds into `EntB` and `EntCondition`. | [§8.4.9](../chapters/08-divisibility-at-inert-primes.md#849-the-second-gauss-bound-and-the-even-position-loss) |
+| Existing chain accumulation | `ZL_bound` takes `FormB` and `EntCondition`. `ent_strict` and `formB_lim` recover the endpoint. The full-rank correction restores the even loss and `main_ind` accumulates net gains. | `lift_bound_of_integrality` in positive ramification, `low_term_bound_of_eO_eq_zero_of_aux0` with `Conclusion0` at zero ramification, then the terminal field of `Conclusion₂` and the reader `JointsTw.UAt_of`. | [§8.4.5](../chapters/08-divisibility-at-inert-primes.md#845-from-the-single-kernel-expansion-to-the-low-term-lattice-bound-lowtermbound) |
+
+**Predecessor manuscripts.** The selection-service manuscript (§8.4.6) reads the local `adm7` interface through `pending_tuple_admissible` and `entry_mem`. The first-bound manuscript (§8.4.5.1) reads `entryExcessBound_of` → `gauss_a_one_generic` → `kernel_a_one_generic`, using `EntryStar` and `HitsCapPos`. The finite-jet manuscript (§8.4.5.2) reads `EntryStar_of` and its stated direct inputs. These sources have local author-level readings and same-source preliminary reviews at their respective scopes. The first-bound review corrects the Kedlaya citation to the norm definition and Lemma 1(c). The finite-jet follow-up restores the checker entry point. The published text uses the corresponding archive statements.
+
+| Case | Required input and boundary |
+|---|---|
+| Zero index with an available baseline `LowAt` at the desired level | Use the baseline. |
+| Zero index with no such baseline and level at most `gv - alEven` | Use the second estimate. When both inputs are available either suffices. The generic maximum of the two thresholds holds for the same unweighted test. |
+| Positive allowed index | Use `RestBU`. The proof of `kernel_b_generic` through `EntryB_of` and `BCore` remains named. |
+| Class, jet and lattice hypotheses | `ea_RestSU`, `ea_brClass`, `eb_brJet`, `ea_brNum` and the norm extension retain their stated scopes. The deeper theta-class production, `theorem_s_uniform`, `restGc`, the joint-site and kernel geometry, `pairO_inv`, highest-weight Fock inputs and `descent_core` remain named at the relevant interfaces. |
+
+**Verification record.** The three manuscripts have author-level local R3 readings at the listed bodies. The frame and second-bound manuscripts have same-source preliminary rulings supporting their conditional arguments. The target continuation's later record confirms delivery and scope. Independent mathematical final review of these three manuscripts remains unrecorded. Exact arithmetic for the examples is an expository check. Earlier community archive builds appear in the verification bibliography. This edition records source reading, with Lean kernel replay, declaration-level Main reachability and peer review tracked separately. [Verification bibliography](#verification-v)
+
+**Online sources checked for this edition.** Kiran S. Kedlaya, *Tate algebras (or, Commutative algebra revisited)*, 18.727, Fall 2004, pp. 1–2, defines the Gauss norm and proves multiplicativity in Lemma 1(c). The finite-polynomial argument uses ultrametricity and extends to the fraction field. Retrieved 2026-11-27 UTC, SHA-256 `a4c69d0a9704c2f8d4ed249384606c31c4b8e11dfa48184b06f8720ebc495596`. [Kedlaya's notes](https://kskedlaya.org/18.727/tate-algebras.pdf)
+
+Aapo Lipponen and the LUMI contributors' guide at revision `c6d0e2bc06ae4562d6656c6ef118739670d19eeb`, lines 149–158, gives the community account of the class, first jet bound and chain accumulation. Retrieved 2026-11-27 UTC, SHA-256 `5258df0f8b20609b38926ca1ef54b0ac45afc5b2f7749022dc7086d64573f9f9`. Alpöge's note, p. 1, gives the Stepanov and theta-chain motivation. A2 supplies the conditional arguments above. [LUMI guide](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/04-chain-and-one-half.md#L149-L158) · [Alpöge's announcement](#a1)
