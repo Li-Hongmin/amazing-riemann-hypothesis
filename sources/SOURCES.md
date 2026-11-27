@@ -4845,3 +4845,112 @@ The two proofs specialize to the same coefficient DVR $O$ used by the chosen twi
 **Intervening manuscripts.** The contributors' Chapter 10 manuscripts §10.4.7.7 (the `ChooseH` corank witness), §10.4.7.8 (`SpanTwo`), §10.4.7.9 (`SpanOdd`) and §10.4.7.10 (`EqDim`) give the context for these calls. Their A2 loci are IE/`ExistsElementsSelmerFormsSmallCorank.lean`, IE/`SpanTwoOfGaloisHypothesis.lean`, IE/`CocycleFormsSpanOddResidueChar.lean`, and IE/`ResidualSelmerFinrankEqDual.lean`. The `EqDim` manuscript is the reference for the global count. Local use of the two arrows here takes place before that count. [Archive A2](#a2)
 
 **Evidence.** The displayed production proofs have local R3 source readings and independently reviewed conditional expositions. The exact finite models are `[Expository]` examples. Kernel replay, compiled `Main` reachability and peer review are separate questions. Frontier K §§1.3–1.8 supplies the community twist-and-frame map and its discussion of dependency scope. [Pinned LUMI report](https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md)
+
+
+### Chapter 12 multisegment exhaustion, Jacquet shuffles and segment production
+
+- **A2 archive.** Joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The chapter traces the actual production chain in [exhaustion](../chapters/12-galois-representations-and-local-langlands.md#1248-why-ordered-segment-quotients-exhaust-the-irreducible-representations), [Jacquet shuffles](../chapters/12-galois-representations-and-local-langlands.md#1249-jacquet-shuffles-and-the-descending-segment-word) and [segment production](../chapters/12-galois-representations-and-local-langlands.md#12410-producing-the-increasing-segment-from-adjacent-pairs). [Lean, read] and local R3 describe the cited proof bodies read for the textbook. The original three accounts received same-source initial review within their named assumptions. Kernel replay, declaration-level reachability from Main, independent review and peer review are separate and remain unverified here.
+- **A. V. Zelevinsky**, *Induced representations of reductive p-adic groups II. On irreducible representations of GL(n)*, Ann. Sci. Éc. Norm. Sup. (4) 13 (1980), no. 2, 165–210, DOI 10.24033/asens.1379. §§1.1–1.6 give normalized induction, Jacquet adjunction, exactness, transitivity and the matrix filtration. §§1.10–1.11 give cuspidal support, embeddings and adjacent reducibility. §§3.1–3.2 give the increasing submodule and its tensor. §§4.1–4.6 give linking and the adjacent classical comparison. §§6.1, 6.4 and 6.7 give the submodule classification, swaps and minimum-inversion exhaustion. §§9.1–9.5 give the opposite single-segment convention, Steinberg and the high-first cut. §9.7 gives the irreducible unlinked products in the quotient-block convention and the nondegenerate classification. PDF retrieved 2026-11-28, SHA-256 `663c79f2ee236626385d242d83107410c1a3291ba5584d4b8abee9cf8af428ac`. [Original article](https://www.numdam.org/item/ASENS_1980_4_13_2_165_0/)
+- **LUMI guide [Community].** Aapo Lipponen and contributors describe the restricted `Good` scope of the partial correspondence. [Pinned guide, line 37](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/05-galois-representations.md#L37)
+- **Actual extension consumer.** `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/Outright.lean:8–10` supplies exhaustion and the multisegment theorem separately to `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/Multi.lean:11–12`. `src/Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean:23–28,45–51` consumes both in `exists_isLExt` and then uses agreement at each segment beginning. See `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LanglandsExtensionUniqueOnCuspidal.lean:34–56` for precisely the use of multiset uniqueness and the length-one case.
+- **Worked parameter comparison.** The convention for the real twist and the half-shift of the special block is in `src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/LocalLanglandsGL.lean:151–157` in the A2 archive. The rank-two characteristic polynomials in the chapter use the corrected before-and-after values from the seed-extension account.
+
+#### Jacquet shuffles and descending recognition
+
+**Source map.** All Lean citations refer to A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. [Lean, read] applies to the proof bodies listed here. Proofs further down the imports remain [Lean], with their independent reading status [Open].
+
+| Proof step | Archive file and lines |
+|---|---|
+| Strong induction, positive coarse occurrence, and top-cut converse | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentJacquetAll.lean:23–34,36–71,73–124` |
+| Length-one case | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FineJacquetLengthOne.lean:112–143` |
+| Length-two central-character obstruction, kernel, and the two permutations | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FineJacquetSegmentLengthTwo.lean:28–83,85–88,92–116,118–175,177–247,249–300` |
+| Cover by the two subsequences, then the fine-word induction | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FineJacquetSegmentInduction.lean:24–54,56–99,136–173,175–259` |
+| Descending order from the two deletions | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/StrictAntiOfTwoExceptions.lean:5–46` |
+| One-segment row multiplicity | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentRepJacquetWordMultiplicity.lean:15–105` |
+| Split column contradiction | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalCellMultiplicityZeroOfSplitColumn.lean:19–53` |
+| Coloured cell product and uniqueness of the contributing array | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalCellMultiplicityOfColouring.lean:34–104` |
+| Rank mismatch and bijective matrix count | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentProductJacquetShuffleCount.lean:18–47,53–154` |
+| Recursive shuffle from a valid colouring and transport between word definitions | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentProductWordInShuffle.lean:19–83,87–120` |
+| Evaluation and implication from a nonzero map to Jacquet occurrence | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JacquetMultiplicityPos.lean:98–182` |
+| Transfer occurrence via Jacquet exactness | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/WordOccursOfSubquotient.lean:12–19` |
+| Combinatorial reordering of the input lists | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ShuffleOfPerm.lean:12–51` |
+| Fine rank-sized quotients and descending recognition | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IrreducibleSubSegmentProduct.lean:26–84,86–115,117–172` |
+| Existence by smooth duality | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsSegmentRepresentation.lean:17–30` |
+| Descending induction and permutation bound | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsSocleSegmentProduct.lean:15–37` |
+| Exactness, evaluation, and socle uniqueness from a multiplicity bound | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SocleOfMultiplicityOne.lean:26–37,46–69,71–101,103–153,155–183` |
+| Occurrence and singleton insertion | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtShl.lean:17–51,57–84` |
+| New descending word and cancellation at the right endpoint | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtWords.lean:12–23,25–31,33–44` |
+| Gap of two, one swap at a time, and movement through a suffix | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtSwap.lean:12–41,43–51,53–76` |
+| Equality of classes from cosocle uniqueness | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtUniq.lean:11–22` |
+| Transport to the indexed descending induction | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtDec.lean:15–31,33–38` |
+| Both branches and the two input contracts | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtPOfFineUniq.lean:15–44,46–48` |
+
+**Statements and production calls.**
+
+- The segment cosocle predicate. `src/Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/NonemptyEquivMultiProdOne.lean:543–544`
+- Indexed descending word and fine Jacquet property. `src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/ZelevinskyJacquet/FineJacquetModules/SegDefs.lean:12–21`
+- Jacquet multiplicity and ordered cuts. `src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/ZelevinskyJacquet/LSegJacquet.lean:12–29,34–38`
+- List multiplicity and colouring count. `src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/ZelevinskyJacquet/ZelevinskyCosocles/LUnlinkedComm.lean:12,16–26`
+- Embedding operations and the dichotomy. `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/CuspEmbP.lean:14–31,36–37`
+- Shuffle and descending recognition contracts. `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtDefs.lean:13–21`
+- Actual arguments to the dichotomy. `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/ExhaustionOfThree.lean:49–55`
+- Consumer in the exhaustion argument. `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/ExhaustionOfSteps.lean:30–32`
+- Exhaustion instantiation. `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/Outright.lean:8`
+- Ascending submodule hypothesis. `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/SegmentRepresentation.lean:15–22`
+
+The exported suppliers forward to the bodies above.
+
+- `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentJacquetAllStatement.lean:8–9`
+- `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IrreducibleSubSegmentProductStatement.lean:8–9`
+- `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentProductJacquetShuffleCountStatement.lean:8–9`
+- `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentProductWordInShuffleStatement.lean:9–10`
+
+**Imported proof boundaries [Lean] and [Open] for deeper reading.**
+
+- Geometric lemma and exactness. `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/GeometricLemma.lean:8` · `src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/InSupportOfIsSubquotient.lean:91` · `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/ParabolicInductionPreservesInjectiveAndExactness.lean:19`
+- Finite length. `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/JacquetModuleFiniteLength.lean:100` · `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/ParabolicInductionFiniteLength.lean:247`
+- Cuspidal embeddings, Levi decomposition and reverse Frobenius reciprocity. `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SupportSubschemeEmbeddingStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LeviIrreducibleTensorDecompositionStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FrobeniusReciprocityNonzeroStatement.lean:8`
+- Fine Jacquet induction inputs. `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentTermInjectiveStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JacquetMultiplicityCuspidalProductStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IrreducibleSubquotientCuspidalPermutationStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JacquetMultiplicitySubquotientLeStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SegmentRepSplitIntertwinerStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IrreducibleSubquotientJacquetSegmentStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/EquivOfMultiplicityOneUniqueFactorStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/DerivativeCuspidalPairLengthStatement.lean:8`
+- Refinement and factorization. `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JacquetMultiplicityConcatStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ConcatenatedJacquetMultiplicityFactorizationStatement.lean:8`
+- Zero blocks, vanishing and twist injectivity. `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ProductSingleNonzeroFactorEquivStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JacquetMultiplicitySublistPaddingStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/InducedProductDropZeroFactorsStatement.lean:10` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalMultiplicityProductZeroStatement.lean:8` · `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalTwistInjectiveStatement.lean:8`
+- Duality transport for segment existence. `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ContragredientSegmentProductEquivStatement.lean:8`
+
+The production of `SegmentRepresentation`, the deeper tensor and admissibility machinery, and the proof of middle-factor exactness are outside this subsection's reading scope.
+
+#### Increasing segment production
+
+A2 joined archive SHA-256: `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Paths are relative to the extracted archive root. R3 marks a proof body read through to its conclusion, conditional on the cited suppliers.
+
+| Role | A2 source | Read level |
+|---|---|---|
+| Consecutive blocks and the exact conclusion | `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/SegmentRepresentation.lean:10–22` | R2 definition |
+| Increasing exponent | `src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/ExistsCellOfIsSubquotient.lean:126–128` | R2 definition |
+| Identity permutation multiplicity | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/SrMult.lean:67–108` | R3 |
+| Multiplicity-one socle adapter | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/ExistsUniqueIrredSub.lean:16–53` | R3 |
+| Reverse-tensor exclusion conditional on reducibility and two-word surjectivity | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/JhMultRevJacSub.lean:40–119` | R3 |
+| StageP interface | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/SegRepOf.lean:19–27` | R2 definition |
+| Length-two assembly | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/SegRepOf.lean:31–42` | R3 |
+| All-length assembly and actual Jacquet equivalence | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/SegRepOf.lean:46–61` | R3 |
+| Block and class transport, embedding maps and nonzero range | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/StageC.lean:22–118` | R3 |
+| Induce the embedding on either side | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/StageC.lean:127–160` | R3 |
+| Select the row of the inserted segment | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/StageC.lean:163–178` | R3 |
+| Replace the adjacent pair and transport its Jacquet tensor | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/StageC.lean:181–236` | R3 |
+| Turn occurrence into positive multiplicity and enforce the adjacent order | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/StageC.lean:240–298` | R3 |
+| Choose the contributing cell and identify the ordered row | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/DerivativeCuspidalPairLength.lean:451–552` | R3 for the two bodies |
+| Jacquet constituent transfers, and increasing inverse permutation | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/IsSubquotientJacMultiProdOfSub.lean:17–45` | R3 |
+| Find a simple submodule in the test module and pass its constituents upwards | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/IsSubquotientJacOfLe.lean:20–43` | R3 |
+| Actual exported supplier | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/SegmentRepresentation.lean:9–12` | R3 |
+| Adjacent reducibility supplier | `src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/SegmentJacquetSubquotients/RhoNuRhoReducibleC.lean:17–21` | R2 [Lean] [Open] |
+| Two-word surjectivity by the simple quotient of a hypothetical cokernel | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalPairSubGeneric.lean:182–237` | R3 conditional on the first-cuspidal embedding and exactness |
+| Whittaker injectivity and generic heredity adapters | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalPairSubGeneric.lean:241–265` | R2 [Lean] [Open] |
+| First-cuspidal embedding used by surjectivity | `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CuspidalPairSubGeneric.lean:207–212` | R2 dependency call [Lean] [Open] |
+| Parabolic induction preserves injections | `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/LanglandsClassificationCuspidalSupport.lean:43` | R2 [Lean] [Open] |
+| Jacquet injectivity | `src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/JacquetModuleMapInjectiveOfInjective.lean:168` | R2 [Lean] [Open] |
+| Geometric lemma assembly input | `src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/GeometricLemmaOfFiltration.lean:8` | R2 [Lean] [Open] |
+| Finiteness bundle | `src/Development/AutomorphicSpectrum/Proofs/GlobalProofs/BernsteinZelevinskyFiniteness.lean:10` | R2 [Lean] [Open] |
+| Concrete exhaustion entry | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/Outright.lean:8` | R3 |
+| Conditional exhaustion entry | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/LanglandsMultisegmentsOfSeg.lean:10–14` | R3 |
+| Two actual JuxtP arguments | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/ExhaustionOfThree.lean:49–55` | R3 |
+| List-to-fine identification | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtDec.lean:33–38` | R3 |
+| JuxtP branches and wrapper | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/JuxtPOfFineUniq.lean:15–48` | R3 |
+| Unlinked interaction path | `src/Development/WeilBound/CoreStatements/AutomorphicKernels/LanglandsExhaustion/LUnlinkedIrrOfSeg.lean:12` | R2 [Lean] [Open] |
