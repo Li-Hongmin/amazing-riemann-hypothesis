@@ -1695,7 +1695,7 @@ $$
 \psi_s(V,T)=s(f)\prod_{1\le i<t}(1-q^{di}).
 $$
 
-*Proof.* The two named inputs are the surjective `AdjoinRoot` quotient and the affine subspace Möbius formula. The first provides a surjective $F$-linear $\pi:V\to U=K^t$, with $K=F[X]/(f)$, $\alpha=[X]$, $\pi T=\alpha\pi$ and $\ker\pi=\operatorname{im} f(T)$. Its output dimension agrees with $t$ by cancellation of $d>0$ in the supplied kernel-dimension equality. The power basis gives $[K:F]=d$, so $|K|=q^d$. By Cayley–Hamilton $N=f(T)$ satisfies $N^m=0$.
+*Proof.* The proof uses the named surjective `AdjoinRoot` quotient and the affine subspace Möbius formula of [§13.4.9.3](#13493-möbius-inversion-of-affine-dimension-sums). The quotient construction provides a surjective $F$-linear $\pi:V\to U=K^t$, with $K=F[X]/(f)$, $\alpha=[X]$, $\pi T=\alpha\pi$ and $\ker\pi=\operatorname{im} f(T)$. Its output dimension agrees with $t$ by cancellation of $d>0$ in the supplied kernel-dimension equality. The power basis gives $[K:F]=d$, so $|K|=q^d$. By Cayley–Hamilton $N=f(T)$ satisfies $N^m=0$.
 
 For an arbitrary $F$-subspace $W$, set $\Phi(W)=\operatorname{span}_K\pi(W)$. If $W$ is invariant, each polynomial in $T$ preserves $W$. Since $\pi(p(T)w)=p(\alpha)\pi(w)$ by linearity and iteration, and every $K$-scalar is $p(\alpha)$ for some $p$, the image $\pi(W)$ already is a $K$-subspace. If it is all of $U$, then every $v$ differs from some $w\in W$ by $Nu$. Thus $V=W+NV$. Repeated substitution gives $V=W+N^jV$ because $NW\subseteq W$. At $j=m$ this gives $W=V$. In particular $U\ne0$, since $U=0$ would allow $W=0$ in this argument but $\dim_F V=dm>0$.
 
@@ -1728,7 +1728,84 @@ For `cuspOn_eq_psi`, retain the additional hypothesis that $\omega$ is injective
 
 **Classical attribution and proof reading.** [Paper] Green's primary class $f^\lambda$ has $|\lambda|=m$ and $\ell(\lambda)=t$ by the companion strings of §1 and the ordinary eigenspace comparison above. On this class his $J_n(k)$ in §5, Example (ii), has value $\phi_{\ell(\lambda)-1}(q^d)\sum_{j=0}^{d-1}\theta^{kq^j}(y)$, where $\phi_r(Q)=\prod_{i=1}^r(1-Q^i)$. Taking the multiplicative character from the given lift identifies this with the unsigned primary value. The single-part case of §8, Theorem 14, Remark (1), gives the sign $(-1)^{n-1}$ and irreducibility for a regular exponent. The primary value on invertible matrices is classical. The archive proof supplies it directly from the finite recursion and also treats arbitrary additive inputs on monic polynomials and the endomorphism case $f=X$. [Green 1955, pp. 405–407, 430–431 and 443–444](https://doi.org/10.1090/S0002-9947-1955-0072878-2)
 
-Local R3 covers all six local lemmas and the complete `CuspGL.psi_primary` body in `InvariantSubspaceMobiusInverseCharpolyPrimaryEq.lean:15–206`, with its forwarding theorem and direct consumers recorded alongside the pinned library calls. The two named inputs retain interface-level reading [Lean]. The two matrix calculations have exact finite certificates. Community declaration-level reachability and local proof reading are recorded separately from kernel replay and peer review. [Source ledger](../sources/SOURCES.md#primary-möbius-inversion-in-chapter-13)
+Local R3 covers all six local lemmas and the complete `CuspGL.psi_primary` body in `InvariantSubspaceMobiusInverseCharpolyPrimaryEq.lean:15–206`, with its forwarding theorem and direct consumers recorded alongside the pinned library calls. The affine inversion is read in [§13.4.9.3](#13493-möbius-inversion-of-affine-dimension-sums). The surjective AdjoinRoot construction retains its named [Lean] interface. The two matrix calculations have exact finite certificates. Community declaration-level reachability and local proof reading are recorded separately from kernel replay and peer review. [Source ledger](../sources/SOURCES.md#primary-möbius-inversion-in-chapter-13)
+
+### 13.4.9.3 Möbius inversion of affine dimension sums
+
+**Motivation.** In [§13.4.9.2](#13492-from-invariant-subspaces-to-the-primary-character-value), the sum of weights over invariant subspaces with a given image defines a function on the subspaces of the primary quotient. Its cumulative sum below a quotient subspace is affine in that subspace's dimension. The intercept comes from the kernel of the quotient map. Inverting these sums explains why the product in the primary value stops at the dimension over the quotient field.
+
+**Examples.** [Expository] On $U=\mathbb F_2^3$, prescribe $5+2\dim A$ as the cumulative value at every $A\le U$. Let $L_v=\langle v\rangle$ and $P_u=\{x:u\cdot x=0\}$ for nonzero binary vectors $v,u$. Each line has a unique nonzero vector, and each plane is the kernel of a unique nonzero linear functional. The seven binary labels therefore enumerate all lines and all planes. The plane rows list their nonzero vectors, which also label their lines.
+
+| Subspace $A$ | Lines in $A$ | Weight $G(A)$ | Cumulative value |
+|---|---|---|---|
+| $0$ | none | $5$ | $5$ |
+| $L_{001},L_{010},L_{011},L_{100},L_{101},L_{110},L_{111}$ | itself in each case | $7-5=2$ each | $5+2=7$ each |
+| $P_{001}$ | $010,100,110$ | $9-(5+3\cdot2)=-2$ | $5+3\cdot2-2=9$ |
+| $P_{010}$ | $001,100,101$ | $-2$ | $5+3\cdot2-2=9$ |
+| $P_{011}$ | $011,100,111$ | $-2$ | $5+3\cdot2-2=9$ |
+| $P_{100}$ | $001,010,011$ | $-2$ | $5+3\cdot2-2=9$ |
+| $P_{101}$ | $010,101,111$ | $-2$ | $5+3\cdot2-2=9$ |
+| $P_{110}$ | $001,110,111$ | $-2$ | $5+3\cdot2-2=9$ |
+| $P_{111}$ | $011,101,110$ | $-2$ | $5+3\cdot2-2=9$ |
+| $U$ | all seven | $11-(5+7\cdot2+7(-2))=6$ | $5+7\cdot2+7(-2)+6=11$ |
+
+The two product factors give $G(U)=2(1-2)(1-4)=6$.
+
+On $U=\mathbb F_3^2$, prescribe $-1+3\dim A$. Every nonzero vector is a nonzero multiple of exactly one of the four normalized generators in the table.
+
+| Subspace $A$ | Weight $G(A)$ | Cumulative value |
+|---|---|---|
+| $0$ | $-1$ | $-1$ |
+| $\langle(1,0)\rangle$ | $2-(-1)=3$ | $-1+3=2$ |
+| $\langle(1,1)\rangle$ | $3$ | $-1+3=2$ |
+| $\langle(1,2)\rangle$ | $3$ | $-1+3=2$ |
+| $\langle(0,1)\rangle$ | $3$ | $-1+3=2$ |
+| $U$ | $5-(-1+4\cdot3)=-6$ | $-1+4\cdot3-6=5$ |
+
+The one product factor gives $G(U)=3(1-3)=-6$.
+
+**Definition.** Fix a finite field $K$ with $Q=|K|$ and a finite-dimensional $K$-space $U$. For a complex weight $G$ on the subspaces of this same $U$, define $\mathcal ZG(A)=\sum_{B\le A}G(B)$. This is the zeta transform of the subspace poset. Write $\delta_0(B)=1$ for $B=0$ and $0$ otherwise. Every lower interval contains the zero subspace exactly once, so $\mathcal Z\delta_0(A)=1$ for every $A$. Subtracting $c_0\delta_0$ removes the intercept from the cumulative data.
+
+**Lemma (affine dimension inversion).** [Lean, read] Suppose $\mathcal ZG(A)=c_0+c\dim_K A$ for every $A\le U$, with fixed $c_0,c\in\mathbb C$. Then $G(0)=c_0$ and for every $B\le U$ of positive dimension $r$,
+$$
+G(B)=c\prod_{1\le i<r}(1-Q^i).
+$$
+In particular, if $n=\dim_K U>0$, this gives the top value with $r=n$. The archive indexes the top product by $\operatorname{Ico}(1,n)$. In complex expressions $Q$ is the image of the integer $|K|$.
+
+**Proof.** Inclusion identifies subspaces of $A$ with the subspaces $B\le A$ of $U$ and preserves dimension. Write $N(n,a)$ for the number of $a$-subspaces of an $n$-dimensional $K$-space, extended by zero for $a>n$. Counting ordered independent $a$-tuples by their spans gives
+$$
+N(n,a)\prod_{j=0}^{a-1}(Q^a-Q^j)=\prod_{j=0}^{a-1}(Q^n-Q^j)
+\qquad (0\le a\le n).
+$$
+After choosing $j$ vectors, the next vector avoids their span of size $Q^j$. The multiplier on the left counts ordered bases of one $a$-space and is nonzero since $Q\ge2$. For $a=0$ both products equal $1$.
+
+Choose a line $L$ and a complement in an $(n+1)$-space. An $(a+1)$-space containing $L$ is the preimage of an $a$-space in the quotient. One disjoint from $L$ projects isomorphically onto an $(a+1)$-space in the complement. The original subspace is the graph of a linear map from that image to $L$, with $Q^{a+1}$ choices per image. Thus
+$$
+N(n+1,a+1)=N(n,a)+Q^{a+1}N(n,a+1).
+$$
+The archive obtains the same recurrence by splitting off the $j=0$ factor in the ordered-tuple product for $N(n+1,a+1)$ and using $N(n,a+1)=N(n,a)(Q^{n-a}-1)/(Q^{a+1}-1)$ for $0\le a\le n$. The latter also gives the zero at $a=n$.
+
+Set $P_a=\prod_{i=1}^{a}(1-Q^i)$ with $P_0=1$, $D_n(a)=N(n,a)P_a$, and $T_n(a)=N(n,a+1)P_a$. Multiplying the recurrence by $P_a$ and using $P_{a+1}=(1-Q^{a+1})P_a$ gives
+$$
+T_{n+1}(a)=T_n(a)+D_n(a)-D_n(a+1).
+$$
+Sum over $0\le a\le n$. For $S_n=\sum_{a=0}^{n-1}T_n(a)$, the facts $T_n(n)=0$, $D_n(0)=1$ and $D_n(n+1)=0$ give $S_{n+1}-S_n=1$. Also $S_0=0$, so $S_n=n$. Equivalently, the rank weight $w_Q$ defined by $w_Q(0)=0$ and $w_Q(r)=P_{r-1}$ for $r>0$ satisfies
+$$
+\sum_{B\le A}w_Q(\dim_K B)=\dim_K A
+$$
+on every lower interval. This is the layer sum in Lemma 13.26 in [§13.4.10](#13410-from-a-norm-one-virtual-character-to-a-positive-irreducible-character) transported to subspaces of the same $A$.
+
+The weight $H(B)=c_0\delta_0(B)+c\,w_Q(\dim_K B)$ therefore has the prescribed cumulative sums. The sums uniquely determine the weights. Indeed $G(A)-H(A)$ is the difference of the cumulative values at $A$ minus $\sum_{B<A}(G(B)-H(B))$. Induction on dimension gives equality at each $A$, including $0$. The intercept thus contributes only at zero.
+
+**What the hypotheses buy.** [Expository] In dimension one the product is empty and equals $1$, so the top is $c$. In dimension zero the sole subspace is both bottom and top, so the top is $c_0$. The same empty-product expression would give $c$ and fails for $c_0=5,c=2$. In the $\mathbb F_3^2$ example, raise $G(\langle(1,0)\rangle)$ from $3$ to $4$ and lower $G(U)$ from $-6$ to $-7$. The affine equality holds at zero, the three other lines and $U$, and fails only at the changed line. Even with the top cumulative value fixed, omitting one equality can change the inverse at the top.
+
+**The original quotient and sign.** [Lean, read] Use §13.4.9.2 on the original endomorphism $T$ over a finite field $F$ with $q=|F|$. Keep $\chi_T=f^m$, $m>0$, $f$ monic irreducible of degree $d$, and $\dim_F\ker f(T)=dt$. The named surjection `exists_surjective_pi_adjoinRoot_ker_eq_range` supplies $\pi:V\to U=K^t$ with $K=F[X]/(f)$, $\pi T=[X]\pi$ and $\ker\pi=\operatorname{im} f(T)$. The preceding section supplies $t>0$, the actual fiber-weight function $G$, and the cumulative sums with $c=s(f)$ and $c_0=(\dim_F\ker\pi/d)s(f)$ for monic-product additive $s$. Here $Q=q^d$ and $\dim_K U=t$. The ordinary $F$-dimension of $U$ is $dt$, equal to the dimension of $\ker f(T)$ by the stated premise. Each root of $f$ has ordinary eigenspace dimension $t$ over the splitting field and algebraic multiplicity $m$. Each original invariant subspace contributes its own weight to its image fiber. The count of vector lifts under $\pi$ plays no role in the weighted sum.
+
+The top fiber identity of §13.4.9.2 gives $\psi_s(V,T)=s(f)\prod_{1\le i<t}(1-q^{di})$. The product has real sign $(-1)^{t-1}$ and $s(f)$ can be complex. On the invertible primary root-sum specialization of §13.4.9.2, $s(f)=\sum_{f(z)=0}\omega(z)^k$ counts each distinct root once. The separate Green normalization in `cuspVal` and `cuspOn_eq_psi` is $(-1)^{n-1}$ for $n=\dim_F V=dm$. When $T=1$ and $s((X-1)^j)=j$ for all $j\ge0$, the cumulative input on a subspace is just its dimension. This explains the common weight $w_Q$ in §13.4.10. The archive proves the identity case directly by the recursion with just those polynomial values.
+
+**Attribution and reading.** [Paper] Rota's incidence inversion (Propositions 1–2, pp. 344–345) applies to the finite lattice with zero. Example 2 (pp. 351–352) gives its interval Möbius function, crediting Philip Hall and citing Weisner and Delsarte. The affine formula is a specialization of this classical inversion. Green's one-part primary evaluation uses the product with the partition length as endpoint and the quotient field size as base. His single-part specialization also gives the sign of the positive-character normalization. [Rota 1964](https://doi.org/10.1007/BF00531932) · [Green 1955, §5 Example (ii) and §8 Theorem 14, Remark (1)](https://doi.org/10.1090/S0002-9947-1955-0072878-2)
+
+Local R3 covers the affine body and forwarder, the shared weight and layer sum, and their direct production inputs. The original quotient construction retains its named [Lean] interface. The identity proof is a parallel consumer of the layer sum. Source reading, declaration-level community evidence, kernel replay and peer review have separate entries in the ledger. [Source ledger](../sources/SOURCES.md#affine-subspace-möbius-inversion-in-chapter-13)
 
 ### 13.4.10 From a norm-one virtual character to a positive irreducible character
 
