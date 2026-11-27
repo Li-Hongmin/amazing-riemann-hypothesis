@@ -1614,7 +1614,7 @@ $$
 $$
 The finite index is the height-one spectrum of $\mathcal O_F$. In the real family each Lean parameter $a:\mathrm{Algebra}\ F\ \mathbb R$ installs its own scalar map. The number $x$ is fixed before the two local families are supplied. Each field or scalar structure has its own existential witness. The determinant equation for $x\ne0$ makes that witness a unit, since multiplication by it is invertible and the inverse image of $1$ is its inverse. At a complex completion the finite separable tensor algebra is a product of copies of $\mathbb C$ and any nonzero scalar is a coordinate product. Thus the original $\operatorname{LocNorm}$ has all the content of the usual all-place condition. For a totally imaginary $F$ the real family is empty. [A2 definitions](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119) · [Milne, *Algebraic Number Theory*, Propositions 8.1–8.2 and Corollary 8.4](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
 
-**Prime-degree input [Lean].** The quadratic supply gives $\operatorname{NP}(F,E)$ for number fields with $[E:F]=2$. Its interface needs no Galois argument, since a quadratic extension of number fields is Galois. The odd-prime supply requires number fields, a Galois extension, a prime $p\ne2$ and $[E:F]=p$. The body of `np_of_finrank_prime` tests $p=2$ and dispatches to these two inputs. Their local-to-global proofs remain named. [A2, `HasseNormPrincipleOfIsCyclic.lean:18–23` and the two prime-degree interfaces](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+**Prime-degree input [Lean].** The quadratic supply gives $\operatorname{NP}(F,E)$ for number fields with $[E:F]=2$. Its interface needs no Galois argument, since a quadratic extension of number fields is Galois. The odd-prime supply requires number fields, a Galois extension, a prime $p\ne2$ and $[E:F]=p$. The body of `np_of_finrank_prime` tests $p=2$ and dispatches to these two inputs. The quadratic proof remains a named input. [§5.3.1.21](#53121-descending-an-odd-prime-degree-norm-after-adjoining-roots-of-unity) proves the odd-prime descent from the case with the primitive root in the base. [A2, `HasseNormPrincipleOfIsCyclic.lean:18–23` and the two prime-degree interfaces](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
 
 #### The cyclic tower lemma [Lean, read]
 
@@ -1691,7 +1691,7 @@ In `HasseEt` the input is a unit $x_A\in A^\times$ of a finite reduced commutati
 | `HasseEt.lean:34–47,76–78,98–129` | The field witness in $L$ has norm $x_K$. Put it in one coordinate and $1$ elsewhere via `norm_up`, giving the witness in $K\otimes_F E$. Lift the basis coordinates of these witnesses simultaneously across all residue fields and use determinant base change and injectivity into their product to obtain a norm $x_A$ in $A\otimes_F E$. |
 | `NmHasse.lean:9–36` | For invertible $\gamma$ with separable characteristic polynomial, $A=F[X]/(\operatorname{cp}(\gamma))$ is finite reduced and its root $x_A$ is a unit by the nonzero constant term. The local `nmAlg` equivalences send both families of characteristic-polynomial witnesses into the ring-valued norm equations. The reverse global implication consumes the resulting equation for that root and returns a matrix norm witness commuting with the scalar extension of $\gamma$. |
 
-The finite-place transport fixes the contracted place, and §5.3.1.18 identifies the required real structure. The all-degree assembly now explains the field-level call there. The direct source calls have local R3 status for the tower and degree assembly. The prime-degree proofs and the upper tensor lemma remain named [Lean] inputs. [§5.3.1.20](#53120-cancelling-a-power-in-a-local-tensor-norm) reads the lower tensor power cancellation. Kernel replay, a declaration-level path from `Main`, independent review of this exposition, and peer review are separate records. Hasse’s 1931 paper already proves the all-degree norm theorem by induction from prime degree. His intermediate field has prime degree **over the base**, and he corrects a lower norm preimage using norm-residue symbols and class field theory. Here the intermediate field has prime index **in the top field**. The calculation follows the archive’s upper-first argument with tensor norms. [Hasse, 1931, §1, pp. 64–68](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Source ledger](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
+The finite-place transport fixes the contracted place, and §5.3.1.18 identifies the required real structure. The all-degree assembly now explains the field-level call there. The direct source calls have local R3 status for the tower and degree assembly. The quadratic proof and the upper tensor lemma remain named [Lean] inputs. [§5.3.1.21](#53121-descending-an-odd-prime-degree-norm-after-adjoining-roots-of-unity) treats the odd-prime branch. [§5.3.1.20](#53120-cancelling-a-power-in-a-local-tensor-norm) reads the lower tensor power cancellation. Kernel replay, a declaration-level path from `Main`, independent review of this exposition, and peer review are separate records. Hasse’s 1931 paper already proves the all-degree norm theorem by induction from prime degree. His intermediate field has prime degree **over the base**, and he corrects a lower norm preimage using norm-residue symbols and class field theory. Here the intermediate field has prime index **in the top field**. The calculation follows the archive’s upper-first argument with tensor norms. [Hasse, 1931, §1, pp. 64–68](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Source ledger](../sources/SOURCES.md#the-cyclic-hasse-norm-assembly-53119)
 
 ### 5.3.1.20 Cancelling a power in a local tensor norm
 
@@ -1808,7 +1808,103 @@ Indeed $U(\lambda)=\lambda^{-1}$, $uU(u)=1$ and $uU(h)=h$. The fixed tensor aver
 
 **The same $b$ at every original place.** Fix the original $x$ and the one pair $b,c$ produced in §5.3.1.19, with $x=b^rN_{E/F}(c)$ and $b,c\ne0$. For every finite $v$ of $F$ take $K=F_v$ and the original witness $z_v\in K\otimes_F E$ for $x$. For every real $F$-algebra structure $a$ take $K=\mathbb R_a$ and the original witness $z_a$ for that very structure. In each case the inherited tensor norm identities give $y=z_v(1\otimes c^{-1})$ or $y=z_a(1\otimes c^{-1})$ with norm $j(b)^r$. The lemma uses only the specified $F$-algebra of each $K$, including real structures that do not extend to $M$. The resulting two families for $b$ are exactly the input to $\operatorname{NP}(F,M)$. Its output $m\in M$ has norm $b$, and the original tower consumer takes $mc$ in $E$. The upward finite and real transports, the tower correction producing $b,c$, and the full-degree induction are those of §§5.3.1.17–19. [A2, `HasseNormPrincipleOfCyclicTower.lean:184–198`](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120) · [§5.3.1.19](#53119-from-prime-degree-norms-to-the-cyclic-hasse-norm-principle)
 
-**Attribution and reading scope.** The cyclic norm theorem for number fields is due to Hasse, with the prime-degree antecedent credited there to Hilbert and Furtwängler. The algebraic power implication is also a consequence of the classical cyclic-algebra norm criterion and the additivity of the cyclic character under multiplication by the top degree. The witness proof here follows the A2 bodies of `LocStep.core`, `hilbert90_baseChange`, `tensor_exists_of_galois_fixed` and `algebraMap_norm_tensor_eq_prod_conjugates`, and their return through the lower determinant. These bodies have local author-level R3 [Lean, read]. The prime-degree Hasse inputs retain their named status. Lean kernel replay, declaration-level reachability from `Main`, and peer review have separate records. [Source ledger](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+**Attribution and reading scope.** The cyclic norm theorem for number fields is due to Hasse, with the prime-degree antecedent credited there to Hilbert and Furtwängler. The algebraic power implication is also a consequence of the classical cyclic-algebra norm criterion and the additivity of the cyclic character under multiplication by the top degree. The witness proof here follows the A2 bodies of `LocStep.core`, `hilbert90_baseChange`, `tensor_exists_of_galois_fixed` and `algebraMap_norm_tensor_eq_prod_conjugates`, and their return through the lower determinant. These bodies have local author-level R3 [Lean, read]. The odd-prime input is taken up in [§5.3.1.21](#53121-descending-an-odd-prime-degree-norm-after-adjoining-roots-of-unity). Lean kernel replay, declaration-level reachability from `Main`, and peer review have separate records. [Source ledger](../sources/SOURCES.md#local-tensor-power-norm-cancellation-53120)
+
+### 5.3.1.21 Descending an odd prime-degree norm after adjoining roots of unity
+
+**Motivation.** In [§5.3.1.19](#53119-from-prime-degree-norms-to-the-cyclic-hasse-norm-principle), the odd-prime branch needs a norm witness in the original extension $E/F$. Adjoining a primitive $p$th root lets us use a theorem over a larger base $F'$. The solution there produces a norm of $x^{[F':F]}$ back in $E/F$. A scalar in $E$ gives a second norm, $x^p$. Bézout's identity combines these two equations.
+
+**Two examples.** Fix $\eta=\exp(2\pi i/7)$ and the real cubic field $C=\mathbb Q(\eta+\eta^{-1})$. We will use $C/\mathbb Q$ and $\mathbb Q(\sqrt5)C/\mathbb Q(\sqrt5)$. In each case $p=3$, adjoining $\zeta=\exp(2\pi i/3)$ raises the base degree by two, and the original norm comes from a quotient of the cubic and square norm witnesses.
+
+#### The local data and the supplied theorem
+
+For a specified map $j:F\to K$ of fields, a tensor witness for $x\in F$ is an element $z\in K\otimes_F E$ with multiplication determinant $N_{K\otimes_F E/K}(z)=j(x)$. This is the predicate $\operatorname{TNorm}(F,E,K,x)$ of §5.3.1.19. Its algebra can be a product. The predicate $\operatorname{LocNorm}(F,E,x)$ requires such a witness at every finite place $v$ of $F$ in $F_v\otimes_F E$ and for every real embedding $j:F\to\mathbb R$ in $\mathbb R_j\otimes_F E$. At a complex completion the finite separable tensor is a product of copies of $\mathbb C$ whose coordinate product represents each nonzero scalar. The predicate $\operatorname{NP}(F,E)$ says that for every nonzero $x$ with the two local families there exists $y\in E$ with $N_{E/F}(y)=x$. [A2 definitions](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+**Supplied theorem [Lean].** Let $D/B$ be a Galois extension of number fields of prime degree $p$. If $B$ is totally imaginary and has a specified primitive $p$th root $\zeta$, then $\operatorname{NP}(B,D)$ holds. This is the named input `np_of_finrank_prime_of_isPrimitiveRoot`. [A2 declaration](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+**Lemma (combining two power norms).** Let $E/F$ be a finite field extension and let $x\in F^\times$. If $N_{E/F}(A)=x^m$ and $N_{E/F}(B)=x^n$ for relatively prime positive integers $m,n$, then $x$ is the norm of $A^rB^s$ for any integers $r,s$ with $rm+sn=1$.
+
+**Proof.** The two values are nonzero, so $A,B$ are units. Multiplicativity makes the norm a homomorphism on units, in particular it sends inverses to inverses. Thus $N_{E/F}(A^rB^s)=x^{rm+sn}=x$. The Lean proof obtains $r,s$ from `Nat.gcdA` and `Nat.gcdB` and uses the norm identity for integer powers.
+
+#### Cyclotomic descent [Lean, read]
+
+**Theorem.** Let $E/F$ be a Galois extension of number fields of degree $p$, where $p$ is an odd prime. Its Galois group is cyclic because its order is prime. Fix $x\in F^\times$ with $\operatorname{LocNorm}(F,E,x)$. The supplied theorem implies that $x$ is a norm from $E$, with a witness constructed below.
+
+**Proof.** Embed $E$ in an algebraic closure of $F$. Choose a primitive $p$th root $\zeta$ there and put $F'=F(\zeta)$ and $E'=EF'$. The minimal polynomial of $\zeta$ over $F$ divides $\Phi_p(T)=1+T+\cdots+T^{p-1}$. Hence $m=[F':F]$ lies between $1$ and $p-1$ and $\gcd(m,p)=1$. The tower laws give $p\mid [E':F]$ and $[E':F]=m[E':F']$, so $p\mid [E':F']$. The multiplication map $F'\otimes_F E\to E'$ has image a finite-dimensional domain over $F'$. Multiplication by any nonzero element of that domain is injective and hence surjective, so the image is a field. It contains both $F'$ and $E$, so it is $E'$. Its source has dimension $p$ over $F'$ by extension of a basis. Therefore $[E':F']=p$, the map is an isomorphism, and $[E':E]=m$. The degree of $E\cap F'$ over $F$ divides both $p$ and $m$, so the intersection is $F$. The $p$ distinct automorphisms of $E/F$ extend by the identity on the left tensor factor and remain distinct on $1\otimes E$. Thus $E'/F'$ is Galois. The archive obtains the tensor field by linear disjointness and then counts those automorphisms. [A2, `ExistsPushoutPrimitiveRoot.lean:9–72`](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+A real embedding of $F'$ would send $\zeta$ to a real root of unity of order $p$. The only real roots of unity are $1$ and $-1$, so $F'$ is totally imaginary and its real witness family is empty. The statement keeps the original real family over $F$. [A2, `NpOfOddPrimeDegree.lean:48–57`](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+For each finite place $w$ of $F'$, contract it to the finite place $v$ of $F$. The normalized valuation at $w$ restricts to a positive ramification multiple of the valuation at $v$. The inclusion of valued fields thus extends to a ring map $\phi_w:F_v\to F'_w$. If $j_v:F\to F_v$, $j'_w:F'\to F'_w$ and $i:F\to F'$ are the scalar maps, agreement on original points gives the commutative square
+$$
+\begin{array}{ccc}
+ F & \xrightarrow{i} & F' \\
+ \big\downarrow{j_v} && \big\downarrow{j'_w} \\
+ F_v & \xrightarrow{\phi_w} & F'_w
+\end{array}
+\qquad \phi_w\circ j_v=j'_w\circ i.
+$$
+The archive constructs this map using the two equivalences between adic completions and completions of valuation models, then evaluates the map of completions on each original $x$. [A2, `ExistsRingHomAdicCompletionUnder.lean:7–22`](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+Starting with the original witness $z_v\in F_v\otimes_F E$, apply $\phi_w\otimes1$ and then
+$$
+F'_w\otimes_F E \simeq F'_w\otimes_{F'}(F'\otimes_F E)
+ \simeq F'_w\otimes_{F'} E'.
+$$
+In the first isomorphism the inverse sends $k\otimes(a\otimes e)$ to $k j'_w(a)\otimes e$. Thus the full composite sends $k\otimes e$ from the original tensor to $\phi_w(k)\otimes i_E(e)$ with $i_E:E\to E'$ the pushout inclusion. For a fixed $F$-basis of $E$, the scalar-extended basis gives multiplication columns for $z_v$. The corresponding columns for its image under $\phi_w\otimes1$ are their entrywise images under $\phi_w$, by multiplicativity and the coordinate expansion. Applying the determinant commutes with $\phi_w$, and the final isomorphism preserves the determinant by conjugation. The image of $z_v$ therefore has norm $\phi_w(j_v(x))=j'_w(i(x))$. The same $z_v$ can serve for every $w$ above $v$. This gives the whole finite family. [A2, `NpOfOddPrimeDegree.lean:13–31` and `IsNormFromBaseChangeBaseChangeProperties.lean:11–38`](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+Since $i$ is injective, $i(x)\ne0$. Apply the supplied theorem to the fields $F',E'$, the same $p$ and the chosen $\zeta$. It gives $b\in E'$ with $N_{E'/F'}(b)=i(x)$. Set $A=N_{E'/E}(b)$ and let $B$ be the image of $x$ in $E$. Transitivity in the two towers and the scalar multiplication determinant give
+$$
+\begin{aligned}
+N_{E/F}(A)&=N_{E'/F}(b)
+ =N_{F'/F}(N_{E'/F'}(b))=N_{F'/F}(i(x))=x^m,\\
+N_{E/F}(B)&=x^p.
+\end{aligned}
+$$
+Apply the lemma with $n=p$. For any $r,s$ with $rm+sp=1$, the witness in the original $E$ is
+$$
+y=A^rB^s=N_{E'/E}(b)^r\,\bigl(\operatorname{algebraMap}_{F,E}(x)\bigr)^s,
+\qquad N_{E/F}(y)=x^{rm+sp}=x.
+$$
+The archive supplies the two norm equations as `h1` and `h3`. [A2, `NpOfOddPrimeDegree.lean:33–64`](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+#### Two calculations in the original cubic fields
+
+Write $t=\eta+\eta^{-1}$. The polynomial $\Phi_7$ is irreducible by Eisenstein after shifting by $1$. Complex conjugation in its Galois group acts by exponent $-1$. Its fixed field has degree three and is generated by $t$, since $\eta$ is a nonreal root of $X^2-tX+1$. The quotient is generated by the class of $2$. The three images of $t$ are $t_j=\eta^j+\eta^{-j}$ for $j=1,2,4$. Grouping the seventh roots into inverse pairs gives $1+t+(t^2-2)+(t^3-3t)=0$, so $f(T)=T^3+T^2-2T-1$ is the minimal polynomial of $t$.
+
+**Over $\mathbb Q$.** Inside the fixed complex embedding take $F=\mathbb Q$, $E=C$, $F'=\mathbb Q(\zeta)$ and $E'=C(\zeta)$. The intersection $F'\cap E$ is $\mathbb Q$ by degrees two and three. Put $u=t-2$ and $x=-f(2)=-7$. At the real place, the three real coordinates of $1\otimes u$ are $t_j-2$, with product $-7$. For each finite $v$ take the same pure tensor $1\otimes u$ over $F_v$. Its determinant is given by the first matrix below with $S=2$.
+
+**Over $\mathbb Q(\sqrt5)$.** Take $\rho=\sqrt5>0$ in the fixed embedding and put $F=\mathbb Q(\rho)$, $E=F(t)$. Since $F\cap C=\mathbb Q$ by degrees, and the cubic and quadratic degrees are coprime, the degree argument above gives $[E:F]=3$. The automorphism on $C$ from exponent $2$ extends by fixing $\rho$. With $F'=F(\zeta)$ and $E'=E(\zeta)$ the two root adjunctions have degree two since $F,E$ are real and $\zeta$ is nonreal quadratic. Again $F'\cap E=F$ by the coprime degrees over $F$. Choose $u=t-\rho$ and $x=-4-3\rho$. For each real structure $\rho\mapsto e\sqrt5$ with $e=1,-1$, the three coordinates are $t_j-e\sqrt5$. Their product is $-f(e\sqrt5)=-4-3e\sqrt5$. The original finite witnesses are $1\otimes u$ for all finite $v$, now using $S=\rho$ in the first matrix.
+
+**Multiplication matrices and descent.** With $S=2$ or $S=\rho$ and $u=t-S$, reduction by $t^3=1+2t-t^2$ gives the matrices in the basis $(1,t,t^2)$
+$$
+M(u)=\begin{pmatrix}-S&0&1\\1&-S&2\\0&1&-1-S\end{pmatrix},
+\qquad
+M(u^2)=\begin{pmatrix}
+ S^2&1&-1-2S\\
+ -2S&S^2+2&-1-4S\\
+ 1&-1-2S&S^2+3+2S
+\end{pmatrix}.
+$$
+The first has determinant $-S^3-S^2+2S+1$, giving the targets above. At each $w$, the finite scalar square carries $1\otimes u$ to $1\otimes i_E(u)$ with this first matrix mapped into $F'_w$. There are no real structures on $F'$.
+
+Use the explicit upper solution $b=u\zeta$. Over $F'$ its multiplication matrix is $\zeta M(u)$, with determinant $x$ since $\zeta^3=1$. Over $E$, the basis $(1,\zeta)$ and $\zeta^2=-1-\zeta$ give
+$$
+M_{E'/E}(b)=\begin{pmatrix}0&-u\\u&-u\end{pmatrix},
+\qquad \det M_{E'/E}(b)=u^2.
+$$
+The first power witness is $A=u^2$, whose matrix is $M(u)^2$ as displayed. Its determinant is $49$ over $\mathbb Q$ and $61+24\rho$ over $\mathbb Q(\rho)$. The second witness is $B=x$ with matrix $xI_3$ and determinant $-343$ over $\mathbb Q$ and $-604-279\rho$ over $\mathbb Q(\rho)$. The identity $2(-1)+3(1)=1$ gives $y=B/A=x/u^2$. Its norm is $-343/49=-7$ in the first calculation. In the second, $(-4-3\rho)(61+24\rho)=-604-279\rho$, so the norm is $-4-3\rho$. The denominator determinants are nonzero since they are $x^2$ with $x\ne0$. One can also compute the inverse explicitly. Division gives $f(T)-f(S)=(T-S)(T^2+(S+1)T+S^2+S-2)$, so $y=(t^2+(S+1)t+S^2+S-2)^2/x$ in both fields. In both cases $u^2$ has coefficient $1$ on $t^2$, so the first power witness genuinely lies outside the base field.
+
+#### Hypotheses and the return to Hermitian descent
+
+**Degree two.** The primitive second root is $-1\in F$, so adjoining it leaves $F$ itself, which may have real places. For $\mathbb Q(i)/\mathbb Q$ the real tensor is $\mathbb C$ and its norm is $a^2+b^2$ on $a+bi$. The positivity condition for nonzero norms survives. Coprimality still holds with $m=1$, and the separate quadratic input in §5.3.1.19 handles the real family.
+
+**Coprimality.** Keep the first cyclic cubic and take $x=2$ with both exponents equal to $3$. Both powers are norms of the scalar $2$ in $E$. Yet $2$ is no norm from $E$. Modulo $2$, $f$ becomes $T^3+T^2+1$, which has no root and hence is irreducible. For nonzero $y$ in the scalar extension to $\mathbb Q_2$, factor $2^k$ out of its basis coefficients, where $k$ is their minimum valuation. The remaining coefficients are integral with at least one unit. They reduce to a nonzero element of the residue cubic field, so its multiplication determinant is nonzero modulo $2$. The norm of $y$ has valuation $3k$, whereas $2$ has valuation one. This refutes the inference from the two power equations alone. The example fails the original local condition at $2$, and cyclotomic adjunction cannot produce $m=3$ here.
+
+**Nonzeroness.** If $x=0$ and $A=B=0$ in the first cubic with exponents $2,3$, both power equations hold, but every integer Bézout pair has a negative exponent. There is no inverse of the corresponding zero witness in the multiplicative group. The zero target itself has witness $0$ because the norm is a positive-rank determinant. This tests the formula on units.
+
+**Use in A2.** The wrapper `GlobalTheory.T.np_of_odd_prime_degree'` exports the result. The prime-degree dispatcher selects it for $p\ne2$. The full cyclic-degree assembly of §5.3.1.19 uses the dispatcher for the prime-degree top step and strong induction below. Its separate tensor power-norm cancellation is the inherited input of §5.3.1.20. In `HasseEt` the all-degree theorem applies to the common cyclic field factor $L$ over the residue field $K=A/\mathfrak m$, with target the nonzero image in $K$ of the original coefficient-algebra unit. The inherited finite and real transports give the two witness families for that same image, and the resulting field norm witness is lifted through the product and assembled over the residue fields. [A2 source ledger](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
+
+**Attribution and reading scope.** The result specializes Hasse's cyclic norm theorem for number fields (1931, §1, pp. 64–68). Hasse credits Hilbert and Furtwängler for the prime-degree antecedent on p. 64. This explanation follows A2's cyclotomic descent and its direct suppliers at author-level local R3. The theorem over a base containing the primitive root remains a named [Lean] input. [Source ledger](../sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
 
 ## 5.4 Lemmas and proofs
 
