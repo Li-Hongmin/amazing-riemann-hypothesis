@@ -919,6 +919,12 @@ same-model review is recorded separately in the preceding run's audit.
 
 - **Hongmin Li (with AI assistance)** — Read the real scalar square and followed the original tensor witness through the residue-field norm calculation. Wrote the sign classification, quadratic examples and counterexamples. [Chapter 5 §5.3.1.18](chapters/05-the-square-root-barrier-core-gm.md#53118-the-same-tensor-norm-witness-at-a-real-place)
 
+### Chapter 9 polar Haar and conditional degree ratios (§§9.4.6–7)
+
+- **Classical mathematics.** Knapp supplies the cited polar-decomposition and quotient-integration results. Harish-Chandra and Atiyah–Schmid supply the discrete-series numerical formula. Knightly and Li give the cited symplectic use. [Source ledger](sources/SOURCES.md#chapter-9-on-one-haar-measure)
+- **Archive and community.** Levent Alpöge with Claude supplies the A2 polar construction, ordinary square-integral handoff and conditional degree comparisons. Mathlib supplies measure transport and integration infrastructure. The Lean community reports archive replay independently of this textbook reading. [Source ledger](sources/SOURCES.md#chapter-9-on-one-haar-measure) · [Community replay](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+- **This book.** Hongmin Li with AI assistance presents the matrix Jacobian and radial computations, the same-Haar degree comparison, and the distinction between the conditional producers and the actual `AllHyp.s47` unit-bound call. The inherited initial polar review and different-source ratio correction are recorded in Sources. [Polar Haar](chapters/09-heights-slopes-and-near-orthogonality.md#946-polar-haar-measure-and-the-discrete-series-integrability-bound) · [Degree ratio](chapters/09-heights-slopes-and-near-orthogonality.md#947-formal-degree-ratios-under-a-shift-of-the-parameter)
+
 ### Chapter 9 formal-degree normalization (§9.4.26)
 
 - **Mathlib contributors** Floris van Doorn, Sébastien Gouëzel, Mario
