@@ -4658,3 +4658,101 @@ This entry records author-level source reading with local Lean replay, declarati
 Main reachability and review of the new exposition pending. The cochain examples and
 their exact finite-coordinate checks are [Expository].
 [Public verification record](https://math.mit.edu/~drew/grh/)
+
+### Root multisets and separable root counting (§5.3.1.12)
+
+Archive A2 ([first original archive part](https://alpo.ge/lean.tar.gz.part01)). Recomputed SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Its `lean/lake-manifest.json:5–14` pins Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. The paths below are relative to the root of that Mathlib revision. Only the declarations listed as read were assigned local R3. The work consists of source reading and textbook proofs.
+
+#### Bodies read
+
+| Declaration or production step | Fixed source | Role |
+|---|---|---|
+| `emultiplicity`, `multiplicity` (definitions) | [Mathlib/RingTheory/Multiplicity.lean:37–50](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Multiplicity.lean#L37-L50) | Finite branch, infinity and natural-valued default one |
+| `finiteMultiplicity_of_degree_pos_of_monic`, `finiteMultiplicity_X_sub_C`, `rootMultiplicity`, `rootMultiplicity_eq_multiplicity`, `rootMultiplicity_zero`, `pow_rootMultiplicity_dvd`, `exists_eq_pow_rootMultiplicity_mul_and_not_dvd`, `le_rootMultiplicity_iff` | [Mathlib/Algebra/Polynomial/Div.lean:60–79](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Div.lean#L60-L79), 493–565, 712–725 | Degree bound, first failed exponent, explicit zero branch, generic multiplicity bridge and maximal quotient |
+| `modByMonic_X_sub_C_eq_C_eval`, `dvd_iff_isRoot`, `rootMultiplicity_pos'` | [Mathlib/Algebra/Polynomial/Div.lean:574–601](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Div.lean#L574-L601), 625–636 | Evaluation and divisibility |
+| `rootMultiplicity_mul`, `exists_multiset_roots` | [Mathlib/Algebra/Polynomial/RingDivision.lean:291–341](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/RingDivision.lean#L291-L341) | Multiplicity addition and the complete well-founded root-peeling witness, including its cardinality bound |
+| `roots`, `roots_def`, `roots_zero`, `card_roots`, `count_roots`, `mem_roots'` | [Mathlib/Algebra/Polynomial/Roots.lean:56–78](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Roots.lean#L56-L78), 98–108 | Classical choice of the witness and projection of counts |
+| `roots_mul`, `roots_X_sub_C`, `roots_C`, `roots_C_mul`, `roots_list_prod`, `roots_multiset_prod`, `roots_multiset_prod_X_sub_C` | [Mathlib/Algebra/Polynomial/Roots.lean:170–217](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Roots.lean#L170-L217), 265–275, 307–314 | Count extensionality, list recursion, multiset quotient, singleton sum |
+| `Splits`, `splits_iff_exists_multiset'`, `splits_iff_exists_multiset`, `Splits.eq_prod_roots`, `Splits.eq_X_sub_C_of_single_root`, `Splits.natDegree_eq_card_roots`, `Splits.degree_eq_card_roots`, `Splits.roots_map_of_ne_zero` | [Mathlib/Algebra/Polynomial/Splits.lean:35–47](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Splits.lean#L35-L47), 156–174, 269–273, 299–305, 357–369, 381–386 | Closure to multiset, sign change, actual factorization and field-map comparison |
+| `map_dvd_map`, `le_rootMultiplicity_map`, `eq_rootMultiplicity_map`, `filter_roots_map_range_eq_map_roots` | [Mathlib/Algebra/Polynomial/Div.lean:423–429](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Div.lean#L423-L429) and [Mathlib/Algebra/Polynomial/Roots.lean:899–911](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Roots.lean#L899-L911), 962–972 | Reflect divisibility by monic remainder, preserve counts on image |
+| `derivative_mul`, `derivative_pow_succ`, `derivative_pow`, `derivative_X_sub_C` | [Mathlib/Algebra/Polynomial/Derivative.lean:227–245](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Polynomial/Derivative.lean#L227-L245), 471–480, 639–641 | Rules for the expository order calculation |
+| `card_rootSet_eq_natDegree`, `nodup_roots_iff_of_splits`, `nodup_aroots_iff_of_splits`, `card_rootSet_eq_natDegree_iff_of_splits`, `eq_X_sub_C_of_separable_of_root_eq` | [Mathlib/FieldTheory/Separable.lean:442–494](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/Separable.lean#L442-L494) | Split counting and singleton consumer |
+| `primitive_element_inf_aux`, consumer only | [Mathlib/FieldTheory/PrimitiveElement.lean:130–167](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L130-L167) | Four actual arguments, `p_linear`, `finale` |
+
+#### Inherited from the independent predecessor audit
+
+| Finding | Predecessor evidence |
+|---|---|
+| Domain extension preserves gcd, with exact equality for the pinned recursion | Audit finding 1 |
+| A separable divisor has counts at most one and the split singleton gives a linear polynomial | Audit finding 2 |
+| Theorem G uses the stated tower and exclusion condition, with the linear equality returned to the coefficient step | Audit finding 3 |
+| The preceding rational, Artin–Schreier and inseparable examples are sound | Audit finding 4 |
+| The cited Milne and Stacks statements have the scopes recorded in the preceding subsection | Audit finding 5 |
+
+The five rows record the independent audit of the preceding subsection. [Separable greatest common divisors](#separable-greatest-common-divisors-53111)
+
+#### Named inputs at interface level
+
+| Inputs | Fixed call sites | Scope |
+|---|---|---|
+| `multiplicity_mul`, `prime_X_sub_C`, `FiniteMultiplicity.exists_eq_pow_mul_and_not_dvd`, `untopD_coe_enat` | RingDivision.lean:291–298 and Div.lean:519–532, 559–565 | Deep multiplicity algebra and natural-number extraction |
+| `degree_add_divByMonic`, `degree_divByMonic_lt`, `mul_divByMonic_eq_iff_isRoot`, `Nat.WithBot.one_le_iff_zero_lt` | RingDivision.lean:305–328 | Quotient degree and well-foundedness inputs |
+| `Submonoid.closure_union`, `Submonoid.mem_sup`, `Submonoid.exists_multiset_of_mem_closure`, `monic_multiset_prod_of_monic`, `leadingCoeff_mul_monic`, `Multiset.bind_map`, `Multiset.bind_singleton`, `Multiset.map_id'` | Splits.lean:157–173 and Roots.lean:308–314 | Closure algebra and multiset operations |
+| `roots_map_of_injective_of_card_eq_natDegree`, `C_leadingCoeff_mul_prod_multiset_X_sub_C`, `prod_multiset_X_sub_C_dvd`, `count_map_roots` | Splits.lean:373–391 and Roots.lean:915–940 | Alternate full-multiset / inequality paths |
+| `derivative_map`, `one_lt_rootMultiplicity_iff_isRoot_gcd`, `separable_map`, `Multiset.toFinset_card_eq_card_iff_nodup`, `Finset.eq_singleton_iff_unique_mem` | Separable.lean:451–494 and the differentiation interface | Deeper separability and finite-set inputs |
+
+The characteristic-dependent exact derivative order and the field-embedding root-counting proof are textbook derivations. No Lean kernel replay or dependency-closure validation was run.
+
+#### Classical originals read online
+
+- J. S. Milne, *Fields and Galois Theory*, v5.10 (September 2022), Example 2.18, Lemma 2.19 and Proposition 2.20 (printed p. 32), Proposition 2.21 and Definition 2.22 (pp. 32–33), Definition 3.6 and Example 3.8(a) (p. 37). PDF retrieved 2026-11-25, SHA-256 `5c43ea0bf4ec190b819727fe720414a80e09f9e762533d08bad5b8a0b6de7273`. [Original](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+- Stacks Project, Lemma 9.12.4 (irreducible polynomial, algebraic closure) and §9.14 (definition and construction of purely inseparable extensions), retrieved 2026-11-25. [09H3](https://stacks.math.columbia.edu/tag/09H3) · [09HD](https://stacks.math.columbia.edu/tag/09HD)
+
+<a id="splitting-fields-53114"></a>
+
+### Splitting fields by successive root adjunction (§5.3.1.14)
+
+Archive A2 SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc pins Mathlib 0df444a360eaa60ab8c11dca51a86af692955474.
+
+| Reading status | Pinned declaration or source |
+|---|---|
+| [Lean, read], local R3 | factor, removeFactor, SplittingFieldAuxAux, splitting and generation inductions, public quotient, SplittingField.splits, lift and algEquiv. [Construction.lean:49–308](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/SplittingField/Construction.lean#L49-L308) |
+| [Lean, read], local R3 | IsSplittingField, lift, finiteDimensional and of_algEquiv. [IsSplittingField.lean:45–149](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/SplittingField/IsSplittingField.lean#L45-L149) |
+| [Lean, read], local R3 | Quotient evaluation and embedding, maximal-ideal field instance, and lift_of_splits on finite sets. [AdjoinRoot.lean:247–326](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/AdjoinRoot.lean#L247-L326), [AdjoinRoot.lean:515–538](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/AdjoinRoot.lean#L515-L538), [Adjoin/Field.lean:35–93](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Adjoin/Field.lean#L35-L93) |
+| Consumer call site reread | Field.primitive_element_inf_aux uses E's splitting field of the mapped minimal polynomial of beta at lines 108 and 144. The chapter 19 layerExists uses the same splitting and generation interfaces for its product over the rationals. [PrimitiveElement.lean:102–167](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/PrimitiveElement.lean#L102-L167), A2 src/Formalism/TameInertiaTowers/CentralOrderTwo/Galois.lean:307–366 |
+| Inherited | Monic division and quotient power bases in §5.3.1.10, mapped gcd and separability in §5.3.1.11, and root multisets in §5.3.1.12 with the prime-order proof recorded below under the §5.3.1.13 manuscript. |
+| [Lean], interface level | WfDvdMonoid.exists_irreducible_factor, PrincipalIdealRing.isMaximal_of_irreducible, Ideal.quotientKerAlgEquivOfSurjective, Algebra.adjoin_eq_adjoin_union, Splits.adjoin_rootSet_eq_range, fieldOfFiniteDimensional and Algebra.IsAlgebraic.algHom_bijective₂. |
+| [Paper] | J. S. Milne, Fields and Galois Theory v5.10, Propositions 2.4, 2.7, 2.12 and Corollary 2.13, printed pp. 28–30 (Proposition 2.7 on p. 29). [Author's PDF](https://www.jmilne.org/math/CourseNotes/FT.pdf) |
+
+The Stacks Project gives the nonconstant-polynomial statement through an existing algebraic closure. [Lemma 9.16.1](https://stacks.math.columbia.edu/tag/09HU), [Definition 9.16.2](https://stacks.math.columbia.edu/tag/09HV)
+
+The intermediate-field extension and the direct surjectivity proof in Theorem 3 are textbook derivations. The declaration-level reading leaves kernel replay and the general algebraic closure construction outside its scope.
+
+Milne v5.10 PDF SHA-256 `5c43ea0bf4ec190b819727fe720414a80e09f9e762533d08bad5b8a0b6de7273`. [Author’s PDF](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+<a id="product-decomposition-and-tensor-splitting-of-finite-etale-algebras-53116"></a>
+
+### Product decomposition and tensor splitting of finite étale algebras (§5.3.1.16)
+
+Archive A2 ([original archive parts](https://alpo.ge/lean.tar.gz.part01), joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`), pins Mathlib `0df444a360eaa60ab8c11dca51a86af692955474` in `lean/lake-manifest.json:6–13`. Reading grades below are local R3 on the cited proof bodies; neither source reading nor `mdbook build` is Lean kernel verification.
+
+| Status | Pinned declaration or source | Role in §5.3.1.16 |
+|---|---|---|
+| `[Lean, read]`, local R3 | `Algebra.FormallyEtale.of_isSeparable_aux`, `of_isSeparable`, `iff_isSeparable`, `iff_formallyUnramified_of_field`, `iff_exists_algEquiv_prod`, `equivPiOfIsSepClosed`, and `Algebra.Etale.iff_exists_algEquiv_prod` ([Etale/Field.lean:56–286](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Etale/Field.lean#L56-L286)); `FormallyEtale`, `iff_comp_bijective`, `iff_of_equiv`, base change, and `Etale.baseChange` ([Etale/Basic.lean:47–110,145–147,206–243](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Etale/Basic.lean#L47-L110)); `FormallyEtale.pi_iff` ([Etale/Pi.lean:31–40](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Etale/Pi.lean#L31-L40)) | Newton–Taylor square-zero lifting, finite product transfer, product-of-separable-fields equivalence, and separably-closed coordinate splitting |
+| `[Lean, read]`, local R3 | `iff_exists_tensorProduct`, `elem`, `finite_of_free`, `sec` ([Unramified/Finite.lean:51–273](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Unramified/Finite.lean#L51-L273)); `of_isSeparable`, `isReduced_of_field`, `range_eq_top_of_isPurelyInseparable`, `isSeparable` ([Unramified/Field.lean:44–220](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Unramified/Field.lean#L44-L220)); `Unramified/Basic.lean:58–122,199–284`, `Unramified/Pi.lean:28–102`, `Smooth/Basic.lean:70–85,371–390,459–470`, `Smooth/Pi.lean:29–124`, `Idempotents.lean:52–67,129–185,325–345,424–438` | Diagonal separability idempotent `elem`, free-module finiteness, algebraic-closure local reducedness, purely inseparable elimination over `separableClosure`, and idempotent lifting across square-zero ideals |
+| `[Lean, read]`, local R3 | `isArtinian_of_tower`, `IsArtinianRing.of_finite`, `setOfPred_isMaximal_finite`, `isField_of_isDomain`, `isMaximal_of_isPrime`, `nilradical_eq_iInf`, `quotNilradicalEquivPi`, `equivPi` ([Artinian/Module.lean:163–175,369–405,517–639](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Artinian/Module.lean#L517-L639), `Artinian/Defs.lean:43–69`, `Artinian/Ring.lean:54–72,92–99`); `MaximalSpectrum.isCoprime_of_ne` (`Spectrum/Maximal/Basic.lean:50–51`); `quotientInfRingEquivPiQuotient` ([Ideal/Quotient/Operations.lean:202–252](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RingTheory/Ideal/Quotient/Operations.lean#L202-L252)) | Finite maximal spectrum, nilradical intersection, pairwise-coprime Chinese remainder theorem, and reduced Artinian decomposition |
+| `[Lean, read]`, local R3 | `EssFiniteType.of_finiteType` and `baseChange` (`EssentialFiniteness.lean:95,168–198`), `Module.Finite.finiteType` (`FiniteType.lean:55–57`), `Pi.evalAlgHom` and `AlgEquiv.piCongrRight` ([Algebra/Pi.lean:89–93,171–239](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Algebra/Pi.lean#L171-L239)), `Algebra.TensorProduct.ext` and `adjoin_one_tmul_image_eq_top` (`TensorProduct/Basic.lean:353–360,549–556`), `Normal.exists_isSplittingField`, `Normal.of_isSplittingField`, and `AlgEquiv.restrictNormalHom` (`Normal/Basic.lean:36–87,233–236`), `IsGalois` (`Galois/Basic.lean:57–64`), `IsPurelyInseparable.pow_mem` (`PurelyInseparable/Basic.lean:224–227,481–489`) | Typeclass synthesis and Galois/tensor glue for `ExistsCyclicGaloisTensorAlgEquivPi` |
+| `[Lean, read]`, A2 consumers | `lean/src/Development/AutomorphicArithmetic/Splittings/ExistsCyclicGaloisTensorAlgEquivPi.lean:1–93` (`4c4051ca1264e2202acc57a11b1d416a89a326e107b739b028d0aade96a0b7ab`) and `lean/src/Development/AutomorphicArithmetic/Foundations/Convolution/HermitianDescent/HasseEt.lean:11–129` (`89626835be57c0584c7cd446b9e25de72f6d0d5cd47f30e2421265c9cf292e2e`, `HasseEt` signature in `NormAlmostAll.lean:55–59`) | Cyclic Galois tensor splitting via `iff_exists_algEquiv_prod`, `splitting`, two calls to `IsSplittingField.algEquiv` (`:87–88`), and `piCongrRight` (`:93`), consumed at `HasseEt.lean:76` alongside `IsArtinianRing.equivPi` (`:109–118`) |
+| Inherited | `IsSplittingField.algEquiv` and `algHom_bijective₂` ([the §5.3.1.15 manuscript](#chapter-5-unpublished-algebra-and-finite-place-supplies)), `SplittingField` / `lift` / `finiteDimensional` ([§5.3.1.14](#splitting-fields-53114)), separable root counts ([§5.3.1.12](#root-multisets-and-separable-root-counting-53112)), `separable_map` and primitive elements (§§5.3.1.9, 5.3.1.11), and quotient power bases (§5.3.1.10) | Cited at their established audit grades without re-proving |
+| `[Lean]`, interface level | `AlgebraicClosure K`, `IsAlgClosed.algebraMap_bijective_of_isIntegral`, `IsSepClosed.algebraMap_bijective`, `Ideal.isIdempotentElem_iff_of_fg`, `FinitePresentation.of_finiteType`, `isCyclic_of_injective`, and number-field norm inputs in `HasseEt.lean:55,78–83,127` | Retained below the §5.3.1.16 proof-body boundary |
+| `[Paper]` | J. S. Milne, [*Fields and Galois Theory*](https://www.jmilne.org/math/CourseNotes/FT.pdf#page=105), v5.10 (September 2022), Ch. 8, Theorems 8.1–8.2, Definition 8.5, Propositions 8.6 and 8.18, pp. 105–110 (`5c43ea0bf4ec190b819727fe720414a80e09f9e762533d08bad5b8a0b6de7273`); Stacks Project Tags [00J7](https://stacks.math.columbia.edu/tag/00J7) (`e12c619d…`), [00JA](https://stacks.math.columbia.edu/tag/00JA) (`3f948768…`), and [00U3](https://stacks.math.columbia.edu/tag/00U3) (`a9f84f12…`); B. Iversen, *Generic Local Structure of the Morphisms in Commutative Algebra*, Springer LNM 310 (1973, [DOI 10.1007/BFb0060790](https://link.springer.com/book/10.1007/BFb0060790)), Props. I.2.3, I.2.8 and Cor. II.5.3 (attribution in pinned Mathlib comments, with publisher metadata confirmed) | Classical expositions of Artinian product decomposition, étale algebras over fields, and coordinate tensor splitting. [Chapter 5](../chapters/05-the-square-root-barrier-core-gm.md#53116-product-decomposition-and-tensor-splitting-of-finite-étale-algebras) |
+
+### Chapter 5 unpublished algebra and finite-place supplies
+
+| Manuscript | Supply and inherited review |
+|---|---|
+| §5.3.1.13, *Finite divisibility orders and prime factors* | The completed manuscript proves prime-order additivity and its specialization to a linear root factor. The external audit accepted the proof. The pinned `Multiplicity.lean` and `RingDivision.lean` interfaces are indexed in the §5.3.1.12 ledger. |
+| §5.3.1.15, *Mutual embeddings of algebraic extensions* | The completed manuscript proves surjectivity of an algebraic self-embedding and the mutual-embedding result used by the two calls to `IsSplittingField.algEquiv`. The external audit accepted these results. [Mathlib, Construction:295–308](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/FieldTheory/SplittingField/Construction.lean#L295-L308) · [Stacks, Lemma 9.8.11](https://stacks.math.columbia.edu/tag/0BMD) |
+| §5.3.1.17, *Finite-place completion embeddings and tensor norm transport* | The completed manuscript gives the finite-place scalar square, transport of the supplied witness and residue-field reassembly. The same-source preliminary review accepted these steps. The finite-place call is `HasseEt.lean:79–80` in archive A2. |
+
+The three manuscripts are awaiting publication. The published section numbers refer to the headings in [Chapter 5](../chapters/05-the-square-root-barrier-core-gm.md).
