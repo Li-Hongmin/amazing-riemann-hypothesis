@@ -4257,6 +4257,23 @@ The chapter uses the previously read averaging result at its relation-space inte
 
 **Verification scope.** Author-level local R3 for the indicated assembly, trace comparison and equality. The analytic input behind the models, `PsiM` and Casimir estimates, and the stable-closure and compact-finite recovery supplies keep their named status. Further review and declaration reachability from Main are separate. [Community replay context](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
+### Chapter 9 weighted PsiM integrability
+
+**A2, Levent Alpöge with Claude.** Joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Lean `v4.33.1`. These paths start at `lean/src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/`. Author-level local R3 covers the proof and handoffs listed below. [Author's archive notice](https://alpo.ge/remark.pdf) · [§9.4.29](../chapters/09-heights-slopes-and-near-orthogonality.md#9429-polar-bounds-for-the-weighted-psim-kernel)
+
+| Declaration and location | Role |
+|---|---|
+| `psiM_integrable` (`CasimirCoefficients/Integr.lean:22–133`), `integrable_of_polar` and `min_bound` (`CasimirCoefficients/IntegrA.lean:35–162`) | Three original norm integrals, whole-radius majorant and finite-dimensional integration. |
+| `phi_decay_core`, `phiM_exp_le`, `psiM_dec` (`CasimirCoefficients/PhiDecayCore.lean:24–202`), `decA_log_lower` (`CasimirCoefficients/DecALogLower.lean:72–88`), `psM_norm_le` (`CasimirCoefficients/DecPos.lean:128–185`) | Spectral minors, telescoping gaps and positive compact averaging. |
+| `haar_polar_le` (`CasimirCoefficients/HaarPolar.lean:126–190`), `lintegral_muPolar` (`FormalDegree/IntMuCD.lean:122–131`), `Jac` (`FormalDegree/PmatIsHermitian.lean:42–43`) | Exact polar normalization and subsequent coarse density bound. |
+| `psiM_smooth`, `psiM_continuousOn` (`CasimirCoefficients/LholClmEventually.lean:57–75`) | Continuity through the local formula, using `casL_psM` and `psiM_local` at their interfaces. |
+| `wd_psi_memLp`, `wd_datum_datum`, `wd_gen_datum`, `wd_key` (`TensorRepresentations/WeightedB.lean:47–167`), `weighted_datum` (`TensorRepresentations/Weighted.lean:16–35`) | Specialization to `muG` and the original Frobenius weight; `formulaF`, `datumV_casimir` and `r0bG` are the stated inputs for propagation. |
+| `swA_model` (`TensorRepresentations/SandwichA.lean:29–56`), `cns_data` (`TensorRepresentations/ConsumerA.lean:24–52`), `cc_gk` (`TensorRepresentations/CcARatioZero.lean:82–141`) | Ordinary L² and weighted $s=2$ at each endpoint, with the same `muG` in both tensor directions. |
+
+**Primary sources.** Knapp, *Lie Groups Beyond an Introduction*, second edition, pp. 116–117, Proposition 1.143, supplies the polar homeomorphism for closed real algebraic adjoint-stable matrix groups. Anker–Papageorgiou–Zhang, §2.1, (2.3), records the semisimple restricted Cartan density. Apply it to $SU(p,q)$ and push forward with the compact central circle for $U(p,q)$. Harish-Chandra, *Discrete Series for Semisimple Lie Groups II*, §37 and Theorem 16, and Atiyah–Schmid, (8.1), give the ordinary square-integrable coefficient setting and the regular shifted-lattice discrete series. A2 supplies the three specific bounds through its explicit kernel. [Knapp](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf) · [Anker–Papageorgiou–Zhang](https://arxiv.org/abs/2112.01323) · [Harish-Chandra](https://doi.org/10.1007/BF02392813) · [Atiyah–Schmid](https://www.math.utah.edu/~ptrapa/math-library/schmid/atiyah-schmid.pdf#page=41)
+
+**Mathlib contributors.** Revision `0df444a360eaa60ab8c11dca51a86af692955474` supplies the square-norm criterion (`MeasureTheory/Function/L2Space.lean:45–50`), finite integral of the polynomial tail above the real dimension (`Analysis/SpecialFunctions/JapaneseBracket.lean:98`), continuity of a fixed real power (`Analysis/SpecialFunctions/Pow/Continuity.lean:281`), Tonelli (`MeasureTheory/Measure/Prod.lean:1068`) and Haar uniqueness (`MeasureTheory/Measure/Haar/Unique.lean:919–924`). Local source reading, community kernel replay, declaration-level reachability from `Main` and peer review have separate records. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474) · [Community replay context](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+
 ### Finite residue fields and compact unit balls
 
 [Chapter 2 §2.3.5.1](../chapters/02-functional-equations-and-primitive-characters.md#2351-finite-residue-fields-and-compact-unit-balls) follows A2 (joined SHA-256
