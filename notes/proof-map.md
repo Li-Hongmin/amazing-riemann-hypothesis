@@ -458,6 +458,8 @@ translates of a fixed lattice and explains the conditional Fubini step.
 
 **P13, finite height and prime moments (§§4.10.11 and 4.10.13).** Local R3 covers `zeroSum_core`, `zero_sum_bound_lossy`, `deuring_heilbronn_hypergeometric` and `deuring_heilbronn_prime_sum` at the ranges listed in the source ledger. `PNTDHB.lean:13–15` consumes `DHPrime` in the named Turán finish. `PNTBAsm.lean:15–50,76–166` uses the same lists and multiplicities for the sharp formula and `ZeroSum`. `PNTFinal.lean:18–24` joins the two `PsiRel` ranges and calls `prime_count_of_psi`. [Contours and zero sums](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41011-finite-height-contours-and-weighted-zero-sums) · [Hyperbola and moments](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41013-hyperbola-splitting-and-prime-moments-for-deuringheilbronn)
 
+**P13, Turán finish and elementary Chebyshev supply (§§4.10.12 and 4.10.14).** `turan_power_sum_bound` and the erased displacement list enter `deuring_heilbronn_finish_turan`. Independently, the Mathlib primorial and Chebyshev bounds enter `tail_mertens_psi`, `tail_mertens` and `DHPrime`. Both feed `PNTDHB.lean:13–15`, then `PNTZSumL.lean:30,129–193` and `PNTFinal.lean:20–24`. Local R3 and the same-source preliminary reviews apply to the two published ranges. [Turán finish](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-turan-finish) · [Chebyshev supply](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-chebyshev-tailmertens)
+
 ### P0 statement fidelity in §1.3.2
 
 The Dirichlet L-function identification is R3 for the direct chain from

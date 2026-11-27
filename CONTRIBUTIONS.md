@@ -379,6 +379,8 @@ Claude Code supplies the archive machine-check record [Community].
 
 **Chapter 4 §§4.10.11 and 4.10.13.** Levent Alpöge with Claude supplied the formal separated contour, weighted zero sum, hyperbola, Mertens and moment proofs in A2. The pinned Mathlib suppliers include David Loeffler and Michael Stoll (continuation and convolution positivity), Arend Mellendijk (harmonic comparison), and Alastair Irving, Terence Tao and Ruben Van de Velde (Chebyshev bound). The classical comparison credits Dirichlet and Tao for their hyperbola and arithmetic treatments, and Thorner–Zaman and Benli–Goel–Twiss–Zaman for the cited repulsion approaches. [Contour and zero-sum sources](sources/SOURCES.md#chapter-4-41011-finite-height-contours-and-weighted-zero-sums) · [Prime-moment sources](sources/SOURCES.md#chapter-4-41013-hyperbola-prime-moments)
 
+**Chapter 4 §§4.10.12 and 4.10.14.** Levent Alpöge with Claude supplied A2's finite power-sum bound, shifted displacement inequality, five-term repulsion finish and natural-number Mertens specialization. The Chebyshev producer credits Alastair Irving, Terry Tao, Ruben Van de Velde and the PrimeNumberTheoremAnd project. The primorial proof credits Patrick Stevens, Yury Kudryashov and Bhavik Mehta. [Turán sources](sources/SOURCES.md#chapter-4-41012-the-turan-finish) · [Chebyshev sources](sources/SOURCES.md#chapter-4-41014-elementary-chebyshev-supply)
+
 ## Our contributions
 
 - **Hongmin Li with AI assistance** wrote the Chapter 3 proofs and hand computations for the [exact half-open complements](../chapters/03-landau-window-criterion.md#exact-complements-by-splitting-half-open-boxes), the [subbox Cauchy argument](../chapters/03-landau-window-criterion.md#subbox-filters-and-the-cauchy-net-of-tagged-sums) and the [epsilon–gauge equivalence](../chapters/03-landau-window-criterion.md#from-the-box-filter-to-epsilon-and-gauges). The exposition traces both directions of the gauge equivalence through their consumers in Henstock–Sacks and rectangular divergence and proves the counterexamples for the deleted conditions.
@@ -875,6 +877,8 @@ same-model review is recorded separately in the preceding run's audit.
 
 
 - **Hongmin Li (with AI assistance)** wrote the textbook proofs and hand calculations in §§4.10.11 and 4.10.13, including the contour-boundary transfer, the dropped-overlap counterexample and the mapping to the actual archive consumers. This publication incorporates the two zero-sum audit corrections and records the prime-moment cutoffs as sufficient choices for the displayed proof. [Contours and zero sums](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41011-finite-height-contours-and-weighted-zero-sums) · [Hyperbola and moments](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41013-hyperbola-splitting-and-prime-moments-for-deuringheilbronn)
+
+- **Hongmin Li with AI assistance** wrote the two conditional-proof and library-supply expositions, the unit-block and reciprocal-disc calculations and the two prime-power jump calculations, and traced both supplies to the actual Deuring–Heilbronn consumer. The same-source preliminary reviews cover the stated local scopes. [§4.10.12](chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-turan-finish) · [§4.10.14](chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-chebyshev-tailmertens)
 
 ### Chapter 13 §13.4.17 — Mackey orthogonality for cuspidal induction
 
