@@ -4606,3 +4606,55 @@ Mathlib supplies Krull separation for a finitely generated module over a Noether
 Krull's intersection theorem applies with the proper ideal $(\ell)$, and the classical composition length argument applies with simple factors $\mathbb F_\ell$. Tate's Theorem 2.1 gives finite local cohomology and the degree-two dual of degree-zero invariants over finite extensions of $\mathbb Q_\ell$, along with vanishing above degree two. His Theorem 3.1 gives the global exact and surjective tail for finite coefficients unramified outside the set of places, with their order invertible outside that set. The global archive wrapper supplies the precise `PTCase` and finite-level interfaces. These references were checked on 2026-11-28. [Stacks 00IP](https://stacks.math.columbia.edu/tag/00IP) · [Stacks 00IU](https://stacks.math.columbia.edu/tag/00IU) · [Tate, ICM 1962, pp. 288–291](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf)
 
 The author-level local R3 entry covers the length proofs, embeddings and named consumer handoffs. In the arithmetic handoffs, integral finite generation, reduction surjectivity and kernel, `LocalFinitenessK`, `LocalTateDualityK`, `NineTermExact`, `ShaDual`, and residual $H^3=0$ are consumed at their indicated interfaces. §10.4.16 supplies the earlier integral primitive and division work. Section-specific same-source review, distinct-source review, Lean kernel replay, declaration-level Main reachability and peer review each have pending status.
+
+### Chapter 18 §18.3.26 Closed subgroup cohomology
+
+[Lean, read] Author-level local R3 for the representative lemma and its direct supplies.
+The arithmetic routing row below uses the named arithmetic and compact interfaces [Lean].
+A2 paths are relative to lean/src/GroundTheory/ProfiniteCohomology/.
+Lean v4.33.1, joined archive SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The local source bytes were matched to members of that archive.
+[Chapter text](../chapters/18-auditing-the-published-layer-case-studies.md#18326-extending-continuous-cohomology-from-a-closed-subgroup)
+
+| A2 file and lines | SHA-256 | Role |
+| --- | --- | --- |
+| `CohomologicalDimension/Closed.lean:19–185` | `b952bf279484b4bdab2a18a72ed90632eed813fd1c7e8b52f601a11d18278e72` | Representatives, congruence, differential, common open normal subgroup, and the restriction equality. Lines 187–245 are the separately supplied kernel statement. |
+| `Factor.lean:12–48,58–61` | `f7eea3062bba903dab90e6499e36c01ea80d5458cdddd95c618ac2b49c52847b` | Finite products of congruence neighborhoods and compact uniform factorization. |
+| `IsProPGroupSubgroupIffIsPGroupMap.lean:46–57` | `c308a66bffd87c01bd2dda083b1f495b05155071a7d5e4612226f9c4a8ddcf9a` | Ambient normal refinement. |
+| `DiscreteModules/IsDiscreteRepIffForallExistsOpenNormalSubgroup.lean:279–286,297–316` | `f9538b4fc1a47da506d9ff66c0cb355e4499cb427ff41fdeb873706342fd1c0f` | Values fixed by open normal subgroups. |
+| `Colimit.lean:21–26` | `7d369649d71cc7a8fdc6d49e7a3a32aac9201a27cedc07e6a773b25fbb231767` | Finite common subgroup. |
+| `ContinuousCochains.lean:13–21,25–107,124–132` | `fbc2d67b52f9c4baef4cf3ece18dd504bb491e0e1bcdc5fe507e12e147ba36e9` | Locally constant inhomogeneous cochains and cycles. |
+| `CohomologyFunctoriality.lean:16–32,55–76,130–132` | `40336394fdfebd9b082e235380f64f0e59a3edd06cffb5eaa99a41cb62e40073` | Restriction of modules and cochains. |
+| `ClassFormationDefs.lean:18–43` | `5bca6095526c0ec126d4f9b19f51c66ba92c2b1caad511bf557a778d706f7fca` | Identity coefficient map and induced restriction. |
+| `FilteredHomology.lean:15–19,61–76` | `75e9f2ce27c4dd4cfb0f42472bba47a5e116baae837a9f7e737760398f4fa000` | Cycles, their inclusion and the natural class projections. |
+| `RestrictedRamification/DimensionSylow.lean:66–72` | `223beea1e545c0c8a7f602075694807c3b1174b6eb2f9a1294464dab4b4a2d1c` | Abstract Sylow application at line 70. |
+| `LocalClassFormation/FiniteVanishing/Vanishing.lean:141–147` | `f799cd67dd30b5cfd49bcab00811a14ed52c627d13e7108e7b0115baab3299f7` | Local roots-of-unity application at line 145. |
+| `CohomologicalDimension/Subgroup.lean:276–288` | `05866081385f27d4db82580a75b3a8adcc81d56c760571c54f055c34f11a324e` | Application to the fixed coinduced coefficient at line 282. |
+| `RestrictedRamification/Dimension.lean:75–109,152–172` | `5de8d525326e369b1e06bc830f13e64648f958afed3e02e480fe75994ab58255` | Named arithmetic input and compact downstream call routing. |
+| `OpenNormal.lean:28–45` | `116d2611967e167fea754d303e9e21565f192b2d03af9bd4d22c4e01466a9d32` | Inherited normal neighborhood basis and the finite product form. |
+| `DiscreteModules.lean:24–40` | `98f45ffc65e003a0f8cb52c99ab11c63d566fe93c881af5a9f76368f1ce7b424` | Open stabilizer convention. |
+
+[Lean, read] Direct Mathlib supplies at `0df444a360eaa60ab8c11dca51a86af692955474` (file SHA-256):
+
+- `Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean:84–101`, `d0cecc1c79c964db759811d719c276e51da08fd4d2575eb0dec8db032ff10d2b`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean#L84)
+- `Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean:35–70`, `56b3d906c60d9bff1ffd8640e4c66c2c4f688737f927b052a0d3330be3ae9669`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean#L35)
+- `Mathlib/Data/Fin/Tuple/Basic.lean:1273–1306`, `c9a91f26403ddab92eb0599176545bc834f6b1e242e420875c3401bbdd9db0b7`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Data/Fin/Tuple/Basic.lean#L1273)
+- `Mathlib/Algebra/Group/Subgroup/Lattice.lean:636–651`, `feb594cb9ff4164130e0e05f21495cea51fcc74776e833f75116429549a4beab`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Group/Subgroup/Lattice.lean#L636)
+- `Mathlib/Topology/Algebra/OpenSubgroup.lean:255–260`, `acb578afcb63960092eabfa79d1a49741a99ef3051130a2c134e5c65b62bef67`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/OpenSubgroup.lean#L255)
+- `Mathlib/Algebra/Category/ModuleCat/EpiMono.lean:43–54`, `9a749dbb0a1452aad101a59b4920a5d40d57daf93eb2a9dd83afb8633c2201bc`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Category/ModuleCat/EpiMono.lean#L43)
+- `Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean:134–146`, `b9ec666e876e4781fd62b4f925c790bfb57cc2089790c927ff89dd0c86fb0334`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.lean#L134)
+- `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean:153–162,342–343,404–406`, `189b09f1fe262f17bfedb182dc860abdffaa5145a9dd768c290216185943f682`. [Pinned file](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean#L153)
+
+[Paper] Neukirch, Schmidt and Wingberg, *Cohomology of Number Fields*, electronic edition,
+I (1.5.1), printed pp. 45–46, with the restriction maps on p. 47. The theorem for an
+inverse limit of profinite groups with compatible discrete coefficient maps gives this
+entire existence statement on taking the open overgroups and the same module.
+The statement and proof were read online on 2026-11-28.
+[Author-hosted electronic edition](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf)
+
+[Community] Sutherland with Claude Code records machine checks for the matching A2 archive.
+This entry records author-level source reading with local Lean replay, declaration-level
+Main reachability and review of the new exposition pending. The cochain examples and
+their exact finite-coordinate checks are [Expository].
+[Public verification record](https://math.mit.edu/~drew/grh/)

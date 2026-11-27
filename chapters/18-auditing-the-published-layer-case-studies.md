@@ -1580,6 +1580,89 @@ There is also a specific obstruction to omitting the vanishing in the proof. In 
 
 ---
 
+### 18.3.26 Extending continuous cohomology from a closed subgroup
+
+**Motivation.** In the dimension argument for the restricted-ramification group $G_{K,S}$, one knows a vanishing statement on open subgroups and wants to use it on a pro-$\ell$ Sylow subgroup $P$. Closedness makes $P$ compact, but $P$ can have infinite index. The useful operation starts with one class on $P$ and chooses an open overgroup for that class. The same operation works in every nonnegative degree and with the given discrete coefficients, including a nontrivial action.
+
+**Example 1. A character that needs a smaller open group [Expository].** Write $C_m=\mathbb Z/m\mathbb Z$ additively. Take $G=C_4\times\mathbb Z_2$, $H=\{0,2\}\times\{0\}$, and $M=\mathbb F_2$ with trivial action. The copy of $\{0\}$ in $\mathbb Z_2$ is closed and every open neighborhood of it contains a nonzero element. Thus $H$ is closed and non-open. Define $c(2i,0)=i\bmod 2$ for $i=0,1$. It is a homomorphism and hence a one-cocycle. Every one-coboundary is zero for this action, so its value $c(2,0)=1$ proves that its class is nonzero.
+
+Take $V=\{0\}\times2\mathbb Z_2$ and $U=H+V=\{0,2\}\times 2\mathbb Z_2$. Since $H\cap V=0$, the coset representative in $H$ of $(2i,t)$ is $(2i,0)$. The extension is $F(2i,t)=i\bmod 2$. For $u=(2i,t)$ and $w=(2j,s)$ the differential is $j-(i+j)+i=0$ in $\mathbb F_2$. Restriction recovers $c$ exactly, and $[F]$ is nonzero by restriction. At the prescribed open overgroup $G$ itself, every one-cocycle $b$ is a homomorphism and $b(2,0)=2b(1,0)=0$. Thus $[c]$ is outside the image of $\operatorname{res}_H^G$.
+
+**Example 2. A two-cocycle with a sign action [Expository].** Let $G=A_4\times C_2\times\mathbb Z_2$, $g=(123)\in A_4$, $H=\langle g\rangle\times\{0\}\times\{0\}$, and $M=\mathbb F_3$ with $(\sigma,e,t)m=(-1)^e m$. The action is continuous because it uses a discrete finite coordinate. Again $H$ is closed and non-open. It is also nonnormal: conjugation by $(124)$ sends $g$ to $(243)$, which moves $4$. The action on $H$ is trivial. On the powers $g^i,g^j$, for $i,j\in\{0,1,2\}$ set
+$$
+c(i,j)=\lfloor(i+j)/3\rfloor\pmod 3.
+$$
+Writing $[a]_3$ for the representative of $a\bmod 3$, the integer identity $i+j=3c(i,j)+[i+j]_3$ uses the carry before reduction. Applying it twice to $i+j+k$ in each association gives
+$$
+c(j,k)-c([i+j]_3,k)+c(i,[j+k]_3)-c(i,j)=0.
+$$
+To test the class, sum its values at $(i,1)$ over $i=0,1,2$. The three values are $0,0,1$, with sum $1$. Any two-coboundary has sum $3b(1)-\sum_i b([i+1]_3)+\sum_i b(i)=0$ in $\mathbb F_3$, for any one-cochain $b$. Thus $[c]\ne0$.
+
+Take $V=\{1\}\times\{0\}\times\mathbb Z_2$. Then $U=\langle g\rangle\times\{0\}\times\mathbb Z_2$ and the extension is $F((g^i,0,t),(g^j,0,s))=c(i,j)$. Addition of the first coordinates and the trivial action on $U$ give exactly the four terms of the carry identity for every triple in $U$. Hence $d_UF=0$, restriction is $c$, and $[F]\ne0$. The ambient action will matter when we try a larger $V$ below.
+
+**Definitions.** Let $G$ be a compact, totally disconnected topological group, let $H\le G$ be closed, and let $M$ be a discrete continuous $G$-module, written additively. Equivalently, each $m\in M$ has open stabilizer in $G$. The Lean statement uses a representation over a commutative ring, with this discreteness property. On any subgroup $L$ with its induced topology write $C^q(L,M)$ for locally constant maps $L^q\to M$, with the restricted action. Use all inhomogeneous cochains. Their differential is
+$$
+(d_L c)(g_1,\ldots,g_{q+1})=
+g_1c(g_2,\ldots,g_{q+1})+
+\sum_{j=1}^{q}(-1)^j c(g_1,\ldots,g_jg_{j+1},\ldots,g_{q+1})
++(-1)^{q+1}c(g_1,\ldots,g_q).
+$$
+For $q=0$, the tuple space is one point and this formula reads $(d_Lm)(g)=gm-m$. Here and below $H^q(L,M)$ means the cohomology of these continuous cochains. Restriction is precomposition with the coordinate inclusions and the identity on values. [A2, ContinuousCochains.lean:13–21,25–107,124–130; CohomologyFunctoriality.lean:16–32,55–76; ClassFormationDefs.lean:18–43.]
+
+For an open normal $V\trianglelefteq G$ write $a\equiv_V b$ if $a^{-1}b\in V$. A cochain satisfies *ConstOnCosets* if coordinatewise $\equiv_V$ on $H^q$ implies equality of values. This is the same as factoring through $(H/(H\cap V))^q$. Separately, the values are fixed by $V$ if they belong to $M^V$. Finite-quotient inflation uses this distinction between quotient arguments and fixed values, as in the class-formation construction and the explicit cochains of §11.4.7. The existing open normal neighborhood theorem supplies levels in $G$ and in closed subgroups. [A2, CohomologicalDimension/Closed.lean:65–66; OpenNormal.lean:28–45; Chapter 18, §18.3.11, Lemma L](#18311-frobenius-elements-at-a-place-existence-inertia-cosets-and-conjugation).
+
+**Lemma (one open normal subgroup for arguments and values) [Lean, read].** For any $c\in C^q(H,M)$ there is an open normal $V$ in $G$ such that $c$ satisfies *ConstOnCosets* and takes values in $M^V$.
+
+**Proof.** Closedness of $H$ makes $H^q$ compact, so its cover by the open fibres of $c$ has a finite subcover. In particular $c(H^q)$ is finite even when $M$ is infinite. For each $a=(a_i)\in H^q$, choose an open normal subgroup $W_a$ of $H$ with the product of cosets $\prod_i a_iW_a$ contained in the fibre through $a$. This uses the inherited normal neighborhood basis in the finite product. Take finitely many such products covering $H^q$ and intersect their subgroups to get $W\trianglelefteq H$. If a tuple $b$ belongs to one of the covering products, every tuple coordinatewise congruent to $b$ modulo $W$ belongs to that very product. Hence $c$ is constant on the $W$-cosets in every coordinate.
+
+Since $W$ is open in $H$, choose an open identity neighborhood $O\subset G$ with $O\cap H=W$. The normal neighborhood basis in $G$ supplies an open normal $V_0\subset O$, so $H\cap V_0\subset W$. For each $m\in c(H^q)$ its open stabilizer contains an open normal subgroup $V_m$ of $G$. Take
+$$
+V=V_0\cap\bigcap_{m\in c(H^q)}V_m.
+$$
+It is open and normal by finite intersection. For $a,b\in H^q$, coordinate differences in $V$ lie in $H\cap V_0\subset W$. The same $V$ fixes all values. In the Lean construction the index $\mathrm{Option}(\operatorname{range}c)$ includes $V_0$ at the extra index. The argument includes $q=0$, when there is one value and no coordinate condition. [A2, CohomologicalDimension/Closed.lean:130–145; Factor.lean:12–48,58–61; IsProPGroupSubgroupIffIsPGroupMap.lean:46–57; Colimit.lean:21–26; DiscreteModules/IsDiscreteRepIffForallExistsOpenNormalSubgroup.lean:279–286,304–316.]
+
+**Lemma (extension and differential) [Lean, read].** Let $c$ satisfy these two properties for $V$, and take $U=H\vee V$. Then the representative formula below defines $E_Vc\in C^q(U,M)$, with
+$$
+(E_Vc)|_{H^q}=c,\qquad d_U(E_Vc)=E_V(d_Hc).
+$$
+The formula on the right means evaluation of $d_Hc$ on the chosen representatives in degree $q+1$.
+
+**Proof.** Normality of $V$ gives $U=HV$. This subgroup is open since it is a union of open cosets of $V$. Each $u\in U$ admits $s(u)\in H$ with $s(u)^{-1}u\in V$. Define
+$$
+(E_Vc)(u_1,\ldots,u_q)=c(s(u_1),\ldots,s(u_q)).
+$$
+This is *supExtend* with *supSection* as the choice $s$. All choices of $s(u)$ are congruent modulo $V$. More generally, if $u_i\equiv_V h_i$ with $h_i\in H$ for every $i$, the extended value is $c(h_1,\ldots,h_q)$ by transitivity of congruence. Taking $h_i=u_i$ on $H$ gives restriction. On the product $\prod_i u_iV$ the extended value is constant by the same argument. Thus the composite is locally constant even if the particular function $s$ is discontinuous.
+
+For a $(q+1)$-tuple $u$ in $U$ put $h_i=s(u_i)$ and write $u_i=h_iv_i$, where $v_i\in V$. Compare each term of $d_U(E_Vc)(u)$ with the corresponding term of $(d_Hc)(h_1,\ldots,h_{q+1})$.
+
+- The first face deletes $u_1$. Both cochain evaluations are $m=c(h_2,\ldots,h_{q+1})$. The action factors agree since $u_1m=h_1(v_1m)=h_1m$.
+- For each $1\le j\le q$, the merged coordinate satisfies
+  $$
+  (h_jh_{j+1})^{-1}u_ju_{j+1}=(h_{j+1}^{-1}v_jh_{j+1})v_{j+1}\in V.
+  $$
+  Therefore $s(u_ju_{j+1})\equiv_V h_jh_{j+1}$. The other coordinates are unchanged and both evaluations agree by *ConstOnCosets*. The same sign $(-1)^j$ occurs on both sides.
+- The last face deletes $u_{q+1}$ and has the same representatives $(h_1,\ldots,h_q)$ and the same sign $(-1)^{q+1}$. This is the terminal case of Lean's *Fin.contractNth*, where there is no adjacent product.
+
+For $q=0$ the middle list is empty. The two outside terms give $u_1m-m=h_1m-m$. This verifies the equation in all degrees. The only multiplication compatibility needed of $s$ was the congruence in the middle face. A multiplicative section can fail to exist even for the induced finite quotient. For example, if $G=C_4\times\mathbb Z_2$, $H=C_4\times\{0\}$ and $V=\{0,2\}\times\mathbb Z_2$, then $H\to U/V$ is reduction $C_4\to C_2$. A lift of the nonzero residue has order four, so there is no group homomorphism section of this quotient. The formula uses representatives of cosets and their congruences. [A2, CohomologicalDimension/Closed.lean:22–115; Mathlib, Data/Fin/Tuple/Basic.lean:1273–1306.]
+
+**Theorem 18.3.26 (a representative on an open overgroup) [Lean, read].** Under the stated hypotheses, fix $q\ge0$ and $x\in H^q(H,M)$. There are an open subgroup $U\le G$ containing $H$ and a class $y\in H^q(U,M)$ with $\operatorname{res}_H^U(y)=x$.
+
+**Proof.** Choose a continuous cocycle $c$ representing $x$. Apply the first lemma to this $c$, and form $U=H\vee V$ and $F=E_Vc$ by the second lemma. Since $d_Hc=0$, the differential identity gives $d_UF=0$. Set $y=[F]$. Restriction is a cochain map, because each face commutes with the inclusion and the action is the same restricted action on both sides. The equality $F|_{H^q}=c$ therefore gives $\operatorname{res}_H^U(y)=[c]=x$. In *exists_cohomologyResLE_eq*, the epimorphism *homologyπ* chooses the cycle, *exists_iCycles_eq* realizes the extended cocycle as a cycle, and naturality of *homologyπ* passes the pointwise restriction equality to the class. Both classes use the given $M$ and the original $q$. [A2, CohomologicalDimension/Closed.lean:147–185; FilteredHomology.lean:15–19,61–76.]
+
+**The value condition in Example 2 [Expository].** Keep $G,H,M,c$ from Example 2 and instead take $V'=\{1\}\times C_2\times\mathbb Z_2$. Then $H\cap V'=0$ and *ConstOnCosets* still holds. Now $U'=\langle g\rangle\times C_2\times\mathbb Z_2$ and the same representative formula gives $F'(u,w)=c(i,j)$ on first coordinates $g^i,g^j$. At $a=(1,1,0)$, $b=(g^2,0,0)$, $d=(g,0,0)$ one gets
+$$
+(d_{U'}F')(a,b,d)=-1-1+0-0=1\quad\text{in }\mathbb F_3.
+$$
+Indeed $c(2,1)=1$ and $c(0,0)=c(0,2)=0$. The only changed term relative to $d_Hc(0,2,1)=0$ is the first, because $a$ acts by $-1$. In general, with only *ConstOnCosets*, the difference of the two differentials is exactly $h_1(v_1m-m)$ for the tail value $m$. On a cocycle, evaluating at a first argument $v\in V$ followed by a tuple from $H$ gives $vm-m$, since $s(v)\equiv_V1$ and the restricted differential is zero. Thus for this representative formula to extend a cocycle as a cocycle, fixing every value is also necessary for the chosen $V$.
+
+**Use at the Sylow subgroup [Lean, read].** In *cdp_le_of_forall_openSubgroup*, the hypothesis says that $H^{n+1}(U,A)=0$ for every open $U$, where the underlying additive group of the given discrete representation $A$ is $\mathbb Z/\ell\mathbb Z$. The proof chooses a closed pro-$\ell$ Sylow $P$. For an arbitrary $x\in H^{n+1}(P,A)$ the theorem gives an open $U$ and a representative $y$. The vanishing hypothesis applies to that $U$, so $y=0$ and $x=0$. The subsequent comparison with trivial $\mathbb Z/\ell\mathbb Z$ on $P$ and the dimension criteria are separate inputs. For $G_{K,S}$ the caller *cdp_galUnramifiedOutside_le_two* supplies the ambient roots-of-unity representation, its additive size, and the all-open degree-three vanishing under the stated place and parity hypotheses. [A2, RestrictedRamification/DimensionSylow.lean:57–93; RestrictedRamification/Dimension.lean:75–109.]
+
+The local proof *cdp_galois_le_two* uses the same move in degree three for $G=\operatorname{Gal}(K^{\mathrm{sep}}/K)$ and $M=\mu_\ell(K^{\mathrm{sep}})$ with its Galois action and $\ell\ne0$ in $K$. It kills the particular $y$ by the open-subgroup Kummer bridge of Chapter 11. The comparison with trivial coefficients takes place on $P$ after that step. [A2, LocalClassFormation/FiniteVanishing/Vanishing.lean:132–177; Chapter 11, §11.4.7](11-the-window-bound-vwin.md#1147-the-open-subgroup-kummer-bridge-in-degree-three).
+
+**Remarks on scope and attribution.** The open group in the theorem may depend on the class and its representative. Example 1 shows why surjectivity for a specified open group is a stronger assertion. The Sylow uses additionally require vanishing on the selected open group and the related dimension criteria. The fixed-exponent compact duality of §18.3.25 uses a restriction family, compact cohomology, a trace and other hypotheses of its own. In particular, the fourth compact cohomology input is a subsequent application of global and local ordinary vanishing and the compact exact sequence. [A2, RestrictedRamification/Dimension.lean:152–172 §18.3.25](#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent).
+
+**[Paper]** Neukirch, Schmidt and Wingberg, *Cohomology of Number Fields*, I (1.5.1), pp. 45–46, give the canonical cohomology isomorphism for an inverse system of profinite groups with a compatible direct system of discrete modules. The topological group is Hausdorff: singleton connected components are closed, so the group is $T_1$, hence Hausdorff. Thus it is profinite. Use the open overgroups of $H$, with inclusion maps from smaller groups to larger ones, and the constant underlying module $M$ with restricted actions and identity coefficient maps. Finite intersections direct this system, and the intersection of the open overgroups is $H$. Indeed, for $g\notin H$ the inherited normal neighborhood basis gives $V$ with $gV$ disjoint from $H$, hence $g\notin HV$. With the induced topology the inverse limit is this intersection. Section I.5 identifies the transition maps with restriction. Each element of the direct limit has a representative at one stage. That classical theorem thus gives the full existence statement. The proof here follows the local A2 implementation and makes the control of the individual cochain faces explicit. [Neukirch–Schmidt–Wingberg, electronic edition](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf) · [Pinned sources and reading status](../sources/SOURCES.md#chapter-18-18326-closed-subgroup-cohomology)
+
 ## 18.4 Cluster III — Automorphic purity, unitary base change, Siegel–Weil, and $p$-adic Hodge theory
 
 ### 18.4.1 Motivation: domain restrictions and period-ring bundles in high-end foundations

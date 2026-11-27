@@ -363,6 +363,14 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 **Chapter 6 §6.4.22.** Levent Alpöge with Claude supplies `TangentIndep.tangent_coords_nonunit`, its finite-level Lie-linearity and the actual second-block call. The Mathlib community supplies the pinned substitution, cotangent and module infrastructure. Michiel Hazewinkel supplies formal-law integrality, John Tate attributes finite duality to Cartier and supplies the divisible formal group construction, and Peter Scholze with Jared Weinstein supply the universal-cover context. Community build and kernel work has its own verification entries. [Sources](sources/SOURCES.md#tangent-coordinate-nonunits)
 
+
+**Closed subgroup cohomology (§18.3.26).** Jürgen Neukirch, Alexander Schmidt and
+Kay Wingberg supply the classical change-of-group theorem [Paper]. Levent Alpöge with Claude
+supplied the A2 representative extension and its consumers [Lean]. Mathlib contributors
+supply the finite tuple, cochain and categorical library machinery. Andrew Sutherland with
+Claude Code supplies the archive machine-check record [Community].
+[Source ledger](sources/SOURCES.md#chapter-18-18326-closed-subgroup-cohomology)
+
 ## Our contributions
 
 **Hongmin Li with AI assistance** explained the first-torsion nonunit test, proved the model pairings at every level, worked out the two coordinate calculations and deletion examples, and traced the original integral series through the second-block call. [Chapter 6 §6.4.22](chapters/06-stepanovs-method-and-multiplicity.md#6422-reading-the-second-block-on-the-first-torsion-group)
@@ -1185,3 +1193,10 @@ John Tate and Georges Poitou supplied the classical localization duality. J. S. 
 
 - **Levent Alpöge with Claude** supplied the closed first squarefree count, including the two witness branches, their finite cover and the estimate with constant $23$. **Mathlib contributors** supplied the library interfaces listed in the source ledger. Dickson and Milne give the classical finite-field background. [Source ledger](sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
 - **Hongmin Li with AI assistance** wrote the textbook account and worked the two quadratic examples and the original-range singleton. The evidence is author-level local R3 together with finite exact arithmetic checks for the stated examples and arithmetic bounds. [Chapter 4 §4.10.23](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41023-when-prime-to-parts-of-roots-collide)
+
+### Chapter 18 §18.3.26 — Closed subgroup cohomology
+
+**Hongmin Li with AI assistance** expanded the cochain extension and its differential
+into a textbook proof, worked two nonzero classes and the failure examples, and traced
+the exact uses of the representative in the Sylow and closed-subgroup arguments.
+[Chapter text](chapters/18-auditing-the-published-layer-case-studies.md#18326-extending-continuous-cohomology-from-a-closed-subgroup)

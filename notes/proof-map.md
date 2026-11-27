@@ -914,3 +914,12 @@ A2's `GlobalTheory.SepReal.logNear_holds` constructs `logS (g - 1)` in the Frobe
 **P16 AdjoinRoot image quotient ([§13.4.9.3.1](../chapters/13-greens-theorem-and-the-literature-layer.md#134931-the-adjoinroot-quotient-and-its-coordinates)).** Local R3 for `ExistsSurjectivePiAdjoinRootKerEqRange.lean:6–75` and its forwarding declaration. The arbitrary-field surjection enters `CuspGL.psi_primary` at line 119 and supplies its subspace fibers at lines 150–164. [Source ledger](../sources/SOURCES.md#adjoinroot-image-quotient-in-chapter-13)
 
 **P11, invariant length from torsion levels (§10.4.17).** Author local R3 for `lpow_sep`, `length_eq_length_invariants_of_torsion_levels`, the separated-quotient and exhaustive-submodule comparison, and the embedded twisted-dual layers. The direct applications are `local_tate_duality_h2_limit` and `ptCokerAt`. The local and global arithmetic supplies retain their interfaces. Same-source review, distinct-source review, kernel replay and Main declaration reachability for this reading are pending. [Subsection](../chapters/10-congruence-modules-to-sha.md#10417-recovering-invariant-length-from-torsion-level-counts)
+
+**P18 (closed subgroup cohomology, §18.3.26).** Author-level local R3 [Lean, read] for
+`exists_cohomologyResLE_eq` in `CohomologicalDimension/Closed.lean:147–185` and its
+extension helpers at lines 19–145. Calls at `RestrictedRamification/DimensionSylow.lean:70`,
+`LocalClassFormation/FiniteVanishing/Vanishing.lean:145` and
+`CohomologicalDimension/Subgroup.lean:282` use the existential overgroup representative
+with separately supplied open-subgroup vanishing. The kernel comparison, full arithmetic
+dimension bounds and compact dévissage retain their own scopes.
+[Section](../chapters/18-auditing-the-published-layer-case-studies.md#18326-extending-continuous-cohomology-from-a-closed-subgroup) · [Pinned sources](../sources/SOURCES.md#chapter-18-18326-closed-subgroup-cohomology)
