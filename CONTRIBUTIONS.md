@@ -1158,6 +1158,11 @@ John Tate and Georges Poitou supplied the classical localization duality. J. S. 
 - **Hongmin Li with AI assistance.** Wrote the source-linked explanation of canonicity, the two quadratic normalization comparisons and hypothesis-deletion examples. [Chapter 15, §15.4.3.13](chapters/15-two-proofs-side-by-side.md#154313-the-canonical-discrete-value-group-of-a-local-field)
 
 
+### Chapter 11 low-degree Kummer finiteness
+
+- **Community and archive.** Levent Alpöge with Claude supplied the A2 proofs. Mathlib provides the pinned fixed-field and root-set facts and Oliver Nash’s additive-circle torsion bound. Andrew Sutherland’s machine-check report gives archive-level evidence. Milne and Tate are credited for the classical results. [Sources](sources/SOURCES.md#chapter-11-low-degree-kummer-finiteness)
+- **Hongmin Li with AI assistance.** Read the three low-degree declarations and their direct suppliers, traced the finite-cohomology field into the local duality bundle, and wrote the English proof, two fixed-field unit calculations and characteristic-$p$ control. [§11.4.8](chapters/11-the-window-bound-vwin.md#1148-low-degree-finiteness-on-an-open-subgroup)
+
 ### Chapter 11 the open-subgroup Kummer bridge in degree three
 
 - **Levent Alpöge with Claude** formalized the restricted Kummer short exact sequence and the deduction of third-degree root-of-unity vanishing from the open-subgroup class formation. [Archive announcement](https://alpo.ge/remark.pdf)
