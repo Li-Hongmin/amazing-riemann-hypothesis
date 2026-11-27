@@ -1308,7 +1308,7 @@ where $\circ$ denotes Harish–Chandra induction. Then every $H_L$ contains a ge
 
 Write the induced character as a sum of irreducible characters with repetitions. By linearity some term has a positive Whittaker dimension. Its pairing with the induced character counts its occurrences by irreducible orthogonality, so that pairing is also positive.
 
-The two-block supplier organizes the Whittaker sum over double cosets of the unitriangular group and the parabolic. A shuffle placing a first-block coordinate immediately before a second-block coordinate contributes zero by nontrivial additive-character cancellation on the corresponding radical root subgroup. In the surviving shuffle the second block precedes the first, and the intersection is the product of the two block unitriangular groups. The normalized average there is the product displayed above. $\square$
+The two-block supplier organizes the Whittaker sum over double cosets of the unitriangular group and the parabolic. A shuffle placing a first-block coordinate immediately before a second-block coordinate contributes zero by nontrivial additive-character cancellation on the corresponding radical root subgroup. In the surviving shuffle the second block precedes the first, and the intersection is the product of the two block unitriangular groups. The normalized average there is the product displayed above. [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes) proves the vanishing and intersection normalization, and [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight) evaluates the open cell. $\square$
 
 **Lemma 13.15 (pairing the induced characters).** [Lean, read] Use the Harish–Chandra restriction formula for a cuspidal product. For $L,L'$ of the same total rank,
 
@@ -1369,7 +1369,7 @@ The four multisets supplied by polynomial labels correspond to $(X+1)^3$, $(X+1)
 
 **Return to Proposition 13.8.** Use the injective cuspidal labeling in every positive rank supplied by Proposition 13.6 and Lemma 13.7. Factor each monic polynomial of degree $d$ with nonzero constant term into monic irreducibles and label its factors with their multiplicities. The resulting support determines the factor multiset by injectivity in each rank and therefore determines the polynomial. These polynomials number $(g-1)g^{d-1}$ by independent choices of their coefficients. A missing degree-$d$ cuspidal character would give a new singleton multiset. If that singleton already came from a polynomial, the polynomial would have a single irreducible factor of degree $d$ with multiplicity one, and its label would give the supposedly missing character. Adjoining the singleton therefore contradicts Theorem 13.17. The argument still depends on the construction of the cuspidal labels, including (I1), and on the named inputs below.
 
-**Reading notes.** The two-block product proof is `GlobalTheory.GLq.WhMul.wh_hcT`. Its deeper inputs include `Shuffle.existsUnique_shuffle`, `mackey_doubleCoset_pairing`, `OpenCell.openCell` and `NonOpenCell.whittaker_term_eq_zero`. Cuspidal positivity enters as `T.whittakerDimension_pos_of_cuspidal_character`. The pairing recurrence uses `T.harishChandraRestriction_cuspidal_product_sum_subsets`, `T.harishChandra_frobenius_reciprocity` and `T.harishChandraRestrictionTwoBlock_cuspidal_eq_zero`. The cumulative Gelfand–Graev calculation uses `T.mirabolicClassFun_blockDiagonal_eq_sum_derivatives` and `T.bernsteinZelevinskyDerivativeGLn_eq_twisted_sum`. These named inputs are [Lean] at their interfaces, with deeper proof readings [Open] here. The Whittaker idempotent, character decomposition and finiteness, and orthogonality also enter through the interfaces recorded in the source map. Section 13.4.9 reads the lifting input `CuspGL.TeichEmb.exists_teichmuller` at its stated Witt-vector interface.
+**Reading notes.** The two-block product proof is `GlobalTheory.GLq.WhMul.wh_hcT`. The local reading continues with the shuffle, intersection pairing and non-open producer in [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes) and the open-cell producer in [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight). Cuspidal positivity enters as `T.whittakerDimension_pos_of_cuspidal_character`. The pairing recurrence uses `T.harishChandraRestriction_cuspidal_product_sum_subsets`, `T.harishChandra_frobenius_reciprocity` and `T.harishChandraRestrictionTwoBlock_cuspidal_eq_zero`. The cumulative Gelfand–Graev calculation uses `T.mirabolicClassFun_blockDiagonal_eq_sum_derivatives` and `T.bernsteinZelevinskyDerivativeGLn_eq_twisted_sum`. The cuspidal positivity, pairing recurrence and mirabolic inputs just listed are [Lean] at their interfaces, with deeper proof readings [Open] here. The Whittaker idempotent, character decomposition and finiteness, and orthogonality also enter through the interfaces recorded in the source map. Section 13.4.9 reads the lifting input `CuspGL.TeichEmb.exists_teichmuller` at its stated Witt-vector interface.
 
 Green's Lemma 7.7 matches degree-$s$ simplexes with irreducible polynomial labels. His Theorem 13 and the argument opening its proof count partition-valued labels against conjugacy classes. Here the multiset retains only the multiplicity at each cuspidal label, and the proof uses the squared Whittaker multiplicities instead of the full conjugacy-class count. [Green 1955, pp. 439–440](https://doi.org/10.1090/S0002-9947-1955-0072878-2).
 
@@ -1400,7 +1400,7 @@ Green's Lemma 7.7 matches degree-$s$ simplexes with irreducible polynomial label
 | R2 | Shuffle characterization, file reference | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/ShuffleNoDescentIffOpen.lean:25` |
 | R2 | Double coset pairing | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/CardDoubleCosetMulCardInter.lean:81` |
 | R2 | Open cell evaluation | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/IsUnitOfUniUp.lean:384` |
-| R2 | Other cell cancellation | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/WhittakerTermEqZero.lean:118` |
+| R3 (local, §13.4.21) | Non-open cell cancellation | `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/WhittakerTermEqZero.lean:118` |
 | R2 | Idempotence and identity coefficient | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/WhittakerJacquetIdempotentsPropertiesPrimeFieldStatement.lean:8` |
 | R2 | Integral projection traces | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GroupAlgebraTraceIdempotentAndIrreducibleDegreeStatement.lean:8` |
 | R2 | Finiteness of irreducibles | `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FiniteIrrCharactersAndFinsumCentralIdempotentsEqStatement.lean:8` |
@@ -3156,9 +3156,184 @@ For $d=2$ take $x=1$. The local sign product squares to one on all $576$ terms. 
 
 **Attribution and scope.** The finite-group argument uses the double-coset decomposition named for George W. Mackey. Howlett and Lehrer study the associated induced-cuspidal intertwining theory. The Lean production is from the Alpöge–Claude archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` with Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. The flag argument and examples are this book's exposition. Earlier Green existence, radical averages and character formulas are inputs at their existing scope. Whittaker multiplicity, the degree of the list induction and general series label existence and uniqueness retain their earlier status. [Source record](../sources/SOURCES.md#chapter-13-13417--mackey-orthogonality-for-cuspidal-induction)
 
+### 13.4.21 Why every non-open Whittaker cell vanishes
+
+The Whittaker average of a parabolically induced function in [§13.4.8](#1348-why-the-cuspidal-count-exhausts-greens-list) divides into double-coset contributions. A cell can have many terms with nonzero weight and still contribute zero. In rank two over $\mathbb F_2$, the two upper unitriangular matrices in the identity-cell sum have the same diagonal blocks and opposite Whittaker weights. In higher rank the matrix entry that produces cancellation depends on the cell.
+
+**Definitions.** Let $K=\mathbb F_q$, $n=a+b$ with $a,b\ge0$, $G=\mathrm{GL}_n(K)$, and $U=U_n(K)$ the upper unitriangular group. Let $P=P_{a,b}$ stabilize the first coordinate $a$-space and let $\pi:P\to\mathrm{GL}_a(K)\times\mathrm{GL}_b(K)$ take the two diagonal blocks. Its kernel is the upper-right rectangular unipotent subgroup. Rank zero groups contain one element. Use indices $1,\ldots,n$. Write $E_{ij}$ for the matrix unit in row $i$, column $j$. For an additive character $\psi:K\to\mathbb C^\times$, put
+
+$$
+
+s(u)=\sum_{r=1}^{n-1}u_{r,r+1},\qquad
+\lambda(u)=\psi(s(u)),\qquad
+\operatorname{Wh}_{m,\psi}(f)=\frac{1}{|U_m|}\sum_{u\in U_m}\psi(s(u))^{-1}f(u).
+
+$$
+
+An empty sum is zero. The first superdiagonal of a product in $U$ is the sum of those of its factors, so $\lambda$ is a character.
+
+**Lemma (cell parameters).** The double cosets $U\backslash G/P$ have unique representatives $w_\sigma$, with $w_\sigma e_j=e_{\sigma(j)}$ and $\sigma$ increasing inside each block. Put $A$ at positions in $\sigma(\{1,\ldots,a\})$ and $B$ elsewhere. The words with $a$ letters $A$ and $b$ letters $B$ parametrize all cells. The open word is $B^bA^a$. Every other word contains an adjacent $AB$.
+
+**Proof.** Write $V_r=\langle e_1,\ldots,e_r\rangle$. For an $a$-space $W$, record the $a$ indices $r$ where $\dim(W\cap V_r)$ increases. At each such $r$ choose a vector in $W\cap V_r$ with coefficient one at $e_r$. These vectors form a basis by their distinct last nonzero indices. Make them the corresponding columns of an upper unitriangular matrix $u$ and use standard columns at other indices. Then $W=u w_\sigma V_a$, where $\sigma$ lists the recorded indices and then their complement in increasing order within each list. The dimension profile is invariant under $U$, giving uniqueness, since $G/P$ is the Grassmannian of $a$-spaces. The open chart $W\cap V_b=0$ consists exactly of the spaces with pivot positions $b+1,\ldots,n$. A word with no adjacent $AB$ has all its $B$ letters before all its $A$ letters, because after any $A$ its successor, if present, must also be $A$.
+
+**Proposition (vanishing on every non-open cell).** For every finite field $K$, every nontrivial additive character $\psi$ of $K$, every pair of nonnegative ranks $a,b$, every non-open shuffle $\sigma$, and every function $\Phi:\mathrm{GL}_a(K)\times\mathrm{GL}_b(K)\to\mathbb C$, set $I_\sigma=U\cap w_\sigma P w_\sigma^{-1}$. Then
+
+$$
+
+S_\sigma=\sum_{x\in I_\sigma}\lambda(x)^{-1}\Phi(\pi(w_\sigma^{-1}xw_\sigma))=0.
+
+$$
+
+The same statement holds for any permutation admitting indices $i\le a\lt j$ with $\sigma(j)=\sigma(i)+1$. This stronger form is the local Lean producer's contract.
+
+**Proof.** For a shuffle choose the first adjacent $AB$, at positions $r,r+1$. For the stronger statement take $r=\sigma(i)$ from the given witness. Take $i=\sigma^{-1}(r)$ and $j=\sigma^{-1}(r+1)$. The root subgroup $v(t)=1+tE_{r,r+1}$ for $t\in K$ lies in $I_\sigma$, since $w_\sigma^{-1}v(t)w_\sigma=1+tE_{ij}$ lies in $\ker\pi$. The character on the $U$ side restricts to $\psi(t)$ and the inflated Levi data on the $P$ side are invariant under the root subgroup. Choose $t$ with $\psi(t)\ne1$. Over an extension field $t=1$ may fail to witness the discrepancy.
+
+Extend the summand by zero to $G$ and call it $F$. Right multiplication by $v(t)$ adds $t$ times column $r$ to column $r+1$. It preserves membership in $U$ in both directions, with inverse $v(-t)$. On $U$ it adds $t$ to $s(x)$ because the only affected first-superdiagonal entry is in row $r$, where $x_{rr}=1$. After conjugation it adds $t$ times column $i$ to column $j$. The lower-left and top-left blocks stay fixed because $j\gt a$. On the parabolic support the bottom entries of column $i$ are zero, so the bottom-right block stays fixed too. Both diagonal blocks on this support are invertible by block triangularity. Therefore $F(xv(t))=\psi(t)^{-1}F(x)$ for every $x\in G$, including outside the support. Right translation permutes $G$ and $I_\sigma$. Summation gives $S_\sigma=\psi(t)^{-1}S_\sigma$, and cancellation in $\mathbb C$ gives zero. The support contains the whole root subgroup. With $\Phi=1$, every supported summand has nonzero weight.
+
+**Normalization and the product.** Write $\mathrm{HC}_{a,b}(\Phi)$ for the induction sum of the inflated function, given by
+$$
+\mathrm{HC}_{a,b}(\Phi)(x)=\frac{1}{|P|}\sum_{y\in G}\widetilde\Phi(y^{-1}xy),
+$$
+where $\widetilde\Phi$ equals $\Phi\circ\pi$ on $P$ and is zero elsewhere. When $\Phi$ is separately a class function in both variables, the numerator $S_\sigma$ is unchanged if $w_\sigma$ is replaced by $y=u_0w_\sigma p_0$ in the same cell. Make the substitution $x\mapsto u_0xu_0^{-1}$ and use conjugation invariance of $\lambda$ on $U$ and of $\Phi\circ\pi$ on $P$. Above $u_0w_\sigma p_0$, the fiber of $(u,p)\mapsto uw_\sigma p$ consists precisely of $(u_0h,w_\sigma^{-1}h^{-1}w_\sigma p_0)$ for $h\in I_\sigma$. Thus
+
+$$
+
+\operatorname{Wh}_{n,\psi}(\mathrm{HC}_{a,b}(\Phi))
+=\sum_\sigma\frac{|Uw_\sigma P|}{|U||P|}S_\sigma
+=\sum_\sigma\frac{S_\sigma}{|I_\sigma|}.
+
+$$
+
+The identity lies in each intersection, so the denominators are positive. The Lean producer gives zero for the numerator, and its consumer multiplies by the reciprocal. The evaluation in [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight) gives the remaining term, $\operatorname{Wh}_{a,\psi}(x\mapsto\operatorname{Wh}_{b,\psi}(\Phi(x,-)))$. In particular for $\Phi(x,y)=\alpha(x)\beta(y)$ this is $\operatorname{Wh}_{a,\psi}(\alpha)\operatorname{Wh}_{b,\psi}(\beta)$, the product used in the cuspidal-list induction. The cuspidal degree argument uses separate mirabolic and Harish–Chandra inputs. The [source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average) records their companion drafts and reading levels.
+
+**Hand calculation in $\mathrm{GL}_2(\mathbb F_2)$.** Use $(a,b)=(1,1)$, $\psi(t)=(-1)^t$ and $\Phi=1$. The word $AB$ has $w=1$ and $I=\{1,1+E_{12}\}$. The upper-right kernel acts trivially on both Levi blocks and the weights are $1,-1$. The normalized contribution is $(1-1)/2=0$. For $BA$, the swap takes the root to the lower triangle, so $I=\{1\}$ and the contribution is $1$. Since $|G|=6$ and $|U|=|P|=2$, the cell sizes are $2,4$. Directly, induction of $1$ counts fixed lines. The identity fixes three, and $1+E_{12}$ fixes only the kernel line of $E_{12}$. The Whittaker average is $(3-1)/2=1$. With trivial $\psi$ it becomes $(3+1)/2=2$, whereas the product of rank-one averages is still $1$. The non-open numerator becomes $2$ and gives the extra $1$.
+
+**Hand calculation in $\mathrm{GL}_3(\mathbb F_3)$.** Let $\zeta=e^{2\pi i/3}$ and $\psi(t)=\zeta^t$. Write $u=1+xE_{12}+yE_{13}+zE_{23}$. Use the constant character on the rank-one factor and the permutation character on the four lines of $\mathbb F_3^2$ on the rank-two factor. On the latter's upper unitriangular subgroup the character is $f(0)=4$, $f(1)=f(2)=1$, because a nonidentity transvection has one invariant line. The weight is $\zeta^{-(x+z)}$. Conjugation has entries $(w_\sigma^{-1}uw_\sigma)_{ij}=u_{\sigma(i),\sigma(j)}$. The lower-left zero condition gives the complete table.
+
+| Split | Word | Permutation in one-line notation | Support restriction | Rank-two upper entry | Selected root | Intersection size |
+|---|---|---|---|---|---|---|
+| $(1,2)$ | $ABB$ | $(1,2,3)$ | none | $z$ | $E_{12}$ | $27$ |
+| $(1,2)$ | $BAB$ | $(2,1,3)$ | $x=0$ | $y$ | $E_{23}$ | $9$ |
+| $(1,2)$ | $BBA$ | $(3,1,2)$ | $y=z=0$ | $x$ | open | $3$ |
+| $(2,1)$ | $AAB$ | $(1,2,3)$ | none | $x$ | $E_{23}$ | $27$ |
+| $(2,1)$ | $ABA$ | $(1,3,2)$ | $z=0$ | $y$ | $E_{12}$ | $9$ |
+| $(2,1)$ | $BAA$ | $(2,3,1)$ | $x=y=0$ | $z$ | open | $3$ |
+
+For $ABB$ and $ABA$ right translation adds $t$ to $x$ alone. For $BAB$ it adds $t$ to $z$ and $tx=0$ to $y$. For $AAB$ it adds $t$ to $z$ and $tx$ to $y$, relabelling the free $y$ and fixing the Levi entry $x$. On either identity cell the numerator is $3(4+\zeta^{-1}+\zeta^{-2})(1+\zeta^{-1}+\zeta^{-2})=0$. On either middle cell it is $(4+1+1)(1+\zeta^{-1}+\zeta^{-2})=0$. The open numerators are $4+\zeta^{-1}+\zeta^{-2}=3$, so for either split the full average is $0/27+0/9+3/3=1$. The parabolic has $2\cdot48\cdot9=864$ elements. The three cell sizes are $864,2592,7776$, summing to $11232=|\mathrm{GL}_3(\mathbb F_3)|$. With trivial $\psi$, the numerators are $54,18,6$. The full average is $6$ and the product of the two block averages is $2$.
+
+**Remarks on coverage and source scope.**
+
+| Range | Exhaustion and conclusion |
+|---|---|
+| $a,b>0$ | Exactly $\binom{a+b}{a}-1$ non-open cells. Every word containing an adjacent $AB$ has the required root and vanishes for all $\Phi$ and nontrivial $\psi$. |
+| $a=0$ or $b=0$ | One open word, with $P=G$, $I=U$ and no cross-block root. The product reduces to multiplication by the value on the rank-zero block. |
+| $n=0,1$ | Only endpoint splits occur. The Whittaker average is evaluation at the identity. |
+| $n=2$, positive blocks | One non-open cell, the identity cell, for every $q$. |
+| Trivial $\psi$, positive blocks | With $\Phi=1$ every non-open numerator is the intersection size and every normalized term is $1$. |
+| Arbitrary $\Phi$ | Cell cancellation holds. The assembly by double-coset representatives uses separate conjugation invariance. |
+
+[Lean, read] The Alpöge–Claude archive A2 (SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc) gives the prime-field proof in **Proofs/FlagMeasures/WhittakerTermEqZero.lean:118–149**, relative to **lean/src/Development/AbelianVarietyTheory/**. The lemma `supFrom_of_col` (70–90) gives the change of the superdiagonal sum. The vanishing proof expands the column identities, reindexes by right multiplication and cancels in $\mathbb C$. The adjacent-pair criterion is **Proofs/FlagMeasures/ShuffleNoDescentIffOpen.lean:8–72**. The consumer is **Proofs/InertiaEigenvalues/WhittakerDimensionHarishChandraInductionMul.lean:131–184**. Its non-open branch obtains $i\lt a\le j$ and $\sigma(j)=\sigma(i)+1$ in zero-based indexing. Its open branch calls **OpenCell.openCell**. The source reading is local R3. The finite-field proof received same-source initial review. [Source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average). The proof above covers arbitrary finite fields. The archived declaration uses $\mathbb Z/p\mathbb Z$ for prime $p$.
+
+The top-order case $k=a+b$ of Gan–Gross–Prasad (2012), §4, Proposition 4.1 gives literature precedent for the product. Only $i=a$ contributes because derivative orders above the rank give zero (equivalently, the filtration ranges over $0\le i\le a$ and $0\le k-i\le b$). Their derivative of order $m$ for rank $m$ is the quotient for the same upper unitriangular character $\psi_m$. Over $\mathbb C$ its dimension equals the trace of the character projector defining the Whittaker average. This identifies the product for representation characters with positive block ranks and nontrivial $\psi$. Products of irreducible characters span the separately invariant functions. Gan–Gross–Prasad trace the derivative rule to Bernstein–Zelevinsky (1977), Lemma 4.5, for non-Archimedean local fields. [Gan–Gross–Prasad, pp. 120–121](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [Bernstein–Zelevinsky, p. 455](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
+
+### 13.4.22 The open Whittaker cell and its exact weight
+
+The non-open calculation in [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes) removes all but one double-coset term when the additive character is nontrivial. To evaluate the survivor we need its intersection with the upper unitriangular group. The sizes of the ambient unipotent group and the parabolic enter the preceding double-coset calculation. Here the same bijection gives the summation variables and the denominator.
+
+For a first example, in rank two with split $(1,1)$, the open representative swaps the two coordinates. It sends the upper off-diagonal entry of a unitriangular matrix to the lower off-diagonal entry. The parabolic support equation forces that entry to vanish, leaving a single matrix. In split $(2,1)$ the open intersection can contain a nonidentity transvection. Its position in the global upper triangle determines the character it carries.
+
+**Definition.** Let $K$ be any finite field of size $q$, let $a,b$ be nonnegative integers, and set $n=a+b$. Write $G_m=\mathrm{GL}_m(K)$ and $U_m$ for its upper unitriangular subgroup. At rank zero both groups have one element. Let $P=P_{a,b}$ be the block upper triangular subgroup and $\pi:P\to G_a\times G_b$ its ordered diagonal-block projection. With $\psi:K\to\mathbb C^\times$ any additive character, use
+
+$$
+s_m(x)=\sum_{1\le i<m}x_{i,i+1},
+\qquad \lambda_m(x)=\psi(s_m(x)),
+\qquad W_m(f)=\frac{1}{|U_m|}\sum_{x\in U_m}\lambda_m(x)^{-1}f(x).
+$$
+
+Empty superdiagonals contribute zero. The open representative $w$ sends $e_j$ to $e_{b+j}$ for $1\le j\le a$ and sends $e_{a+k}$ to $e_k$ for $1\le k\le b$. It reverses the order of the blocks while preserving order within each block. We label the *input* column blocks by $a,b$ and the *output* row blocks by $b,a$, so
+
+$$
+w=\begin{pmatrix}0_{b\times a}&I_b\\ I_a&0_{a\times b}\end{pmatrix},
+\qquad w^{-1}=w^{\mathsf T}.
+$$
+
+**Lemma (support, Levi coordinates and weight).** The map $(A,B)\mapsto\operatorname{diag}(B,A)$ is a group isomorphism from $U_a\times U_b$ onto $I=U_n\cap wPw^{-1}$. Its inverse at $x$ is $\pi(w^{-1}xw)$. On this intersection $\lambda_n(x)^{-1}=\lambda_a(A)^{-1}\lambda_b(B)^{-1}$.
+
+**Proof.** Relative to the split $(b,a)$ every $x\in U_n$ has the unique form
+
+$$
+x=\begin{pmatrix} B&C\\0&A\end{pmatrix},
+\qquad B\in U_b,\quad A\in U_a,\quad C\in M_{b\times a}(K).
+$$
+
+Relative to the split $(a,b)$ its conjugate is
+
+$$
+w^{-1}xw=\begin{pmatrix}A&0\\ C&B\end{pmatrix}.
+$$
+
+Indeed, right multiplication by $w$ lists the last $a$ columns first, then the first $b$, and left multiplication by $w^{\mathsf T}$ makes the matching change to rows. Thus the support equations in the original coordinates are $x_{i,b+j}=0$ for every $1\le i\le b$ and $1\le j\le a$. They say exactly $C=0$. The two diagonal blocks are upper triangular with diagonal entries one, hence have determinant one. On the support they define the actual Levi units. Conversely any pair $(A,B)$ gives an element of the support, and multiplication of block diagonal matrices is componentwise. The intersection contains the identity, and its order is $|U_a||U_b|=q^{\binom a2+\binom b2}$ by the free strict upper entries in each block.
+
+When both blocks are positive, the superdiagonal at the cut, $x_{b,b+1}$, is zero. The entries before the cut are the superdiagonal of $B$, and those after it are the superdiagonal of $A$. Hence $s_n(x)=s_a(A)+s_b(B)$. When a block has size zero there is no cut, and the same formula holds with its empty sum. Apply additivity of $\psi$ and take inverses in $\mathbb C^\times$. $\square$
+
+**Proposition (the open contribution).** For every $K,a,b,\psi$ as above and every function $\Phi:G_a\times G_b\to\mathbb C$, the numerator and its normalization are
+
+$$
+\begin{aligned}
+S_w&=\sum_{x\in I}\lambda_n(x)^{-1}\Phi(\pi(w^{-1}xw))\\
+&=\sum_{A\in U_a}\sum_{B\in U_b}\lambda_a(A)^{-1}\lambda_b(B)^{-1}\Phi(A,B),\\
+\frac{S_w}{|I|}&=W_a\bigl(A\mapsto W_b(B\mapsto\Phi(A,B))\bigr).
+\end{aligned}
+$$
+
+For $\Phi(A,B)=\alpha(A)\beta(B)$ the last expression is $W_a(\alpha)W_b(\beta)$.
+
+**Proof.** A sum over $G_n$ with the joint $U_n$ and parabolic membership guard is the sum over $I$, by zero extension. Transport it along the lemma's bijection, which gives the displayed double sum term by term. Divide first by $|U_b|$ inside and then by $|U_a|$ outside, using the order proved by that same bijection. In the separated case pull $\alpha(A)$ out of the inner average and its constant result $W_b(\beta)$ out of the outer average. This proves the finite-field assertion directly by matrix identities and finite summation. At $a=0$ or $b=0$, $w$ is the identity, $P=G_n$, and $I=U_n$. The rank-zero average evaluates at the rank-zero identity. If $a=b=0$, the numerator is the sole value of $\Phi$ and the denominator is one. $\square$
+
+**Where class invariance enters.** The proposition uses a fixed $w$ and permits arbitrary $\Phi$, even with trivial $\psi$. To use the double-coset normalization of [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes), one needs the inner sum to be constant as the induction variable runs through $UwP$. Replacing $w$ by $wp$ conjugates the Levi coordinates by $\pi(p)$. Separate conjugacy invariance of $\Phi$ in the two arguments suffices because the Levi projection takes values in a direct product. Replacing $w$ by $u_0w$ uses conjugacy invariance of the one-dimensional character on $U_n$. With those class invariances and nontrivial $\psi$, §13.4.21 supplies the sum over cells and the non-open vanishing. This gives the full identity
+
+$$
+W_n(\mathrm{HC}_{a,b}(\Phi))
+= W_a\bigl(A\mapsto W_b(B\mapsto\Phi(A,B))\bigr)
+$$
+
+for every finite field, nonnegative $a,b$, nontrivial $\psi$, and separately conjugation-invariant $\Phi$.
+
+**Hand calculation over $\mathbb F_3$.** Write $\zeta=e^{2\pi i/3}$ and $\psi(t)=\zeta^t$. For the positive split $(1,1)$, take the class functions $\alpha(z)=2$ and $\beta(z)=3$ on $G_1$ and put
+
+$$
+u(t)=\begin{pmatrix}1&t\\0&1\end{pmatrix},\quad
+w=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+w^{-1}u(t)w=\begin{pmatrix}1&0\\t&1\end{pmatrix}.
+$$
+
+The three $t$ values $0,1,2$ give weights $1,\zeta^2,\zeta$, respectively, before the support guard. The last two are excluded. The remaining pair is $(1,1)$, with numerator $6$, denominator $1$, and result $6=2\cdot3$. The ambient denominator $|U_2|=3$ would give $2$. The parabolic has two independent nonzero diagonal entries and three upper entries, so its order is $12$ and that denominator would give $1/2$.
+
+The sign test uses the endpoint $(2,0)$ in this same group. Now $w=1$, every $u(t)$ belongs to $I$, and its Levi pair is $(u(t),I_0)$. Take $\alpha$ to be the indicator of $u(1)$ and $\beta(I_0)=1$. The three supported terms are $0,\zeta^2,0$, giving $\zeta^2/3$. Using $\psi$ in place of its inverse gives $\zeta/3$, a different value. This test concerns the fixed-representative producer, whose exact domain includes this input. For $(0,2)$ the same computation places the indicator on the second factor and gives the same result. For the positive split both rank-one weights are trivial, so that split cannot distinguish the sign.
+
+**Hand calculation over $\mathbb F_2$.** For $(a,b)=(2,1)$ use $\psi(t)=(-1)^t$ and
+
+$$
+x(r,s,t)=\begin{pmatrix}1&r&s\\0&1&t\\0&0&1\end{pmatrix},
+\quad w=\begin{pmatrix}0&0&1\\1&0&0\\0&1&0\end{pmatrix},
+\quad w^{-1}x(r,s,t)w=\begin{pmatrix}1&t&0\\0&1&0\\r&s&1\end{pmatrix}.
+$$
+
+Among the eight triples exactly $(0,0,0)$ and $(0,0,1)$ satisfy the equations $r=s=0$. Their Levi pairs are $(I_2,1)$ and $(I_2+E_{12},1)$, with weights $1,-1$. Let $\alpha$ count fixed lines in $K^2$ and $\beta=1$. The identity fixes all three lines, and the transvection sends $e_2$ to $e_1+e_2$ and interchanges those two lines, fixing only $Ke_1$. Thus the supported terms are $3,-1$, giving numerator $2$, denominator $2$, and value $1=(3-1)/2\cdot1$. Using $|U_3|=8$ gives $1/4$. Using $|P|=24$ gives $1/12$ because the Levi has order $6$ and the upper rectangle has four choices. Reading the global entry $x_{12}$ alone instead of $x_{12}+x_{23}$ gives weights $1,1$ and value $2$. In characteristic two inversion of the character produces the same character, so the wrong-slot test detects a different error from the sign test over $\mathbb F_3$.
+
+The same matrices show why the representative argument has a class-function premise. Instead take $\alpha$ to be the indicator of $T=I_2+E_{12}$. The normalized value at $w$ is $-1/2$. Let $p=\operatorname{diag}(J,1)$ with $J$ the rank-two coordinate swap. At $wp$ the intersection is unchanged, but the first Levi coordinates become $I_2$ and $J^{-1}TJ=I_2+E_{21}$. Neither equals $T$, giving zero. The fixed-representative identity and the need for a premise for representative independence are compatible.
+
+**Rank zero.** Over $\mathbb F_2$, take $(a,b)=(0,0)$ and $\Phi(I_0,I_0)=7$. The empty matrix is the unique supported group element. Its weight is $1$, and both the normalized contribution and the nested average are $7$.
+
+**Return to the consumers.** In `wh_hcT`, `coe_toG` justifies the use of the actual Levi units in the parabolic pairing, and `wh_eq` exposes the ambient inverse-weight sum. The double-coset identity inserts each intersection denominator. The open branch calls `openCell` and the non-open branch calls `whittaker_term_eq_zero` before multiplying by the reciprocal. In `wh_hc` the external product specializes the nested average, with separate class invariance supplied by the two class functions. The list induction applies `wh_hcT` to a head and an induced tail, using the rank-zero average for the empty list. [§13.4.8](#1348-why-the-cuspidal-count-exhausts-greens-list) uses this identity for its generic-constituent and counting arguments. The representation-level calculation in [§13.4.25](#13425-why-the-levi-whittaker-space-is-a-line) uses the same Whittaker projector convention. Its two actual consumers use the separate degenerate Mackey formula together with the Levi dimension-one result.
+
+**Reading note.** [Lean, read] The prime-field proof is Alpöge–Claude, A2 archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. In `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/IsUnitOfUniUp.lean`, `coe_toG` (22–26) selects the invertible branch, and `wh_eq` (52–62) expands the group algebra projector pairing to a filtered inverse-weight average. The private support lemma at 155–181 and the block-entry and reconstruction proofs at 200–328 justify the two directions of the reindexing. The guarded entry sums at 332–378 include the zero-block cases. The producer `openCell` (384–458) uses the same inverse maps for the cardinality and the weighted sum. The local reading covers these bodies over prime $\mathbb Z/g\mathbb Z$. The proof above separately establishes the statement over every finite field. Gan–Gross–Prasad give a literature precedent for the assembled product via the highest derivative. Their Proposition 4.1 gives a filtration for the derivative of an induced representation. At order $a+b$, only orders $a,b$ on the factors contribute. In complex finite-group representations the inverse-weight projector identifies the character coinvariants with the corresponding eigenspace, and its trace gives the average. Irreducible characters span class functions in each variable. The article credits the derivative rule to Bernstein–Zelevinsky's local-field result and explains its finite-field use. The direct open-cell proof here follows the archive. [Gan–Gross–Prasad, §4, pp. 120–121](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [Bernstein–Zelevinsky, Lemma 4.5](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
+
+**Review and scope.** The fixed-cell result received independent review. Bruhat existence upstream of the shuffle enumeration on this path and the underlying Mathlib proofs for the finite reindexing and triangular determinant are cited inputs [Lean]. The Lean kernel replay and transitive dependency cone remain [Open]. [Source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average).
+
 ### 13.4.25 Why the Levi Whittaker space is a line
 
-The finite-field degenerate Whittaker product formula counts block subsets and gives each surviving cell the same contribution, the dimension of a Levi eigenspace. Why does each cell contribute one? The argument below uses cuspidal vanishing to produce a vector and finite-group multiplicity one to bound the space it generates. Both steps take place before parabolic induction. We use the product formula when we return to the two consumers. The formula enters through the separate archive declaration `GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`.
+The finite-field degenerate Whittaker product formula counts block subsets and gives each surviving cell the same contribution, the dimension of a Levi eigenspace. Why does each cell contribute one? The argument below uses cuspidal vanishing to produce a vector and finite-group multiplicity one to bound the space it generates. Both steps take place before parabolic induction. We use the product formula when we return to the two consumers. The formula enters through the separate archive declaration `GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`. For the two-block class-function calculation with the full adjacent character, see [§§13.4.21–22](#13421-why-every-non-open-whittaker-cell-vanishes).
 
 #### Two matrix examples
 

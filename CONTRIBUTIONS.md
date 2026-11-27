@@ -914,6 +914,12 @@ same-model review is recorded separately in the preceding run's audit.
 
 **Hongmin Li with AI assistance.** Wrote the full textbook proof, computed the four-label and nine-label compact-open quotient examples, traced the surviving class into the positive-order existence proof, and gave counterexamples to deleting smoothness or nontriviality of the testing character. This is author-level local R3. The community verification entries above record their own scopes. [§7.4.3.17](chapters/07-chains-of-theta-lifts.md#74317-separating-mirabolic-vectors-by-small-box-averages)
 
+### Chapter 13 two-block Whittaker exposition
+
+- **Original mathematics and formalization.** Gan, Gross and Prasad give the finite-field derivative product and credit Bernstein and Zelevinsky's local-field rule. Alpöge's A2 archive, written with Claude, supplies the guarded matrix proofs and their application to the Whittaker average. [Sources](sources/SOURCES.md#p16-the-two-block-whittaker-average)
+- **Community and review.** The community verification reports on A2 are credited in the archive ledger. This module inherits a same-source initial review of the non-open calculation and a separate independent review of the open calculation. [Archive and module records](sources/SOURCES.md#p16-the-two-block-whittaker-average)
+- **Textbook.** Hongmin Li with AI assistance prepared the finite-field exposition and hand calculations. This publication incorporates the two completed drafts, the audited projection notation and source ranges, and navigation to the Green count and Levi line. [§13.4.21](chapters/13-greens-theorem-and-the-literature-layer.md#13421-why-every-non-open-whittaker-cell-vanishes) · [§13.4.22](chapters/13-greens-theorem-and-the-literature-layer.md#13422-the-open-whittaker-cell-and-its-exact-weight)
+
 ### Chapter 13 Levi Whittaker exposition
 
 - **Classical results** — I. M. Gel’fand and M. I. Graev supplied finite-group multiplicity one as credited by S. I. Gel’fand. His 1970 paper links cuspidal radical vanishing to genericity. Gan, Gross and Prasad state the finite-field top derivative result in the twisted-quotient convention. [Sources](sources/SOURCES.md#p16-the-levi-whittaker-line)

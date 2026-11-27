@@ -347,6 +347,8 @@ Chapter 1 §1.2.2.11 (local R3) identifies finite-subtotal control with a bounde
 
 **Chapter 1 §1.2.2.14.** The Hermitian theta discussion continues with the Euclidean trace realization. Rational orthogonal coordinates give one additive embedding and an operator bound for each field scalar. The original algebraic lattice gives two witnesses through the trace lower bound and integral multiples. Local R3 covers the named production bodies and direct library supplies. [Chapter 1 §1.2.2.14](../chapters/01-statement-and-fidelity.md#12214-from-a-rational-hermitian-trace-form-to-a-euclidean-lattice)
 
+**Chapter 13, P16.** [§13.4.21](../chapters/13-greens-theorem-and-the-literature-layer.md#13421-why-every-non-open-whittaker-cell-vanishes) uses the adjacent $AB$ root to cancel every non-open term and counts the double-coset fibers. [§13.4.22](../chapters/13-greens-theorem-and-the-literature-layer.md#13422-the-open-whittaker-cell-and-its-exact-weight) evaluates the open intersection by a block swap and returns the nested average to the generic count. The proofs cover all finite fields. The A2 source reading is local R3 over prime fields. The Levi dimension-one route uses its own representation-level input.
+
 Chapter 13 [§13.4.25](../chapters/13-greens-theorem-and-the-literature-layer.md#13425-why-the-levi-whittaker-space-is-a-line) reads the Levi Whittaker line at local R3. Column descent supplies nonvanishing and the block Hecke argument supplies the upper bound. Bruhat existence is a named input and the degenerate Mackey formula retains its earlier scope.
 
 
