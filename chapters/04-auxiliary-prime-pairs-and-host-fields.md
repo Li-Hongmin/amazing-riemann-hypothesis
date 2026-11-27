@@ -3353,6 +3353,108 @@ The right-half-plane branch now has its Laurent producer exposed, completing the
 
 Riemann opens his 1859 memoir with Euler's product and Dirichlet series in $\Re s>1$. Tao's *254A Notes 2* gives the von Mangoldt identity in the complex domain and uses $(s-1)\zeta(s)$ in Proposition 19. [Riemann 1859, p. 671](https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/Zeta.pdf) · [Tao 2014](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/)
 
+### 4.10.23 When prime-to parts of roots collide
+
+#### Motivation
+
+The host labels in [§4.11](#411-from-separated-inertia-lines-to-residual-irreducibility) must pass several tests at once. To bound the weight of the failures, the archive first counts the exceptional labels in the two host prime fields. For each host datum `D`, `counts_closed D` assembles four estimates in `Counts D`, in this order.
+
+| Slot | Exceptional labels counted | Supplier |
+|---|---|---|
+| First | Two roots with the same prime-to part at an allowed prime | `squarefree_roots_injective` |
+| Second | A root with the same prime-to part as a prescribed unit | `squarefree_root_shift` |
+| Third | A divisor of a specified positive degree $a$ with $2a\le r$ | `squarefree_div_degree` |
+| Fourth | No irreducible divisor of prime degree $p$ in $r/2<p\le r-3$ | `sqfPrimeFactor_of primes_dyadic_range` |
+
+The first slot concerns injectivity among the roots of a single label. Its exceptional predicate is `Eii`. The four slots share the host interfaces listed in the source ledger. [A2 `ExplicitFormulaCounts/SqfCounts.lean:18–45`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+Taking the prime-to-$\ell$ part of a root erases its component of $\ell$-power order. The host conditions require the roots of a label to remain distinguishable after this operation at every allowed prime $\ell$. The first squarefree count bounds the exceptional labels. When two conjugate roots collide, the power that erases their difference shortens a Frobenius orbit. When roots from distinct irreducible factors collide, the product of their minimal polynomials divides the label.
+
+#### Examples
+
+Fix $\ell=2$ and $r=2$. Taking the prime-to-$2$ part retains the odd-order component. We count collisions at this fixed prime. Both examples lie outside the large-parameter range of the host estimate.
+
+**Conjugate roots over $\mathbb F_{83}$.** Trial division by $2,3,5,7$ proves primality. The polynomial $X^2+1$ is irreducible because a root in $\mathbb F_{83}$ would have order $4$, which fails to divide $82$. Adjoin $i$ with $i^2=-1$. The two roots $4i,-4i$ of $X^2+16$ are distinct and conjugate, since $83\equiv3\bmod4$. The order of $4$ divides $41$ by $4^{41}=2^{82}=1$. Both $i$ and $-i$ have order $4$, so the two prime-to-$2$ parts equal $4$. Since $83-1=2\cdot41$ and $83^2-1=8\cdot861$, the comparisons $16\le83$ and $4096\le6889$ show that $2$ is allowed at both degrees.
+
+For the equal-minimal-polynomial branch take $e=2,j=1$. The power $L_2=8$ sends $4i$ to $4^8\in\mathbb F_{83}$. The equation $w^{82\cdot8}=1$ has $\gcd(656,6888)=328$ solutions in the cyclic group $\mathbb F_{83^2}^{\times}$, by solving the linear congruence on the exponent of a generator. All $82$ nonzero base-field elements solve it. The other $246$ have degree two and their eighth powers are fixed by Frobenius. Raising to the eighth power is injective on the odd-order subgroup, so each of these roots has the same prime-to-$2$ part as its conjugate. Conversely a collision gives this power equation. The $246/2=123$ two-element orbits give $123$ irreducible quadratic labels. The archive's budget at these indices is $656\cdot83^0=656$. For the distinct-minimal-polynomial branch both degrees are one. For each nonzero $y$, the equation $x^2=y^2$ has the roots $y$ and $-y$, of which only $-y$ is distinct from $y$. Each unordered pair is counted twice, giving $82/2=41$ split labels. The archive's budget is $83\cdot2\cdot83^0=166$.
+
+**Distinct minimal polynomials over $\mathbb F_{67}$.** Trial division by $2,3,5,7$ again suffices. The roots $4,-4$ of $(X-4)(X+4)=X^2-16$ are distinct and have different linear minimal polynomials. The order of $4$ divides $33$ by $4^{33}=2^{66}=1$, while $-1$ has order $2$. Both prime-to-$2$ parts equal $4$. The valuations at $2$ of $67-1=2\cdot33$ and $67^2-1=8\cdot561$ are $1$ and $3$. The comparisons $16\le67$ and $4096\le4489$ give $2\notin BB(2,67)$.
+
+In the distinct-factor branch $e=e'=1$ and $L_1=2$. Each nonzero $y$ satisfies $y^{67}=y$, and $(x-y)(x+y)=0$ gives the two solutions of $x^2=y^2$. The distinct choice gives $X^2-y^2$. Two choices give the same label exactly when they differ by sign, so there are $66/2=33$ labels. The archive's budget is $67\cdot2\cdot67^0=134$. In the equal-factor branch, $w^{66\cdot8}=1$ has $\gcd(528,4488)=264$ solutions in $\mathbb F_{67^2}^{\times}$. Removing the $66$ nonzero base-field elements leaves $198$ degree-two roots, with eighth powers fixed by Frobenius. Injectivity on the odd-order subgroup gives $198/2=99$ irreducible labels with a collision at $2$. The archive's budget is $528\cdot67^0=528$. [Source ledger](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+#### Definitions
+
+Let $g$ be prime, $K=\mathbb F_g$, and $\overline K$ its algebraic closure. Write $m_z$ for the monic minimal polynomial over $K$ of $z\in\overline K$. For $e\ge1$ put $N_e=g^e-1$ and $L_e=L_p(g,e,\ell)=\ell^{v_\ell(N_e)}$, where $L_p$ denotes the archive's `Lp` and the subscript $e$ leaves $\ell$ implicit. Define
+$$
+BB(r,g)=\{g\}\cup\{\ell:\ell\text{ prime and }g^d<L_p(g,d,\ell)^4\text{ for some }1\le d\le r\}.
+$$
+For an allowed prime $\ell\notin BB(r,g)$ this gives $L_e^4\le g^e$ for every $1\le e\le r$.
+
+If $z\ne0$ has multiplicative order $ab$, with $a$ an $\ell$-power and $\ell\nmid b$, put $P_\ell(z)=z^u$ for $u\equiv0\bmod a$, $u\equiv1\bmod b$. In `primeToPart`, the exponent is $a$ times the residue of $a^{-1}$ modulo $b$. When $b=1$, the part is $1$. The archive uses a total monoid definition, also defined at zero in the counting cover.
+
+A label satisfies `IsLab` if it is monic of degree $r$ with nonzero constant coefficient. It satisfies `Eii` if it is such a label, is squarefree and fails the injectivity test. In other words, there are a prime $\ell\notin BB(r,g)$ and two distinct roots $x,y$ of $f$ in $\overline K$ with $P_\ell(x)=P_\ell(y)$. Root membership in the archive is in the multiset of roots of the base-changed polynomial. [A2 `SqfLab.lean:9–28`, `ClaimOf.lean:11–27`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+#### Lemma and theorem
+
+**Lemma (witnesses from a colliding pair) [Lean, read].** For a collision as above at an allowed prime $\ell$, the following conditions hold in the respective branches.
+
+- **A, equal minimal polynomials.** There exist a root $w$ of degree $2\le e\le r$ and an integer $1\le j\le e/2$ with $\ell\mid N_e$, $m_w\mid f$ and $w^{(g^j-1)L_e}=1$.
+- **B, distinct minimal polynomials.** Order the roots to have degrees $e,e'$ with $1\le e'\le e$. Then $e+e'\le r$, $\ell\mid N_eN_{e'}$, $m_xm_y\mid f$, $y^{g^{e'}}=y$ and $x^{L_e}=P_\ell(y)^{L_e}$.
+
+**Theorem (first squarefree count) [Lean, read].** For every prime $g\ge4096$, every integer $r\ge100$ and every finite set $T\subset K[X]$ with each $f\in T$ satisfying `Eii`,
+$$
+|T|\le23\log(g)\,g^{-1/2}g^r .
+$$
+
+#### Proof
+
+**Powers and Frobenius.** If $z\ne0$ has degree $e$, then $K(z)$ has $g^e$ elements by counting the coordinates in a basis. Thus $z^{g^e}=z$ and $\operatorname{ord}(z)\mid N_e$. For any positive $N$ divisible by the order of $z$ and $L=\ell^{v_\ell(N)}$, we have $z^L=P_\ell(z)^L$. Indeed $b\mid u-1$ and $a\mid L$, so $ab\mid(u-1)L$. Apply this identity with $N$ the product of the two field-group orders. If $\ell$ failed to divide the product, $L$ would be one and equality of parts would give $x=y$. In the equal-minimal-polynomial branch one can use $N=N_e$ for both roots.
+
+Frobenius $z\mapsto z^g$ on a finite extension is a field automorphism by the characteristic-$g$ binomial identity and finiteness. Its fixed field is $K$, since all $g$ base-field elements are roots of $Z^g-Z$ and that polynomial has degree $g$. The orbit of $z$ in $K(z)$ consists of roots of $m_z$. The product of $Z-v$ over the orbit is Frobenius-invariant, hence belongs to $K[Z]$, and vanishes at $z$. Its divisibility by $m_z$ shows that the orbit has length at least $e$. It has length at most $e$ by the root bound, so it consists of all roots of $m_z$. [A2 `WitBase.lean:11–59`, `WitMain.lean:36–56` and Milne, pp. 53–55](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+**The witness lemma.** Each root is nonzero since $f(0)\ne0$, and its monic irreducible minimal polynomial divides $f$ by the defining property of the minimal polynomial. Its degree therefore lies between $1$ and $r$.
+
+In A, a power of Frobenius sends $x$ to $y$. The power identity gives $z=x^{L_e}=y^{L_e}$. That automorphism fixes $z$ and every element of $K(z)$, while it moves $x$. Thus $K(z)$ is a proper subfield of $K(x)$ and $j=[K(z):K]$ is a positive proper divisor of $e$. The tower law gives $2j\le e$, and $z\ne0$ gives $z^{g^j-1}=1$. This yields A with $w=x$. The archive obtains the base-field automorphism using `Normal.minpoly_eq_iff_mem_orbit` and then proves the same proper-subfield step.
+
+In B the two distinct monic irreducibles are coprime, so their product divides $f$ and their degrees sum to at most $r$. Order them so that $e'\le e$. The field of $y$ gives $y^{g^{e'}}=y$. Apply the power identity to $x$ at $N_e$ and use equality of parts. This gives $x^{L_e}=P_\ell(y)^{L_e}$, including when $\ell$ divides only $N_{e'}$ and $L_e=1$. [A2 `WitMain.lean:14–34,58–165`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+**The finite cover.** For a fixed monic divisor $h$ of degree $d\le r$, multiplication by $h$ identifies the ambient monic degree-$r$ multiples with monic degree-$(r-d)$ quotients. Their $r-d$ coefficients below the leading term give exactly $g^{r-d}$ possibilities, bounding each filter of $T$. The root bound follows by successive division by the distinct linear factors.
+
+Write $\mathcal L(n)$ for the set of distinct prime factors of $n>0$ outside $BB(r,g)$. In A, for fixed $e,j,\ell$, the power equation gives at most $(g^j-1)L_e$ roots of degree exactly $e$. Each $m_w$ gives at most $g^{r-e}$ labels. In B, for fixed $e,e',\ell$, the polynomial $Y^{g^{e'}}-Y$ gives at most $g^{e'}$ choices of degree $e'$ for $y$. Each $X^{L_e}-P_\ell(y)^{L_e}$ gives at most $L_e$ roots of degree $e$ for $x$. The monic product $m_xm_y$ gives at most $g^{r-e-e'}$ labels. The larger witness sets can include zero and, in B, equal minimal polynomials. A single label can appear through several witnesses, including roots from the same orbit. Summing the cover gives
+$$
+\begin{aligned}
+|T|&\le S_A+S_B,\\
+S_A&=\sum_{e=2}^r\sum_{j=1}^{\lfloor e/2\rfloor}\sum_{\ell\in\mathcal L(N_e)}
+       (g^j-1)L_e\,g^{r-e},\\
+S_B&=\sum_{e=1}^r\sum_{e'=1}^{\min(e,r-e)}\sum_{\ell\in\mathcal L(N_eN_{e'})}
+       g^{e'} L_e\,g^{r-e-e'} .
+\end{aligned}
+$$
+[A2 `DivCount.lean:11–48`, `TwoPowCardPrimeFactorsLe.lean:28–35`, `CardLeSumOfCover.lean:14–173`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+**The geometric sums.** Put $t=g^{-1/4}$, $G=g^r$ and $H=\log g/\log 2$. The field-size guard gives $0<t\le1/8$. Each prime in either sum satisfies $L_e^4\le g^e$ by the negated defining inequality at $d=e$. Thus $L_e\le g^{e/4}$. A summand of $S_A$ is at most $Gt^e$, since $g^j-1\le g^{e/2}$. A summand of $S_B$ is at most $Gt^{3e}$, since the factor $g^{e'}$ cancels the loss $g^{-e'}$.
+
+The product of the primes in $\mathcal L(n)$ divides $n$, and each prime is at least $2$. Hence $2^{|\mathcal L(n)|}\le n$. Taking logs and using $N_e\le g^e$ and $N_eN_{e'}\le g^{2e}$ gives bounds $eH$ and $2eH$ for the respective innermost index sets. There are at most $e/2$ choices of $j$ and $e$ choices of $e'$. Since $t^{3e}\le t^et^2$ for $e\ge1$, this gives
+$$
+S_A\le\tfrac12 HG\sum_{e=2}^r e^2t^e,\qquad
+S_B\le2HGt^2\sum_{e=1}^r e^2t^e.
+$$
+Induction using $e+1\le2e$ for $e\ge1$ proves $e^2\le4^{e-1}$. Thus $e^2t^e\le t(4t)^{e-1}$. Since $4t\le1/2$, comparison with the finite geometric sum gives $\sum_{e=1}^r e^2t^e\le2t$. Starting at $e=2$ gives $t(4t)^{e-1}=4t^2(4t)^{e-2}$ and $\sum_{e=2}^r e^2t^e\le8t^2$. These estimates include empty sums. We obtain
+$$
+S_A\le4HGt^2,\qquad S_B\le4HGt^3,\qquad S_A+S_B\le\tfrac92 HGt^2.
+$$
+The archive uses `Real.log_two_gt_d9` for $\log2>1/2$, which also follows by integrating $1/u>1/2$ over $1<u<2$. Thus $H\le2\log g$, yielding $9\log(g)Gt^2$. The final comparison $9\le23$ gives the declared constant, with $t^2=g^{-1/2}$. This proves `local_orbit_count` on the witness cover. The closed export calls `claim_of` with `counted_labels_have_witness` and `local_orbit_count` to obtain the claim for the original labels. [A2 `TwoPowCardPrimeFactorsLe.lean:13–26`, `SumSqPowLeTwo.lean:13–73`, `RpowQuarterPowFour.lean:13–231`, `ClaimOf.lean:25–37`, `OrbitalBoundsConclusion/SqfRootsInj.lean:1–7`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
+#### Remarks
+
+**Use of the hypotheses.** Monicity ensures the label is nonzero and fixes the leading coefficient of the quotient. For example, over $\mathbb F_{67}$ the fixed divisor $X-4$ divides all $66$ degree-one polynomials $a(X-4)$ with $a\ne0$. Its monic degree-one fiber has size $67^0=1$. The degree of the label bounds witness degrees and fixes the quotient sizes. The constant term excludes zero from the multiplicative-order argument, since zero has no positive power equal to $1$. Squarefreeness is part of `Eii` and enters the later weight conversion. The witness proof discards it, since distinct minimal polynomials are already coprime. After receiving the witnesses the cover count uses only monicity and degree. The body of `local_orbit_count` discards $r\ge100$, and it uses $g\ge4096$ for $4t\le1/2$. The prime exclusion provides the fourth-power bound. For example, $g=11$, $e=1$ and $\ell=2$ give $L_1^4=16>11$.
+
+**A label in the stated range.** Take $g=4099$, $r=100$ and $f=(X+1)\prod_{a=1}^{99}(X-a)$. The integer $4099$ is prime by trial division by the primes at most $61$. Its $100$ roots are distinct and nonzero. The roots $1,-1$ have the same prime-to-$2$ part $1$. If $d$ is odd, then $v_2(g^d-1)=1$, since the sum remaining after factoring out $g-1$ has an odd number of odd terms. If $d=2^a b$ with $a\ge1$ and $b$ odd, factoring off the odd exponent and then repeated differences of squares gives $v_2(g^d-1)=a+2$. Indeed $v_2(g-1)=1$, $v_2(g+1)=2$ and $g^{2^k}+1\equiv2\bmod8$ for $k\ge1$. For odd $d$, $L_d^4=16<g^d$. For even $d$, $4(a+2)\le12d$ since $a\le d$ and $d\ge2$. As $g>2^{12}$, again $L_d^4<g^d$. Therefore $2\notin BB(100,4099)$, and the singleton $\{f\}$ is a legal nonempty family in the original count.
+
+**Return to the host.** For each $k\in\mathrm{Fin}\,2$, `counts_of_sqf` installs primality at $g=D.\mathrm{host}.g(k)$ and applies its first argument `h3` at $r=D.R.r$ to the finite label set with the same guards. The host `Eii` uses identical definitions under `CyclotomicNorms`. `counts_closed` supplies `squarefree_roots_injective` as that first argument. In `propW_of_counts`, fix a place $v$ of the chosen host and take $T$ to be the filter of $S_0$ by `Eii`. Set $B=23\log(g)g^{-1/2}$. Under `TieAdmG`, the degree and size guards, $C_L\ge0$ and `lawL`, the bound `Cii` gives $|T|\le Bg^r$. The weight law bounds each summand by $(1+C_Lr/g)/g^r$ using monicity, degree, nonzero constant term and squarefreeness. Thus `wt_le_count` gives the bound $(1+C_Lr/g)B$ in `P2`. In `b2`, the one-coordinate mass bounds let `sum_pi_single` apply `P2` once per place in the product-weight sum. The two direct callers of `propW_of_counts (counts_closed …)` are `family_bound_all` and `family_count_all`.
+
+The first projection has author-level local R3 source reading and a finite exact certificate for the two examples and the singleton. Independent review and Lean kernel replay of this projection remain open. The third projection retains its same-source initial review and the fourth its independent audit. The second projection receives the progression congruence and retains its own reading scope. The larger arithmetic and representation-theoretic inputs of `CyclotomicNorms` enter at their own interfaces. [A2 consumers and reading boundary](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
+
 ---
 
 **Summary of the chapter.** Embedding a primitive Dirichlet character $\psi$ into a CM host field
@@ -3498,7 +3600,7 @@ Choose $i=1$. For each prime $s$ different from $g_i$ and $\ell$, match compatib
 
 The archive conclusion concerns invariant subspaces over the algebraic closure of the residue field. The Galois source group can be infinite. The characteristic polynomial at any one inertia element splits in that field. The original label polynomials live over $\mathbb F_{g_i}$, and `IsGood` concerns divisor degrees across the family. In the rank-eight example the label with degrees three and five is reducible.
 
-**Reading boundary.** Local R3 reaches `restriction_of_blocks_and_jordan`, `t1`, the exports and both direct calls. The permutation supplies have separate reading scopes. [§4.11.1](#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) reads the small-degree primitivity producer used by `JordanTransitive`. [§4.11.2](#4112-why-three-fixed-points-suffice-in-jordans-theorem) reads the prime-cycle containment proof. The local–global production of the transport, the construction of good signatures, and the density and host supplies have their own reading scopes. The bad-prime and squarefree counts enter at their existing evidence levels, recorded in the declaration register. [Open] Kernel replay and independent mathematical review of this section remain separate evidence. [Declaration register](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
+**Reading boundary.** Local R3 reaches `restriction_of_blocks_and_jordan`, `t1`, the exports and both direct calls. The permutation supplies have separate reading scopes. [§4.11.1](#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) reads the small-degree primitivity producer used by `JordanTransitive`. [§4.11.2](#4112-why-three-fixed-points-suffice-in-jordans-theorem) reads the prime-cycle containment proof. The local–global production of the transport, the construction of good signatures, and the density and host supplies have their own reading scopes. The first squarefree count is developed in [§4.10.23](#41023-when-prime-to-parts-of-roots-collide). The other squarefree counts and the bad-prime selection enter at the evidence levels recorded in the declaration register. [Open] Kernel replay and independent mathematical review of this section remain separate evidence. [Declaration register](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
 
 ### 4.11.1 Why a prime cycle forces primitivity in small degree
 
