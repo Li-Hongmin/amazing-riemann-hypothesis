@@ -110,6 +110,8 @@ Chapter 17, §17.4.16 reads `lamRay_props` (relocated to `ExistsLFamRay.lean`), 
 
 **Chapter 4 §4.11.1.** The prime-power orbit lemma and both block cases of small-degree primitivity, with exact boundary examples and the handoff to the Jordan wrapper. [§4.11.1](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) · [Declaration register](../sources/SOURCES.md#chapter-4-4111-prime-cycle-primitivity)
 
+**Chapter 4 §4.11.2.** Local R3 for the fixed-point tuple lift, Sylow correction, support commutator and the final primitive three-cycle call. The two worked actions use odd and even prime cycles. Alternating nonsolvability remains a named input. [§4.11.2](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4112-why-three-fixed-points-suffice-in-jordans-theorem) · [Source register](../sources/SOURCES.md#chapter-4-4112-jordans-prime-cycle-theorem)
+
 ## Next batch
 
 Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
