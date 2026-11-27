@@ -448,6 +448,8 @@ translates of a fixed lattice and explains the conditional Fubini step.
 
 **P13, pole-subtracted zeta logarithmic derivative (§4.10.10).** Local R3 for the pinned Mathlib Laurent producer `log_deriv_riemannZeta_add_inv_sub_bounded` (Harmonic/ZetaAsymp.lean:531–589,620–647), the direct positive-series supply (LSeries/Dirichlet.lean:296–329,372–442), and the real-axis split and twist transfer in `LogDerivRight.lean:11–42` and `LRight.lean:88–126`. Explicit textbook witnesses $C_R=C_3=22$ and $C_2=360(\log90900+3)+100/7+22<5230$ supply `ExplicitS` and `TailBox`. `PNTDHLocal`, `PNTZSumL` and the deeper density and repulsion proofs retain their previous scopes. [Subsection](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41010-the-pole-subtracted-zeta-logarithmic-derivative)
 
+**P13, finite height and prime moments (§§4.10.11 and 4.10.13).** Local R3 covers `zeroSum_core`, `zero_sum_bound_lossy`, `deuring_heilbronn_hypergeometric` and `deuring_heilbronn_prime_sum` at the ranges listed in the source ledger. `PNTDHB.lean:13–15` consumes `DHPrime` in the named Turán finish. `PNTBAsm.lean:15–50,76–166` uses the same lists and multiplicities for the sharp formula and `ZeroSum`. `PNTFinal.lean:18–24` joins the two `PsiRel` ranges and calls `prime_count_of_psi`. [Contours and zero sums](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41011-finite-height-contours-and-weighted-zero-sums) · [Hyperbola and moments](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41013-hyperbola-splitting-and-prime-moments-for-deuringheilbronn)
+
 ### P0 statement fidelity in §1.3.2
 
 The Dirichlet L-function identification is R3 for the direct chain from
