@@ -7396,3 +7396,27 @@ The public Mathlib files and the LUMI notes were retrieved on 2026-11-28. The LU
 **Pinned Mathlib.** A2 pins revision `0df444a360eaa60ab8c11dca51a86af692955474`. The cutoff uses `Real.smoothTransition` and its endpoint, smoothness and monotonicity properties. Both $L^2$ consumers use `memLp_two_iff_integrable_sq_norm`, with almost-everywhere strong measurability. [SmoothTransition.lean:143–231](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean#L143-L231) · [L2Space.lean:41–54](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/L2Space.lean#L41-L54)
 
 **Knapp2002.** *Lie Groups Beyond an Introduction*, 2nd ed., Theorem 5.5(b–d), pp. 279–280. The semisimple highest-weight result supplies the classical lowering direction on the trace-zero blocks. The compact block centers are accounted for by their scalar action. The author PDF was read on 2026-11-28, SHA-256 `bd7e983a2389349ba5b5e95fdd8b46789b8bc26f9602b3efa20e9c0f80762332`. [Author PDF](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf)
+
+## Chapter 14 kernel vectors and truncated convolution
+
+[Textbook §14.4.2.9](../chapters/14-masullos-trace-formula-route.md#14429-kernel-vectors-and-truncated-convolution) follows Alpöge with Claude's A2 archive. Joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The archive's `lean/lake-manifest.json:5–13` pins Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`. The short A2 paths start at `lean/src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ScatteringLimits/`. [A2 archive](#a2) · [Declarations, consumers and read boundaries](../notes/proof-map.md#chapter-14-kernel-vectors-and-truncated-convolution)
+
+| Archive file | SHA-256 |
+| --- | --- |
+| `Carries.lean` | `71d3a336ed579e0b7324cbedc6a547ca21ee5e97f81f96c36c688ac3ca8155f5` |
+| `ConvolutionSpectra/KvSpec.lean` | `e7a999408ba5d3ea4ec31ffe0c39b47d4c835011adf1da6bf9bf7884b9729304` |
+| `ConvolutionSpectra/CutSpec.lean` | `dac3a41dd2bfaab34ff441756308ed7a17b09f2bc2019d0764d7823c4a43acde` |
+| `ConvolutionSpectra/CutLaws.lean` | `29242133dd1448ec210f3e416430410e4d62fb6dddb18491648c475a9170891f` |
+| `ConvolutionSpectra/ScalSpec.lean` | `a77b36d6822fcbcad6a87438864c7e20a0a95b0cbc8c5a35c31d9007ac1fa4f2` |
+| `ConvolutionSpectra/BandHS.lean` | `86505c5811614b199b7ec1de3220a1404344696bf1bd73c3fb397d9befbb53f1` |
+| `ConvolutionSpectra/TraceSm.lean` | `5e644e2917002cfae0e3394499831786f15ebdf8560e880973795af4fc78db58` |
+| `ConvolutionSpectra/Planch.lean` | `89dac2c66d54734f96c0d5695a4d614179d0b1122008a02b59238f44ecaab536` |
+| `ConvolutionSpectra/ContAdj.lean` | `3a2c0c6f2dc61e538e732f68d74cbb531167f9b53f2bc0f32ff64b86f174bb31` |
+| `ConvolutionSpectra/CorLim.lean` | `673f2d09a4bfd085e7597ba4472b02044290dd0a24df55967c50526ba5d9db33` |
+
+The following fixed Mathlib sources were retrieved and checked against the original manuscript snapshots on 2026-11-28. The finite-dimension result supplies the promotion on the complete scalar field $\mathbb C$ with Hausdorff finite-dimensional domain. The Bochner result supplies evaluation of the already integrable kernel and commutation with the two bounded isometries. Joint composition and its preimage lemma apply to $L^2$ and real Borel Lebesgue measure, with compact-open continuous measure-preserving translations and finite-measure sets in the preimage argument.
+
+- [FiniteDimension.lean:235–311](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/Module/FiniteDimension.lean#L235-L311) · [ContinuousLinearMap.lean:44–81](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Bochner/ContinuousLinearMap.lean#L44-L81)
+- [ContinuousPreimage.lean:49–96](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/ContinuousPreimage.lean#L49-L96) · [ContinuousCompMeasurePreserving.lean:42–106](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean#L42-L106)
+
+Masullo starts with a nonempty closed interval and takes a supremum over compact subintervals. Each term in the Hardy–Sobolev norm weights the two subinterval endpoints. The A2 cut $I_{a,b}$ in the kernel-vector module is a finite real-space cutoff. [Masullo, Definition 9.2.2.9, p. 416](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=416)

@@ -2742,6 +2742,279 @@ The estimates, hand calculations and their extension to step
 kernels are [Expository]. The separate `kvSpec` construction remains [Open] in this chapter. Positive-width strip trace
 class and Masullo's strip-parameter independence remain [Open].
 
+#### 14.4.2.9 Kernel vectors and truncated convolution
+
+**Motivation.** This subsection supplies the separate `kvSpec` construction identified at the end of §14.4.2.8. The convolution convention here is
+$T_\kappa u(x)=\int_{\mathbb R}\kappa(t)u(x+t)\,dt$ at the level of
+representatives. To see what input at position $y$ contributes to
+output at position $x$, put $t=y-x$. A single coefficient $e$ at
+$y$ then contributes the vector profile $x\mapsto\kappa(y-x)e$.
+The profile at the origin is $x\mapsto\kappa(-x)e$. The purpose
+of the kernel-vector construction is to average translates of
+this profile in $L^2$ after restricting the input to a bounded
+interval.
+
+**Example 1 (a scalar hat).** Set $s_+=\max(s,0)$ and
+$h(s)=s_+-2(s-1)_++(s-2)_+$. This is zero outside $[0,2]$,
+equals $s$ on $[0,1]$, and equals $2-s$ on $[1,2]$. For $\kappa=h$
+and $e\in\mathbb C$, the kernel vector is represented by $e h(-x)$
+on $[-2,0]$. The two triangles give $\int h=1$, and integrating the
+squares of the two ramps gives $\int h^2=2/3$. Thus the integral
+of the reflected profile is $e$, and its squared $L^2$ norm is
+$2|e|^2/3$.
+
+Take $u=\mathbf 1_{(-1,2]}$ and keep $I=(0,1]$. A primitive
+vanishing to the left of the support is
+$$
+ P(s)=\tfrac12\bigl(s_+^2-2(s-1)_+^2+(s-2)_+^2\bigr).
+$$
+Direct convolution of the cut input integrates $h(t)$ for
+$-x<t\le1-x$, giving $Q(x)=P(1-x)-P(-x)$. Averaging the translated
+profile gives $\int_0^1 h(-(x-y))\,dy$, the same primitive
+difference. In order from left to right, the formulas for $Q$
+on $[-2,-1]$, $[-1,0]$, and $[0,1]$ are
+$(x+2)^2/2$, $1/2-x-x^2$, and $(1-x)^2/2$. Indeed, $P(s)$ is
+$0$, $s^2/2$, $1-(2-s)^2/2$, or $1$ according as $s$ is before,
+on the rising half of, on the falling half of, or after the
+hat. Inserting $1-x$ and $-x$ yields the three polynomials, which
+agree at the shared endpoints. The output is zero off $[-2,1]$.
+At $x=0$ the correct result is $1/2$. Using the positive shift
+would instead integrate $h(-y)$ and give zero at $x=0$. The two
+continuous formulas therefore differ on an open interval.
+[Expository]
+
+**Example 2 (two off-diagonal channels).** Let $V=W=\mathbb C^2$
+with their Euclidean norms and let
+$$
+ \kappa(t)=
+ \begin{pmatrix}0&h(t)\\2h(t-4)&0\end{pmatrix}.
+$$
+Writing $e=(p,q)$, the profile at the origin is
+$(q h(-x),2p h(-x-4))$, supported in $[-2,0]\cup[-6,-4]$.
+Its integral is $(q,2p)$ and its squared norm is
+$(2/3)(|q|^2+4|p|^2)$ by translation and reflection of the two
+ramp-square integrals. In particular the zero-frequency matrix
+is the off-diagonal matrix with entries $1$ above and $2$ below
+the diagonal. The sum of the squared kernel-vector norms on
+the standard orthonormal basis is $10/3$.
+
+For $u=(1,2)\mathbf 1_{(-1,2]}$ and $I=(0,1]$, the direct
+convolution integrates $(2h(t),2h(t-4))$ for $-x<t\le1-x$.
+It gives $(2Q(x),2Q(x+4))$, with the complete piecewise formula
+for $Q$ above. The translated profiles are
+$(2h(y-x),2h(y-x-4))$ on $I$. Their integrals give the same
+two primitive differences. The two output supports are
+$[-2,1]$ and $[-6,-3]$, and the output values at $x=0$ and $x=-4$
+are $(1,0)$ and $(0,1)$ respectively. This tests the order of
+operator evaluation and the signs in both channels.
+[Expository]
+
+**Definitions.** Let $V,W$ be finite-dimensional complex Hilbert
+spaces, $L_V=L^2(\mathbb R;V)$ and $L_W=L^2(\mathbb R;W)$ with
+Lebesgue measure $\lambda$ on the Borel sets. Write $S_t$ for
+the class translation $S_t[f]=[x\mapsto f(x+t)]$ and $C_E$ for
+multiplication by $\mathbf 1_E$ on classes, for Borel $E$.
+Write $I_{a,b}=(a,b]=\{y:a<y\le b\}$ and $\lambda|_I$ for
+restriction. All displayed integrals of vectors or operators
+are Bochner integrals. Put
+$$
+ \operatorname{symb}_\kappa(z)=\int_{\mathbb R}\exp(zt)\kappa(t)\,dt.
+$$
+The archive's bounded-support predicate for $p\in L_W$ is
+$\exists R\in\mathbb R, C_{[-R,R]}p=p$. Equivalently $p$ vanishes
+a.e. outside the displayed interval. The cut producer uses
+indicator multiplication on measurable representatives, proves
+linearity on classes and bounds it by one before specifying
+the chosen operator. The fixed-point test follows by comparing
+the indicator representative with $p$ on and off the set.
+[Lean, read] `Carries.lean:50–54,68,76,85–88`,
+`CutSpec.lean:7–33`, `CutLaws.lean:46–57`.
+
+**Lemma (kernel-vector production).** Suppose
+$\kappa:\mathbb R\to \mathcal L(V,W)$ is operator-norm continuous
+and compactly supported. There is a unique continuous complex
+linear map $K_\kappa:V\to L_W$ such that for every $e\in V$
+$$
+ K_\kappa e=[x\mapsto\kappa(-x)e].
+$$
+There is a single $R\ge0$ such that $C_{[-R,R]}K_\kappa e=K_\kappa e$
+for every $e$. Every measurable representative of $K_\kappa e$
+is integrable and has integral $\operatorname{symb}_\kappa(0)e$.
+For all real $a,b$, all $u\in L_V$, and every strongly
+measurable representative $f$ of $u$, the map
+$y\mapsto S_{-y}K_\kappa f(y)$ is integrable for
+$\lambda|_{I_{a,b}}$, and
+$$
+ T_\kappa C_{I_{a,b}}u
+   =\int_{I_{a,b}} S_{-y}K_\kappa f(y)\,dy
+   \qquad\text{in }L_W.
+$$
+[Lean, read] `KvSpec.lean:28–81`. Uniqueness and the uniform
+choice of radius are made explicit here.
+
+**Proof of the kernel-vector clauses.** The reflected operator
+family remains continuous because reflection is a homeomorphism.
+Evaluation at fixed $e$ is continuous and maps the zero operator
+to zero. Thus $f_e(x)=\kappa(-x)e$ is continuous and compactly
+supported. In particular it represents an $L^2$ class. Addition
+and multiplication by complex scalars hold pointwise in $f_e$,
+so $A:e\mapsto[f_e]$ is complex linear. For an orthonormal basis
+$(e_i)_{i=1}^n$, write $e=\sum_i c_i e_i$. Then
+$$
+ \lVert Ae\rVert_2\le\sum_i |c_i|\lVert Ae_i\rVert_2
+      \le\lVert e\rVert\left(\sum_i\lVert Ae_i\rVert_2^2\right)^{1/2}.
+$$
+For dimension zero the map is zero. This explains continuity
+in the same finite-dimensional domain where Lean promotes $A$
+using `LinearMap.toContinuousLinearMap`. The estimate needs a
+finite basis of $V$. There is also a direct kernel-specific bound
+$\lVert Ae\rVert_2\le(\int\lVert\kappa(t)\rVert^2\,dt)^{1/2}\lVert e\rVert$.
+
+The archive defines `kv` by classical choice on continuous
+linear maps with the requirement for every $e$ and almost every $x$,
+$C(e)(x)=f_e(x)$. The construction supplies its witness. Any two
+witnesses agree for each $e$ by equality of $L^2$ classes, hence
+agree as operators. This identifies $K_\kappa$ with `kv κ`.
+
+The topological support of $\kappa$ is bounded, so there is
+$R\ge0$ with $\kappa(t)=0$ for $|t|>R$. This is `ker_bd`.
+Since $|-x|=|x|$, the same radius works for all profiles.
+The cut fixed-point test then gives the asserted identity on
+classes. For the zero-frequency formula, the representative
+$f_e$ is integrable by continuity and compact support, and a.e.
+equality transfers integrability and the integral. Reflection
+preserves Lebesgue measure. Evaluation at $e$ is a bounded
+linear map on the operator space and commutes with the operator
+integral. Consequently
+$$
+ \int_{\mathbb R} f_e(x)\,dx
+   =\int_{\mathbb R}\kappa(t)e\,dt
+   =\left(\int_{\mathbb R}\kappa(t)\,dt\right)e
+   =\operatorname{symb}_\kappa(0)e.
+$$
+The final equality uses $\exp(0t)=1$. [Lean, read]
+`KvSpec.lean:10–14,33–52`.
+
+**Proof of the truncated formula.** Fix $a,b,u$ and write $I=I_{a,b}$.
+Use strong continuity of translations and the representative
+formulas for convolution and Bochner integration from the
+[preceding subsection](#bochner-production-of-convolution-and-its-representatives). For $y_0\in\mathbb R$ and $e_0\in V$,
+$$
+ \lVert S_{-y}K_\kappa e-S_{-y_0}K_\kappa e_0\rVert_2
+ \le \lVert K_\kappa\rVert\,\lVert e-e_0\rVert
+     +\lVert (S_{-y}-S_{-y_0})K_\kappa e_0\rVert_2.
+$$
+This proves joint continuity from the translation isometry.
+Lean's `joint` applies the inherited joint composition theorem
+directly, with the continuous map $x\mapsto x-y$ as the
+measure-preserving argument. The Chapter 9 preimage-continuity
+result enters through that theorem. Lean's `meas` composes the
+joint map with the a.e. strongly measurable pair $(y,f(y))$.
+Since $I$ has finite measure, Cauchy–Schwarz gives
+$\int_I\lVert f(y)\rVert\,dy\le\lambda(I)^{1/2}\lVert u\rVert_2$.
+Thus $G(y)=S_{-y}K_\kappa f(y)$ is Bochner integrable for
+$\lambda|_I$ by the pointwise bound
+$\lVert G(y)\rVert_2\le\lVert K_\kappa\rVert\lVert f(y)\rVert$. [Lean, read]
+`KvSpec.lean:16–26,53–58`.
+
+Choose a Borel strongly measurable representative $f$, as for the
+Lean $L^2$ coercion. The explicit function
+$$
+ g(y,x)=\kappa(-(x-y))f(y)
+$$
+is jointly strongly measurable. The operator component is continuous,
+the input component is strongly measurable by composition with the
+first projection and evaluation is continuous. In particular $g$
+is a.e. strongly measurable on $(\lambda|_I)\otimes\lambda$.
+For each fixed $y$, the shift representative theorem says
+$G(y)(x)=(K_\kappa f(y))(x-y)$ for a.e. $x$. The specification of
+$K_\kappa$ holds for the vector $f(y)$ in the variable $x-y$.
+Pull that equality back by the measure-preserving translation
+$x\mapsto x-y$. Combining the two equalities gives
+$\forall y, \lambda\text{-a.e. }x, G(y)(x)=g(y,x)$.
+Each section may have its own exceptional set. For example the
+Borel diagonal $x=y$ has null sections for each $y$ and meets
+every output coordinate for some $y\in\mathbb R$. Joint
+measurability was obtained from $g$ directly.
+
+The preceding representative exchange lemma (`ae_integral`)
+applies with $\mu=\lambda|_I$, a finite measure. Its input is the
+Bochner integrability of $G$, the product measurability of $g$,
+and the sectionwise representative assertion for $\mu$-a.e. $y$.
+It gives, for $\lambda$-a.e. $x$, the representative
+$\int_I g(y,x)\,dy$ of $\int_I G(y)\,dy$. For a completed-Lebesgue
+representative one may first replace it by its Borel version
+off an input null set. Both Bochner integrals and the explicit
+section integrals are invariant under that replacement.
+[Lean, read] `KvSpec.lean:59–70`.
+
+Apply the inherited `convSpec` to $C_Iu$. Its representative is
+$\int \kappa(t)(C_Iu)(x+t)\,dt$ for a.e. $x$. For each fixed $x$,
+translation of the a.e. cut formula permits the replacement
+$(C_Iu)(x+t)=\mathbf 1_I(x+t)f(x+t)$ for a.e. $t$. The indicator
+can be moved across the operator by linearity, including at
+arguments outside $I$ where both expressions are zero. Substitute
+$y=x+t$ using translation invariance. The result is
+$\int_I\kappa(y-x)f(y)\,dy=\int_I g(y,x)\,dy$. The two output
+representatives agree a.e., which is equality in $L_W$.
+[Lean, read] `KvSpec.lean:71–81`.
+
+**Boundary of the formula.** If $a\ge b$, then $I$ is empty and its
+restricted measure is zero. The cut and both integrals vanish.
+The set integral uses no orientation convention for reversed
+endpoints. An input endpoint value can be changed arbitrarily,
+for example in either hat calculation, with no effect on any
+explicit output section, since its preimage under $t\mapsto x+t$
+is a singleton for each $x$. One can also change a representative
+of the output at $x=0$, which leaves the class equality valid but
+can break pointwise agreement there. The continuous formulas in
+the two examples specify particular representatives.
+
+The bounded interval guarantees the $L^1$ input estimate. For an
+unbounded replacement $I=(0,\infty)$ take the scalar hat above
+and $f(y)=\mathbf 1_I(y)/(1+y)$. The square integral equals $1$,
+but the integral of the norm of $G(y)$ is
+$\sqrt{2/3}\int_0^\infty(1+y)^{-1}dy=\infty$ by the shift isometry.
+The left side still exists in $L^2$ by `convSpec`. A statement
+asserting existence of the right-hand Bochner integral for
+every $L^2$ input on this cut would therefore fail. [Expository]
+
+**Consumers.** In the archive, $J:L_V\to H$ and $J':L_W\to H$
+are onto isometries, and the flow $U_y$ is intertwined with
+$S_y$ by $J$ and with $S_{-y}$ by $J'$. The correlation
+$\operatorname{cor}(\phi,e,p)(s)$ pairs the scalar profile
+$J[x\mapsto\phi(x)e]$ in the first slot with $U_sJ'p$ in the
+second slot. The cut $P(I)=JC_IJ^{-1}$ acts on the input side.
+These conventions explain why the same scalar profile can enter
+a correlation with different reflected arguments in different
+consumers. [Lean, read] `Carries.lean:96–104,123–137`.
+
+For the two `BandHS` rows below, take $a\le b$. The source assumes
+$\mathrm{Carries}$ for $X$, a continuous compactly supported operator
+kernel $\kappa$, and a continuous compactly supported scalar input $\phi$.
+Both calls to `kp` use the endpoint hypothesis to identify the oriented
+interval integral with the set integral on $I_{a,b}$. The kernel-vector lemma
+above applies to all real endpoints. For arbitrary endpoints the two
+Hilbert–Schmidt squares have the factor $\max(b-a,0)$, and the mixed
+trace uses a set integral on $I_{a,b}$. Indeed, when $a>b$ the cut is
+zero, so both cut operators, both norms, and the mixed trace vanish.
+[Lean, read] `BandHS.lean:13–19,41–42` and `ContAdj.lean:133–140,146–148`.
+
+| Consumer | Kernel-vector clause and its use |
+|---|---|
+| `ScalSpec.lean:14–26` | For $\kappa(t)=\phi(t)\mathrm{Id}$, compare the reflected a.e. representative with the scalar-vector specification at each $e$ and apply $L^2$ extensionality. This identifies the whole map with `sv V` applied to $x\mapsto\phi(-x)$. The separate average/convolution identity uses `convSpec`. |
+| `BandHS.lean:23–42` | For the carried operator $X$, use the integrability and equality clauses together. Carrying identifies $XJ$ with $J'T_\kappa$, the cut becomes $C_I$, and bounded $J'$ passes through the Bochner integral. Intertwining gives the operator family $U_yJ'K_\kappa$. Apply the same clauses to the scalar kernel, use `scalSpec`, and pass $J$ through the integral to obtain $U_{-y}J\,\mathrm{sv}(\phi(-\cdot))$. These are the two families submitted to `kp`. |
+| `BandHS.lean:43–60` | The flow isometries give the first Hilbert–Schmidt square as $(b-a)\sum_i\lVert K_\kappa e_i\rVert_2^2$. The scalar-vector norm formula and reflection give the second square as $(b-a)\dim(V)\int\lVert \phi\rVert^2$. For the trace of the adjoint of the cut scalar average composed with the cut carried operator, move $U_{-y}$ in the first slot to its adjoint $U_y$ in the second slot. With the $U_y$ already there, the correlation is evaluated at $2y$. The trace here pairs two Hilbert–Schmidt factors. |
+| `TraceSm.lean:42–70,72–77` | The forward and swapped correlations use $K_\kappa$ and the kernel vector of the reflected adjoint kernel, respectively. The direct `kvSpec` call at line 66 consumes bounded support and the integral for the forward vector. With the normalized bump $\int\psi=1$, `corLim` identifies the expanding-interval limit with $\langle e_i,N\operatorname{symb}_\kappa(0)e_i\rangle$. The $2y$ substitution contributes $1/2$ and the finite sum becomes the trace on $V$. The theorem separately assumes trace class for its central cut. |
+| `Planch.lean:34–46` | The representative clause identifies the reflected, exponentially weighted norm square with that of the kernel vector weighted by $\exp(-2x)$. This supplies the rewrite before the spectral estimate. |
+
+**Scope.** This is a local reading of the archive proof and its
+consuming steps. The Hilbert–Schmidt pairing, correlation limit,
+and spectral estimate are used at their interfaces. Masullo’s positive-width
+strip trace-class step and strip-parameter independence remain [Open]. The archive attribution, pinned
+revision and library source links are recorded in the source ledger.
+[Sources](../sources/SOURCES.md#chapter-14-kernel-vectors-and-truncated-convolution)
+
 #### Absolute Cauchy products in a Banach algebra
 
 **Motivation.** Multiplying two finite power sums produces a rectangle of terms. The coefficient of degree $n$ uses the pairs on the antidiagonal $i+j=n$. For infinite series, the passage from rectangles to antidiagonals needs a tail bound. In an operator algebra it also matters which operator acts first. The Banach exponential uses the product theorem to separate a central scalar shift. A second argument, using continuous multiplication on each side of one absolutely convergent series, supplies the difference factor in the proof of forward exponential spectral inclusion. [Pinned exponential addition](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L335-L352) · [Pinned spectral-inclusion consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Spectrum.lean#L369-L400)
