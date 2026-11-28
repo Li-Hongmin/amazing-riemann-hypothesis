@@ -713,6 +713,7 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 - [§6.4.24](../chapters/06-stepanovs-method-and-multiplicity.md#dpst-unramified-rank-bound) puts finitely many potentially fixed periods over one field and proves the rank bound, with the crystalline consumer on the same tensors.
 - [§6.4.25](../chapters/06-stepanovs-method-and-multiplicity.md#period-ring-full-rank-surjectivity) follows the invariant columns and their determinant to an inverse over the period ring.
   - [§6.4.25.1](../chapters/06-stepanovs-method-and-multiplicity.md#determinant-norm-units) proves the finite-free determinant norm reflects units and recovers the inverse from the adjugate applied to the identity. The two examples use a base with zero divisors and a split algebra. The semistable stable-line clause supplies the unit hypothesis.
+  - [§6.4.25.2](../chapters/06-stepanovs-method-and-multiplicity.md#norm-selection-equivariance) selects a nonzero norm from a full independent family, restricts coefficients to the unramified field, and computes the inverse field-norm multiplier for the stable line of the same period.
 - [§6.4.26](../chapters/06-stepanovs-method-and-multiplicity.md#semilinear-coordinate-descent) identifies fixed coordinates in the finite intersection and combines the two bounds to obtain `IsPst` from semistability over a finite extension. [Reading guide](../chapters/06-period-comparison-reading-guide.md)
 
 

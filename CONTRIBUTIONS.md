@@ -2130,6 +2130,12 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **Mathlib contributors and the A2 authors.** The community formalized the multiplication determinant, matrix inverse and endomorphism criteria. Alpöge with Claude apply those results to the original rank-one period. [Pinned declarations](sources/SOURCES.md#determinant-norm-units-source)
 - **This book.** Hongmin Li with AI assistance contributes the cofactor exposition, original-ring inverse formula, exact worked examples and deletion examples, and the source map from the pinned library to the same period consumer. [Subsection](chapters/06-stepanovs-method-and-multiplicity.md#determinant-norm-units)
 
+### Chapter 6 §6.4.25.2 Norm selection and tensor equivariance
+
+- **Classical sources.** Milne and the Stacks Project give the determinant norm and its scalar and base-change properties. Bourbaki provides the polynomial-function reference. McCoy supplies the square-matrix criterion over rings with zero divisors. [Source register](sources/SOURCES.md#norm-selection-equivariance-source)
+- **Mathlib contributors and the A2 authors.** The pinned library supplies polynomial grid extensionality, the tensor basis and determinant transport. Alpöge with Claude assemble the norm-selection and equivariance steps for the rank-one semistable period. [Pinned declaration and consumer map](sources/SOURCES.md#norm-selection-equivariance-source)
+- **This book.** Hongmin Li with AI assistance contributes both quadratic computations, the finite-field counterexample, the zero-divisor analysis and the proof tracing the same period to the twist comparison. [Subsection](chapters/06-stepanovs-method-and-multiplicity.md#norm-selection-equivariance)
+
 ### Chapter 12 inverse series, ordered composition and inverse charts
 
 - **Classical source.** Jürgen Pöschel supplied the finite-cutoff inversion technique credited in Mathlib. [Theorem 5.2, p. 16](https://arxiv.org/pdf/1702.03691#page=16)

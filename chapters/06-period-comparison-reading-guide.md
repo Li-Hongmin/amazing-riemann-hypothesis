@@ -3,6 +3,7 @@
 - [§6.4.24 The rank of potentially semistable periods](06-stepanovs-method-and-multiplicity.md#dpst-unramified-rank-bound) proves the unramified rank bound and traces its crystalline consumer.
 - [§6.4.25 From full-rank periods to a comparison isomorphism](06-stepanovs-method-and-multiplicity.md#period-ring-full-rank-surjectivity) uses the determinant's stable line to invert the period matrix over its coefficient ring.
   - [§6.4.25.1 Recovering an algebra inverse from the determinant norm](06-stepanovs-method-and-multiplicity.md#determinant-norm-units) evaluates the inverse multiplication operator at the algebra identity.
+  - [§6.4.25.2 Choosing a period with nonzero norm and transporting its norm](06-stepanovs-method-and-multiplicity.md#norm-selection-equivariance) selects unramified coefficients and computes the norm multiplier for the stable line.
 - [§6.4.26 Fixed coordinates and finite-extension descent](06-stepanovs-method-and-multiplicity.md#semilinear-coordinate-descent) descends the coordinates to the finite intersection and obtains potential semistability after restriction.
 
 [Chapter 6, P7](./06-stepanovs-method-and-multiplicity.md) · [Proof map](../notes/proof-map.md#chapter-6-period-comparison)

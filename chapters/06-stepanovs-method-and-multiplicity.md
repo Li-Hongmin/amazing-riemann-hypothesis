@@ -3143,6 +3143,135 @@ Next delete freeness while keeping finiteness. The $\mathbb Z$-algebra $\mathbb 
 
 **Reading boundary.** The local proof-body reading covers the named determinant, adjugate and endomorphism unit steps and the direct A2 application. The rank and period construction in §6.4.25 retains its existing evidence. Basis selection, the general matrix determinant library, generic unit transport and the tensor norm equivariance supplies are cited at the individual levels in the source register. The examples and the explicit coordinate formula are textbook calculations [Expository]. Chapter 11's spectral norm concerns absolute values and valuation topology. Here the norm is an algebraic determinant with values in the coefficient ring.
 
+<a id="norm-selection-equivariance"></a>
+
+#### 6.4.25.2 Choosing a period with nonzero norm and transporting its norm
+
+**Motivation.** A rank-one representation over a coefficient field $L$ of degree $d$ gives $d$ period vectors over the unramified field. Each vector can have zero determinant norm, even when the family remains independent over the period ring. We need a combination with nonzero norm, with coefficients in the unramified field so that the combination belongs to $\mathrm{Dpst}$. Its fixed-vector equation then gives a stable line in the period ring.
+
+**Example 1 (two singular basis vectors).** Let $R=\mathbb Q_3$, let $L=R(\theta)$ with $\theta^2=3$, and let $B$ be a copy of $L$ as an $R$-algebra. The odd valuation of $3$ makes $t^2-3$ irreducible. Write $\theta_B$ for the root in $B$ and $u=1\otimes\theta$ in $A=B\otimes_R L$. In the ordered $B$-basis $(1,u)$, multiplication by $a+bu$ sends $1$ to $a+bu$ and $u$ to $3b+au$. Hence
+
+$$
+ M_{a+bu}=\begin{pmatrix}a&3b\\ b&a\end{pmatrix},
+ \qquad N_{A/B}(a+bu)=a^2-3b^2.
+$$
+
+Evaluation at $u=\theta_B$ and $u=-\theta_B$ identifies $A$ with $B\times B$, since the roots differ by the unit $2\theta_B$. Let $y_1=(1+u/\theta_B)/2$ and $y_2=(\theta_B-u)/2$. Their images are $(1,0)$ and $(0,\theta_B)$. In the basis $(1,u)$ their multiplication matrices are
+
+$$
+ M_{y_1}=\tfrac12\begin{pmatrix}1&\theta_B\\1/\theta_B&1\end{pmatrix},
+ \qquad M_{y_2}=\tfrac12\begin{pmatrix}\theta_B&-3\\-1&\theta_B\end{pmatrix}.
+$$
+
+Their determinants are $(1-1)/4=0$ and $(\theta_B^2-3)/4=0$. The columns of the coordinate matrix $Y$ record the vectors themselves. We have
+
+$$
+ Y=\tfrac12\begin{pmatrix}1&\theta_B\\1/\theta_B&-1\end{pmatrix},
+ \qquad \det Y=-\tfrac12,\qquad
+ \operatorname{adj}Y=\tfrac12\begin{pmatrix}-1&-\theta_B\\-1/\theta_B&1\end{pmatrix}.
+$$
+
+Thus $(y_1,y_2)$ is a basis. Applying the adjugate to $(1,0)^{\mathsf T}$ gives $(-1/2,-1/(2\theta_B))^{\mathsf T}$. In this combination each constant contribution is $-1/4$ and the $u$ contributions cancel, giving $-1/2$ of norm $1/4$. For a choice over $\mathbb Q_3$, take $(1,1)$. The resulting element has coordinates $((1+\theta_B)/2,(1/\theta_B-1)/2)^{\mathsf T}$ and norm
+
+$$
+ \tfrac14\bigl((1+\theta_B)^2-3(1/\theta_B-1)^2\bigr)
+ =\tfrac14\bigl((1+\theta_B)^2-(1-\theta_B)^2\bigr)=\theta_B.
+$$
+
+In split coordinates the norm of the general combination is the product $\theta_B X_1X_2$. The adjugate and the field-valued choice give two evaluations of this polynomial.
+
+**Example 2 (a semilinear twist on a multiplication matrix).** Keep $R$, $L$ and $u$, and take $B=R[T]$ with $f(T)=-T$ and $f|_R=\mathrm{id}$. Put $w=(1+T)+u$ and $\chi=1+\theta$. With $F=f\otimes\mathrm{id}_L$, the map $\sigma(z)=F(z)(1\otimes\chi)$ is an $f$-semilinear bijection. Its inverse sends $z$ to $F^{-1}(z(1\otimes\chi)^{-1})$, since $(1+\theta)(1-\theta)=-2$. The matrices in $(1,u)$ are
+
+$$
+ M_w=\begin{pmatrix}1+T&3\\1&1+T\end{pmatrix},\qquad
+ M_{F(w)}=\begin{pmatrix}1-T&3\\1&1-T\end{pmatrix},\qquad
+ M_{1\otimes\chi}=\begin{pmatrix}1&3\\1&1\end{pmatrix}.
+$$
+
+The element $\sigma(w)=(1-T+u)(1+u)=(4-T)+(2-T)u$ gives the same matrix as the product of the last two matrices. The matrix and its determinant are
+
+$$
+ M_{\sigma(w)}=\begin{pmatrix}4-T&3(2-T)\\2-T&4-T\end{pmatrix},
+ \qquad \det M_{\sigma(w)}=(4-T)^2-3(2-T)^2=4+4T-2T^2.
+$$
+
+This equals $f((1+T)^2-3)(-2)=f(N_{A/B}(w))N_{L/R}(\chi)$, with the field norm $1-3=-2$ viewed as a scalar in $B$. The coefficient action changes the diagonal entries of $M_w$ and changes the linear term of its determinant from $2T$ to $-2T$. The twist then multiplies the transformed determinant by $-2$.
+
+**Definitions.** Use the determinant norm $N_{A/B}$ and the left multiplication matrix $M_z$ of [§6.4.25.1](#determinant-norm-units). For a family $y_1,\ldots,y_d$ in a finite free commutative $B$-algebra $A$, its norm polynomial is
+
+$$
+ Q_y(X)=\det\!\left(\sum_{i=1}^d X_i M_{y_i}\right)\in B[X_1,\ldots,X_d].
+$$
+
+An additive map $\sigma$ on a $B$-module is $f$-semilinear for a ring endomorphism $f$ if $\sigma(bz)=f(b)\sigma(z)$.
+
+**Lemma 1 (an adjugate combination).** Let $B$ be an integral domain, let $A$ be finite free of rank $d$ over $B$, and let $y_1,\ldots,y_d$ be $B$-linearly independent. There is an $x\in B^d$ with $N_{A/B}(\sum_i x_i y_i)\ne0$.
+
+*Proof.* Fix a basis $e$ and let $Y$ have columns $[y_i]_e$. Then $[\sum_i x_i y_i]_e=Yx$. If $\det Y=0$, over the fraction field there is a nonzero kernel vector. Clearing denominators gives a nonzero vector in $B^d$ in the kernel, contradicting independence. Take $x=\operatorname{adj}(Y)[1_A]_e$. The product $Yx=(\det Y)[1_A]_e$ gives $\sum_i x_i y_i=(\det Y)1_A$. Multiplication by this scalar is $(\det Y)I_d$, with norm $(\det Y)^d\ne0$. For $d=0$ the norm is $1$ by the empty determinant convention. [A2 and pinned kernel criterion](../sources/SOURCES.md#norm-selection-equivariance-source)
+
+**Lemma 2 (restricting the coefficients).** Let $k\hookrightarrow B$ be an infinite subfield of an integral domain $B$, and let $A$ be finite free over $B$. If $Q_y$ has a nonzero value on $B^d$, then it has a nonzero value on $k^d$.
+
+*Proof.* Evaluation at $x\in B^d$ commutes with the determinant, which is a sum of products of entries. Left multiplication by the combination has matrix $\sum_i x_i M_{y_i}$, so $Q_y(x)=N_{A/B}(\sum_i x_i y_i)$. Suppose a polynomial vanishes on a product of infinite subsets of $B$. Fix points in the first $d-1$ subsets. The resulting polynomial in the last variable is zero because a nonzero polynomial over the fraction field has at most its degree many roots. Each coefficient therefore vanishes on the grid in $d-1$ variables. Induction makes every coefficient zero, starting with constants in zero variables. Apply this argument to the image of $k$ in each variable. Vanishing on $k^d$ would make $Q_y$ the zero polynomial, contradicting its value on $B^d$. Lean uses the injectivity of `algebraMap` to give each range infinitely many points, and `MvPolynomial.funext_set` compares $Q_y$ with zero on the product of these ranges. [Classical and pinned grid arguments](../sources/SOURCES.md#norm-selection-equivariance-source)
+
+**Lemma 3 (two tensor norm identities).** Let $L/R$ be a finite field extension, $B$ a commutative $R$-algebra with structure map $\iota_R$, and $A=B\otimes_R L$. For an $R$-algebra endomorphism $f$ of $B$, $w\in A$ and $\chi\in L$,
+
+$$
+ \begin{aligned}
+ N_{A/B}((f\otimes\mathrm{id}_L)(w))&=f(N_{A/B}(w)),\\
+ N_{A/B}(1\otimes\chi)&=\iota_R(N_{L/R}(\chi)).
+ \end{aligned}
+$$
+
+*Proof.* An $R$-basis $e_j$ of $L$ gives the $B$-basis $b_j=1\otimes e_j$ of $A$. For $F=f\otimes\mathrm{id}_L$, each $b_j$ is fixed. The coordinates of $c\otimes v$ are $c\,\iota_R([v]_{e,i})$. Under $F$ they transform entrywise by $f$ because $f$ fixes the image of $R$. Additivity gives this for every tensor. Column $j$ of $M_{F(w)}$ is the column of $F(w)b_j=F(wb_j)$, so $M_{F(w)}$ is the entrywise image of $M_w$. Taking determinants proves the first formula, using `AlgHom.map_det` in Lean.
+
+Left multiplication by $1\otimes\chi$ sends $c\otimes v$ to $c\otimes\chi v$. This is the base change of $m_\chi$, with matrix $\iota_R(M_\chi)$ entrywise in the corresponding bases. Taking determinants proves the second formula. The archive identifies the linear maps on pure tensors and invokes `LinearMap.det_baseChange`. By multiplicativity the twisted map $\sigma(w)=F(w)(1\otimes\chi)$ satisfies
+
+$$
+ N_{A/B}(\sigma(w))=f(N_{A/B}(w))\,\iota_R(N_{L/R}(\chi)).
+$$
+
+[Tensor basis and determinant transport](../sources/SOURCES.md#norm-selection-equivariance-source)
+
+**Proposition (the nonzero period norm supplies a stable line).** In the tied setting of [§6.4.25](#period-ring-full-rank-surjectivity), put $R=\mathbb Q_\ell$, $k=R^{\mathrm{ur}}$ (the maximal unramified extension), $B=B_{\mathrm{st}}$ and $A=B\otimes_R L$. Suppose $\rho_m$ on the single-coordinate $L$-space $V$ acts on $G_K$ by $\chi(g)$ and is potentially semistable. Then there is a $y_s\in D_{\mathrm{pst}}(\rho_m)$ such that $n=N_{A/B}(\mathrm{toA}(y_s))$ is nonzero and its $R$-line is stable under $G_{KK_2}$ for some finite extension $K_2/R$. Here $KK_2$ denotes the compositum inside the chosen algebraic closure. The stable-line clause of `stRegular` makes $n$ a unit.
+
+*Proof.* The three clauses of `stRegular` supply the domain property, the fixed-ratio condition and the stable-line condition. Write $d=[L:R]$. Potential semistability gives a finite $k$-basis of $D_{\mathrm{pst},\mathrm{ur}}$ of size $d$, since $V\simeq L$ over $R$. Transport the basis through the inverse of `toUr` and forget the submodule tags to obtain $y_i\in D_{\mathrm{pst}}(\rho_m)\subset V\otimes_R B$. Write $w_i=\mathrm{toA}(y_i)$, where evaluation at the unique coordinate followed by the tensor flip sends $v\otimes b$ to $b\otimes v(0)$. Independence over $k$ follows from the injective $k$-linear composite of `toB` with `toAlg`. The former puts $B$ on the left and the latter evaluates the single coordinate by a $B$-linear equivalence. The composite agrees with `toA` on the transported periods by the pure tensor identity.
+
+By `mem_Dpst`, each $y_i$ has a finite fixed-stage witness. The proof of `exists_common_fixed` starts with $K$ for the empty family. At each insertion it takes the compositum of the current field and the new witness field. The fixing subgroup of the compositum lies in both prior fixing subgroups. Thus there is one finite $K'$ such that every $y_i$ is fixed for $g\in G_K\cap G_{K'}$. On $A$ put $f_g=\mathrm{actSt}(g)$ and $\sigma_g(w)=(f_g\otimes\mathrm{id}_L)(w)(1\otimes\chi(g))$. On a pure tensor the rank-one action multiplies $v(0)$ by $\chi(g)$ and sends $b$ to $f_g(b)$. The zero and sum cases extend this identity to all tensors, so each $w_i$ is fixed by $\sigma_g$. The tensor algebra map sends multiplication by $b$ to multiplication by $f_g(b)$, so $\sigma_g$ is $f_g$-semilinear.
+
+Apply the invariant independence criterion from [§6.4.24](#dpst-unramified-rank-bound). If $b\ne0$ and $b f_g(b')=f_g(b)b'$ for all $g\in G_K\cap G_{K'}$, the equations hold on $G_{KK'}$ by its two subgroup inclusions. The fixed-ratio clause gives $b'=\iota_k(c)b$ for $c\in k$, with $\iota_k:k\to B$ the structure map. Thus the $k$-independent fixed family is $B$-independent. The tensor basis gives $A$ rank $d$ over $B$. Lemma 1 produces a nonzero norm with $B$-coefficients, and Lemma 2 selects $a_i\in k$ giving a nonzero norm as well. The field $k$ is infinite because it contains $R$.
+
+Form $y_s=\sum_i\mathrm{mulV}(a_i,y_i)$. For each summand, `mulV_mem_Dpst` adjoins $a_i$ to a witness field for $y_i$. On the smaller fixing subgroup both the scalar and the vector are fixed. Closure under sums gives $y_s\in D_{\mathrm{pst}}$. On simple tensors `toA_mulV` carries the scalar into the left $B$-factor. By additivity,
+
+$$
+ z=\mathrm{toA}(y_s)=\sum_i\iota_k(a_i)w_i,\qquad n=N_{A/B}(z)\ne0.
+$$
+
+Apply `mem_Dpst` again, this time to $y_s$, to obtain a witness $K_2$. This controls the fixed stage of the combination after the coefficient choice. For $g\in G_{KK_2}$ we now have $\sigma_g(z)=z$. Also $\chi(g)\ne0$ because $\rho_m(g)\rho_m(g^{-1})$ sends the vector of coordinate $1$ to itself. Hence $\nu_g=N_{L/R}(\chi(g))\ne0$ because multiplication by a nonzero field element is an isomorphism. Taking norms and cancelling the embedded field unit gives
+
+$$
+ f_g(n)\,\iota_R(\nu_g)=n,\qquad f_g(n)=\iota_R(\nu_g^{-1})n.
+$$
+
+The witness demanded by `hline` is $\nu_g^{-1}\in R$ for each $g$. Since $n\ne0$ and the multiplier is nonzero, the $R$-line is stable. Apply `hline` at $KK_2$ to conclude $n\in B^\times$.
+
+**Handoff.** At lines 174–178, `isUnit_of_isUnit_norm` from [§6.4.25.1](#determinant-norm-units) gives an inverse to this $z$, which is pulled back through `toA`. The interface `toA_mulB` identifies the period product with multiplication in $A$ on pure tensors and extends it by additivity in both arguments. The product identity pairs the same $y_s\in D_{\mathrm{pst}}$ with an inverse in the ambient tensor. In `wdSpace_twist_equiv` this pair supplies the factorization that puts every generating twisted period in the image of the comparison map, proving surjectivity. [A2 declaration and consumer map](../sources/SOURCES.md#norm-selection-equivariance-source)
+
+**Remark (zero divisors and the domain hypothesis).** Lemma 1 holds over every nonzero commutative ring with the same full-size independence hypothesis. To see this, suppose $c\ne0$ annihilates $\det Y$. Choose the largest $r<d$ for which $c$ times an $r$-minor is nonzero, using the empty minor $1$ to start. Keep the rows of that minor and append an extra column to its columns. On these $r+1$ columns take the vector of signed $r$-minors of the retained rows multiplied by $c$, and extend by zero on other columns. The entry at the extra column is nonzero. The dot product with any row of $Y$ is, up to sign, $c$ times a bordered $(r+1)$-minor by cofactor expansion. It vanishes by repeated rows or maximality of $r$. This contradicts injectivity of $Y$. Thus $\det Y$ is a non-zero-divisor by the square case of McCoy's criterion. Its powers are nonzero, and the adjugate combination still works. In the zero ring the sole norm value is zero, the degenerate failure.
+
+If independence is weakened to requiring each vector to be nonzero, genuine collapse occurs over $B=\mathbb Q[\epsilon]/(\epsilon^2)$. Take $A=B\times B$, $y_1=(\epsilon,0)$ and $y_2=(0,\epsilon)$. Both are nonzero and both are annihilated by $\epsilon$. The coordinate determinant is $\epsilon^2=0$ and the norm of any combination is $\epsilon^2x_1x_2=0$. Replacing $y_2$ by $(0,1)$ gives $\det Y=\epsilon$ and $(\det Y)^2=0$. This shows precisely how the nonzero-power step can fail if one knows only that the coordinate determinant is nonzero. The pinned archive proof uses `IsDomain B` for the fraction-field criterion and the nonzero-power step.
+
+Lemma 2 also holds over a nonzero commutative ring containing an infinite subfield. In each variable choose more distinct $k$-points than the degree. The one-variable Vandermonde determinant is a product of nonzero differences in $k$, all units in $B$. Invert the evaluation matrix and apply the resulting coefficient test one variable at a time. [McCoy's criterion and Mathlib's domain hypotheses](../sources/SOURCES.md#norm-selection-equivariance-source)
+
+**Remark (finite subfields).** Let $k=\mathbb F_q$, $B=k[T]$, and $A=B^{q+1}$ with pointwise multiplication and diagonal $B$-algebra structure. Index its coordinates by $\{\infty\}\cup k$. Take $y_1=(0,(1)_{a\in k})$ and $y_2=(1,(-a)_{a\in k})$. Set the remaining $y_i$ to zero to use $d=q+1$ variables. Lemma 2 assumes a nonzero value over $B$ and makes no independence assumption. In the coordinate basis the multiplication matrix is diagonal and
+
+$$
+ Q_y(X)=X_2\prod_{a\in k}(X_1-aX_2)=X_1^qX_2-X_1X_2^q.
+$$
+
+It is homogeneous of degree $q+1$ and has value $T^q-T\ne0$ at $(T,1,0,\ldots,0)$. On $k^{q+1}$ the first factor vanishes when $X_2=0$. In every other case the factor indexed by $X_1/X_2$ vanishes. Thus the coefficient-selection conclusion fails for this actual norm polynomial.
+
+**Reading note.** The three A2 norm supplies, `norm_one_tmul`, `toAlg`, the common fixed stage and the assembly through `hline` have local proof-body readings. The examples and hypothesis analysis are textbook proofs and calculations. The three structural inputs use the previously recorded scope of `stRegular`. [Source register](../sources/SOURCES.md#norm-selection-equivariance-source)
+
 <a id="semilinear-coordinate-descent"></a>
 
 ### 6.4.26 Fixed coordinates and finite-extension descent

@@ -22,8 +22,8 @@
 # Part II. The arithmetic engine: Stepanov over the integers
 
 - [6. Stepanov's method and multiplicity over the integers](chapters/06-stepanovs-method-and-multiplicity.md)
-  - [Local period comparison and determinant norms (§§6.4.24–26)](chapters/06-period-comparison-reading-guide.md)
-<!-- Chapter 6 includes §6.4.25.1 (#determinant-norm-units). -->
+  - [Local period comparison, norm selection and equivariance (§§6.4.24–26)](chapters/06-period-comparison-reading-guide.md)
+<!-- Chapter 6 includes §6.4.25.1 (#determinant-norm-units) and §6.4.25.2 (#norm-selection-equivariance). -->
 <!-- Chapter 7 includes §7.4.3.21 (#74321-why-mirabolic-derivatives-have-finite-length) and §7.4.3.22 (#74322-smooth-actions-on-twisted-jacquet-quotients). -->
 - [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
   - [Normalized induction and Jacquet modules (§§7.4.3.8–13)](chapters/07-normalized-induction-reading-guide.md)
