@@ -569,6 +569,8 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 [Dense extension and the Bochner integral](../chapters/02-functional-equations-and-primitive-characters.md#banach-dense-extension) · [Metric-valued limits](../chapters/02-functional-equations-and-primitive-characters.md#metric-valued-ae-limits)
 
 
+**Chapter 2, §§2.3.2.7.2–3.** Riesz–Fischer extracts a geometric Cauchy subsequence, uses Minkowski and Fatou at finite exponents and a common conull set at infinity, constructs the measurable representative and returns to the full sequence in norm. Minkowski uses Hölder to cancel a finite positive power integral and handles the low-exponent and infinity branches separately. The original infinite-measure examples and hypothesis tests accompany the proof and its conditional-expectation and A2 consumers. [Completeness](../chapters/02-functional-equations-and-primitive-characters.md#lp-riesz-fischer-completeness) · [Integral Minkowski](../chapters/02-functional-equations-and-primitive-characters.md#integral-minkowski-supply)
+
 ## November 23–28 publication entries
 
 | Chapter and section | Publication evidence |

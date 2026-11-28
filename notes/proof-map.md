@@ -1153,6 +1153,8 @@ limit's measurability before the scalar domination step. The Hölder product con
 [Dense extension and the Bochner integral](../chapters/02-functional-equations-and-primitive-characters.md#banach-dense-extension) · [Metric-valued limits](../chapters/02-functional-equations-and-primitive-characters.md#metric-valued-ae-limits)
 
 
+**P1 supply (Chapter 2, §§2.3.2.7.2–3).** Local R3 [Lean, read] from `ENNReal.lintegral_Lp_add_le` through `eLpNorm'_sum_le` to the finite-exponent telescoping bound of `Lp.instCompleteSpace`. The infinity branch uses a common conull set of bounds. Lower semicontinuity passes the two-index bounds to the strongly measurable limit. The converse enters `aestronglyMeasurable_condExpL1` after nontriviality. The forward instance supplies the conditional-expectation extension, the trimmed-measure projection and the A2 convolution and closed-graph calls. The norm-limit exports serve the A2 jet, flag and Bergman arguments. Riesz–Fischer has a partially established independent review. Minkowski has same-source preliminary review. [Completeness](../chapters/02-functional-equations-and-primitive-characters.md#lp-riesz-fischer-completeness) · [Integral Minkowski](../chapters/02-functional-equations-and-primitive-characters.md#integral-minkowski-supply)
+
 ## Chapter 11 abstract and arithmetic class formations
 
 - [§11.4.3.16](../chapters/11-the-window-bound-vwin.md#114316-fundamental-classes-and-the-three-subgroup-hypotheses-in-a-class-formation) constructs and uniquely normalizes the finite fundamental class, including its restriction to nonnormal subgroups. It applies §15 to derive continuous vanishing in degrees at least three.
