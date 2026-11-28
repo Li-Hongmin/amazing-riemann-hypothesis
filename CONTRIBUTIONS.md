@@ -2169,6 +2169,13 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **A2 authors.** Levent Alpöge with Claude supplied the cotangent replacement and dimension squeeze for a parameter quotient and the induction that proves the regular-local domain statement used in `JacChartB`. [Production and consumer](sources/SOURCES.md#chapter-12-regular-local-rings-and-principal-dimension-drop)
 - **This book.** Hongmin Li with AI assistance follows the production proof, distinguishes its quotient bound from the Jacobian dimension drop, and works out the plane and DVR calculations and their hypothesis tests. [Chapter 12](chapters/12-galois-representations-and-local-langlands.md#why-a-regular-local-ring-is-a-domain)
 
+### Chapter 12 Krull height and dimension
+
+- **Classical mathematics.** Wolfgang Krull supplied the principal and generalized height theorems. The Stacks Project contributors record the classical dimension, Artinian and parameter statements and their hypotheses. [Sources](sources/SOURCES.md#chapter-12-krull-height-and-dimension)
+- **Mathlib community.** Jingting Wang introduced the principal and generalized bounds in #23778, with file credits to Wanyi He, Jiedong Jiang, Christian Merten, Jingting Wang, Andrew Yang and Shouxin Zhang. Christian Merten introduced the quotient dimension comparison in #27557. Nailin Guan introduced the maximal-ideal dimension bound in #28682. [Pinned declaration record](sources/SOURCES.md#chapter-12-krull-height-and-dimension)
+- **A2 authors.** Levent Alpöge with Claude used the two bounds before the regular-local induction and used the maximal-ideal comparison in the Jacobian cut. [Consumer record](sources/SOURCES.md#chapter-12-krull-height-and-dimension)
+- **This book.** Hongmin Li with AI assistance explains the pinned proof chain and its examples with and without zero divisors, with explicit boundary cases for the hypotheses. [Chapter 12](chapters/12-galois-representations-and-local-langlands.md#how-krulls-height-theorem-bounds-local-dimension)
+
 ### Chapter 14 Fourier convolution and Bochner representatives
 
 - **Levent Alpöge with Claude** supplied A2’s translation flow, continuous class-valued convolution, representative-exchange lemma and reflected Fourier consumer. [Archive and declaration map](sources/SOURCES.md#chapter-14-bochner-production-of-convolution)
