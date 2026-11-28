@@ -625,6 +625,7 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 | Chapter 4, §4.4.5.1 | [Coprime twist conductors](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4451-why-coprime-twists-stay-primitive), with full calculations modulo $15$ and $24$, cancellation at a shared prime and the handoff to both sieve stages. |
 | Chapter 4, §4.10.25 | [Chapter 4, §4.10.25](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41025-the-siegel-lower-bound-from-biquadratic-product-series) |
 | Chapter 4, §4.10.26 | [Chapter 4, §4.10.26](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41026-regularizing-the-four-factor-product-and-bounding-its-taylor-remainder) |
+| Chapter 4, §4.10.27 | [Siegel separation and relative prime counts](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-siegel-relative-pnt). The log-power range absorbs the exceptional term. The wider range retains it through Abel summation and proper-power removal, then supplies the §4.9 count. |
 | Chapter 5, §5.3.1.4 | [Chapter 5, §5.3.1.4](../chapters/05-the-square-root-barrier-core-gm.md#5314-quadratic-reciprocity-and-the-host-splitting-signs) |
 | Chapter 6, §6.4.6 | [Chapter 6, §6.4.6](../chapters/06-stepanovs-method-and-multiplicity.md#646-from-local-lengths-to-clause-7-the-weight-partition) |
 | Chapter 6, §6.4.8 | [Chapter 6, §6.4.8](../chapters/06-stepanovs-method-and-multiplicity.md#648-from-residue-field-units-to-the-level-zero-forms) |

@@ -1986,7 +1986,7 @@ The references identify the joined Alpöge–Claude archive, Lean `v4.33.1`, SHA
 | Two progression choices and exact complements | `src/Development/AutomorphicArithmetic/MeanSquareBounds/Stage1Succ.lean:41–83`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/CharOf.lean:61–79,120–149`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairShare.lean:16–24,32–52` |
 | Witness selection and window consumer | `src/Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:13–43`, `src/Development/AutomorphicArithmetic/MeanSquareBounds/pairEx.lean:112–130`, `src/Development/AutomorphicArithmetic/CharacterBoxes/WinPairs.lean:5–35,52–68` |
 
-**Reading status.** The complete proof bodies in `MSqCount`, including its direct counting suppliers, are [Lean, read] (local R3). The analytic inputs remain [Lean]: `pnt_progressions_relative_weak_holds` is assembled at `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:16–24`, and `ExcBound` is stated at `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52` and supplied at `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–32`. The inner proofs of the relative progression estimate and the Siegel input remain [Open] for the book's reading record. The P13 dependency closure retains the corresponding R2 entries.
+**Reading status.** The complete proof bodies in `MSqCount`, including its direct counting suppliers, are [Lean, read] (local R3). The assembly of `pnt_progressions_relative_weak_holds` in `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:16–24` is [Lean, read] in §§4.10.2–4 and [§4.10.27](#p13-siegel-relative-pnt), which supplies the Abel and prime-power steps. The `ExcBound` interface and its direct wrappers are [Lean, read] at `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:50–52` and `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–32`. The gap proof is in [§4.10.24](#41024-separating-a-real-zero-from-1). The complete `siegelLower` input and the deeper analytic bodies identified in the source register remain [Lean], with their unread proofs [Open] in the book’s record.
 
 **Related community reading [Community].** The LUMI vacuity report traced the use of the positive counts in the pair and window wrappers and marked the two sieve stages for closer reading. [LUMI vacuity report](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/reports/vacuity-check.md)
 
@@ -5099,6 +5099,122 @@ The following paths are relative to the fixed archive root `lean/` in `lean.tar.
 | `lseries_taylor_lower_bound`, `siegel_product_character_inequality` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivLseriesAlternatingNonneg.lean:30–151` consumes the sphere bound, and `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:106–183` selects the legal branch. See [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series) for those proofs. |
 
 **Named inputs retained at their existing reading levels.** At pinned Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`, `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:75,98,150` supplies series agreement, entire continuation and change of level. The library boundaries are the underlying residue-class continuation, the change-of-level auxiliary identity, `differentiableAt_riemannZeta` and `zeta_eq_tsum_one_div_nat_add_one_cpow` (`Mathlib/NumberTheory/LSeries/RiemannZeta.lean:139,214`), `tendsto_riemannZeta_sub_one_div`, `differentiable_riemannZeta₁`, `Complex.differentiableOn_compl_singleton_and_continuousAt_iff`, `Complex.differentiableOn_dslope`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le` and `Complex.hasSum_taylorSeries_of_entire`. The nonvanishing input `DirichletCharacter.LFunction_apply_one_ne_zero` in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:406` remains at its prior reading level. The underlying near-one estimate `lfunction_norm_le_near_one` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LDerivNearOne.lean:89` is imported from [§4.10.24](#41024-separating-a-real-zero-from-1). The separate `ZetaNegReal` input, `zeta_negative_real_axis` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ZetaNegReal.lean:29–66`, remains [Lean] at R2, as does `realCharConj` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/TrivReal.lean:60–79`.
+
+### 4.10.27 From the real-zero gap to primes in a progression {#p13-siegel-relative-pnt}
+
+#### Motivation
+
+For moduli bounded by a power of $\log x$, the contribution of a real exceptional zero can be absorbed into the error around $x/\varphi(q)$. In [the wider range](#410-joining-the-two-ranges-of-the-relative-progression-estimate), one keeps the contribution and measures the error relative to the resulting main term. A lower bound on $1-\beta$ makes the exceptional term small in the first estimate and supplies a minimum scale for absorbing the Abel summation and prime-power errors in the second.
+
+#### Two hand calculations [Expository]
+
+**Modulus $3$.** The nonprincipal character $\chi_3$ takes values $(0,1,-1)$ at residues $(0,1,2)$. Its sum over a period is zero. It is primitive since the units $1,2$ have different values and the only proper divisor of $3$ is $1$. For real $s>0$ the nonzero terms of its Dirichlet series alternate with strictly decreasing magnitudes. The series represents $L(s,\chi_3)$ there by partial summation and continuation. Every successive pair contributes positively, so
+$$
+L(s,\chi_3)=\sum_{k\ge0}\big((3k+1)^{-s}-(3k+2)^{-s}\big)>1-2^{-s}.
+$$
+At $s=1$ the first four nonzero terms sum to $1-1/2+1/4-1/5=11/20$. The next term is $1/7$, so $11/20<L(1,\chi_3)<97/140$. For $s\ge3/4$ the first pair alone exceeds $1/4$, since $(3/4)^4=81/256>1/8$. In particular there is no real zero on $[3/4,1]$. At $x=8$ the prime powers in class $1$ are $4,7$, with weights $\log2,\log7$. In class $2$ they are $2,5,8$, with weights $\log2,\log5,\log2$. The class sums are $\log14$ and $\log20$. Their difference is $\psi_{\chi_3}(8)=\log(7/10)$ and their sum is the principal character's $\log280$. Adding and subtracting these last two values and dividing by $2$ recovers the class sums.
+
+**Modulus $4$.** The nonprincipal character $\chi_4$ takes values $(0,1,0,-1)$ at residues $(0,1,2,3)$. Its period sum is zero. The units $1,3$ coincide modulo $2$ and have opposite values, so the character is primitive. The alternating series on the odd integers gives
+$$
+L(s,\chi_4)=\sum_{k\ge0}\big((4k+1)^{-s}-(4k+3)^{-s}\big)>1-3^{-s}\qquad(s>0).
+$$
+At $s=1$ the first four terms give $1-1/3+1/5-1/7=76/105$, and the next is $1/9$. Hence $76/105<L(1,\chi_4)<263/315$. For $s\ge3/4$ the first pair exceeds $1/2$, since $(1/2)^4=1/16>1/27$. This excludes real zeros throughout $[3/4,1]$. At $x=9$ class $1$ contains the prime powers $5,9$, and class $3$ contains $3,7$. Thus $\psi(9;4,1)=\log15$, $\psi(9;4,3)=\log21$, $\psi_{\chi_4}(9)=\log(5/7)$, and the principal sum is $\log315$. The inverse projection again gives the two class sums.
+
+These interval exclusions cover the real segment at or below $1$ in a region with coefficient at most $1/20$, since $\log(2q)\ge\log2>1/2$. Both moduli illustrate the classical estimate. The wider-range interface requires $8\mid M$.
+
+#### The gap and the logarithmic-power range
+
+A character is extended by zero off the units. Write $\chi_0$ for the principal character, $\psi_\chi(x)=\sum_{n\le x}\Lambda(n)\chi(n)$ and $\psi(x;q,a)=\sum_{n\le x,\ n\equiv a\bmod q}\Lambda(n)$. Prefix sums include the upper endpoint. The classical Landau–Page theorem allows at most one primitive real character of conductor at most $Q$ with a real zero in $1-c/\log Q<\beta<1$ for a suitable absolute $c>0$ and $Q\ge2$. The zero, if present, is simple. The archive uses the fixed-modulus `ZFRDirichlet` to identify the possible simple exceptional zero at one modulus. [Page (1935)](https://doi.org/10.1112/plms/s2-39.1.116)
+
+**Siegel's lower bound [Paper].** For every $\epsilon>0$ there exists $c_\epsilon>0$ such that $L(1,\chi)\ge c_\epsilon q^{-\epsilon}$ for every primitive real nonprincipal character of conductor $q$. Positivity at $1$ gives the usual statement without absolute values. The archive's `SiegelLower` uses the norm and ranges over real nonprincipal characters at every positive modulus, including induced characters. The level comparison for that version is proved in [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series). Siegel's 1935 class-number paper supplies the classical bound, and Walfisz applied it to the progression problem in 1936. [Siegel (1935), pp. 83–86](https://doi.org/10.4064/AA-1-1-83-86) · [Walfisz (1936), pp. 592–607](https://doi.org/10.1007/BF01218882)
+
+**The real-zero supplier [Lean, read].** The proposition `ExcBound` says that for every $\epsilon>0$ there is $h_\epsilon>0$, uniform in the positive modulus $q$, the nonprincipal character $\chi$ with $\chi^2=\chi_0$, and its real zero $\beta$, such that $1-\beta\ge h_\epsilon q^{-\epsilon}$. The quantifiers include imprimitive characters and all their real zeros. The producer `excBound_of_siegelLower` applies `exceptional_zero_bound_of` to the given lower bound and `lfunction_deriv_near_one`. The proof in [§4.10.24](#41024-separating-a-real-zero-from-1) splits at $1-1/\log(3q)$. In the near segment the ordinary derivative estimate gives
+$$
+\|L(1,\chi)\|\le D(1-\beta)(\log(3q))^2.
+$$
+Taking the lower bound at $\epsilon/3$ and using $\log(3q)\le K q^{\epsilon/3}$ gives $h_\epsilon=\min(1/K,c_{\epsilon/3}/(DK^2))$. The first entry pays for the branch outside the derivative segment. The closed wrapper `excBound` plugs in `siegelLower` from `FinalSiegel.lean`. The book follows the conditional product argument in §§4.10.25–26 and takes the complete uniform lower bound as a named [Lean] input.
+
+The classical proof chooses the uniform $c_\epsilon$ by alternatives that can depend on the existence and choice of a reference character with a sufficiently close real zero. The argument gives no effective unconditional rule for choosing between them. Once the witness is supplied, the derivative and logarithm estimates are quantitative. Its ineffectivity passes to $h_\epsilon$, to the Siegel-dependent decay rate below, and to the amplitude and counting thresholds in the wider range. See the discussion of reference data in [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series).
+
+**Theorem (Siegel–Walfisz relative to the ordinary main term).** For each $A>0$ there exist $b_A,C_A>0$ such that uniformly for $x\ge2$, $1\le q\le(\log x)^A$ and $\gcd(a,q)=1$,
+$$
+\left|\frac{\varphi(q)}{x}\psi(x;q,a)-1\right|
+\le C_A e^{-b_A\sqrt{\log x}}.
+$$
+
+*Proof.* Write $L=\log x$. The input `PsiChiBound` gives a per-character error $Cx e^{-c\sqrt L}$ for $q\le e^{c\sqrt L}$, with main term $\mathbf 1_{\chi=\chi_0}x-\sum_{\beta\in B}x^\beta/\beta$. Take the region coefficient to be the minimum of the `ZFRDirichlet` coefficient and $1/20$. The zero-free region gives an empty set or a singleton $B$, with a simple real zero of a real nonprincipal character in the singleton case. The region ensures $\beta\ge1/2$, since $\log(2q)>1/2$. At $\epsilon=1/(2A)$, `ExcBound` gives
+$$
+(1-\beta)L\ge h_{1/(2A)}q^{-1/(2A)}L\ge h_{1/(2A)}\sqrt L,\qquad
+\frac{x^\beta}{\beta}\le 2x e^{-h_{1/(2A)}\sqrt L}.
+$$
+With $b=\min(c,h_{1/(2A)})$, the triangle inequality gives the character error around $\mathbf 1_{\chi=\chi_0}x$ with coefficient $\max(C,0)+2$ and rate $b$. If $L^A>e^{c\sqrt L}$, then $L\le U$ for some fixed $U\ge0$, by exponential growth in $\sqrt L$. Apply $\|\psi_\chi(x)-\mathbf 1_{\chi=\chi_0}x\|\le x(L+1)$, which follows from $|\chi(n)|\le1$ and $\Lambda(n)\le\log n$. Increasing the coefficient by $(U+1)e^{b\sqrt U}$ covers that whole bounded range. This is the argument of `siegel_walfisz_character_of`, whose inputs are `psiChiBound`, `zFRDirichlet` and the supplied `ExcBound`.
+
+For a reduced class, orthogonality gives $\varphi(q)\psi(x;q,a)=\sum_\chi \chi(a^{-1})\psi_\chi(x)$. The principal coefficient is $1$ and each coefficient has modulus one. Dividing by $\varphi(q)$ gives the absolute progression error $O_A(xe^{-b\sqrt L})$. Dividing further by the main term $x/\varphi(q)$ costs at most $L^A$. The function $u^{2A}e^{-(b/2)u}$ is bounded on $u\ge0$, so the cost is absorbed by taking $b_A=b/2$. This relative normalization is a textbook deduction from the character theorem and the archive's orthogonality lemma. $\square$
+
+#### Keeping the exceptional term in the wider range [Lean, read]
+
+In [§4.10.2–4](#4102-the-common-normalization) take $l=\log M$, with $8\mid M$, and fix $e=eOf(M)$ once at the modulus $M$. For $e=\mathrm{none}$ take $\theta=0,\ \beta=1,\ \eta=1$. For $e=\mathrm{some}(\chi_1,\beta)$ take $\theta=\chi_1(b)$ for the reduced class $b$ and $\eta=\min(1,(1-\beta)l)$. Write
+$$
+F(t)=\frac{t-\theta t^\beta/\beta}{\varphi(M)},\qquad
+P_b(X)=\frac{\operatorname{li}_2(X)-\theta\operatorname{li}_2(X^\beta)}{\varphi(M)},
+\qquad
+\operatorname{li}_2(u)=\int_2^u\frac{dt}{\log t}.
+$$
+The body of `pnt_progressions_relative_weak_holds` builds the far estimate with the smoothed formula `explicitS_proof'`, its differencing theorem `differenced_explicit_formula`, and `zero_sum_bound_lossy`. The last call takes the density and repulsion witnesses `logDensityM_proof'` and `deuringHeilbronnMB_proof'`. Next `glue_ranges` combines that estimate with `psi_relative_near_range`, using the same option and scale $\eta$ in both ranges. Finally `prime_count_of_psi` changes the weights. The splice and the final relative-error calculation are proved in [§4.10.3](#4103-conditional-splice-and-proof). The following proof of its Abel input comes from the same-source-reviewed conversion manuscript.
+
+**Lemma (Abel summation on the last half of the logarithmic scale) [Lean, read].**
+
+Suppose $0\le a_n\le\Lambda(n)$, and set $S(t)=\sum_{1\le n\le t}a_n$. Let $0\le K\le1$, $|\theta|\le1$, $1/2\le\beta\le1$, and $F(t)=K(t-\theta t^\beta/\beta)$. For $X\ge16$, put $L=\log X$. If $|S(t)-F(t)|\le Dt$ for all $\sqrt X\le t\le X$, with $D\ge0$, then
+$$
+\left|\sum_{2\le n\le X}\frac{a_n}{\log n}
+-K\left(\operatorname{li}_2(X)-\theta\operatorname{li}_2(X^\beta)\right)\right|
+\le 5DX/L+40\sqrt X .
+$$
+
+**Proof.** Write $f(t)=1/\log t$. For every index $2\le n\le X$, substitute $f(n)=f(X)-\int_n^X f'(t)\,dt$ and exchange the finite sum with the integral. Since $f'(t)=-1/[t(\log t)^2]$, the result is
+$$
+\sum_{2\le n\le X}\frac{a_n}{\log n}
+=\frac{S(X)}{L}+\int_2^X\frac{S(t)}{t(\log t)^2}\,dt.
+$$
+The term at $2$ is included by construction. The step function is bounded on the compact interval and the kernel is continuous there. The smooth term satisfies
+$$
+\frac{F(X)}{L}+\int_2^X\frac{F(t)}{t(\log t)^2}\,dt
+=\frac{F(2)}{\log2}+K\left[\operatorname{li}_2(X)-\theta\left(\operatorname{li}_2(X^\beta)-\operatorname{li}_2(2^\beta)\right)\right].
+$$
+Indeed, the product rule for $F(t)f(t)$ reduces the integral to $F'(t)f(t)$. In the exceptional contribution $F'$ contains $-K\theta t^{\beta-1}$. Substituting $u=t^\beta$ gives $t^{\beta-1}dt/\log t=du/\log u$. Thus the factor $1/\beta$ from the weighted prediction disappears, and the minus sign persists.
+
+In the difference of these identities, the endpoint at $X$ costs $DX/L$. Over $[\sqrt X,X]$ the integral of the difference costs at most $4DX/L^2$, since $\log t\ge L/2$. On $[2,\sqrt X]$ use the elementary Chebyshev bound $\psi(t)\le(\log4+4)t\le6t$ and $|F(t)|\le3t$. As $\log2>1/2$, the integral there costs at most $36(\sqrt X-2)$. The lower endpoint term $F(2)/\log2$ has absolute value at most $12$. The term $K\theta\operatorname{li}_2(2^\beta)$ has absolute value at most $4$, since $2^\beta\in[\sqrt2,2]$ and $1/\log u\le4$ on this interval. Adding the bounds, using $L\ge1$, gives the claim.
+
+**Removing powers and returning to the sieve.** In the lemma take $a_n=\Lambda(n)\mathbf 1_{n\equiv b\bmod M}$ and $K=1/\varphi(M)$. The new weight on a term indexed by $p^j$ is exactly $1/j$. The excess over the actual prime count is therefore
+$$
+\sum_{\substack{j\ge2,\ p^j\le X\\p^j\equiv b\bmod M}}\frac1j.
+$$
+Each summand is at most $2\log p$ since $\log(p^j)>1/2$. Summing the weights $\log p$ over all proper powers up to $X$ costs at most $\sqrt X\log X$, since each base $p\le\sqrt X$ contributes at most $\log X$. In particular the excess is at most $4\sqrt X\log X$, the looser bound used by the archive. For example, at $X=49$ the proper powers $9,25,49$ in class $1\bmod 8$ add $3/2$ to the two primes $17,41$ after division by the logarithms. The interval $(7,49]$ keeps both primes and counts no proper powers. In class $7\bmod 8$, the prime $7$ is counted in the prefix and removed from the interval by subtracting the inclusive prefix at $7$.
+
+In the application, write $c,A_0,C_0$ for the constants of `PsiRel`, $L=\log X$, $d=\min(c/2,c^2/2)$ and $R=e^{-dL/l}+e^{-\sqrt{dL}}$. The condition $L\ge\max(2C_0,16)l\log(l+2)$ puts the entire interval $[\sqrt X,X]$ in range, with $D=|A_0|\eta R/\varphi(M)$. This gives the absolute error $5DX/L+44\sqrt X L$ in the prefix. The proof of [§4.10.3](#4103-conditional-splice-and-proof) compares it to $P_b(X)\ge X\eta/(2L\varphi(M))$. The second error, independent of $\eta$, uses `etaOf_lower` at exponent $1$. In the selected branch, $(1-\beta)l\ge (h_1/M)\log 3$, so $c_1/M\le\eta$ with $c_1=\min(1,h_1\log3)$. In the empty branch $\eta=1$ gives the same bound. The resulting relative error is at most
+$$
+\left(10|A_0|+\frac{5632e^{2d}}{c_1}\right)R.
+$$
+This is the witness in `prime_count_of_psi`, uniform over $X$ and $b$ with the same $eOf(M)$.
+
+The [§4.9 count](#49-counting-enough-candidates-before-the-sieve) uses two inputs. The call to `count_a` in `StagePow.lean:56` passes the assembled `PNTAPRelW` and separately passes `excBound`. In `MSqMain.lean:55–59`, `meanSquareHypW_of_pnt` takes `PNTAPRelW` and supplies that same separation theorem to `count_a`. The latter extracts its own exponent-$1$ witness and passes it to `count_pos` for the main-term lower bound. The interval contains $\pi_b(X)-\pi_b(\sqrt X)$ primes. This explains both the use of the relative prefix estimate and the strict lower endpoint in the count. The progression package in [§17.4.5](17-behrends-sphere-lemma-and-host-geometry.md#1745-from-congruence-primes-to-a-usable-host-field-scale) uses the separate declarations `exceptionalDirichletZero_unique_zeroFreeRegion` and `chebyshevPsiProgression_relative_error` in its polynomial-threshold route. The ray-class analogue is discussed in [§17.4.10](17-behrends-sphere-lemma-and-host-geometry.md#17410-the-exceptional-zero-in-the-trivial-ray-class-interval).
+
+#### What the estimates lose without a lower bound [Expository]
+
+In the logarithmic-power range take the model $A=1$, $q=m$, $x=2^{m^2}$ and $\beta=1-1/m^2$ for integers $m\ge2$. The range condition holds since $\log x=m^2\log2>m^2/2\ge m$. The gap is smaller than a constant times $1/\log q$ for large $m$. Even if every other term in the weighted progression formula has zero error, in the class with $\chi(a)=1$ the relative correction around $x/\varphi(q)$ has absolute value
+$$
+\frac{x^{\beta-1}}{\beta}=\frac{1}{2(1-1/m^2)}\ge\frac12 .
+$$
+It cannot be bounded by $C e^{-b\sqrt{\log x}}$ for fixed positive $C,b$. For the wider-range conversion keep $M$ and an admissible $X$ fixed and let a model real zero tend to $1$ from below. In the subtractive class $\theta=1$,
+$$
+0<P_b(X)=\frac1{\varphi(M)}\int_{X^\beta}^{X}\frac{dt}{\log t}
+\le \frac{X(1-\beta)}{\beta\varphi(M)}.
+$$
+Here $\log t\ge\beta\log X$ and $1-e^{-v}\le v$ for $v\ge0$. Thus $P_b(X)$ tends to zero, while the allowed additive error $44\sqrt X\log X$ does not shrink. Its quotient by $P_b(X)$ is unbounded at this fixed $X$. Both models test inferences from the estimates with the gap hypothesis removed. Their exponents are hypothetical.
+
+#### Reading record
+
+The [source register](../sources/SOURCES.md#chapter-4-siegel-and-relative-pnt) identifies each body used here. The direct real-zero wrappers, Siegel–Walfisz character proof and `PNTFinal` assembly have author-level local R3. The Abel summation and proper-power supply inherit the same-source preliminary review of the original conversion manuscript. The complete `siegelLower` proof and the deeper named inputs of the density, zero-free region and character-sum packages retain their reading boundaries. The rational checks of the two examples, local source reading, independent review and Lean kernel replay have separate scopes.
 
 ## 4.11 From separated inertia lines to residual irreducibility
 
