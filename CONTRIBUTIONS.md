@@ -2047,3 +2047,9 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **This book.** Hongmin Li with AI assistance contributed the exposition of the transport diagrams, finite field and number-field computations, and the Selmer, local Tate and Sha examples.
 
 - [18.3.18 Single-model assembly](chapters/18-auditing-the-published-layer-case-studies.md#18318-single-model-assembly)
+
+### Chapter 6 §§6.4.24–26 Local period comparison
+
+- **Classical literature.** Jean-Marc Fontaine gives the stable-line and top-exterior-power comparison. Olivier Brinon and Brian Conrad give the domain and fixed-fraction criterion, the Laurent and valuation-ring models, and the semistable context. Keith Conrad and J. S. Milne provide finite Galois descent and the fixed-field and conjugation identities. [Primary sources](sources/SOURCES.md#dpst-unramified-rank-source)
+- **Alpöge with Claude and the Mathlib community.** Archive A2 supplies the actual period actions, rank, matrix and coordinate declarations. The pinned library supplies the determinant, adjugate, bases, flatness and fixed-field proofs. [Declaration and supplier register](sources/SOURCES.md#dpst-unramified-rank-source)
+- **This book.** Hongmin Li with AI assistance contributes the textbook exposition, hand calculations, exact finite checks and consumer map. The rank and coordinate manuscripts have same-source preliminary reviews. [Published module](chapters/06-period-comparison-reading-guide.md) · [Review scope](notes/proof-map.md#chapter-6-period-comparison)

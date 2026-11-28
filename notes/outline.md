@@ -665,3 +665,9 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 | Chapter 19, §19.5 | [Chapter 19, §19.5](../chapters/19-published-layer-case-studies-ii.md#195-unramified-split-doubling) |
 | Chapter 19, §19.6 | [Chapter 19, §19.6](../chapters/19-published-layer-case-studies-ii.md#196-convergent-rallis-inner-product) |
 | Chapter 19, §19.7 | [Chapter 19, §19.7](../chapters/19-published-layer-case-studies-ii.md#197-status-of-the-open-items) |
+
+## Chapter 6 local period comparison
+
+- [§6.4.24](../chapters/06-stepanovs-method-and-multiplicity.md#dpst-unramified-rank-bound) puts finitely many potentially fixed periods over one field and proves the rank bound, with the crystalline consumer on the same tensors.
+- [§6.4.25](../chapters/06-stepanovs-method-and-multiplicity.md#period-ring-full-rank-surjectivity) follows the invariant columns and their determinant to an inverse over the period ring.
+- [§6.4.26](../chapters/06-stepanovs-method-and-multiplicity.md#semilinear-coordinate-descent) identifies fixed coordinates in the finite intersection and combines the two bounds to obtain `IsPst` from semistability over a finite extension. [Reading guide](../chapters/06-period-comparison-reading-guide.md)

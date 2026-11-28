@@ -1166,3 +1166,15 @@ limit's measurability before the scalar domination step. The Hölder product con
 - [§11.4.3.18](../chapters/11-the-window-bound-vwin.md#114318-local-cup-symbols-and-evaluation-of-artin-reciprocity) evaluates the positive carry cup using arithmetic Artin, follows the Kummer norm consumer into §11.4.5, and gives the real quadratic place calculation.
 
 [Lean, read] Author-level local R3 for the indicated A2 bodies. Degree-two exactness, the invariant and the pullback to each subgroup supply the three Tate tests at `SubsingletonCohomologyTopOfThreeLeInt.lean:49–51` and `FormationThree.lean:40–42`. `LocalClassFormationAlt.lean:184–207` gives the arithmetic instance used by `HighFormations.lean:14–18` and `Vanishing.lean:44–46`. The arithmetic Artin formula is consumed at `GlobalClassFormation/CupLocal.lean:67`, with the quadratic place branch at :76. `KummerCup.lean:225–252` uses the cyclic norm interface at :237 and supplies the two calls at `EqZeroOfForallCupPairingZmodMulEqZeroLeft.lean:79,115`. Local R3 follows the source ledger. The §16 independent review and §17 same-source review were partially established, with their corrections incorporated. The §18 same-source review established its five stated checks. Deeper reciprocity, central-simple algebra, and full local duality are named interfaces.
+
+<a id="chapter-6-period-comparison"></a>
+
+## Chapter 6 local period comparison (P7)
+
+| Section | Local proof body and actual handoff | Review |
+|---|---|---|
+| [§6.4.24](../chapters/06-stepanovs-method-and-multiplicity.md#dpst-unramified-rank-bound) | Local R3 [Lean, read] for `linearIndepOn_of_fixed`, `rank_DpstUr_le` and the direct `isPst_of_isCrys` consumer. The finite compositum fixes periods, and the constant inclusion transfers crystalline independence. | Same-source initial review established five items within the named hypotheses. Run `ssaudit-rhbook-ch06-dpst-rank-1126a-11251209-11251333`. |
+| [§6.4.25](../chapters/06-stepanovs-method-and-multiplicity.md#period-ring-full-rank-surjectivity) | Local R3 [Lean, read] for `span_eq_top_of_invariant`, `isCrys_iff_span`, `comparison_bijective` and `exists_periodMatrix_of_finrank`. The stable determinant spends `LineUnit` to obtain a ring inverse. | Author-level local reading. Run `rhbook-ch06-regular-fullrank-1126i-11251351-r-11251615` records the prior complete manuscript. |
+| [§6.4.26](../chapters/06-stepanovs-method-and-multiplicity.md#semilinear-coordinate-descent) | Local R3 [Lean, read] for `semilinear_coord_fixed`, `finrank_le_finrank_DpstUr_of_isSst`, `isPst_of_isSst_resTo` and `mem_closure_mulV_of_finrank_eq`. The last conclusion uses additive subgroup generation. | Same-source initial review established five items within the named hypotheses. Run `ssaudit-rhbook-ch06-semilinear-descent-1126u-11251633-11251733`. |
+
+The deeper comparison and full model suppliers retain their named scopes. The individual proof-body readings, finite example checks, and external final review and kernel replay have separate records. [Source register](../sources/SOURCES.md#dpst-unramified-rank-source)
