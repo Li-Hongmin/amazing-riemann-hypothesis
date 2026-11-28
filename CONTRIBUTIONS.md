@@ -2161,3 +2161,10 @@ Hongmin Li with AI assistance transcribed the conditional proof, traced the thre
 - **Classical sources** — Bosch, Güntzer and Remmert give the spectral norm extension and finite-extension completeness. Sutherland, Serre and Milne give the discrete local-field comparisons and compactness background. [Classical references](sources/SOURCES.md#chapter-11-finite-extensions-in-the-same-valuation-topology)
 - **Community** — Aapo Lipponen and the LUMI contributors provide the reading guide used to locate the earlier class-formation material. [Community source record](sources/SOURCES.md#g1)
 - **Hongmin Li with Codex** — textbook proof of the finite-stage topology comparison, explicit quadratic calculations in the fields already used by the class-formation section, and a separable infinite-tower boundary example. [Textbook section](chapters/11-the-window-bound-vwin.md#114321-why-finite-extensions-are-local-fields-in-the-same-valuation-topology)
+
+### Chapter 9 compact lowering-word stability (§9.4.32)
+
+- **A2.** Levent Alpöge with Claude supplies the archive's compact-word recursion and the finite-dimensional and lowest-type formal handoffs. [§9.4.32](chapters/09-heights-slopes-and-near-orthogonality.md#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span)
+- **Mathlib.** The span and submodule map files credit Johannes Hölzl, Mario Carneiro, Kevin Buzzard, Yury Kudryashov, Frédéric Dupuis and Heather Macbeth. The finite-dimensional file credits Chris Hughes. [Pinned interfaces](sources/SOURCES.md#chapter-9-compact-lowering-word-stability)
+- **Classical precedent.** Anthony W. Knapp describes the corresponding finite-dimensional highest-weight properties in Theorems 5.5 and 5.110. [Author PDF](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf)
+- **Textbook.** Hongmin Li with AI assistance gives the read-through of the diagonal and compact raising recursions, worked symmetric-power examples, counterexamples and the specific consumer map. [§9.4.32](chapters/09-heights-slopes-and-near-orthogonality.md#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span)

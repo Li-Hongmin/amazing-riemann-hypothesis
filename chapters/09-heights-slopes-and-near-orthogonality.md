@@ -2706,9 +2706,101 @@ For the table write `DS/` for `src/ReciprocityTheory/ReductiveGroups/DiscreteSer
 | R3 | `RA/RealPlaceTaylor/IntegrableComplexContinuousBoundedSupport.lean:363–457,521–561,579–632,661–900,956–1069,1072–1505` | Cutoff bounds, energy, adjoint pairing, quotient and word filtration. |
 | Direct consumers | `DS/DiscreteSeriesExistence/IsSmoothL2OfCasimirEigen.lean:32–50`, `EqZeroOfDatumEmbeddingEqZero.lean:15–31,49–84,158–188`, `DatumEmbeddingMemHlam.lean:135–168,230–257` in the same directory, `DS/TensorRepresentations/WeightedA.lean:65–95`, `WeightedB.lean:47–167` and `Weighted.lean:16–35` in the same directory | Seed weight zero, restriction and lowest-type statements, and tensor weight one half. |
 | Inherited | §§9.4.6, 9.4.8–9.4.15, 9.4.29–30 and `DS/DiscreteSeriesExistence/SlmPhiCont.lean:315–392` | Polar Haar, compact proofs and analytic closure, weighted seed, compact-finite recovery, and right-regular transfer. |
-| R2 / [Open] | `kLowSpan_kStable`, `lowWord_wt`, `HW.KType.dτ_irred`, `Lp.simpleFunc.dense`, `HCMultDSG`, `LowKMultOneG` | Deeper formal suppliers kept at their named interfaces, together with general classification and final-theorem reachability. |
+| R2 / [Open] | `kLowSpan_kStable`, `lowWord_wt`, `HW.KType.dτ_irred`, `Lp.simpleFunc.dense`, `HCMultDSG`, `LowKMultOneG` | Deeper formal suppliers kept at their named interfaces, together with general classification and final-theorem reachability. The two CFCoreA suppliers are read in [§9.4.32](#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span). |
 
 Local R3 here follows the original reading of the named A2 bodies. The original review accepted the mathematical argument and identified a rendering defect in the ladder formula. The fixed formula appears above. General classification, declaration-level reachability from `Main` for this module, and kernel replay retain separate status. [Source and attribution record](../sources/SOURCES.md#chapter-9-weighted-smooth-growth)
+
+### 9.4.32 Lowering-word weights and stability of the lowest K-type span
+
+**Motivation.** A highest vector in a lowest $K$-type sits at the top of its own compact weight diagram. To recover the type from that vector, one would like to apply only compact lowering operators. A lowering operator simply adds a letter to a word. The difficulty is to apply a raising operator and still obtain a linear combination of lowering words. The general compact word argument in [§9.4.10](#9410-the-highest-weight-line-of-a-compact-k-type) gives the background. Here we follow the list recursion and sign checks in the discrete-series producer `CFCoreA` used by [§9.4.31](#9431-weighted-smooth-growth-and-integrating-the-lowest-k-type). This producer works on an algebraic module, before any passage to the group.
+
+**Example 1 (one block, the symmetric square).** On the degree-two polynomials in $x_1,x_2$, put $E_{ab}=x_a\partial_{x_b}$ and take the two indices to have the same sign. For $y=x_1^2$, the only lowering letter is $F=E_{21}$ and the raising operator is $R=E_{12}$. Differentiation gives $Fy=2x_1x_2$ and $F^2y=2x_2^2$. The table gives all words, with $w_j=F^jy$ and the diagonal eigenvalues in coordinate order.
+
+| Word length $j$ | $w_j$ | Weight when nonzero | $Rw_j$ | $Fw_j$ |
+|---|---|---|---|---|
+| $0$ | $x_1^2$ | $(2,0)$ | $0$ | $w_1$ |
+| $1$ | $2x_1x_2$ | $(1,1)$ | $2w_0$ | $w_2$ |
+| $2$ | $2x_2^2$ | $(0,2)$ | $2w_1$ | $0$ |
+| $j\geq 3$ | $0$ | — | $0$ | $0$ |
+
+The list weight is $(2-j,j)$ for every $j$, including the zero values. To see the exchange at work, $[R,F]=E_{11}-E_{22}$ acts on $w_0,w_1,w_2$ by $2,0,-2$. Thus $RF^2y=F(RFy)+(E_{11}-E_{22})Fy=2Fy$. The three nonzero words form a basis. [Expository]
+
+**Example 2 (two interleaved sign blocks).** Use the same differential operators on degree-three polynomials in $x_1,x_2,x_3,x_4$, with $\epsilon_1=\epsilon_3$ and $\epsilon_2=\epsilon_4$ of opposite signs. The formula
+$$
+[x_a\partial_{x_b},x_c\partial_{x_d}]
+=\delta_{bc}x_a\partial_{x_d}-\delta_{da}x_c\partial_{x_b}
+$$
+follows by the product rule, since the terms with two derivatives cancel. Thus the full matrix-unit hypotheses hold. Take $y=x_1^2x_2$. The compact lowerers are $F=E_{31}$ and $G=E_{42}$, and the compact raisers are $R=E_{13}$ and $Q=E_{24}$. Both raisers kill $y$. The two lowerers commute, so every word with $p$ copies of $F$ and $q$ copies of $G$ acts by $w_{pq}=F^pG^qy$, regardless of order. The complete list of nonzero values is as follows.
+
+| $(p,q)$ | $w_{pq}$ | Joint diagonal weight | $Rw_{pq}$ | $Qw_{pq}$ | $Fw_{pq}$ | $Gw_{pq}$ |
+|---|---|---|---|---|---|---|
+| $(0,0)$ | $x_1^2x_2$ | $(2,1,0,0)$ | $0$ | $0$ | $w_{10}$ | $w_{01}$ |
+| $(1,0)$ | $2x_1x_2x_3$ | $(1,1,1,0)$ | $2w_{00}$ | $0$ | $w_{20}$ | $w_{11}$ |
+| $(2,0)$ | $2x_2x_3^2$ | $(0,1,2,0)$ | $2w_{10}$ | $0$ | $0$ | $w_{21}$ |
+| $(0,1)$ | $x_1^2x_4$ | $(2,0,0,1)$ | $0$ | $w_{00}$ | $w_{11}$ | $0$ |
+| $(1,1)$ | $2x_1x_3x_4$ | $(1,0,1,1)$ | $2w_{01}$ | $w_{10}$ | $w_{21}$ | $0$ |
+| $(2,1)$ | $2x_3^2x_4$ | $(0,0,2,1)$ | $2w_{11}$ | $w_{20}$ | $0$ | $0$ |
+
+Each $F$ replaces one $x_1$ by $x_3$, with the current $x_1$ exponent as multiplier, and $G$ does the same for $x_2,x_4$. Hence $p\geq3$ or $q\geq2$ gives zero, and the formal list weight is $(2-p,1-q,p,q)$ even then. Multiplying the reverse derivatives by their exponents gives the two raising columns. In particular, $[R,G]=[Q,F]=0$, while $[R,F]=E_{11}-E_{33}$ and $[Q,G]=E_{22}-E_{44}$. Each monomial in the span has degree $2$ in the first block and $1$ in the second. The cross-sign operator $E_{21}$ sends $y$ to $2x_1x_2^2$, whose block degrees are $1$ and $2$. This gives a proper compact-stable span inside a genuine full matrix-unit representation. [Expository]
+
+**Definitions.** Let $M$ be a complex vector space and let $E_{ab}$ be complex-linear endomorphisms indexed by the ordered set $\mathrm{Fin}(n)$, with indices starting at $0$ in Lean. The examples use indices starting at $1$. Write $\epsilon_a$ for a Boolean sign, and $e_a$ for the coordinate vector in the real weight space. In `IsGlRep`, multiplication is composition, and the asserted law for every four indices is
+$$
+[E_{ab},E_{cd}]=E_{ab}E_{cd}-E_{cd}E_{ab}
+=\delta_{bc}E_{ad}-\delta_{da}E_{cb}.
+$$
+The predicate `IsKHWVec` at $\mu\in\mathbb R^n$ asserts $E_{aa}y=\mu_a y$ for every $a$, with the real scalar cast to $\mathbb C$, and $E_{ab}y=0$ for $a<b$ with $\epsilon_a=\epsilon_b$. A nonzero witness is a separate hypothesis where needed. The stability predicate used here is `IsKStableSub`. It requires $E_{ab}S\subseteq S$ for every same-sign pair, including the diagonals. The group predicate `IsKStableOn` in the group bridge asks for $\sigma(k)S\subseteq S$ for each group element in the specified compact subgroup. The generic group predicate `IsKStable` elsewhere in A2 uses $k\in\operatorname{maxCpt}(G)=G\cap U(n)$ and requires $\pi(k)S\subseteq S$. [Lean, read]
+
+A pair $(c,d)$ is a compact lowering letter, `IsKLow`, when $d<c$ and $\epsilon_c=\epsilon_d$. Write $L(y)=\operatorname{kLowSpan}(\epsilon,E,y)$. It is the complex span of the following word values for lists of such letters:
+$$
+v_{\varnothing}=y,\qquad v_{(c,d)::w}=E_{cd}v_w .
+$$
+This is `lowWord`, with the tail applied first. The companion recursion `lowWt` begins at $\mu$ and adds $\operatorname{root}(c,d)=e_c-e_d$ at each letter. Thus a lowering letter adds the negative of the positive root $e_d-e_c$. In particular the sum of weight coordinates in each sign block is preserved, even when the order interleaves the signs. [Lean, read]
+
+**Lemma (the word has the recursively assigned weight).** Assume `IsGlRep` and the diagonal equations for $y$. For *every* list $w$, including lists of arbitrary pairs, the word satisfies
+$$
+E_{aa}v_w=\mu(w)_a v_w,\qquad
+\mu(w)=\mu+\sum_{(c,d)\text{ in }w}(e_c-e_d).
+$$
+Each occurrence contributes, and $\mu(w)$ describes a genuine weight of a word value when that value is nonzero. [Lean, read]
+
+**Proof.** For the empty list the claim is the starting equation. For a first letter $(c,d)$, the bracket with $E_{aa}$ gives $[E_{aa},E_{cd}]=(\delta_{ac}-\delta_{ad})E_{cd}$. Indeed, the first delta term survives when $a=c$, where $E_{ad}=E_{cd}$. The second survives when $a=d$, where $E_{ca}=E_{cd}$. When both survive they cancel. If $v_w$ is the shorter word, commute $E_{aa}$ to its right and use linearity:
+$$
+E_{aa}E_{cd}v_w
+=E_{cd}E_{aa}v_w+(\delta_{ac}-\delta_{ad})E_{cd}v_w
+=(\mu(w)_a+\delta_{ac}-\delta_{ad})E_{cd}v_w.
+$$
+This is the recursion, coordinate by coordinate. The Lean proof applies the endomorphism identity to $v_w$ before splitting the two index equalities. The diagonal equations suffice for this step. [Lean, read] `CFCoreA.lean:37–59`.
+
+**Lemma (compact cyclic span).** Assume `IsGlRep` and `IsKHWVec`. Then $L(y)$ is the smallest `IsKStableSub` subspace containing $y$. [Lean, read]
+
+**Proof.** Fix a compact pair $(a,b)$ and a compact lowering word $w$. If $b<a$, then $E_{ab}v_w$ is the word obtained by prepending $(a,b)$. If $a=b$, the weight lemma makes the image a scalar multiple of $v_w$. These are the two branches of `lowWord_mem_of_ge`. Prepending also shows that each compact lowerer preserves the entire span by linearity.
+
+For compact raisers, induct on the length of the word, simultaneously for *all* compact raisers. On the empty word the image is zero by the raising equation. Let the first letter be $(c,d)$ and the tail value be $u=v_w$. The exchange is
+$$
+E_{ab}E_{cd}u
+=E_{cd}(E_{ab}u)+\delta_{bc}E_{ad}u-\delta_{da}E_{cb}u .
+$$
+The induction hypothesis puts $E_{ab}u$ in $L(y)$, and prepending preserves that span. For the first bracket term, if $b=c$, the equalities $\epsilon_a=\epsilon_b=\epsilon_c=\epsilon_d$ give $\epsilon_a=\epsilon_d$. For the second term, if $d=a$, the same hypotheses give $\epsilon_c=\epsilon_b$. The zero terms require no operator membership. In particular, distinct sign blocks commute, and if both deltas are one the two surviving terms are diagonal. In each surviving term the operator acts on the shorter word $u$. If it raises, use the induction hypothesis for that pair. If it is diagonal or lowers, use the preceding $b\leq a$ argument with the new indices. This is the auxiliary assertion for every compact pair on the tail in `lowWord_raise`. Even when a bracket replaces the original raiser with a different raising unit, the length of its argument has decreased.
+
+To pass from generators to the whole span, the inverse image $E_{ab}^{-1}(L(y))$ is a subspace containing every generator. It contains $L(y)$ by the span property, which is precisely the `comap` step of `kLowSpan_kStable`. The empty word puts $y$ in $L(y)$. In any compact-stable subspace containing $y$, a separate induction using the tail recursion puts every word value in that subspace. Taking the span proves minimality. [Lean, read] `CFCoreA.lean:29–35,61–144`.
+
+**Remarks on the hypotheses.**
+
+- *Delete the raising equation.* In Example 1 take $y=x_1x_2$. It still has joint diagonal weight $(1,1)$ and the full bracket law holds. Its words span $\mathbb C x_1x_2+\mathbb C x_2^2$, since $Fy=x_2^2$ and $F^2y=0$. But $Ry=x_1^2$ is outside that span.
+- *Delete the Lie relation, keeping the highest equations and the diagonal commutators.* Give the vectors $u,z,v$ in a basis the respective diagonal weights $(1,0),(1,0),(0,1)$. With both indices of one sign, let $Fu=v$, $Fz=Fv=0$, $Rv=u+z$, and $Ru=Rz=0$. Each nonzero arrow has the prescribed diagonal shift. The vector $u$ satisfies both highest equations and $L(u)=\mathbb C u+\mathbb C v$. Here $Rv$ lies outside $L(u)$ and $[R,F]u=u+z$ differs from $(E_{11}-E_{22})u=u$.
+- *Finite dimension is an extra input.* With one sign block, the degree $-1$ subspace of $\mathbb C[x_1,x_1^{-1},x_2]$ carries $E_{ab}=x_a\partial_{x_b}$ and has the highest vector $y=x_1^{-1}$. Its lowering powers are $F^jy=(-1)^j j! x_1^{-1-j}x_2^j$. They are linearly independent. Example 2 exhibits the separate limit on stability under cross-sign operators. [Expository]
+
+**Where the span is used.** At `CFCoreA.lean:235`, `khw_line_of_kIrrHW` applies the irreducibility clause of an *already supplied* compact irreducible space $S$ to $L(y)\subseteq S$. Stability and the nonzero empty word force $L(y)=S$. At line 242 it invokes `kLowSpan_line` for the scalar conclusion. The latter takes infinitesimal unitarity: its use of the word-weight formula at line 213 is under that hypothesis. In the other direction, `kLowSpan_kIrrHW` inserts the independently supplied finite-dimensionality and the new stability result into the output at line 248. The remaining irreducibility step uses the signed adjoint law, orthogonal projection and the highest-line lemma. Thus the algebraic result supplies a field of `IsKIrrHW`. The full predicate also requires finite dimension, absence of proper nonzero compact-stable subspaces, and a nonzero highest vector of the specified weight. [Lean, read] for the calls and hypotheses.
+
+There are two concrete finite-dimensional inputs. In `VNormSqLowKSubRootLt.lean:132–137`, `exists_irr_sub_of_khw` starts with a finite-dimensional compact-stable $S$ containing $y$. Minimality puts $L(y)$ inside $S$ and dimension descends before invoking `kLowSpan_kIrrHW`. `FinalA.lean:25–36` uses this extraction in its finite-dimensional induction. In `CFCore.lean:75–94`, `casimir_eq_casVal_of_model` uses the paired highest vector in the product of the two supplied compact spaces. It bounds its lowering span inside that finite-dimensional product before calling the same irreducibility result. The resulting compact type is passed to the separate Casimir argument at lines 109–112. [Lean, read] for the calls.
+
+**Return to the lowest type.** The right-regular datum has its own finite-dimensional input. In `DatumIrr.lean:42–77`, `datumV_isKIrrHW` takes the range of the smooth embedding of an existing compact model and transfers derived irreducibility from that model. For the compact highest weight $\operatorname{lowK}(\epsilon,\lambda)=\lambda+\rho_N-\rho_C$, `weights_le_of_irr_hw` uses the new stability at `VNormSqLowKSubRootLt.lean:145` to identify the compact span with the supplied irreducible datum, and uses the word-weight equation at line 156. Under the adjoint law the diagonal operators are symmetric, so a weight vector is orthogonal to word values at different weights. Some word must have its weight, which gives compact dominance by counting the reversed pairs in the list. The wrapper `data_isKTypeOf` passes this dominance proof at `ExistsKhwGenSubOfKType.lean:158` to the [group integration bridge of §9.4.31](#9431-weighted-smooth-growth-and-integrating-the-lowest-k-type). `sigLam_lowK` consumes the result at `DatumEmbeddingMemHlam.lean:236–240` for existence and calls `data_lowK_eq` at lines 244–245 for uniqueness.
+
+The uniqueness call uses the already established [compact-finite recovery of §9.4.30](#9430-recovering-the-k-finite-vectors-of-the-generated-closure). Specifically, `PropsLowK.lean:27` applies `data_kfin_le` to the finite-dimensional group $K$-type $S$ in the closed generated representation. This moves $S$ into the image of the *full* algebraically generated module, where lines 31–37 extract a highest vector and locate it in the lowest datum $V$. `sigLam_kfin` also consumes `data_kfin_le` directly at `DatumEmbeddingMemHlam.lean:288–291`. The recovery uses the given Casimir scalar, the gap and group stability. Its full generated module and the compact lowering span constructed here have different generating operators. The weighted estimate `r0bG` and the strong derivative and group transport inputs are inherited from [§9.4.31](#9431-weighted-smooth-growth-and-integrating-the-lowest-k-type). [Lean, read] for the indicated handoffs.
+
+The classical finite-dimensional comparison is Knapp’s Theorems 5.5(b–d) and 5.110 and its remark. Within the trace-zero part of each sign block, the familiar highest-weight description gives the lowering direction, and the block centers act by scalars. Here the new reading is the archive's specific algebraic recursion and producer-to-consumer path. [Knapp, pp. 279–280, 335–336](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf) · [Pinned sources and attribution](../sources/SOURCES.md#chapter-9-compact-lowering-word-stability)
+
+The named algebraic proofs are at author-level local R3 [Lean, read]. The exact example checks are finite arithmetic. The prior reviews of the group bridge and compact-finite recovery apply within their published scope. The deeper supplies `HW.KType.dτ_irred`, `HCMultDSG` and `LowKMultOneG`, a global spectral gap, general classification, and declaration-level reachability and kernel replay from `Main` remain outside this reading. [Open]
 
 ---
 
