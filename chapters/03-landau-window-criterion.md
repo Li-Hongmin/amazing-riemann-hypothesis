@@ -964,6 +964,8 @@ The line ranges are `Mathlib/MeasureTheory/Measure/Prod.lean:71–101,169–202,
 
 #### Why rectangles determine the product measure
 
+The [nonnegative integral for measure-valued mixtures](15-two-proofs-side-by-side.md#154314-integrating-nonnegative-functions-against-mixtures-of-measures) explains the exchange used after the construction on sets below.
+
 **Motivation.** A rectangle has area equal to the product of its side lengths. The rectangle integration theorem also evaluates the areas of general measurable supports and uses two coordinate orders. We need a single measure on those supports before interchanging integrals of functions. Rectangles generate the product measurable sets and are closed under intersection. The latter property lets us compare measures on one finite rectangle at a time.
 
 **Example 1 (Lebesgue measure and counting measure).** Give $\mathbb R$ its Borel Lebesgue measure $\lambda$ and $\mathbb N=\{0,1,\ldots\}$ its counting measure $c$. Put $E=\bigcup_{k\ge0}[0,2^{-k}]\times\{k\}$. At $x=0$ the section is all of $\mathbb N$. On $2^{-m-1}<x\le 2^{-m}$ it is $\{0,\ldots,m\}$, and outside $[0,1]$ it is empty. The infinite value at the singleton $0$ contributes zero. Integrating the section masses gives

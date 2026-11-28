@@ -1375,3 +1375,11 @@ In **CFCore.lean:17–142**, the componentwise product supplies a finite-dimensi
 ## Chapter 1 §1.2.2.16
 
 Local R3 covers the short-vector supplier, the scaled-Gram denominator and finite interval, the genus scale and upper covolume bound, and the finite-cover assembly and wrapper. The exact-equality genus covolume theorem has a separate endpoint. The global finiteness wrapper is consumed by the definite class-representative argument. Its declaration-level reachability from Main and kernel replay are [Open]. [Chapter 1 §1.2.2.16](../chapters/01-statement-and-fidelity.md#12216-short-vectors-genus-covolume-and-the-finiteness-of-the-class-set) · [Pinned source record](../sources/SOURCES.md#chapter-1-12216-short-vectors-and-class-set-finiteness)
+
+### Chapter 15 integration against mixtures
+
+In pinned Mathlib, `Measure/GiryMonad.lean:190–217` reduces the join exchange to simple levels and then moves the increasing supremum. The null hull and a.e. fibre passage are at 159–178. `lintegral_bind` at 285–287 follows join with `Integral/Lebesgue/Map.lean:36–47`. `bind_bind` at 293–300 tests each measurable set and applies the exchange with the a.e. second family.
+
+`Measure/Prod.lean:1009–1012` consumes the exchange and the a.e. fibre hypothesis. `Integral/Marginal.lean:144–146` uses this after the block equivalence, and `Measure/Lebesgue/Basic.lean:401–407` consumes the complementary marginal comparison for the transvection. Theorem 15.14(3) uses the same block integral for weighted rectangles, with rectangle uniqueness and the original density identities as inherited inputs. `WithDensity.lean:691–722` contains the binary product-density consumers.
+
+Author-level local R3 [Lean, read] for the indicated bodies. Independent review and kernel replay for this subsection are pending. [Section](../chapters/15-two-proofs-side-by-side.md#154314-integrating-nonnegative-functions-against-mixtures-of-measures) · [Source ledger](../sources/SOURCES.md#chapter-15-integration-against-mixtures)

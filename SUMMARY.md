@@ -50,6 +50,7 @@
 # Part IV. Comparison and assessment
 
 - [14. Masullo's trace-formula route](chapters/14-masullos-trace-formula-route.md)
+<!-- Chapter 15 includes §15.4.3.14 (#154314-integrating-nonnegative-functions-against-mixtures-of-measures). -->
 - [15. Two proofs side by side](chapters/15-two-proofs-side-by-side.md)
 - [16. Open problems and what remains to be checked](chapters/16-open-problems-and-what-remains.md)
 - [18. Auditing `GlobalTheory.Published`: worked statement-fidelity case studies (`P18`)](chapters/18-auditing-the-published-layer-case-studies.md)

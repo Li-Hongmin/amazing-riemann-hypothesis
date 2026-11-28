@@ -1960,7 +1960,7 @@ paths under `Mathlib/`.
 | Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the remaining regularity and $\sigma$-finiteness instances (the [compact-exhaustion instance](03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity) is read in Chapter 3); measurability of multiplication under second countability; the archive's own call sites of these theorems |
 | Literature | Halmos, *Measure Theory* (1950), Ch. XI, §§59–60, as cited by `Group/Prod.lean` [Halmos1950; bibliographic record checked, text not consulted]; F. van Doorn, "Formalized Haar Measure", ITP 2021, §6 [vanDoorn2021]; C. McQuillan's answer to S. Gouëzel's MathOverflow question 456670 [McQuillan2024] |
 
-**Reading order.** [Finite covers and Haar existence](#15434-constructing-haar-measure-from-finite-covers) supply the comparison measure used above. [Finite-place products](#15435-finite-place-products-from-rectangles-and-marginals) recover the density and transport constants of Theorem 15.6. [Carathéodory restriction](#15436-from-outer-measure-to-a-countably-additive-measure) supplies both measure constructions.
+**Reading order.** [Finite covers and Haar existence](#15434-constructing-haar-measure-from-finite-covers) supply the comparison measure used above. [Finite-place products](#15435-finite-place-products-from-rectangles-and-marginals) recover the density and transport constants of Theorem 15.6. [Carathéodory restriction](#15436-from-outer-measure-to-a-countably-additive-measure) supplies both measure constructions. [Nonnegative integration against mixtures](#154314-integrating-nonnegative-functions-against-mixtures-of-measures) supplies the binary integral used in the block proof.
 
 #### 15.4.3.4 Constructing Haar measure from finite covers
 
@@ -2280,6 +2280,8 @@ The upper bound on a box follows from its cost, with the empty box handled by th
 For uniqueness, the rectangles with sides in $\mathcal C_i$ are a $\pi$-system with the empty intersection treated separately. They are measurable because they are finite intersections of cylinders. Conversely, a cylinder from the coordinate generator in position $i$ is a countable union of these boxes. Fix the prescribed side in position $i$ and use the countable cover in every other coordinate. A finite tuple of natural-number indices ranges over a countable set. This gives the two inclusions for `generateFrom_eq_pi`. Taking side covers in all positions also supplies countably many finite-mass boxes $B_n$ covering $X$. With all measurable sides one can choose increasing finite side exhaustions and use their diagonal products. The pinned `FiniteSpanningSetsIn.pi` enumerates tuples even for general side families, using measurable hulls for the finite-mass bound.
 
 If $Q$ agrees on the rectangles, restrict $P$ and $Q$ to a single $B_n$. They have the same finite total and agree on each generating rectangle since its intersection with $B_n$ is another generating rectangle or empty. The measurable sets on which the restrictions agree form a Dynkin system. For complements subtract from the common finite total, and for disjoint countable unions use countable additivity. The $\pi$–$\lambda$ theorem gives equality of restrictions. To recover the measures on all of $X$, split the cover into disjoint pieces $B_n\setminus\bigcup_{k<n} B_k$ and sum. This is the finite cancellation in `ext_of_generateFrom_of_cover` and the subsequent assembly of equal restrictions. Only the reference measure needs an assumed finite spanning family. The competitor inherits the same masses from rectangle agreement. For all measurable sides this is `Measure.pi_eq`. The pinned proof then identifies the list product with the canonical product and obtains `pi_pi`. $\square$
+
+For the binary Tonelli call in the next proof, see [§15.4.3.14](#154314-integrating-nonnegative-functions-against-mixtures-of-measures).
 
 **Lemma 15.13b (block integration and order).** [Lean, read] Let the factors be as in Lemma 15.13a. Reindexing by a bijection transports the product to the product of the relabelled measures. Splitting into two disjoint coordinate blocks identifies their product with the product on the union. If measurable $f,g:X\to[0,\infty]$ have $M_J f=M_J g$ pointwise, their full lower integrals agree. [Pinned Mathlib, `Constructions/Pi.lean:730–739`][ch15-pi-blocks] · [`Constructions/Pi.lean:781–788, 824–835, 893–901`][ch15-pi-glue] · [`Integral/Marginal.lean:78–156, 187–196, 220–239`][ch15-marginal]
 
@@ -3124,6 +3126,133 @@ Bruhat proves the underlying local compactness criterion for a nontrivial valuat
 [ch15-vg-suth10]: https://math.mit.edu/classes/18.785/2021fa/LectureNotes10.pdf
 [ch15-vg-milne]: https://www.jmilne.org/math/CourseNotes/ANT.pdf
 [ch15-vg-bruhat]: https://mathweb.tifr.res.in/Documents/Publications/Lectures/tifr27.pdf
+
+#### 15.4.3.14 Integrating nonnegative functions against mixtures of measures
+
+**Motivation.** The section measures in a binary product vary with the first coordinate. Chapter 3 integrates their values on measurable sets to construct the product. What happens when the test is any nonnegative function? The answer supplies the lower-integral step in Lemma 15.13b and explains why successive mixtures can be regrouped. We write $\int^{\!-}$ for the lower Lebesgue integral, with values in $[0,\infty]$. [Chapter 3, the construction on sets](03-landau-window-criterion.md#why-rectangles-determine-the-product-measure) · [Lemma 15.13b](#15435-finite-place-products-from-rectangles-and-marginals)
+
+**First example.** An experiment selects one of two dice with probabilities $1/3$ and $2/3$. To calculate the mean of a nonnegative payoff, one can mix the two outcome laws and compute the mean, or compute the mean for each die and weight the answers. With a continuum of possible laws, the choice of law itself has a distribution. We need to know which functions of a law are measurable.
+
+**Definition (evaluation, join and bind).** For a measurable space $Y$, let $\mathcal M(Y)$ denote all countably additive measures on $Y$. Give it the smallest $\sigma$-algebra making $e_B(\eta)=\eta(B)$ measurable for each measurable $B\subseteq Y$, with $[0,\infty]$ carrying its Borel structure. The generating sets are the inverse images $e_B^{-1}(U)$ for Borel $U$. Taking their preimages under $K:X\to\mathcal M(Y)$ proves that $K$ is measurable exactly when $x\mapsto K(x)(B)$ is measurable for each measurable $B$. Such a family is a kernel. Its values are probability measures in a Markov kernel. For a measure $\mu$ on $X$, $\mu$-a.e. measurability of a family requires one measurable measure-valued representative agreeing with it outside a $\mu$-null set. [Pinned evaluation criterion][ch15-bind-eval] · [Vákár and Ong, §2][ch15-bind-vak]
+
+Given a measure $m$ on $\mathcal M(Y)$, its join $Jm$ is the measure on $Y$ satisfying
+$$
+(Jm)(B)=\int^{\!-}_{\mathcal M(Y)}\eta(B)\,dm(\eta)
+\qquad (B\text{ measurable}).
+$$
+For a disjoint measurable sequence, the evaluations of the union are sums of the evaluations of the terms. Integrating the increasing finite sums gives countable additivity, with the empty set giving zero. Bind, written $\mu\mathbin{\gg=}K$, is $J(K_*\mu)$. It first pushes the base measure forward along $K$, then takes the join. The inherited `Measure.bind_apply` gives $(\mu\mathbin{\gg=}K)(B)=\int^{\!-}_X K(x)(B)\,d\mu(x)$ for measurable $B$ if $K$ is $\mu$-a.e. measurable. The pinned pushforward uses a measurable representative in that case and returns zero when no such representative exists. [Pinned join on sets][ch15-bind-sets] · [Pinned bind on sets][ch15-bind-bind-sets] · [Pinned pushforward][ch15-bind-map-def]
+
+**Lemma (join and nonnegative integration).** [Lean, read] For every measure $m$ on $\mathcal M(Y)$ and $h:Y\to[0,\infty]$ that is $Jm$-a.e. measurable, $L_h(\eta)=\int^{\!-}_Y h\,d\eta$ is $m$-a.e. measurable and
+$$
+\int^{\!-}_Y h\,d(Jm)=\int^{\!-}_{\mathcal M(Y)} L_h(\eta)\,dm(\eta).
+$$
+If $h$ is measurable then $L_h$ is measurable on $\mathcal M(Y)$. These are `Measure.lintegral_join`, `Measure.aemeasurable_lintegral` and `Measure.measurable_lintegral`. [Pinned proofs][ch15-bind-join-int]
+
+*Proof.* For the indicator $1_B$ of a measurable set, $L_{1_B}=e_B$ and the identity is join evaluation. For a nonnegative simple function $s$, let $R_s$ be its finite range and $B_r=s^{-1}(\{r\})$ its measurable level sets. Then
+$$
+L_s(\eta)=\sum_{r\in R_s}r\,e_{B_r}(\eta),
+\qquad
+\int^{\!-}_Y s\,d(Jm)=\sum_{r\in R_s}r\int^{\!-}_{\mathcal M(Y)} e_{B_r}\,dm.
+$$
+The first expression is measurable. Finite addition and scalar multiplication for the one-space lower integral turn the second expression into $\int^{\!-} L_s\,dm$. These laws use extended nonnegative arithmetic, so $0\cdot\infty=\infty\cdot0=0$. A level of value zero contributes zero even on a set of infinite mass. In the production proof these are `SimpleFunc.lintegral`, `lintegral_finsetSum` and `lintegral_const_mul`. [Simple integrals][ch15-bind-simple] · [Finite sums and scalar multiplication][ch15-bind-add]
+
+For measurable $h$, enumerate the nonnegative rationals as $q_k$, allowing repetitions. The pinned approximation takes $s_n(y)$ to be the maximum of zero and the $q_k$ with $k<n$ and $q_k\le h(y)$. This is a finite maximum of constants on measurable superlevel sets, extended by zero, so $s_n$ is measurable and simple. Increasing $n$ increases the maximum. At zero every term vanishes, at a positive finite value rational density gives that value as the supremum, and at infinity the included rationals are unbounded. Thus $s_n\uparrow h$. This is `SimpleFunc.eapprox`. The same sequence works for every measure. One-space monotone convergence yields $L_h=\sup_n L_{s_n}$ pointwise, hence $L_h$ is measurable. The integrals $L_{s_n}(\eta)$ increase for each $\eta$, so monotone convergence also applies for $m$:
+$$
+\int^{\!-}_Y h\,d(Jm)
+ =\sup_n\int^{\!-}_Y s_n\,d(Jm)
+ =\sup_n\int^{\!-}_{\mathcal M(Y)}L_{s_n}\,dm
+ =\int^{\!-}_{\mathcal M(Y)}L_h\,dm.
+$$
+The pin writes the inner limits using `lintegral_eq_iSup_eapprox_lintegral` and moves the outer supremum using `lintegral_iSup`. [Rational approximation][ch15-bind-approx] · [One-space monotone convergence][ch15-bind-mct]
+
+For the a.e. case choose a measurable $h_0$ equal to $h$ $Jm$-a.e. Enclose the disagreement set in a measurable $Jm$-null set $N$. Then $\int^{\!-}e_N\,dm=(Jm)(N)=0$. The integrand is measurable and nonnegative, so $\eta(N)=0$ for $m$-almost every $\eta$. Thus $h=h_0$ $\eta$-a.e. for $m$-almost every $\eta$, and $L_h=L_{h_0}$ $m$-a.e. This supplies the representative of $L_h$. Integral congruence on both sides gives the claimed identity. The same null-hull argument transports any fixed $Jm$-a.e. property, as in `ae_ae_of_ae_join`. Its exceptional family of $\eta$ can depend on the property. $\square$ [Null transport and representatives][ch15-bind-join-ae]
+
+**Theorem (bind and nonnegative integration).** [Lean, read] For arbitrary measurable spaces $X,Y$, a measure $\mu$ on $X$, a $\mu$-a.e. measurable $K:X\to\mathcal M(Y)$, and an $(\mu\mathbin{\gg=}K)$-a.e. measurable $h:Y\to[0,\infty]$, one has
+$$
+\int^{\!-}_Y h\,d(\mu\mathbin{\gg=}K)
+ =\int^{\!-}_X\left(\int^{\!-}_Y h\,dK(x)\right)d\mu(x).
+$$
+Both the base and the fibre measures may have arbitrary mass. Neither $\sigma$-finiteness nor s-finiteness is assumed. [Pinned `Measure.lintegral_bind`][ch15-bind-body]
+
+*Proof.* Put $m=K_*\mu$. The hypothesis on $h$ is exactly a.e. measurability for $Jm$. The join lemma identifies the left side with $\int^{\!-}_{\mathcal M(Y)}L_h\,dm$ and makes $L_h$ $m$-a.e. measurable. Apply `lintegral_map'` to $L_h$ and $K$, using a.e. measurability for $K_*\mu$ and $\mu$, respectively. In detail, choose measurable representatives $K_0$ and $L_0$ for these two a.e. equalities. Pushforward congruence gives $(K_0)_*\mu=m$. The measurable transport formula follows on simple functions by taking preimages of their level sets and extends by the rational approximation above, which commutes with composition. Hence $\int^{\!-} L_h\,dm=\int^{\!-} L_0\,dm=\int^{\!-} L_0(K_0(x))\,d\mu(x)$. Replace $K_0$ by $K$ on their $\mu$-full equality set. A measurable $m$-null hull for $\{L_h\ne L_0\}$ has $\mu$-null preimage under $K_0$, so $L_0(K(x))=L_h(K(x))$ $\mu$-a.e. This gives the desired outer integral, with a measurable representative. $\square$ [Pinned integral transport][ch15-bind-int-map]
+
+**Theorem (associativity).** [Lean, read] Given $\mu$ on $X$, $K:X\to\mathcal M(Y)$ and $G:Y\to\mathcal M(Z)$, assume $K$ is $\mu$-a.e. measurable and $G$ is $(\mu\mathbin{\gg=}K)$-a.e. measurable. Then
+$$
+(\mu\mathbin{\gg=}K)\mathbin{\gg=}G
+   =\mu\mathbin{\gg=}\bigl(x\mapsto K(x)\mathbin{\gg=}G\bigr).
+$$
+This groups three layers consisting of an initial law and two transitions. For three measurable kernels one can take the initial law to be the value of the first kernel at each input, obtaining pointwise associativity of kernel composition. The order of integration variables is preserved. [Pinned `Measure.bind_bind`][ch15-bind-assoc]
+
+*Proof.* Write $\lambda=\mu\mathbin{\gg=}K$ and choose a measurable representative $G_0$ of $G$ for $\lambda$. Transport $G=G_0$ first from $J(K_*\mu)$ to the fibres of $K_*\mu$ and then back along $K$. This gives $G=G_0$ $K(x)$-a.e. for $\mu$-almost every $x$. In particular $G$ is $K(x)$-a.e. measurable for those $x$. The lemma `bind_congr_right` follows by applying join to pushforward congruence, so $K(x)\mathbin{\gg=}G$ equals $K(x)\mathbin{\gg=}G_0$ for $\mu$-almost every $x$. For each measurable $C\subseteq Z$ the evaluation of $\eta\mathbin{\gg=}G_0$ at $C$ is the integral against $\eta$ of the measurable function $y\mapsto G_0(y)(C)$. By the join lemma this evaluation is measurable in $\eta$. The evaluation criterion makes $\eta\mapsto\eta\mathbin{\gg=}G_0$ measurable. Composing with a measurable representative of $K$ gives a representative of $x\mapsto K(x)\mathbin{\gg=}G$, as in the composition using `aemeasurable_bind`. [Null transport and congruence][ch15-bind-null] · [Measurability of bind][ch15-bind-meas]
+
+Fix any measurable $C\subseteq Z$. The map $y\mapsto G(y)(C)$ is $\lambda$-a.e. measurable by evaluation of $G_0$. Applying `bind_apply` and then `lintegral_bind` gives
+$$
+\bigl((\mu\mathbin{\gg=}K)\mathbin{\gg=}G\bigr)(C)
+ =\int^{\!-}_X\left(\int^{\!-}_Y G(y)(C)\,dK(x)(y)\right)d\mu(x).
+$$
+On the $\mu$-full set found above, `bind_apply` on the fibre identifies the inner integral with $(K(x)\mathbin{\gg=}G)(C)$. Integral congruence and `bind_apply` for the composite identify the right-hand measure at $C$. Equality on all measurable sets proves the claim. For pointwise measurable kernels the composite is pointwise measurable and the fibre calculation holds for each $x$. $\square$ [Pinned associativity proof][ch15-bind-assoc]
+
+There is also a three-level join law. For a measure $Q$ on $\mathcal M(\mathcal M(Y))$, $J(JQ)=J(J_*Q)$, with joins at the indicated levels. For any measurable $B\subseteq Y$ apply the join lemma to the measurable evaluation $e_B$ with outer measure $Q$:
+$$
+(J(JQ))(B)=\int^{\!-}_{\mathcal M(\mathcal M(Y))}\left(\int^{\!-}_{\mathcal M(Y)} \eta(B)\,dm(\eta)\right)dQ(m)
+ =\int^{\!-}_{\mathcal M(\mathcal M(Y))}(Jm)(B)\,dQ(m).
+$$
+Measurability in $m$ of each such evaluation makes $J$ measurable. The last integral is the evaluation of $J(J_*Q)$. The pin states the equality in the reverse direction as `join_map_join`, deriving it from `bind_bind` using `join_eq_bind`. [Pinned `measurable_join`][ch15-bind-join-int] · [Pinned flattening][ch15-bind-flatten]
+
+**Worked example 1 (unequal Markov weights).** Give all three two-point spaces their full $\sigma$-algebras. Take initial weights $(1/3,2/3)$ and the following transitions, with rows denoting the input states.
+$$
+K=\begin{pmatrix}3/4&1/4\\1/4&3/4\end{pmatrix},
+\qquad
+G=\begin{pmatrix}4/5&1/5\\2/5&3/5\end{pmatrix}.
+$$
+All rows sum to one. The intermediate masses are $1/4+1/6=5/12$ and $1/12+1/2=7/12$. The terminal masses are $(17/30,13/30)$, since the first is $(5/12)(4/5)+(7/12)(2/5)$. Composing the kernels first gives rows $(7/10,3/10)$ and $(1/2,1/2)$, so the first terminal mass is $(1/3)(7/10)+(2/3)(1/2)=17/30$ again and the other is $13/30$. The four terminal sets have masses $0,17/30,13/30,1$. For payoff $(2,5)$ the terminal integral is $2(17/30)+5(13/30)=33/10$. The fibre integrals under $G$ are $(13/5,19/5)$, and integrating them in the fibres of $K$ gives $(29/10,7/2)$. The weighted average is $(1/3)(29/10)+(2/3)(7/2)=33/10$.
+
+**Worked example 2 (a countable kernel with infinite atoms).** Give $X=\{1,2,\ldots\}\sqcup\{a,b\}$ the $\sigma$-algebra of unions of the singletons $\{n\}$ and the atom $\{a,b\}$. Give $n\ge1$ mass $2^{-n}$ and $\{a,b\}$ mass zero. Take $Y=\{p,q,r,s\}$ with measurable atoms $\{p\},\{q\},\{r,s\}$. Set
+$$
+K(n)=\infty\delta_p+n\delta_q\quad(n\ge1),\qquad
+K(a)=K(b)=\infty\delta_q+\delta_r .
+$$
+Here $\delta_r=\delta_s$ on this $\sigma$-algebra. The family is measurable because it is constant on each measurable atom. Replace $K(b)$ by zero to form $\widetilde K$. Evaluation at $\{q\}$ distinguishes $a,b$, so $\widetilde K$ fails pointwise measurability. It is $\mu$-a.e. measurable with representative $K$.
+
+Both mixtures assign masses $\infty,2,0$ to the three atoms of $Y$. The first has a positive-weight infinite contribution already at $n=1$. The second is the limit of $\sum_{n=1}^N n2^{-n}=2-(N+2)2^{-N}$, whose induction step adds $(N+1)2^{-(N+1)}$. The error tends to zero since the ratio of consecutive errors is $(N+3)/(2(N+2))\le 2/3$ for $N\ge1$. The null atom contributes zero even when its evaluation is infinite. The third atom receives no mass from the support of $\mu$. These atom masses determine all eight measurable set values by addition. Any measurable set containing $p$ has infinite mass, so the mixture is outside the class of $\sigma$-finite measures.
+
+Take $h(p)=0,\ h(q)=3,\ h(r)=\infty,\ h(s)=1$. It is a.e. measurable for the mixture with representative $h_0=(0,3,0,0)$ in that order. The integral of $h_0$ against the mixture is $0\cdot\infty+3\cdot2+0\cdot0=6$. For each $n\ge1$, $h=h_0$ $K(n)$-a.e., with integral $0\cdot\infty+3n=3n$. At $a$ the measurable minorant $3\,1_{\{q\}}$ already has infinite integral. For $\widetilde K(b)$ the integral is zero. The two exceptional values on $\{a,b\}$ disappear from the outer integral, whose representative takes value zero on that atom. It equals $\sum_{n\ge1}2^{-n}(3n)=6$. The law $K_*\mu$ is the sum of Dirac measures at the distinct measures $\infty\delta_p+n\delta_q$ with weights $2^{-n}$. Join therefore gives the same atom masses and the same integral.
+
+For a second transition, let the terminal space be $\{u,v\}$ with all subsets measurable. Put $G(p)=0$, $G(q)=2\delta_u+\delta_v$, $G(r)=\infty\delta_v$ and $G(s)=\delta_u$. The last two values disagree on the null atom $\{r,s\}$ of the intermediate mixture, so $G$ has a measurable representative $G_0$ obtained by setting both to zero. Mixing the intermediate law against $G$ gives masses $(4,2)$: the infinite atom at $p$ contributes zero and the mass two at $q$ supplies both coordinates. For each $n$, mixing $K(n)$ against $G$ gives $(2n,n)$. The base mixture of these rows gives $(4,2)$ again. At $a$ the fibre assigns mass one to $\{r,s\}$. Every $K(a)$-a.e. representative would have to match both values there, since the only measurable null atom is $\{p\}$. A measurable representative must be constant on $\{r,s\}$, so the pinned bind there is zero. Using $G_0$ instead would give $(\infty,\infty)$ there. The two values at $a$ are immaterial to the base mixture, since $\mu(\{a,b\})=0$. This is the distinction between the fibre premise almost everywhere in the base and the same premise at every input.
+
+**Failure upon dropping the kernel premise.** Take $X=\{a,b\}$ with the trivial $\sigma$-algebra and $\mu(X)=1$. Take $Y=\{0,1\}$ with the full $\sigma$-algebra and set $K(a)=\delta_0$, $K(b)=\delta_1$. Evaluation at $\{0\}$ distinguishes the two points. The only $\mu$-null set is empty, so the family has no measurable representative. The two singleton evaluations have lower integrals zero, because each vanishes somewhere and a measurable simple minorant on $X$ must be constant. The evaluation at $Y$ integrates to one. These three values violate finite additivity. In the pinned definition $K_*\mu=0$, so for $h=1$ the left side of the bind identity is zero and the right side is one. This example uses probability measures at every input. [Pushforward fallback][ch15-bind-map-def] · [Lower integral by simple minorants][ch15-bind-minorants]
+
+**Connection to rectangles and half-densities.** In a binary product $\mu\times\nu$, the family is $x\mapsto(y\mapsto(x,y))_*\nu$. Its construction and set evaluation are those of Chapter 3. The exact next call is `MeasureTheory.lintegral_prod` at `Measure/Prod.lean:1006–1012`. It unfolds `Measure.prod`, invokes `lintegral_bind` with `Measurable.map_prodMk_left.aemeasurable`, transports a.e. measurability to almost every pushed-forward fibre, and applies `lintegral_map'` on those fibres. The binary theorem retains `[SFinite ν]` for measurability of this particular family. `Integral/Marginal.lean:132–149` calls `lintegral_prod` after the measure-preserving block equivalence. Its complementary-block consequence `lintegral_eq_of_lmarginal_eq` at lines 233–238 is the comparison used for the transvection in `Measure/Lebesgue/Basic.lean:398–407`. The diagonal scaling argument uses `pi_eq` on rectangles, as in Lemma 15.13a. [Binary consumer][ch15-bind-prod] · [Block consumer][ch15-bind-marginal] · [Transvection and diagonal scaling][ch15-bind-transvection]
+
+Theorem 15.14(3) uses Lemma 15.13b on each rectangle for $\prod_v(1_{A_v}w_v)(x_v)$, where $w_v=c_v\Delta_v^{-1}$. The bind supply enters the first equality of that product-density calculation, through the iterated integral. The factorwise density identities give the rectangular masses and rectangle uniqueness identifies the measures. The library also has binary consumers `prod_withDensity_left₀` and `prod_withDensity_right₀`, which call `lintegral_prod` in tests for equality of measures. The final norm computation uses the separate single-measure density formula, with the original $c_S$ and the invertible locus. Masullo's positive-width strip trace and its independence of the strip parameter still require the operator and convergence arguments discussed in Chapter 14. The nonnegative exchange only concerns tests on the measure space. [Finite-place proof](#15435-finite-place-products-from-rectangles-and-marginals) · [Density consumers][ch15-bind-density] · [Masullo, §§12.4–12.5][ch15-bind-masullo] · [Chapter 14](14-masullos-trace-formula-route.md)
+
+**Reading and attribution.** The proof follows the pinned all-measures construction, using one-space monotone convergence, integral null congruence and measurable null hulls. The classical Giry construction uses probability measures. Avery gives the indicator, simple and limiting measurability argument in Lemma 2.5, the join in Definition 2.6 and the monad laws in Proposition 2.7. Vákár and Ong give the composition of general measurable kernels in §2, before imposing s-finiteness on the class used in their later results. Mathlib supplies the precise a.e. variants and representative transport. The examples and the connections to the book proofs are textbook exposition. [Giry][ch15-bind-giry] · [Avery][ch15-bind-avery] · [Vákár and Ong][ch15-bind-vak] · [Pinned declaration ledger](../sources/SOURCES.md#chapter-15-integration-against-mixtures)
+
+[ch15-bind-eval]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L48-L79
+[ch15-bind-sets]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L123-L137
+[ch15-bind-map-def]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Map.lean#L87-L125
+[ch15-bind-join-int]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L174-L217
+[ch15-bind-simple]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFunc.lean#L950-L962
+[ch15-bind-add]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/Add.lean#L341-L400
+[ch15-bind-approx]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFunc.lean#L820-L915
+[ch15-bind-mct]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/Add.lean#L30-L94
+[ch15-bind-join-ae]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L159-L178
+[ch15-bind-body]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L285-L287
+[ch15-bind-int-map]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/Map.lean#L27-L47
+[ch15-bind-assoc]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L293-L300
+[ch15-bind-null]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L244-L255
+[ch15-bind-meas]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L266-L274
+[ch15-bind-flatten]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L318-L332
+[ch15-bind-minorants]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Lebesgue/Basic.lean#L43-L51
+[ch15-bind-prod]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Prod.lean#L998-L1012
+[ch15-bind-marginal]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Marginal.lean#L132-L149
+[ch15-bind-transvection]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L364-L408
+[ch15-bind-density]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/WithDensity.lean#L689-L722
+[ch15-bind-bind-sets]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/GiryMonad.lean#L226-L237
+[ch15-bind-giry]: https://doi.org/10.1007/BFb0092872
+[ch15-bind-avery]: https://arxiv.org/pdf/1410.4432#page=6
+[ch15-bind-vak]: https://arxiv.org/pdf/1810.01837#page=6
+[ch15-bind-masullo]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518
 
 ### 15.4.4 Axis IV: Arithmetic geometry versus nuclear functional analysis — and the opposite fate of $\mathbb F_q(X)$
 
