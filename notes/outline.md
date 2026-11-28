@@ -281,6 +281,8 @@ Chapter 19 §19.3.11 reads the archive's second raw-host constructor, the layer 
 
 Chapter 19 §19.3.18 proves the primitive-root minimal relation for every positive order using Gauss's lemma, transport by primes away from the order and squarefreeness after reduction. It computes orders $12$ and $15$ and traces the original quotient and host consumers. [§19.3.18](../chapters/19-published-layer-case-studies-ii.md#19318-cyclotomic-irreducibility-and-the-primitive-roots-minimal-polynomial)
 
+Chapter 19 §19.3.20 proves the three discriminant bounds for the general raw host from its single Artin kernel. Two worked moduli track every divisor and the counterexamples show the need for the specified two-adic and fixed-field data. The layer calculation remains in §19.3.13. [§19.3.20](../chapters/19-published-layer-case-studies-ii.md#19320-root-discriminant-bounds-for-the-general-raw-host)
+
 Chapter 19 §19.3.19 constructs the two algebra substitutions, proves both inverse identities on polynomial representatives, and supplies the same-field automorphism at a primitive root and its unit power. The order-nine calculation and the quadratic quotients show where each relation is used. [§19.3.19](../chapters/19-published-layer-case-studies-ii.md#19319-from-conjugate-roots-to-power-basis-isomorphisms)
 
 Chapter 19 [§19.3.12](../chapters/19-published-layer-case-studies-ii.md#19312-the-finite-group-and-the-stable-frame-order) follows the finite frame of `AnyGrp.host`. The examples modulo 8 and 32 obstruct sections of the two projections separately. The common quotient describes the joint image, and the common-modulus lift gives the stable order used by `fieldChi`.

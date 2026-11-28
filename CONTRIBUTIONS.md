@@ -1211,6 +1211,12 @@ same-model review is recorded separately in the preceding run's audit.
 - **Formal sources.** Xavier Roblot authored the pinned volume and Gamma integral files. Floris van Doorn and Sébastien Gouëzel authored the Haar scaling and ball-measure file. Van Doorn authored the group Haar transport file, Gouëzel authored the polar change of variables, and Yury Kudryashov authored the complex volume normalization and sphere-product construction. The Alpöge–Claude archive supplies the downstream class-count and ray-family calls. [Source ledger](sources/SOURCES.md#chapter-17-radial-haar-measure-and-the-gamma-factor)
 - **Textbook contribution.** Hongmin Li with Codex contributed the local source reading, the proof from the radial Haar pushforward, the two hand calculations and endpoint counterexamples, and the checked chain of consumers. The published and pinned sources supply the underlying mathematical results. [§17.4.25](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17425-radial-haar-measure-and-the-gamma-factor-in-minkowski-volume)
 
+### Chapter 19 general raw host discriminant bounds (§19.3.20)
+
+- **Levent Alpöge with Claude.** The A2 proofs convert cyclotomic different norms into a von Mangoldt sum for the host Artin kernel and return the three bounds to `HostRaw.der`. [Archive and pinned dependencies](sources/SOURCES.md#chapter-19-19320-root-discriminant-bounds-for-the-general-raw-host)
+- **Classical arithmetic and formal library.** J. S. Milne gives the classical conductor–discriminant product and the monogenic trace-dual calculation. The pinned Mathlib suppliers and their credits are listed with the respective declarations. [Source record](sources/SOURCES.md#chapter-19-19320-root-discriminant-bounds-for-the-general-raw-host)
+- **Book exposition.** Hongmin Li with Codex supplies the full finite-sum proof, worked subgroups, failure cases and the comparison with the explicit layer. [§19.3.20](chapters/19-published-layer-case-studies-ii.md#19320-root-discriminant-bounds-for-the-general-raw-host)
+
 ### Chapter 19 power-basis isomorphisms (§19.3.19)
 
 - **Classical sources.** J. S. Milne gives simple-field homomorphisms by evaluation and the cyclotomic exponent criterion. The Stacks Project gives the simple algebraic quotient basis and degree. [Source record](sources/SOURCES.md#chapter-19-19319-power-basis-isomorphisms)
