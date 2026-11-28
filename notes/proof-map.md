@@ -1322,6 +1322,18 @@ Local R3 for the rational coordinate and separation proofs in ClassSetAssembly.l
 
 Local R3 [Lean, read] for the production and the direct proof bodies. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#hilbert-projection-and-l2-conditional-expectation) · [Sources and reading boundary](../sources/SOURCES.md#ch02-hilbert-projection-sources)
 
+### Chapter 2 §2.3.2.7.8 conditional expectation in $L^1$
+
+| Producer | Actual consumer |
+| --- | --- |
+| `lintegral_nnnorm_condExpL2_indicator_le_real` and `condExpIndSMul`, `CondexpL2.lean:187–202,352–408` | `condExpIndL1Fin` and its global norm estimate, `CondexpL1.lean:75–126`. |
+| `condExpInd_disjoint_union` and `norm_condExpInd_le`, `CondexpL1.lean:261–279` | `dominatedFinMeasAdditive_condExpInd` passes bound $1$ to `L1.setToL1` in `condExpL1CLM`, at 321–324. |
+| Indicator evaluation, inherited $L^1$ completeness and closedness, and continuity of restricted integration | `setIntegral_condExpL1CLM` and `aestronglyMeasurable_condExpL1CLM`, `CondexpL1.lean:343–416`. Their measurable fixed point at 418–443 uses the trim isometry. |
+| `condExpL1` and its fixed subspace and integral law, `CondexpL1.lean:450–527` | `condExp_ae_eq_condExpL1CLM` and `setIntegral_condExp` in `Basic.lean:151–169,231–234`. |
+| `ae_eq_condExp_of_forall_setIntegral_eq` in `Basic.lean:253–261` | `MemLp.condExpL2_ae_eq_condExp'` in `Basic.lean:390–397`, and `rnDeriv_ae_eq_condExp` in `Real.lean:43–57`. |
+
+Author-level local R3 [Lean, read] for the production chain. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation) · [Sources](../sources/SOURCES.md#ch02-l1-conditional-expectation-sources)
+
 ### P13 spaced density for the far-range zero sum
 
 `PNTDensSpace.lean:60–130` supplies the two components of `zero_spacing`. The packing component enters `trivial_bound` at lines 154–166. The harmonic component enters the same-character row in `PNTDensBlock.lean:118–156`. `PNTDens.lean:19–109` uses `trivial_bound` and the two named counts `zero_count_first` and `zero_count_second` to assemble `LogDensityM`. `PNTFinal.lean:18,22–24` passes the witness to `PNTZSumL.lean:30–33,78–82`, where `density_norm` furnishes the finite-height representative count used at `PNTZSum.lean:482`. The detector and mean-square count proofs retain [Lean] / [Open] reading status. [Textbook section](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density) · [Pinned source record](../sources/SOURCES.md#ch04-spaced-zero-density-sources)

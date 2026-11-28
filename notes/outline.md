@@ -736,6 +736,8 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 
 **Chapter 2, [§2.3.2.7.7](../chapters/02-functional-equations-and-primitive-characters.md#hilbert-projection-and-l2-conditional-expectation).** Orthogonal projection from completeness of the target subspace, with nearest-point bounds, the real and complex orthogonality tests, and the continuous linear assembly. Conditional expectation uses the inherited complete measurable subspace of $L^2$. Finite-set testing works for arbitrary measures. The identification with integrable conditional expectation uses an integrable input and a $\sigma$-finite trim. Includes weighted atomic and complex sequence examples and two failures of attainment.
 
+**Chapter 2, [§2.3.2.7.8](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation).** The local sign test for real $L^2$ indicators gives a uniform $L^1$ bound, which supplies the vector-valued dominated set map for dense extension. The assembled contraction preserves set integrals on a $\sigma$-finite trim. Includes representative comparison, unequal atomic weights and an infinite-mass input outside $L^2$, with boundary proofs for the trim and integrability hypotheses.
+
 ### Chapter 4 spaced zero density in the relative progression estimate
 
 [§4.10.28](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density) proves packing and harmonic bounds for unit-spaced ordinates, applies them inside each character fiber, and assembles the three witnesses of `LogDensityM`. Author-level local R3 covers the spacing proofs, the row estimate conditional on the pair bounds, and the final constant assembly. The two block-count proofs remain named [Lean] inputs with reading [Open].
