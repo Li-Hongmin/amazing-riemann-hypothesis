@@ -1359,6 +1359,12 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Hongmin Li with AI assistance.** The book explains the two fiber integrals, the algebraic tensor positivity argument and the fixed-layer splitting. It supplies the worked examples, counterexamples and consumer cross-references. The selected §11 and §13 claims passed same-source preliminary review. §12 is an author-level local reading. [Chapter text](chapters/07-chains-of-theta-lifts.md#74311-the-compact-integral-and-unitarisability-of-normalized-induction)
 
 
+### Chapter 7 §§7.4.3.14–16 — Central eigenvalues and derivatives of parabolic products
+
+- **Bernstein, Bernstein–Zelevinsky, Zelevinsky and Jacquet.** The classical sources supply the derivative conventions, product filtration, irreducibility criteria and the binary irreducibility argument. Bernstein credits Jacquet's alternative restriction proof. The source ledger gives the pages and the normalization used in each case. [Classical references](sources/SOURCES.md#chapter-7-74316--the-highest-derivative-of-a-parabolic-product)
+- **Levent Alpöge with Claude.** A2 supplies the highest-derivative eigenpair, the strict lower product estimate, the full highest product isomorphism and the consumer wiring. [Pinned source records](sources/SOURCES.md#chapter-7-74314--central-eigenvalues-of-the-highest-derivative)
+- **Hongmin Li with AI assistance.** The book contributes the English proofs, hand calculations, premise-deletion examples and source correspondence. §14 passed cross-source independent review. §§15–16 retain author-level local R3 with same-source preliminary acceptance. [Chapter text](chapters/07-chains-of-theta-lifts.md#74314-central-eigenvalues-of-the-highest-derivative)
+
 ### Chapter 10 common corank, cocycle spans and residual Selmer dimensions
 
 - **Archived proof.** Levent Alpöge with Claude gives the alternating-form induction, the two span arguments, the common-quotient ChooseH construction and the equal-dimension calculation in A2. The classical inputs and their scopes are credited in the source ledger. [Archive sources](sources/SOURCES.md#chapter-10-selmer-corank-and-residual-span)
