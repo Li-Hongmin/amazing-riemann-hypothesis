@@ -506,3 +506,5 @@ Chapter 7 [§7.4.3.20](../chapters/07-chains-of-theta-lifts.md#74320-from-positi
 - <a id="chapter-15-draft-tychonoff"></a>§15.4.3.7, *Tychonoff compactness and a single Haar content*.
 - <a id="chapter-15-draft-preregular"></a>§15.4.3.8, *Compact covers and contents in preregular spaces*.
 - <a id="chapter-15-draft-concentrating-kernels"></a>§15.4.3.9, *Why concentrating kernels recover a point value*.
+
+**Chapter 4, P13.** [§4.10.19](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41019-rational-factors-and-the-seven-eighths-bound-for-squarefree-degree-splits) counts positive-degree splits by exchanging marked rational roots. [§4.10.21](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41021-counting-roots-after-translation-by-a-unit) counts failures against a fixed unit and spends the progression congruence on the arithmetic bound. [§4.10.22](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41022-how-exceptional-prime-sets-avoid-each-other) bounds bad-set intersections and spends the strict window margin in the interpolation and short-norm selectors.

@@ -4167,6 +4167,352 @@ In A2, `SquarefreePrimeFactor/SqfPrimeFactorOf.lean:8–9` passes `squarefree_co
 
 The fourth count retains author-level local source reading and the independent-source second-level ruling 11251827 on the count, irreducible supply, analytic margin and specified handoff. The author's 100 exact checks and the audit's 1,530,033 assertions are finite certificates. Lean kernel replay remains open.
 
+### 4.10.19 Rational factors and the seven-eighths bound for squarefree degree splits
+
+#### Motivation
+
+A monic polynomial of degree $r$ can have several divisors of degree $a$. When estimating how many labels admit a split of degrees $a$ and $r-a$, we must count each product only once. The space of ordered pairs of monic factors has the same cardinality as the space of monic polynomials of degree $r$. A bound below that cardinality comes from the pairs with a rational root on each side. In a squarefree product, those roots are distinct, and exchanging them gives a second factorization with the same degrees. A second-order inclusion–exclusion bound shows that there are enough pairs of this kind to save one eighth of the ambient cardinality.
+
+#### Examples
+
+**A quadratic over $\mathbb F_3$.** Write $L_c=X-c$ and let $M_n$ and $R_n$ denote the monic degree-$n$ polynomials and those among them with a root in the base field. Here $M_1=R_1=\{X,X-1,X+1\}$ and
+$$
+\begin{aligned}
+M_2
+ &=\{X^2,X^2+1,X^2+2,\ X^2+X,X^2+X+1,X^2+X+2,\\
+ &\hspace{3.7em}X^2+2X,X^2+2X+1,X^2+2X+2\},\\
+R_2
+ &=\{X^2,X^2+2,X^2+X,X^2+X+1,X^2+2X,X^2+2X+1\}.
+\end{aligned}
+$$
+Indeed, the six products $L_cL_d$ indexed by unordered pairs with repetition account for exactly $R_2$. With $r=2$ and $a=1$, the squarefree labels admitting the split and having nonzero constant term form the singleton $E_{2,1}=\{X^2+2\}$. Its only two ordered factorizations are $(X-1,X+1)$ and $(X+1,X-1)$, exchanged by transferring the roots $1$ and $-1$. All nine pairs in $M_1\times M_1$ have a root on each side. Their total weight at one half per pair is $9/2$, and the displayed product uses exactly one unit. Thus the weight bound here is $1\le9/2$, while the seven-eighths bound is $1<63/8$. The actual fraction is $1/9$.
+
+**A cubic over $\mathbb F_4$.** Write $K=\{0,1,u,v\}$, where $u^2+u+1=0$ and $v=u+1=u^2$. The exact sets of monic polynomials are $M_1=\{L_c:c\in K\}$, $M_2=\{X^2+bX+d:b,d\in K\}$ and $M_3=\{X^3+bX^2+dX+e:b,d,e\in K\}$. The root sets in these three degrees are
+$$
+\begin{aligned}
+R_1 &= M_1,\\
+R_2 &= \{L_c L_d:c,d\in K\},\\
+R_3 &= \{L_cL_dL_e:c,d,e\in K\}\ \cup\ \{L_c Q:c\in K,\ Q\in\mathcal I\},\\
+\mathcal I &= \{X^2+bX+b^2s:b\in\{1,u,v\},\ s\in\{u,v\}\}.
+\end{aligned}
+$$
+These descriptions include repetitions among the linear factors. To check the list $\mathcal I$ of rootless quadratics, observe that the square map permutes $K$, so every monic quadratic with zero linear coefficient has a root. For $b\ne0$, put $X=bY$. Then $Y^2+Y$ takes the values $0,0,1,1$ at $0,1,u,v$, giving exactly the two rootless choices at each $b$. Unique factorization gives $|R_2|=4+6=10$. A product of three linear factors is specified by its multiset of roots. There are four triples with all entries equal, $4\cdot3$ with exactly two equal, and four with all entries distinct. This gives $|R_3|=20+4\cdot6=44$.
+
+For $(r,a)=(3,1)$, the exact exceptional set is
+$$
+E_{3,1}=\{L_1L_uL_v\}\ \cup\ \{L_cQ:c\in\{1,u,v\},\ Q\in\mathcal I\}.
+$$
+The two parts are disjoint. The first consists of $X^3+1$, since $u+v=1$ and $uv=1$. In its ordered decomposition $(X+1,X^2+X+1)$, exchange $1$ and $u$. This gives $(X+u,X^2+uX+v)$, since $(X+1)(X+v)=X^2+uX+v$. The remaining pair in the fiber is $(L_v,L_1L_u)$. All three have weight one half. For each product $L_cQ$ the only pair is $(L_c,Q)$, of weight one. The exceptional set thus has $1+3\cdot6=19$ members and uses $3/2+18=39/2$ units of weight. The full pair space has $4\cdot16=64$ pairs, of which $4\cdot10=40$ have roots on both sides. Its weight is $64-40/2=44$, strictly below the seven-eighths budget $56$. The actual fraction is $19/64$.
+
+#### Definitions
+
+Let $K=\mathbb F_q$ be a finite field of cardinality $q$, and work in $K[X]$. For every $n\ge0$, put
+$$
+M_n=\{f:f\text{ is monic of degree }n\},
+\qquad
+R_n=\{f\in M_n:f(c)=0\text{ for some }c\in K\}.
+$$
+Here $M_0=\{1\}$ and $R_0=\varnothing$. A polynomial is squarefree if no square of a nonconstant irreducible polynomial divides it. For integers $0\le a\le r$, define
+$$
+E_{r,a}=\{f\in M_r:f(0)\ne0,\ f\text{ is squarefree, and }f
+\text{ has a divisor of degree }a\}.
+$$
+The divisor may initially have any nonzero leading coefficient. All roots used in the count are in $K$. For $f\in M_r$, its ordered factorization fiber for this split is the set of $(A,B)\in M_a\times M_{r-a}$ with $AB=f$.
+
+#### Lemmas and theorem
+
+**Lemma (rational-root density).** For every $n\ge0$, $|M_n|=q^n$. For $n\ge1$ and a prescribed $c\in K$, exactly $q^{n-1}$ polynomials in $M_n$ vanish at $c$. For $n\ge2$ and distinct $c,d\in K$, exactly $q^{n-2}$ vanish at both. Consequently $2|R_n|\ge q^n$ for every $n\ge1$. In degrees $n\ge2$ the argument gives the sharper inequality $2|R_n|\ge q^n+q^{n-1}$.
+
+**Lemma (weighted factorization fibers).** For $0\le a\le r$ and every $\mathcal T\subseteq E_{r,a}$,
+$$
+2|\mathcal T|+|R_a|\,|R_{r-a}|\le2q^r.
+$$
+
+**Theorem (seven-eighths bound).** If $0<a<r$ and $\mathcal T\subseteq E_{r,a}$, then
+$$
+8|\mathcal T|\le7q^r.
+$$
+In particular this holds over a prime field of order $q\ge4096$ for $r\ge100$ and $1\le a\le r/2$, the range of the third squarefree counting estimate.
+
+#### Proof
+
+The coefficients below the monic leading term identify $M_n$ with $K^n$. For a prescribed root $c$, the factor theorem identifies its fiber with $M_{n-1}$ by multiplication by $L_c$. For distinct $c,d$, first divide by $L_c$. The quotient still vanishes at $d$, because $L_c(d)=d-c\ne0$. A second division identifies the simultaneous fiber with $M_{n-2}$. In each case the quotient is monic of the indicated degree and multiplication is the inverse.
+
+Every monic linear polynomial has a root. For $n\ge2$, let $k(f)$ be the number of distinct rational roots of $f$. For every nonnegative integer $k$,
+$$
+2\,\mathbf 1_{k>0}\ge 2k-k(k-1).
+$$
+This is equality for $k=0,1,2$. For $k\ge3$ the right hand side is $k(3-k)\le0$. Summing the inequality is the second-order Bonferroni bound. Counting incidences by their prescribed root gives $\sum_{f\in M_n}k(f)=q\cdot q^{n-1}$. Counting ordered pairs of distinct roots gives $\sum_{f\in M_n}k(f)(k(f)-1)=q(q-1)q^{n-2}$. Hence
+$$
+2|R_n|\ge2q^n-q(q-1)q^{n-2}=q^n+q^{n-1}.
+$$
+
+For the second lemma, every $f\in\mathcal T$ has an ordered factorization of the required degrees. If $f=DH$ and $D$ has degree $a$ and leading coefficient $\lambda$, take $A=\lambda^{-1}D$ and $B=\lambda H$. Both are monic, because their product is monic, and the degrees sum to $r$.
+
+Give weight $1/2$ to a pair in $R_a\times R_{r-a}$ and weight $1$ to every other pair in $M_a\times M_{r-a}$. A pair of weight $1$ already gives its fiber one unit. Otherwise choose roots $x$ of $A$ and $y$ of $B$. Squarefreeness of $f=AB$ makes $A$ and $B$ coprime, since a common irreducible divisor would have its square dividing $f$. In particular $A(y)\ne0$, $B(x)\ne0$, and $x\ne y$. Write $A=L_x A_0$ and $B=L_y B_0$. Exchanging the marked roots gives
+$$
+(A,B;x,y)\longmapsto (L_y A_0,L_x B_0;y,x).
+$$
+The new factors are monic of the same degrees, and their product is still $f$. The new first factor vanishes at $y$, so it differs from $A$. Applying the exchange with the new markings recovers the original factors by cancellation. Thus the exchange is an involution on factorizations with marked roots, and supplies a distinct unmarked pair in the same fiber. Two pairs of weight $1/2$ give at least one unit. The argument allows further pairs in the fiber.
+
+Distinct products have disjoint fibers. Summing the lower bound of one unit over $\mathcal T$ and comparing with the weight of the entire pair space gives
+$$
+|\mathcal T|\le |M_a|\,|M_{r-a}|-\tfrac12|R_a|\,|R_{r-a}|
+=q^r-\tfrac12|R_a|\,|R_{r-a}|.
+$$
+For the theorem, both degrees are positive, so multiplication of the two density bounds gives $4|R_a|\,|R_{r-a}|\ge q^r$. Multiply the second lemma by four to get
+$$
+8|\mathcal T|+q^r\le 8|\mathcal T|+4|R_a|\,|R_{r-a}|\le 8q^r.
+$$
+
+#### Remarks
+
+The computed fractions $1/9$ and $19/64$ show strict slack in the two examples. In fact every positive split has slack at each fixed $q$. The density proof gives $2|R_n|\ge (1+1/q)q^n$ for every positive $n$, using $2q\ge q+1$ for $n=1$. The same weight argument bounds the fraction by $1-(1+1/q)^2/8<7/8$. This comparison is a consequence of the displayed counts at fixed field size.
+
+Squarefreeness excludes fixed points in the exchange. For $c\in K$ nonzero, take $f=(X-c)^2$, $r=2$ and $a=1$. There is just one ordered pair, $(L_c,L_c)$. Its marked exchange returns the same pair and the whole fiber has weight $1/2<1$. The one-unit estimate for individual fibers therefore fails.
+
+At $a=0$ or $a=r$, the factor of degree zero must be $1$, the doubly rooted pair set is empty, and the weighted lemma gives $|\mathcal T|\le q^r$. Every squarefree monic polynomial of degree $r$ with nonzero constant is eligible. For a counterexample to the seven-eighths bound at either endpoint, take $q=4099$ and $r=100$. The prime divisors to test for $4099$ are at most $61$. There are $q^{99}$ monic polynomials of degree $100$ with zero constant. For each $1\le d\le50$, there are at most $q^d$ monic irreducibles of degree $d$, and each square divides exactly $q^{100-2d}$ monic polynomials of degree $100$. A union bound shows that the excluded fraction is at most
+$$
+q^{-1}+\sum_{d=1}^{50}q^{-d}<q^{-1}+(q-1)^{-1}<1/8.
+$$
+The endpoint label set therefore has more than $(7/8)q^{100}$ elements. By contrast, the restriction $a\le r/2$ in the third count simply chooses one of the two degrees. Taking the complementary monic factor gives the same eligible set for $r-a$.
+
+The third squarefree count uses the polynomial estimate over each of the two host prime fields, with the corresponding field size and the common degree. Its inputs are the lower bounds on field size and degree, the specified degree split and the defining conditions on the labels. The progression congruence enters the separate root-shift estimate. The fourth count uses a different exclusion, involving prime-degree irreducible divisors. [Source ledger](../sources/SOURCES.md#chapter-4-41019-rational-factors-and-squarefree-degree-splits)
+
+**An original-range nonempty family [Expository].** In the prime field of order $4099$, take $r=100$ and the singleton containing $f=\prod_{j=1}^{100}(X-j)$. Its roots are distinct and nonzero. For every $1\le a\le50$, the product of the first $a$ factors is a divisor of degree $a$, so the same singleton witnesses the original label contract at every allowed split.
+
+**The actual third slot [Lean, read].** In `counts_of_sqf`, `h5` consumes the finite $Eiv$ family at $g=D.\mathrm{host}.g(k)$ and $r=D.R.r$, with the host prime instance, $g\ge4096$, $r\ge100$, $1\le a$ and $2a\le r$. The closed export supplies `squarefree_div_degree`. In `propW_of_counts`, `P4` takes $a$ from the integer interval $[1,\lfloor r/2\rfloor]$ and uses `Civ` with `wt_le_count` and the named `lawL` for the filter at each place. The adjacent slots use [root collisions](#41023-when-prime-to-parts-of-roots-collide), [translation by a unit](#41021-counting-roots-after-translation-by-a-unit) and [the prime-degree exception](#41018-counting-the-prime-degree-factor-exception). [A2 SqfCounts.lean:18–45 and StmtLocFOfCountsAll.lean:98–111,182–188](../sources/SOURCES.md#chapter-4-41019-rational-factors-and-squarefree-degree-splits)
+
+**Reading boundary.** The local production proof has author-level R3 and a same-source initial review of all five audited claims. Independent-source adjudication and Lean kernel replay are [Open]. The bound $7/8$ is a uniform upper bound. The fixed-field comparison above records the available slack.
+
+The first squarefree count circulated in draft form as §4.10.20. Its published proof is in [§4.10.23](#41023-when-prime-to-parts-of-roots-collide).
+
+### 4.10.21 Counting roots after translation by a unit
+
+#### Motivation
+
+Fix one prescribed unit $c$ in the host prime field. The second squarefree count measures how often a label has a root whose prime-to-$\ell$ part agrees with that of $c$. The same projection acts on the root and on the prescribed scalar because the target characteristic polynomial is built from the projected roots, and the irreducibility criterion tests the image of the projected scalar in it. The last clause of that criterion applies the multiplicative map $\iota_v$ to both. Dividing the root by $c$ turns equality of the projections into a prime-power order condition. Over the base field, one translated root of degree $k$ gives a whole orbit of $k$ witnesses. [A2, CyclotomicNorms/StatementT.lean:19–26,36–52](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+#### Examples [Expository]
+
+**Linear factors over $\mathbb F_7$ with $c=3$.** The units $1,2,3,4,5,6$ have orders $1,3,6,3,6,2$, respectively. The quotients $y=x/c$ of prime-power order, including order $1$, are $1,2,4,6$. The corresponding roots $x$ are $3,6,5,4$. For instance, $x=4$ gives $y=6$ of order $2$. The odd-order part of $3$ is $3^4=4$ and that of $4$ is $4$. Comparing the odd-order part of $x$ directly with $3$ would miss this witness. These four monic linear labels are exactly the exceptions at $g=7,r=1,c=3$. The factor bound is $\operatorname{ppSum}(6)=2+3=5$, which counts the identity in both torsion subgroups.
+
+**Quadratic factors over $\mathbb F_7$ with $c=2$.** Work in $\mathbb F_7[i]$ with $i^2=-1$. The polynomial $X^2+1$ is irreducible since the squares are $0,1,2,4$. Set $x=2i$. Its conjugate is $-2i$, since $i^7=-i$. The quotient $x/2=i$ has order $4$, while $2$ and $x$ have orders $3$ and $12$. The odd-order part of $x$ is $x^4=2$ and that of $c$ is $2$. Thus $X^2+4$ is an exceptional squarefree quadratic label.
+
+The extension's unit group is cyclic of order $48=16\cdot3$. The two relevant subgroups can be generated by $2+3i$ and $2$. In fact $(2+3i)^2=2-2i$, $(2+3i)^4=-i$ and $(2+3i)^8=-1$, so the first generator has order $16$. The two subgroups intersect in $1$, giving $18$ possible quotients. Exactly $4$ lie in $\mathbb F_7^\times$, where the corresponding subgroup sizes are $2$ and $3$. The other $14$ quotients give $14$ roots of degree two under multiplication by $c$. They form seven conjugate pairs and give exactly seven irreducible quadratic exceptions for this $c$. The degree-two factor bound is $(16+3)/2=19/2$. The full quadratic label count also includes split labels. At $k=1$ the four eligible roots are $2\{1,2,4,6\}=\{1,2,4,5\}$, so there are $\binom 62-\binom 22=14$ split exceptions among pairs of distinct nonzero roots. This gives $21$ quadratic exceptions in all. The two models illustrate the algebraic count at these values of $g,r$. The final host estimate has its own scale and congruence hypotheses. [A2 CountA.lean:47–78, CountB.lean:30–72, CountC.lean:15–57, and Milne, pp. 53–55](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+#### Definitions
+
+Let $g$ be prime, $K=\mathbb F_g$ and $\overline K$ an algebraic closure. Use $c$ also for the image of $c\in K^\times$ in $\overline K$. For $z\ne0$, write its finite order as $ab$, with $a$ an $\ell$-power and $b$ prime to $\ell$. Define $P_\ell(z)=z^u$, where $u\equiv0\bmod a$ and $u\equiv1\bmod b$. The archive takes $u$ to be $a$ times the residue of $a^{-1}$ modulo $b$. When $b=1$ the prime-to-$\ell$ part is $1$. This describes the archive's total monoid definition on the nonzero elements used here.
+
+A label is a monic degree-$r$ polynomial with nonzero constant term. The predicate **Eiii** says that $f$ is a squarefree label and that the following assertion fails: for every prime $\ell\ne g$ and every root $x$ of $f$ in $\overline K$, $P_\ell(x)\ne P_\ell(c)$. The allowed primes are all primes different from $g$. The first count uses a different prime range, described in [§4.10.23](#41023-when-prime-to-parts-of-roots-collide). Root membership is in the multiset of roots after base change.
+
+For $N\ge1$ let $L_p(N)=p^{v_p(N)}$ and define
+$$
+\operatorname{ppSum}(N)=\sum_{p\mid N,\;p\ \mathrm{prime}}L_p(N).
+$$
+The sum at $N=1$ is zero. For a fixed $c$, **Good** means that $P\in K[X]$ is monic and irreducible and that for some prime $\ell$ and integer $j\ge0$ it divides $X^{\ell^j}-c^{\ell^j}$. The case $j=0$ allows $P=X-c$. [A2 SqfLab.lean:13–24,30–32, Development.lean:11–22 and CountB.lean:30–32](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+#### Lemmas and theorem
+
+**Translation and factor count [Lean, read].** A label satisfying Eiii for $c$ has a Good divisor of degree $1\le k\le r$. For $g\ge3$ and any finite set $Q$ of distinct degree-$k$ Good polynomials, with $k\ge1$, one has $k|Q|\le\operatorname{ppSum}(g^k-1)$.
+
+**Counting lemma (`CountP`) [Lean, read].** For every prime $g\ge3$, every integer $r\ge1$, every $c\in K^\times$ and every finite set $T\subset K[X]$ whose members satisfy Eiii for this $c$,
+$$
+|T|\le\sum_{k=1}^r\frac{\operatorname{ppSum}(g^k-1)}{k}\,g^{r-k}.
+$$
+
+**Second squarefree count (`PI.SqfRootShift.Claim`) [Lean, read].** Let $g,r,q,d,e$ be natural numbers. Assume $g,q,d$ are prime, $q\equiv3\bmod8$, $d\equiv7\bmod16$, $e\ge2$, $q,d\ge16$, and
+$$
+g\equiv1\bmod(4\cdot2^e qd),\qquad r\ge100,\qquad g\ge4096.
+$$
+For every $c\in K^\times$ and every finite set $T$ of polynomials satisfying Eiii for this **same** $c$,
+$$
+|T|\le\left[\frac{1}{4\min(q,d)}+\frac{1+\log r}{g-1}\right]g^r.
+$$
+The logarithm is natural. The arithmetic lemma `ArithP` bounds the entire right side of `CountP` by this expression under the displayed hypotheses on the integers. [A2 SqfRootShift.lean:11–16, Development.lean:13–27, CountC.lean:15–57 and CountD.lean:11–93](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+#### Proof
+
+**The common power and the translated roots.** Let $z$ have degree $k$. Counting basis coordinates gives $|K(z)|=g^k$. If $z\ne0$, Lagrange's theorem gives $z^{g^k-1}=1$. The embedded unit $c$ belongs to $K(z)^\times$ and satisfies the same power identity. Both orders are finite and positive.
+
+For $z$ of order $ab$ as above, $(u-1)a$ is a multiple of $ab$, so $P_\ell(z)^a=z^a$. If $P_\ell(x)=P_\ell(c)$, take $j=v_\ell(\operatorname{ord}x)+v_\ell(\operatorname{ord}c)$. The power $\ell^j$ is a multiple of the $\ell$-part of each order, so $x^{\ell^j}=c^{\ell^j}$. Conversely, from $x^{\ell^j}=c^{\ell^j}$ raise both sides again by the product of those two $\ell$-parts. This gives equality of the two projections raised to an $\ell$-power. Both projections have order prime to $\ell$, so this last power is injective on their subgroup by Bézout's identity. This proves the equivalence with $x/c$ having $\ell$-power order, including $1=\ell^0$. In characteristic $g$, every nontrivial such order divides $g^k-1$, so $\ell\ne g$. If $x=c$, every prime different from $g$ witnesses the original equality.
+
+For an Eiii label $f$, negate the universal assertion to choose $\ell,x$ with equal projections. The nonzero constant term gives $x\ne0$. Its monic minimal polynomial $P$ divides $f$ and has degree $1\le k\le r$. The common power identity says the binomial in Good also vanishes at $x$, so $P$ divides it. Conversely, if $P$ is Good, evaluation of its binomial at any root $z$ gives $z^{\ell^j}=c^{\ell^j}$ and hence $z\ne0$. Its minimal polynomial equals $P$. Thus every root gives a translated element $y=z/c$ with
+$$
+y^{g^k-1}=1,\qquad y^{\ell^j}=1.
+$$
+Division by the fixed base-field unit is an injection, stays in the same simple field, and commutes with Frobenius, since $(z/c)^g=z^g/c$. [A2 CountA.lean:11–43, CountB.lean:13–72 and CountD.lean:11–49](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**Counting a degree fiber.** For an irreducible $P$ of degree $k$, Frobenius $z\mapsto z^g$ is an automorphism of $K(z)$ and has fixed field $K$. Indeed $X^g-X$ has at most $g$ roots and all of $K$ is fixed. The product of $X-w$ over the orbit of $z$ has coefficients in $K$ and is divisible by $P$. Each orbit member is a root of $P$, so the orbit consists of exactly $k$ distinct roots. The Lean body uses perfect-field separability and splitting in the algebraic closure for this cardinality. Distinct monic irreducibles have disjoint root sets by uniqueness of the minimal polynomial. The union over $Q$ has $k|Q|$ roots, and translating by the same $c$ is injective on this union.
+
+Take $N=g^k-1\ge2$. If a translated root has order $\ell^i>1$, then $\ell\mid N$ and the order divides $L_\ell(N)$. The identity is also covered, for example by the $L_p(N)$-th roots of unity for the least prime factor $p$ of $N$. For each prime $p\mid N$, the polynomial $X^{L_p(N)}-1$ has at most $L_p(N)$ roots. Summing these cardinalities bounds the union even when it has overlaps. This proves $k|Q|\le\operatorname{ppSum}(N)$. [A2 CountA.lean:47–78, CountC.lean:15–57 and Milne, Corollary 4.22 and Proposition 4.26](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**From factors to labels.** Choose one Good divisor $P_f$ for each $f\in T$ and let $Q_k$ be the degree-$k$ part of the image of this choice. Each fiber of $f\mapsto P_f$ is contained in the monic degree-$r$ multiples of its fixed divisor $P$. Each such multiple has zero remainder and a unique monic quotient of degree $r-k$. The $r-k$ coefficients below the leading one determine the quotient, giving $g^{r-k}$ possibilities, including just $1$ when $r=k$. Thus
+$$
+|T|\le\sum_{P\in\{P_f:f\in T\}}g^{r-\deg P}
+=\sum_{k=1}^r|Q_k|g^{r-k}
+\le\sum_{k=1}^r\frac{\operatorname{ppSum}(g^k-1)}{k}\,g^{r-k}.
+$$
+The choice of a single factor partitions the labels even when several primes or degrees give witnesses. The disjoint $k$-element root sets justify division by $k$. In `countP` the regrouping by degree takes place before the inequality is cast to the reals. [A2 CountC.lean:59–100 and CountD.lean:51–93](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**The term of degree one (`arith1`).** Put $n=g-1$ and $m=\min(q,d)$. The progression and $e\ge2$ give $16\mid n$, $q\mid n$ and $d\mid n$. The residues give $q\equiv3\bmod8$ and $d\equiv7\bmod8$, hence $q\ne d$. The powers $A=L_2(n)$, $B=L_q(n)$ and $C=L_d(n)$ are three distinct entries of the sum, with $A\ge16$ and $B,C\ge m\ge16$. Write $R,U$ for the sum and product of the remaining entries, with $R=0,U=1$ if there are none. Then $n=ABCU$ and $\operatorname{ppSum}(n)=A+B+C+R$.
+
+For entries at least $2$, the sum is at most the product. The empty case gives $0\le1$, the singleton case is equality, and induction appends an entry $a\ge2$ to a nonempty list with product $b\ge2$. Its new sum is at most $a+b\le ab$, using $(a-1)(b-1)\ge1$. Thus $R\le U$. This also proves $\operatorname{ppSum}(N)\le N$ for $N\ge1$ by unique factorization. The archive budgets the four summands by
+$$
+16mA\le n,\qquad16mB\le n,\qquad16mC\le n,\qquad64mR\le n.
+$$
+For each of the first three, remove the indicated factor from $ABCU$. The other two distinguished factors have product at least $16m$. For the last, $ABC\ge16m^2\ge64m$ and $R\le U$. Combining the four bounds gives $16m\operatorname{ppSum}(n)\le(3+1/4)n\le4n$. Hence $4m\operatorname{ppSum}(n)\le n$, and the first term of the count is at most $(g-1)g^{r-1}/(4m)\le g^r/(4m)$. [A2 SumLeProdOfTwoLe.lean:9–108 and ArithP.lean:31–59,106–109](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**Higher-degree prime powers (`arith2`).** For $k\ge1$ write $N_k=g^k-1=nS_k$, where $S_k=1+g+\cdots+g^{k-1}$. Split the primes dividing $N_k$ according to whether they divide $n$. For $p\mid n$ the valuation identity is
+$$
+v_p(N_k)=v_p(n)+v_p(k).
+$$
+For any $a\equiv1\bmod p$, an exponent $u$ prime to $p$ leaves $v_p(a-1)$ unchanged, since the geometric quotient of $a^u-1$ by $a-1$ is $u\bmod p$. Write $k=p^su$. For odd $p$, if $v_p(a-1)=b\ge1$, expand $(1+(a-1))^p-1$. The first term has valuation $b+1$, the intermediate terms have valuations at least $1+2b$, and the last has valuation $pb>b+1$. Raising to $p$ adds exactly one. Iteration proves the identity. For $p=2$, the preceding $16\mid n$ supplies $g\equiv1\bmod4$. Every positive power $a$ of $g$ is $1\bmod4$. Hence $v_2(a+1)=1$, so $v_2(a^2-1)=v_2(a-1)+1$. The same iteration proves the identity there. The archived `lte_two` and `lte_odd` use the corresponding Mathlib lifting-the-exponent lemmas.
+
+For $p\mid n$ the identity gives $L_p(N_k)=L_p(n)p^{v_p(k)}\le kL_p(n)$, since $p^{v_p(k)}\mid k$. If $p\nmid n$ and $p\mid N_k$, the entire prime power of $p$ in $N_k$ is in $S_k$. The latter entries sum to at most $\operatorname{ppSum}(S_k)\le S_k$. Thus
+$$
+\operatorname{ppSum}(g^k-1)\le k\operatorname{ppSum}(g-1)+\frac{g^k-1}{g-1}.
+$$
+The archive first uses the integer quotient and then uses $g-1\mid g^k-1$ to identify its real cast with the displayed fraction. [A2 SumLeProdOfTwoLe.lean:110–196 and ArithP.lean:60–75](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**Summing `ArithP` and closing the theorem.** Set $G=g$ in the reals. For $2\le k\le r$, divide the last estimate by $k$ and multiply by $G^{r-k}$. Use $\operatorname{ppSum}(g-1)\le G-1$ and $(G^k-1)G^{r-k}\le G^r$ to get
+$$
+\frac{\operatorname{ppSum}(g^k-1)}{k}G^{r-k}\le
+(G-1)G^{r-k}+\frac{G^r}{G-1}\frac1k .
+$$
+The first sum over $k=2,\dots,r$ telescopes by $(G-1)G^j=G^{j+1}-G^j$ to $G^{r-1}-1\le G^r/(G-1)$. The second uses $\sum_{k=2}^r1/k\le\int_1^r dt/t=\log r$ by comparison on each interval $[k-1,k]$. Both comparisons include the empty tail at $r=1$. Adding the degree-one estimate gives the theorem's coefficient, with the $1$ in $1+\log r$ coming from the geometric sum. This proves `arithP` on the actual `CountP` sum. The archive forms the transitive inequality in `claim_of`, and the closed export `squarefree_root_shift` supplies both proved arguments. [A2 ArithP.lean:9–29,76–116, Development.lean:24–27 and OrbitalBoundsConclusion/SqfRootShift.lean:1–5](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+#### Remarks
+
+**Use of the hypotheses.** The residues of $q,d$ give distinctness in `arith1`. Primality identifies the two prime-power entries, and $q,d\ge16$ supplies the lower bounds for the four budgets. The progression and $e\ge2$ give $16,q,d\mid g-1$, and $4\mid g-1$ gives the two-adic valuation identity. The host guard $g\ge4096$ implies $g\ge3$ for `CountP`, which gives $g^k-1\ge2$ for the least-prime-factor argument. It also ensures positivity of $G-1$. The guard $r\ge100$ gives $r\ge1$ for the degree interval and the geometric and harmonic sums. The proof uses $g\ge3$ and $r\ge1$ at these steps. Squarefreeness is part of Eiii and enters the weighted consumer. Extraction uses monicity, degree and nonzero constant. The quotient budget uses monicity and degree. [A2 CountC.lean:42–47,70–100, CountD.lean:11–27, ArithP.lean:31–75 and StmtLocFOfCountsAll.lean:98–111,176–181](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**An original-range nonempty family [Expository].** Set $(g,r,q,d,e)=(34961,100,19,23,2)$. Trial division up to $186$ proves $g$ prime, and $g-1=5\cdot16\cdot19\cdot23$. The two auxiliary primes have the required residues. In $\mathbb F_g$ take $c=8491$, $y=24311$ and $x=cy=14957$. Repeated squaring gives $y^8=-1$, $y^{16}=1$, $c^{19}=1$ and $c\ne1$. Thus $y$ has order $16$, $c$ has order $19$, and $x$ has order $304$. The exponent $96$ is divisible by $16$ and is $1\bmod19$, so $P_2(x)=x^{96}=c=P_2(c)$. Take
+$$
+f=(X-14957)\prod_{a=1}^{99}(X-a),\qquad T=\{f\}.
+$$
+The $100$ distinct nonzero roots give monicity, degree $100$, squarefreeness and nonzero constant. Since $2\ne g$, the root $14957$ witnesses Eiii. Here $\operatorname{ppSum}(g-1)=16+5+19+23=63$. At $k=2$, $g+1=2\cdot3\cdot5827$, with $5827$ prime by trial division up to $76$. The old prime powers of $g^2-1$ contribute $32+5+19+23=79$ and the new ones contribute $3+5827=5830$, giving $5909\le2\cdot63+34962$. This witnesses the original quantifiers of `SqfRootShift.Claim`. A full host record $D$ requires additional data.
+
+**Failures under specified changes [Expository].**
+
+- At $g=2,r=1,c=1$, the singleton $T=\{X-1\}$ satisfies Eiii with $\ell=3$. But $\operatorname{ppSum}(2^1-1)=0$. The assumption $g\ge3$ in the algebraic bound keeps the identity case inside the prime-factor union.
+- Allowing $c$ to vary with a label would make each of the six nonzero monic linear labels at $g=7$ eligible by choosing its root as $c$. This exceeds the fixed-unit budget $5$. In the linear model at $c=3$, $x=1$ has order $1$, but $x/3=5$ has order $6$. Thus $X-1$ fails Eiii for $c=3$, since no prime projection kills the entire quotient. In the quadratic model $x$ itself has order $12$ and still gives an Eiii witness. The prime-power test is on $x/c$.
+- Drop $4\mid g-1$ from `lte_two`. At $g=7,k=2$, $v_2(48)=4$ while $v_2(6)+v_2(2)=2$. Even the estimate in `pp_lte` fails for $p=2$, since $16>2\cdot2$. Drop distinctness from `arith1`. Then $q=d=19$ and $n=16\cdot19^2$ give $4\cdot19(16+361)>n$. These examples concern the indicated intermediate assertions.
+- The entire Claim with just the progression hypothesis deleted is false. Take $(g,r,q,d,e)=(65537,100,19,23,2)$ and $c=1$. Trial division up to $256$ proves $g$ prime. All nonzero elements have order dividing $2^{16}$, so every squarefree monic degree-$r$ polynomial with nonzero constant and a nonzero rational root satisfies Eiii. Let $n=g-1$. Each of the $n$ possible roots is imposed on exactly $g^{r-1}$ monic polynomials, and each pair on $g^{r-2}$. If a polynomial has $b$ of these roots, then $1$ when $b>0$ and $0$ when $b=0$ is at least $b-\binom b2$. Summing over polynomials gives at least $ng^{r-1}-\binom n2 g^{r-2}>g^r/2$ polynomials with such a root, since $n/g-n(n-1)/(2g^2)=1/2+(g-2)/(2g^2)$. Remove at most $g^{r-1}$ polynomials with zero constant. The non-squarefree polynomials are covered by multiples of $P^2$ for monic irreducible $P$ of degree $1\le a\le r/2$. There are at most $g^a$ such $P$ of each degree and each square divides $g^{r-2a}$ monic polynomials, so this removes less than $g^r/(g-1)$. The remaining family has more than $g^r/3$ members, since $1/g+1/(g-1)<1/6$. But $100<2^7$ and $\log2<1$ imply $\log100<7$. The proposed coefficient is less than $1/76+8/65536<1/3$. The original size and auxiliary-prime hypotheses hold.
+
+**The actual second slot.** At host index $i\in\mathrm{Fin}\,2$, `counts_of_sqf` installs primality of $g=D.\mathrm{host}.g(i)$, specializes at $r=D.R.r$ and supplies the primes and their residues from `D.host.hyp`. It derives the size bounds on $q,d$ from `qd_big`, the positivity of the odd parameter $D.R.t$ and $r\ge100$. The admissibility component of `TieAdmG` gives $g\equiv1\bmod(D.\mathrm{host}.QS\cdot qd)$. The tower divisibility $2^{e+2}\mid D.\mathrm{host}.QS$ gives the required smaller modulus. The four slots are for Eii, Eiii, Eiv and Ev, in order. The second calls `h4` with the original fixed $c$ and finite family $T$. The closed `counts_closed` supplies `squarefree_root_shift` at that argument. The host Eiii uses the same definitions in the `CyclotomicNorms` namespace. [A2 ExplicitFormulaCounts/SqfCounts.lean:18–45, StmtLocFOfCountsAll.lean:61–94 and CyclotomicNorms/StatementT.lean:9–26](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+In `propW_of_counts` the second projection `Ciii` bounds the cardinality of the Eiii filter at each fixed $c$. The lemma `wt_le_count` multiplies the count by the per-label bound from `lawL`, cancelling $g^r$ and leaving $(1+C_Lr/g)$ times the coefficient. The other place weights sum to at most one per coordinate, so the product-weight sum for a single place is bounded by that place’s filter. For each place $v$ and index $j$, the tuple argument applies the estimate to $c=\chi_T(i,v,j)$ and to its inverse. If $B$ is the coefficient of the second count, summing both gives $2(D.R.f)(D.R.m)(1+C_Lr/g)B$, the Eiii term of the weight bound. The other three proofs are [§4.10.23 for Eii](#41023-when-prime-to-parts-of-roots-collide), [§4.10.19 for Eiv](#41019-rational-factors-and-the-seven-eighths-bound-for-squarefree-degree-splits) and [§4.10.18 for Ev](#41018-counting-the-prime-degree-factor-exception). The wider bad-set and irreducibility supplies retain their named interfaces. [A2 StmtLocFOfCountsAll.lean:9–39,98–111,113–146,154–181,282–294,319–328 and LocalShareBounds.lean:58–69](../sources/SOURCES.md#chapter-4-41021-counting-roots-after-translation-by-a-unit)
+
+**Reading boundary.** This count has author-level local R3 and a same-source initial review of all five audited claims. Independent-source adjudication and Lean kernel replay are [Open]. The bad-set counts and their two selection calls are in [§4.10.22](#41022-how-exceptional-prime-sets-avoid-each-other). The producer of `lawL` and the deeper irreducibility inputs keep their own evidence.
+
+### 4.10.22 How exceptional prime sets avoid each other
+
+#### Motivation
+
+The first squarefree label count tests prime-to-$\ell$ parts of roots for primes outside a set $BB(N,g)$ attached to the host $g$. Two hosts with disjoint bad sets ensure that every prime lies outside at least one bad set. There are two counting problems. First, how many bad elements can a single host have? Second, as $g$ varies in one interval, how many hosts can have even one bad element in common with a fixed host? The second question leads from a large prime power in $g^d-1$ to a sparse set of residue classes. [First squarefree count](#41023-when-prime-to-parts-of-roots-collide) · [Source map](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+#### Two integer examples [Expository]
+
+Here $\mathrm{Exc}_{g,d}$ means the set of primes whose full prime-power factor in $g^d-1$ has fourth power greater than $g^d$. The set $BB(N,g)$ contains $g$ and the union of these sets for $1\le d\le N$. Both examples use the archive definitions.
+
+**Example 1.** Take the real endpoint $Y=5/2$, $N=2$ and the fixed base $g_1=3$. The window contains exactly $3,4,5$. The factorization of each $g^d-1$ and the resulting sets are as follows.
+
+| $g$ | $g-1$ and $\mathrm{Exc}_{g,1}$ | $g^2-1$ and $\mathrm{Exc}_{g,2}$ | $BB(2,g)$ |
+|---|---|---|---|
+| $3$ | $2$, $\{2\}$ | $2^3$, $\{2\}$ | $\{2,3\}$ |
+| $4$ | $3$, $\{3\}$ | $3\cdot5$, $\{3,5\}$ | $\{3,4,5\}$ |
+| $5$ | $2^2$, $\{2\}$ | $2^3\cdot3$, $\{2,3\}$ | $\{2,3,5\}$ |
+
+The fourth powers used are $16,4096$ for the two entries at $g=3$, $81$ and then $81,625$ at $g=4$, and $256$ and then $4096,81$ at $g=5$. Each exceeds the corresponding $g^d$. A prime absent from a factorization has prime-power factor $1$ and cannot enter. Thus the entire conflicting set $S$ is $\{3,4,5\}$. At $g=3$, the common prime $2$ is exceptional at both degrees and $3$ comes from both copies of the singleton. At $g=4$, the only common prime is $3$, exceptional at both degrees for $4$ and the singleton for $3$. At $g=5$, the common prime $2$ is exceptional at both degrees on both sides and $3$ comes from degree two for $5$ and the singleton for $3$. This last candidate lies in two of the filters indexed by common primes. The base $4$ is composite. For $\ell=3$ at degree one, the exceptional filter is just $\{4\}$ with modulus $3$. At degree two it is $\{4,5\}$, with common modulus $3$ and two root classes $1,2$. At $\ell=2,d=2$, the filter is $\{3,5\}$, both valuations are three, and the common modulus is $8$. In each case $Y<M^4$. Here $B(5/2,2)\ge119>3$, since $P(5/2)\ge2$.
+
+**Example 2.** Take $Y=9/2$, $N=1$ and $g_1=7$. Here the entire integer window is $\{5,6,7,8,9\}$.
+
+| $g$ | $g-1$ | $\mathrm{Exc}_{g,1}$ | $BB(1,g)$ | Common elements with $BB(1,7)$ |
+|---|---|---|---|---|
+| $5$ | $2^2$ | $\{2\}$ | $\{2,5\}$ | $2$ from degree one on both sides |
+| $6$ | $5$ | $\{5\}$ | $\{5,6\}$ | none |
+| $7$ | $2\cdot3$ | $\{2,3\}$ | $\{2,3,7\}$ | $2,3$ from degree one and $7$ from the singleton on both sides |
+| $8$ | $7$ | $\{7\}$ | $\{7,8\}$ | $7$ from degree one for $8$ and from the singleton for $7$ |
+| $9$ | $2^3$ | $\{2\}$ | $\{2,9\}$ | $2$ from degree one on both sides |
+
+The fourth powers are $256,625,16,81,2401,4096$ in row order, with two entries in the row for $7$. They all clear the strict threshold. The conflicting set is exactly $S=\{5,7,8,9\}$. For the common element $\ell=7$, the special candidate $g=7$ and the exceptional candidate $g=8$ contribute through different branches. The pair $7,6$ has disjoint bad sets within this window. The bound is $B(9/2,1)\ge20>4$, using $P(9/2)\ge2$. These bases illustrate the integer selection problem. The host-prime consumers impose additional norm and primality conditions.
+
+#### Definitions
+
+For $g,d,\ell\in\mathbb N$ use the archive's predicates
+$$
+\begin{aligned}
+\operatorname{Exc}(g,d,\ell)
+ &\iff \ell\text{ is prime and } g^d<\ell^{4v_\ell(g^d-1)},\\
+\mathrm{Exc}_{g,d}&=\{\ell:\operatorname{Exc}(g,d,\ell)\},\\
+BB(N,g)&=\{g\}\cup\bigcup_{d=1}^N\mathrm{Exc}_{g,d}.
+\end{aligned}
+$$
+The valuation is the archive's $\mathrm{padicValNat}$ and on the positive integers used here it is the exponent in prime factorization. The union at $N=0$ is empty. Even for composite $g$ the singleton is present. Write
+$$
+P(Y)=Y^{3/4}+1,\qquad
+B(Y,N)=(3N+1)(1+2N^2P(Y)).
+$$
+Cardinalities in real inequalities are cast to $\mathbb R$. [A2 CyclotomicNorms/StatementI.lean:10–27](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+#### Lemmas and theorem [Lean, read]
+
+**The bad set of one base ($\mathrm{BBCount}$).** For every natural $g\ge2$ and every natural $d\ge1$, $\mathrm{Exc}_{g,d}$ is finite with at most three members. For every natural $N$, $BB(N,g)$ is finite and has cardinality at most $3N+1$.
+
+**Roots modulo a prime power ($\mathrm{RootsOfUnityCount}$).** For every prime $\ell$ and natural $w,d\ge1$, the congruence $x^d\equiv1\bmod\ell^w$ has at most $2d$ residue classes. For $\ell\ne2$ it has at most $d$, which implies the archived first bound $d\ell^{v_\ell(d)}$.
+
+**Fixed-element bounds.** Let $Y\ge2$ be real and $T\subseteq\mathbb N\cap[Y,2Y]$ be finite. For any natural $\ell$ and $d\ge1$, if $\operatorname{Exc}(g,d,\ell)$ holds for every $g\in T$, then $|T|\le2dP(Y)$. For any natural $\ell,N$, if $\ell\in BB(N,g)$ for every $g\in T$, then $|T|\le1+2N^2P(Y)$.
+
+**The choice bound ($\mathrm{ChoiceCount}$).** For every real $Y\ge2$, every natural $N\ge1$ and every natural $g_1$ with $Y\le g_1\le2Y$, every finite set $S$ of natural numbers satisfying
+$$
+\forall g\in S,\qquad Y\le g\le2Y,\qquad BB(N,g)\cap BB(N,g_1)\ne\varnothing
+$$
+has cardinality $|S|\le B(Y,N)$. Both $g$ and $g_1$ may be composite. [A2 StatementI.lean:14–27 and DivLeRpowThreeQuarters.lean:66–221](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+#### Proofs
+
+**At most three primes at one degree.** Put $m=g^d$ and $n=m-1$. Then $m\ge2$ and $1\le n<m$. An exceptional prime must divide $n$, since valuation zero gives $1$ on the right of the strict test. This proves finiteness, including $n=1$. If there were four distinct exceptional primes $\ell_1,\ldots,\ell_4$, put $L_i=\ell_i^{v_{\ell_i}(n)}$. The product $\prod_i L_i$ divides $n$ by unique factorization, whereas $\prod_i L_i^4>m^4$ by the exceptional tests. Therefore $n^4\ge(\prod_i L_i)^4>m^4$, contrary to $n<m$. The Lean helper compares the product over the full filtered prime factor set and uses the same upper bound $n^4<m^4$. Start the union at $BB(0,g)=\{g\}$. Adding one degree adds at most three elements, giving $3N+1$ by induction. [A2 ExceptionalPrimesFiniteCardLe.lean:8–91](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+**At most $2d$ root classes.** Every root is a unit with inverse $x^{d-1}$. In a cyclic group of order $m$, write $x=u^j$ for a generator $u$. The congruence $dj\equiv0\bmod m$ has $\gcd(d,m)\le d$ solutions modulo $m$. More generally, if $H$ is a cyclic subgroup of a finite abelian group $G$, each coset of $H$ contains at most $d$ roots. If $x$ is one root in the coset, then $xh$ is a root exactly when $h^d=1$. This yields the bound $[G:H]d$ used by the archive. Its proof expresses the same count via the kernel of the power map.
+
+For odd $\ell$, the units modulo $\ell^w$ are cyclic. Here is the construction behind the classical theorem. Every finite subgroup of a field's multiplicative group is cyclic. Indeed its exponent $e$, the least common multiple of element orders, is attained by one element. For each prime dividing $e$, take the corresponding maximal prime-power part of an element order and multiply elements of those pairwise coprime orders. For commuting elements of coprime orders, a power killing the product must kill each factor, since their cyclic subgroups intersect only in the identity. Thus the product has order $e$. Every group element solves $X^e=1$ and the field polynomial has at most $e$ roots. The element of order $e$ therefore generates the group. In particular there is a generator modulo $\ell$.
+
+For $a=1+\ell^b u$ with $b\ge1$ and $\ell\nmid u$, the binomial expansion of $a^\ell-1$ has a first term of valuation $b+1$, middle terms of valuation at least $2b+1$, and a last term of valuation $\ell b>b+1$. Iteration gives $v_\ell((1+\ell)^{\ell^j}-1)=j+1$, so $1+\ell$ has order $\ell^{w-1}$ modulo $\ell^w$. For $w=1$ its order is one. For $w>1$ the stated power kills it and the previous power does not, which suffices since its order divides $\ell^{w-1}$. Lift a generator modulo $\ell$ to a unit modulo $\ell^w$ by taking an integer representative. Its order $t$ is divisible by $\ell-1$ since reduction is a homomorphism. Raising this lift to $t/(\ell-1)$ gives a unit of order $\ell-1$. Its product with $1+\ell$ has order $\ell^{w-1}(\ell-1)$, the number of units obtained by excluding the multiples of $\ell$. This proves cyclicity and the bound $d$.
+
+For $\ell=2,w=1$ there is only one unit. For $w\ge2$ the subgroup generated by $5$ has order $2^{w-2}$. In fact $v_2(5-1)=2$, and every $a=5^{2^j}$ is $1\bmod4$, so $v_2(a^2-1)=v_2(a-1)+1$ by factoring $(a-1)(a+1)$. Thus $v_2(5^{2^j}-1)=j+2$. The stated order follows by the same divisibility and previous-power test, with $w=2$ giving the identity. There are $2^{w-1}$ units, so the subgroup has index two. The coset bound gives $2d$. For example all four units modulo $8$ square to $1$, so a uniform bound $d$ would fail at $d=2$. [A2 CardPowEqOneLeOfIsCyclicUnits.lean:6–87](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other) · [Gauss, Disquisitiones Arithmeticae, Arts. 85–91](https://la.wikisource.org/wiki/Disquisitiones_arithmeticae/Sectio_tertia#III.85)
+
+**A single modulus for a fixed exceptional prime and degree.** The empty case of the first fixed-element bound has cardinality zero. Otherwise choose $g_0\in T$ minimizing $v_\ell(g^d-1)$ and set $w=v_\ell(g_0^d-1)$. The exceptional test at $g_0$ gives primality of $\ell$ and $w\ge1$, since $g_0^d\ge g_0\ge Y\ge2$. Set $M=\ell^w$. The minimum gives $M\mid g^d-1$ for every $g\in T$. The threshold at that minimum gives
+$$
+Y\le g_0\le g_0^d<M^4.
+$$
+Thus the image of $T$ modulo this **one** $M$ is contained in the at most $2d$ root classes of $x^d=1$. In any such class, if its fiber in $T$ has $t\ge1$ members, successive members differ by at least $M$. Its largest and smallest members differ by at most $2Y-Y=Y$. Hence $(t-1)M\le Y$ and $t\le Y/M+1$. This bound also holds for an empty fiber. Since $M>Y^{1/4}$ and $Y>0$, one has $Y/M<Y^{3/4}$. Summing over the image proves $|T|\le2dP(Y)$. The interval length is a real number throughout. [A2 DivLeRpowThreeQuarters.lean:10–140](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+**A fixed bad element in varying bases.** Filter $T$ by $g=\ell$ and also by $\operatorname{Exc}(g,d,\ell)$ for each $d=1,\ldots,N$. These filters cover $T$ when all its bad sets contain $\ell$. The first filter has at most one member. The first and exceptional branches are disjoint, since for prime $g=\ell$ one has $g^d-1\equiv-1\bmod\ell$, and for composite $\ell$ the exceptional branch is empty. Filters for different degrees can overlap. Each degree filter has at most $2dP(Y)\le2NP(Y)$ members, so
+$$
+|T|\le1+\sum_{d=1}^N2NP(Y)=1+2N^2P(Y).
+$$
+For $N=0$ only the singleton filter occurs. This explains the additive $1$ even when the fixed bad element is composite. [A2 DivLeRpowThreeQuarters.lean:142–187](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+**A fixed bad set.** Write $F=BB(N,g_1)$. It is finite with $|F|\le3N+1$, since $g_1\ge Y\ge2$. For $\ell\in F$ use the filter $S_\ell=\{g\in S:\ell\in BB(N,g)\}$. The intersection hypothesis says $S=\bigcup_{\ell\in F}S_\ell$. Each filter satisfies the preceding fixed-element bound. Adding the bounds gives $|S|\le |F|(1+2N^2P(Y))\le B(Y,N)$. Summing is valid when several $\ell$ witness the same intersection. The filters are a cover. Their cardinality sum is an upper bound. In Lean, `choiceCount_of` uses `BBCount` and `RootsOfUnityCount` for these two steps, and `choice_count` supplies both proofs. The argument consumes the lower bound on $g_1$ through $g_1\ge2$. The original contract also retains its upper endpoint and $N\ge1$. A nonempty set of candidates can contain its fixed base. [A2 DivLeRpowThreeQuarters.lean:189–221](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+#### Remarks
+
+**Which hypotheses carry the estimate [Expository].** Keep $Y=2,N=1,g_1=3$ and drop only the upper endpoint for the varying $g$ in `ChoiceCount`. Take the $28$ distinct numbers $g=1+2^j$ for $2\le j\le29$. Each is above $Y$, has $v_2(g-1)=j$, and satisfies $1+2^j<2^{4j}$. The common prime $2$ is exceptional at degree one for $3$ and for every $g$ in this family. Yet $B(2,1)=4(1+2(2^{3/4}+1))<28$ since $2^{3/4}<2$. This defeats the full choice conclusion under that deletion.
+
+For a separate weakening of the fixed-prime lemma, replace the large-power test by ordinary divisibility $\ell\mid g^d-1$, keeping primality. Take $Y=4096=8^4$, $\ell=2$, $d=1$, and all odd integers from $4097$ to $8191$. They satisfy the weakened test in $[Y,2Y]$, and there are $2048$ of them, exceeding $2dP(Y)=1026$. The minimum valuation is one, attained at $4099$, so the common modulus $2$ fails $Y<M^4$. This defeats the fixed-prime cardinality bound with the weakened predicate. The same weakening also defeats the three-prime bound at $g=211,d=1$, since $210=2\cdot3\cdot5\cdot7$. These are changes to the stated hypotheses, and the two earlier worked examples use the original predicate.
+
+**Choosing the second host [Lean, read].** Let $G\subseteq\mathbb N\cap[Y,2Y]$ be finite with $|G|>B(Y,N)$. Fix any $a\in G$. The subfamily of $G$ whose bad sets intersect $BB(N,a)$ has size at most $B(Y,N)$. Its complement contains $b$. Then the bad sets are disjoint, and $b\ne a$ since $a\in BB(N,a)$. Both actual Lean selectors implement this budget with $N=r$, candidate lower bound $Y^{9/10}\le |G|$, and the strict window inequality $20r^3<Y^{3/20}$. Indeed for $Y,r\ge1$ put $U=Y^{3/4}\ge1$. Then $3r+1\le4r$ and $1+2r^2(U+1)\le5r^2U$, so $B(Y,r)\le20r^3U<Y^{9/10}$. The short-norm selector argues against the absence of a distinct disjoint pair, explicitly including $g=a$ using the singleton. The global interpolation selector fixes $a$ first and rules out intersection with every candidate. [A2 typePrimesN.lean:9–49 and ExistsTwoLargeNormOnePrimes.lean:17–52](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+| Actual call to `choice_count` | Parameters and independent supplies |
+|---|---|
+| `GlobalTheory.EX.exists_pair_disjoint_exceptional` | `two_type_primes` uses $N=r=R.r$, $Y=(R.k\,s.b)^8$, and takes all candidates for $S=G$. The fixed $g_1=a$ is chosen from $G$. Here $G$ filters the naturals from $0$ to $\lfloor2Y\rfloor$ by primality, $Y\le g$ and `GlobalTheory.EX.NormOne` at the discriminant parameter $d$ and ray modulus. `NormPrimes` gives $Y^{9/10}\le |G|$ under `RankVal`, `ModRow`, $s.\mathrm{eps}=\varepsilon$, $0<\varepsilon<1/52$ and sufficiently large $s.x$. The rank and scale supplies give $r\ge1$, $r\le(s.x)^5$ and $(s.x)^{16}\le s.b$. The additional threshold $s.x\ge21$ gives $20r^3<s.b\le R.k\,s.b\le Y^{3/20}$. [A2 ExistsTwoLargeNormOnePrimes.lean:33–96](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other) |
+| `UpperTheory.T3.exists_pair_disjoint` | `typePrimesN` uses $N=r$, $Y=(kE)^8$, $E=\exp(x^\varepsilon)$, and $S=G=\texttt{normPrimes}(d,M,Y,2Y)$ with ray modulus $M$ and discriminant parameter $d$. This filter uses $Y<g\le2Y$, primality and `GlobalTheory.Mem.An.NormOne`. The fixed $g_1$ is any member furnished by positive cardinality. `normPrimesN` supplies $Y^{9/10}\le |G|$ from `ShortNorm`, `ModAt`, $0<\varepsilon$, sufficiently large $x$, and $8x^\varepsilon\le\log Y$. The size inputs $1\le k$, $1\le r\le x^5$ and the eventual comparison `poly_le_exp`, $21x^{15}\le E$ with $x\ge1$, give $20r^3<E\le kE\le Y^{3/20}$. [A2 typePrimesN.lean:29–129 and normPrimesN.lean:108–110](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other) |
+
+The $N$ in $BB(N,g)$ is the degree cutoff. The archives also use the letter $N$ for the ray modulus in surrounding selection theorems. In the second table row it is written $M$. The discriminant parameter in `NormOne` is likewise distinct from the variable degree in $\operatorname{Exc}$. The global interpolation selector passes the disjointness field into `HostGood` at modulus $4R.n\,q\,d$. The short-norm selector passes it into `levelData`, which also requires `SmallOne` to supply its auxiliary primes. The separate analytic supplies and the other host fields keep their own hypotheses. [A2 HostExistenceOfChoices.lean:179–190,222–230,280–286 and levelData.lean:36–69](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
+**Reading boundary.** The four squarefree label projections are [Eii](#41023-when-prime-to-parts-of-roots-collide), [Eiii](#41021-counting-roots-after-translation-by-a-unit), [Eiv](#41019-rational-factors-and-the-seven-eighths-bound-for-squarefree-degree-splits) and [Ev](#41018-counting-the-prime-degree-factor-exception). The two prime selectors give a pair of candidate primes when their named supplies are available. The [Lean] irreducibility interface additionally requires both `IsGood` families, a chosen index whose bad set avoids the residue prime, and the stated representation, transport and characteristic-polynomial identities. Those proofs retain their prior reading scope. The local production proofs and direct selectors have author-level R3 and a same-source initial review of all five audited claims. Independent-source adjudication and Lean kernel replay are [Open]. [A2 StatementT.lean:19–52](../sources/SOURCES.md#chapter-4-41022-how-exceptional-prime-sets-avoid-each-other)
+
 ### 4.10.23 When prime-to parts of roots collide
 
 #### Motivation
@@ -4176,8 +4522,8 @@ The host labels in [§4.11](#411-from-separated-inertia-lines-to-residual-irredu
 | Slot | Exceptional labels counted | Supplier |
 |---|---|---|
 | First | Two roots with the same prime-to part at an allowed prime | `squarefree_roots_injective` |
-| Second | A root with the same prime-to part as a prescribed unit | `squarefree_root_shift` |
-| Third | A divisor of a specified positive degree $a$ with $2a\le r$ | `squarefree_div_degree` |
+| Second | A root with the same prime-to part as a prescribed unit | `squarefree_root_shift` ([§4.10.21](#41021-counting-roots-after-translation-by-a-unit)) |
+| Third | A divisor of a specified positive degree $a$ with $2a\le r$ | `squarefree_div_degree` ([§4.10.19](#41019-rational-factors-and-the-seven-eighths-bound-for-squarefree-degree-splits)) |
 | Fourth | No irreducible divisor of prime degree $p$ in $r/2<p\le r-3$ | `sqfPrimeFactor_of primes_dyadic_range` ([§4.10.18](#41018-counting-the-prime-degree-factor-exception)) |
 
 The first slot concerns injectivity among the roots of a single label. Its exceptional predicate is `Eii`. The four slots share the host interfaces listed in the source ledger. [A2 `ExplicitFormulaCounts/SqfCounts.lean:18–45`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
@@ -4291,7 +4637,7 @@ quadratic `VWin` windows from exponent $401$ to $400$ and from $[W, W^2]$ to $[Z
 
 ### Motivation
 
-The archive's bad-prime selection supplies two hosts with disjoint exceptional sets. Its two selectors use the bound `ChoiceCount` and a candidate count exceeding that bound. The density and window estimates are separate inputs at those calls. At least one host therefore avoids the residue prime $\ell$. Its polynomial labels describe inertia eigenvalues of **one** residual representation. A subrepresentation has the same dimension at every label, and at each label that dimension must be a sum of lengths of Frobenius orbits. A different argument is needed on restriction to a normal subgroup. A sufficiently long prime cycle forces the minimal invariant pieces either to fill the space or to give a transitive permutation action forbidden by the solvable quotient. [A2 StatementI.lean:29–58 and StatementT.lean:19–52](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
+The archive's bad-prime selection supplies two hosts with disjoint exceptional sets. Its two selectors use the bound `ChoiceCount` and a candidate count exceeding that bound. [§4.10.22](#41022-how-exceptional-prime-sets-avoid-each-other) proves the bound and gives both calls. The density and window estimates are separate inputs at those calls. At least one host therefore avoids the residue prime $\ell$. Its polynomial labels describe inertia eigenvalues of **one** residual representation. A subrepresentation has the same dimension at every label, and at each label that dimension must be a sum of lengths of Frobenius orbits. A different argument is needed on restriction to a normal subgroup. A sufficiently long prime cycle forces the minimal invariant pieces either to fill the space or to give a transitive permutation action forbidden by the solvable quotient. [A2 StatementI.lean:29–58 and StatementT.lean:19–52](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
 
 ### Two hand calculations [Expository]
 

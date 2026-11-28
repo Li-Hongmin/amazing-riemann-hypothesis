@@ -754,6 +754,8 @@ $q_0$ distinct from $p,p'$. Its threshold is $\max(x_1,\max(x_2,x_3))$
 with $x_1$ from `typePrimesN` on the `ShortNorm` branch and
 $x_2$ from `rank_basic_bounds`. $\square$
 
+The disjoint bad sets come from the short-norm selector in [Chapter 4, §4.10.22](04-auxiliary-prime-pairs-and-host-fields.md#41022-how-exceptional-prime-sets-avoid-each-other).
+
 **Into the host.** The pair row and window in `hostOfFieldOf` give
 $\log N\le2x^{\varepsilon/5}(\log x)^2$, and `qdBig` gives
 $d\ge100$. Thus `ModAt` applies. The exponent used in the output is
