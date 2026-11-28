@@ -1505,6 +1505,12 @@ Bernstein established the strict lower-derivative spectral condition and the mir
 - **Levent Alpöge with Claude** supplied the A2 Lean transport through the right-block Whittaker quotient, the comparison with the iterated quotient, and the fixed-space induction by irreducible subquotients. [Pinned declarations](sources/SOURCES.md#chapter-7-mirabolic-derivative-finite-length-and-admissibility)
 - **Hongmin Li with Codex** contributed the composition-series exposition, both principal-series calculations, the infinite-dimensional counterexamples and the source and instance checks. The existing Jacquet section's project review and the predecessor's same-source review retain their own scope. [§7.4.3.21](chapters/07-chains-of-theta-lifts.md#74321-why-mirabolic-derivatives-have-finite-length)
 
+### Chapter 7 smooth actions on twisted Jacquet quotients
+
+- **Joseph Bernstein and Andrei Zelevinsky** gave the character-localization construction, the normalized mirabolic functors and the derivative iteration. [Original paper](https://www.numdam.org/item/10.24033/asens.1333/)
+- **Levent Alpöge with Claude** supplied A2's quotient-action and smoothness proofs, including the ordinary and twisted producers. Mathlib contributors supplied the quotient and topological group infrastructure used by those formal proofs. [Pinned declarations](sources/SOURCES.md#chapter-7-smooth-actions-on-twisted-jacquet-quotients)
+- **Hongmin Li with Codex** supplied the English reconstruction, the two exact $\mathbb Q_5$ models with the character-change counterexample, and the local R3 reading and consumer map. Project and community checks cited for earlier results keep their original scope. [§7.4.3.22](chapters/07-chains-of-theta-lifts.md#74322-smooth-actions-on-twisted-jacquet-quotients)
+
 ### Chapter 12 joint twisted Jacquet detection
 
 - **Joseph Bernstein and Andrei Zelevinsky.** The 1976 article identifies the twisted quotients with Fourier stalks and derives the zero distinguished quotient criterion. The 1977 article supplies the normalized derivative and highest-derivative pairing framework. [Primary sources](sources/SOURCES.md#chapter-12-joint-twisted-jacquet-detection)

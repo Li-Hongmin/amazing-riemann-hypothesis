@@ -5211,6 +5211,78 @@ Bernstein–Zelevinsky I (1977), §§1.8–1.9, 2.11–2.12, 3.2–3.5, Lemma 4.
 
 The direct bodies have author-level local R3. The comparison uses the grouped-kernel input of §7.4.3.18. The ordinary Jacquet result retains the review scope of §7.4.3.19. Irreducible Levi classification, the deeper Whittaker dimension bound and irreducible admissibility remain named. The example certificate checks finite calculations. Independent review of this section, Lean replay and declaration-level Main reachability are pending.
 
+### Chapter 7 smooth actions on twisted Jacquet quotients
+
+[§7.4.3.22](../chapters/07-chains-of-theta-lifts.md#74322-smooth-actions-on-twisted-jacquet-quotients) proves the action descent and the open-stabilizer argument used by the two unnormalized mirabolic quotients and the derivative iteration.
+
+Levent Alpöge with Claude, A2. The joined archive SHA-256 is
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+Lean is `leanprover/lean4:v4.33.1` (`lean/lean-toolchain:1`), and Mathlib is
+`0df444a360eaa60ab8c11dca51a86af692955474` (`lean/lake-manifest.json:6–13`).
+Each listed local Lean file matches its tar member byte for byte. Toolchain file SHA-256 `3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71`. Manifest SHA-256 `fee57ee9ed399d0a638ca955e5ad40a37a36eeb9b6dfd9f5964114fa7bbe4774`.
+[Author archive](https://alpo.ge/)
+
+#### Declarations
+
+The line numbers in the declaration column refer to the file in the next column.
+R3 is an author-level local body or call-site reading. R2 is a definition,
+statement, or inherited interface. For DYhc8, helper declarations outside the indicated proof bodies and its dependency cone remain named at the use site.
+
+| Reading | Declaration and line | File relative to tar root | Supply | Member SHA-256 |
+|---|---|---|---|---|
+| R3 local | `Gwa2.IsSmooth:3`, `twKer:12`, `TwJacquet:23`, `aux4:33`, `aux5:52`, `aux6:64`, `aux7:80`, `aux8:93`, `twAct:113`, `isOpen_fixer:141`, `isSmooth_twAct:154` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/IsSmoothTwAct.lean` | Relation generator, descent, representation identities and the representative stabilizer proof through line 169. | `6bdce333c6b7576661297a45cfc37be7112379a05f78a57f987d81ca641f1213` |
+| R3 local | `DYhc8.eLast:3`, `Mir:50`, `IsSmooth:61`, `twKer:70`, `TwJacquet:81`, `colMat:91`, `unip:266`, `MirU:283`, `MirUin:287` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ConjInvariantCharacterTransport.lean` | Last-row subgroup, relation span and column range. Definition-level reading for the group and matrix carriers. | `fddb58be3b16c2c6654617f190920e69dec548eef524fed2305142a06f52f4ff` |
+| R3 local | `conj_invariant_character_mem:291`, `rootGL_mem_unitary:317`, `conj_invariant_character_transport:329`, `span_sub_smul_le_comap_mul_twKer:345`, `conj_invariant_character_apply:358`, `twAct:379` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ConjInvariantCharacterTransport.lean` | Parallel descent by mapQ, identity and product on representatives. | `fddb58be3b16c2c6654617f190920e69dec548eef524fed2305142a06f52f4ff` |
+| R3 local | `glEmbMat:407`, `glEmbHom:446`, `glEmb:453`, `glEmb_mem_mirabolic:457`, `levi:468`, `glEmbMat_mul_colMat:473`, `colMat_mul_glEmbMat:487`, `conj_unip:498`, `levi_conj_unipotent_mem:513` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ConjInvariantCharacterTransport.lean` | Block embedding and column conjugation, with trivial character. | `fddb58be3b16c2c6654617f190920e69dec548eef524fed2305142a06f52f4ff` |
+| R3 local | `psiMinus:538`, `SmPsiMinus:557`, `continuous_glEmbMat:565`, `continuous_levi:580`, `isOpen_fixed:586`, `DYhc8.main:604` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/ConjInvariantCharacterTransport.lean` | Ordinary quotient, entrywise/units continuity and representative stabilizer proof through line 615. | `fddb58be3b16c2c6654617f190920e69dec548eef524fed2305142a06f52f4ff` |
+| R3 local | `VectorStabilizer.vecStab:3` | `lean/src/Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/VectorStabilizer.lean` | Subgroup identity, product and inverse; direct supply to the SmoothPhiMinus vecStab wrapper, while the production openness helpers package their own subgroups. | `33746819d429e884e8432c1d25a3e62101c7ebd2c1716ba5a60b4e94aedf853a` |
+| R3 routing | `vecStab:16`, `isSmooth_twAct:19`, `continuous_glEmbHom:29`, `continuous_glEmb:43`, `continuous_levi:46`, `smPhiMinus:49` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SmoothPhiMinus.lean` | Public twisted representation and its continuous Levi composed with the smaller mirabolic inclusion; wrapper calls Gwa2. | `89c9c79db693628df16fd93e8028ece857049433e30f365693290af797d16dcd` |
+| R3 routing | `continuous_glEmbHom:12`, `continuous_levi:24`, `smPsiMinus:28` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SmoothPsiMinus.lean` | Public continuity helper and ordinary wrapper. The producer uses its own continuity lemma. | `3b7d47761d2cdb098578959ecbeca1917f275f7423c244a5c5817d61e5d95874` |
+| R3 routing | `GlobalTheory.T.smooth_phi_minus:6` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SmoothPhiMinusStatement.lean` | Exports smPhiMinus. | `e370c2ca581936152b1702065d9c0446305f3da3f8cb0072f469cb743b6a1d2e` |
+| R3 routing | `GlobalTheory.T.smooth_psi_minus:6` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SmoothPsiMinusStatement.lean` | Exports smPsiMinus. | `14b8f3323dc76b4421b34663cc29450f271a2aa0677e94ad6e33249bdc3c4a9a` |
+| R3 local | `stabSub:8`, `twAct_isSmooth:22` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedActionSmooth.lean` | Parallel public proof via the open stabilizer subgroup and Subgroup.isOpen_mono. | `06c03b7762ad6f4855867670a8c43022678839ea64a719b9427fc2bad420b695` |
+| R3 routing | `GlobalTheory.T.twisted_action_smooth:6` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedActionSmoothStatement.lean` | Separate public generic leaf inherited from predecessor routing; not the call inside the two elementary wrappers. | `933d3bc538d26934af2f5eafdf6db0f30f601dce9299357d8e6de62b91d9ab15` |
+| R2 interface | `SmPsiMinus:12`, `SmPhiMinus:19` | `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/TwistedKernels/ExPhiPlusOnto.lean` | Public contracts; the twisted contract quantifies over all additive characters. | `9d3fda482399760654ae93b8afa08f1a3f5bcb2e2cdd54da0dd81616d043ee84` |
+| R2 definitions; R3 action | `eLast:14`, `Mir:16`, `colMat:27`, `unip:53`, `MirU:79`, `glEmbMat:100`, `glEmbHom:121`, `glEmb:126`, `glEmb_mem_Mir:128`, `twAct:143` | `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/UnipApplyCastSuccLast.lean` | Shared public mirabolic group and action; direct generator proof and quotient representation. | `522b048c5ae41c58c4c337afd83ad3ca6c2a76fd21fcb00857fdd4582efb562b` |
+| R2 definitions; R3 conjugation | `mem_Mir_iff:14`, `levi:39`, `MirUin:41`, `chrV:43`, `mirChar:48`, `glEmbMat_mul_colMat:52`, `colMat_mul_glEmbMat:60`, `glEmb_mul_unip':65`, `mulVec_last_of_mem:74`, `mirChar_eq:82`, `levi_normalises:127`, `psiMinus:138`, `levi_stab:148`, `phiMinus:167` | `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/ColMatMulGlEmbMat.lean` | Public last-coordinate character, conjugation and stabilizer; the two unnormalized functors. | `3b2624c11354687759a16f73eaa9c00352138f2a448f51aa24157f7826d321f7` |
+| R2 definitions | `MRep:197`, `MRep.phiM:207`, `iterPhi:212`, `derivM:218`, `resM:224`, `deriv:229` | `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/ColMatMulGlEmbMat.lean` | Recursion, last ordinary quotient and continuous restriction routing. | `3b2624c11354687759a16f73eaa9c00352138f2a448f51aa24157f7826d321f7` |
+| R2 definitions | `twKer:21`, `TwJacquet:24`, `IsSmooth:73` | `lean/src/Development/AbelianVarietyTheory/Definitions/Foundations/SmoothPartStable.lean` | Public relation span, carrier and smoothness predicate. | `592fad187e9468878f81c31007aea0129c7d3a8b8c8a7f5f892de8c316fa864f` |
+| R3 local | `isSmooth_comp:175` | `lean/src/Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/IsUnitarisableOfCharIff.lean` | Preimage along a continuous homomorphism, used by isSmooth_resM. | `9c6732789e931a9e55e5fc43e4d5e798ef3e0370ee79e39bf56a173f09d5a6d8` |
+| R3 routing, inherited; selected calls read | `isSmooth_iterPhi:74`, `isSmooth_resM:79`, `isSmooth_deriv:82`, `phi_vanish:95` (102–104), `pair_iter:128` (142–144), `pair_deriv:152` (167) | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IsSmoothIterPhi.lean` | Both exported leaves enter the iteration. Further twisted applications provide the needed smooth arguments to existence and pairing calls. | `cacad5bb76d1cc329ffe18420bdca55dd6853ee16fbb302cef4759304a2ae8bc` |
+| R2 inherited | `derivB:31` | `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/LeibnizDerivatives/HighestDerivProd.lean` | Zero-order identity, positive order j+1. | `8c6083feee77bcfccea79fd29aa27addb90fb8e3e4e20b6d548697f912209e69` |
+| R3 consumer only | `isSmooth_derivB:51` (124–127,133 further calls) | `lean/src/Development/WeilBound/RepresentationTheoryGL/UnitaryDualProof/CentralProducts/PositiveProducts/NontrivialOfNeBot.lean` | Twisted factor derivatives in the product layer. | `40eaae0cc38d0cb8ec8771290f32f56704c09b6b54c618702018416549cf62b3` |
+| R3 consumer only | `PosProdOf.lean:60–61` | `lean/src/Development/WeilBound/RepresentationTheoryGL/UnitaryDualProof/CentralProducts/PositiveProducts/PosProdOf.lean` | Smoothness of the shifted factor derivative for the strictness argument. | `43ca3cfe9fb353bbb8094a912e2f79eee2a1f512f280cb07ba696defec3c189d` |
+| R3 consumer only | `isSmooth_derivB:177`, `isSmooth_tw:182`, `sigma_facts:349` (357 further call) | `lean/src/Development/WeilBound/RepresentationTheoryGL/UnitaryDualProof/CentralProducts/SubquotientBounds/LeOfSubsingletonSubQuot.lean` | Smoothness of the two shifted factors in the highest product. | `7205b20a6936ce25ca351580a395445b0214d40e475a84bd45e2773aa127924f` |
+| R3 consumer only | `nuPair:67` (102–104) | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NuPairOfDerivativesJacquet.lean` | Smooth derivative of the contragredient enters the dual-subquotient call. | `487466ae6a0e425eb0b18eb5b0f9022e6acfcd1188ad589a691b0107c6eefdf3` |
+| R3 consumer only | `isAdmissible_derivB:51` (56–59), `uAdm:63` | `lean/src/Development/WeilBound/RepresentationTheoryGL/UnitaryDualProof/HermitianForms/UnitaryLattices/SubquotientEigenvectors/ExistsEigenOfSubquot.lean` | Distinct smoothness, finite-length and simple-subquotient inputs to admissibility. | `2b30162abe0d4016323896027f088b4a18ccd71cd41feee5919d8236ecd58fbc` |
+
+#### Reading boundaries
+
+- The prior product and derivative-length sections use the iteration with the elementary smoothness producers as named inputs. The deeper `Gwa2` and `DYhc8` bodies are the new local reading. [Product source map](#chapter-7-74316--the-highest-derivative-of-a-parabolic-product) · [Derivative length source map](#chapter-7-mirabolic-derivative-finite-length-and-admissibility)
+- `DerFin`, `derEquiv`, quotient comparison and finite-length/admissibility proofs are
+  consumed from §§7.4.3.18–21. The deeper Levi, Whittaker and irreducible
+  admissibility inputs retain their named boundaries. Pairing, nonvanishing and
+  dual-subquotient suppliers are only followed to their smoothness argument slots.
+- Library dependencies are named at their use: `Submodule.span_le`,
+  `Submodule.subset_span`, `Submodule.mapQ`, `Submodule.Quotient.mk_surjective`,
+  `Subgroup.isOpen_of_mem_nhds`, `Subgroup.isOpen_mono`, `Continuous.units_map`,
+  `continuous_matrix` and the subtype continuity lemmas. Their internal Lean proofs
+  and the full topology/typeclass/import cones have not been reviewed in this run.
+- This delivery has author-level local R3 and a finite exact example certificate.
+  Independent review, Lean kernel replay, compiled Main reachability and peer review
+  are pending. Book rendering is a separate check.
+
+#### Classical reference
+
+I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive
+p-adic groups. I*, Annales scientifiques de l'École Normale Supérieure 10 (1977),
+441–472. Consulted online in this run. §1.5, p. 443, defines smoothness under
+the name algebraic. §1.8(b), p. 444, gives the action on the character quotient
+with inverse half modulus. §§3.1–3.2, pp. 450–451, give the last-row group,
+the character and the functors, and §3.5, p. 452, gives the iteration.
+PDF SHA-256 `8424600228ab72c5937e45edceefcae410a2a0b8f5ebf282185691542aa89092`.
+[Original scan](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf)
+
 ### Chapter 12 joint twisted Jacquet detection
 
 [§12.4.6](../chapters/12-galois-representations-and-local-langlands.md#1246-detecting-a-vector-by-all-its-twisted-jacquet-images) reads the compact frequency cover and two finite quotient constructions in the archive of Levent Alpöge with Claude. A2 joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Lean `leanprover/lean4:v4.33.1` and Mathlib `0df444a360eaa60ab8c11dca51a86af692955474` are pinned by `lean/lean-toolchain` and `lean/lake-manifest.json:3–14`. The files below are relative to the joined archive or to the linked Mathlib revision. R2 records definitions, statements and retained dependency interfaces. R3 records the local bodies. Kernel replay, declaration-level Main reachability and peer review are separate records.
