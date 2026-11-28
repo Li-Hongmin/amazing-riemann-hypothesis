@@ -32,6 +32,7 @@
 - [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
 <!-- Chapter 9 includes §9.4.32 (#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span) and §9.4.33 (#9433-highest-weight-lines-compact-irreducibility-and-casimir-transfer). -->
 <!-- Chapter 10 includes the finite inertia exclusions in §10.4.13.1 (#104131-only-finitely-many-places-have-inertia-moving-a-fixed-finite-extension). -->
+<!-- Chapter 10 includes the tame inertia witness in §10.4.7.3.1 (#104731-choosing-a-tame-inertia-witness-for-the-auxiliary-prime-construction). -->
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 - [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)
 
