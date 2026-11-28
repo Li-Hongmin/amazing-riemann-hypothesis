@@ -7258,3 +7258,48 @@ See the [declaration and consumer table](#chapter-12--a-positive-radius-for-the-
 ### Chapter 12 — Derivative cancellation for a given inverse chart
 
 See the [declaration and consumer table](#chapter-12--a-positive-radius-for-the-inverse-series) for the pair-filter proof, its wrappers and the chart calls. [Chapter 12](../chapters/12-galois-representations-and-local-langlands.md#derivative-cancellation-for-a-given-inverse-chart)
+
+## Chapter 14 Fourier convolution and the reflected Mellin multiplier
+
+[Textbook §14.4.2.7](../chapters/14-masullos-trace-formula-route.md#fourier-convolution-and-the-reflected-mellin-multiplier) uses the two-integrable-input Fourier convolution theorem, then the reflected kernel and the $L^2$ extension. [§14.4.2.6](../chapters/14-masullos-trace-formula-route.md#mellinplancherel-on-the-positive-multiplicative-group) develops the inherited logarithmic Haar coordinates and Plancherel input. [Declaration map with consumers and read levels](../notes/proof-map.md#chapter-14-convolution-and-representatives)
+
+**Classical source.** NIST DLMF §1.14(i), (1.14.1) and (1.14.5), checked online 2026-11-28, gives the scalar convolution theorem with two absolutely integrable inputs. Its forward phase is $e^{ixt}$ and each symmetric normalization uses $(2\pi)^{-1/2}$. The positive-power Mellin convention comes from Masullo (D.3.2.2) and §4.4.1, pp. 189–190. The Gaussian and Schwartz periodization inputs are treated in Chapter 1. The textbook’s Banach-valued real-line specialization, norm estimates and examples are exposition of these classical and pinned results. [DLMF §1.14(i)](https://dlmf.nist.gov/1.14#Px2) · [Masullo](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=802) · [Chapter 1 §1.2.2.7](../chapters/01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion)
+
+## Chapter 14 Bochner production of convolution
+
+[Textbook §14.4.2.8](../chapters/14-masullos-trace-formula-route.md#bochner-production-of-convolution-and-its-representatives) follows A2’s construction and the representative bridge. The archive gives the almost-everywhere formula for continuous compactly supported kernels. The same textbook manuscripts prove the integrable-kernel extension and the everywhere-integrable sections under the bounded compact-support hypothesis. The audits affirm the paper proofs at their original scope. Local R3 is proof-body reading. Example arithmetic and Lean kernel replay have separate verification statuses. [A2](#a2) · [Declaration map](../notes/proof-map.md#chapter-14-convolution-and-representatives)
+
+### Archive and Mathlib file fingerprints
+
+A2 SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`; Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`. A2 member paths start at `src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ScatteringLimits/` except for the upstream definition source whose path is given in full.
+
+| Pinned file | SHA-256 |
+| --- | --- |
+| `A2 Carries.lean` | `71d3a336ed579e0b7324cbedc6a547ca21ee5e97f81f96c36c688ac3ca8155f5` |
+| `A2 Carries.lean` | `71d3a336ed579e0b7324cbedc6a547ca21ee5e97f81f96c36c688ac3ca8155f5` |
+| `A2 AeIntegral.lean` | `fc1270496dc74c3af6abef98ad5f546709269313a6426cc693343ef1071f23bc` |
+| `A2 ConvolutionSpectra/ConvSpec.lean` | `e6ebbb4a9e618f684f7fd50f56041af1bde0b7711d5d3afee2574e42cadec7bb` |
+| `A2 ConvolutionSpectra/FourConv.lean` | `1a7a15697e265bfc85c8b4e6e3fe508d469c7b8b73129a863661000b763c2647` |
+| `A2 ConvolutionSpectra/FourAe.lean` | `4b90bff68078c50d9e77ec1f63dd3a702f24ddc8979b06f2c1e62074e8c38b6c` |
+| `A2 ConvolutionSpectra/Planch.lean` | `89dac2c66d54734f96c0d5695a4d614179d0b1122008a02b59238f44ecaab536` |
+| `A2 src/Development/WeilBound/RepresentationTheoryGL/TwistedFactors/TruncatedCuspIrreducibility/ScatteringLimits.lean` | `75ba27c3ee93bb4ba72c0b82eb072939192fb5e24940fa807a38d1d99a1d560c` |
+| `Mathlib/Analysis/Fourier/Convolution.lean` | `9d5859086a1e80f988bb978e41a0c89a91ae8a486d2f8662bb463a742276db3d` |
+| `Mathlib/Analysis/Convolution.lean` | `2e02a96b2ee6de4b52b6414aa938fd46f89690939d5c86964071b73a88dbd184` |
+| `Mathlib/MeasureTheory/Integral/Prod.lean` | `c7d4d23349591c5c65aa5b1b6024331fb0b7f22e9b2b08d6a1fe19b1c258ec5b` |
+| `Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean` | `9ff3671419af1edfce4be620d5a759b4868f39e30dcf00a4888071a5c8b19604` |
+| `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` | `c333a6caa56906c6203cad3e3214be2114a65728fcfdf95ae639992abefb373f` |
+| `Mathlib/MeasureTheory/Function/L2Space.lean` | `7dd0542490f2841e8a91d2258a903d328383d7305915375d99d589fae40de399` |
+| `Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean` | `43bf32586f886a8080a463b6c4322a6a18e3a89f40ee9e37c9a232ace7fcc44b` |
+| `Mathlib/Analysis/Fourier/FourierTransform.lean` | `589a62a5719d3912b7f16b834c47c24a1f782ca025920b1849fc3cf788609412` |
+| `Mathlib/Analysis/Fourier/Inversion.lean` | `c16e758b0c905129a50059a319bedab96c3246474ef8f7ea8a9f40cda544ea01` |
+| `Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean` | `419ecc0c5e5041be90969b55722b67e368c253d62c75e65209a749a031602cd0` |
+| `Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean` | `8f74642098d0390e08eae980f72ba29801c46b03446dae2fd20eff9ba0f08737` |
+| `Mathlib/Analysis/Normed/Operator/Extend.lean` | `4abf247ac781651a9e4cf06cfcdcb130f5e3183f598f568e19ce83dcca8c09c5` |
+| `Mathlib/Analysis/Fourier/LpSpace.lean` | `901386dd897fc7e1c2d4b3b0cca3adb96829bf9d011e57be5e8f7e85a81598f3` |
+
+### Declaration attribution
+
+- **Moritz Doll** introduced the Fourier convolution declarations and the $L^2$ Fourier equivalence. The pinned convolution proof incorporates the removal of continuity hypotheses by Dennj. Doll also introduced `LinearEquiv.extendOfIsometry`. [Fourier convolution](https://github.com/leanprover-community/mathlib4/commit/7d812d63488c4c350625b66aeb4e3528bb9d7fbd) · [Weakened hypotheses](https://github.com/leanprover-community/mathlib4/commit/07f4b8dcd071cb3a38a57d99a505ec56667c6be4) · [Plancherel](https://github.com/leanprover-community/mathlib4/commit/a10b7544deddadbdc1d4ca750810bbf11ae7e0f1) · [Isometric extension](https://github.com/leanprover-community/mathlib4/commit/a4819b5c820bcc1e2bf3de3efee6c84f5fef44d8)
+- **Floris van Doorn** introduced the convolution integrand, a.e. existence, $L^1$ output and flip declarations. The Lean 4 port of his product integration file by Ruben Van de Velde supplies Fubini and its swap, with later weakening of hypotheses by Yury G. Kudryashov. [Integrand](https://github.com/leanprover-community/mathlib3/commit/a07493af5f1c372f3f5dfb79f53b34944db2ef4f) · [Convolution](https://github.com/leanprover-community/mathlib3/commit/41ca601555ef8a6e4c241fff820f8a00531e27b2) · [Fubini port](https://github.com/leanprover-community/mathlib4/commit/892102cacacea1891583b58484d60fc8b98246c4) · [Product assumptions](https://github.com/leanprover-community/mathlib4/commit/7dffcc4b8cf7f65cdda6024e5c5531ee3de9eb7a)
+- **Yury G. Kudryashov** introduced the continuous family of measure-preserving compositions. **Rémy Degenne** introduced the indicator-inner-product and sigma-finite set-integral uniqueness declarations. [Composition continuity](https://github.com/leanprover-community/mathlib4/commit/966a472f11ccaf49e93aad12905519f5a21a8459) · [Indicator test](https://github.com/leanprover-community/mathlib3/commit/f302c979512cbceca287296035019909a53260b7) · [Uniqueness](https://github.com/leanprover-community/mathlib3/commit/608faf0ae4c6798b1f27fa32596e0b4fd88dc7f3)
+- **Sébastien Gouëzel** introduced the Fourier inversion proof. **Jack Valmadre** introduced the Schwartz-to-$L^p$ continuous linear map. [Fourier inversion](https://github.com/leanprover-community/mathlib4/commit/9fb833b8330ac5403dde5d09f5fb5bc49a40d220) · [Schwartz map to Lp](https://github.com/leanprover-community/mathlib4/commit/b9c7233cfdbab76db1cf230182a5e4447e081e90)

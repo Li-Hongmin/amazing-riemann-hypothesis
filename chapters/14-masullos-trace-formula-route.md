@@ -2109,6 +2109,639 @@ the cutoff. [Lean, read] for the producer and induction.
   approximation in scalar Lebesgue $L^1(\mathbb R^d)$.
   [Tao, 245A Notes 2](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/).
 
+<a id="mellinplancherel-on-the-positive-multiplicative-group"></a>
+
+#### 14.4.2.6 Mellin–Plancherel on the positive multiplicative group
+
+Poisson summation samples a transform on a lattice. The [Schwartz and Gaussian cases in §1.2.2.7](01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion) supply that background. An $L^2$ argument on the
+positive multiplicative group instead uses a continuum of frequencies. The
+logarithm explains both operations. A multiplicative character becomes an
+ordinary exponential in the logarithmic coordinate, and multiplication of
+the argument becomes translation. In Tate's setting the following real
+calculation concerns the positive norm coordinate. It also explains why the
+half-density in §14.2.1 puts the ordinary Mellin transform on the line
+$\Re s=1/2$.
+
+For orientation, the Haar volume of $[1,e]$ and that of $[r,re]$ are both $1$.
+For $f=\mathbf 1_{[1,e]}$, the Haar Mellin integral on the imaginary axis is
+$(e^{it}-1)/(it)$, with value $1$ at $t=0$. The same frequency profile occurs
+on the critical line for $x^{-1/2}\mathbf 1_{[1,e]}$ in $L^2(dx)$.
+
+**Definitions and normalization lemma.** Write $G=\mathbb R_{>0}$ and
+$d^\times x=dx/x$. With $x=e^u$ we have $dx=e^u\,du$ and
+$d^\times x=du$. For each $r>0$, the substitution $x=ry$ in the integral
+of a nonnegative measurable function gives $dx/x=dy/y$. This verifies
+Haar invariance, with the normalization just specified. The maps
+$$
+ (Uf)(u)=f(e^u),\qquad (Jg)(x)=x^{1/2}g(x),\qquad
+ (Vg)(u)=e^{u/2}g(e^u)
+$$
+are unitaries $U:L^2(G,d^\times x)\to L^2(\mathbb R,du)$,
+$J:L^2(G,dx)\to L^2(G,d^\times x)$ and
+$V:L^2(G,dx)\to L^2(\mathbb R,du)$. Indeed
+$\int_G |Jg|^2\,d^\times x=\int_G |g|^2\,dx$ and
+$\int_{\mathbb R}|Uf|^2\,du=\int_G|f|^2\,d^\times x$. The inverse maps are
+$h\mapsto h\circ\log$ for $U$ and $f\mapsto x^{-1/2}f$ for $J$, and
+$V=UJ$. These substitutions also preserve the corresponding null sets.
+
+Use the positive-power convention
+$\mathcal M f(s)=\int_G f(x)x^s\,d^\times x$ wherever it converges
+absolutely, with $x^s=e^{s\log x}$. The ordinary Mellin integral of $g$
+is $\int_0^\infty g(x)x^{s-1}\,dx=\mathcal M g(s)$ on the same domain
+of convergence. With $\widehat h(\xi)=\int_{\mathbb R}h(u)e^{-2\pi iu\xi}\,du$,
+$$
+ \mathcal M f(it)=\widehat{Uf}(-t/(2\pi)),\qquad
+ \mathcal M g(1/2+it)=\mathcal M(Jg)(it)=\widehat{Vg}(-t/(2\pi)).
+$$
+Thus the frequency measure in $t$ is $dt/(2\pi)$. Reflecting the frequency
+coordinate reverses the limits of integration and its Jacobian enters with
+absolute value. More generally, the line $\Re s=b$ corresponds to
+$L^2(G,x^{2b}d^\times x)$ via multiplication by $x^b$. In particular
+$x^{2b}d^\times x=dx$ at $b=1/2$. Masullo uses this positive-power
+convention in (D.3.2.2). In §4.4.1 he splits a modulated group using a
+section of the norm and applies the compact-factor character transform,
+with character inversion when switching from the conjugated Fourier kernel
+to the positive quasi-character. The calculation here treats the norm factor.
+[Paper] [Masullo, pp. 189–190](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=189)
+· [pp. 802–803](https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=802)
+
+**Mellin–Plancherel theorem.** Given Schwartz inversion for the additive
+Fourier transform above, the two line transforms just defined extend uniquely
+to complex-linear unitaries onto $L^2(\mathbb R,dt/(2\pi))$. They agree
+almost everywhere with the integral transforms when $Uf$ or $Vg$ lies in
+$L^1\cap L^2$. If $F$ and $H$ are the respective transforms, the inverses are
+$$
+ f(x)=\lim_{R\to\infty}\int_{-R}^{R} F(t)x^{-it}\,\frac{dt}{2\pi},
+ \qquad
+ g(x)=\lim_{R\to\infty}\int_{-R}^{R} H(t)x^{-1/2-it}\,\frac{dt}{2\pi}.
+$$
+The limits are in the original $L^2$ norms. If the transform is also in $L^1$
+for the indicated frequency measure, the unrestricted inverse integral
+gives a continuous representative on $G$.
+
+**Proof.** The inversion input can be seen directly from the [Gaussian transform in §1.2.2.7](01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion). For $h\in\mathcal S(\mathbb R)$ insert
+$e^{-\pi\varepsilon\xi^2}$ into the inverse integral with input $\widehat h$.
+For fixed $\varepsilon>0$, Fubini applies since both $h$ and the damping
+factor are integrable. The Gaussian transform gives the convolution at $u$
+with $\varepsilon^{-1/2}e^{-\pi v^2/\varepsilon}$. Its integral is one,
+and after substituting $v=\sqrt{\varepsilon}\,w$, boundedness and
+continuity of $h$ give convergence to $h(u)$ by dominated convergence.
+On the frequency side use $|\widehat h|$ as the majorant. This proves
+$\mathcal F^{-1}\mathcal Fh=h$. Reflection commutes with the Fourier
+transform by the substitution $u\mapsto-u$, so the other composition is
+the identity as well.
+
+On $\mathcal S(\mathbb R)$, use the inner product conjugate-linear
+in its first argument. For Schwartz functions $h,k$, the double integrand
+for $\int\overline{\widehat h}k$ has absolute value $|h(u)||k(\xi)|$.
+Fubini therefore gives
+$\int\overline{\widehat h}k=\int\overline h\,\mathcal F^{-1}k$.
+Put $k=\widehat l$ and use Schwartz inversion to obtain
+$\langle\widehat h,\widehat l\rangle=\langle h,l\rangle$. The
+Schwartz Fourier map and its inverse send Schwartz functions to Schwartz
+functions. For the inverse, the plus sign also follows by reflecting the
+argument of the forward transform.
+
+Pull back the Schwartz domain by $U$ or $V$. Each is dense because
+$C_c^\infty(\mathbb R)$ is dense in $L^2(du)$. Their members have absolutely
+convergent Mellin integrals on the corresponding lines. Schwartz functions
+on the line have rapidly decreasing Fourier transforms: differentiation
+under the integral and integration by parts show boundedness of every
+power of the frequency times every Fourier derivative. The forward image
+is the entire Schwartz space in the $t$ coordinate, by additive inversion
+and the invertible linear change of frequency. On either domain an
+approximating sequence in the source norm has Cauchy transforms by the
+isometry. Completeness gives a limit, and the norm of the difference of
+two such sequences proves independence of approximation. This defines the
+unique continuous extension. The inverse extends by the same argument.
+Both compositions equal the identity on dense subspaces, hence everywhere.
+
+For the integral identification, approximate the logarithmic function in
+both $L^1$ and $L^2$ by smooth compactly supported functions. One can first
+truncate in a finite interval and then convolve with a smooth compactly
+supported approximate identity, using translation continuity in both norms.
+The integral transforms converge uniformly by the $L^1$ bound. The $L^2$
+transforms converge in norm, hence along a subsequence almost everywhere.
+The two limits agree. The same argument applies to the inverse for
+$L^1\cap L^2$ data. In particular each truncated transform is in that
+intersection by Cauchy–Schwarz on a finite interval. The inverse integral
+therefore represents the inverse at each truncation, and the tails tend
+to zero in $L^2$. For full $L^1$ frequency data the inverse integrals in the
+Haar normalization converge uniformly by the $L^1$ tail bound. The inverse
+in the $dx$ normalization is this continuous representative times
+$x^{-1/2}$. This proves the assertions about inversion.
+
+For the pairing, let $F_j=\mathcal M f_j(i\,\cdot)$ and
+$H_j=\mathcal M g_j(1/2+i\,\cdot)$ denote the extended transforms. By the
+Schwartz pairing and continuity,
+$$
+ \int_G\overline{f_1}f_2\,d^\times x
+ =\int_{\mathbb R}\overline{F_1(t)}F_2(t)\,\frac{dt}{2\pi},
+ \qquad
+ \int_G\overline{g_1}g_2\,dx
+ =\int_{\mathbb R}\overline{H_1(t)}H_2(t)\,\frac{dt}{2\pi}.
+$$
+All these products are integrable by Cauchy–Schwarz. A general $L^2$
+transform is an equivalence class on a line. Values at a frequency and
+holomorphic dependence require further hypotheses.
+
+**Reflection and conjugation.** Inversion $If(x)=f(1/x)$ is unitary for
+$d^\times x$, since logarithmic inversion is $u\mapsto-u$. In the $dx$
+picture the corresponding involution is
+$Kg(x)=x^{-1}g(1/x)$, since $K=J^{-1}IJ$. Changing variables $y=1/x$
+on the absolute convergence domains yields
+$$
+ \mathcal M(If)(s)=\mathcal M f(-s),\qquad
+ \mathcal M(Kg)(s)=\mathcal M g(1-s),\qquad
+ \mathcal M(\overline g)(s)=\overline{\mathcal M g(\overline s)}.
+$$
+In the second identity the factor $x^{-1}$ becomes $y$, so that the new
+power against $d^\times y$ is $1-s$. In the third identity $x$ is positive
+and $\overline{x^{\overline s}}=x^s$. Thus $K$ reflects $t$, complex
+conjugation sends $H(t)$ to $\overline{H(-t)}$, and their composition sends
+$H(t)$ to $\overline{H(t)}$ on the critical line. The corresponding Haar
+identities use $s\mapsto-s$ and the same conjugation rule. All these equalities
+extend as identities of $L^2$ classes by density and isometry. Applying the
+pairing to a conjugated first input gives the bilinear identity
+$\int_G g_1g_2\,dx=\int_{\mathbb R}H_1(-t)H_2(t)\,dt/(2\pi)$,
+with the same statement for $f_j,F_j,d^\times x$. The argument
+$1-s$ on the critical line is precisely $1/2-it$. This is a relation
+between transforms of reflected inputs.
+
+**Formal source correspondence.** In pinned Mathlib, the real Fourier
+kernel is $e^{-2\pi iu\xi}$. The $L^2$ construction
+`MeasureTheory.Lp.fourierTransformₗᵢ` extends the Schwartz Fourier
+equivalence using the dense embeddings `SchwartzMap.toLpCLM` on both
+sides and the norm equality `SchwartzMap.norm_fourier_toL2_eq`.
+`LinearEquiv.extendOfIsometry` extends both directions and checks the
+inverse identities and norm on dense ranges. The pairing comes from
+the Schwartz sesquilinear Fubini identity and Fourier inversion. The
+pinned proof of inversion uses a Gaussian approximate identity. These
+read additive declarations supply the classical input [Lean, read].
+The same isometry is consumed by the archive's scattering estimate
+`UpperTheory.V.Z.IntegralApplyAeEq.planch`: its function is
+$u\mapsto e^u\kappa(u)v$, and the integral at $\xi$ equals the symbol
+evaluated at $1-2\pi i\xi$ on $v$. The proof passes from the $L^2$
+transform to the integral almost everywhere via
+`UpperTheory.V.Z.IntegralApplyAeEq.fourAe`. This is an additive
+Fourier use with an exponential weight [Lean, read].
+The logarithmic transport above also applies componentwise to finite-dimensional
+complex Hilbert spaces. For the positive-width strip application see the
+[discussion of Masullo’s spectral step](#ch14-strip-gap) [Open].
+[Mathlib, `Mathlib/Analysis/Fourier/LpSpace.lean:47–115`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/LpSpace.lean#L47-L115)
+· [`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean:273–329`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean#L273-L329)
+· [`Mathlib/Analysis/Normed/Operator/Extend.lean:249–332`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Operator/Extend.lean#L249-L332)
+
+<a id="fourier-convolution-and-the-reflected-mellin-multiplier"></a>
+
+#### 14.4.2.7 Fourier convolution and the reflected Mellin multiplier
+
+The shift $x\mapsto xe^u$ on the positive multiplicative group becomes
+translation by $+u$ in logarithmic coordinates. Averaging such translations
+gives an operator diagonalized by Fourier transformation. The direction of
+translation determines the sign of the symbol. We use the normalization of
+[Mellin–Plancherel](#mellinplancherel-on-the-positive-multiplicative-group):
+the forward additive phase is $e^{-2\pi i x\xi}$ and the positive-power
+Mellin parameter is $it$ with $t=-2\pi\xi$.
+
+**Example 1 (a shifted complex box).** Set $\kappa(u)=i\mathbf 1_{[1,2]}(u)$
+and $h(x)=\mathbf 1_{[0,1]}(x)$. Write
+$T_\kappa h(x)=\int\kappa(u)h(x+u)\,du$. This is $i$ times the length
+of $[1,2]\cap[-x,1-x]$. The length is $2+x$ on $[-2,-1]$, $-x$ on
+$[-1,0]$, and zero outside $[-2,0]$. Put $q(v)=(1-|v|)_+$, so the
+output is $iq(x+1)$.
+
+Put $a=2\pi\xi$. Integration at the endpoints gives
+$\widehat h(\xi)=(1-e^{-ia})/(ia)$ and
+$\int_1^2 i e^{iau}\,du=i e^{ia}(e^{ia}-1)/(ia)$ for $a\ne0$.
+To transform the output directly, set $v=x+1$. Evenness reduces the
+transform of $q$ to $2\int_0^1(1-v)\cos(av)\,dv$. Integration by parts
+gives $(2/a)\int_0^1\sin(av)\,dv=2(1-\cos a)/a^2$. Thus
+$$
+ \widehat{T_\kappa h}(\xi)=i e^{ia}\frac{2(1-\cos a)}{a^2}
+ =\left(i e^{ia}\frac{e^{ia}-1}{ia}\right)\frac{1-e^{-ia}}{ia}.
+$$
+At zero the input, symbol and output have values $1,i,i$ by the box
+and tent areas. At $\xi=1/4$ the output transform is $-8/\pi^2$.
+Using the negative exponential for the kernel would give
+$-8i/\pi^2$ there. Conjugating the reflected kernel would also reverse
+the coefficient $i$.
+
+**Example 2 (a two-piece matrix kernel).** In the standard basis of
+$\mathbb C^2$ take $Ae_1=e_2$, $De_1=i e_1$ and $Ae_2=De_2=0$.
+Put $\kappa(u)=A\mathbf 1_{[0,1)}(u)+D\mathbf 1_{[1,2]}(u)$ and
+$h(x)=e_1\mathbf 1_{[0,1]}(x)$. The first piece contributes the length
+of $[0,1]\cap[-x,1-x]$ times $e_2$. This length is $1+x$ on $[-1,0]$,
+$1-x$ on $[0,1]$ and zero elsewhere. The second piece uses the
+shifted intersection of Example 1. So the output is $e_2q(x)+i e_1q(x+1)$.
+Integrating its two tents as above gives
+$$
+ \widehat{T_\kappa h}(\xi)=\frac{2(1-\cos a)}{a^2}(e_2+i e^{ia}e_1).
+$$
+Computing the symbol and input by their endpoint differences gives
+$$
+ M(\xi)=\frac{e^{ia}-1}{ia}(A+e^{ia}D),\qquad
+ \widehat h(\xi)=\frac{1-e^{-ia}}{ia}e_1 .
+$$
+Since $(e^{ia}-1)(1-e^{-ia})=2\cos a-2$, multiplying gives the displayed
+transform of the output. At zero the matrix, input and output values
+are $A+D,e_1,e_2+i e_1$. Both $A$ and $D$ have norm one, so
+$\int\|\kappa(u)\|\,du=2$. In fact $A+e^{ia}D$ takes $(z_1,z_2)$ to
+$(i e^{ia}z_1,z_1)$, and
+$\|M(\xi)\|=\sqrt2\lvert(e^{ia}-1)/(ia)\rvert\le\sqrt2$.
+The last bound follows by integrating a unit-modulus exponential on
+$[0,1]$, including its value $1$ at zero.
+
+**Definitions.** Let $B:F_1\times F_2\to F_3$ be a bounded complex
+bilinear map between complex Banach spaces. For Bochner integrable
+$f,g$ set $(f\star_B g)(x)=\int B(f(u),g(x-u))\,du$ where defined.
+Write $\chi_\xi(x)=e^{-2\pi i x\xi}$ and
+$\widehat f(\xi)=\int\chi_\xi(x)f(x)\,dx$. For finite-dimensional
+complex Hilbert spaces $V,W$, give $\mathcal L(V,W)$ its operator norm.
+Evaluation $B(K,v)=Kv$ is complex bilinear and
+$\|Kv\|\le\|K\|\|v\|$. Scalar multiplication is the case
+$V=W=\mathbb C$.
+
+**Absolute integrability lemma.** For $f,g$ as above,
+$(x,y)\mapsto\chi_\xi(x)B(f(x-y),g(y))$ is Bochner integrable on the
+product for every $\xi$. The convolution exists almost everywhere and
+$\|f\star_B g\|_1\le\|B\|\|f\|_1\|g\|_1$.
+
+**Proof.** The pullbacks of null sets under $(x,y)\mapsto x-y$ and
+$(x,y)\mapsto y$ are product-null by Tonelli, using translation
+invariance in the first case. Thus strongly measurable versions of
+$f,g$ and continuity of $B$ and the phase give joint strong
+measurability up to null sets. By unit modulus, the norm is bounded by
+$\|B\|\|f(x-y)\|\|g(y)\|$. Tonelli and translation give
+$$
+ \|B\|\int\|g(y)\|\left(\int\|f(x-y)\|\,dx\right)dy
+ =\|B\|\|f\|_1\|g\|_1 .
+$$
+The substitution $y=x-u$ preserves Lebesgue measure and changes the
+defining convolution section to $\int B(f(x-y),g(y))\,dy$. At
+$\xi=0$ the product estimate gives the integrable sections, and
+the integral norm inequality gives the $L^1$ bound.
+
+**Fourier convolution theorem.** For every $\xi\in\mathbb R$,
+$\widehat{f\star_B g}(\xi)=B(\widehat f(\xi),\widehat g(\xi))$.
+
+**Proof.** Use the rewritten convolution and move $\chi_\xi(x)$
+into the inner integral by linearity. Product integrability permits
+Bochner Fubini. After swapping the integrals set $u=x-y$ for fixed $y$:
+$$
+ \widehat{f\star_B g}(\xi)
+ =\int dy\int du\,\chi_\xi(u+y)B(f(u),g(y)).
+$$
+The phase factors as $\chi_\xi(u)\chi_\xi(y)$. Complex bilinearity puts
+one factor on each input, giving $B(\chi_\xi(u)f(u),\chi_\xi(y)g(y))$.
+Apply the bounded linear map $v\mapsto B(v,\chi_\xi(y)g(y))$ to the
+$u$ integral and then $w\mapsto B(\widehat f(\xi),w)$ to the $y$
+integral. Each map commutes with Bochner integration by the simple
+function formula and $L^1$ continuity. Phase-twisted inputs have the
+original $L^1$ norms. This yields the asserted product.
+
+**Reflection and the $L^2$ multiplier.** Let
+$\kappa\in L^1(\mathbb R;\mathcal L(V,W))$ and
+$C=\int\|\kappa(u)\|\,du$. Define
+$T_\kappa h(x)=\int\kappa(u)h(x+u)\,du$ wherever the integral exists.
+The substitution $s=-u$ makes this convolution with the reflected
+kernel $s\mapsto\kappa(-s)$. Its symbol is
+$$
+ M(\xi)=\int\kappa(-s)e^{-2\pi i s\xi}\,ds
+       =\int\kappa(u)e^{2\pi i u\xi}\,du .
+$$
+Thus $M(\xi)=\operatorname{symb}\kappa(2\pi i\xi)$, where the
+bilateral Laplace symbol is $\operatorname{symb}\kappa(z)=\int
+e^{zu}\kappa(u)\,du$ on its absolute convergence domain. For
+compact support it is defined for all $z$. The general $L^1$ hypothesis
+supplies the imaginary axis. Dominated convergence shows continuity
+in $\xi$, and integration of the norm gives $\|M(\xi)\|\le C$.
+
+For $h\in L^2(\mathbb R;V)$ put $b(u)=\|\kappa(u)\|$. Tonelli gives
+$\int dx\int du\,b(u)\|h(x+u)\|^2=C\|h\|_2^2$. Weighted
+Cauchy–Schwarz gives, for almost every $x$,
+$$
+ \left(\int b(u)\|h(x+u)\|\,du\right)^2
+ \le C\int b(u)\|h(x+u)\|^2\,du .
+$$
+Consequently the Bochner integral exists almost everywhere and is
+measurable by the measurable section integral theorem, applied on
+bounded $x$ intervals where the norm is jointly integrable by the
+same bound and Cauchy–Schwarz. Translation invariance and Tonelli
+give independence of representatives. Integration of the displayed
+bound proves $\|T_\kappa h\|_2\le C\|h\|_2$; the zero-kernel case
+gives the zero operator. A measurable symbol with essentially
+bounded operator norm gives bounded $L^2$ multiplication by applying
+the norm bound pointwise and integrating. Here its norm is at most $C$.
+
+On Schwartz inputs both the input and the convolved output are in
+$L^1\cap L^2$. By the inherited agreement of integral and Plancherel
+transforms on this intersection, the integral theorem gives the
+multiplier identity in $L^2$ on the Schwartz core. Both sides are
+continuous in $h$, so the inherited Schwartz density yields
+$\mathcal F_2(T_\kappa h)=M\mathcal F_2 h$ in $L^2$, equivalently
+almost everywhere in frequency. This is the unique bounded extension.
+In logarithmic Haar coordinates $T_\kappa$ averages $f(xe^u)$
+against $\kappa(u)\,du$. The positive-power Mellin frequency
+$t=-2\pi\xi$ therefore sees $M(-t/(2\pi))=\operatorname{symb}\kappa(-it)$.
+
+**Pairing convention.** For $B$ conjugate-linear in its first argument
+and linear in its second, the correct factorization is
+$B(\chi_{-\xi}(u)f(u),\chi_\xi(y)g(y))=\chi_\xi(u+y)B(f(u),g(y))$.
+The norm estimate is identical, and bounded conjugate-linear maps
+are real-linear and commute with the real Bochner integral. The
+formula becomes $B(\widehat f(-\xi),\widehat g(\xi))$. For conjugate
+linearity in the second argument the reversal is on the second
+frequency. For example, $B(z,w)=\overline z w$ uses
+$\widehat{\overline f}(\xi)=\overline{\widehat f(-\xi)}$ in its first
+factor. Evaluation in the multiplier theorem is complex bilinear.
+Its sign comes from spatial reflection, independently of the inner
+product convention.
+
+**Boundary of the Fubini step.** Keep $\kappa=\mathbf 1_{[0,1]}$ and
+take $h(x)=(1+x)^{-3/4}$ for $x\ge0$, zero otherwise. The squared
+integral is $\int_0^\infty(1+x)^{-3/2}\,dx=2$, while the $L^1$ integral
+up to $R$ is $4((1+R)^{1/4}-1)$. For every $\xi$ the joint Fourier
+integrand has absolute integral $\int_0^1du\int|h(x+u)|\,dx=\infty$.
+The convolution exists at every $x$, yet its integral transform at
+zero diverges because $T_\kappa h(x)\ge(x+2)^{-3/4}$ for $x\ge0$.
+This example establishes failure of the absolute integrability hypothesis. The $L^2$ multiplier identity still applies. For scalar multiplication
+with a nonzero $L^1$ kernel, Tonelli shows that joint absolute
+integrability is equivalent to $L^1$ membership of the other input.
+For general $B$ the condition for the Bochner Fubini step is joint
+strong measurability up to null sets and integrability of the joint
+norm $\|B(f(x-y),g(y))\|$. The Fourier phase leaves that norm unchanged.
+
+**The production proof and its consumer.** [Lean, read]
+The pinned Mathlib proof of `fourier_bilin_convolution_eq_integral`
+first flips the convolution and the bilinear map together. After
+moving the circle action into the inner integral, it calls
+`Integrable.convolution_integrand` with the flipped bilinear map.
+This supplies product integrability before modulation. The proof
+uses `Integrable.mono` and measurability of the phase to preserve
+integrability with the same norm, then `integral_integral_swap` and
+`integral_sub_right_eq_self`. In the direct supply for that swap,
+the product integral equals the iterated integral first for a constant
+vector on a finite-measure set, by the section formula for product
+measure. Additivity and the integrated norm bound extend equality
+by $L^1$ continuity. Swapping the coordinates gives the other
+order. The sibling `integrable_prod_sub` packages
+the scalar majorant. The final theorem splits the additive character,
+checks integrability of the phase-twisted operator-valued map, and
+uses `integral_apply` and two `integral_comp_comm` rewrites. The source
+works over a finite-dimensional real inner product space in the
+input variable, with complete complex normed targets for the final
+identity. The DLMF gives the classical scalar $L^1$ formula with forward phase
+$e^{ixt}$ and a factor $(2\pi)^{-1/2}$ in both the Fourier transform and
+the convolution.
+[Pinned Fourier proof, lines 39–122](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/Convolution.lean#L39-L122)
+· [Product integrability, lines 266–293](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Convolution.lean#L266-L293)
+· [Bochner Fubini, lines 439–484](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Prod.lean#L439-L484)
+· [DLMF §1.14(i), convolution](https://dlmf.nist.gov/1.14#Px2)
+
+In the archive's `UpperTheory.V.Z.IntegralApplyAeEq.fourConv`, the
+hypothesis `Ker κ` supplies continuity and compact support. Lines
+17–27 identify and bound the symbol at $+2\pi i\xi$. The first
+clause of `convSpec` gives the convolution representative and
+reflection at lines 48–51. `Integrable.integrable_convolution` gives
+an $L^1$ output at line 52, `fourAe` passes to integral representatives
+at line 54, and line 55 applies `Real.fourier_bilin_convolution_eq`
+with evaluation and the reflected kernel. The inherited density
+assembly at lines 41–45 and 57–58 yields the almost-everywhere
+$L^2$ assertion. Masullo's positive-width strip trace comparison
+remains [Open].
+[Archive provenance and declaration path](../sources/SOURCES.md#chapter-14-fourier-convolution-and-the-reflected-mellin-multiplier)
+
+<a id="bochner-production-of-convolution-and-its-representatives"></a>
+
+#### 14.4.2.8 Bochner production of convolution and its representatives
+
+The [reflected multiplier](#fourier-convolution-and-the-reflected-mellin-multiplier)
+uses a bounded operator on $L^2$. To construct that operator, average
+the translated **classes** in the Hilbert space. To compute its values,
+one needs a separate theorem relating that average to integrals of
+representatives. A value at a specified point is unavailable as a
+bounded linear functional on $L^2$: the zero class itself has a
+representative that takes any prescribed value there.
+
+**Example 1 (a complex trapezoid).** Let $\kappa(t)=(1+i)\mathbf 1_{[2,4]}(t)$
+and $f=\mathbf 1_{[0,1]}$. At $x$, the contributing $t$ form
+$[2,4]\cap[-x,1-x]$. Call its length $r(x)$. The left endpoint is $-x$
+and the right is $4$ on $[-4,-3]$. Both endpoints come from the moving
+interval on $[-3,-2]$. On $[-2,-1]$ the left endpoint is $2$ and the
+right is $1-x$. So the representative is $(1+i)r(x)$, with
+$$
+ r(x)=
+ \begin{cases}
+ x+4 & -4\le x\le -3,\\
+ 1 & -3\le x\le -2,\\
+ -x-1 & -2\le x\le -1,\\
+ 0 & \text{otherwise}.
+ \end{cases}
+$$
+The support is $[-4,-1]=[0,1]-[2,4]$. Each ramp contributes
+$\int_0^1 v^2\,dv=1/3$ to $\int r^2$, and the plateau contributes $1$.
+The $L^2$ norm is $\sqrt{10/3}$, below
+$\|\kappa\|_1\|f\|_2=2\sqrt 2$. The substitution $s=-t$ puts
+$(1+i)\mathbf 1_{[-4,-2]}(s)$ on the left of $f(x-s)$, with its
+coefficient intact. Thus in the inherited forward Fourier convention
+the kernel phase in $t$ is $e^{+2\pi i t\xi}$. Replacing $f(0)$ by $7$
+changes the section only at $t=-x$, which has measure zero for each
+$x$. The same trapezoid results even at its breakpoints.
+
+**Example 2 (two noncommuting matrix values).** Give $\mathbb C^2$ its
+Euclidean norm, and set $A=E_{12}$, $D=E_{21}$, where $E_{jk}$ takes
+$e_k$ to $e_j$ and annihilates the other basis vector. Then $AD=E_{11}$
+and $DA=E_{22}$. Take
+$\kappa(t)=A\mathbf 1_{[1,2]}(t)+D\mathbf 1_{[4,5]}(t)$ and
+$f(x)=(1,i)^{\mathsf T}\mathbf 1_{[0,1]}(x)$. For a window $[a,a+1]$,
+the overlap with $[-x,1-x]$ has length $x+a+1$ on $[-a-1,-a]$
+and $1-x-a$ on $[-a,1-a]$, and vanishes elsewhere. With
+$q(y)=\max(1-|y|,0)$ this is $q(x+a)$. Since $A(1,i)^{\mathsf T}=i e_1$
+and $D(1,i)^{\mathsf T}=e_2$, the output is
+$$
+ i q(x+1)e_1+q(x+4)e_2.
+$$
+Its support is $[-5,-3]\cup[-2,0]$. Each tent has squared norm
+$2\int_0^1 v^2\,dv=2/3$, giving output norm $2/\sqrt3$. Both matrix
+operator norms are $1$, so the bound is $2\sqrt2$. Reflection puts
+$A$ on $[-2,-1]$ and $D$ on $[-5,-4]$, acting on the left of $f(x-s)$.
+It preserves the matrices and gives the same positive Fourier phase
+in $t$. Changing the kernel at $t=1$ to $D$ and changing the input
+at $x=1/2$ to $e_2$ changes a section only at $t=1$ and $t=1/2-x$.
+It also preserves the entire $L^2$-valued average.
+
+**Definitions and hypotheses.** Write $L_V=L^2(\mathbb R;V)$, with
+Lebesgue measure $\lambda$, for finite-dimensional complex Hilbert
+spaces $V,W$. Use a Borel representative $f$ of $u\in L_V$ and put
+$S_tu=[x\mapsto f(x+t)]$. For $K\in\mathcal L(V,W)$ put
+$K_2u=[x\mapsto Kf(x)]$. Both are well defined on classes, by
+translation invariance and preservation of a.e. equality under
+composition with $K$. The primary hypothesis is that $\kappa$ is
+operator-norm continuous with compact support. The two examples
+use a piecewise constant variant discussed below.
+
+**Construction lemma.** For every $u\in L_V$ the function
+$G_u(t)=\kappa(t)_2 S_tu$ is Bochner integrable in $L_W$. The map
+$T_\kappa u=\int G_u(t)\,dt$ is complex linear and satisfies
+$\|T_\kappa\|\le\int\|\kappa(t)\|\,dt$. For every representative $f$
+the output class has representative
+$x\mapsto \int\kappa(t)f(x+t)\,dt$.
+
+**Proof of construction and bound.** The shift is an isometry. On
+continuous compactly supported vectors, continuity at $0$ follows
+from uniform continuity and a common compact support for shifts
+with $|t|\le1$. For a general $u$, choose a continuous compactly supported approximation $v$ using
+[§14.4.2.5](#14425-compactly-supported-continuous-functions-are-dense-in-l2). Then
+$\|S_tu-u\|_2\le2\|u-v\|_2+\|S_tv-v\|_2$. The group law and isometry
+give strong continuity at every $t$. Also
+$\|K_2u\|_2\le\|K\|\|u\|_2$ by the pointwise operator bound.
+The assignment $K\mapsto K_2$ is linear with norm at most one.
+Joint continuity of evaluation now gives continuity of $G_u$.
+It vanishes wherever $\kappa$ is zero, so it is strongly measurable
+with compact support. Integrating
+$\|G_u(t)\|_2\le\|\kappa(t)\|\|u\|_2$ proves integrability and the
+bound by the Bochner norm inequality. The integral preserves
+addition and complex scalar multiplication because every vector
+orbit being integrated is integrable.
+
+**Representative exchange lemma.** Let $\mu$ be a sigma-finite
+measure on $\mathbb R$, and let $G:\mathbb R\to L_W$ be Bochner
+integrable for $\mu$. Suppose $g(t,x)$ is a.e. strongly measurable
+for $\mu\otimes\lambda$. Suppose that for $\mu$-almost every $t$,
+$g(t,\cdot)$ represents $G(t)$ up to a $\lambda$-null set which
+may depend on $t$. Then for $\lambda$-almost every $x$ the section
+$g(\cdot,x)$ is Bochner integrable for $\mu$, and any representative
+of $\int G\,d\mu$ equals $\int g(t,x)\,d\mu(t)$ for $\lambda$-almost
+every $x$.
+
+**Proof of exchange.** For measurable $E$ of finite Lebesgue
+measure, Cauchy–Schwarz on $E$ gives
+$$
+ \int_E\|g(t,x)\|\,dx\le\lambda(E)^{1/2}\|G(t)\|_2
+ \quad\text{for $\mu$-almost every $t$}.
+$$
+The restriction $\mu\otimes(\lambda|_E)$ is absolutely continuous
+with respect to the original product measure, so joint a.e. strong
+measurability survives the restriction. Tonelli and the majorant
+give integrability on that restricted product. Fubini yields
+integrable sections for a.e. $x$ in $E$ and shows that their
+integrals are integrable on $E$. Taking $E=[-n,n]$ and a countable
+union yields the asserted a.e. section existence on the line.
+An exceptional value of the section integral may be set to zero.
+
+Define $I_Ev=\int_E v(x)\,dx$ on $L_W$. This is a bounded linear map
+by the same Cauchy–Schwarz estimate. For
+$v=\int G(t)\,d\mu(t)$ and $j(x)=\int g(t,x)\,d\mu(t)$, the defining
+property of Bochner integration under bounded linear maps and the
+restricted Fubini equality give
+$$
+ I_Ev=\int I_EG(t)\,d\mu(t)
+     =\int d\mu(t)\int_E g(t,x)\,dx=\int_E j(x)\,dx.
+$$
+Equivalently, test with $\mathbf 1_E w$ in $L_W$ for each $w\in W$.
+Pairing with it integrates $\langle w,v(x)\rangle$ over $E$.
+These tests identify the a.e. class. Indeed, on each $[-n,n]$,
+integrate the real or imaginary component of $v-j$ in an
+orthonormal basis over its measurable sets of strict positivity
+and strict negativity. Zero integrals on those sets imply zero
+components a.e. There are finitely many components and countably
+many intervals. This proves equality with any output representative.
+
+**Application to convolution.** For $g(t,x)=\kappa(t)f(x+t)$ with
+Borel $f$, joint measurability follows from addition and continuous
+evaluation. For each fixed $t$ the section in $x$ represents
+$G_u(t)$ by the definitions of $S_t$ and $K_2$. Apply exchange
+with $\mu=\lambda$. If a different Lebesgue-measurable version of
+$f$ is chosen, its exceptional set of input arguments is contained
+in a Borel null set $N$. The set where $x+t\in N$ has null
+$t$-sections for every $x$ and is product-null by Tonelli.
+In particular both section integrals agree at every $x$ where
+they exist. Here the compact kernel actually makes every section
+integrable since, for every $x$,
+$$
+ \int\|\kappa(t)f(x+t)\|\,dt
+ \le \left(\int\|\kappa(t)\|^2\,dt\right)^{1/2}\|u\|_2 .
+$$
+This is an existence statement about the explicit formula.
+Equality of that formula with an arbitrary representative of
+the Bochner integral still holds a.e. If $\kappa$ is changed on
+a Lebesgue null set of $t$ values, all section integrals stay the
+same, and the Bochner integrands agree a.e. in $t$.
+
+**Remarks on scope and necessity.** The argument applies to any
+strongly measurable kernel with integrable operator norm.
+Evaluation of the strongly measurable operator family on the
+strongly continuous orbit gives a strongly measurable $G_u$,
+by approximation with simple functions and continuity of
+evaluation. The same majorant and exchange lemma apply. The
+bounded compactly supported step kernels above also have square
+integrable norm, which gives the all-$x$ section estimate. For
+arbitrary $L^1$ kernels the general guarantee is a.e. section
+existence. For example take $f(t)=t^{-1/3}\mathbf 1_{(0,1)}(t)$
+and $\kappa(t)=t^{-3/4}\mathbf 1_{(0,1)}(t)$. Then $f\in L^2$,
+$\kappa\in L^1$, and the section at $x=0$ has divergent integral
+$\int_0^1 t^{-13/12}\,dt$.
+
+Dropping integrability of the kernel norm entirely can destroy
+both integrals even with a continuous kernel. Take $\kappa(t)=1$
+and $f(y)=(1+y)^{-3/4}$ for $y\ge0$, zero elsewhere.
+The class norm is $\sqrt2$ from $\int_0^\infty(1+y)^{-3/2}\,dy=2$.
+The orbit norm is $\sqrt2$ for every $t$, so its integral over
+$t$ is infinite. At each $x$, taking $y=x+t$ reduces the section
+integral to $\int_0^\infty(1+y)^{-3/4}\,dy=\infty$. The integral
+up to $R$ is $4((1+R)^{1/4}-1)$, which proves divergence.
+
+| Object | Hypotheses | Quantifier and output |
+|---|---|---|
+| $G_u(t)$ | $\kappa$ norm-continuous and compactly supported | For every $u\in L_V$, an integrable $L_W$-valued function of $t$ |
+| Representative sections in the bridge | $\mu$ sigma-finite, $G$ integrable, $g$ jointly a.e. strongly measurable and representing $G$ for $\mu$-a.e. $t$ | For $\lambda$-a.e. $x$, $\int\lVert g(t,x)\rVert\,d\mu(t)<\infty$ and the vector-valued section integral agrees a.e. with every representative of the integrated class |
+| Concrete convolution section | Bounded compactly supported measurable $\kappa$ and $f$ representing $u$ | For every $x$, the $W$-valued section is integrable. This is absolute scalar integrability when $W=\mathbb C$ |
+| Continuous convolution operator | Primary kernel hypothesis | For every $u$, $T_\kappa u$ is the Bochner average. Its norm is at most $\lVert\kappa\rVert_1\lVert u\rVert_2$, and the unique $L_W$ class satisfies the a.e. identity |
+| Fourier consumer | Primary kernel hypothesis and the inherited Plancherel and multiplier results | For every $u$, the multiplier identity in $L_W$ gives equality for a.e. $\xi$ |
+
+**The archive proof.** [Lean, read] The shift in
+`Carries.lean:50–66` comes from measure-preserving composition.
+For strong continuity the proof invokes the Mathlib theorem for
+varying measure-preserving continuous maps. Its simple-function
+step controls the measure of symmetric differences of preimages,
+and each composition has the same isometry bound for the density
+step. The book proof above uses compactly supported approximants
+on the line.
+[Pinned composition proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean#L42-L65)
+
+In `ConvolutionSpectra/ConvSpec.lean:12–22` the operator lift is
+built with norm bound one, then applied to the continuous shift
+orbit. Lines 23–33 construct and bound the linear average.
+Lines 34–40 supply joint measurability and the equality for each
+fixed $t$ and a.e. $x$. The proof of `AeIntegral.lean:10–29`
+bounds the extended norm integral on every finite-measure
+restriction. Lines 30–41 use the swap on that restriction and
+pair with indicator vectors. Mathlib's sigma-finite uniqueness
+theorem then recovers the a.e. class by exhaustion. The explicit
+all-$x$ integrability estimate above is an additional paper
+consequence for this kernel.
+[Pinned indicator-vector test](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/L2Space.lean#L202-L218)
+· [Pinned uniqueness proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean#L257-L282)
+
+The definition in `Carries.lean:85–86` chooses a continuous linear
+operator by classical epsilon. The bounded average witnesses the
+predicate in `ConvSpec.lean:41–42`. Comparing representatives and
+using `Lp.ext` at lines 43–45 identifies the chosen operator with
+that average on each input. In `FourConv.lean:41–45` the density
+argument uses the continuity of this chosen operator. On the
+Schwartz core, lines 48–51 consume the first clause of `convSpec`,
+then reflect $t$ to recover $f(x-s)$. The $L^1$ supply and the
+Fourier representative comparison at lines 52–58 use the results
+of the preceding subsection. This gives
+$\mathcal F_2(T_\kappa u)(\xi)=\operatorname{symb}\kappa(2\pi i\xi)
+(\mathcal F_2u(\xi))$ for a.e. $\xi$.
+[Archive path and pin](../sources/SOURCES.md#chapter-14-bochner-production-of-convolution)
+
+The estimates, hand calculations and their extension to step
+kernels are [Expository]. The separate `kvSpec` construction remains [Open] in this chapter. Positive-width strip trace
+class and Masullo's strip-parameter independence remain [Open].
+
 #### Absolute Cauchy products in a Banach algebra
 
 **Motivation.** Multiplying two finite power sums produces a rectangle of terms. The coefficient of degree $n$ uses the pairs on the antidiagonal $i+j=n$. For infinite series, the passage from rectangles to antidiagonals needs a tail bound. In an operator algebra it also matters which operator acts first. The Banach exponential uses the product theorem to separate a central scalar shift. A second argument, using continuous multiplication on each side of one absolutely convergent series, supplies the difference factor in the proof of forward exponential spectral inclusion. [Pinned exponential addition](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Exponential.lean#L335-L352) · [Pinned spectral-inclusion consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Algebra/Spectrum.lean#L369-L400)
@@ -2815,6 +3448,8 @@ Its finiteness is exactly trace class. Under that hypothesis the existing trace 
 **What compactness supplies.** The identity on any infinite-dimensional Hilbert space is positive with eigenvalue $1$ of infinite multiplicity, violating the finite-threshold conclusion. The images of an orthonormal sequence prove noncompactness. For failure of spanning and of countability of the nonzero spectrum, take multiplication by $t$ on $L^2([0,1])$ with Lebesgue measure. It is bounded and positive, and every level set has measure zero, so all eigenspaces including the kernel are zero. For each $s\in[0,1]$, normalized indicators of $[0,1]\cap(s-1/n,s+1/n)$ have unit norm and residual norm at most $1/n$ under $A-sI$, excluding a bounded inverse. Outside $[0,1]$ multiplication by $(z-t)^{-1}$ gives a bounded inverse. Thus the spectrum is $[0,1]$. Normalized indicators of disjoint subintervals of $(1/2,1)$ have mutually orthogonal images of norm at least $1/2$, proving noncompactness. [Expository]
 
 **Where the formal proof does the work.** The pinned umbrella import brings in Thomas Browning's compact self-adjoint spectral theorem and finite-dimensional eigenspace theorem. Heather Macbeth is the original author of the spectrum file. The restriction to the orthogonal complement of all eigenspaces is compact and symmetric and has no eigenvalues. The norm equals the spectral radius by Browning’s Rayleigh quotient and resolvent estimate. The compact Fredholm alternative then forces the restriction to vanish, and its zero eigenspace forces that complement to be trivial. For finite multiplicity, the formal proof restricts to a nonzero-eigenvalue block and divides by the eigenvalue to obtain a compact identity. The positive proof above uses a maximizing sequence for the extremum, separates images at each finite threshold and constructs the resolvent by diagonal reciprocals. The A2 trace definitions use CFC directly. The spectral proof supplies an evaluation of those definitions on positive compact inputs. Masullo's strip trace independence remains [Open]. [Sources](../sources/SOURCES.md#chapter-14-positive-compact-spectral-decomposition)
+
+<a id="ch14-strip-gap"></a>
 
 ### 14.4.3 Surgical anatomy of the Chapter 10 gap, Pei's $I = \{0\}$ window note, and why $I = [-\alpha, \alpha]$ remains `[Open]`
 
