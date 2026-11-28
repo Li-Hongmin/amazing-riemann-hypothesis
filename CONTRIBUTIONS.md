@@ -57,7 +57,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 ### Proof-checking tools and independent kernels (results summary)
 
-- **`leanchecker` (Lean FRO)** — Official Lean 4 `.olean` kernel replay tool, which replayed all 175,187 compiled modules with zero rejections in Sutherland's and DeDeo's builds, while single-threaded default and `--paranoid` kernel replays of the 61.57 GB text export remain running. — `compilation/kernel check` — [Community] Module-by-module replay passed (175,187/175,187); export-level default and paranoid runs in progress [Open] — [math.mit.edu/~drew/grh/](https://math.mit.edu/~drew/grh/), [proofsandreasons.io/rh-oleans.html](https://proofsandreasons.io/rh-oleans.html) (2026-11-20 to 2026-11-21)
+- **`leanchecker` (Lean FRO)** — Official Lean 4 `.olean` kernel replay tool, which replayed all 175,187 compiled modules with zero rejections in Sutherland's and DeDeo's builds. Sutherland also used it for the passing single-threaded default and paranoid v4.36.0 replays of the 61.57 GB text export in Sutherland’s subsequent checks. — `compilation/kernel check` — [Community] Module-by-module replay passed (175,187/175,187); export-level default and paranoid runs in progress [Open] — [math.mit.edu/~drew/grh/](https://math.mit.edu/~drew/grh/), [proofsandreasons.io/rh-oleans.html](https://proofsandreasons.io/rh-oleans.html) (2026-11-20 to 2026-11-21)
 - **`nanoda` (`nanoda_bin`)** — Independent Lean 4 kernel implemented in Rust, which accepted Sutherland's 61.57 GB export (`exit 0` in 27 min 42 s on 80 threads), Arledge's independently generated export (1,484,729 declarations), Naskręcki's reading-project run (1,484,733 declarations), and Sutherland's combined `Robin1984` export (`exit 0` in 33 min 46 s on 64 threads). — `compilation/kernel check` — [Community] Accepted full export across multiple independent runs — [nanoda.log](https://math.mit.edu/~drew/grh/nanoda.log), [Infatoshi/rh-verification-receipts](https://github.com/Infatoshi/rh-verification-receipts), [nasqret/riemann-rev](https://github.com/nasqret/riemann-rev) (2026-11-20 to 2026-11-21)
 - **`con-leche` and `con-ron` (Joachim Breitner and Lean FRO contributors, `leanprover/con-leche`, `leanprover/con-ron`)** — Independently written Lean 4 export checker (`con-leche`) and its Rust port (`con-ron`, `master` `3f22699b`), whose `master` / `--compare` builds in `--verified` mode accepted 1,468,418 solution and 51,692 challenge declarations and verified all five challenge theorems against the solution (plus both `Robin1984` inequalities against `ArithChallenge.lean`), whereas the older binaries bundled with Lean `v4.36.0` declined with `exit 2` on one mutual reflexive inductive type (`PrincipalizationCertificate` / `OrderCertificate`). — `compilation/kernel check` — [Community] `con-leche` (`master` and `--compare`) and `con-ron --compare` accepted (`exit 0`, run by Teżewski and Sutherland); older `v4.36.0`-bundled binaries declined (`exit 2`, not a rejection) — [leanprover/con-leche](https://github.com/leanprover/con-leche), [leanprover/con-ron](https://github.com/leanprover/con-ron), [con-leche-compare.log](https://math.mit.edu/~drew/grh/con-leche-compare.log), [con-ron-compare.log](https://math.mit.edu/~drew/grh/con-ron-compare.log), [Zulip #642338492](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642338492) (2026-11-20 to 2026-11-21)
 - **`lean4lean` (Mario Carneiro, `digama0/lean4lean`)** — Lean-in-Lean typechecker (`67f63b0c`, built with Lean `v4.33.1`), which checked all 175,187 compiled `.olean` files module by module in Sutherland's run (175,182 under default settings and 5 `decide +kernel` modules after raising the deterministic fuel limit; the `v4.36.0`-bundled binary was inapplicable to the `v4.33` core library). — `compilation/kernel check` — [Community] Passed on all 175,187 `.olean` modules — [digama0/lean4lean](https://github.com/digama0/lean4lean), [lean4lean-raised-fuel.log](https://math.mit.edu/~drew/grh/lean4lean-raised-fuel.log), [Zulip #642325559](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Discussion.3A.20Alp.C3.B6ge.20Proves.20the.20Riemann.20Hypothesis/near/642325559) (2026-11-20)
@@ -73,7 +73,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Heather Macbeth and David Loeffler** (Mathlib) — Authored the pinned circle Fourier development, including the dense character span, the Hilbert basis and summable-coefficient reconstruction. — [Lean, read] for the declarations identified in §14.4.2.1 — [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean)
 - **Jonas Whidden** (`kimihiro64/Robin1984`) — Authored an independent Lean 4 formalization of Robin's (1984) and Lagarias's (2002) elementary divisor-sum equivalences with Mathlib's `RiemannHypothesis` on Lean `v4.33.1` / Mathlib `v4.33.1` (verified standalone by `lake comparator` under Lean `v4.36.0`), which Sutherland imported alongside Alpöge's archive to check unconditional zeta-free divisor-sum inequalities. — `formalization` — [Community] Standalone equivalence passed `lake comparator` (`v4.36.0`); combined proof passed `con-leche` and `nanoda`, with combined `lake comparator` running — [kimihiro64/Robin1984](https://github.com/kimihiro64/Robin1984), [math.mit.edu/~drew/grh/](https://math.mit.edu/~drew/grh/) (2026-11-21)
 - **Principia collaborative project (`antoshashakov`)** (`leanprover-community/riemann-hypothesis` PR #12) — Submitted two self-contained Lean 4 files under `verification/` formalizing a conductor-one specialization (`Principia.Ordinary.ConductorOneRH.rh`, deducing `RiemannHypothesis` from Weber's odd-class-number theorem and two conductor-one hypotheses) and a signal bound extracted from Alpöge's argument. — `formalization` · `exposition` — [Community] Closed pull request (PR #12); collaborative workspace live — [PR #12](https://github.com/leanprover-community/riemann-hypothesis/pull/12), [Principia project](https://principia-math.com/projects/d16ab288ed353bc5b10e292ace0ddbc1) (2026-11-21)
-- **Lee Crossley (`leecrossley`)** (`leecrossley/dirichlet-window-transfer` and `Li-Hongmin/amazing-riemann-hypothesis` PR #1) — Formalized in Lean 4 (`DelayedPole.lean`) that applying the three-term delayed-difference operator $-g(u) + 3g(u - \log 2) - 2g(u - 2\log 2)$ preserves the pole conditions of Theorem 3.6(1) (`ZeroFree F θ` from `WindowHypU`) via the Laplace multiplier $(1 - 2^{-s})(2\cdot 2^{-s} - 1)$, and opened pull request #1 on this book's repository proposing a short example note in Chapter 3. — `formalization` · `this book` — [Community] Archived formalization published; open pull request #1 on this book pending editorial review [Open] — [PR #1](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/1), [leecrossley/dirichlet-window-transfer](https://github.com/leecrossley/dirichlet-window-transfer), [doi:10.5281/zenodo.24410863](https://doi.org/10.5281/zenodo.24410863) (2026-11-21)
+- **Lee Crossley (`leecrossley`)** (`leecrossley/dirichlet-window-transfer` and `Li-Hongmin/amazing-riemann-hypothesis` PR #1) — Formalized in Lean 4 (`DelayedPole.lean`) that applying the three-term delayed-difference operator $-g(u) + 3g(u - \log 2) - 2g(u - 2\log 2)$ preserves the pole conditions of Theorem 3.6(1) (`ZeroFree F θ` from `WindowHypU`) via the Laplace multiplier $(1 - 2^{-s})(2\cdot 2^{-s} - 1)$, and contributed the short example after Theorem 3.6 in Chapter 3. — `formalization` · `this book` — [Community] Archived formalization published and book PR #1 merged on 25 November 2026 in `aa691cf` — [PR #1](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/1), [leecrossley/dirichlet-window-transfer](https://github.com/leecrossley/dirichlet-window-transfer), [doi:10.5281/zenodo.24410863](https://doi.org/10.5281/zenodo.24410863) (2026-11-21)
 
 - **Lee Crossley (`leecrossley`)** — Proposed a comparison of cubic and abelian Frobenius traces at 31 and 367 for Chapter 16. [Community] Open for editorial review. [Book PR #2](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/2), [Crossley v1.0.1](https://doi.org/10.5281/zenodo.24413208)
 
@@ -139,7 +139,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Lean 4 Dev Editorial Team** — Published a web explainer of the five Lean theorem statements, what the kernel checks establish, and the distinction between the released Lean archive and the unposted 250,000-page informal text. — `exposition` — [Community] Anonymous editorial explainer — [lean4.dev/proofs/riemann-hypothesis-claim](https://lean4.dev/proofs/riemann-hypothesis-claim) (2026-11-20)
 - **`TomasOrtega` and `CocoSgt`** (`TomasOrtega/RH`, `CocoSgt/riemann-hypothesis-lean`) — Published the earliest extracted GitHub repositories of the Lean archive (`TomasOrtega/RH` at 14:16 UTC) and step-by-step download, sha256 verification and build instructions (`CocoSgt/riemann-hypothesis-lean` at 14:59 UTC). — `exposition` — [Community] Source mirrors and build instructions — [TomasOrtega/RH](https://github.com/TomasOrtega/RH), [CocoSgt/riemann-hypothesis-lean](https://github.com/CocoSgt/riemann-hypothesis-lean) (2026-11-20)
 - **TopK** (`masullo-grh.vercel.app`) — Deployed a semantic-search web front end indexing the 940 pages of Masullo's draft. — `exposition` — [Community] Search finding aid — [masullo-grh.vercel.app](https://masullo-grh.vercel.app/) (2026-11-20/21)
-- **Igor M. Zhuk (`Nondual-Observer`)** (`Nondual-Observer/riemann-lean4-blueprint`) — Published a bilingual (English/Russian) 1-page proof outline and 11-page PDF blueprint tracing the five-stage route from the Landau window bound to the five `Main.lean` theorems, a 240-entry kernel declaration index (`export_id` and five-root `Expr.const` reachability mask across `solution.ndjson` with overload disambiguation), 44 standalone zero-import Lean 4 companion theorems covering the $2/3$ barrier gap identity $(m-t)^2(m+2t)$, the four-wall exponent LP, height-2 Lubin–Tate rates, and the common-weight Bost–Arakelov slope sum, and a zero-dependency Julia verification suite. — `exposition` · `formalization` — [Community] Prepared in collaboration with AI systems (Gemini and OpenAI Codex); cited declarations and companion theorems verified by script and Lean 4 kernel, mathematical prose unreviewed — [Nondual-Observer/riemann-lean4-blueprint](https://github.com/Nondual-Observer/riemann-lean4-blueprint), [Zenodo preprint doi:10.5281/zenodo.24459320](https://doi.org/10.5281/zenodo.24459320), [Zenodo software doi:10.5281/zenodo.24459582](https://doi.org/10.5281/zenodo.24459582) (2026-11-23)
+- **Igor M. Zhuk (`Nondual-Observer`)** (`Nondual-Observer/riemann-lean4-blueprint`) — Published a bilingual (English/Russian) 1-page proof outline and 11-page PDF blueprint tracing the five-stage route from the Landau window bound to the five `Main.lean` theorems, a 240-entry kernel declaration index (`export_id` and five-root `Expr.const` reachability mask across `solution.ndjson` with overload disambiguation), 44 standalone zero-import Lean 4 companion theorems covering the $2/3$ barrier gap identity $(m-t)^2(m+2t)$, the four-wall exponent LP, height-2 Lubin–Tate rates, and the common-weight Bost–Arakelov slope sum, and a zero-dependency Julia verification suite. — `exposition` · `formalization` — [Community] Prepared in collaboration with AI systems (Gemini and OpenAI Codex); cited declarations and companion theorems verified by script and Lean 4 kernel, mathematical prose unreviewed. PR #3 closed and the credit entered main in `ec4bd7a`. [PR #3](https://github.com/Li-Hongmin/amazing-riemann-hypothesis/pull/3) — [Nondual-Observer/riemann-lean4-blueprint](https://github.com/Nondual-Observer/riemann-lean4-blueprint), [Zenodo preprint doi:10.5281/zenodo.24459320](https://doi.org/10.5281/zenodo.24459320), [Zenodo software doi:10.5281/zenodo.24459582](https://doi.org/10.5281/zenodo.24459582) (2026-11-23)
 - **Aapo Lipponen and the LUMI guide contributors** — The analytic-endgame guide reports the use of positive real residues in the Landau-window criterion and points readers to `poleData F`. [Community] [LUMI guide, Step 4 and reading order](https://github.com/aapolipponen/rh-lean-check-lumi/blob/main/docs/03-analytic-endgame.md#L134-L138)
 
 - **Marshall H. Stone** — Classical Stone–Weierstrass approximation theorem and its lattice formulation. **Alex Freire** — Lecture notes giving the two-cover real lattice argument. — [Stone](https://doi.org/10.2307/3029750) · [Freire](https://web.math.utk.edu/~afreire/teaching/m562s26/Stone_Weierstrass_proof.pdf)
@@ -406,89 +406,187 @@ Claude Code supplies the archive machine-check record [Community].
 
 ## Our contributions
 
+<a id="attribution-3-from-the-box-filter-to-epsilon-and-gauges"></a>
+
+<a id="attribution-3-subbox-filters-and-the-cauchy-net-of-tagged-sums"></a>
+
+<a id="attribution-3-exact-complements-by-splitting-half-open-boxes"></a>
+
 - **Hongmin Li with AI assistance** wrote the Chapter 3 proofs and hand computations for the [exact half-open complements](../chapters/03-landau-window-criterion.md#exact-complements-by-splitting-half-open-boxes), the [subbox Cauchy argument](../chapters/03-landau-window-criterion.md#subbox-filters-and-the-cauchy-net-of-tagged-sums) and the [epsilon–gauge equivalence](../chapters/03-landau-window-criterion.md#from-the-box-filter-to-epsilon-and-gauges). The exposition traces both directions of the gauge equivalence through their consumers in Henstock–Sacks and rectangular divergence and proves the counterexamples for the deleted conditions.
+
+<a id="attribution-6-6422-reading-the-second-block-on-the-first-torsion-group"></a>
 
 **Hongmin Li with AI assistance** explained the first-torsion nonunit test, proved the model pairings at every level, worked out the two coordinate calculations and deletion examples, and traced the original integral series through the second-block call. [Chapter 6 §6.4.22](chapters/06-stepanovs-method-and-multiplicity.md#6422-reading-the-second-block-on-the-first-torsion-group)
 
+<a id="attribution-1-12214-from-a-rational-hermitian-trace-form-to-a-euclidean-lattice"></a>
+
 **Hongmin Li with AI assistance** wrote the trace-realization proof exposition, two original-lattice matrix calculations, two hypothesis-deletion examples and the local consumer map. The inherited same-source preliminary review identified the required integer restriction for the earlier theta tail. [Chapter 1 §1.2.2.14](chapters/01-statement-and-fidelity.md#12214-from-a-rational-hermitian-trace-form-to-a-euclidean-lattice)
 
+<a id="attribution-1-12213-from-a-rational-trace-form-to-gaussian-summability"></a>
+
 **Hongmin Li with AI assistance** reconstructed the trace-matrix argument for the reader, worked out two nonorthogonal original-lattice examples, the quantitative box tails and the failure cases, and documented the actual positivity and finiteness calls. The A2 proof bodies are by **Levent Alpöge with Claude**. [Chapter 1 §1.2.2.13](chapters/01-statement-and-fidelity.md#12213-from-a-rational-trace-form-to-gaussian-summability)
+
+<a id="attribution-1-12212-nonnegative-product-sums-and-the-finite-dimensional-theta-majorant"></a>
 
 **Hongmin Li with AI assistance** wrote the finite-box proofs, exact Gaussian enclosure and failure examples, and traced the archive A2 consumers supplied by Levent Alpöge with Claude. [§1.2.2.12](chapters/01-statement-and-fidelity.md#12212-nonnegative-product-sums-and-the-finite-dimensional-theta-majorant)
 
 
 **Hongmin Li with AI assistance** wrote the two-way finite coercion and majorant interfaces, the dyadic and harmonic calculations and the support and hypothesis-deletion examples, and matched these to archive call sites at local source-reading level. [Chapter 1 §1.2.2.11](chapters/01-statement-and-fidelity.md#12211-nonnegative-extended-sums-and-finite-majorants)
 
+<a id="attribution-8-8419-classifying-slice-coboundaries-and-the-lemmaone-supply"></a>
+
 **Hongmin Li with AI assistance** located `Top.lemmaOne` in `UniformThetaSubstitution/FinalS.lean:48`, read `LemmaOne_of` and its binomial, order, and Cauchy-approximation supply in `NotDvdChoosePowMul.lean:1–540` at local R3, reconnected congruence elimination of $\beta\,\ell$ in `StepI_of`, and wrote the $p=5$ Frobenius-twisted all-orders approximation example, the coexisting integral-remainder and unbounded-$\beta\,\ell$ all-orders example, and the completeness and congruence-support deletion counterexamples. [Chapter 8 §8.4.19](chapters/08-divisibility-at-inert-primes.md#8419-classifying-slice-coboundaries-and-the-lemmaone-supply)
+
+<a id="attribution-8-8418-projection-and-first-derivatives-for-betaisg"></a>
 
 **Hongmin Li with AI assistance** read the two production steps, wrote the conditional proofs and supplied two all-orders BeProp checks and a deletion example. [Chapter 8 §8.4.18](chapters/08-divisibility-at-inert-primes.md#8418-projection-and-first-derivatives-for-betaisg)
 
+<a id="attribution-10-10476-producing-the-initial-adjugate-seed-scalar-descent-unused-left-places-and-the-ramified-ideal-threshold"></a>
+
+<a id="attribution-10-10475-odd-prime-and-mod-two-production-of-the-selmer-coefficient-bound"></a>
+
 - **Hongmin Li (with AI assistance)** — Merged §10.4.7.5 with its post-audit attribution and notation fixes (aligning $I=(\ell^\nu)\mathfrak m_{O_0}$ and $J=\ell^{M-\nu-1}$ with §10.4.9 and citing Proposition 10.18 for `AddValLeOfNotMem.lean:28–85`) alongside the §10.4.7.4 group-ring kernel, nilpotence-index and fixed-level Euler-factor corrections, and read at full R3 in §10.4.7.6 the production proof of the initial positive-order seed `StartInd.start_of_resBound` (`ContinuousCocycleChangeScalarsBack.lean:18–500`) together with its previously unread suppliers `TameScalar.exists_scalar_tmat_of_tame_inertia` (`TameInertiaElementActsByScalar.lean:14–62`) and `SmallSub.exists_small` (`ExistsOpenNormalSubgroupUnderInertia.lean:15–185`) and the exact quantifiers of `Small2`, `NFit`, and `Start` (`Small2.lean:13–45`). Wrote Lemmas 10.13ak–10.13an and Theorem 10.13ao explaining non-flat scalar descent via `continuousCocycleChangeScalarsBack` and surjective `resLam`, automatic unramifiedness at unused left places (`unrAt_eq_top`, `tbar_frob`, `eq_zero_of_scalar`, `unr_first`, `selOn_eq`, making `FirstPlace` redundant), functorial adjugate slicing (`map_adjugate`, `killCompl`), and compatibility of the unit adjugate seed with the ramified DVR ideal threshold $I=(\ell^\nu)\mathfrak m_{O_0}$ on one presentation matrix $\Phi$, accompanied by two complete algebraic-model hand calculations over the unramified DVR $\mathbb Z_3[i]$ and the ramified DVR $\mathbb Z_2[\zeta_3,\pi]$ ($\pi^2=2$) and strict counterexamples when dropping `repOn_eq`, `Corank` $\le1$, `Surjective π`, or $u\ne1$, certified by `verify_start_seed.py` (11,943 exact assertions). The formal proofs are Alpöge–Claude's and Mathlib's. [§10.4.7.5](chapters/10-congruence-modules-to-sha.md#10475-odd-prime-and-mod-two-production-of-the-selmer-coefficient-bound) · [§10.4.7.6](chapters/10-congruence-modules-to-sha.md#10476-producing-the-initial-adjugate-seed-scalar-descent-unused-left-places-and-the-ramified-ideal-threshold)
 
+<a id="attribution-11-11438-the-two-arithmetic-suppliers-of-the-herbrand-quotient"></a>
+
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.8](chapters/11-the-window-bound-vwin.md#11438-the-two-arithmetic-suppliers-of-the-herbrand-quotient) explains the two arithmetic proofs in a common notation and computes the actual cyclic Tate group orders for the Gaussian and real cubic examples. It also exhibits the effect of omitting a ramified place and explains the class-group obstruction to surjectivity.
+
+<a id="attribution-18-18312-transporting-galois-groups-along-a-field-isomorphism-conjugation-decomposition-groups-and-quotients"></a>
+
+<a id="attribution-18-18311-frobenius-elements-at-a-place-existence-inertia-cosets-and-conjugation"></a>
 
 - **Hongmin Li (with AI assistance)** — Read and explained the Frobenius supply of `chebotarevDegreeOne'` [Lean, read]: `exists_frob_over` with the Mathlib lifting through finite quotients and the compactness argument it calls, the passage of the congruence from algebraic integers to the valuation ring, the inertia coset and the conjugation of Frobenius elements, the arithmetic and geometric normalizations, and the consumers `chebotarevDegreeOne'` and `pFrobEx`. Worked out three examples over $\mathbb Q(i)$: the split prime above $5$, whose three primes in $\mathbb Q(i,\sqrt[3]{2},\zeta_3)$ carry the three transpositions of $S_3$; the inert prime $3$, where the exponent is $N(w)=9$ and not the residue characteristic; and the ramified prime $(1+i)$ in $\mathbb Q(\zeta_{24})$, where two Frobenius elements differ by inertia. The formal proofs are Alpöge–Claude's and Mathlib's, and the classical statements are Milne's and the Stacks Project's. [Chapter 18, §18.3.11](chapters/18-auditing-the-published-layer-case-studies.md#18311-frobenius-elements-at-a-place-existence-inertia-cosets-and-conjugation)
 - **Hongmin Li (with AI assistance)** — Read and explained the production of the local isomorphisms $e_D$ [Lean, read]: `exists_galContinuousMulEquiv`, which builds conjugation by a field isomorphism $E$ as an isomorphism of topological groups with inverse from $(e^{-1},E^{-1})$; the place map and the transport of decomposition groups, inertia and Frobenius elements to $E(A)$ with `subgroupIso`; the closed normal closures and the quotient isomorphism $\Psi$ of `exists_gsIso`; and the data `eG`, `eI`, `eD`, `hD` and `hσ` that `ptConcl_of_iso_of` passes to the nine-term and Tate–Shafarevich transports. Worked out complex conjugation on $\mathbb Q(i)$, with the split place $(2+i)$ moved to $(2-i)$ and the ramified place $(1+i)$ fixed, and $\mathbb Q(\sqrt[3]{2})$ transported to its conjugate field; each example follows a nontrivial conjugation and a choice of completion that makes $e_D$ either the identity or a conjugation. Added five failure examples, one of them an abstract automorphism of $\prod_n\mathbb Z/2$ that does not preserve continuous cocycles, and corrected the Stacks tag of the Krull-topology lemma in §18.3.10. The formal proofs are Alpöge–Claude's and Mathlib's, and the classical statements are Milne's and the Stacks Project's. [Chapter 18, §18.3.12](chapters/18-auditing-the-published-layer-case-studies.md#18312-transporting-galois-groups-along-a-field-isomorphism-conjugation-decomposition-groups-and-quotients)
 
+<a id="attribution-18-18313-pulling-back-local-invariants-and-trace-pairings"></a>
+
 - **Hongmin Li (with AI assistance)** — Traced the conditional local-invariant producer to the concrete `hj` input, explained the cup representative formulas and worked out the two quadratic pairings and failure examples. [Chapter 18, §18.3.13](chapters/18-auditing-the-published-layer-case-studies.md#18313-pulling-back-local-invariants-and-trace-pairings)
+
+<a id="attribution-18-18314-transporting-residue-fields-prime-norms-and-local-brauer-normalizations"></a>
+
+<a id="attribution-4-4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth"></a>
+
+<a id="attribution-4-4108-the-local-expansion-and-the-rectangle-identity-ex_local-and-ex_rect_fchi"></a>
+
+<a id="attribution-4-4107-the-residual-of-the-smoothed-explicit-formula"></a>
 
 - **Hongmin Li (with AI assistance)** — Read and explained `ring_equiv_transports_residue` (`isNormalised_transfer`) and its direct Mathlib and archive supply [Lean, read]: integral-closure restriction `RingOfIntegers.mapRingEquiv`, height-one primes and ideal-square preservation `Ideal.map_pow`, DVR localizations and constructive residue-field isomorphisms preserving $N(v)$, equivariant finite-field arithmetic Frobenius and primitive-root transport `IsPrimitiveRoot.map_of_injective`, pullback of normalization test tuples $(\varpi',y',\kappa',\chi',z')$, and the consumer assembly of `hζ'`, `hnorm'` and `hS'` in `ptConcl_of_iso_of` (showing that `hV2`, `hN` and the Frobenius clause of `hloc` have line 72 as their sole consumer). Distinguished canonical functors of $e$, consequences of a chosen closure extension $E$, genuine root-of-unity scaling $\zeta\mapsto\zeta^c$, and universal witness invariance inside `IsNormalised`. Worked out two complete $\ell=3,r=1$ ($R=\mathbb F_3$) calculations over $\mathbb Q(\omega)$ under conjugation — the split prime above $7$ and the inert prime above $2$ ($N(v)=4\ne 2$, nontrivial residue automorphism on $\mathbb F_4$ and Frobenius on $\mathbb F_{64}$) — together with strict failure examples for an unmoved split target prime, a non-involutive wrong-direction pullback at $p=29$ in $\mathbb Q(\zeta_7)^+$, an untransported primitive root in $\mathbb F_3$, and dropping $\varpi\notin v^2$, verified by `verify_examples.py`. The formal proofs are Alpöge–Claude's and Mathlib's, and the classical statements are Milne's and the Stacks Project's. [Chapter 18, §18.3.14](chapters/18-auditing-the-published-layer-case-studies.md#18314-transporting-residue-fields-prime-norms-and-local-brauer-normalizations)
 - **Hongmin Li (with AI assistance)** — Wrote the conditional residual proof, linked the fixed zero list to the difference estimate, and worked the two modulus-eight truncation calculations. [Chapter 4](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4107-the-residual-of-the-smoothed-explicit-formula)
 - **Hongmin Li (with AI assistance)** — Read and explained `ex_local` and `ex_rect_Fchi` through their direct production proofs [Lean, read]: the disc expansion with exact analytic orders and the constant $180(\log(10100C_G)+3)$, the rectangle identity for an entire function by difference quotients and the residue theorem, and the principal double pole $y\log y-y$. Worked the conditional modulus-eight calculations for $\chi_0$ and $\chi_8$ and the failure examples without $\sigma_1>0$, without a zero-free boundary and with weight one at a double zero. Alpöge with Claude supplied the A2 proofs. [Chapter 4, §4.10.8](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4108-the-local-expansion-and-the-rectangle-identity-ex_local-and-ex_rect_fchi)
 - **Hongmin Li (with AI assistance)** — Read and explained the uniform polynomial-growth production proofs on $\operatorname{Re}s\ge1/2$ [Lean, read]: the non-principal Abel partial-sum route `lfunction_polynomial_growth` (`LGrowth.lean:53–71`, witness $C_P=9$), the power-difference continuation `growthBound` of $\zeta(s)$ on $\operatorname{Re}s>0$ (`ZetaGrowth.lean:11–96` with `NormCpowSubLePoint.lean`, `DzDifferentiableOn.lean`, `RiemannZetaOneEqOneSubOfRePos.lean`), the bad-prime Euler-product bound `exLF_prod_le`, and the combined `exLF_growth` (`PNTExplLF.lean:106–184`, witness $C_G=\max(9,6)=9\ge1$, alongside `dhl_triv_growth` in `PNTDHLocalA.lean`), tracing their exact supply to `TailBox`/Perron (§§4.8.7–4.8.8), `ex_local`/`ex_rect_Fchi`/`exm_core` (§§4.10.7–4.10.8) and `deuring_heilbronn_local`. Worked complete hand calculations for $\chi_{-4}\bmod4$ and $\chi_0\bmod5$ (including `exLF` at and near $s=1$), gave exact failure examples deleting $\operatorname{Re}s\ge1/2$, $\chi\ne1$ / $(s-1)$ and `[NeZero M]`, and applied the §4.10.7–§4.10.8 audit corrections (withdrawing "least admissible" claims, updating `ex_local` to $C_G=9$, rewriting §4.10.7.2 as strict budget lower bounds from $C_2^{\mathrm{lb}}\approx5204.59$, and phrasing uncertified zero counts conditionally), verified to 50 digits by `verify_polynomial_growth.py`. Alpöge with Claude supplied the A2 proofs, Mathlib contributors the statement-level library inputs, and Tao, Montgomery–Vaughan and Davenport the classical Euler–Maclaurin and Abel-summation background. [Chapter 4, §4.10.9](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4109-uniform-polynomial-growth-in-the-half-plane-lfunction_polynomial_growth-and-exlf_growth)
 
+<a id="attribution-18-18310-integral-elements-the-prime-below-a-valuation-ring-and-conjugation-over-a-place"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the integrality and conjugacy inputs of `decEquiv` [Lean, read]: `placeProp` and the place of an embedding, the prime below a valuation ring, the recovery of a valuation ring from its prime below through invertible fractional ideals, Galois invariants and continuity on the algebraic integers, and `exists_smul_eq_of_over` with the Mathlib transitivity proofs it calls. Stated the exact hypotheses on $e_D$ and traced their production in `ptConcl_of_iso_of`. Worked out an unramified example at $5$ over $\mathbb Q(\sqrt[3]{2})$, where reversing $j_0\circ\sigma^{-1}$ keeps the place of $F$ and changes the valuation ring, and a ramified example at $2$ over $\mathbb Q(i)$ with the two valuation rings over $(1+i)$ seen in $\mathbb Q(i,\sqrt{-7})$; both are followed into `localEulerChar_holds`. The formal proofs are Alpöge–Claude's and Mathlib's, and the classical statements are those of the Stacks Project and Milne. [Chapter 18, §18.3.10](chapters/18-auditing-the-published-layer-case-studies.md#18310-integral-elements-the-prime-below-a-valuation-ring-and-conjugation-over-a-place)
+
+<a id="attribution-7-7431-spherical-transfer-at-a-split-place"></a>
 
 **Hongmin Li with AI assistance.** [Chapter 7, §7.4.3.1](chapters/07-chains-of-theta-lifts.md#7431-spherical-transfer-at-a-split-place) adds the conditional spherical split-place proposition, an expanded proof of the germ and Jacquet bridge, and the explicit lattice-coset Hecke calculation with two worked examples.
 
+<a id="attribution-7-7432-evaluation-on-a-single-bruhat-cell"></a>
+
 **Hongmin Li with AI assistance.** Expanded the single-cell average into a conditional proof with an explicit inverse on coinvariant classes, checked the direct Lean transports and adjunction, and supplied two hand calculations. [Chapter 7, §7.4.3.2](chapters/07-chains-of-theta-lifts.md#7432-evaluation-on-a-single-bruhat-cell)
+
+<a id="attribution-7-7433-compact-bumps-and-averaged-kernels-on-a-single-cell"></a>
 
 **Hongmin Li with AI assistance.** Read the bump and kernel suppliers of the single-cell map in full and wrote them as textbook statements: the covariant bump, the small-neighborhood lemma, the nonnegative-average lemma, the cell bump, surjectivity by finite subtraction and the kernel by one averaged difference, with hand calculations on the open cells of $\mathrm{GL}_2$ and $\mathrm{GL}_3$ and the two non-stabilizing spherical examples. The proofs are the archive authors' (Alpöge with Claude); the exposition, examples and the comparison with Bernstein–Zelevinsky §5.17 are this book's. [Chapter 7, §7.4.3.3](chapters/07-chains-of-theta-lifts.md#7433-compact-bumps-and-averaged-kernels-on-a-single-cell)
 
+<a id="attribution-7-7434-from-one-cell-to-the-full-bruhat-filtration"></a>
+
 **Hongmin Li with AI assistance.** Read the producers of the full Bruhat filtration behind the geometric lemma and wrote them as textbook statements: the order of the double cosets by rank arrays, the descent of the cell map to coinvariant classes with the one step at which exactness enters, the identification of each adjacent support quotient with the single-cell module in both directions, and the assembly into the conditional geometric lemma with its multiplicity sum. Hand calculations give the two layers for $\mathrm{GL}_2$ and the three layers for the $(2,1)$ parabolic and the Borel subgroup of $\mathrm{GL}_3$, with their order, supports and twists. The proofs are the archive authors' (Alpöge with Claude); the exposition, examples and the comparison with Bernstein–Zelevinsky and Zelevinsky are this book's. [Chapter 7, §7.4.3.4](chapters/07-chains-of-theta-lifts.md#7434-from-one-cell-to-the-full-bruhat-filtration)
+
+<a id="attribution-7-7435-levels-in-the-unipotent-radical-and-supports-on-a-cell"></a>
 
 **Hongmin Li with AI assistance.** Read the level and support suppliers behind the cell map and wrote them as textbook statements: entry bounds and their uniformization on compact sets, the levels with their conjugation weights, exhaustion and normalization by the integral Levi, compact support fibres, and the cell-support level in its pointwise, bounded-set and finite-common forms, with the level each consumer of §§7.4.3.3–7.4.3.4 takes. Hand calculations with two-ball sections on the open cells of $\mathrm{GL}_2$ and of the $(2,1)$ parabolic in $\mathrm{GL}_3$, at scaled and sheared base points, check multiplication, inverses, normalization and level inclusion, and show why spherical sections fall outside the statement. The proofs are the archive authors' (Alpöge with Claude); the exposition, the examples, the bounded-set reading of the proof and the comparison with Bernstein–Zelevinsky are this book's. [Chapter 7, §7.4.3.5](chapters/07-chains-of-theta-lifts.md#7435-levels-in-the-unipotent-radical-and-supports-on-a-cell)
 
+<a id="attribution-7-7436-composition-factors-of-a-cell-module"></a>
+
 **Hongmin Li with AI assistance.** Read `CellSemis.cellSemisimplification` and its direct production chain (`JhMultSubAddQuot`, `PiTensorSmoothRepsExactEachFactor`, `PiTensorDoublyIndexedSwapBlocksEquiv`, `JordanHolderMultNormalisedInductionExact` with `SmIndCoinvariants`, `InductionContragredient` and `IwahoriProjSurjective`, `AdditiveFamilyFunctionDeterminedConstituents`, and the consumers `MCellone` and `IsSubquotientCompMulSingle`) in full, wired the $\mathbb N_\infty$ extended multiplicity convention into Theorem 7.3r, and wrote §7.4.3.6 as textbook statements with complete proofs, the $\mathbb N_\infty$-to-$\mathbb N$ degeneration analysis, and two non-semisimple finite-length hand calculations ($\mathrm{GL}_2$ two single blocks with a torus self-extension for $Q=G$ and $Q=B$, and $\mathrm{GL}_3$ of type $(2,1)$ with a reducible principal-series block at linked and resonant exponents). The formal proofs are the archive authors' (Alpöge with Claude) and Mathlib's; the exposition, degeneration analysis, examples and classical comparison are this book's. [Chapter 7, §7.4.3.6](chapters/07-chains-of-theta-lifts.md#7436-composition-factors-of-a-cell-module)
+
+<a id="attribution-7-7437-exterior-tensor-classification-on-a-block-levi"></a>
 
 **Hongmin Li with AI assistance.** Read `PiExteriorTensorSmoothIrreducibleIsIrreducible`, `ExistsEquivPiExteriorTensorBlockLevi` and `TensorProductDeterminesFactorClasses` together with their direct suppliers (`SchurAdmissible`, `ParabolicInductionTensorProductHasFiniteLength`, `ExistsIsLocCompAndIsLocLoc`, `NonemptyEquivOfRangeEq`, `InjectiveTensorLiftEquivariantMapsOfIrreducible`, `ExistsEquivExteriorTensorOfIrreducibleProdRep`, `ExistsIrreducibleSmoothQuotient`, `ContractMultilinearApply`, `ContractsTensorProductChain`) and four downstream archive callers in full, and wrote §7.4.3.7 as textbook statements with complete proofs: admissible Schur's lemma and Jacobson-density irreducibility (Lemma 7.3aa), unconditional multilinear-contraction factor uniqueness (Lemma 7.3ab), characteristic-$0$ coset-sum null parts, minimal fixed-rank irreducible extraction and multiplicity-space exhaustion (Proposition 7.3ac), and single-tube fixed-space transfer via `(hBZ k).1` and `(hBZ k).2.2.1` yielding the classification bijections $\Theta_c$ and $\Theta$ for Theorem 7.3z (Theorem 7.3ad). Worked out $\mathrm{GL}_1(F)\times\mathrm{GL}_1(F)$, $\mathrm{GL}_2(F)\times\mathrm{GL}_1(F)$ for the infinite-dimensional Steinberg representation $\chi\,\mathrm{St}_2$ (including an explicit finite group-algebra Jacobson-density projector), and dropped-hypothesis counterexamples over $\mathbb R$ and over non-admissible $\mathbb C(t)$ on $\mathbb C(t)^\times\times\mathbb Z_p^\times$. A search of `leanprover-community/riemann-hypothesis` on 2026-11-25 found no prior analysis of these declarations. The formal proofs are Alpöge–Claude's and Mathlib's; the exposition, hypothesis-asymmetry analysis, examples and classical comparison are this book's. [Chapter 7, §7.4.3.7](chapters/07-chains-of-theta-lifts.md#7437-exterior-tensor-classification-on-a-block-levi)
 
+<a id="attribution-13-13412-naming-laws-pmgreencuspidal-and-label-well-definedness-across-consumers"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the coordinate-free naming laws `UpperTheory.Zero.LLC.nameLaws` (`Pin`, `NameLaws`, `NameCentral`) and the representation-level parametrization `PM.greenCuspidal` (`GreenAll.cuspParam_all`, `exists_cuspidal_label`, `hasCuspLabel_unique`, `LabelUniqueAll.label_eq`) together with their actual downstream consumers (`parEx` and `parUniq` in Chapter 12's depth-zero local Langlands chain, and `GreenSeries.green_series`, `cuspParam_of_green`, and `exists_perm_deg` / `exists_perm` / `eSer_eq` on the automorphic side) [Lean, read]. Separated the exact hypotheses consumed by existence (+ degree), injectivity, and exhaustion, and worked out two complete small-field calculations on $\mathbb F_8/\mathbb F_2$ ($\mathrm{GL}_3(\mathbb F_2)$) and $\mathbb F_{25}/\mathbb F_5$ ($\mathrm{GL}_2(\mathbb F_5)$ and $\mathrm{GL}_3(\mathbb F_5)$, with the $(3,2)$ and $(2,6)$ `Pin` boundary checks), verified in exact cyclotomic arithmetic by `verify_green_label_laws.py`. The formal proofs are Alpöge–Claude's, the symmetric-polynomial and `ZMod` lemmas are Mathlib's, and the classical character and depth-zero type theories are Green's and Bushnell–Kutzko's. [Chapter 13, §13.4.12](chapters/13-greens-theorem-and-the-literature-layer.md#13412-naming-laws-pmgreencuspidal-and-label-well-definedness-across-consumers)
+
+<a id="attribution-13-13413-elliptic-character-formulas-and-determination-of-cuspidal-characters-on-regular-elliptic-elements"></a>
 
 - **Hongmin Li (with AI assistance)** — Read and explained the elliptic character-determination theorem `GlobalTheory.CuspGL.cuspElliptic_statement` (`IrrCharEqOneOfSubsingleton.lean:45`) and its entire direct production chain [Lean, read]: the elementary unipotent-block, trace-zero idempotent, and block characteristic-polynomial lemmas behind `isPrimitive_of_isCuspChar`, the regular-root characterization `regular_iff_natDegree_and_exists_elliptic`, the Frobenius-invariant integer Gram vectors and degree-and-sign law (`exists_int_coeff_of_isPrimitive`, `sum_coef_mul_eq_pair`), the two-tier elliptic character formula (separating `character_elliptic_eq_coeff_sum_lemma`, which is independent of `exists_regular`, from the single-orbit root sum conditioned on the retained `R2 [Lean]` input `exists_regular`), the Parseval/Vandermonde/modulo-63 Fourier separation proof (`orthogonal_int_vectors_not_agree_on_regular`), and the payment to §13.4.12's consumer `LabelMapNonempty`. Worked out two complete hand calculations on $\mathrm{GL}_2(\mathbb F_2) \cong \mathfrak S_3$ and $\mathrm{GL}_2(\mathbb F_3)$ (with explicit $2 \times 2$ complex matrix witnesses, central twists, and sign checks, verified by `verify_elliptic_character.py`). The formal proofs are Alpöge–Claude's, the trace/charpoly/Vandermonde lemmas are Mathlib's, and the classical character and cuspidal-determination theorems are Green's and S. I. Gelfand's. [Chapter 13, §13.4.13](chapters/13-greens-theorem-and-the-literature-layer.md#13413-elliptic-character-formulas-and-determination-of-cuspidal-characters-on-regular-elliptic-elements)
 
+<a id="attribution-13-13414-converse-regular-label-existence-exists_regular"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the converse regular-label existence `GlobalTheory.CuspFormula.exists_regular` (`ExistsLabel.lean:49`) and its direct production chain [Lean, read]: the proof that elementary symmetric functions of lifted eigenvalue powers are virtual characters (`esymm_mem_virt`, through `esymm_eq_of_psum_eq` and `exists_multisets`), the primary-class esymm identity `natDegree_mul_esymm_roots_pow`, the orbit–stabilizer period divisibility (`dvd_of_period_of_dvd_sum_powersetCard`, `card_dvd_sum_of_invariant_of_card_stabilizer_dvd`), and the length argument `exists_regular_exponent_of_sum_sq_eq`. Recorded the exact supply to its three call sites (`exists_label`, `finrank_of_simple_cuspidal`, `cuspChar`), separated label existence from label uniqueness and from the realization of every regular label, and worked out hand calculations on $\mathrm{GL}_2(\mathbb F_2)$ and $\mathrm{GL}_2(\mathbb F_3)$ (principal-series cancellations, a norm-one primitive class function with non-regular Gram support that is not virtual, and elliptic values off the label class), verified by `verify_regular_label_existence.py`. The formal proofs are Alpöge–Claude's, the multiset, polynomial and orbit-counting lemmas are Mathlib's, the classification is Green's, and the $\lambda$-operation background follows Serre's exercises. [Chapter 13, §13.4.14](chapters/13-greens-theorem-and-the-literature-layer.md#13414-converse-regular-label-existence-exists_regular)
+
+<a id="attribution-13-13411-why-virtual-characters-have-integral-coefficients"></a>
 
 - **Chapter 13, §13.4.11.** Hongmin Li with Codex assistance. Read the direct virtual-character expansion suppliers in the Alpöge archive, explained their use in Lemma 13.29, and worked out the $C_3$ and $S_3$ tables and norm-one counterexamples. The chapter incorporates the parity and Green citation corrections from the §13.4.10 audit. The classical complete reducibility argument is Maschke's. [§13.4.11](chapters/13-greens-theorem-and-the-literature-layer.md#13411-why-virtual-characters-have-integral-coefficients)
 
+<a id="attribution-18-1839-counting-the-local-degree-closed-balls-integral-approximation-and-the-power-kernel"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the four counting proofs behind the local degree in `decEquiv` [Lean, read]: the closed ball as an integral closure and its count, integral approximation modulo $p$ through a denominator prime to the place, the power kernel $w^e$, the norm count, and their assembly into $[K:\mathbb Q_p]=e(w/p)f(w/p)$. Proved the layer-by-layer approximation and the identification of $\mathcal O_K$ with the $w$-adic completion, which are not Lean declarations. Worked out a ramified example over $\mathbb Q(i)$ and an unramified example over $\mathbb Q(\sqrt5)$ at $p=2$, which separate $p^f$ from $p^{[K:\mathbb Q_p]}$ and $w$ from $w^e$. The formal proofs are Alpöge–Claude's, and the classical statements are Milne's. [Chapter 18, §18.3.9](chapters/18-auditing-the-published-layer-case-studies.md#1839-counting-the-local-degree-closed-balls-integral-approximation-and-the-power-kernel)
+
+<a id="attribution-11-11437-the-second-inequality-for-cyclic-extensions-and-the-vanishing-of-the-minus-one-tate-group-of-the-idele-class-group"></a>
+
+<a id="attribution-11-11436-the-idelic-norm-as-a-restricted-product-from-local-norms-to-one-idele"></a>
+
+<a id="attribution-11-11435-norms-of-local-units-in-unramified-extensions"></a>
+
+<a id="attribution-11-11434-signs-of-real-generators-and-the-binary-minus-defect"></a>
 
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.4](chapters/11-the-window-bound-vwin.md#11434-signs-of-real-generators-and-the-binary-minus-defect) reads the binary sign supply of the Ferrero–Washington class-group bound: `hMinus`, `realGen`, `hasse` with its local norm lemmas and ideal-theoretic Hilbert 90, the real-unit sign supplies `sgnStab` and `sgnUnit`, and the cyclotomic inputs `unitSurj` and `unrJ`, and returns them to `sgnCyc` and `cyc`. The book contributes the English exposition, the calculations over $\mathbb Q(i)$ and $\mathbb Q(\zeta_{12})$, the comparison of the archive's minus part with the norm minus part, and the declaration-level reading boundary. The Lean proofs are Alpöge–Claude's. The Hasse norm theorem, Hasse's unit-index results and the ambiguous class number formula are credited to Milne's and Lemmermeyer's accounts in [the bibliography](sources/SOURCES.md#chapter-11-11434--binary-sign-supply). A search of the issues and pull requests of `leanprover-community/riemann-hypothesis` on 2026-11-24 for `hMinus`, `sgnCyc` and `unitSurj` found nothing. The `FerreroWashington` hits (issue #272, PR #870) add bibliography references to the published statement and do not analyse these proofs.
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.5](chapters/11-the-window-bound-vwin.md#11435-norms-of-local-units-in-unramified-extensions) reads the local unit norm supply behind Lemma B of §11.4.3.4 and the idelic norm criterion: `map_integerUnitsOver_eq_of_ramificationIdx_eq_one`, `exists_norm_eq_of_ramificationIdx_eq_one`, `ramificationIdx_integer`, and the local-field theorem `normIntegerUnits_surjective` with its residue, filtration and completeness producers. The book contributes the English exposition, the three calculations over $\mathbb Q_3$, the hypothesis-by-hypothesis accounting (local-field axioms, ramification index one, residue separability, valuation normalization) and the declaration-level reading boundary. The Lean proofs are Alpöge–Claude's; the finite-field norm and trace surjectivities are Mathlib's; the classical argument is credited to Milne's account in [the bibliography](sources/SOURCES.md#chapter-11-11435--unramified-local-unit-norms). A search of the issues and pull requests of `leanprover-community/riemann-hypothesis` on 2026-11-25 for `normIntegerUnits_surjective`, `LocalNormsEverywhere` and "unramified norm surjective" found nothing.
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.6](chapters/11-the-window-bound-vwin.md#11436-the-idelic-norm-as-a-restricted-product-from-local-norms-to-one-idele) reads the idelic norm criterion `mem_range_ideleNorm_iff` behind the Hasse norm deduction and `locFin`: the component formula `ideleNorm_snd` through `norm_map_of_repr` and `norm_pi`, the restricted-product description `prodRestrictedEquiv`, the cofinite pull-down `eventually_forall_placesOver`, the case-split selection of integral preimages in `mem_range_ideleNorm` and the gluing `glue`/`ideleNorm_glue`. The book contributes the English exposition, the place inventory of $\mathbb Q(i)/\mathbb Q$, the split-prime and inert-prime local-to-idelic calculations, the counter-control showing that coordinatewise preimages need not form an idele, the account of the order of choices, and the declaration-level reading boundary. The Lean proofs are Alpöge–Claude's; the restricted-product unit isomorphism is Mathlib's; the classical statements are credited to Milne, Neukirch and Serre in [the bibliography](sources/SOURCES.md#chapter-11-11436--idelic-norm-criterion). A search of the issues and pull requests of `leanprover-community/riemann-hypothesis` on 2026-11-25 for `mem_range_ideleNorm`, `ideleNorm`, `LocalNorms.lean` and "idele norm restricted product" found nothing.
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.7](chapters/11-the-window-bound-vwin.md#11437-the-second-inequality-for-cyclic-extensions-and-the-vanishing-of-the-minus-one-tate-group-of-the-idele-class-group) reads the second inequality behind the Hasse norm deduction: the identification of $\widehat H^0(G,C_L)$ with the norm index, the first inequality from the Herbrand quotient $n$ of the idele class group (assembly read, suppliers named), the index lemmas, the reduction to prime degree by strong induction on the degree through a subgroup of prime order, the reduction to fields containing $\zeta_p$ by a Bezout step on idele classes, and the final comparison giving $\lvert\widehat H^{-1}\rvert=1$ and $\lvert\widehat H^0\rvert=n$. The book contributes the English exposition, the Tate-group and Herbrand-bookkeeping calculations for the units and $S$-units of $\mathbb Q(i)$ and of $\mathbb Q(\zeta_7)^+$ (with the regulator check against LMFDB), the comparison of the archive's induction with Milne's $p$-group reduction, and the declaration-level reading boundary. The Lean proofs are Alpöge–Claude's; the Kummer-extension generator is Mathlib's; the classical statements are credited to Milne and Neukirch in [the bibliography](sources/SOURCES.md#chapter-11-11437--second-inequality). The same subsection applies the audit corrections to §11.4.3.6 (split-prime coordinate labels, the single-prime valuation identity, the Neukirch (3.2) attribution). A search of the issues and pull requests of `leanprover-community/riemann-hypothesis` on 2026-11-25 for `natCard_cycTateNegOne`, `SecondInequality`, `secondInequalityRoots` and "second inequality" found nothing.
 
+<a id="attribution-11-11433-kummer-reflection-and-the-root-of-unity-kernel"></a>
+
+<a id="attribution-5-5318-why-the-finite-field-trace-is-a-frobenius-sum"></a>
+
 - **Hongmin Li (with AI assistance)** — [Chapter 11 §11.4.3.3](chapters/11-the-window-bound-vwin.md#11433-kummer-reflection-and-the-root-of-unity-kernel) follows the direct Kummer suppliers of the odd-prime finite-layer class-group bound. The book contributes the English exposition, the two quadratic field calculations, and the declaration-by-declaration reading boundary. The local readings of `radXDual`, `unitMinus` and `reflRoot` concern proofs in the pinned Alpöge archive. The pairing and mirror-character comparisons are credited to Milne and Gras in [the bibliography](sources/SOURCES.md#chapter-11-11433--kummer-reflection).
 - **Hongmin Li (with AI assistance)** — Explained the pinned embedding-sum proof and its finite-field reindexing, with explicit multiplication matrices over the fields of orders four and twenty-seven and an inseparable model. [Chapter 5 §5.3.1.8](chapters/05-the-square-root-barrier-core-gm.md#5318-why-the-finite-field-trace-is-a-frobenius-sum)
 
+<a id="attribution-5-5319-primitive-elements-and-power-bases-for-separable-extensions"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the pinned primitive element theorem behind `Field.powerBasisOfFiniteOfSeparable`: the finite-base branch from a cyclic generator, the infinite-base branch from a scalar outside a finite set of root quotients and the linear greatest common divisor, the adjoin induction, and the two places where the trace proofs consume the power basis. Worked out the primitive element $\sqrt2+\sqrt3$ with its change-of-basis matrices, a generator and power basis of the field of order eight, and the step of the proof that fails for $\mathbb F_p(s,t)(s^{1/p},t^{1/p})$. The Lean proofs are Mathlib’s; the classical statements are Milne’s and the Stacks Project’s. [Chapter 5 §5.3.1.9](chapters/05-the-square-root-barrier-core-gm.md#5319-primitive-elements-and-power-bases-for-separable-extensions)
+
+<a id="attribution-5-53110-power-bases-from-the-quotient-ring-remainders-multiplication-matrices-and-transport"></a>
 
 - **Hongmin Li (with AI assistance)** — Read and explained the quotient-ring producers behind the separable power basis: division by a monic polynomial and the uniqueness of remainders, the two `AdjoinRoot` power bases (`powerBasis'` for monic polynomials over a commutative ring and `powerBasis` for nonzero polynomials over a field) with `minpoly_root`, the companion form of `PowerBasis.leftMulMatrix`, `adjoinRootEquivAdjoin` and the transport `PowerBasis.map`, and located the separability input of `det_traceMatrix_ne_zero'` and `det_traceForm_ne_zero` outside the quotient construction. Wrote the trace-matrix theorem with roots counted by multiplicity, worked out multiplication matrices, traces, trace matrices, dual bases and discriminants for $\mathbb Q[X]/(X^3-2)$ and $\mathbb F_2[X]/(X^2+X+1)$, and gave the inseparable field $\mathbb F_3(t)[X]/(X^3-t)$, which has a power basis and an identically zero trace form. Applied the two corrections to §5.3.1.9, Example 3 from the internal audit of that subsection. The Lean proofs are Mathlib’s; the classical statements are Conrad’s, Milne’s and the Stacks Project’s. [Chapter 5 §5.3.1.10](chapters/05-the-square-root-barrier-core-gm.md#53110-power-bases-from-the-quotient-ring-remainders-multiplication-matrices-and-transport)
 
+<a id="attribution-5-53111-the-separable-greatest-common-divisor-in-the-primitive-element-proof"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the greatest-common-divisor chain inside the pinned primitive element proof: the compatibility of monic and field division with ring maps, `gcd_map` as an exact equality along the Euclidean recursion, the Bézout coefficients of the extended algorithm and their use for common roots, separability as a Bézout identity passed to divisors by `Separable.of_mul_left`, and the square-factor argument behind `nodup_roots`. Wrote the conditional theorem that isolates what `primitive_element_inf_aux` proves for any scalar outside the excluded set, with the tower $F\subseteq F(\gamma)\subseteq E\subseteq E'$, its coefficient maps, the elimination that defines the excluded values and the return to the adjoin induction. Worked out the Euclidean algorithm for $\mathbb Q(\sqrt2,\sqrt3)$ with a legal scalar and two bad ones (one irrational, over $\mathbb Q(\sqrt6)$), for the Artin–Schreier tower $\mathbb F_2(t)(\alpha,\beta)$, whose excluded scalars are exactly $\mathbb F_2$, and the purely inseparable failure over $\mathbb F_2(s,t)$. Restored, in §5.3.1.10, the characteristic-zero context of Milne's Proposition 2.34 found by the internal audit of that subsection. The Lean proofs are Mathlib's; the classical statements are Milne's and the Stacks Project's. [Chapter 5 §5.3.1.11](chapters/05-the-square-root-barrier-core-gm.md#53111-the-separable-greatest-common-divisor-in-the-primitive-element-proof)
+
+<a id="attribution-18-1838-decomposition-groups-as-galois-groups-of-completions"></a>
+
+<a id="attribution-10-10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient"></a>
 
 - **Hongmin Li (with AI assistance)** — Read and explained the archive's comparison `decEquiv` between decomposition groups and Galois groups of completions [Lean, read]: adapted embeddings, the restriction isomorphism and its continuity, inertia, the local degree by counting, and the transport of cohomology and restriction maps. Derived the conjugation formulas under a change of embedding, which are not Lean declarations, and worked out a split and an inert example over $\mathbb Q(i)$ in which two embeddings differ on cohomology by a sign and by an involution. The formal proofs are Alpöge–Claude's and the classical statements are Milne's. [Chapter 18, §18.3.8](chapters/18-auditing-the-published-layer-case-studies.md#1838-decomposition-groups-as-galois-groups-of-completions)
 - **Hongmin Li with AI assistance** — Expanded the two-batch prime selector and local evaluation bridge into conditional textbook proofs, checked the actual Step/Grow interfaces, and supplied the quadratic and nonabelian worked examples. [Chapter 10, §10.4.13](chapters/10-congruence-modules-to-sha.md#10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient)
 
+<a id="attribution-18-1837-local-euler-characteristics-away-from-the-residue-prime"></a>
+
 
 - **Chapter 18 §18.3.7.** We explain the local Euler count via Frobenius invariants and coinvariants, give two full examples over $\mathbb Q_5$, and trace which proof supplies the Euler field and where its dimension identity is used. [Subsection](chapters/18-auditing-the-published-layer-case-studies.md#1837-local-euler-characteristics-away-from-the-residue-prime)
+
+<a id="attribution-5-5317-trace-pairings-and-the-additive-input-to-gauss-sums"></a>
 
 
 - **Hongmin Li (with AI assistance)** — Wrote the trace-duality classification and kernel proof, worked the matrices and dual bases over the fields of orders nine and sixteen, and followed the specified additive input to the two Gauss-sum consumers. [Chapter 5 §5.3.1.7](chapters/05-the-square-root-barrier-core-gm.md#5317-trace-pairings-and-the-additive-input-to-gauss-sums)
 
+<a id="attribution-5-5312-frobenius-and-inertia-in-the-cyclotomic-host"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and transcribed the archive’s cyclotomic reduction and inertia-lifting proofs, worked out the three primes in the eighth cyclotomic field, and traced the shared data to its two P6 consumers. The formal proofs are credited to Alpöge with Claude. Milne supplies the classical comparison, and the community LUMI guide credited in the preceding entry supplies background to the primitive-character reading. [Chapter 5 §5.3.1.2](chapters/05-the-square-root-barrier-core-gm.md#5312-frobenius-and-inertia-in-the-cyclotomic-host)
 
+<a id="attribution-5-5314-quadratic-reciprocity-and-the-host-splitting-signs"></a>
+
 - **Hongmin Li (with AI assistance)** — Wrote the textbook derivation of the reciprocity supply, the hand calculations and the branch-by-branch host connection. [Chapter 5 §5.3.1.4](chapters/05-the-square-root-barrier-core-gm.md#5314-quadratic-reciprocity-and-the-host-splitting-signs)
+
+<a id="attribution-6-645-from-lattice-slopes-to-the-weighted-mean-the-main-path-instance-of-clause-7"></a>
+
+<a id="attribution-5-5316-cyclic-multiplicative-groups-of-finite-fields"></a>
 
 - **Hongmin Li (with AI assistance)** — Wrote the prime-power composition and polynomial-root proofs, the complete calculations over the fields of orders seven and sixteen, and the modulo-fifteen comparison. Traced the distinct Mathlib counting proof to the actual Euler arguments. [Chapter 5 §5.3.1.6](chapters/05-the-square-root-barrier-core-gm.md#5316-cyclic-multiplicative-groups-of-finite-fields)
 - **Hongmin Li (with AI assistance)** — Explained how the quotient-slope clause reaches the
@@ -502,6 +600,8 @@ Claude Code supplies the archive machine-check record [Community].
   and Jaswal's exposition describes Clause 7 in words; both are credited in the chapter and in the
   source record. [Chapter 6, §6.4.5](chapters/06-stepanovs-method-and-multiplicity.md#645-from-lattice-slopes-to-the-weighted-mean-the-main-path-instance-of-clause-7)
 
+<a id="attribution-5-5311-why-inertia-averaging-recovers-the-primitive-character"></a>
+
 - **Hongmin Li (with AI assistance)** — Read and explained the archive's
   `primitive_value_primitive` proof consumed by `prim_read`, including the conductor
   criterion, inertia orthogonality, and the two prime-power branches. Added the mod-$20$
@@ -509,21 +609,29 @@ Claude Code supplies the archive machine-check record [Community].
   Alpöge–Claude's. Lipponen's community guide is credited in the source record.
   [Chapter 5, §5.3.1.1](chapters/05-the-square-root-barrier-core-gm.md#5311-why-inertia-averaging-recovers-the-primitive-character)
 
+<a id="attribution-2-2321-why-gamma-has-no-zeros-in-the-right-half-plane"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the Gamma supply and wrote its graduate-textbook
   proof in §2.3.2.1, with an integral approximation bound, a quantitative cosine-mass estimate,
   hand calculations, and a comparison of the classical pole with the Lean value.
   [Chapter 2, §2.3.2.1](chapters/02-functional-equations-and-primitive-characters.md#2321-why-gamma-has-no-zeros-in-the-right-half-plane)
+
+<a id="attribution-2-2322-the-beta-integral-and-the-gamma-product-total-scale-and-proportion-coordinates"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the Beta–Gamma integral transform (dilation, forward
   convolution, Fubini and translation step, product and quotient forms) and wrote §2.3.2.2, with the
   composite Jacobian, two hand calculations, the sharpness example and the two archive consumers.
   [Chapter 2, §2.3.2.2](chapters/02-functional-equations-and-primitive-characters.md#2322-the-beta-integral-and-the-gamma-product-total-scale-and-proportion-coordinates)
 
+<a id="attribution-2-2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the Euler-integral supply (zero-end power comparison, exponential-decay
   tail test, complex-power modulus, integration-by-parts recurrence, recursive definition of Gamma and
   `Gamma_eq_integral`) and wrote §2.3.2.3, with an explicit domination constant, hand calculations at
   $s=1/2$ and $s=1+i$, the sharpness example $s=it$, and the archive consumer `norm_Gamma_le`.
   [Chapter 2, §2.3.2.3](chapters/02-functional-equations-and-primitive-characters.md#2323-eulers-integral-for-gamma-convergence-at-both-ends-and-what-gamma_eq_integral-actually-proves)
+
+<a id="attribution-2-2324-nonnegative-derivatives-and-improper-integrals-the-integrability-criteria-behind-both-ends-of-eulers-integral"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the integrability criteria for nonnegative derivatives behind §2.3.2.3
   (one-sided fundamental theorem of calculus, the bounded-interval criterion, the a.e.-cover and monotone-convergence passage
@@ -532,12 +640,16 @@ Claude Code supplies the archive machine-check record [Community].
   six failure examples and two archive call sites.
   [Chapter 2, §2.3.2.4](chapters/02-functional-equations-and-primitive-characters.md#2324-nonnegative-derivatives-and-improper-integrals-the-integrability-criteria-behind-both-ends-of-eulers-integral)
 
+<a id="attribution-2-2325-the-vitalicarathéodory-majorant-lower-semicontinuous-upper-bounds-for-integrable-functions-and-what-the-one-sided-fundamental-theorem-takes-from-them"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the Vitali–Carathéodory theorem behind Lemma A of §2.3.2.4 (open-set and closed-set
   approximation of simple functions, the series majorant, strictness on $\sigma$-finite spaces, the extended-real assembly) and wrote
   §2.3.2.5, with the five uses of its conclusions in the one-sided fundamental theorem, hand calculations for the rationals, for the
   dense open complement of the Smith–Volterra–Cantor set and for the staircase on the Gamma chain, the Baire argument for the value
   $+\infty$, the limits of continuous majorants, seven failure examples, and the corrected attribution of the $x^2\sin(x^{-2})$ example.
   [Chapter 2, §2.3.2.5](chapters/02-functional-equations-and-primitive-characters.md#2325-the-vitalicarathéodory-majorant-lower-semicontinuous-upper-bounds-for-integrable-functions-and-what-the-one-sided-fundamental-theorem-takes-from-them)
+
+<a id="attribution-2-2326-monotone-convergence-on-truncation-domains-the-lower-integral-theorem-behind-lemma-c-and-the-signed-limits-at-both-ends-of-eulers-integral"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the monotone convergence theorem behind Lemma C of §2.3.2.4 (the
   simple-function proof of `lintegral_iSup` with Rudin's level sets, the almost-everywhere representatives
@@ -549,17 +661,57 @@ Claude Code supplies the archive machine-check record [Community].
   The same change corrects the list of exceptional pairs for extended-real addition in §2.3.2.5.
   [Chapter 2, §2.3.2.6](chapters/02-functional-equations-and-primitive-characters.md#2326-monotone-convergence-on-truncation-domains-the-lower-integral-theorem-behind-lemma-c-and-the-signed-limits-at-both-ends-of-eulers-integral)
 
+<a id="attribution-2-2327-dominated-convergence-through-the-l1-extension-the-filter-to-sequence-reduction-the-decreasing-tail-supremum-step-and-local-uniform-domination-of-the-complex-gamma-kernel"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the Bochner dominated convergence chain behind §§2.3.2.1, 2.3.2.4 and 2.3.2.6 (`tendsto_integral_of_dominated_convergence` and `tendsto_integral_filter_of_dominated_convergence` through `setToFun`, `L1.setToL1`, the countably-generated-filter sequence shift, `aestronglyMeasurable_of_tendsto_ae`, `tendsto_lintegral_norm_of_dominated_convergence`, and the decreasing tail-supremum step `limsup_lintegral_le`, together with parametric differentiation and local uniform domination of the Mellin and Gamma integrals in `ParametricIntegral.lean`, `MellinTransform.lean` and `Gamma/Deriv.lean`) and wrote §2.3.2.7, with complete hand calculations for the complex Gamma kernel on $[\tfrac12,3]\times[-2,2]$ around $1+i$ and for an exact-rational non-monotone signed truncation family with $F_n^+\neq0$ and $F_n^-\neq0$, hypothesis-deletion counterexamples separating common domination, the common `∀ᵐ` quantifier and `[IsCountablyGenerated]`, two filter-DCT archive call sites along `𝓝[>] 0`, and the $t=r\,1_{[0,1]}$ clarification in §2.3.2.6.
   [Chapter 2, §2.3.2.7](chapters/02-functional-equations-and-primitive-characters.md#2327-dominated-convergence-through-the-l1-extension-the-filter-to-sequence-reduction-the-decreasing-tail-supremum-step-and-local-uniform-domination-of-the-complex-gamma-kernel)
 
+<a id="attribution-10-1048-from-tame-inertia-to-the-order-of-a-selmer-determinant"></a>
+
 - **Hongmin Li (with AI assistance)** — §2.3.1 proof reading and textbook exposition of the conductor construction, with worked tables modulo 8 and 12. [Chapter 2](chapters/02-functional-equations-and-primitive-characters.md#231-conductors-level-change-and-bundled-primitive-characters)
 - **Hongmin Li (with AI assistance)** — Wrote the finite DVR example and textbook account of tame inertia, dual-number cocycles, and the two determinant/adjugate order tests. The formal argument is by Alpöge with Claude. Serre's classical ramification background is credited in the source ledger. — [Chapter 10, §10.4.8](chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant)
+
+<a id="attribution-14-14425-compactly-supported-continuous-functions-are-dense-in-l2"></a>
+
+<a id="attribution-14-14424-urysohn-cutoffs-with-finite-measure"></a>
+
+<a id="attribution-14-144231-finite-measure-simple-functions-in-lp"></a>
+
+<a id="attribution-14-14423-continuous-functions-are-dense-in-l2-of-the-circle"></a>
+
+<a id="attribution-14-14422-stoneweierstrass-for-the-circle-character-algebra"></a>
+
+<a id="attribution-14-14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction"></a>
 
 - **Hongmin Li (with AI assistance)** — Expanded §14.4.2 with a hand-worked smooth radial test over $\mathbb Q$, a proof of compactly supported Poisson summation linked to the read Mathlib declarations, and an explanation of midpoint samples and limit interchange. — `this book` · `exposition` — [Expository] for the worked model, [Open] for the orbital-trace application — [Chapter 14](chapters/14-masullos-trace-formula-route.md)
 - **Hongmin Li (with AI assistance)** — Wrote §14.4.2.1 with a Fejér approximation proof, Fourier coefficient uniqueness, and two hand calculations, and linked the pointwise reconstruction back to the classical Poisson proof. — [Expository] — [Chapter 14](chapters/14-masullos-trace-formula-route.md#14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction)
 - **Hongmin Li (with AI assistance)** — Wrote §14.4.2.2, expanding the proof of uniform density through realification and two finite covers, with two circle calculations and the link to Poisson uniqueness. — [Expository] — [Chapter 14](chapters/14-masullos-trace-formula-route.md#14422-stoneweierstrass-for-the-circle-character-algebra)
 - **Hongmin Li (with AI assistance)** — Wrote §14.4.2.3, expanding the pinned proof that continuous functions are dense in $L^p$ (indicator-norm lemma, good-sets regularity on a metric space, Urysohn cap, two-case simple-function induction, passage to the compact-space statement), aligning every Lean hypothesis with the circle, with the arc-cap and two-step hand calculations and the explanation of why the sup-norm inequality alone is insufficient. — [Expository] — [Chapter 14](chapters/14-masullos-trace-formula-route.md#14423-continuous-functions-are-dense-in-l2-of-the-circle)
 - **Hongmin Li (with AI assistance)** — Wrote §§14.4.2.3.1, 14.4.2.4 and 14.4.2.5, with the finite-measure fiber and quotient arguments, the cutoff construction and the compact-neighborhood step, six worked examples and hypothesis boundaries. — [Expository]. [Simple density](chapters/14-masullos-trace-formula-route.md#144231-finite-measure-simple-functions-in-lp) · [Cutoff](chapters/14-masullos-trace-formula-route.md#14424-urysohn-cutoffs-with-finite-measure) · [Compact support](chapters/14-masullos-trace-formula-route.md#14425-compactly-supported-continuous-functions-are-dense-in-l2)
+
+<a id="attribution-13-1344-where-greenregularcharacters-comes-from-regular-characters-produce-cuspidal-characters"></a>
+
+<a id="attribution-10-1046-twist-existence-how-the-selmer-killing-character-is-chosen"></a>
+
+<a id="attribution-10-1045-the-dvr-determinant-lemma-and-block-cocycle-lengths"></a>
+
+<a id="attribution-9-945-a-positive-semidefinite-bound-for-the-period-rows"></a>
+
+<a id="attribution-8-845-from-the-single-kernel-expansion-to-the-low-term-lattice-bound-lowtermbound"></a>
+
+<a id="attribution-4-4106-the-differenced-explicit-formula-differenced_explicit_formula"></a>
+
+<a id="attribution-4-4105-the-far-range-numerical-absorption-lemma-num_main"></a>
+
+<a id="attribution-4-410-joining-the-two-ranges-of-the-relative-progression-estimate"></a>
+
+<a id="attribution-4-488-local-zeros-and-the-logarithmic-derivative-in-tailbox"></a>
+
+<a id="attribution-4-487-mellin-inversion-and-the-finite-rectangle"></a>
+
+<a id="attribution-4-48-from-the-zero-free-box-to-the-truncated-perron-tail"></a>
+
+<a id="attribution-4-47-zero-density-mean-squares-and-siegels-lower-bound-from-the-large-sieve-to-pairgood"></a>
 
 - **Hongmin Li (with AI assistance)** — Explained how the archive passes from the single
   formal-group kernel to the low-term lattice bound `LowTermBound` [Lean, read]: the one-place
@@ -621,6 +773,8 @@ Claude Code supplies the archive machine-check record [Community].
   the archive author's; this entry records exposition only.
   [Chapter 13, §13.4.4](chapters/13-greens-theorem-and-the-literature-layer.md#1344-where-greenregularcharacters-comes-from-regular-characters-produce-cuspidal-characters)
 
+<a id="attribution-10-1047-where-does-adm2-come-from"></a>
+
 
 - **Book editorial team (AI-assisted)** — Traced the all-coprime-powers twist used by the main proof,
   its specialization to the assertion of `adm2`, and the producers of the auxiliary-prime and Chebotarev
@@ -630,6 +784,8 @@ Claude Code supplies the archive machine-check record [Community].
 Work by Hongmin Li (with AI assistance) related to the Riemann Hypothesis, including earlier work
 that preceded the November 2026 announcements. For earlier work, the entry states plainly how it relates
 to the claimed proofs (superseded, independent method or constants, or unaffected).
+
+<a id="attribution-8-844-finite-jets-of-the-local-formal-group-kernel"></a>
 
 - **Book editorial team (AI-assisted)** — Explained the finite coefficient expansion of
   the formal-group kernel in Chapter 8, Section 8.4.4, with a worked $p=5$ jet and
@@ -672,7 +828,11 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 - **Hongmin Li (with AI assistance)** — Published *Littlewood-size zero clusters in Landau's local method: a Diamond–Montgomery–Vorhauer construction and the scale it costs* (`riemann_hypothesis_189` v3; explicitly an unconditional study of abstract extended Beurling zeta systems making no claim on $\zeta(s)$), constructing via rescaled Diamond–Montgomery–Vorhauer factors at $\gamma_k = \exp(4^k)$ extended Beurling zeta functions $F(s) = \exp(\int_{1-}^\infty x^{-s}\,dm(x))$ ($dm \ge 0$) that satisfy Broucke–Révész's local disk/growth hypotheses while carrying off-line zeros of multiplicity or simple-zero cluster size $\asymp \log\gamma_k / \log\log\gamma_k$ on $\sigma = b \in (1/2, 1)$, paired with matching distributional-positivity lower bounds on kernel dilation scales $a_k$ (with v2 recording the $|b - \sigma|$ horizontal shift in Appendix Proposition A.1(ii), and v3 adding Appendix A's sufficient summability conditions and contrasting divergence/phase-cancellation examples for product realization on a safe half-strip while explicitly citing the 20 November 2026 announcements and treating classical RH as open, accepted 2026-11-22 05:23 UTC). — `proof` — [Paper] Published work on optimality of Landau's local method on extended Beurling systems; **relation to the November 2026 claims**: operates on abstract measure-generated zeta systems ($dm \ge 0$, where off-line zeros genuinely exist) to establish method-level sharpness of local disk arguments, treats classical RH as open, claims nothing about $\zeta(s)$, and **retains full independent value unaffected** by whether classical RH or GRH holds — [rStation riemann_hypothesis_189 v3](https://rstation.ai/problems/riemann_hypothesis/papers/189) (v1–v3 accepted 2026-11-21 to 2026-11-22)
 - **Hongmin Li (with AI assistance)** — Compiled and wrote *Amazing Riemann Hypothesis* (this open book, expanded through Chapters 0–18 across Parts 0–IV released on 2026-11-22), providing a citation-pinned graduate textbook and public record on the November 2026 claimed proofs: line-by-line formal-to-human proofs of the five `src/Main.lean` theorem statements and their Mathlib definitions (Chapter 1), of the entire analytic endgame of Part I — functional-equation and Euler-factor reductions (Chapter 2), the Landau-window criterion (Chapter 3), the two-stage auxiliary prime-pair sieve and CM host-field assembly (Chapter 4), and the finite Fourier and $x/m + m$ size proof of `core_gm` (Chapter 5) — of the entire arithmetic engine of Part II — the classical Stepanov–Bombieri curve bound via Hasse–Schmidt derivations alongside the formal `P7` `SizeData₂`/`each_unit_bound_statement` deduction (Chapter 6), Jacobi/Weil/Howe theta kernels, explicit Fubini–Tonelli kernel-composition chain rules, spectral parameter transfer, and the `P17` `HypsAlt` $\to$ `TopG` assembly (Chapter 7), supersingular height-$2$ $p$-adic divisibility at inert primes and the `P8` `Conclusion1` $\to$ `off_level_bound_family` deduction (Chapter 8), Euclidean/Arakelov Harder–Narasimhan filtrations, Bost's slope inequality `SlopeIneq`, $m$-step chain heights, and `LinkG`/`LinkDIV`/`LinkS` period near-orthogonality (Chapter 9), Hida congruence ideals, GMA Fitting bounds `CutDetOrd.main`/`CutCoreUnit.main`, Selmer-killing twists, and `divinN_of_hypV` (Chapter 10), and the three-way Tate–Shafarevich squeeze `vvle_of_parts`, Sinnott-route Ferrero–Washington $\mu = 0$ proof, $U(3)$ trace-annihilator / Taylor–Wiles patching interfaces, and subexponential window bound `VWin` (`P12`, Chapter 11) — of the entire Part III foundations layer — CM automorphic Galois representations `Row0b` with weak local–global compatibility and partial local Langlands `RecTExists`/`LawsT` (`P14`–`P15`, Chapter 12), Green's cuspidal character classification `Green`/`green_of_regular` on $\mathrm{GL}_d(\mathbb F_g)$ and the 257-theorem literature layer `OpenLiteratureStatements` (`P16` & `P18`, Chapter 13), and the generalized Behrend sphere construction `hostThickExists` ($C = 32$), `hostThickOrbit` ($\le 2$ thick hits per orbit window), `thickFrame2` ($C_T = 64$), `hostOfField`, and `log_conductor_mul_height_le_of_pageN` (Chapter 17) — and of the Part IV comparison and assessment — Masullo's adelic trace-formula route, Hardy–Sobolev strip completions, and the Chapter 10 spectral-nuclearity gap (Chapter 14), a five-axis structural comparison traced step by step on $\chi_{-4} \bmod 4$ (Chapter 15), consolidated verification ledgers, non-abelian ERH/Artin scope boundaries, and a reader participation checklist (Chapter 16), and worked statement-fidelity case studies auditing three load-bearing sub-clusters of `GlobalTheory.Published.*` (`P18`, Chapter 18) — alongside an archive integrity check and 175,187-file static source scan, an annotated bibliography of more than 150 public and classical sources (`sources/SOURCES.md`), a timestamped verification chronicle with an independent elementary and 256-bit ball-arithmetic reproduction of Masullo's p. 451 counterexample ("The story so far", `chapters/02-the-story-so-far.md`), a top-down proof map (`notes/proof-map.md`), and this contributions ledger. — `this book` · `exposition` · `review` — Expanded edition live (Chapters 0–18; [Lean, read] for Chapter 1, Part I Chapters 2–5, and the `P5`–`P18` algebraic, Behrend-sphere/host-geometry, Arakelov-slope, convergence, congruence, Iwasawa-squeeze, top-level Langlands/Galois, Green-character, and `Published`-statement-audit layers of Chapters 6–13 and 17–18; [Lean] for imported classical analytic and deep automorphic/literature sub-packages; [Paper] for primary manuscripts; [Community] for compiled/kernel, formalization, and statement-fidelity reports; **unaffected** by whether either claimed proof stands, as it is commentary, exposition and verification record of the claims themselves) — [GitHub repository](https://github.com/Li-Hongmin/amazing-riemann-hypothesis), [mdBook site](https://li-hongmin.github.io/amazing-riemann-hypothesis/) (2026-11-21 to 2026-11-22)
 
+<a id="attribution-11-11431-from-a-finite-difference-to-stickelberger-nonvanishing"></a>
+
 - **Book editorial team (AI-assisted)** — Traced the finite independence proof, its twisted coefficient application, and the ideal membership consumed in the Ferrero–Washington argument. The finite group-ring example and English proof transcription are textbook contributions. The Lean proofs belong to the archive authors, and the classical results remain credited to Ferrero, Washington and Sinnott. [Chapter 11](chapters/11-the-window-bound-vwin.md#11431-from-a-finite-difference-to-stickelberger-nonvanishing)
+
+<a id="attribution-11-11432-from-the-stickelberger-membership-to-a-uniform-class-group-rank-bound"></a>
 
 - **Book editorial team (AI-assisted)** — Explained how `cyc` turns the `memZ` membership into a
   class-group rank bound that is uniform over the layers $\mathbb Q(\zeta_{f\ell^n})$ [Lean, read]: the kernel–cokernel
@@ -688,14 +848,26 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   `leanprover-community/riemann-hypothesis` on 2026-11-24 found no community analysis of these declarations.
   [Chapter 11](chapters/11-the-window-bound-vwin.md#11432-from-the-stickelberger-membership-to-a-uniform-class-group-rank-bound)
 
+<a id="attribution-13-1348-why-the-cuspidal-count-exhausts-greens-list"></a>
+
 - **Hongmin Li (with AI assistance)** — Reconstructed the archive’s conditional I9 exhaustion count, including the Whittaker constituent, Harish–Chandra pairing, and Gelfand–Graev norm arguments. Added the two hand calculations and the archive source map. [Chapter 13, §13.4.8](chapters/13-greens-theorem-and-the-literature-layer.md#1348-why-the-cuspidal-count-exhausts-greens-list).
 
+<a id="attribution-13-1345-why-lifted-power-sums-are-virtual-characters"></a>
+
 - **Hongmin Li (with AI assistance)** — Explained the Alpöge–Claude archive’s existing virtuality proof and worked out the four-line example over the field of three elements. Green’s published argument is credited in the sources. [Chapter 13, §13.4.5](chapters/13-greens-theorem-and-the-literature-layer.md#1345-why-lifted-power-sums-are-virtual-characters)
+
+<a id="attribution-13-1346-the-gram-matrix-and-fourier-expansion-of-primitive-class-functions"></a>
+
+<a id="attribution-10-10412-a-square-presentation-of-the-global-selmer-functor"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the P16 Gram and expansion production bodies for (I4)/(I5) and wrote the graduate-level reconstruction via endomorphism masses and torus Fourier inversion, with hand calculations in ranks one and two. LUMI's P16 statement-fidelity review is credited above. Green's original torus multiplicity supplies the historical comparison. [Chapter 13, §13.4.6](chapters/13-greens-theorem-and-the-literature-layer.md#1346-the-gram-matrix-and-fourier-expansion-of-primitive-class-functions).
 - **Chapter 10, §§10.4.9–10.4.12.** The book follows the degree bound through the auxiliary-prime induction and proves a conditional finite presentation theorem for the global Selmer functor. It explains the two coefficient operations and supplies DVR computations of exactness and length. The formal constructions are due to the authors of A2. [Chapter 10](chapters/10-congruence-modules-to-sha.md#10412-a-square-presentation-of-the-global-selmer-functor)
 
+<a id="attribution-13-1347-parabolic-induction-and-the-virtual-character-subtraction"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the P16 (I7) parabolic producer and its strong-induction consumer, and wrote the finite-group induction and pairing proof with two hand calculations. The LUMI statement-fidelity audit is credited in the community records above. [Chapter 13, §13.4.7](chapters/13-greens-theorem-and-the-literature-layer.md#1347-parabolic-induction-and-the-virtual-character-subtraction).
+
+<a id="attribution-13-1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the P16 `(I1)` Witt-vector Teichmüller lift `CuspGL.TeichEmb.exists_teichmuller` together with pinned Mathlib `WittVector.teichmuller`, the algebraic-integer reduction model `GLq.Model.datumOf`, the `ParamLabel` parameter-to-character bridges (`isCusp_psi`, `thetaOf_gen`, `cuspOn_eq_psi`, `isCuspOf_cuspOn`), and the `GoodCharsCompare` zero-extension and change-of-embedding automorphisms (`exists_ext`, `exists_alpha`, `exists_exp`, `exists_beta`, `Tr`), and wrote the conditional textbook proof with worked hand calculations over $\mathbb F_9 / \mathbb F_3$ and $\mathbb F_{16} / \mathbb F_2$. LUMI's statement-fidelity review and Commelin–Lewis's Mathlib Witt-vector formalization are credited separately in the community and bibliography records; the archive's formal proofs belong to its authors and this entry records exposition only. [Chapter 13, §13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
 
@@ -703,7 +875,11 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
 
 - **Chapter 13 editorial review (internal, same-source)** — The review of the first §13.4.9 draft identified the characteristic-three root choice and the failure of a dimension-based exponent period. Its two findings are addressed in [§13.4.9](chapters/13-greens-theorem-and-the-literature-layer.md#1349-teichmüller-lifts-frobenius-orbits-and-choice-of-labels).
 
+<a id="attribution-13-13410-from-a-norm-one-virtual-character-to-a-positive-irreducible-character"></a>
+
 - **Hongmin Li (with AI assistance)** — Read the P16 production proofs of (I2) `CuspGL.psi_one` (subspace count and $q$-binomial identity) and (I8) `BI.irr_of_norm_one`, `CuspGL.star_virt_eq_inv` and `CuspGL.extZero_spec`, and wrote the textbook passage from a norm-one virtual character to a positive irreducible character, including the `FDRep` simplicity interface and hand calculations on $\mathrm{GL}_1(\mathbb F_q)$ and $\mathrm{GL}_2(\mathbb F_3)$ showing that the norm and the sign condition are both needed. The formal proofs belong to the archive authors, the Mathlib criterion to its authors credited above, and the classical statement to Green (1955); this entry records exposition only. [Chapter 13, §13.4.10](chapters/13-greens-theorem-and-the-literature-layer.md#13410-from-a-norm-one-virtual-character-to-a-positive-irreducible-character)
+
+<a id="attribution-10-10471-lattice-specialization-one-index-bound-for-every-coprime-power"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the lattice-specialization transport behind the lattice clauses
   of `GoodTw`: the bounded-index lattice criterion, the removal of the idempotent denominator, the invariance
@@ -713,6 +889,8 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   examples in which re-choosing a lattice breaks the transport. The formal proofs are Alpöge and Claude's in the
   pinned archive; this entry records exposition and reading only.
   [Chapter 10, §10.4.7.1](chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
+
+<a id="attribution-10-10472-toric-hecke-relations-and-simultaneous-level-exponent-selection"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the two direct producers feeding Proposition 10.13j at local R3:
   the same-lattice toric Hecke determinant factorization `propABCD_of_rel` (grid vanishing modulo the toric
@@ -729,6 +907,8 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   and Washington; this entry records exposition and reading only.
   [Chapter 10, §10.4.7.2](chapters/10-congruence-modules-to-sha.md#10472-toric-hecke-relations-and-simultaneous-level-exponent-selection)
 
+<a id="attribution-10-10473-theta-euler-factors-and-the-isotypic-lattice-where-non-divisibility-comes-from"></a>
+
 - **Hongmin Li (with AI assistance)** — Read at local R3 the two remaining direct supplies of the main-path producer behind
   Proposition 10.13j: the theta Euler-factor factorization `GlobalTheory.ToricFactor.propE` (integral lifts with one uniform
   exponent $N_0$, Euler-factor peeling through `adm10`, toric grid vanishing, the residual inertia eigenvalue `resChar_ne_one`,
@@ -744,6 +924,8 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   definition as restated by Loeffler and Zerbes. This entry records exposition and reading only.
   [Chapter 10, §10.4.7.3](chapters/10-congruence-modules-to-sha.md#10473-theta-euler-factors-and-the-isotypic-lattice-where-non-divisibility-comes-from)
 
+<a id="attribution-10-10474-one-family-of-auxiliary-places-for-the-selmer-polynomials-and-the-theta-steps"></a>
+
 - **Hongmin Li (with AI assistance)** — Read at local R3 the joint producer of the auxiliary-place family behind Proposition 10.13j,
   `GlobalTheory.TwSys.galois_twisted_selmer_auxprimes_of_matrix_and_bounds` (one order bound for both parities of $\nu$, one family
   of $2R$ places for all signatures, the Selmer presentation matrix lifted through `toLam_surjective` to a Selmer polynomial with
@@ -758,27 +940,51 @@ to the claimed proofs (superseded, independent method or constants, or unaffecte
   exposition. This entry records exposition and reading only.
   [Chapter 10, §10.4.7.4](chapters/10-congruence-modules-to-sha.md#10474-one-family-of-auxiliary-places-for-the-selmer-polynomials-and-the-theta-steps)
 
+<a id="attribution-3-rectangular-divergence-with-countable-exceptions"></a>
+
 - **Hongmin Li (with AI assistance)** — Wrote the planar textbook proof using tagged subdivision and one-dimensional affine increments, with worked examples for a point of nondifferentiability, a discontinuous trace and cancellation between derivatives that are individually nonintegrable. [Textbook subsection](chapters/03-landau-window-criterion.md#rectangular-divergence-with-countable-exceptions)
 
+<a id="attribution-3-weighted-circle-integrals-and-the-rectangle-theorem"></a>
+
 - **Hongmin Li (with AI assistance)** — Transcribed the rectangle and weighted-annulus arguments for complex scalars, with worked centered kernels and a pole-crossing example in Chapter 3. [Textbook subsection](chapters/03-landau-window-criterion.md#weighted-circle-integrals-and-the-rectangle-theorem)
+
+<a id="attribution-10-104111-the-global-invariant-sum-in-the-new-place-reciprocity"></a>
+
+<a id="attribution-3-from-complex-differentiability-to-a-power-series"></a>
 
 - **Hongmin Li (with AI assistance)** — Wrote the scalar Cauchy expansion and uniform remainder proof, the two worked coefficient calculations, and the mapping to P5’s analytic-germ interface. [Chapter 3](chapters/03-landau-window-criterion.md#from-complex-differentiability-to-a-power-series)
 - **Hongmin Li (with AI assistance)** — Read the direct producer of the finite invariant sum `sum_inv_eq_zero_of_unramified_cocycle_pow`, its descent and nine-term tail evaluation, and the entire consumer `NewRecip.reciprocity`, and wrote the conditional textbook proofs (Lemmas 10.22c–10.22e, Theorem 10.22f, Proposition 10.22g) with two hand computations over $\mathbb Q(i)$ for $\ell=3$ using the actual coefficient pairing; one shows that deleting a nonzero place breaks reciprocity, the other shows the conjugate split pair with opposite invariants. The formal proofs are Alpöge and Claude’s in A2; the classical reciprocity is Neukirch–Schmidt–Wingberg Theorem 8.6.10 and Milne ADT I.4.10. [Chapter 10, §10.4.11.1](chapters/10-congruence-modules-to-sha.md#104111-the-global-invariant-sum-in-the-new-place-reciprocity)
 
+<a id="attribution-3-why-a-nonzero-analytic-germ-has-a-first-nonzero-coefficient"></a>
+
 - **Hongmin Li (with AI assistance)** — Wrote the complex-variable textbook proof of coefficient uniqueness, re-centering and propagation of a zero germ, with worked examples and the link to `poleData_abstract` in Chapter 3, §3.4.1 [Lean, read]. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#why-a-nonzero-analytic-germ-has-a-first-nonzero-coefficient) · [Sources](sources/SOURCES.md#source-map-what-each-source-contributes)
+
+<a id="attribution-3-cousins-lemma-fine-tagged-partitions-of-a-box"></a>
+
+<a id="attribution-3-the-henstocksacks-inequality-tagged-sums-over-part-of-a-rectangle"></a>
+
+<a id="attribution-3-fubini-and-the-box-comparison-on-a-rectangle"></a>
 
 - **Hongmin Li (with AI assistance)** — Wrote the conditional textbook theorem that separates what countable exceptions, almost-everywhere representatives and absolute integrability pay in the box comparison and in rectangle Fubini [Lean, read], with the simple-function approximation step, the actual $(-iF,F)$ call, two null-modification examples, a hand-built gauge and Henstock–Sacks bound for $x^{-1/2}$, the call for $\lvert q\rvert^2$, and the $\pm\pi/4$ counterexample read as two fluxes. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#fubini-and-the-box-comparison-on-a-rectangle)
 - **Hongmin Li (with AI assistance)** — Wrote the textbook proof of the Henstock–Sacks inequality from the pinned Mathlib body, with the common-completion lemma, integrability on subboxes, the $\delta/(m+1)$ constant, the admissibility clauses for tags, distortion and complements, the return to the grouped third estimate of the comparison proof, a worked run of the proof on a three-valued step function with the gauge constant $6\rho$, and a counterexample showing that $L^1$ convergence cannot replace pointwise monotonicity in that estimate [Lean, read]. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#the-henstocksacks-inequality-tagged-sums-over-part-of-a-rectangle)
 - **Hongmin Li (with AI assistance)** — Wrote the textbook proof of Cousin's lemma in a box from the pinned Mathlib body: the centre split, the bisection induction principle with its limit point in the closed box, the Henstock, fine, dyadically homothetic partition that keeps the distortion of the box, and the nontriviality of the integration filters and uniqueness of box integrals that follow. Traced its calls at the GP parameter in the planar divergence proof, including the removal of degenerate rectangles and the distortion condition shared by all consumers, and added two hand computations (a one-dimensional gauge without a positive lower bound, on which no uniform partition is fine, and a two-dimensional nonconstant gauge checked cell by cell), a terminating recursion and a comparison with Cousin's original proof and Kurzweil's covering proof [Lean, read]. The formal proofs are credited to the Mathlib authors. [Chapter 3](chapters/03-landau-window-criterion.md#cousins-lemma-fine-tagged-partitions-of-a-box)
 
+<a id="attribution-19-1934-from-finite-support-to-a-fixed-minkowski-lattice"></a>
+
 - Hongmin Li with Codex developed §19.3.4, with a proof of the common denominator and full Minkowski lattice, three box and ideal calculations, two failure examples, and the conditional uniform bound for the theta sum. [Subsection](chapters/19-published-layer-case-studies-ii.md#1934-from-finite-support-to-a-fixed-minkowski-lattice)
+
+<a id="attribution-19-1933-the-lattice-majorant-for-the-inverse-torus"></a>
 
 - Chapter 19 §19.3.3 develops a proof for uniformly translated lattices
   by box counting and dyadic shells, gives two hand calculations, and
   traces the conditional use of the bound in the archive.
   [Subsection](chapters/19-published-layer-case-studies-ii.md#1933-the-lattice-majorant-for-the-inverse-torus)
 
+<a id="attribution-19-1931-siegel-sets-and-the-integrable-majorant"></a>
+
 **Chapter 19, §19.3.1.** The Siegel-set control and cone proofs are from the Alpöge–Claude archive (A2). Hongmin Li with Codex contributed the graduate-text derivation, rank-one examples and production-to-consumer map. The existing spherical-series and Rallis reports remain separate contributions. [Subsection](chapters/19-published-layer-case-studies-ii.md#1931-siegel-sets-and-the-integrable-majorant)
+
+<a id="attribution-19-1932-rational-reduction-and-the-covering-of-the-adelic-quotient"></a>
 
 **Chapter 19, §19.3.2.** The Alpöge–Claude archive supplies the unitary
 rational covering proof. Borel supplies the literature comparison on
@@ -788,14 +994,30 @@ same-model review is recorded separately in the preceding run's audit.
 [Original article](https://www.numdam.org/item/PMIHES_1963__16__5_0.pdf) ·
 [Subsection](chapters/19-published-layer-case-studies-ii.md#1932-rational-reduction-and-the-covering-of-the-adelic-quotient)
 
+<a id="attribution-19-1935-a-common-finite-support-for-schwartz-majorants"></a>
+
 - **Chapter 19 Schwartz supply.** We reconstruct the common-support majorant, the quantifier order in the theta application, and the measurability and integration argument. The two Gaussian examples and the two divergence examples are textbook exposition. The formal producers and consumers are due to Alpöge and Claude in archive A2. [Chapter 19, §19.3.5](chapters/19-published-layer-case-studies-ii.md#1935-a-common-finite-support-for-schwartz-majorants)
+
+<a id="attribution-19-1936-compatible-adelic-coordinates-and-real-parameters"></a>
 
 - **Chapter 19 adelic coordinates.** We reconstruct the compatible splitting and inverse chart, prove the conditional compact two-sided bounds, and give the two matrix examples. The formal producers are due to Alpöge and Claude in A2. [Chapter 19, §19.3.6](chapters/19-published-layer-case-studies-ii.md#1936-compatible-adelic-coordinates-and-real-parameters)
 
+<a id="attribution-19-1937-unit-cells-and-the-uniform-weighted-lattice-count"></a>
+
 - **Chapter 19 weighted lattice count.** We follow the archive’s unit-cell proof of the weighted integral lattice count. We state and prove a translation-uniform version with a real exponent and a two-sided cell lemma, and we work out the on-lattice and half-lattice example and the unequal-width example, including the critical $\ell^1$ shell count. We trace the actual exponent $N=4bn(2r+m)$ to the stacking threshold and the Schwartz order, and record that the count calls `CMTypePlaces.mk_tauE_bijective` rather than `mk_tauE_bij`. The formal proofs are Alpöge and Claude’s in A2. [Chapter 19, §19.3.7](chapters/19-published-layer-case-studies-ii.md#1937-unit-cells-and-the-uniform-weighted-lattice-count)
+
+<a id="attribution-19-1939-the-host-fields-raw-data-derived-properties-and-their-producers"></a>
+
+<a id="attribution-19-1938-cm-types-and-the-place-identification"></a>
 
 - **Chapter 19 CM-type place identification.** We read the archive's proof that the CM-type family `tauE` meets every infinite place exactly once, and its restriction to the real subfield. We prove the conjugate-pairing and place lemmas with both directions of the identification, derive the Minkowski coordinates and the inverse chart, and locate the single surjective step used by the weighted count. The $\mathbb Q(i)$ and $\mathbb Q(\zeta_8)$ calculations and the doubling remark are ours [Expository]; the formal proofs are Alpöge and Claude's. [Subsection](chapters/19-published-layer-case-studies-ii.md#1938-cm-types-and-the-place-identification)
 - **Chapter 19 host fields (§19.3.9).** We located the general producer `HostRaw.der` of the derived host properties, read its `cmType`, `conj_apply`, `conj_iff`, `cm`, degree and `mem_F` bodies, and proved in textbook form that the six fields used by §19.3 follow from the raw Galois, square-root and cyclotomic data, with the cyclotomic frame entering only through complex conjugation at $-1$. The consumer table reduces each use in §§19.3.6–19.3.8 to raw fields, and model instances over $\mathbb Q(i)$ and $\mathbb Q(\zeta_8)$ show that the sign character alone does not identify conjugation. This supersedes the [Open] status given to the field construction in §19.3.8; the raw-host constructors and the choice of $\varphi_0$ stay named inputs. [Subsection](chapters/19-published-layer-case-studies-ii.md#1939-the-host-fields-raw-data-derived-properties-and-their-producers)
+
+<a id="attribution-8-8417-assembling-betaisg-partial-coboundary-remainders-the-two-variable-support-test-and-the-frobenius-fixed-scalar"></a>
+
+<a id="attribution-8-8416-the-biadditive-supply-restbeta-from-beprop-to-the-frobenius-fixed-class-of-gser"></a>
+
+<a id="attribution-8-8414-producing-ea_restsu-logarithmic-coordinate-integrality-restsinta-and-the-exponential-factor-reduction-ea_restsexpv_of"></a>
 
 - **Hongmin Li (with AI assistance)** — Read the two producers of `ea_RestSU` behind the assembly `ea_restSU` at the three place bounds, `restSIntA` (`AtPiEqRescale.lean`) and `ea_restSExpV_of` with `ea_reduce` (`EaRestSExpVOf.lean`), together with their supply `genInt`, `inParam_map`, `log_at`, `exists_mu`, `lamF_mem`, `IntR_subst`, `tOf`, `E0` (`InParamMap.lean`, `IntRPsubst.lean`, `SubstitutionOfVariables.lean`, `NatCastInvMemRp.lean`, `IntegralExpRename.lean`), and wrote Chapter 8, §8.4.14: the rescaled logarithm $\lambda=\pi^{-1}\ell(\pi T)$ and its `Rp`-integral inverse, the identity $\ell(\pi\mu(L))=\pi L$ that carries integrality from `inParamK U` to $U(\pi\,\mathrm{coordZA})$ and moves the exponential factor into logarithmic coordinates, the splitting $\exp(-G_s)\exp(-E)\exp(-Y)$ with the `RestBeta`/`Simeq` factors $W$-integral, the assembly through `th_restGcV_of` and Lemma 8.4, a $p=5$ one-variable integrality transfer computed through degree $73$, and the boundary calculation showing $p+1$ is the least exponent for which `piFact` holds; `restBeta`, `restGc` and the renaming body of `th_restGcV_of` kept as named inputs. [Chapter 8, §8.4.14](chapters/08-divisibility-at-inert-primes.md#8414-producing-ea_restsu-logarithmic-coordinate-integrality-restsinta-and-the-exponential-factor-reduction-ea_restsexpv_of)
 - **Hongmin Li (with AI assistance)** — Read the biadditive supply `restBeta` (`BiadditiveSecondVariable.lean`) behind the first call of `ea_restSExpV_of`, with `biadditive_first_variable`, `param_substitution_pair`, `sx_divAB` (`BiadditiveFirstVariable.lean`), the two-equivalence bridge `sx_simeq_of`/`integralExp_of_equiv` (`IntegralExpParamOfEquivZero.lean`) and the norm facts of `PositivityConditionHolds.lean`, and wrote Chapter 8, §8.4.16: `BeProp` in geometric coordinates becomes `BetaHyp` in logarithmic coordinates through `inParam` and a law $F$ with $\ell(F(x,y))=\ell(x)+\ell(y)$, the second-variable proof with its renaming $[2,0,1]$, Teichmüller lifts of the $(p^2-1)$-th roots of unity for `conj`, `betaIsG` applied over $K_0$ and the unit ball pulled back to $W$, the single use of $5\le p$ as $2<p$ and the discarded `DworkLemma`, the consumer map to `th_restGcV_of` and the $Y$-factor of `ea_reduce`; two hand calculations (the minimal rectangle $cX_0X_1$, forced to $c=0$ by `conj`, with the $1/p!$ failure when `conj` is dropped; the two-corner block of $[1,p]^2$, whose degree-$p^2$ truncated $X_2^p$ Dwork slice passes iff $c'\equiv\sigma(c)$ mod $p$ as a necessary condition while the full two-corner block fails integrality at $(p^3(p-1),p^3)$); `lawExists`, `witt_teichmuller_root` kept as named inputs (`BetaIsG_of` read in [§8.4.17](chapters/08-divisibility-at-inert-primes.md#8417-assembling-betaisg-partial-coboundary-remainders-the-two-variable-support-test-and-the-frobenius-fixed-scalar)). [Chapter 8, §8.4.16](chapters/08-divisibility-at-inert-primes.md#8416-the-biadditive-supply-restbeta-from-beprop-to-the-frobenius-fixed-class-of-gser)
@@ -847,29 +1069,57 @@ same-model review is recorded separately in the preceding run's audit.
 
 **Chapter 6 §6.4.8.** The source constructions are due to the Lean archive authors. The book contributes the conditional inverse construction in textbook form, the examples over the fields of five and seven elements, and the source-level mapping to the division proof. The community annotations and corrections are credited in the preceding chapter records.
 
+<a id="attribution-6-649-why-the-split-diamonds-act-freely"></a>
+
 **Chapter 6 §6.4.9.** The formal stabilizer, split diamond and symmetric comparison constructions are by the Lean archive authors. The preceding Chapter 6 records identify the relevant community annotations and corrections. The book contributes the conditional proofs connecting the stabilizer and diamond mechanisms, the formula for changing orbit representatives, the two split-local calculations, and the argument map to `adm26`. [Chapter 6 §6.4.9](chapters/06-stepanovs-method-and-multiplicity.md#649-why-the-split-diamonds-act-freely)
 
 **Chapter 6 §6.4.10.** The formal local torsion and adelic stabilizer results are by the Lean archive authors. Rong Zhou's local-fields course, recorded by Leonard Tomczak, and Brian Conrad's lattice handout provide published background. Community verification remains recorded in the community entries above. The book contributes the matrix depth proof and equality example, the trace-and-lattice finiteness proof in textbook form, and the mapping to the two actual type-prime frames and the same class stabilizer.
 
+<a id="attribution-6-6411-level-zero-stabilizers-in-a-family"></a>
+
 **Chapter 6 §6.4.11.** Alpöge with Claude supplies the formal family stabilizer and comparison proofs in A2. The Stacks Project and Hida supply the published topology and ordinary-projector background. The book contributes the conditional textbook presentation, two hand calculations and the source map into the actual level-prime consumer. See the separately credited community records above for archive checks. [Chapter 6 §6.4.11](chapters/06-stepanovs-method-and-multiplicity.md#6411-level-zero-stabilizers-in-a-family)
+
+<a id="attribution-6-6412-rational-finite-order-on-a-fixed-host"></a>
 
 **Chapter 6 §6.4.12.** The book contributes the textbook presentation of Alpöge and Claude's two finite-order proof bodies, the rational matrix calculations, and the mapping through the injections and threshold to the actual family consumer. The proof authors and community archive checks are credited separately above. Conrad supplies the published online cyclotomic exposition cited in the chapter. [Chapter 6 §6.4.12](chapters/06-stepanovs-method-and-multiplicity.md#6412-rational-finite-order-on-a-fixed-host)
 
+<a id="attribution-6-6413-split-local-groups-and-the-pro-g-transport"></a>
+
 **Chapter 6 §6.4.13.** Alpöge with Claude supplies the formal homeomorphism theorem for local field endomorphisms, the Iwahori pro-$g$ proof and the split transport in A2. Keith Conrad and Benjamin Klopsch supply the published background on automatic continuity and on congruence pro-$p$ groups. The book contributes the conditional textbook presentation, the $\mathbb Q_3$ congruence, finite-quotient and contrast calculations, and the source map from `colProG` back to the stabilizer consumer. Community archive checks are credited separately above. [Chapter 6 §6.4.13](chapters/06-stepanovs-method-and-multiplicity.md#6413-split-local-groups-and-the-pro-g-transport)
+
+<a id="attribution-6-6414-definiteness-of-the-host-gram-matrix-at-real-embeddings"></a>
 
 **Chapter 6 §6.4.14.** The book contributes the English proof of the descent and host specialization, the two quadratic-form calculations and the mixed-signature example, and the reading map to the family consumers. Alpöge with Claude supplies the formal proof in A2. Milne supplies the published field-theory reference. Community archive checks are listed separately above. [Chapter 6 §6.4.14](chapters/06-stepanovs-method-and-multiplicity.md#6414-definiteness-of-the-host-gram-matrix-at-real-embeddings)
 
+<a id="attribution-6-6415-extending-a-real-embedding-to-the-host-field-the-algebraically-closed-lift"></a>
+
 **Chapter 6 §6.4.15.** Thomas Browning, Junyan Xu and Kenny Lau, with the Mathlib community, supply the formal embedding-extension proofs (`IntermediateField.Lifts`, `exists_algHom_adjoin_of_splits`, `IsAlgClosed.lift`) read at the archive's pinned commit; Alpöge with Claude supplies the wrapper `exists_ext` and its consumers in A2. Milne, the Stacks Project and Isaacs supply the published argument. The book contributes the English textbook theorem with the Zorn, chain and single-root steps named against the source, the derivation of the algebraicity premise from the stored degree in `gram0Def`, the two embedding calculations over $\mathbb Q(\sqrt2,i)$ and $\mathbb Q(\sqrt[3]2)$, and the remark separating the lift from the CM conjugation clause. Community archive checks are listed separately above. [Chapter 6 §6.4.15](chapters/06-stepanovs-method-and-multiplicity.md#6415-extending-a-real-embedding-to-the-host-field-the-algebraically-closed-lift)
+
+<a id="attribution-6-6416-producing-pure-signatures-from-the-host-spaces"></a>
 
 **Chapter 6 §6.4.16.** Alpöge with Claude supplies the A2 host-space and signature proof terms. Milne supplies the classical local unit-norm and discriminant references. The book contributes the conditional existence theorem in textbook form, the two worked examples, and the pointwise map to the two family consumers. Community archive checks are credited in their existing entries. [Chapter 6 §6.4.16](chapters/06-stepanovs-method-and-multiplicity.md#6416-producing-pure-signatures-from-the-host-spaces)
 
+<a id="attribution-6-6417-producing-the-finite-adelic-element-of-norm-minus-one"></a>
+
 **Chapter 6 §6.4.17.** Alpöge with Claude supply the A2 proof of `exists_adelic_neg_one`, its completion lemmas and the local norm lemma `unimodUnramUnique_quad`; the Mathlib authors credited in the Mathlib list above supply Henselian rings, the finite-field counting lemma, finite adeles, restricted products and the maximal real subfield; Serre, Neukirch and Milne supply the classical statements. Our textbook contribution: the theorem with the three host facts it uses and the separately marked generalization, the six lemmas with complete proofs, the split-place and inert-place calculations at the primes $571$ and $599$ of the archive's example host, the failing example $\mathbb Q(\sqrt{-599})/\mathbb Q$, the parity remark explaining why positivity at the real places is no counterexample, and the wiring through `hostSpacesOfNorm` and `spacesOfRanks` to `dSpace_congr`. [Chapter 6 §6.4.17](chapters/06-stepanovs-method-and-multiplicity.md#6417-producing-the-finite-adelic-element-of-norm-minus-one)
+
+<a id="attribution-1-1225-log-convexity-the-bohrmollerup-theorem-and-the-duplication-formula"></a>
 
 - **Chapter 1**, §1.2.2.5. The book reads the Mathlib production of the two Gamma inputs spent in §1.2.2.4: the Hölder form of log-convexity, the Bohr–Mollerup uniqueness theorem with its two-chord squeeze and induction, and the duplication formula for $s>0$ with its complex extension. The periodic-factor counterexample with the exact place where the proof breaks, the bracketing of $\Gamma(1/2)$ from integer values alone (hand calculation A), the doubling-function checks on and off the integers (hand calculation B) and the consumer table, which traces the complex form through $\Gamma_{\mathbb R}(s)\Gamma_{\mathbb R}(s+1)=\Gamma_{\mathbb C}(s)$ to `riemannZeta_one_sub` and the archive's `rh_of_right`, are ours. [Chapter 1](chapters/01-statement-and-fidelity.md#1225-log-convexity-the-bohrmollerup-theorem-and-the-duplication-formula) · [Proof map](notes/proof-map.md#p1-chapter-1-log-convexity-bohrmollerup-and-duplication)
 
+<a id="attribution-1-1226-from-the-theta-transformation-to-the-completed-hurwitz-functional-equation"></a>
+
 - **Chapter 1**, §1.2.2.6. The book reads the Mathlib production of `completedHurwitzZetaEven_one_sub` (retained by §1.2.2.5), `WeakFEPair.functional_equation_aux`, `functional_equation₀` and `functional_equation`, the cosine-zeta partner and its Dirichlet-series identification, the zero-shift self-duality giving `completedRiemannZeta_one_sub`, and the de-completed functional equations, separating pointwise-in-$a$ sharpness (`hurwitzZetaEven_one_sub`, `riemannZeta_one_sub`, including $E_a(1)\ge E_{1/2}(1)\approx 0.40939>0$) from uniform-in-$a$ sharpness (`cosZeta_one_sub`, with the rational $a=1/6, s=0$ counterexample) after internal audit `audit-rhbook-ch01-fe-pair-1125m`. The Example's two traps (Bochner degeneracy at $a=0$ and the $+1$ seam defect at $x=1$ for $a=1/3$, with sufficiency of zeroing at $x=1$), hand calculations A ($a=0$, $\zeta(-1)=-1/12$, total-function failure at $s=1$) and B ($a=1/3$, single-pole migration, legal evaluation at $s=1$ vs reverse failure, $E_{1/3}(-1)=1/36$), direct $(0,\infty)$ Mellin verification on `f_modif`/`g_modif`, and the consumer table reconnecting to `rh_of_right`, `hurwitzZeta_one_sub`, and primitive Dirichlet $L$-functions are ours. [Chapter 1](chapters/01-statement-and-fidelity.md#1226-from-the-theta-transformation-to-the-completed-hurwitz-functional-equation) · [Proof map](notes/proof-map.md#p1-chapter-1-completed-hurwitz-functional-equation)
 
+<a id="attribution-1-1227-from-poisson-summation-to-theta-inversion"></a>
+
 - **Chapter 1**, §1.2.2.7. Hongmin Li (with AI assistance) read at R3 the pinned Mathlib production chain from compact-open periodization, whole-line $L^1$ patching, and the four-tier Poisson hierarchy (`Real.tsum_eq_tsum_fourier` through `SchwartzMap.tsum_eq_tsum_fourier`), together with the complex Gaussian integral (`integral_gaussian_complex`, closing `Gamma_one_half_eq`) and rectangular Cauchy contour Fourier transform (`fourier_gaussian_pi'`), down to `Complex.tsum_exp_neg_quadratic`, `jacobiTheta₂_functional_equation`, `evenKernel_functional_equation`, and `(hurwitzEvenFEPair a).h_feq`. Wrote the conditional textbook lemmas and theorem proving equivalence of the direct scaled/translated Gaussian route and the `jacobiTheta₂` wrapper at $(1/x,-a/x)$, two complete hand calculations (translated scaled Gaussian $\phi_{t,a}$ at $a=1/2$, $t=1/4,1$ and rational twist $r=1/3$ with concurrent shift $c=1/4$ and odd derivative weight), and hypothesis-deletion counterexamples separating `hFf`, `hc`, `h_norm`, and $\Re a>0$, checked by 48 assertions (`verify_ch01_poisson_fe.py`) and 45-digit cross-checks. The formal proofs belong to the Mathlib authors credited above; this entry records exposition and reading only. [Chapter 1](chapters/01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion) · [Proof map](notes/proof-map.md#p1-chapter-1-from-poisson-summation-to-theta-inversion)
+
+<a id="attribution-15-15433-uniqueness-of-haar-measure-proportionality-normalization-and-the-constant-in-the-half-density-transport"></a>
+
+<a id="attribution-15-15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport"></a>
+
+<a id="attribution-15-15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight"></a>
 
 - **This book.** Hongmin Li (with AI assistance) wrote §15.4.3.1, turning Masullo's one-sentence "$a=1/2$ is forced" (p. 16, p. 518) into Definition 15.2, Lemmas 15.3a–d, Theorem 15.3 and Proposition 15.4: the modulus as Haar scalar factor with its $\mathbb R$, $\mathbb C$ and non-archimedean normalizations, zero removal and the domain $K^\times$ of the multiplicative measure, inversion invariance, the half-density $L^2$ isometry, the diagonal weight $\Delta_K^{2a-1}$ constant only at $a=1/2$ with the exact hypotheses (non-constant continuous modulus, full support), the unitary-dilation and Fourier fixed-point reading, $\mathbb R_{>0}$ and $\mathbb Q_5$ hand calculations reproducing $c_5=5/4$ of (12.4.1.17), and the explicit boundary that none of this bears on the $\alpha$-independence of Theorem 12.5.1.1 or the p. 451 gap; contrasted with the extremal exponent of `core_gm`. — [Expository]; Mathlib correspondence [Lean, read] — [Chapter 15](chapters/15-two-proofs-side-by-side.md#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight)
 - **This book.** Hongmin Li (with AI assistance) applied the cross-source audit corrections to §15.4.3.1 (restoring $c_S$ to Theorem 15.3(3)(i) as well as $c=c_S$ in (ii), requiring $S\ne\emptyset$ for uniqueness, and removing the false `MeasurePreserving`-identity explanation in Lemma 15.3d) and wrote §15.4.3.2 (Definition 15.5, Lemmas 15.5a–d, Theorem 15.6): read the direct Mathlib production proofs of `addHaar_submodule`, `map_linearMap_addHaar_eq_smul_addHaar`, and `addHaar_image_linearMap` through diagonal stretches, Fubini-slice transvections, and two-sided Gauss pivot elimination, computed $\det_{\mathbb R}(w\mapsto zw)=(\Re z)^2+(\Im z)^2=\lvert z\rvert^2$ in `Complex.basisOneI`, constructed the genuine `withDensity` $L^2$ isometric isomorphism $M_{w^{1/2}}$ and separated it from `Lp.compMeasurePreserving` (exhibiting $T_t^{(1/2)}=U_S^{-1}\circ C_{\tau_t}\circ U_S$), unified $c_S^{-1/2}$ cancellation in half-densities with explicit $c_S$ retention in Masullo's (12.4.1.17)–(12.4.1.23), and supplied complete $z=1+2i$ and $S=\{5\}$ unit-shell calculations verified by exact rational arithmetic. The formal library proofs are credited to the Mathlib authors above. — [Expository]; Mathlib correspondence [Lean, read] — [Chapter 15](chapters/15-two-proofs-side-by-side.md#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport)
@@ -887,6 +1137,8 @@ same-model review is recorded separately in the preceding run's audit.
 
 
 **Sources for §17.4.16.** Levent Alpöge with Claude supplies `lamRay_props`, `aRay_mul_log` and `conv_real_char` (`ExistsLFamRay.lean`, `SumLamIdealLe.lean`, `FiniteIdealsIn.lean`, `ConvRealChar.lean`), the ideal-level weight, the divisor convolution and the real-character square. Mathlib contributors supply the ideal-factorization, finite-sum and `AddChar` interfaces used at declaration level. [Source ledger](sources/SOURCES.md#p13-ideal-weight-convolution-and-real-character-square)
+
+<a id="attribution-17-17416-the-ideal-level-weight-lamray-its-convolution-and-the-real-character-square"></a>
 
 - **Hongmin Li (with AI assistance)** revised the ideal-weight exposition, fixed the producer to `SumLamIdealLe.lean:135–170`, and connected the corrected class and weight inputs to the existing half-plane theorem. [§17.4.16](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17416-the-ideal-level-weight-lamray-its-convolution-and-the-real-character-square)
 
@@ -912,11 +1164,21 @@ same-model review is recorded separately in the preceding run's audit.
 - **Community.** Levent Alpöge with Claude wrote the formal central-idempotent, simplicity, Maschke-faithfulness, and cuspidal-label bridge files in archive A2 (`LabelMapNonempty.lean`, `IsoIffIntertwiningHolds.lean`, `SupportExistsAll.lean`, `FiniteDimensionalHcSpace.lean`, `CentralIdempotentProperties.lean`, `CentralIdempotentAction.lean`, `IRRCentralIdempotent.lean`, `IRRCentralIdemOrthogonal.lean`, `SimpleIffIrreducible.lean`, `SeparableIrreducible.lean`, `Basics.lean`, `PendTie.lean`, `IrreducibleCharpolyInv.lean`, `GreenCuspidal.lean`). Antoine Labelle, Stepan Nesterov, Kim Morrison, Aaron Anderson, Alexander Bentkamp, and the Mathlib community supplied the pinned representation-theory and module-theory library files (`Character.lean`, `Invariants.lean`, `Irreducible.lean`, `Maschke.lean`, `SimpleModule/Basic.lean`, `Triangularizable.lean`). Jean-Pierre Serre (`[SerreLinearReps]`), J. A. Green (`[Green1955]`), and S. I. Gelfand (`[Gelfand1970]`) supplied the published mathematical background. [Sources](sources/SOURCES.md#chapter-13-13415--central-idempotent-orthogonality-zidemorthogonal_holds-and-the-pmgreencuspidal-bridge-2026-11-25)
 - **This book.** Hongmin Li (with AI assistance) read at R3 the **(U4)** production chain from its call site in `LabelMapNonempty.iso_of_label` (`:108`) through `zIdemFacts`, `centralIdemAct`, `schur_scalar`, `simpleIffIrr`, and `sepIrr` alongside the pinned Mathlib proofs, and wrote §13.4.15 (Definition 13.11, Examples 13.55–13.56, Lemmas 13.57–13.59, Theorem 13.60, Remarks 1–5): the exact `¬ Nonempty (τ ≅ σ)` precondition, base-field and normalization tracking, return wiring to `cuspParam_all`, `PM.greenCuspidal`, and `PendTie.greenO` (`lab_spec`, `lab_inj`, `LzTieC.rep_inj`) while keeping **(U3)** and Mackey/Whittaker at R2, complete conjugacy-class / central-character / primitive-central-idempotent hand calculations on $\mathrm{GL}_2(\mathbb F_2)$ and $\mathrm{GL}_2(\mathbb F_3)$ with negative controls ($Z(G)$-central character merging $e_{Z,\pm}$, rational Galois merging $e_{\mathrm{cusp},-}$, dropping $\gamma^{-1}$, dropping $\tau \not\cong \tau'$ or `IsCuspidal`, dropping $\dim\tau$, plus $\mathbb R[C_3]$ and $\mathbb F_2[C_2]$ field failures) checked by 20,516 exact assertions in `verify_zidem_supply.py`, and targeted post-audit fixes in §13.4.13 (`sep_numerical_ineq` $d=4$ coefficient $64$ and $d \ge 11$ vs $1 \le d \le 10$ split, `toMatrix'` unit step, and Gelfand $q>2$ scope) [Expository; Lean correspondence `[Lean, read]`]. [Chapter 13, §13.4.15](chapters/13-greens-theorem-and-the-literature-layer.md#13415-central-idempotent-orthogonality-zidemorthogonal_holds-and-the-representation-level-bridge-to-pmgreencuspidal)
 
+<a id="attribution-4-41010-the-pole-subtracted-zeta-logarithmic-derivative"></a>
+
 
 - **Hongmin Li (with AI assistance)** wrote §4.10.10, with a local R3 reading of the Laurent remainder producer and its vertical-line and character transfer, explicit witnesses for $C_3$ and $C_2$, two rationally enclosed calculations and the distinction between analytic extension and Lean's values at exceptional points. [Subsection](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41010-the-pole-subtracted-zeta-logarithmic-derivative)
 
+<a id="attribution-4-41013-hyperbola-splitting-and-prime-moments-for-deuringheilbronn"></a>
+
+<a id="attribution-4-41011-finite-height-contours-and-weighted-zero-sums"></a>
+
 
 - **Hongmin Li (with AI assistance)** wrote the textbook proofs and hand calculations in §§4.10.11 and 4.10.13, including the contour-boundary transfer, the dropped-overlap counterexample and the mapping to the actual archive consumers. This publication incorporates the two zero-sum audit corrections and records the prime-moment cutoffs as sufficient choices for the displayed proof. [Contours and zero sums](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41011-finite-height-contours-and-weighted-zero-sums) · [Hyperbola and moments](chapters/04-auxiliary-prime-pairs-and-host-fields.md#41013-hyperbola-splitting-and-prime-moments-for-deuringheilbronn)
+
+<a id="attribution-4-p13-chebyshev-tailmertens"></a>
+
+<a id="attribution-4-p13-turan-finish"></a>
 
 - **Hongmin Li with AI assistance** wrote the two conditional-proof and library-supply expositions, the unit-block and reciprocal-disc calculations and the two prime-power jump calculations, and traced both supplies to the actual Deuring–Heilbronn consumer. The same-source preliminary reviews cover the stated local scopes. [§4.10.12](chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-turan-finish) · [§4.10.14](chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-chebyshev-tailmertens)
 
@@ -931,6 +1193,8 @@ same-model review is recorded separately in the preceding run's audit.
 
 - **Sébastien Gouëzel and Mathlib contributors.** Gouëzel's pinned file proves the three normalized-power versions and supplies the finite-window argument. The Mathlib Euler sine product is a direct consumer. **Levent Alpöge with Claude** supplied the two A2 applications in the Herglotz and compact-representation proofs. [Source ledger](sources/SOURCES.md#chapter-15-154310-unique-maximum-powers)
 - **Hongmin Li with AI assistance.** Author-level source reading and textbook derivation of the error estimates, weak limit and Banach-valued recovery. The polynomial moments and the exact two-center distribution make the limiting values checkable. [Chapter text](chapters/15-two-proofs-side-by-side.md#154310-how-powers-of-a-unique-peak-concentrate-at-a-point)
+
+<a id="attribution-10-10414-a-compatible-tate-generator-for-torsion-coefficients"></a>
 
 - **Chapter 10, §10.4.14.** Alpöge with Claude provided the formal representative-level construction and period-data application in A2. John Tate supplied classical local duality, and the cited references of Milne explain the cohomology of discrete directed unions and the reciprocity normalization. The Mathlib p-adic implementation credits Lewis, Carneiro and Commelin. Aapo Lipponen and the LUMI contributors supplied community documentation on the twist and local arithmetic interfaces. Hongmin Li with AI assistance wrote the conditional textbook proof, the two decomposition-group examples and the failure calculations. [Chapter 10, §10.4.14](chapters/10-congruence-modules-to-sha.md#10414-a-compatible-tate-generator-for-torsion-coefficients) · [Sources](sources/SOURCES.md#chapter-10-10414-a-compatible-tate-generator-for-torsion-coefficients)
 
@@ -993,6 +1257,8 @@ same-model review is recorded separately in the preceding run's audit.
 - **Formal proofs and library** — Levent Alpöge's A2 archive supplies the column descent and block compression used by both consumers. Mathlib contributors supply the character sums, matrix tools, Maschke splitting and eigenvalue interfaces. [Sources](sources/SOURCES.md#p16-the-levi-whittaker-line)
 - **Textbook** — Hongmin Li with OpenAI Codex assistance traced the six direct proof bodies and both consumers, wrote the conditional proof, and checked the two explicit matrix models and two hypothesis deletions. The source reading is author-level local R3. [§13.4.25](chapters/13-greens-theorem-and-the-literature-layer.md#13425-why-the-levi-whittaker-space-is-a-line)
 
+<a id="attribution-5-53118-the-same-tensor-norm-witness-at-a-real-place"></a>
+
 
 - **Hongmin Li (with AI assistance)** — Read the real scalar square and followed the original tensor witness through the residue-field norm calculation. Wrote the sign classification, quadratic examples and counterexamples. [Chapter 5 §5.3.1.18](chapters/05-the-square-root-barrier-core-gm.md#53118-the-same-tensor-norm-witness-at-a-real-place)
 
@@ -1042,6 +1308,8 @@ same-model review is recorded separately in the preceding run's audit.
 
 **Chapter 6 §§6.4.18–20.** Hongmin Li with AI assistance contributes the English exposition, the actual crystalline witnesses, the separate coefficient and Laurent models, the hypothesis-deletion examples and the declaration-to-consumer map. This publication brings the three existing manuscripts and their source boundaries into the living draft. The same-source preliminary reviews retain their local scope. [Complete module](chapters/06-stepanovs-method-and-multiplicity.md#crystalline-period-module)
 
+<a id="attribution-6-6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit"></a>
+
 **Chapter 6 §6.4.21.** Hongmin Li with Codex contributed the English derivation on the original frame, the coefficient proof of the two block implications through the named geometric inputs, two hand calculations, the height-zero witness, the completeness and kernel-law counterexamples and the consumer trace. [Chapter subsection](chapters/06-stepanovs-method-and-multiplicity.md#6421-why-the-frobenius-matrix-in-an-adapted-basis-is-a-unit)
 
 ### Chapter 11 finite perfect local cup pairing
@@ -1067,9 +1335,15 @@ same-model review is recorded separately in the preceding run's audit.
 - **Mathlib contributors, Levent Alpöge with Claude, and community verifiers.** Johannes Hölzl, Sébastien Gouëzel, Yury Kudryashov, Kexing Ying and Mario Carneiro authored the pinned `Stieltjes`, `BorelSpace`, `Haar/OfBasis`, `OuterMeasure` and `Lebesgue/Basic` files at commit `0df444a360eaa60ab8c11dca51a86af692955474`; Levent Alpöge with Claude authored the Archive A2 consumers `WindowHypOfRpow`, `CutGCoreGTCHolPh` and `DiscMeanValue`; community compilation and kernel records retain their separately documented scopes. [Source ledger](sources/SOURCES.md#chapter-3-real-lebesgue-interval-lengths) · [Verification records](#checking-and-formalization)
 - **Hongmin Li with AI assistance.** Read the pinned Stieltjes-to-Haar production bodies at author-level local R3, wrote the textbook derivation of real interval lengths, atom-freeness and local finiteness without circular interval assumptions, worked out the two exact hand calculations (oriented intervals and seam spikes on $\mathbb R^2$; a countable open-interval union with accumulation boundary) and the Dirac atom control $\mu = \lambda + 2\,\delta_{1/2}$ on $(\mathbb R, \mathcal B(\mathbb R))$ separating oriented integral signs from nonnegative set measures, and wired Theorem 1 back to filter integrability, endpoint FTC, disk primitives and Lemma 3.3. [Chapter 3 §3.4.1](chapters/03-landau-window-criterion.md#where-interval-lengths-in-real-lebesgue-measure-come-from)
 
+<a id="attribution-4-411-from-separated-inertia-lines-to-residual-irreducibility"></a>
+
 **Chapter 4 §4.11.** Alpöge with Claude supplies the A2 coordinate, permutation, root-orbit and residual representation proofs. Évariste Galois supplies the finite-field root-orbit precedent. Camille Jordan supplies the classical primitive prime-cycle theorem in the range used here. Hongmin Li with AI assistance supplies the local source reading, textbook proofs, examples, deletion tests and declaration map. The checking ledger records community kernel verification separately. [§4.11](chapters/04-auxiliary-prime-pairs-and-host-fields.md#411-from-separated-inertia-lines-to-residual-irreducibility) · [Source and consumer register](sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
 
+<a id="attribution-4-4111-why-a-prime-cycle-forces-primitivity-in-small-degree"></a>
+
 **Chapter 4 §4.11.1.** Alpöge with Claude supplies the two formal prime-cycle proof bodies. Antoine Chambert-Loir and the cited Mathlib contributors supply the action, permutation and arithmetic lemmas. Binzhou Xia gives the block-size argument, and Camille Jordan supplies the higher-transitivity and alternating-containment results. Simon DeDeo supplies the Main export used for the declaration paths. Hongmin Li with AI assistance supplies the textbook proof, the hand calculations, the sharpness and transitivity examples, and the local source and consumer reading. [§4.11.1](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) · [Source register](sources/SOURCES.md#chapter-4-4111-prime-cycle-primitivity)
+
+<a id="attribution-4-4112-why-three-fixed-points-suffice-in-jordans-theorem"></a>
 
 **Chapter 4 §4.11.2.** Camille Jordan supplies the classical lift and odd-prime containment argument. Gareth A. Jones gives the modern statement and traces its attribution. Levent Alpöge with Claude supplies the A2 prime-cycle formalization. Antoine Chambert-Loir supplies Mathlib's multiple-primitivity and three-cycle containment proofs, Chris Hughes and Thomas Browning the Sylow development, and Aaron Anderson and Antoine Chambert-Loir the alternating-group development. Simon DeDeo supplies the community declaration export used for the inherited Main path. Hongmin Li with AI assistance contributes the textbook derivation, explicit odd- and even-prime calculations, deletion controls and source reading. [§4.11.2](chapters/04-auxiliary-prime-pairs-and-host-fields.md#4112-why-three-fixed-points-suffice-in-jordans-theorem) · [Source register](sources/SOURCES.md#chapter-4-4112-jordans-prime-cycle-theorem)
 
@@ -1131,6 +1405,10 @@ same-model review is recorded separately in the preceding run's audit.
 **Levent Alpöge with Claude** supply the pinned Lean production via finite rank-compressed refinement tests, exactness and explicit transport between the two normalized models, and assemble the Jacquet result into the finiteness bundle. [Declaration and consumer table](chapters/07-chains-of-theta-lifts.md#normalized-jacquet-finite-length-supply)
 
 **Hongmin Li with AI assistance** explains those bodies and their classical antecedents, calculates the normalized factors in ranks two and three, and tracks the actual row-support consumer. The reading has author-level local R3 status. Kernel replay and independent review are pending. [§7.4.3.19](chapters/07-chains-of-theta-lifts.md#74319-why-normalized-jacquet-modules-have-finite-length)
+
+<a id="attribution-2-235-why-the-adelic-unitary-group-is-locally-compact-and-second-countable"></a>
+
+<a id="attribution-2-234-measurable-fundamental-domains-for-discrete-quotients"></a>
 
 **Chapter 2, [§2.3.4](chapters/02-functional-equations-and-primitive-characters.md#234-measurable-fundamental-domains-for-discrete-quotients) and [§2.3.5](chapters/02-functional-equations-and-primitive-characters.md#235-why-the-adelic-unitary-group-is-locally-compact-and-second-countable).** Levent Alpöge with Claude supplied the A2 fundamental-domain and adelic topology proofs. The Mathlib sources include restricted-product topology by Anatole Dedecker, adèle rings by María Inés de Frutos-Fernández and Salvatore Mercuri, the tensor basis by Kim Morrison and Johan Commelin, module topology by Kevin Buzzard and Will Sawin, and group-topology and units results by Mathlib contributors including Johannes Hölzl, Mario Carneiro, Patrick Massot and Nicolò Cavalleri. The classical references are by Bachir Bekka, Pierre de la Harpe and Alain Valette for Borel domains, and by Andrew V. Sutherland and Brian Conrad for adelic topology. Hongmin Li with Codex contributed the English explanations, the worked examples, the deleted-hypothesis examples and the mapping to the actual A2 consumers. [Source and reading ledger](sources/SOURCES.md#adelic-topology-for-chapter-2)
 
@@ -1320,6 +1598,8 @@ John Tate and Georges Poitou supplied the classical localization duality. J. S. 
 - **Mathlib and the Stacks Project contributors** supply the pinned formal algebra and classical reference proofs. [Source ledger](sources/SOURCES.md#chapter-10-torsion-level-counts-and-invariant-length)
 - **Hongmin Li with Codex** wrote the proof exposition, traced the original arithmetic inputs, and supplied the two calculations and exact hypothesis tests. [§10.4.17](chapters/10-congruence-modules-to-sha.md#10417-recovering-invariant-length-from-torsion-level-counts)
 
+<a id="attribution-4-41015-18"></a>
+
 **Chapter 4 §4.10.15.** Mathlib contributors Alastair Irving, Terry Tao and Ruben Van de Velde supply the Chebyshev development upstreamed from PrimeNumberTheoremAnd. Bolton Bailey, Patrick Stevens and Thomas Browning are credited for the binomial valuation file. Levent Alpöge with Claude supply the A2 finite upper-bound applications. The book contributes the English exposition, worked rows for 8 and 12, domain counterexamples and consumer table. Bakir Farhi supplies the separate exact LCM identity cited as a classical precedent. [Source record](sources/SOURCES.md#chapter-4-41015-chebyshev-lower-bound-from-lcms)
 
 **Chapter 4 §4.10.16.** N. Costa Pereira supplies the classical comparison. Alastair Irving, Terry Tao and Ruben Van de Velde are credited on the Mathlib file upstreamed from PrimeNumberTheoremAnd. The A2 authors supply the dyadic, Iwasawa and prime-norm applications. This book supplies the exposition, exact endpoint examples and scoped call map. [Source record](sources/SOURCES.md#chapter-4-41016-the-costapereira-comparison)
@@ -1442,6 +1722,8 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Community reading guide.** Aapo Lipponen and the LUMI contributors map the two branches and their order-bound consumers in Frontier K §§1.3–1.4. [Pinned guide](https://github.com/aapolipponen/rh-lean-check-lumi/blob/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md#14-the-%CE%BD--0-case-residual_bound_of_parts)
 - **This book.** Hongmin Li with AI assistance develops the four English expositions, exact finite worked examples and premise-deletion examples, and tracks the original coefficient, Selmer, quotient and signature choices into the existing seed and twist argument. §§7 and 9 inherit same-source preliminary acceptance, §8 records the independent review at phase one in progress, and §10 inherits independent acceptance under its named inputs. The local R3 reading and finite calculations are separate records from kernel replay. [Chapter 10](chapters/10-congruence-modules-to-sha.md#10477-producing-the-initial-selmer-corank-witness)
 
+<a id="attribution-15-15434-constructing-haar-measure-from-finite-covers"></a>
+
 - **Hongmin Li (with AI assistance)** wrote Chapter 15 §§15.4.3.4–6, following the pinned source through the regular Haar measure, the finite product and marginal consumers, and the general Carathéodory restriction. The book contributes the worked groups, intervals and rectangles, the four-point cover table, the comparisons with Masullo's normalization and the hypothesis-deletion examples. — [Expository] [Chapter 15](chapters/15-two-proofs-side-by-side.md#15434-constructing-haar-measure-from-finite-covers)
 ### Chapter 8 §§8.4.20–22 — The same compensated series through classification
 
@@ -1516,11 +1798,25 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Original proof and formal library.** Alpöge with Claude supply the A2 trace interfaces. Thomas Browning introduced the compact spectral declarations and the Rayleigh estimates. Heather Macbeth is the original author of the spectrum file. Bhavik Mehta contributes the Fredholm alternative. Richard B. Melrose supplies classical course-note precedent in the separable setting. [#36520](https://github.com/leanprover-community/mathlib4/pull/36520) · [#35173](https://github.com/leanprover-community/mathlib4/pull/35173) · [#35464](https://github.com/leanprover-community/mathlib4/pull/35464) · [#36246](https://github.com/leanprover-community/mathlib4/pull/36246)
 - **Book exposition.** Hongmin Li with AI assistance gives the positive compact decomposition, its CFC agreement and its trace evaluation on arbitrary complex Hilbert spaces, with local author-level source reading. [Sources](sources/SOURCES.md#chapter-14-positive-compact-spectral-decomposition)
 
+<a id="attribution-18-18319-the-arithmetic-sha-dictionary-and-its-restriction-squares"></a>
+
+<a id="attribution-18-18317-transporting-the-tateshafarevich-kernels-in-degrees-one-and-two"></a>
+
+<a id="attribution-18-18316-transporting-the-poitoutate-nine-term-sequence"></a>
+
+<a id="attribution-18-18315-cyclotomic-characters-and-total-complexity-under-field-isomorphisms"></a>
+
+<a id="attribution-18-1836-the-unramified-local-condition-and-its-dual"></a>
+
+<a id="attribution-18-1835-local-conditions-and-the-selmer-exact-sequence"></a>
+
 - **Chapter 18, P18 manuscript integration.** We teach the corrected Selmer count, the dual unramified local condition, transport of cyclotomic coefficients, the exact-sequence ladder, and the two comparisons of Sha kernels. The worked finite models illustrate these comparisons. The independent partial and affirmative reviews for §§18.3.5–6 and same-source preliminary reviews for §§18.3.15–17 and 18.3.19 retain their original scope. [§18.3.5](chapters/18-auditing-the-published-layer-case-studies.md#1835-local-conditions-and-the-selmer-exact-sequence) · [§18.3.6](chapters/18-auditing-the-published-layer-case-studies.md#1836-the-unramified-local-condition-and-its-dual) · [§18.3.15](chapters/18-auditing-the-published-layer-case-studies.md#18315-cyclotomic-characters-and-total-complexity-under-field-isomorphisms) · [§18.3.16](chapters/18-auditing-the-published-layer-case-studies.md#18316-transporting-the-poitoutate-nine-term-sequence) · [§18.3.17](chapters/18-auditing-the-published-layer-case-studies.md#18317-transporting-the-tateshafarevich-kernels-in-degrees-one-and-two) · [§18.3.19](chapters/18-auditing-the-published-layer-case-studies.md#18319-the-arithmetic-sha-dictionary-and-its-restriction-squares)
 
 ### Chapter 10 rational duality, finite annihilators and descent
 
 - **Hongmin Li with AI assistance** — Published the three conditional textbook proofs, the worked cochain calculations and the source-to-consumer map. The edition incorporates the same-source corrections to the Laurent functional and the finite detector and preserves the verdict on each manuscript. [Textbook](chapters/10-congruence-modules-to-sha.md#104713-rational-local-duality-field-trace-coboundaries-and-the-general-coefficient-annihilator) · [Source and review record](sources/SOURCES.md#chapter-10-104713-rational-local-duality)
+
+<a id="attribution-4-41024-26"></a>
 
 **Chapter 4 §§4.10.24–4.10.26.** Levent Alpöge with Claude supplied the archived zero separation, Siegel product argument and analytic bounds, with the pinned Mathlib community supplying the cited library results. Carl Ludwig Siegel supplied the classical lower bound. Thomas Estermann supplied the analytic method discussed in Hugh Montgomery and Robert Vaughan’s textbook. Hongmin Li with AI assistance prepared the conditional exposition, worked examples, declaration map and editorial correction on effectiveness. [Sources](sources/SOURCES.md#chapter-4-real-zeros-and-the-siegel-product)
 
@@ -1556,4 +1852,184 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **Classical sources and community.** Emil Artin and John Tate, Jean-Pierre Serre and J. S. Milne supply the classical precedents indexed in the ledger. Aapo Lipponen's LUMI notes supply community navigation context. [Classical source ledger](sources/SOURCES.md#chapter-11-114318-local-cup-symbols-and-evaluation-of-artin-reciprocity) · [LUMI frontier](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06/docs/10-open-frontier.md)
 - **Textbook work.** Hongmin Li with AI assistance developed the three explanations and their worked examples, traced the direct consumers and incorporated the prior review corrections. The English module retains the original local R3 reading and the review scope recorded for each section. [Chapter 11](chapters/11-the-window-bound-vwin.md#114316-fundamental-classes-and-the-three-subgroup-hypotheses-in-a-class-formation)
 
+<a id="attribution-9-9430"></a>
+
 **Chapter 9 compact-finite recovery.** Hongmin Li with AI assistance reconstructed the Alpöge–Claude recovery proof at author-level local R3, followed its two tensor consumers and the tied large-gap degree path from the RH export, and checked two examples by exact arithmetic. [§9.4.30](chapters/09-heights-slopes-and-near-orthogonality.md#9430-recovering-the-k-finite-vectors-of-the-generated-closure)
+
+
+<a id="november-23-28-publication-attribution"></a>
+
+## November 23–28 publication attribution
+
+- **§9.4.30.** Alpöge and Claude supplied the A2 recovery and cutoff bodies. Knapp (2002), Theorem 4.20, supplies the Peter–Weyl comparison. Hongmin Li with AI assistance reconstructed the recovery proof, gave the exact examples and traced the tensor consumers. [Original attribution](#attribution-9-9430) · [Source record](sources/SOURCES.md#chapter-9-compact-finite-recovery)
+
+### Chapter 3, §3.4.5 — Delayed-difference example
+
+- **Formal proof.** Levent Alpöge with Claude supplied the archive's Landau-window criterion. Lee Crossley supplied the companion Lean development.
+- **Classical source.** The example applies the Laplace transform’s translation identity to the difference operator. The criterion and the specific application are credited to A2 and Crossley’s G11, respectively.
+- **This book.** Crossley contributed the note after Theorem 3.6(1) in PR #1, merged 25 November. [§3.4.5](chapters/03-landau-window-criterion.md#345-the-landau-window-criterion-landau_window-lemmal-zerofree_of_rpow_window) · [G11](sources/SOURCES.md#g11)
+
+### Chapter 16, §§16.6.1–4 — Archive and export observations
+
+- **Formal proof.** Levent Alpöge with Claude supplied the A2 Lean declarations. Harry Tong supplied the community dependency audit. Simon DeDeo supplied the export used for the book's later path trace.
+- **Published source.** Jenny Lorraine Nielsen's v16 critique provides the geometric-vacuity and tautology claims. [E14](sources/SOURCES.md#e14)
+- **This book.** Hongmin Li with AI assistance checked the pinned declarations, explained the scope of the vacuity argument and traced the dependency route to the zero-`Bk` constructor. The transport of the witness to the use in `WordFacts` is marked open. [§16.6.4](chapters/16-open-problems-and-what-remains.md#1664-the-tautology-argument-of-the-final-version-paper-nielsen-89) · [V8](sources/SOURCES.md#v8)
+
+### Chapter 16, §16.3.1 — Comparator completion
+
+- **Formal proof.** Alpöge with Claude supplied the Lean proof. The Lean, Comparator and independent-kernel authors supplied the checkers.
+- **Published source.** Andrew Sutherland, with Claude Code, published the single-threaded replay and Comparator logs on the pinned export. [V1](sources/SOURCES.md#v1)
+- **This book.** The verification ledger records the versions, scope and reported exit times. [Ledger 1](chapters/16-open-problems-and-what-remains.md#1631-ledger-1-machine-compilation-sandbox-isolation-and-independent-proof-kernels-alpöge-archive)
+
+### Chapter 7, §§7.4.3.4–20 — Normalized-induction companion guide
+
+- **Formal proof.** Alpöge with Claude and the pinned Mathlib contributors supply the bodies cited in the Chapter 7 readings.
+- **Classical sources.** Chapter 7 cites the normalized-induction and geometric-lemma literature at the individual uses, including Bernstein and Zelevinsky.
+- **This book.** Hongmin Li with AI assistance compiled the guide to the two filtrations, the three local supplies, and the positive-form and invariant-complement follow-ups. [Guide](chapters/07-normalized-induction-reading-guide.md) · [G13](sources/SOURCES.md#g13)
+
+<a id="publication-credit-chapter-19"></a>
+### Chapter 19 — Additional subsection attributions
+
+- **Formal proof.** A2 and M0 supply the pinned declarations at the exact source-map locations.
+- **Classical sources.** Shin, Chenevier–Harris, Gan–Qiu–Takeda, Lapid–Rallis and the cited Milne and Conrad comparisons.
+- **This book.** Hongmin Li with AI assistance contributed the textbook treatment of the main-path and fidelity readings, host constructions and cyclotomic examples, the doubling qualification and the Rallis interface.
+
+[Chapter 19, §19.0](chapters/19-published-layer-case-studies-ii.md#190-how-the-main-path-reaches-the-literature-layer) · [Chapter 19, §19.1](chapters/19-published-layer-case-studies-ii.md#191-shins-galois-representation) · [Chapter 19, §19.2](chapters/19-published-layer-case-studies-ii.md#192-chenevierharris-and-monodromy) · [Chapter 19, §19.3](chapters/19-published-layer-case-studies-ii.md#193-absolute-theta-convergence) · [Chapter 19, §19.4](chapters/19-published-layer-case-studies-ii.md#194-global-doubling) · [Chapter 19, §19.5](chapters/19-published-layer-case-studies-ii.md#195-unramified-split-doubling) · [Chapter 19, §19.6](chapters/19-published-layer-case-studies-ii.md#196-convergent-rallis-inner-product) · [Chapter 19, §19.7](chapters/19-published-layer-case-studies-ii.md#197-status-of-the-open-items)
+
+
+<a id="attribution-chapter-1-specific-sections"></a>
+
+### Chapter 1 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Whittaker and Watson, and the theta, Gamma, Fourier and Gauss references at the individual source entries.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the theta integral and its Gamma quotient, the Gaussian tail and trace-lattice examples, the odd theta and conductor-descent handoffs.
+
+- [1.2.2.1 How the theta integral produces the even Hurwitz pole](chapters/01-statement-and-fidelity.md#1221-how-the-theta-integral-produces-the-even-hurwitz-pole)
+- [1.2.2.2 Removing the Gamma factor at zero and at one](chapters/01-statement-and-fidelity.md#1222-removing-the-gamma-factor-at-zero-and-at-one)
+- [1.2.2.3 The Laurent constant at one: harmonic sums, the integral error and the stored value](chapters/01-statement-and-fidelity.md#1223-the-laurent-constant-at-one-harmonic-sums-the-integral-error-and-the-stored-value)
+- [1.2.2.4 The derivative of Gamma at one half: duplication, log-convexity and the Deligne factor](chapters/01-statement-and-fidelity.md#1224-the-derivative-of-gamma-at-one-half-duplication-log-convexity-and-the-deligne-factor)
+- [1.3.2 From the finite Hurwitz sum to the classical Dirichlet L-function](chapters/01-statement-and-fidelity.md#132-from-the-finite-hurwitz-sum-to-the-classical-dirichlet-l-function)
+- [1.3.2.1 The odd Hurwitz part and its Mellin transform](chapters/01-statement-and-fidelity.md#1321-the-odd-hurwitz-part-and-its-mellin-transform)
+
+
+<a id="attribution-chapter-3-specific-sections"></a>
+
+### Chapter 3 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Cousin, Fremlin, Bochner and the cited classical complex and real analysis.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the residue and power-series proofs, tagged-box and Borel arguments, oriented intervals, endpoint differentiation and disk logarithm.
+
+- [Why a zero contributes its order to the residue](chapters/03-landau-window-criterion.md#why-a-zero-contributes-its-order-to-the-residue)
+
+
+<a id="attribution-chapter-4-specific-sections"></a>
+
+### Chapter 4 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Montgomery–Vaughan, Siegel, Costa Pereira, and Jordan's 1871 and 1873 results.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the conditional explicit formula, local zero and Siegel arguments, Chebyshev and degree counts, worked substitutions and finite-group comparisons.
+
+- [4.7.1 Motivation: why a crude zero-density bound is enough](chapters/04-auxiliary-prime-pairs-and-host-fields.md#471-motivation-why-a-crude-zero-density-bound-is-enough)
+- [4.7.2 Examples: the primes $11$ and $3$ (both $\equiv 3 \pmod 8$)](chapters/04-auxiliary-prime-pairs-and-host-fields.md#472-examples-the-primes-11-and-3-both-3mod8)
+- [4.7.3 Definitions](chapters/04-auxiliary-prime-pairs-and-host-fields.md#473-definitions)
+- [4.7.4 Lemmas and proofs: the zero-density box](chapters/04-auxiliary-prime-pairs-and-host-fields.md#474-lemmas-and-proofs-the-zero-density-box)
+- [4.7.5 Mean squares and Siegel's lower bound: the other classical inputs](chapters/04-auxiliary-prime-pairs-and-host-fields.md#475-mean-squares-and-siegels-lower-bound-the-other-classical-inputs)
+- [4.7.6 Remarks](chapters/04-auxiliary-prime-pairs-and-host-fields.md#476-remarks)
+
+
+<a id="attribution-chapter-5-specific-sections"></a>
+
+### Chapter 5 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** The textbook finite-field, Galois, étale and local norm results cited in each source entry.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the finite field and embedding calculations, étale splitting, tensor norm handoffs and cyclotomic descent.
+
+- [5.3.1.3 The second host sign from a quadratic Gauss sum](chapters/05-the-square-root-barrier-core-gm.md#5313-the-second-host-sign-from-a-quadratic-gauss-sum)
+- [5.3.1.5 Euler's criterion over a finite field](chapters/05-the-square-root-barrier-core-gm.md#5315-eulers-criterion-over-a-finite-field)
+
+
+<a id="attribution-chapter-6-specific-sections"></a>
+
+### Chapter 6 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Bost's slope inequality, Jaswal and the pinned community guides for Clause 7, and the local-field and crystalline references in the source map.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the exact slope consumer, arithmetic supply, the norm and period-ring examples and common-record inertia handoff.
+
+- [6.4.6 From local lengths to Clause 7: the weight partition](chapters/06-stepanovs-method-and-multiplicity.md#646-from-local-lengths-to-clause-7-the-weight-partition)
+- [6.4.7 The rank and slope at the level prime](chapters/06-stepanovs-method-and-multiplicity.md#647-the-rank-and-slope-at-the-level-prime)
+- [6.4.8 From residue-field units to the level-zero forms](chapters/06-stepanovs-method-and-multiplicity.md#648-from-residue-field-units-to-the-level-zero-forms)
+- [6.4.10 Local torsion and the finite rational stabilizer](chapters/06-stepanovs-method-and-multiplicity.md#6410-local-torsion-and-the-finite-rational-stabilizer)
+- [6.4.18 Tensor injectivity and stable lines in the crystalline period ring](chapters/06-stepanovs-method-and-multiplicity.md#crystalline-tensor-and-lines)
+- [6.4.19 Gauss norms on crystalline periods near the lower endpoint](chapters/06-stepanovs-method-and-multiplicity.md#acris-gauss-slope)
+- [6.4.20 Extending the crystalline Gauss seminorm through localization and completion](chapters/06-stepanovs-method-and-multiplicity.md#acris-gauss-extension)
+
+
+<a id="attribution-chapter-10-specific-sections"></a>
+
+### Chapter 10 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Bloch–Kato, the local duality and cohomology references at the fixed coefficient rings, and the cited congruence sources.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the specialization, determinant, lattice lift, signed reciprocity, fixed local conditions, descent and Selmer length comparisons.
+
+- [10.4.9 Positive-order induction and the determinant coefficient bound](chapters/10-congruence-modules-to-sha.md#1049-positive-order-induction-and-the-determinant-coefficient-bound)
+- [10.4.10 From an adjugate entry to a Frobenius witness](chapters/10-congruence-modules-to-sha.md#10410-from-an-adjugate-entry-to-a-frobenius-witness)
+- [10.4.11 The local presentation at the new pair of places](chapters/10-congruence-modules-to-sha.md#10411-the-local-presentation-at-the-new-pair-of-places)
+
+
+<a id="attribution-chapter-14-specific-sections"></a>
+
+### Chapter 14 — Subsections in the November settlement
+
+- **Formal proof.** M0, with A2 at the cited consumer supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Masullo, the cited Fourier and functional analysis references, Costin and Rudin.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the Fourier and measure supplies, radius, Cauchy product and spectral arguments and the examples illustrating their hypotheses.
+
+- [14.4.2 Poisson summation and jumps on the local logarithmic lattice](chapters/14-masullos-trace-formula-route.md#1442-poisson-summation-and-jumps-on-the-local-logarithmic-lattice)
+
+
+<a id="attribution-chapter-15-specific-sections"></a>
+
+### Chapter 15 — Subsections in the November settlement
+
+- **Formal proof.** M0, with A2 at the cited consumer supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Masullo, Halmos, Carathéodory and the cited Haar and local-field references.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the half-density normalization, construction and restriction of Haar measure, kernel concentration and local-field models.
+
+- [15.4.3.5 Finite-place products from rectangles and marginals](chapters/15-two-proofs-side-by-side.md#15435-finite-place-products-from-rectangles-and-marginals)
+- [15.4.3.6 From outer measure to a countably additive measure](chapters/15-two-proofs-side-by-side.md#15436-from-outer-measure-to-a-countably-additive-measure)
+
+
+<a id="attribution-chapter-17-specific-sections"></a>
+
+### Chapter 17 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** The cited Behrend, ray-class and analytic number theory references, including the count and normalization precedents.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the top-place selection and ray-class estimates, ideal and norm examples and radial and angular Haar calculations.
+
+- [17.4.5 From congruence primes to a usable host-field scale](chapters/17-behrends-sphere-lemma-and-host-geometry.md#1745-from-congruence-primes-to-a-usable-host-field-scale)
+- [17.4.10 The exceptional zero in the trivial ray-class interval](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17410-the-exceptional-zero-in-the-trivial-ray-class-interval)
+- [17.4.11 Producing the ray-class endpoint formula](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17411-producing-the-ray-class-endpoint-formula)
+- [17.4.12 Producing the finite local zero formula](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17412-producing-the-finite-local-zero-formula)
+- [17.4.13 Mellin continuation and uniform growth in the ray-class family](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17413-mellin-continuation-and-uniform-growth-in-the-ray-class-family)
+- [17.4.14 Euler nonvanishing and the center of the local disk](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17414-euler-nonvanishing-and-the-center-of-the-local-disk)
+- [17.4.15 Ray-class size and theta counts at a fixed modulus](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17415-ray-class-size-and-theta-counts-at-a-fixed-modulus)
+- [17.4.17 Small ideal representatives and short bases at a fixed modulus](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17417-small-ideal-representatives-and-short-bases-at-a-fixed-modulus)
+- [17.4.18 Minkowski volume and small ordinary-class representatives](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17418-minkowski-volume-and-small-ordinary-class-representatives)
+
+
+<a id="attribution-chapter-18-specific-sections"></a>
+
+### Chapter 18 — Subsections in the November settlement
+
+- **Formal proof.** A2 and M0 supply the proof bodies at the linked section’s stated reading level.
+- **Classical sources.** Tate, Milne, the Stacks Project and the other citations at the exact comparison domain.
+- **This book.** Hongmin Li with AI assistance contributed the exposition of the transport diagrams, finite field and number-field computations, and the Selmer, local Tate and Sha examples.
+
+- [18.3.18 Single-model assembly](chapters/18-auditing-the-published-layer-case-studies.md#18318-single-model-assembly)

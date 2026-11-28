@@ -139,8 +139,7 @@ Chapter 3 §3.4.1 follows one local chain from an integrable member of the origi
 Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
 across Chapters 6–16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md`) is now written and live
 (`2026-11-22`). Ongoing maintenance tracks:
-(1) update Chapter 16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md` when the single-threaded main-proof
-`lake comparator` (`v4.36.0`) and export Lean kernel runs finish;
+(1) Chapter 16, `sources/SOURCES.md`, and `CONTRIBUTIONS.md` record the completed single-threaded kernel and Comparator checks and the 23–28 November publication settlement. [Consolidated ledgers](../chapters/16-open-problems-and-what-remains.md#163-consolidated-verification-ledgers-2228-november-2026);
 (2) extend Chapter 18's five-step audit rubric as human specialists audit the remaining ~70 unreviewed
 `GlobalTheory.Published.*` statements and deep import cones (`P12`, `P18`, `P17`, `P14`).
 
@@ -568,3 +567,97 @@ the simple-class Bochner integral and the Borel and strongly measurable limit st
 use the published Chapter 14 simple-function density result and the already stated completeness interface.
 They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion of Hölder.
 [Dense extension and the Bochner integral](../chapters/02-functional-equations-and-primitive-characters.md#banach-dense-extension) · [Metric-valued limits](../chapters/02-functional-equations-and-primitive-characters.md#metric-valued-ae-limits)
+
+
+## November 23–28 publication entries
+
+| Chapter and section | Publication evidence |
+|---|---|
+| Chapter 3, §3.4.1 — Why a zero contributes its order to the residue | [Chapter 3, §3.4.1 — Why a zero contributes its order to the residue](../chapters/03-landau-window-criterion.md#why-a-zero-contributes-its-order-to-the-residue) |
+| Chapter 3, §3.4.1 — Why a nonzero analytic germ has a first nonzero coefficient | [Chapter 3, §3.4.1 — Why a nonzero analytic germ has a first nonzero coefficient](../chapters/03-landau-window-criterion.md#why-a-nonzero-analytic-germ-has-a-first-nonzero-coefficient) |
+| Chapter 3, §3.4.1 — From complex differentiability to a power series | [Chapter 3, §3.4.1 — From complex differentiability to a power series](../chapters/03-landau-window-criterion.md#from-complex-differentiability-to-a-power-series) |
+| Chapter 3, §3.4.5 | [Chapter 3, §3.4.5](../chapters/03-landau-window-criterion.md#345-the-landau-window-criterion-landau_window-lemmal-zerofree_of_rpow_window) |
+| Chapter 4, §4.7.1 | [Chapter 4, §4.7.1](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#471-motivation-why-a-crude-zero-density-bound-is-enough) |
+| Chapter 4, §4.7.2 | [Chapter 4, §4.7.2](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#472-examples-the-primes-11-and-3-both-3mod8) |
+| Chapter 4, §4.7.3 | [Chapter 4, §4.7.3](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#473-definitions) |
+| Chapter 4, §4.7.4 | [Chapter 4, §4.7.4](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#474-lemmas-and-proofs-the-zero-density-box) |
+| Chapter 4, §4.7.5 | [Chapter 4, §4.7.5](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#475-mean-squares-and-siegels-lower-bound-the-other-classical-inputs) |
+| Chapter 4, §4.7.6 | [Chapter 4, §4.7.6](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#476-remarks) |
+| Chapter 4, §4.8.1 | [Chapter 4, §4.8.1](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#481-motivation) |
+| Chapter 4, §4.8.2 | [Chapter 4, §4.8.2](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#482-a-parameter-example-expository) |
+| Chapter 4, §4.8.3 | [Chapter 4, §4.8.3](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#483-definitions-and-analytic-inputs) |
+| Chapter 4, §4.8.4 | [Chapter 4, §4.8.4](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#484-lemma-the-box-supplies-a-bound-for-the-numerator) |
+| Chapter 4, §4.8.5 | [Chapter 4, §4.8.5](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#485-theorem-conditional-truncated-tail-bound) |
+| Chapter 4, §4.8.6 | [Chapter 4, §4.8.6](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#486-source-map-and-reading-boundary) |
+| Chapter 4, §4.9.1 | [Chapter 4, §4.9.1](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#491-motivation) |
+| Chapter 4, §4.9.2 | [Chapter 4, §4.9.2](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#492-a-small-progression-and-two-character-tests-expository) |
+| Chapter 4, §4.9.3 | [Chapter 4, §4.9.3](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#493-definitions-and-named-analytic-inputs) |
+| Chapter 4, §4.9.4 | [Chapter 4, §4.9.4](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#494-conditional-counting-proposition-lean-read) |
+| Chapter 4, §4.9.5 | [Chapter 4, §4.9.5](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#495-from-candidate-count-to-a-window) |
+| Chapter 4, §4.9.6 | [Chapter 4, §4.9.6](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#496-source-map-and-reading-boundary) |
+| Chapter 4, §4.10.1 — 4.10.1. Two model calculations [Expository] | [Chapter 4, §4.10.1 — 4.10.1. Two model calculations [Expository]](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4101-two-model-calculations-expository) |
+| Chapter 4, §4.10.2 — 4.10.2. The common normalization | [Chapter 4, §4.10.2 — 4.10.2. The common normalization](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4102-the-common-normalization) |
+| Chapter 4, §4.10.3 — 4.10.3. Conditional splice and proof | [Chapter 4, §4.10.3 — 4.10.3. Conditional splice and proof](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4103-conditional-splice-and-proof) |
+| Chapter 4, §4.10.4 — 4.10.4. Scope and source map | [Chapter 4, §4.10.4 — 4.10.4. Scope and source map](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4104-scope-and-source-map) |
+| Chapter 4, §4.10.15 | [Chapter 4, §4.10.15](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41015-the-chebyshev-lower-bound-from-least-common-multiples) |
+| Chapter 4, §4.10.16 | [Chapter 4, §4.10.16](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41016-the-costapereira-comparison) |
+| Chapter 4, §4.10.17 | [Chapter 4, §4.10.17](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41017-a-strict-prime-count-in-a-real-dyadic-interval) |
+| Chapter 4, §4.10.18 | [Chapter 4, §4.10.18](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41018-counting-the-prime-degree-factor-exception) |
+| Chapter 4, §4.10.24 | [Chapter 4, §4.10.24](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41024-separating-a-real-zero-from-1) |
+| Chapter 4, §4.10.25 | [Chapter 4, §4.10.25](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41025-the-siegel-lower-bound-from-biquadratic-product-series) |
+| Chapter 4, §4.10.26 | [Chapter 4, §4.10.26](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41026-regularizing-the-four-factor-product-and-bounding-its-taylor-remainder) |
+| Chapter 5, §5.3.1.4 | [Chapter 5, §5.3.1.4](../chapters/05-the-square-root-barrier-core-gm.md#5314-quadratic-reciprocity-and-the-host-splitting-signs) |
+| Chapter 6, §6.4.6 | [Chapter 6, §6.4.6](../chapters/06-stepanovs-method-and-multiplicity.md#646-from-local-lengths-to-clause-7-the-weight-partition) |
+| Chapter 6, §6.4.8 | [Chapter 6, §6.4.8](../chapters/06-stepanovs-method-and-multiplicity.md#648-from-residue-field-units-to-the-level-zero-forms) |
+| Chapter 7, §7.4.3.14 | [Chapter 7, §7.4.3.14](../chapters/07-chains-of-theta-lifts.md#74314-central-eigenvalues-of-the-highest-derivative) |
+| Chapter 7, §7.4.3.15 | [Chapter 7, §7.4.3.15](../chapters/07-chains-of-theta-lifts.md#74315-strict-spectral-bounds-below-the-highest-product-derivative) |
+| Chapter 7, §7.4.3.16 | [Chapter 7, §7.4.3.16](../chapters/07-chains-of-theta-lifts.md#74316-the-highest-derivative-of-a-parabolic-product) |
+| Chapter 7, §7.4.3 — Normalized induction and Jacquet modules | [Chapter 7, §7.4.3 — Normalized induction and Jacquet modules](../chapters/07-normalized-induction-reading-guide.md#normalized-induction-and-jacquet-modules) |
+| Chapter 8, §8.4.11 | [Chapter 8, §8.4.11](../chapters/08-divisibility-at-inert-primes.md#8411-partition-multiplicities-residual-capacities-and-the-numerical-bridge-ea_brnum) |
+| Chapter 8, §8.4.12 | [Chapter 8, §8.4.12](../chapters/08-divisibility-at-inert-primes.md#8412-transporting-the-restricted-kernel-jet-to-the-three-frames) |
+| Chapter 8, §8.4.13 | [Chapter 8, §8.4.13](../chapters/08-divisibility-at-inert-primes.md#8413-the-normalized-local-norm-supply-nm_restnorm_of_place) |
+| Chapter 8, §8.4.21 | [Chapter 8, §8.4.21](../chapters/08-divisibility-at-inert-primes.md#8421-frobenius-congruence-and-the-integral-odd-logarithm-coboundary) |
+| Chapter 8, §8.4.22 | [Chapter 8, §8.4.22](../chapters/08-divisibility-at-inert-primes.md#8422-the-multivariable-dwork-criterion-and-exponential-equivalence) |
+| Chapter 9, §9.4.5 | [Chapter 9, §9.4.5](../chapters/09-heights-slopes-and-near-orthogonality.md#945-a-positive-semidefinite-bound-for-the-period-rows) |
+| Chapter 9, §9.4.30 | [Compact-finite recovery](../chapters/09-heights-slopes-and-near-orthogonality.md#9430-recovering-the-k-finite-vectors-of-the-generated-closure) |
+| Chapter 10, §10.4.5 | [Chapter 10, §10.4.5](../chapters/10-congruence-modules-to-sha.md#1045-the-dvr-determinant-lemma-and-block-cocycle-lengths) |
+| Chapter 10, §10.4.6 | [Chapter 10, §10.4.6](../chapters/10-congruence-modules-to-sha.md#1046-twist-existence-how-the-selmer-killing-character-is-chosen) |
+| Chapter 10, §10.4.7 | [Chapter 10, §10.4.7](../chapters/10-congruence-modules-to-sha.md#1047-where-does-adm2-come-from) |
+| Chapter 10, §10.4.8 | [Chapter 10, §10.4.8](../chapters/10-congruence-modules-to-sha.md#1048-from-tame-inertia-to-the-order-of-a-selmer-determinant) |
+| Chapter 10, §10.4.10 | [Chapter 10, §10.4.10](../chapters/10-congruence-modules-to-sha.md#10410-from-an-adjugate-entry-to-a-frobenius-witness) |
+| Chapter 10, §10.4.11 | [Chapter 10, §10.4.11](../chapters/10-congruence-modules-to-sha.md#10411-the-local-presentation-at-the-new-pair-of-places) |
+| Chapter 12, §12.4.11 | [Chapter 12, §12.4.11](../chapters/12-galois-representations-and-local-langlands.md#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing) |
+| Chapter 13, §13.4.16 | [Chapter 13, §13.4.16](../chapters/13-greens-theorem-and-the-literature-layer.md#13416-cuspidality-from-unipotent-radical-sums) |
+| Chapter 13, §13.4.18 | [Chapter 13, §13.4.18](../chapters/13-greens-theorem-and-the-literature-layer.md#13418-whittaker-averages-and-the-degree-of-a-green-series) |
+| Chapter 13, §13.4.19 | [Chapter 13, §13.4.19](../chapters/13-greens-theorem-and-the-literature-layer.md#13419-fourier-decomposition-on-the-finite-mirabolic-group) |
+| Chapter 13, §13.4.20 | [Chapter 13, §13.4.20](../chapters/13-greens-theorem-and-the-literature-layer.md#13420-block-diagonal-mirabolic-induction-and-the-gelfandgraev-factor) |
+| Chapter 14, §14.4.2.1 | [Chapter 14, §14.4.2.1](../chapters/14-masullos-trace-formula-route.md#14421-fourier-completeness-on-the-circle-and-pointwise-reconstruction) |
+| Chapter 14, §14.4.2.3.1 | [Chapter 14, §14.4.2.3.1](../chapters/14-masullos-trace-formula-route.md#144231-finite-measure-simple-functions-in-lp) |
+| Chapter 14, §14.4.2.4 | [Chapter 14, §14.4.2.4](../chapters/14-masullos-trace-formula-route.md#14424-urysohn-cutoffs-with-finite-measure) |
+| Chapter 14, §14.4.2.5 | [Chapter 14, §14.4.2.5](../chapters/14-masullos-trace-formula-route.md#14425-compactly-supported-continuous-functions-are-dense-in-l2) |
+| Chapter 16, §16.6 | [Chapter 16, §16.6](../chapters/16-open-problems-and-what-remains.md#166-the-nielsen-vacuity-critique-what-a-true-predicate-does-and-does-not-show) |
+| Chapter 16, §16.6.1 | [Chapter 16, §16.6.1](../chapters/16-open-problems-and-what-remains.md#1661-what-the-archive-contains-lean-read) |
+| Chapter 16, §16.6.2 | [Chapter 16, §16.6.2](../chapters/16-open-problems-and-what-remains.md#1662-why-this-does-not-make-the-proof-invalid-expository) |
+| Chapter 16, §16.6.3 | [Chapter 16, §16.6.3](../chapters/16-open-problems-and-what-remains.md#1663-what-the-critique-does-establish-open) |
+| Chapter 16, §16.6.4 | [Chapter 16, §16.6.4](../chapters/16-open-problems-and-what-remains.md#1664-the-tautology-argument-of-the-final-version-paper-nielsen-89) |
+| Chapter 17, §17.4.7 | [Chapter 17, §17.4.7](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#1747-from-the-von-mangoldt-sum-to-the-prime-count) |
+| Chapter 17, §17.4.8 | [Chapter 17, §17.4.8](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#1748-short-norm-primes-from-the-principal-ray-class) |
+| Chapter 17, §17.4.9 | [Chapter 17, §17.4.9](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#1749-the-finite-character-projection-onto-the-principal-ray) |
+| Chapter 18, §18.3.20 | [Chapter 18, §18.3.20](../chapters/18-auditing-the-published-layer-case-studies.md#18320-from-compact-support-to-the-nine-term-poitoutate-sequence) |
+| Chapter 18, §18.3.21 | [Chapter 18, §18.3.21](../chapters/18-auditing-the-published-layer-case-studies.md#18321-from-the-coefficient-trace-to-surjective-compact-corestriction) |
+| Chapter 18, §18.3.22 | [Chapter 18, §18.3.22](../chapters/18-auditing-the-published-layer-case-studies.md#18322-the-upper-field-root-of-unity-pairing) |
+| Chapter 18, §18.3.23 | [Chapter 18, §18.3.23](../chapters/18-auditing-the-published-layer-case-studies.md#18323-open-subgroups-larger-fixed-fields-and-the-local-family) |
+| Chapter 19, §19.0 | [Chapter 19, §19.0](../chapters/19-published-layer-case-studies-ii.md#190-how-the-main-path-reaches-the-literature-layer) |
+| Chapter 19, §19.1 | [Chapter 19, §19.1](../chapters/19-published-layer-case-studies-ii.md#191-shins-galois-representation) |
+| Chapter 19, §19.2 | [Chapter 19, §19.2](../chapters/19-published-layer-case-studies-ii.md#192-chenevierharris-and-monodromy) |
+| Chapter 19, §19.3 | [Chapter 19, §19.3](../chapters/19-published-layer-case-studies-ii.md#193-absolute-theta-convergence) |
+| Chapter 19, §19.3.2 | [Chapter 19, §19.3.2](../chapters/19-published-layer-case-studies-ii.md#1932-rational-reduction-and-the-covering-of-the-adelic-quotient) |
+| Chapter 19, §19.3.11.1 | [Chapter 19, §19.3.11.1](../chapters/19-published-layer-case-studies-ii.md#193111-complex-conjugation-the-real-fixed-field-and-the-cm-type-of-the-layer-host) |
+| Chapter 19, §19.3.13 | [Chapter 19, §19.3.13](../chapters/19-published-layer-case-studies-ii.md#19313-the-discriminant-of-the-second-hosts-real-subfield) |
+| Chapter 19, §19.3.14 | [Chapter 19, §19.3.14](../chapters/19-published-layer-case-studies-ii.md#19314-integral-power-bases-and-discriminants-at-prime-power-conductor) |
+| Chapter 19, §19.3.15 | [Chapter 19, §19.3.15](../chapters/19-published-layer-case-studies-ii.md#19315-integral-bases-at-general-cyclotomic-conductor) |
+| Chapter 19, §19.3.16 | [Chapter 19, §19.3.16](../chapters/19-published-layer-case-studies-ii.md#19316-relative-trace-after-extending-the-base-field) |
+| Chapter 19, §19.4 | [Chapter 19, §19.4](../chapters/19-published-layer-case-studies-ii.md#194-global-doubling) |
+| Chapter 19, §19.5 | [Chapter 19, §19.5](../chapters/19-published-layer-case-studies-ii.md#195-unramified-split-doubling) |
+| Chapter 19, §19.6 | [Chapter 19, §19.6](../chapters/19-published-layer-case-studies-ii.md#196-convergent-rallis-inner-product) |
+| Chapter 19, §19.7 | [Chapter 19, §19.7](../chapters/19-published-layer-case-studies-ii.md#197-status-of-the-open-items) |
