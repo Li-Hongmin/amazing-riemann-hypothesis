@@ -1783,6 +1783,8 @@ Moreover:
 
 *Proof.* Items 1 and 3 restate the cited lines, read in the archive [Lean, read]. The export statements in items 2 and 3 are a computation on the export. We parsed all $1{,}080{,}769{,}494$ records and followed references in declaration types and values, projections and inductive data from `riemannHypothesis`. This reached $1{,}478{,}219$ of the $1{,}484{,}729$ exported declarations, as in §19.4, and we printed one path for each reachable query. The paths are recorded in `closure/closure.log` of the run directory. They establish named dependency in the exported proof, not mathematical use. The list of applications in item 2 rests on a text search of the pinned source. $\square$
 
+The sample `D7` has an empty local index type. [§6.4.23](06-stepanovs-method-and-multiplicity.md#local-record-inertia-polynomial) follows the local fields into the conditional inertia theorem for a record with an actual index and place.
+
 The export certificate exhibits a path through `H0` and `record_nonempty`. On that path, `exists_positions_global` uses the local fields of the inhabited `D7` record. [Open] Whether every path through the construction passes through that record. The general existence theorem `exists_hostAx` and the Dirichlet-based supply are not in the export.
 
 **Example 3 (choices not made together).** The theorem reads every field off one layer at the frame's level, in fixed roles. Two ways of dropping this common choice show what fails.

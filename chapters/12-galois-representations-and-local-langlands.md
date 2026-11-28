@@ -2725,7 +2725,7 @@ The one-step mirabolic pairing and its Haar inputs are traced in the [§12.4.11 
 period-ring data `∀ P AI, Nonempty (LocTied l P AI) → ...`; community vacuity audits (`LUMI doc 05` &
 `vacuity-check.md` [Community]) verified that `GlobalTheory.MemLoc.exists_locPrime_tied`
 (`src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinf.lean:281` `[Lean]`)
-proves `LocTied` is inhabited, so `AboveB` is genuinely non-vacuous!
+proves `LocTied` is inhabited, so `AboveB` is genuinely non-vacuous! The prime-wise choices and their use at an actual index and place are followed in [§6.4.23](06-stepanovs-method-and-multiplicity.md#local-record-inertia-polynomial).
 
 ### 12.5.2 Masullo's counterpart: $\mathrm{GL}_1$ Tate theory in Chapter 3 vs. higher-rank Langlands
 

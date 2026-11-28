@@ -398,6 +398,10 @@ Claude Code supplies the archive machine-check record [Community].
 
 **Chapter 4 §§4.10.12 and 4.10.14.** Levent Alpöge with Claude supplied A2's finite power-sum bound, shifted displacement inequality, five-term repulsion finish and natural-number Mertens specialization. The Chebyshev producer credits Alastair Irving, Terry Tao, Ruben Van de Velde and the PrimeNumberTheoremAnd project. The primorial proof credits Patrick Stevens, Yury Kudryashov and Bhavik Mehta. [Turán sources](sources/SOURCES.md#chapter-4-41012-the-turan-finish) · [Chebyshev sources](sources/SOURCES.md#chapter-4-41014-elementary-chebyshev-supply)
 
+### Community precedent for the local period datum
+
+- **LUMI review agent [Community]** — Q3 of the pinned vacuity report connects the existence of tied local period data with `Row0b`. [Pinned report and source record](sources/SOURCES.md#common-local-record-and-inertia)
+
 ## Our contributions
 
 - **Hongmin Li with AI assistance** wrote the Chapter 3 proofs and hand computations for the [exact half-open complements](../chapters/03-landau-window-criterion.md#exact-complements-by-splitting-half-open-boxes), the [subbox Cauchy argument](../chapters/03-landau-window-criterion.md#subbox-filters-and-the-cauchy-net-of-tagged-sums) and the [epsilon–gauge equivalence](../chapters/03-landau-window-criterion.md#from-the-box-filter-to-epsilon-and-gauges). The exposition traces both directions of the gauge equivalence through their consumers in Henstock–Sacks and rectangular divergence and proves the counterexamples for the deleted conditions.
@@ -1488,3 +1492,7 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Hongmin Li with AI assistance** — Published the three conditional textbook proofs, the worked cochain calculations and the source-to-consumer map. The edition incorporates the same-source corrections to the Laurent functional and the finite detector and preserves the verdict on each manuscript. [Textbook](chapters/10-congruence-modules-to-sha.md#104713-rational-local-duality-field-trace-coboundaries-and-the-general-coefficient-annihilator) · [Source and review record](sources/SOURCES.md#chapter-10-104713-rational-local-duality)
 
 **Chapter 4 §§4.10.24–4.10.26.** Levent Alpöge with Claude supplied the archived zero separation, Siegel product argument and analytic bounds, with the pinned Mathlib community supplying the cited library results. Carl Ludwig Siegel supplied the classical lower bound. Thomas Estermann supplied the analytic method discussed in Hugh Montgomery and Robert Vaughan’s textbook. Hongmin Li with AI assistance prepared the conditional exposition, worked examples, declaration map and editorial correction on effectiveness. [Sources](sources/SOURCES.md#chapter-4-real-zeros-and-the-siegel-product)
+
+### Chapter 6 local norm lifting and inertia annihilation
+
+- **Hongmin Li (with AI assistance)** — Textbook account of the Newton lift used by `adicInt_exists_norm`, the dependent local choices and the inertia polynomial consumer. The publication preserves the worked examples, corrects the three theta renderings and records the two source ranges and exact Kummer call. The underlying Lean archive is by Alpöge with Claude, and the general complete-ring lifting argument is from Mathlib. [§6.4.17.1](chapters/06-stepanovs-method-and-multiplicity.md#64171-from-adic-completeness-to-a-local-norm-solution) · [§6.4.23](chapters/06-stepanovs-method-and-multiplicity.md#local-record-inertia-polynomial)
