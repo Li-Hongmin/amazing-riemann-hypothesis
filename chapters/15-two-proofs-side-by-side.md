@@ -2250,7 +2250,7 @@ the Hausdorff specialization of the topology interfaces.
 | Read | `MeasureTheory/Measure/Haar/Basic.lean:515–585`; `Topology/Algebra/Group/Compact.lean:24–32`; `MeasureTheory/Group/Measure.lean:584–601, 635–655, 799–809` | Normalization, regularity, finite compact mass, positivity and the choice underlying `Measure.haar` |
 | Read | `Topology/Algebra/Group/Basic.lean:1260–1277, 1306–1316`, `Topology/Algebra/Group/Pointwise.lean:312–323, 389–395`, `Topology/Sets/Compacts.lean:745–748` | Finite open translates, uniform thickening, group regularity and compact neighborhoods, and availability of a positive compact |
 | Inherited | §§15.4.3.1–15.4.3.3 | Modulus, linear change of variables, half-density and uniqueness, including their stated hypotheses |
-| Named inputs | [Tychonoff](#chapter-15-companion-drafts), the `RegularSpace` to `R1Space` instance, `IsCompact.finite_compact_cover` and the separation API | The proof above gives the Hausdorff arguments. Upstream library bodies remain at statement level |
+| Compactness and separation suppliers | [§15.4.3.7](#ch15-tychonoff-haar-content) opens Tychonoff and the common closed-tail witness. [§15.4.3.8](#ch15-preregular-compact-covers) opens `RegularSpace` to `R1Space`, `IsCompact.finite_compact_cover` and the compact separation used here. | The proof above gives the Hausdorff arguments. The linked sections trace the pinned proof bodies and list their named inputs. |
 | Retained | Masullo diagonal smoothing and strip-trace claims in §§15.4.3.1–15.4.3.3 | Existing [Paper] and [Open] boundaries |
 
 Source reading and the book build give local checks of this section.
@@ -2378,11 +2378,439 @@ For $a<b$ the one-interval cover gives $m([a,b))\le b-a$. Given any cover $[a,b)
 
 For a concrete infinite disjoint family let $I_n=[1-2^{-n},1-2^{-(n+1)})$, $n\ge0$. Its individual masses are $2^{-(n+1)}$. The first $N$ intervals have union $[0,1-2^{-N})$ of mass $1-2^{-N}$, the telescoping sum of their masses. Their full union is $[0,1)$, of mass $1$ by the upper and lower cover bounds above. The singleton $\{1\}$ has mass zero by the covers $[1,1+2^{-N})$, so adjoining it gives $[0,1]$ of mass $1$. [Expository] [Tao, 245A Notes 1, Lemmas 6–7 and Exercise 17](https://terrytao.wordpress.com/2010/09/09/245a-notes-1-lebesgue-measure/)
 
-**Remark (the Haar consumer).** The open-set test in §15.4.3.4 gives $\operatorname{Borel}(G)\subseteq\mathcal C_m$. **Content.measure** invokes **outerMeasure.toMeasure** with **borel_le_caratheodory**. By the inherited open-cover formula, its values on open sets are $I(O)=\sup_{K\subseteq O}c(K)$ over compact $K$. For a Hausdorff space and compact $K$, $\mu(K)=\inf_{O\supseteq K}I(O)$ over open $O$, and $c(K)\le\mu(K)$. Since $c(K)$ is finite, equality is equivalent to having, for every $\varepsilon>0$, an open superset of price at most $c(K)+\varepsilon$. A sufficient condition is **ContentRegular**, meaning that $c(K)$ is the infimum of $c(K')$ over compact $K'$ with $K\subseteq\operatorname{int}K'$. Choose such $K'$ with $c(K')\le c(K)+\varepsilon$. Then $\mu(K)\le I(\operatorname{int}K')\le c(K')$ by monotonicity of the compact content. The pin also allows an $R_1$ space and uses $\mu(\operatorname{cl}K)=\mu(K)$ for compact $K$ in the lower bound. **haarMeasure** divides by the finite positive value of **haarContent.measure** on $K_0$. It requires no agreement of the original content with the measure on every compact set. The product argument in §15.4.3.5 uses the same restriction after its rectangle test, and its uniqueness is a separate finite-spanning argument. [Lean, read] [Measure/Content.lean:355–360,388–427](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Content.lean#L355-L427) · [Measure/Haar/Basic.lean:517–522](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L517-L522) · [Compact closure mass](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean#L288-L289) · [Halmos, §54, Theorem A](https://59clc.wordpress.com/wp-content/uploads/2012/05/paul_r-_halmos_measure_theory_graduate_texts_inbookfi-org.pdf)
+**Remark (the Haar consumer).** [§15.4.3.8](#ch15-preregular-compact-covers) gives the preregular compact-cover and closed-compact content inputs used before the measure constructor. The open-set test in §15.4.3.4 gives $\operatorname{Borel}(G)\subseteq\mathcal C_m$. **Content.measure** invokes **outerMeasure.toMeasure** with **borel_le_caratheodory**. By the inherited open-cover formula, its values on open sets are $I(O)=\sup_{K\subseteq O}c(K)$ over compact $K$. For a Hausdorff space and compact $K$, $\mu(K)=\inf_{O\supseteq K}I(O)$ over open $O$, and $c(K)\le\mu(K)$. Since $c(K)$ is finite, equality is equivalent to having, for every $\varepsilon>0$, an open superset of price at most $c(K)+\varepsilon$. A sufficient condition is **ContentRegular**, meaning that $c(K)$ is the infimum of $c(K')$ over compact $K'$ with $K\subseteq\operatorname{int}K'$. Choose such $K'$ with $c(K')\le c(K)+\varepsilon$. Then $\mu(K)\le I(\operatorname{int}K')\le c(K')$ by monotonicity of the compact content. The pin also allows an $R_1$ space and uses $\mu(\operatorname{cl}K)=\mu(K)$ for compact $K$ in the lower bound. **haarMeasure** divides by the finite positive value of **haarContent.measure** on $K_0$. It requires no agreement of the original content with the measure on every compact set. The product argument in §15.4.3.5 uses the same restriction after its rectangle test, and its uniqueness is a separate finite-spanning argument. [Lean, read] [Measure/Content.lean:355–360,388–427](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Content.lean#L355-L427) · [Measure/Haar/Basic.lean:517–522](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L517-L522) · [Compact closure mass](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean#L288-L289) · [Halmos, §54, Theorem A](https://59clc.wordpress.com/wp-content/uploads/2012/05/paul_r-_halmos_measure_theory_graduate_texts_inbookfi-org.pdf)
 
 <a id="chapter-15-companion-drafts"></a>
 
-**Companion drafts.** [§15.4.3.7 Tychonoff compactness and a single Haar content](../notes/outline.md#chapter-15-draft-tychonoff), [§15.4.3.8 Compact covers and contents in preregular spaces](../notes/outline.md#chapter-15-draft-preregular) and [§15.4.3.9 Why concentrating kernels recover a point value](../notes/outline.md#chapter-15-draft-concentrating-kernels).
+<a id="ch15-tychonoff-haar-content"></a>
+
+#### 15.4.3.7 Tychonoff compactness and a single Haar content
+
+**Motivation.** Each normalized count $p_U$ in [Lemma 15.10a](#15434-constructing-haar-measure-from-finite-covers) assigns a value to **every** compact subset of $G$. Taking a cluster value for each coordinate separately gives no reason for the resulting numbers to satisfy an identity involving several coordinates. The product topology supplies a common test: ask one $p_U$ to meet a tolerance at each of finitely many compact sets, with $U$ inside any prescribed identity neighborhood.
+
+**Example 1 (binary tails).** In $X=\{0,1\}^{\mathbb N}$, with indices starting at zero and discrete factors, let $x^{(n)}_i=1$ for $i<n$ and $0$ otherwise. Write $F_m$ for the closure of $\{x^{(n)}:n\ge m\}$. Then $F_m$ consists precisely of the displayed tail and the all-one point $\mathbf 1$. Every cylinder about $\mathbf 1$ with finite support $S$ contains $x^{(n)}$ for $n\ge m$ and $n>\max S$ if $S$ is nonempty. Any omitted binary string either has a zero followed by a one, which gives a two-coordinate cylinder missing the entire sequence, or is $x^{(k)}$ for $k<m$, in which case its zero in coordinate $k$ excludes the tail. A finite nonempty collection of tails has witness $x^{(\max m)}$. The empty collection has witness $x^{(0)}$. For support $S=\{0,2,5\}$ the projected sequence takes the four values $000,100,110,111$, reaching $111$ at $n=6$. The full intersection of the tails is $\{\mathbf 1\}$, although no term of the sequence equals $\mathbf 1$.
+
+**Definition 15.17 (filters and cylinders).** A proper filter $\mathcal F$ on $X$ contains $X$, is upward closed and is closed under finite intersections, and omits $\varnothing$. A point $x$ is a cluster point if every neighborhood of $x$ meets every member of $\mathcal F$. The filter converges to $x$ if it contains every neighborhood of $x$. An ultrafilter is a maximal proper filter under inclusion of its families of sets. For $q:X\to Y$, the pushed filter $q_*\mathcal F$ contains precisely the sets $B\subseteq Y$ for which $q^{-1}(B)\in\mathcal F$. A basic neighborhood of $x$ in $\prod_{i\in I}X_i$ is a cylinder $\bigcap_{i\in S}\pi_i^{-1}(O_i)$, where $S\subseteq I$ is finite and each $O_i$ is an open neighborhood of $x_i$.
+
+**Lemma 15.17a (extension and convergence) [Lean, read].** Every proper filter extends to an ultrafilter. A proper filter is an ultrafilter exactly when for every $B\subseteq X$ it contains one of $B$ and $X\setminus B$. Pushforward preserves ultrafilters, and every cluster point of an ultrafilter is a limit.
+
+**Proof.** In the partially ordered set of proper extensions, a nonempty chain has its union as an upper bound. Two sets in the union belong together to one chain member, so their intersection belongs to the union, and no member contains the empty set. The starting filter bounds the empty chain. Zorn's lemma gives a maximal extension. If $B$ is absent from a maximal filter, adjoining $B$ must destroy properness. Indeed, the candidate extension consists of supersets of sets $A\cap B$ with $A$ in the original filter, so there is some $A$ for which $A\cap B=\varnothing$. Upward closure gives $X\setminus B$ in the original filter. Conversely, a proper extension that adds a missing set would contain it and its complement. Pushforward preserves all the proper filter axioms by inverse image, and inverse image commutes with complement, so it also preserves the ultrafilter criterion. If a neighborhood of a cluster point were missing from an ultrafilter, its complement would belong to it and would miss that neighborhood. A limit is a cluster point of any proper filter because the intersection of two filter members is nonempty. $\square$
+
+**Lemma 15.17b (compact subsets and filters) [Lean, read].** For a subset $C$ of a topological space $X$, the following are equivalent.
+
+1. Every open cover of $C$ has a finite subcover.
+2. Every proper filter on $X$ containing $C$ has a cluster point in $C$.
+3. Every ultrafilter on $X$ containing $C$ converges to some point in $C$.
+
+**Proof.** Suppose an open-cover compact $C$ contains no cluster point of a proper filter containing $C$. All open sets disjoint from some filter member then cover $C$. A finite subcover yields finitely many such filter members. Their intersection with $C$ belongs to the filter and misses $C$, a contradiction. Lemma 15.17a gives (3) from (2). Conversely, a limit of an ultrafilter extension of a proper filter containing $C$ clusters in the original filter, since each of its sets remains in the extension. If an open cover of $C$ has no finite subcover, the sets $C$ minus finite unions from the cover form a proper filter base, including $C$ for the empty union. Every point in $C$ has a cover neighborhood disjoint from one of these base sets. This contradicts (2). $\square$
+
+**Theorem 15.18 (product compactness and common tail points) [Lean, read].** Let $I$ be any set and $C_i\subseteq X_i$ compact for every $i\in I$. Then $P=\prod_{i\in I} C_i$ is compact in the product topology inherited from $\prod_{i\in I} X_i$. In any topological space, if $P$ is compact and $(F_j)_{j\in J}$ is a family such that each $P\cap F_j$ is closed in $P$, then the condition $P\cap\bigcap_{j\in E}F_j\ne\varnothing$ for every finite $E\subseteq J$, including $E=\varnothing$, implies $P\cap\bigcap_{j\in J}F_j\ne\varnothing$.
+
+**Proof.** Let $\mathcal U$ be an ultrafilter on the ambient product with $P\in\mathcal U$. For each $i$, the preimage $\pi_i^{-1}(C_i)$ contains $P$, so the ultrafilter $(\pi_i)_*\mathcal U$ contains $C_i$. Lemma 15.17b gives a point $x_i\in C_i$ to which this pushed ultrafilter converges. Choose such points for all $i$. For any basic cylinder about $x=(x_i)_{i\in I}$, each of its finitely many inverse images is in $\mathcal U$, and so is their intersection. Thus $\mathcal U$ converges to $x\in P$. Lemma 15.17b proves compactness. Taking $C_i=X_i$ gives the product theorem for spaces. For the closed-family assertion, if the full intersection in $P$ were empty, the relative opens $P\setminus F_j$ would cover $P$. A finite subcover would contradict the corresponding finite witness. $\square$
+
+**Remarks on emptiness, separation and choice.** The empty product has one element, the empty tuple, and the empty cylinder is the whole space. One empty factor makes the product empty, hence compact, and prevents any proper ultrafilter from containing the product. A compact space may be non-Hausdorff. For example, the principal ultrafilter at either point of a two-point indiscrete space converges to both. Throughout the proof the chosen limit must belong to $C_i$, even when $C_i$ is not closed in $X_i$.
+
+The extension lemma can be taken as the ultrafilter lemma, equivalent over ZF to the Boolean prime ideal theorem. The Zorn proof above uses full choice as a sufficient principle. For Hausdorff factors, disjoint neighborhoods would contradict the properness of an ultrafilter converging to two distinct points. The coordinate limits are therefore unique, and unique specification assembles the tuple without an additional choice principle. In particular the ultrafilter lemma suffices for the product of Haar's real intervals. Once existence is known, selecting one common $c$ for a fixed $K_0$ is an existential instantiation in the mathematical argument. The pinned library uses classical choice for its general product proof and for a noncomputable function assigning a content to each $K_0$.
+
+For arbitrary compact spaces the product theorem itself implies full choice. Given an arbitrary family of nonempty sets $A_i$, add a distinguished point to each and equip the enlarged set with the topology in which the two blocks $A_i$ and the added singleton are clopen and indiscrete internally. Each enlarged factor is compact since at most two opens suffice. The product has the all-distinguished tuple. Require membership in the $A_i$ block one coordinate at a time. These are closed conditions, and any finite subfamily admits a tuple by finite choice, filled with the distinguished points elsewhere. Compactness and the closed-family assertion give a choice function for the original family. Kelley proved the choice implication with the cofinite topology on the enlarged factors. [Choice principles and historical attribution](https://plato.stanford.edu/entries/axiom-choice/)
+
+**Corollary 15.19 (the compactness input to Haar content) [Lean, read].** With $G$, $K_0$ and $p_U$ as in Lemma 15.10a, let $\mathcal K$ be the set of compact subsets of $G$, and $\mathcal N$ the set of open neighborhoods of $1$. There is one $c:\mathcal K\to\mathbb R$ such that, for every $K\in\mathcal K$, $0\le c(K)\le N(K,K_0)$, and for every $V\in\mathcal N$, every finite $S\subseteq\mathcal K$ and every $\varepsilon>0$, there exists $U\in\mathcal N$ with $U\subseteq V$ and $|p_U(K)-c(K)|<\varepsilon$ for every $K\in S$. The same $c$ satisfies all content relations in Lemma 15.10b.
+
+**Proof.** Put $P=\prod_{K\in\mathcal K}[0,N(K,K_0)]$ in $\mathbb R^{\mathcal K}$. Each interval is nonempty and compact, including $[0,0]$ for the empty compact set. Theorem 15.18 gives compactness. For $V\in\mathcal N$ put $T_V=\{p_U:U\in\mathcal N,\ U\subseteq V\}$ and $F_V=\overline{T_V}$ in the ambient product. For every finite $E\subseteq\mathcal N$, put $V_E=\bigcap_{V\in E}V$ with $V_\varnothing=G$. It is an open neighborhood of $1$. Lemma 15.10a places $p_{V_E}$ in $P$, and $V_E\subseteq V$ puts it in $T_V$ for every $V\in E$. Hence the closed-family assertion gives $c\in P\cap\bigcap_V F_V$. Membership in every closure is precisely the stated simultaneous approximation: equal-radius cylinders at finitely many coordinates form a neighborhood basis, since the minimum of finitely many positive radii is positive. The empty support imposes no constraint. Equivalently, $c$ clusters along the filter of tails indexed by neighborhoods ordered by reverse inclusion.
+
+Fix any closed constraint on the values of $f$ which is satisfied by every $p_U$ with $U\subseteq V$. Its closed locus contains $F_V$, so $c$ satisfies it. Each linear combination of finitely many evaluation maps is continuous, and $\{0\}$, $\{1\}$ and $[0,\infty)$ are closed in $\mathbb R$. For each inclusion, each pair, or each translating element, use the appropriate row below. In the disjoint case fix the pair first. Lemma 15.10a provides a neighborhood $V$ for that pair, and $c$ already belongs to $F_V$. This proves $\exists c\,\forall$ constraints from a supply of thresholds of the form $\forall$ constraints $\exists V\,\forall U\subseteq V$. The threshold may depend on the constraint. For finitely many constraints, intersect their thresholds to get a common refinement. The pin chooses a full function before evaluating it at $K$. $\square$
+
+| Actual consumer in `Haar/Basic.lean` | What it receives for that one function |
+|---|---|
+| `nonempty_iInter_clPrehaar`, `chaar` (325–352) | `isCompact_univ_pi` and `isCompact_Icc` give compactness of $P$. `IsCompact.inter_iInter_nonempty` uses $p_{V_E}$. `Classical.choose` returns a whole function. |
+| `chaar_mem_haarProduct`, `chaar_mem_clPrehaar`, `chaar_nonneg` (355–366) | The two projections of the same witness specification give all coordinate bounds and all tail memberships. |
+| `chaar_empty`, `chaar_self` (369–386) | $F_G$, with $f(\varnothing)=0$ and $f(K_0)=1$. |
+| `chaar_mono`, `chaar_sup_le` (390–412) | $F_G$, with $f(L)-f(K)\ge0$ whenever $K\subseteq L$, and $f(K)+f(L)-f(K\cup L)\ge0$ for each pair. |
+| `chaar_sup_eq` (415–446) | $F_V$, with $f(K)+f(L)-f(K\cup L)=0$ for a fixed disjoint pair. The pin assumes a topological group and asks that its second compact set be closed. The threshold is the inverse of an intersection of identity neighborhoods chosen from the two separating thickenings. In the Hausdorff specialization both compacts are closed. |
+| `is_left_invariant_chaar` (449–459) | $F_G$, with $f(gK)-f(K)=0$ for every $g\in G$ and compact $K$. |
+| `haarContent`, `haarContent_self`, `is_left_invariant_haarContent` (463–493) | The nonnegative real values become a content. Its operations use monotonicity, subadditivity and disjoint additivity. Normalization and invariance pass through the coercion. |
+
+**Example 2 (a finite projection of the Haar box).** Use the additive discrete group $G=\mathbb Z/6\mathbb Z$, $K_0=\{0,1\}$, $A=\{0\}$ and $B=\{3\}$. Project to $(A,B,A\cup B,K_0,G)$. Translates of $K_0$ are adjacent pairs on the six-cycle. The bounds on this projection are $(1,1,2,1,3)$: the opposite vertices need two translates and three adjacent pairs partition the cycle. At $U=\{0,3\}$ the cosets are $\{0,3\},\{1,4\},\{2,5\}$. The cover counts in the five coordinates are $(1,1,1,2,3)$, giving $(1/2,1/2,1/2,1,3/2)$. At $U=\{0\}$ they are $(1,1,2,2,6)$, giving $(1/2,1/2,1,1,3)$. For any finite list of identity neighborhoods the singleton is a refinement. Its tail contains just $p_{\{0\}}$, which is closed in the real product. Therefore every common point has exactly the second vector. The normalization coordinate equals one throughout and the disjoint equality is enforced on the singleton tail. This calculation concerns compact-set values prior to measure extension.
+
+**Failure boundaries.** In $\mathbb R^{\mathbb N}$ with its product topology, the closed sets $F_n=\{x:x_0\ge n\}$ have finite witnesses (take $x_0$ to be the largest chosen index and the other coordinates zero), but no common point. Their complementary cylinders form an open cover without a finite subcover. Even in the compact space $[0,1]$, the nonclosed tails $(0,1/n)$ for $n\ge1$ have finite witnesses and empty intersection, whereas the closed tails share $0$. In a two-point discrete space, the closed singleton constraints $F_0=\{0\}$ and $F_1=\{1\}$ each admit a witness, but no common witness exists. Likewise the pairs $(0,1),(1,0)$ supply zero separately in each coordinate without ever approximating $(0,0)$ in a two-coordinate cylinder of radius $1/2$. Finally, Example 2 disproves the stronger claim that disjoint additivity holds at every scale. Its coarse vector has $p_U(A\cup B)=1/2<1=p_U(A)+p_U(B)$.
+
+**Source note.** In Lean, filter order reverses inclusion of the families of sets. Thus `f ≤ 𝓟 s` says that the filter contains $s$, and `f ≤ 𝓝 x` says it converges to $x$. Mathlib takes the proper-filter condition of Lemma 15.17b as its definition of compactness.  The pinned producer is `Topology/Compactness/Compact.lean:1167–1184`. It pushes one ultrafilter through every evaluation, applies the compactness criterion and assembles the limits via `choose`. `isCompact_univ_pi` is the direct entry used by Haar. The neighborhood calculation is `Topology/Constructions.lean:792–793` with `Order/Filter/Pi.lean:38–51`, the ultrafilter criterion is `Topology/Compactness/Compact.lean:138–151`, and the finite-intersection interface is at lines 267–299. This section explains the pinned source and the compact-product step of van Doorn's §5, pp. 11–12. Interval compactness, deeper lattice infrastructure and group separation are used as inputs. Existing [Paper] and [Open] statuses for Masullo's smoothing, strip trace and parameter independence apply as in the preceding sections. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Compactness/Compact.lean#L1167-L1184) · [van Doorn](https://arxiv.org/abs/2102.07636)
+
+**Reading and downstream use.** [Lean, read] covers the pinned filter, compactness and Haar construction bodies listed in the source ledger. The textbook proof and its examples carry same-source preliminary acceptance. The Haar constructor supplies compact-group probability in A2's `SmoothOnGVIff.lean:83–92`, `CompactHaarRightInvariantInst.lean:69–75` and `HaarSK.lean:259–274`. The next section uses this same closed-tail function with the preregular separation hypotheses. [Source ledger](../sources/SOURCES.md#ch15-tychonoff-haar-content-sources) · [§15.4.3.8](#ch15-preregular-compact-covers)
+
+<a id="ch15-preregular-compact-covers"></a>
+
+#### 15.4.3.8 Compact covers and contents in preregular spaces
+
+**Motivation.** A compact set can contain one point from an indistinguishable pair while its closure contains both. Closing the pieces of an open cover can thus enlarge the set being covered. The inner-content inequality needs compact pieces whose union is exactly the original set. The Haar argument needs disjoint open neighborhoods of compact sets. These requirements use closedness at different steps.
+
+**Opening example.** Project $G=(\mathbb Z/5\mathbb Z)\times(\mathbb Z/2\mathbb Z)$ to its first coordinate and give $G$ the inverse-image topology from the discrete quotient. The point $(0,0)$ is compact as a singleton, but its closure is the entire fiber over $0$. The singleton still fits in every open set containing that fiber. The disjoint singletons $(0,0)$ and $(0,1)$ have no disjoint open neighborhoods.
+
+**Definition 15.20.** Write $x\sim y$ if every open set contains either both points or neither point. A set is *saturated* if it is a union of equivalence classes for $\sim$. A space is *preregular*, or $R_1$, if each pair $x\not\sim y$ has disjoint open neighborhoods. Compactness means the finite-subcover property.
+
+**Lemma 15.20a (compact separation and closure) [Lean, read].** In an $R_1$ space $X$, every compact $K$ satisfies
+$$
+\overline K=\{y\in X:\exists x\in K,\ x\sim y\}.
+$$
+Its closure is compact and lies in every open set containing $K$. For any compact $K,L$, disjoint open neighborhoods exist exactly when there is no indistinguishable cross-pair $x\in K$, $y\in L$. In particular, $K\cap L=\varnothing$ and closedness of $L$ suffice.
+
+**Proof.** Suppose each $x\in K$ has an open neighborhood $A_x$ disjoint from some open neighborhood $B_x$ of a fixed $y$. A finite subcover of $K$ by the $A_x$ gives their union $A$ and the corresponding finite intersection $B$ of the $B_x$. These are disjoint open neighborhoods of $K$ and $y$. If $y$ is indistinguishable from no point of $K$, the $R_1$ axiom supplies the initial neighborhoods, so $y\notin\overline K$. Conversely, if $y\sim x\in K$, every open neighborhood of $y$ meets $K$ at $x$. This proves the formula. Every open set is saturated, so any open set containing $K$ contains $\overline K$. Given an open cover of $\overline K$, take a finite subcover of $K$. Its open union contains $\overline K$, proving compactness.
+
+If there is no indistinguishable cross-pair, apply the point-against-compact argument to each $y\in L$. This gives an open set $A_y$ containing $K$ and an open neighborhood $B_y$ of $y$ disjoint from $A_y$. Take a finite subcover of $L$ by the $B_y$, union those $B_y$, and intersect the corresponding $A_y$. Empty unions and intersections handle empty sets. Conversely, disjoint open neighborhoods distinguish every cross-pair. Every closed set is saturated, since its complement is open. Thus if $L$ is closed and disjoint from $K$, an indistinguishable cross-pair is impossible. By the closure formula the exact criterion can also be written $\overline K\cap\overline L=\varnothing$. [Pinned separation proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Basic.lean#L964-L1016)
+
+**Lemma 15.20b (binary and finite compact covers) [Lean, read].** Let $K$ be compact in an $R_1$ space. If $U,V$ are open and $K\subseteq U\cup V$, then there are compact $K_U\subseteq K\cap U$ and $K_V\subseteq K\cap V$ with $K=K_U\cup K_V$. More generally, let $I$ be any index set, $T\subseteq I$ finite, and $(U_i)_{i\in I}$ a family of sets open for $i\in T$. If $K\subseteq\bigcup_{i\in T}U_i$, then there are compact sets $K_i\subseteq K\cap U_i$ for every $i\in I$ with $K_i=\varnothing$ for $i\notin T$ and $K=\bigcup_{i\in T}K_i$.
+
+**Proof.** Put $C=\overline K$. It is compact and contained in $U\cup V$ by Lemma 15.20a. The sets $C\setminus U$ and $C\setminus V$ are closed in $X$ and compact as closed subsets of $C$. They are disjoint. Choose disjoint open neighborhoods $A,B$ containing these differences, respectively. Put $K_U=K\setminus A$ and $K_V=K\setminus B$. Each is compact as a relatively closed subset of $K$. Every point of $K$ outside $U$ lies in $A$, and every point outside $V$ lies in $B$. Moreover,
+$$
+(K\setminus A)\cup(K\setminus B)=K\setminus(A\cap B)=K.
+$$
+The ambient closedness used for separation belongs to the differences in $C$. The pieces retained in the union are taken inside $K$.
+
+Induct on $T$, allowing the compact set to vary. If $T$ is empty, the covering assumption forces $K=\varnothing$ and all pieces are empty. For $T=\{i\}\cup T'$ with $i\notin T'$, apply the binary assertion with $U_i$ and $\bigcup_{j\in T'}U_j$. This produces $K_i$ and a compact remainder in the second open set. Apply the induction hypothesis to that remainder and $T'$, then overwrite its $i$-coordinate with $K_i$. Compactness and containment hold coordinate by coordinate and the union is $K$. [Pinned binary and finite proof bodies](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Basic.lean#L1018-L1059)
+
+**Proposition 15.21 (two compact-content contracts) [Lean, read].**
+
+1. A compact content $c$ assigns a finite nonnegative real to every compact subset. Assume monotonicity, binary subadditivity and equality in binary subadditivity for disjoint **closed** compact sets. Then $c(\varnothing)=0$. In an $R_1$ space its open inner content $I(O)=\sup\{c(K):K\subseteq O,\ K\text{ compact}\}$ satisfies
+   $$
+   I\left(\bigcup_{n\ge 0}O_n\right)\le\sum_{n\ge 0}I(O_n)
+   $$
+   for every sequence of open sets, and $I(O\cup P)=I(O)+I(P)$ for disjoint open sets $O,P$.
+2. Let $G$ be a topological group and $M$ a compact set with nonempty interior. Let $h=\operatorname{chaar}(M)$ be the common closed-tail function of [§15.4.3.7](#ch15-tychonoff-haar-content). For every pair of compact sets $K,L$ with $K\cap L=\varnothing$ and $L$ closed, one has $h(K\cup L)=h(K)+h(L)$. The same equality follows if $K$ is the closed member, and whenever $\overline K\cap\overline L=\varnothing$.
+
+**Proof of (1).** Apply disjoint additivity to two empty sets and cancel the finite value. Induction using binary subadditivity gives the finite-union inequality, including the empty family. For each compact $K\subseteq\bigcup_n O_n$, take a finite subcover indexed by $T$. Lemma 15.20b gives compact pieces $K_n\subseteq O_n$ with union $K$ over $T$. Therefore
+$$
+c(K)\le\sum_{n\in T}c(K_n)\le\sum_{n\in T}I(O_n)\le\sum_{n\ge 0}I(O_n).
+$$
+Taking the supremum over $K$ gives the claim. This inequality uses normalization at the empty set and binary subadditivity. For disjoint opens and arbitrary compact $A\subseteq O$, $B\subseteq P$, the closures stay in the respective opens and remain compact. Thus
+$$
+c(A)+c(B)\le c(\overline A)+c(\overline B)
+=c(\overline A\cup\overline B)\le I(O\cup P).
+$$
+The two compact families contain the empty set, so the supremum over independent choices $A,B$ gives $I(O)+I(P)$, including when either supremum is infinite. Countable subadditivity applied to the two opens and empty opens gives the reverse inequality. The pinned proof of subadditivity takes the finite subcover at lines 170–171, shrinks it at 172–173, identifies the finite supremum of compact pieces at 174–178 and bounds the finite sum at 179–183. [Pinned content consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Content.lean#L159-L185)
+
+**The instance used in (2).** Regularity here means separation of a point from a closed set by disjoint open neighborhoods. If $y\notin\overline{\{x\}}$, separate $y$ from $\overline{\{x\}}$. This separates $x$ and $y$. A distinguishable pair admits an orientation with $y\notin\overline{\{x\}}$. The pinned instance uses this oriented implication with the neighborhood filter of a singleton.
+
+The group instance produces regularity via a closed neighborhood basis. For a neighborhood $S$ of $a$, continuity at $(a,1)$ gives neighborhoods $D$ of $a$ and $E$ of $1$ with $DE\subseteq S$. If $x\in\overline D$, the open neighborhood $x(\operatorname{int} E)^{-1}$ of $x$ meets $D$. Hence $x=de$ for some $d\in D$ and $e\in\operatorname{int} E$. Thus $\overline D\subseteq S$. Taking $S$ to be the complement of a closed set, the interior of $\overline D$ and the complement of $\overline D$ give the required separation. The source writes the product step via the equality $\overline D\,\operatorname{int} E=D\,\operatorname{int} E$.
+
+Consequently the call to compact separation in the group proof of `chaar_sup_eq` receives $R_1$ from group regularity. The theorem `innerContent_iSup_nat` takes $R_1$ directly. When `haarMeasure` calls `Content.measure` through the [Carathéodory restriction of §15.4.3.6](#15436-from-outer-measure-to-a-countably-additive-measure), the group instance also supplies $R_1$ for the outer measure construction through `innerContent_iUnion_nat`. The outer measure exists before the $R_1$ binder. Its agreement with inner content on opens consumes the countable inequality. In the Borel cut calculation the pinned proof closes both compact test sets inside the relevant open regions before invoking the two-closed content axiom. [Regular to preregular](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L155-L168) · [Group regularity](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/Group/Pointwise.lean#L309-L323)
+
+**Proof of (2).** Lemma 15.20a gives disjoint open neighborhoods $O_K,O_L$. Apply the common right-thickening result of §15.4.3.4 to each set and intersect the resulting open identity neighborhoods to obtain $V$ with $KV\subseteq O_K$ and $LV\subseteq O_L$. For every open identity neighborhood $U\subseteq V^{-1}$, the sets $KU^{-1},LU^{-1}$ are disjoint. A translating element for a translate of $U$ meeting $K$ therefore cannot translate $U$ to meet $L$. The covering-index equality of §15.4.3.4 gives $p_U(K\cup L)=p_U(K)+p_U(L)$ for the normalized ratios. The continuous real function $f\mapsto f(K)+f(L)-f(K\cup L)$ vanishes on the entire tail and hence on its closure, which contains $h$. The pin uses only closedness of the second member in `chaar_sup_eq`, then fills the two-closed content axiom using the second closedness proof. [Pinned Haar consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L415-L467)
+
+**Worked calculation 1 (non-$T_0$ group and quotient).** Return to the projection $q:G\to\mathbb Z/5\mathbb Z$. Write $F_i=q^{-1}(\{i\})$ and $F_S=q^{-1}(S)$. Open and closed sets are exactly unions of fibers. Addition and inversion are continuous because $q$ is a homomorphism and the inverse images of the quotient's fibers under addition are unions of open fiber rectangles, while inversion permutes fibers. Distinct fibers separate points, and points of one fiber are indistinguishable. Thus the quotient by indistinguishability is the discrete five-cycle. Let
+$$
+K=\{(0,0),(1,0),(2,0),(2,1),(3,1)\},\qquad
+(O_0,O_1,O_2)=(F_{\{0,1\}},F_{\{1,2\}},F_{\{2,3\}}).
+$$
+The first split uses the differences $F_{\{2,3\}}$, $F_0$ of $\overline K=F_{\{0,1,2,3\}}$ from $O_0$ and $O_1\cup O_2$. They are disjoint and already open. Removing the first from $K$ gives $K'_0=\{(0,0),(1,0)\}$, and removing the second gives the remainder with image $\{1,2,3\}$. The remainder's closure has differences $F_3,F_1$ from $O_1,O_2$, respectively. Removing these from the remainder gives $K'_1=\{(1,0),(2,0),(2,1)\}$ and $K'_2=\{(2,0),(2,1),(3,1)\}$. Each piece has two quotient points and the union is exactly the five points of $K$. No family of ambient closed pieces could have this union, since every union of fibers is saturated and $K$ is missing points from its fibers.
+
+Normalize at $M=F_{\{0,1,2\}}$. The smallest open identity neighborhood is $F_0$ and its translates are precisely the fibers. Thus the index of any subset $D$ at this scale is $|q(D)|$. The tail below $F_0$ has this single scale and its function is closed as a singleton in the real product. Therefore $h(D)=|q(D)|/3$. Compactness of all the opens here and monotonicity give $I(O_i)=2/3$, while the union has inner content $4/3$. The compact bound reads $h(K)=4/3\le 2$.
+
+Let $A=\{(1,0)\}$ and $B=F_2$. Their values and their union's value are $1/3,1/3,2/3$. Only $B$ is closed. Adding $F_0$ gives the disjoint open neighborhoods $F_1,F_2$. At the coarser scale $U=F_{\{0,1\}}$, the denominator index is two because three quotient points cannot fit in a two-point translate, while the translates by $0,1$ suffice. One translate by $1$ covers $A\cup B$, so all three ratios are $1/2$. The additivity is a small-tail statement. For the two disjoint singletons $(1,0)$ and $(1,1)$, each value and the union value are $1/3$. Dropping the last closedness condition while retaining only set disjointness can fail. On the other hand, the singletons $(1,0)$ and $(2,0)$ have disjoint closures and satisfy the same additivity equality as $A,B$.
+
+**Worked calculation 2 (Hausdorff real line).** Work in the additive real line with compact $K=[0,6]$ and opens
+$$
+O_0=(-1,3),\qquad O_1=(1,5),\qquad O_2=(4,7).
+$$
+The first differences from $O_0$ and $O_1\cup O_2$ are $[3,6]$ and $[0,1]$. Take disjoint neighborhoods $(5/2,7)$ and $(-1,3/2)$. The pieces are $[0,5/2]$ and $[3/2,6]$. In the remainder the differences from $O_1,O_2$ are $[5,6]$ and $[3/2,4]$. Use $(9/2,7)$ and $(1,17/4)$. The final pieces are $[0,5/2]$, $[3/2,9/2]$ and $[17/4,6]$. They lie in their prescribed opens and cover $K$. Their overlaps have lengths $1$ and $1/4$, with no triple intersection. Usual length on compact sets gives $6\le5/2+3+7/4=29/4$. The open inner values are $4,4,3$ and the union value is $8$. For any bounded open interval the upper bound is its length, and closed subintervals approaching its endpoints give the reverse supremum inequality.
+
+For the covering ratios, normalize at $M=[0,2]$ and take $A=[0,1]$, $B=[3,5]$. A closed interval of length $d$ has index $\lfloor d/(2r)\rfloor+1$ at $U=(-r,r)$. For $d>0$, an open union of $n$ translates covering the closed interval contains a strictly larger closed interval, so $2rn>d$. Conversely, split the interval into $n$ equal closed subintervals of length $d/n<2r$ and center a translate at each midpoint. For a singleton the index is one. At $r=1/4$ the indices for $A,B,M$ are $3,5,5$. No translate can meet both $A$ and $B$ because their gap is $2$. The union index is $8$ and the ratios for $A,B,A\cup B$ are $3/5,1,8/5$. For the full tail, choose $V=(-1/2,1/2)$. Then $A+V=(-1/2,3/2)$ and $B+V=(5/2,11/2)$ are disjoint. For every open identity neighborhood $U\subseteq V$, the inverse-translating sets are contained in those intervals, so the ratio equality holds on the entire tail. In particular the closed-tail function is additive at this pair.
+
+The actual tail coordinates are $1/2,1,3/2$. To see this for arbitrary open scales, write $N_U(d)$ for the index of $[0,d]$. Fix any integer $m\ge2$ and put $\varepsilon=1/m$. Restrict to open identity neighborhoods $U\subseteq(-\varepsilon/3,\varepsilon/3)$. Two translates of $[0,1-\varepsilon]$ at positions $0$ and $1$ sit inside $[0,2]$ with gap $\varepsilon$. Also $m$ translates of $[0,\varepsilon]$ at positions $2j\varepsilon$, $0\le j<m$, sit there with gaps $\varepsilon$. A translate of $U$ cannot meet two intervals from either family. Hence $N_U(2)\ge2N_U(1-\varepsilon)$ and $N_U(2)\ge m N_U(\varepsilon)$. Subdivision gives $N_U(1)\le N_U(1-\varepsilon)+N_U(\varepsilon)$ and $N_U(2)\le2 N_U(1)$. Dividing by $N_U(2)>0$ bounds the first coordinate between $1/2$ and $1/2+1/m$ on the entire restricted tail. These closed bounds pass to $h$ for each $m$. Translation invariance gives $h(B)=h(M)=1$, and the pairwise equality gives $h(A\cup B)=3/2$.
+
+**Closedness in the general content axiom.** On the subspace $X'=F_1\cup F_2$ of the first model define $c(\varnothing)=0$, $c(X')=2$, and $c(D)=1$ for each proper nonempty subset. All subsets are compact. The values are monotone, a union of two nonempty sets costs at most two, and union with the empty set gives equality. The only disjoint nonempty closed pair consists of the two fibers, whose costs add to two. But for $A=\{(1,0)\}$ and $B=F_2$, the proper union costs one while the sum is two. Interchanging the sets shows failure for either deletion from the general axiom. Topologically $X'$ is the product of a discrete two-point space and an indiscrete two-point space, also realized by a topological group. The proof of the open-set equality avoids this failure by computing with closed compact enlargements. The shrinking lemma itself places no ambient closedness requirement on the input compact set or the output pieces.
+
+**Failure without preregularity.** Use the Alexandroff extension of the rationals, a compact space with closed compact subsets recorded by Steven Clontz, Example 2.8. [Published example](https://doi.org/10.4064/cm9556-4-2026)
+
+Let $Y=\mathbb Q$ with its usual topology and $X=Y\cup\{\infty\}$. Keep the opens on $Y$, and use $X\setminus C$ as a neighborhood basis at $\infty$ for compact $C\subseteq Y$. These are compatible because compact sets of $Y$ are closed and finite unions of them are compact. The space is compact because a single cover member containing $\infty$ leaves at most a compact subset of $Y$ to cover. Singletons are closed. Every neighborhood of $0$ contains a rational interval around $0$ that cannot fit in a compact subset of $Y$. Indeed a sequence within the interval tending to an irrational point inside it would force that irrational point into the compact subset's closed image in $\mathbb R$. Hence $0,\infty$ have no disjoint neighborhoods, even though both singletons are closed.
+
+In fact every compact $D\subseteq X$ is closed. If $\infty\notin D$, it is compact in $Y$ and its complement is open at $\infty$ and in $Y$. If $\infty\in D$, then for each compact $C\subseteq Y$, the set $D\cap C$ is compact because $C$ is closed in $X$. Hence $D\cap C$ is closed in $C$. If $D\cap Y$ were nonclosed in $Y$, a sequence in it converging to a point of $Y\setminus D$ together with its limit would be a compact $C$ witnessing a contradiction. Thus $D$ is closed also in this case. Now the two opens $X\setminus\{0\}$ and $X\setminus\{\infty\}$ cover $X$. If subordinate compact pieces covered $X$, their complements would be disjoint open neighborhoods of $0$ and $\infty$. This refutes binary and finite compact shrinking without $R_1$, even for a closed compact set in a compact $T_1$ space.
+
+The same cover can violate the inner-content inequality for a genuine compact content. Let $\mathcal J$ consist of the compact subsets of $X$ contained in a finite union of compact sets each subordinate to one of these two opens. This family is downward closed among compacts and closed under finite union. It contains every compact set missing either $0$ or $\infty$. It excludes $X$, because grouping the members of a finite cover into two compact unions would give the forbidden binary shrinking. Define $c(D)=0$ on $\mathcal J$ and $c(D)=1$ otherwise. This is monotone and subadditive. If two compact sets are disjoint, at most one is outside $\mathcal J$, since any such set contains both $0$ and $\infty$. When both are in $\mathcal J$ their union is there as well, and when one is outside, the union is outside by downward closure. Thus $c$ is additive even on all disjoint compact pairs. The two opens each have inner content zero, but $I(X)=c(X)=1$. This also shows why agreement of an induced outer measure with the original open cost needs more than the outer measure definition.
+
+**Source and scope.** Halmos's *Measure Theory*, §53, Theorem A, uses the compact refinement from §50A in a locally compact Hausdorff setting. Van Doorn's *Formalized Haar Measure*, §5, Lemma 5, gives the compact-content relations and the passage through a closed locus in the product. The preregular formulation, the single closed member and the instance path here come from the pinned Mathlib bodies. The worked models and boundaries are the book's explanations. [Halmos](https://doi.org/10.1007/978-1-4684-9440-2) · [van Doorn](https://arxiv.org/pdf/2102.07636v1)
+
+**Reading.** [Lean, read] covers the pinned compact separation, shrinking and content bodies and the listed group-instance and Haar call sites. The textbook proof and its examples carry same-source preliminary acceptance. [Source ledger](../sources/SOURCES.md#ch15-preregular-compact-covers-sources)
+
+<a id="ch15-concentrating-kernels"></a>
+
+#### 15.4.3.9 Why concentrating kernels recover a point value
+
+**Motivation.** The Gaussian in the [pinned additive inversion proof][ch15-peak-consumer] becomes taller and narrower in the physical variable as the frequency damping is removed. On the physical side a positive kernel of mass one is an average. Continuity at the point controls the values it samples nearby. For an integrable input that may be unbounded elsewhere, we also need to control the kernel uniformly away from that point. The dilation formula in [§15.4.3.2](#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport) supplies the Jacobian behind the average.
+
+**Example 1 (the normalized Gaussian on the line).** With Lebesgue measure put
+$\varphi(u)=\sqrt{\pi}\,e^{-\pi^2u^2}$ and $f(x)=e^{-\pi^2x^2}$.
+The Gaussian integral $\int_{\mathbb R}e^{-\pi y^2}\,dy=1$ gives $\int\varphi=1$
+by $y=\sqrt{\pi}\,u$. The input is continuous and $\|f\|_1=1/\sqrt{\pi}$.
+For a real scale $r>0$, the dilation has Jacobian $r$ and
+$\int r\varphi(rx)\,dx=\int\varphi(u)\,du=1$. Positivity is immediate and
+$|u|\varphi(u)\to0$ as $|u|\to\infty$. In fact for every $\rho>0$ the
+scaled supremum on $|x|\ge\rho$ is $r\sqrt{\pi}\,e^{-\pi^2r^2\rho^2}$, while the tail mass is
+$2\sqrt{\pi}\int_{r\rho}^\infty e^{-\pi^2u^2}\,du$.
+For $u\ge r\rho$, bound the integrand by $u e^{-\pi^2u^2}/(r\rho)$ and integrate
+the derivative of $e^{-\pi^2u^2}$. The mass is at most
+$\sqrt{\pi}\,e^{-\pi^2r^2\rho^2}/(\pi^2r\rho)$.
+
+At the origin, multiplying the two Gaussians and using
+$y=\sqrt{\pi(r^2+1)}\,x$ gives
+$$
+ A_rf(0)=r\sqrt{\pi}\int_{\mathbb R}e^{-\pi^2(r^2+1)x^2}\,dx
+ =\frac{r}{\sqrt{r^2+1}}.
+$$
+Since $f(0)=1$, the error is exactly
+$$
+ \frac{1}{\sqrt{r^2+1}(\sqrt{r^2+1}+r)}\le\frac{1}{2r^2}.
+$$
+The frequency damping parameter in the pinned inversion lemma is $c=r^2$,
+so the last bound is $1/(2c)$ for this input. At $r=2$ the error is
+$1-2/\sqrt 5$, strictly between $1/10$ and $1/9$.
+[Gaussian integral in §1.2.2.7](01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion)
+
+**Example 2 (a one-sided rectangle and a vector value).** Take $F=E=\mathbb R^2$,
+with the Euclidean norm on $F$, the maximum norm on $E$ and area measure on $F$.
+Put $Q=[0,2]\times[-1,0]$ and $\varphi=\tfrac12\mathbf1_Q$.
+It has mass $(2\cdot1)/2=1$, is nonnegative and vanishes for $\|u\|>\sqrt5$.
+Set $f(x_1,x_2)=(1+x_1,2+x_2)\mathbf1_{[-3,3]^2}(x_1,x_2)$.
+This input is continuous at $0$ and integrable, since its norm is bounded by $5$
+on a box of area $36$. Its origin value is $(1,2)$.
+The weight $r^2\varphi(r(0-x))$ is $r^2/2$ on $[-2/r,0]\times[0,1/r]$,
+whose area is $2/r^2$. Thus its mass is one and both off-ball tail bounds are
+zero whenever $r>\sqrt5/\rho$ for a fixed radius $\rho>0$.
+
+For $r\ge1$ the sampling rectangle is inside $[-3,3]^2$. Integrating the first
+coordinate of the displacement over $[-2/r,0]$ gives $-2/r^2$.
+Multiplying by the other width $1/r$ and by $r^2/2$ gives $-1/r$.
+Integrating the second coordinate over $[0,1/r]$ gives $1/(2r^2)$.
+Multiplying by $2/r$ and by $r^2/2$ gives $1/(2r)$.
+Hence $A_rf(0)=(1-1/r,2+1/(2r))$ and the exact maximum-norm error is $1/r$.
+At $r=2$ this is the vector $(1/2,9/4)$ with error $1/2$. With $x-0$ in the
+kernel instead of $0-x$, the displacement is $(1/r,-1/(2r))$.
+The limit is the same and the approximating averages have different values.
+
+**Definition 15.22 (a scaled peak and its average).** Let $F$ be any finite-dimensional
+real normed vector space with Borel $\sigma$-algebra and additive Haar measure $\nu$.
+Write $d=\dim_{\mathbb R}F$, which may be zero. Let $E$ be any real Banach space,
+$f:F\to E$ a specified function and $x_0\in F$. Fix a real profile $\varphi:F\to\mathbb R$.
+For real $r>0$ set
+$$
+ K_r(z)=r^d\varphi(rz),\qquad
+ A_rf(x_0)=\int_F K_r(x_0-x)\,f(x)\,d\nu(x).
+$$
+Products of real weights and vectors denote scalar action, and the integrals of vectors
+are Bochner integrals. For the tail hypothesis, the notation
+$\|u\|^d\varphi(u)\to0$ at infinity means that for every $\eta>0$ there is $R>0$
+such that $|\|u\|^d\varphi(u)|<\eta$ for every $u$ with $\|u\|>R$.
+This is the cobounded filter in the source. The real scale tends to $+\infty$,
+so only its positive tail enters the formula.
+
+**Lemma 15.22a (dilation and concentration).** Suppose $\varphi\ge0$ at every point,
+$\int_F\varphi\,d\nu=1$, and $\|u\|^d\varphi(u)\to0$ at infinity.
+Then $\varphi$ is integrable, $K_r$ has unit mass for every $r>0$, and for each
+$\rho>0$ both
+$$
+ M_r(\rho)=\int_{\|z\|\ge\rho}K_r(z)\,d\nu(z),\qquad
+ D_r(\rho)=\sup_{\|z\|\ge\rho}K_r(z)
+$$
+tend to zero, with the supremum of the empty set here defined to be zero.
+The supremum is allowed to be infinite before the eventual off-ball bound takes effect.
+
+**Proof.** Unit integral is understood for an integrable profile. In the pinned Lean
+statement, where the Bochner integral evaluates to zero on nonintegrable functions,
+the equality to one itself gives integrability. The map $z\mapsto rz$ has
+absolute determinant $r^d$. On measurable $B$,
+$\nu(rB)=r^d\nu(B)$ and the pushforward under the dilation is $r^{-d}\nu$.
+This works at every Haar normalization. Change variables to get
+$\int_B K_r\,d\nu=\int_{rB}\varphi\,d\nu$. In particular the integral on $F$ is
+one. Dilation preserves null sets in both directions, so the scaled profile is
+almost everywhere strongly measurable. The tail $M_r(\rho)$ is exactly
+$\int_{\|u\|\ge r\rho}\varphi(u)\,d\nu(u)$. For any tolerance choose an integer
+$N$ such that the integral outside the closed ball of radius $N$ is below that
+tolerance. Such an $N$ exists by monotone convergence of the integrals of the
+nonnegative profile on the expanding balls. Every $r$ with $r\rho>N$ then
+meets the tolerance, including when a sphere has positive mass.
+
+For the supremum fix $\varepsilon>0$, choose $R$ from the tail hypothesis
+with $\eta=\rho^d\varepsilon/2$, and let $r>R/\rho$. If $\|z\|\ge\rho$,
+then $\|rz\|\ge r\rho>R$ and
+$$
+ 0\le K_r(z)=\|z\|^{-d}\,\|rz\|^d\varphi(rz)<\varepsilon/2.
+$$
+Here $\|z\|>0$. Thus $D_r(\rho)\le\varepsilon/2$. The mass bound uses
+integrability of the profile. The supremum bound uses its prescribed pointwise
+decay. [Haar determinant in §15.4.3.2](#15432-from-real-linear-haar-determinants-to-density-weighted-l2-transport)
+
+**Theorem 15.23 (pointwise recovery) [Lean, read].** For every $F,\nu,E,\varphi,f,x_0$
+as above, assume all three profile hypotheses of Lemma 15.22a, that $f$ is
+Bochner integrable for $\nu$, and that $f$ is continuous at $x_0$. Then the
+integral defining $A_rf(x_0)$ is Bochner integrable for all sufficiently large
+$r$, and $A_rf(x_0)\to f(x_0)$ in $E$ as $r\to+\infty$.
+The limit is the conclusion of the pinned declaration
+`tendsto_integral_comp_smul_smul_of_integrable'`.
+[Pinned `Mathlib/MeasureTheory/Integral/PeakFunction.lean:452–469`][ch15-peak-reflected]
+
+**Proof.** In additive Haar measure the affine involution $x\mapsto x_0-x$
+preserves measure. Translation is Haar invariant, and the linear part $-1$
+has determinant of absolute value one. Thus $h(z)=f(x_0-z)$ is integrable,
+with $\|h\|_1=\|f\|_1$, and is continuous at $0$ with $h(0)=f(x_0)$.
+The average is $\int_F K_r(z)h(z)\,d\nu(z)$.
+
+Choose $\rho>0$ so that $h$ is bounded on $\|z\|<\rho$, by continuity at
+zero. On that ball the integrable kernel times this bound controls the norm
+of $K_rh$. On the complement the product is bounded in norm by
+$D_r(\rho)\|h(z)\|$, integrable once $D_r(\rho)$ is finite. Almost everywhere
+strong measurability of the factors gives the same property for the product.
+Also the function $z\mapsto K_r(z)h(0)$
+is integrable with norm integral $\|h(0)\|$. Subtract this weighted constant
+using unit mass.
+
+Write $\omega_h(\rho)=\sup_{\|z\|<\rho}\|h(z)-h(0)\|$ for the local
+oscillation. The norm of the near integral is at most $\omega_h(\rho)$
+because of nonnegativity and mass one. On the far region, the part
+containing the original $h$ has norm at most
+$D_r(\rho)\int_{\|z\|\ge\rho}\|h(z)\|\,d\nu(z)$.
+The remaining constant part has norm $\|h(0)\|M_r(\rho)$. In particular
+$$
+ \|A_rf(x_0)-f(x_0)\|
+ \le\omega_h(\rho)+D_r(\rho)\|f\|_1+\|f(x_0)\|M_r(\rho).
+$$
+Given $\varepsilon>0$, first choose $\rho>0$ so that
+$\omega_h(\rho)\le\varepsilon/3$. Keep this radius fixed and take $r$ so
+large that $D_r(\rho)<\varepsilon/(3(1+\|f\|_1))$ and
+$M_r(\rho)<\varepsilon/(3(1+\|f(x_0)\|))$. The error is then less than
+$\varepsilon$. This argument controls a varying integrand by separate
+estimates on two regions. The vanishing of $K_r(z)$ at every fixed
+nonzero $z$ by itself gives no integral convergence.
+
+**Remark (how the source produces the limit).** The general supplier uses a
+finite-measure window so that subtracting the value at the center preserves
+$L^1$. Here is the localized argument, including the integrability step. Keep the real Banach target, so the pinned Bochner integral takes values in a complete space.
+On a Borel space $X$ with measure $\mu$, let $S,T$ be measurable, with
+$T\subseteq S$, $\mu(T)<\infty$, and $T$ a neighborhood of $x_0$ within $S$.
+Let $g$ be integrable on $S$ and have limit $a$ within $S$ at $x_0$.
+Along any filter of indices let the real weights $p_i$ be eventually
+nonnegative on $S$ and almost everywhere strongly measurable there.
+Assume $p_i\to0$ uniformly on $S\setminus U$ for every open $U$ containing
+$x_0$, and $\int_T p_i\,d\mu\to1$.
+
+Choose $U$ with $S\cap U\subseteq T$ and $\|g-a\|\le1$ on $S\cap U$.
+Eventually $\int_T p_i\,d\mu$ is nonzero, which in Lean gives integrability
+of $p_i$ on $T$. On $S\cap U$ multiply this integrable weight by the bound
+$\|a\|+1$ for $g$. On $S\setminus U$ use the eventual uniform bound $1$
+for the weight and integrability of $g$. The two disjoint pieces give
+eventual integrability of $p_i g$ on $S$.
+
+When $a=0$, choose $0<\delta<1$ with
+$\delta\int_S\|g\|\,d\mu+2\delta<\varepsilon$. Shrink $U$ so that
+$\|g\|\le\delta$ on $S\cap U$ and retain $S\cap U\subseteq T$.
+Eventually the near integral has norm at most
+$\delta\int_T p_i\,d\mu\le2\delta$, using nonnegativity,
+and the far integral has norm at most $\delta\int_S\|g\|\,d\mu$.
+Their sum tends to zero in the stated $\varepsilon$ sense.
+For general $a$ apply this zero-limit case to $g-\mathbf1_Ta$.
+The difference has limit zero and is integrable on $S$, since the subtracted
+function has norm integral $\mu(T)\|a\|$. Eventually the weighted indicator
+is integrable too, with norm integral $\|a\|\int_T p_i\,d\mu$ by nonnegativity.
+Linearity and $T\subseteq S$ restore the term $(\int_T p_i\,d\mu)a$, which
+tends to $a$. Taking $S=X$ gives the global version. The compact normalized powers of [§15.4.3.10](#154310-how-powers-of-a-unique-peak-concentrate-at-a-point) use the same supplier with the compact set as both the integration set and the window.
+
+In `PeakFunction.lean` the near and far integrability bounds are at lines
+56–88, the zero-limit estimate at 94–177, the window subtraction at 184–217
+and the global specialization at 222–234. The origin-scaling proof at
+394–446 uses the closed unit ball for $T$, a finite-measure neighborhood by
+finite-dimensional compactness. The restricted change of variables
+makes its mass $\int_{\|u\|\le r}\varphi(u)\,d\nu(u)$, which tends to one.
+The source's expanding-ball convergence applies dominated convergence
+to the unscaled profile times the indicator of the expanding ball.
+Each point is eventually in the ball, and $|\varphi|$ is a fixed integrable majorant. The cobounded decay supplies uniform
+smallness outside each neighborhood, as in Lemma 15.22a. Lines 452–469
+apply the origin theorem to $z\mapsto f(x_0-z)$ and undo translation and
+negation in the integral. The exact-mass error estimate above is a textbook
+form of this argument. [Pinned localized supplier][ch15-peak-local]
+[Pinned origin scaling][ch15-peak-origin]
+
+**Remark (which hypotheses carry the value).** Remove unit mass in Example 1
+by replacing $\varphi$ by $2\varphi$. It remains nonnegative with the same
+decay and the original input remains integrable and continuous. The value
+of the average is $2r/\sqrt{r^2+1}$, tending to $2$ instead of $f(0)=1$.
+For deletion of point continuity keep the unit-mass Gaussian and use
+$f=\mathbf1_{[0,1]}$ with $f(0)=1$. The average at $0$ is
+$\int_0^r\varphi(u)\,du$ by evenness and scaling. By evenness its limit is
+$1/2$, and the difference from $1/2$ is exactly $\int_r^\infty\varphi(u)\,du$.
+Changing the single assigned value at $0$ leaves every average identical.
+
+In dimension zero, $F=\{0\}$ and Haar measure has some finite positive mass
+$m=\nu(\{0\})$. The unit-mass equation requires $\varphi(0)=1/m$.
+The tail condition concerns empty sets away from zero, $r^0=1$,
+and every average equals $f(0)$. This includes the zero-dimensional
+case in the theorem's quantifiers.
+
+**Remark (the actual Gaussian call and the half-density comparison).**
+The existing Mathlib consumer `Real.tendsto_integral_gaussian_smul'` calls
+the reflected theorem at `Mathlib/Analysis/Fourier/Inversion.lean:116`.
+It uses a finite-dimensional real inner product space $V$ with its canonical
+volume and a complex normed target. The Banach-target inversion theorem
+uses this call through the real scalar action on its complex Banach target.
+The profile in the call is
+$$
+ \varphi(w)=\pi^{d/2}e^{-\pi^2\|w\|^2},\qquad d=\dim_{\mathbb R}V.
+$$
+In orthonormal coordinates its mass is
+$\pi^{d/2}(1/\sqrt{\pi})^d=1$, including the empty product when $d=0$.
+For decay, set $s=\pi^2\|w\|^2$.
+Then $\|w\|^d\varphi(w)=\pi^{-d/2}s^{d/2}e^{-s}$ for $w\ne0$.
+For an integer $m>d/2$, use $e^s\ge s^m/m!$ for $s>0$.
+The consumer checks positivity, mass and decay at lines 117–135 and
+passes integrability and point continuity at lines 136–137.
+It substitutes $r=\sqrt{c}$ as $c\to+\infty$, giving the kernel
+$(\pi c)^{d/2}e^{-\pi^2c\|v-w\|^2}$ at $v$, and reconciles real and complex
+scalars on the positive tail at lines 138–156. This is the physical-space
+limit used by `MeasureTheory.Integrable.fourierInv_fourier_eq` at lines
+165–171 in the [pinned inversion proof][ch15-peak-consumer].
+The [Gaussian transform](01-statement-and-fidelity.md#1227-from-poisson-summation-to-theta-inversion)
+and the [Fourier convolution identity](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/Convolution.lean#L55-L122)
+have their own proofs. [Pinned Gaussian consumer][ch15-peak-consumer]
+
+For constant Haar rescaling $\nu'=\lambda\nu$ with $\lambda>0$, use
+$\varphi'=\varphi/\lambda$ for the unit-mass profile, and then
+$K'_r\,d\nu'=K_r\,d\nu$. In particular the determinant factor and the
+recovered value are independent of this joint change. In the
+[half-density comparison](#15431-half-densities-the-modulus-the-multiplicative-haar-measure-and-the-diagonal-weight),
+the measure identity on $K_S^\times$ is instead
+$\Delta_S\,d\mu_S=c_S\,d\nu_S$. Squaring the normalized half-density
+$c_S^{-1/2}\Delta_S^{1/2}$ cancels $c_S$ for the isometry. The unnormalized
+diagonal weight retains $c_S$ in both formulas of Theorem 15.3(3).
+Corollary 15.9 describes independent rescalings of the two measures.
+The Euclidean averaging result applies directly in additive coordinates.
+On the positive real norm coordinate it applies to
+$h(u)=e^{u/2}g(e^u)$ whenever $h$ is in $L^1(du)$ and is continuous at
+$u_0=\log x_0$. The corresponding returned value for $g$ is
+$x_0^{-1/2}A_rh(u_0)\to g(x_0)$. This is a textbook consequence of the
+coordinate map. Masullo's strip-parameter independence in Theorem 12.5.1.1
+remains [Open]. [Paper; Masullo pp. 16, 518–520][ch15-peak-masullo]
+
+**Reading and attribution.** [Lean, read] here denotes local R3 for the
+concentrating-kernel proof bodies at Mathlib pin
+`0df444a360eaa60ab8c11dca51a86af692955474`, fixed by
+`lean/lake-manifest.json:6–13` in the archive whose bundle SHA-256 is
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The consumer is inherited from the inversion reading. This is a source
+reading, with kernel replay and reachability from `src/Main.lean`
+unassessed here. The new source reading and textbook proof are author-level. The section's estimates, examples and half-density
+calculation are textbook work [Expository]. Stein and Shakarchi give the
+normalized Gaussian family and Schwartz convergence on $\mathbb R$
+in Chapter 5, Corollary 1.5, Theorem 1.6 and Corollary 1.7 (pp. 139–140).
+Their near/far proof on the circle is in Chapter 2 §4, pp. 48–50.
+With $\delta=1/(\pi r^2)$ their real Gaussian is exactly the scaled Gaussian
+here. Their proof uses boundedness of the Schwartz input to multiply the tail
+mass by a constant. The uniform off-ball bound in Theorem 15.23 controls an
+$L^1$ input that may be unbounded away from the sampling point. [Stein–Shakarchi, `Fourier Analysis`][ch15-peak-stein]
+[Source ledger](../sources/SOURCES.md#ch15-concentrating-kernels-sources) · [Local proof map](../notes/proof-map.md#ch15-concentrating-kernels-proof)
+
+[ch15-peak-local]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L54-L234
+[ch15-peak-origin]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L387-L446
+[ch15-peak-reflected]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/PeakFunction.lean#L452-L469
+[ch15-peak-consumer]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/Inversion.lean#L109-L171
+[ch15-peak-masullo]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518
+[ch15-peak-stein]: https://tildesites.bowdoin.edu/~tpietrah/hugo/math2805/pdfs/stein_shakarchi.pdf
 
 #### 15.4.3.10 How powers of a unique peak concentrate at a point
 
@@ -2454,7 +2882,7 @@ The near term uses the oscillation and the total kernel mass. The far term uses 
 
 The third declaration uses the same open-set positivity and closure-of-interior condition and assumes $g$ continuous on all of $S$. Then $g$ is bounded and strongly measurable on $S$: cover its compact image by finitely many balls of radius $1/k$ and choose the first center whose ball contains the value. These simple Borel functions converge uniformly to $g$. Finite measure then gives Bochner integrability, and the relative continuity at $x_0$ is immediate. The first two declarations admit an integrable input with jumps away from the peak. For instance $\mathbf1_{[1/2,1]}$ in Example 1 is locally constant at zero. [Pinned corollaries][ch15-maxpeak-versions]
 
-**Connection with the finite-window argument.** In the [finite-window theorem][ch15-maxpeak-window], use $S$ itself as both integration set and window. Its mass under the kernel is exactly one at every index. The preceding estimates give nonnegativity and uniform vanishing off each neighborhood, and measurability follows from continuity of the powers on $S$. This is the call in the pinned proof. The Gaussian and translated kernels used in [Fourier inversion][ch15-maxpeak-gaussian] arise from the scaling branch of the same finite-window argument. The finite-window result, treated in the companion §15.4.3.9 manuscript, permits a limiting window mass. This accommodates the scaling branch's growing domains in the unscaled variable.
+**Connection with the finite-window argument.** In the [finite-window theorem][ch15-maxpeak-window], use $S$ itself as both integration set and window. Its mass under the kernel is exactly one at every index. The preceding estimates give nonnegativity and uniform vanishing off each neighborhood, and measurability follows from continuity of the powers on $S$. This is the call in the pinned proof. The Gaussian and translated kernels used in [Fourier inversion][ch15-maxpeak-gaussian] arise from the scaling branch of the same finite-window argument. The [finite-window result](#ch15-concentrating-kernels) permits a limiting window mass. This accommodates the scaling branch's growing domains in the unscaled variable.
 
 **Where the limit is consumed.** The cosine case in Chapter 2 uses the continuous-input version with $c(x)=\cos x$ on $[0,\pi/2]$ and the complex Banach input $g(x)=\cos(2zx)$. The endpoint $0$ lies in the closure of the interior. The normalized integral tends to $1$ along the even exponents, the factor needed in the sine-product limit. [Pinned Euler sine consumer][ch15-maxpeak-euler]
 
