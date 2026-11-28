@@ -1002,6 +1002,12 @@ same-model review is recorded separately in the preceding run's audit.
 - **Archive and community contributions.** Levent Alpöge with Claude supply the A2 proof bodies and their representation-theoretic consumers. Mathlib contributors, including Alexander Bentkamp on eigenspaces, supply pinned infrastructure. Etingof, Aniello, Knapp and Axler supply the cited literature comparisons. [Sources](sources/SOURCES.md#chapter-9-analytic-orbits-and-compact-representation-theory)
 - **Textbook contribution.** Hongmin Li with AI assistance presents the orbit Taylor argument and conditional Haar and Schur normalization, the compact group-to-derived bridge, the highest line, generalized eigenspace separation, torus differentiation and primary splitting. The examples and counterexamples explain the hypotheses. The chapter links these arguments to the actual consumers and preserves each draft review's scope. [Module](chapters/09-heights-slopes-and-near-orthogonality.md#948-analytic-orbits-and-conditional-schur-formal-degree)
 
+### Chapter 9 compact model supply (§§9.4.14–15)
+
+- **Archive authors.** Levent Alpöge with Claude supply the A2 polynomial translation model, determinant twist, equal-label isometric equivalence, and its use in the lowest-type operator. [Archive and declaration map](sources/SOURCES.md#chapter-9-compact-model-supply)
+- **Classical and community contributions.** Anthony W. Knapp supplies the cited classical highest-weight comparison. Mathlib contributors supply the pinned polynomial, projection and linear isometry infrastructure. The Lean community's archive replay has a separate record. [Sources](sources/SOURCES.md#chapter-9-compact-model-supply) · [Community replay](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+- **This book.** Hongmin Li with AI assistance gives the English proofs, exact compact examples, hypothesis tests, pointed uniqueness and phase deductions, and traces the actual lowest-type calls. Both manuscripts have same-source preliminary acceptance. [Existence](chapters/09-heights-slopes-and-near-orthogonality.md#9414-constructing-a-compact-k-type-from-an-integral-dominant-label) · [Identification](chapters/09-heights-slopes-and-near-orthogonality.md#9415-the-unitary-identification-of-two-compact-k-types)
+
 ### Chapter 9 compact Pieri, Weyl model and physical Fock degree
 
 - **Archive authors.** Levent Alpöge with Claude supply the A2 compact branching, polynomial and two-block Weyl dimension arguments, and the signed physical Fock degree theorem. [A2](sources/SOURCES.md#a2)

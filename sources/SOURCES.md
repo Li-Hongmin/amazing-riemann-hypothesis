@@ -4076,6 +4076,26 @@ Knapp, *Lie Groups Beyond an Introduction*, second edition, Corollary 0.20 and P
 
 **Scope.** Foundational calculus, function evaluation, smooth coefficient interfaces and the named layer bounds enter at their cited scopes. The Schur step assumes all-coefficient square integrability on the specified measure. The finite-dimensional compact and primary assertions leave general discrete-series classification, `HCMultDSG`, `LowKMultOneG`, and declaration-level reachability from `Main` [Open].
 
+### Chapter 9 compact model supply
+
+[§9.4.14, integral dominant existence](../chapters/09-heights-slopes-and-near-orthogonality.md#9414-constructing-a-compact-k-type-from-an-integral-dominant-label) and [§9.4.15, pointed unitary identification](../chapters/09-heights-slopes-and-near-orthogonality.md#9415-the-unitary-identification-of-two-compact-k-types) were §§9.4.19–20 in the manuscripts. Both have same-source preliminary acceptance. Local R3 [Lean, read] applies to the specified bodies and call sites.
+
+| Archive scope | Exact use |
+|---|---|
+| `DS/HighestWeights/Exists.lean:15–43`, `ModelFun.lean:16–376`, `ModelSpace.lean:17–208`, `ModelInner.lean:13–121`, `ModelTau.lean:14–259` | Integer shift, prefix minors, finite translation span, Haar form, and the continuous action and unit seed in `model_exists`. |
+| `DS/HighestWeights/ModelCext.lean:13–166`, `ModelDer.lean:27–132`, `ModelGen.lean:30–177`, `ModelTwist.lean:13–143` | Compact real curves, block complexification, irreducibility from the cyclic seed, and recovery of the original label. |
+| `DS/HighestWeights/HcParamGapGeIndex.lean:85–154`, `DS/LaplaceOperators/LaplaceEstimates/ClosedIrreducibleLowestTypeData.lean:28–109` | `lowK_int_dom` pays the label hypotheses. The consumer separately supplies the integer parameter, gap, size and invariant-subspace data. |
+| `DS/HighestWeights/UniqueA.lean:17–344`, `Unique.lean:14–81` | Two projections of a cyclic span, quotient test, Gram normalization, and the existential pointed isometry `kType_unique`. |
+| `DS/CasimirCoefficients/IsClosedKset.lean:51–67`, `DS/LaplaceOperators/Transport.lean:75–116,404–411` | Rank-one projection, compact operator integral, both branches of `PsiM`, and preservation of the coefficient in `aaFun`. |
+
+**Archive.** Levent Alpöge with Claude, A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The prefix `DS/` denotes `src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/`. [Archive record](#a2)
+
+**Mathlib contributors.** The A2 pin `0df444a360eaa60ab8c11dca51a86af692955474` provides bounded polynomial support, the diagonal exponential, orthogonal decomposition and packaging of inner-product preservation as a linear isometric equivalence. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474) · [Community replay context](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+
+**Classical mathematics.** Anthony W. Knapp, *Lie Groups Beyond an Introduction*, 2nd ed., Proposition 4.58 (pp. 264–265), Theorem 5.5 (pp. 279–280), and Theorem 5.110 (pp. 335–336). Their specializations use the product of unitary blocks, its maximal diagonal torus and the inherited positive roots within each block. Knapp's theorem covers the classical existence and equal-weight equivalence claims. The archive gives the explicit determinant construction and pointed isometry, and the book deduces pointed uniqueness and the phase formula. Author PDF retrieved on 2026-11-28, SHA-256 `bd7e983a2389349ba5b5e95fdd8b46789b8bc26f9602b3efa20e9c0f80762332`. [Author PDF](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf)
+
+**Scope.** Higher transport wrappers in `HighestWeights/UniqueU.lean` and `DiscreteSeriesExistence/PropsEquivB.lean` enter by interface [Lean]. The analytic suppliers behind `isPsiFor_psiM` and the independent rigidity and Casimir steps retain their own assumptions. General discrete-series classification, `HCMultDSG`, `LowKMultOneG` and declaration-level reachability from `Main` retain their separate scope [Open].
+
 ### Chapter 9 compact Pieri, Weyl model and physical Fock degree
 
 [§9.4.21](../chapters/09-heights-slopes-and-near-orthogonality.md#9421-compact-pieri-branching-and-the-tensor-step) · [§9.4.22](../chapters/09-heights-slopes-and-near-orthogonality.md#9422-the-polynomial-model-behind-compact-weyl-dimensions) · [§9.4.24](../chapters/09-heights-slopes-and-near-orthogonality.md#9424-the-exterior-degree-of-the-physical-fock-highest-weight-line)
