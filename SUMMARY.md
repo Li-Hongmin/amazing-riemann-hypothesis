@@ -15,6 +15,7 @@
 - [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
 - [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
 - [5. The square-root barrier as bookkeeping: `core_gm`](chapters/05-the-square-root-barrier-core-gm.md)
+<!-- Chapter 5 includes the quadratic Hasse norm branch in §5.3.1.23 (#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle). -->
 
 # Part II. The arithmetic engine: Stepanov over the integers
 
