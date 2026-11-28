@@ -1362,7 +1362,18 @@ Local R3 [Lean, read] for the production and the direct proof bodies. [Textbook 
 | `condExpL1` and its fixed subspace and integral law, `CondexpL1.lean:450–527` | `condExp_ae_eq_condExpL1CLM` and `setIntegral_condExp` in `Basic.lean:151–169,231–234`. |
 | `ae_eq_condExp_of_forall_setIntegral_eq` in `Basic.lean:253–261` | `MemLp.condExpL2_ae_eq_condExp'` in `Basic.lean:390–397`, and `rnDeriv_ae_eq_condExp` in `Real.lean:43–57`. |
 
-Author-level local R3 [Lean, read] for the production chain. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation) · [Sources](../sources/SOURCES.md#ch02-l1-conditional-expectation-sources)
+Author-level local R3 [Lean, read] for the production chain. Five load-bearing claims passed the independent adjudication of the published section. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation) · [Sources](../sources/SOURCES.md#ch02-l1-conditional-expectation-sources)
+
+### Chapter 2 P1 · §2.3.2.7.9 closed convex constraints and conditional Jensen
+
+| Producer | Actual consumer |
+| --- | --- |
+| The [§2.3.2.7.8](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation) integral tests and uniqueness, together with commutation and order in Basic.lean:359–384,486–499 | Finite scalar half-space and affine tests in CondJensen.lean:36–47,100–113. |
+| Countable separation and affine approximation, then the separable closed range span | Finite Banach-valued constraint and Jensen at :49–82,116–162. |
+| condExp_restrict_ae_eq_restrict in Indicator.lean:113–137 | Observed trim exhaustion at :85–97,168–182. |
+| ConvexOn.map_condExp_le_univ at :213–218 and norm_condExp_le at :246–256 | Integrable.norm_condExp_rpow_le at :258–274. The local finite-test operator and this bound give the textbook $L^p$ contraction. |
+
+The CondJensen production is author-level local R3 [Lean, read]. The full $L^p$ projection is [Expository]. This is Mathlib background with zero explicit A2 references found by the targeted source scan. Compiled A2 reachability and kernel replay are [Open]. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#conditional-jensen) · [Declaration sources](../sources/SOURCES.md#ch02-conditional-jensen-sources)
 
 ### P13 twisted von Mangoldt supply for Perron
 

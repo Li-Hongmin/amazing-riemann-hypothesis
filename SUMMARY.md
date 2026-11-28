@@ -13,6 +13,7 @@
 # Part I. The analytic endgame
 
 - [2. One half-plane implies everything: functional equations and primitive characters](chapters/02-functional-equations-and-primitive-characters.md)
+<!-- Chapter 2 includes §2.3.2.7.9 (#conditional-jensen) on closed convex constraints and conditional Jensen. -->
 - [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
 <!-- Chapter 3, §3.4.1 includes #from-compact-exhaustions-to-radon-inner-regularity. -->
 - [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
