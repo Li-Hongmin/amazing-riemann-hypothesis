@@ -2122,6 +2122,113 @@ Both products are the identity, with diagonal entries $9-8$ and off-diagonal ent
 
 In A2, <code>AnChart.lean:29–68</code> constructs the polynomial coordinate map $\Psi$, computes its derivative $L_m$, proves injectivity by the gradient criterion, obtains surjectivity by equal finite dimensions and packages the equivalence as $\mathrm{Le}$. Analyticity supplies the strict derivative and <code>toOpenPartialHomeomorph</code> constructs $\Phi$. These data imply the inverse derivative $\mathrm{Le}^{-1}$ at $\Phi(p)$ and the slice derivative $\mathrm{Le}^{-1}J$ at the slice center. The actual call at line 68 is <code>analyticAt_symm'</code> for inverse analyticity. FDeriv/Analytic.lean:414–430 identifies the first coefficient by the forward derivative and calls <code>hasFPowerSeriesAt_symm</code>. That proof uses the [positive inverse radius](#a-positive-radius-for-the-inverse-series) and [composite sum recovery](#ordered-composition-of-multilinear-power-series), with the source and target inverse identities and transport by inverse continuity. At <code>AnChart.lean:86–95</code>, the archive composes the analytic inverse with the analytic zero-slice inclusion. The differential calculation above is a consequence of the chart data. The analytic call follows the series route. The [étale-section producer](#holomorphic-local-sections-of-étale-families) also follows that route: <code>Imports.lean:141–148</code> restricts the chart and invokes <code>analyticAt_symm</code> pointwise at its target. [Mathlib FDeriv/Analytic.lean:414–430](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/Analytic.lean#L414) · [Mathlib Inverse.lean:656–694](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Inverse.lean#L656) · [A2 source record](../sources/SOURCES.md#chapter-12--derivative-cancellation-for-a-given-inverse-chart)
 
+#### Jacobian cuts and dual-number tangent injectivity
+
+**Motivation.** Suppose a complex affine algebraic set is given by an ideal $K$ in $n$ variables. At a point $p$ its local ring is regular of dimension $e$, and we are given $e$ polynomial functions that generate the local maximal ideal. To use the analytic inverse theorem, we need $n$ functions on the ambient space. Which $n-e$ equations should we add, why does their common zero set agree locally with the original one, and why is the combined derivative invertible? A cotangent computation supplies the equations. A denominator clears the remaining relations near $p$. Evaluating at $p+\epsilon v$, with $\epsilon^2=0$, tests the derivative before we invoke the analytic inverse.
+
+##### Two calculations
+
+**A reducible curve and an unwanted line.** In $\mathbb C^2$, take the two lines $y=0$ and $y=1$ and put $p=(0,0)$. Their ideals are comaximal since $y-(y-1)=1$. Thus their union has ideal $K=(q)$ with $q=y(y-1)$. Choose $F=(y-2)q\in K$ and $J=(F)$. Its gradient at $p$ is $(0,2)$. Its zero set also contains the line $y=2$, where $q=2$. In particular $q\notin J$. More precisely, if $hq\in J$, write $hq=b(y-2)q$ for some polynomial $b$. Cancelling $q$ in the polynomial domain gives $h=b(y-2)$. The choice $h=y-2$ has $h(p)=-2$ and gives $hK=J$. For this choice of $F$, the denominator removes a genuine extra branch.
+
+In the local ring at $p$, both $y-2$ and $y-1$ are units, so $J$ and $K$ both extend to $(y)$. The quotient local ring is $\mathbb C[x]_{(x)}$, regular of dimension one, and $r_1=x$ generates its maximal ideal. The derivative of $(r_1,F)$ at $p$ is the diagonal matrix with entries $1,2$. On a polydisc $|x|,|y|<1/2$, the zero slice of $F$ gives exactly $y=0$ and the parametrization is $w\mapsto(w,0)$ for $|w|<1/2$. A global choice $F=q$ would allow $h=1$ in this example. The calculation shows why the gradient test alone on the chosen $F$ only supplies a local cut.
+
+**A smooth curve in three variables.** Take $K=(F_1,F_2)$ with $F_1=y-x^2$, $F_2=z-xy$, and $p=(1,1,1)$. Eliminating $y$ and $z$ identifies the quotient with $\mathbb C[x]$, by substitution $(x,y,z)=(x,x^2,x^3)$. The kernel is exactly $K$: one can first replace $z$ by $xy$ modulo $F_2$, then replace $y$ by $x^2$ modulo $F_1$. At $p$ the local ring is $\mathbb C[x]_{(x-1)}$, and $r_1=x-1$ generates its maximal ideal. Here $h=1$ works. The cotangent relations are $[y-1]=2[x-1]$ and $[z-1]=[x-1]+[y-1]=3[x-1]$. To compute the tangent, substitute
+$$
+(x,y,z)=(1+\epsilon a,1+\epsilon b,1+\epsilon c).
+$$
+The equations evaluate to $\epsilon(b-2a)$ and $\epsilon(c-a-b)$. Their common kernel consists of $(a,2a,3a)$, and $r_1$ evaluates to $\epsilon a$. Hence annihilating all three entries forces $a=b=c=0$. The matrix of $(r_1,F_1,F_2)$ at $p$ has rows $(1,0,0),(-2,1,0),(-1,-1,1)$ and determinant one. In fact its inverse at $(w,s,t)$ is obtained by setting
+$$
+X=1+w,\qquad Y=X^2+s,\qquad Z=XY+t.
+$$
+Substitution gives $(r_1,F_1,F_2)(X,Y,Z)=(w,s,t)$, and solving in the same order also recovers the input on a forward image. On the zero slice the inverse is $g(w)=(1+w,(1+w)^2,(1+w)^3)$ with $Dg(0)(a)=(a,2a,3a)$.
+
+##### Definitions and the cotangent dimension lemma
+
+Let $A=\mathbb C[X_1,\ldots,X_n]$, $M=\ker(\operatorname{ev}_p)$ and $S=A\setminus M$. Put $B=A_M$, $R_K=B/KB$ and write $\psi:A\to R_K$ for the composite map. Assume $R_K$ is a nonzero local ring. Then $K\subseteq M$, because an element of $K$ with nonzero evaluation becomes a unit in $B$ and makes the quotient zero. The ideal $M$ is generated by $X_j-p_j$, as is seen by expanding in the shifted variables. Evaluation extends to $R_K$ by $a/s\mapsto a(p)/s(p)$, is surjective via constants, and has kernel $\mathfrak m=MR_K$. Thus the residue field is $\mathbb C$. The cotangent space at the point is $\mathfrak m/\mathfrak m^2$. Write $\nabla_p f=(\partial_j f(p))_j$ and $W_K=\operatorname{span}_{\mathbb C}\{\nabla_p f:f\in K\}$.
+
+**Lemma (cotangent dimension).** The linear map
+$$
+\Phi:\mathbb C^n\longrightarrow\mathfrak m/\mathfrak m^2,
+\qquad c\longmapsto\left[\psi\left(\sum_j c_j(X_j-p_j)\right)\right]
+$$
+is surjective with kernel $W_K$. Consequently $\dim_{\mathbb C}(\mathfrak m/\mathfrak m^2)+\dim_{\mathbb C} W_K=n$.
+
+**Proof.** Expansion in shifted variables gives
+$$
+f-f(p)-\sum_j\partial_j f(p)(X_j-p_j)\in M^2.
+$$
+For $f\in M$ this gives $[\psi(f)]=\Phi(\nabla_p f)$, the identity <code>toCot_psi</code>. Every element of $\mathfrak m$ is represented by $a/s$ with $a\in M$ and $s(p)\ne0$. In $\mathfrak m/\mathfrak m^2$, multiplying by the inverse of $\psi(s)$ acts by $s(p)^{-1}$, because the difference between the inverse and its residue belongs to $\mathfrak m$. This proves surjectivity.
+
+If $f\in K$, its image is zero, so $W_K\subseteq\ker\Phi$. Conversely, for $c\in\ker\Phi$ let $\ell=\sum_j c_j(X_j-p_j)$. Then $\psi(\ell)\in\mathfrak m^2$. Lifting to $B$ puts $\ell/1$ in $(M^2+K)B$. The contraction rule for localization gives $s\in S$ with $s\ell=q+k$, $q\in M^2$, $k\in K$. This rule follows by writing the localized ideal element as a single fraction with numerator in the ideal and clearing denominators in the equality. The product rule gives $\nabla_p(s\ell)=s(p)c$ because $\ell(p)=0$. Every element of $M^2$ has zero gradient by the same rule, so $s(p)c=\nabla_p k$. Division by the nonzero scalar $s(p)$ gives $c\in W_K$.
+
+Rank–nullity first gives the formula over $\mathbb C$. The archive's <code>finrank_residueField</code> identifies $1$ as a basis of the residue field over $\mathbb C$: the class of any element equals the class of its evaluation. The scalar tower and dimension multiplication then give <code>finrank_cot_eq</code> over the residue field.
+
+##### The local Jacobian cut
+
+**Lemma.** Suppose $R_K$ is regular local of Krull dimension $e$. Then $e\le n$ and there are $n-e$ polynomials $F_i\in K$ with independent gradients at $p$ and a polynomial $h$ satisfying
+$$
+h(p)\ne0,\qquad hK\subseteq J=(F_1,\ldots,F_{n-e}).
+$$
+In particular $K$ and $J$ extend to the same ideal in $A[1/h]$, and their common zero sets agree on $h\ne0$.
+
+**Proof.** A Noetherian local ring is regular when its Krull dimension equals its embedding dimension, the dimension of its maximal ideal modulo its square over the residue field. Nakayama identifies this last dimension with the minimum number of generators of the maximal ideal. The cotangent dimension lemma gives $\dim W_K=n-e$. Choose a basis from the gradients of elements of $K$, and choose a polynomial $F_i$ for each basis member. Since $J\subseteq K$ and all these gradients are in $W_J$, we have $W_J=W_K$. The ring $R_J=B/JB$ is Noetherian and local since $J\subseteq M$. The surjection $R_J\to R_K$, the local dimension bound by embedding dimension, and the cotangent dimension calculation give
+$$
+e=\dim R_K\le\dim R_J\le
+\dim_{\mathbb C}(MR_J/(MR_J)^2)=e.
+$$
+Thus $R_J$ is regular local. Use the regular-local domain theorem <code>ReciprocityTheory.CA.AB.RegA.IsRegularLocalRing.isDomain</code> to conclude that it is a domain.
+
+If $KB/JB$ were a nonzero ideal of $R_J$, choose a nonzero element $u$ in it. The quotient $R_J/(u)$ surjects onto $R_K$. Since $u$ is a nonzerodivisor, the input <code>ringKrullDim_quotient_succ_le_of_nonZeroDivisor</code> gives
+$$
+e+1\le\dim(R_J/(u))+1\le\dim R_J=e,
+$$
+a contradiction. In this domain case the dimension loss can also be seen by lifting a prime chain from $R_J/(u)$ and prepending the zero prime. Thus $JB=KB$.
+
+For each $g\in K$, contraction supplies $s_g\in S$ with $s_g g\in J$. Hilbert's basis theorem gives a finite generating set $g_1,\ldots,g_m$ of $K$. Take $h=\prod_i s_{g_i}$, with empty product $1$. Its value at $p$ is nonzero, and $hg_i\in J$ for every generator. If $g=\sum_i a_i g_i$, then $hg=\sum_i a_i(hg_i)\in J$. Inverting $h$ proves equality of the extended ideals. At an ordinary point with $h(y)\ne0$, each equality $h(y)g(y)=0$ can be divided by $h(y)$. This gives the asserted equality of zero sets there.
+
+**Remark.** <code>JacChartB.lean</code> uses the inequalities $n-e\le\dim W_J$ and $\dim_{\mathbb C}(MR_J/(MR_J)^2)\le e$ in this squeeze. <code>JacChartC.lean</code> supplies the converse regularity criterion under a separate minimal-prime height hypothesis. The forward cut uses the already-assumed regularity of $R_K$.
+
+##### Dual numbers and tangent injectivity
+
+Write $D=\mathbb C[\epsilon]/(\epsilon^2)$. The algebra map <code>dualEv</code> sends $X_j$ to $p_j+\epsilon v_j$. In Lean it has type `MvPolynomial (Fin n) ℂ →ₐ[ℂ] DualNumber ℂ`. The constant and nilpotent components are
+$$
+\operatorname{dualEv}_{p,v}(f)=f(p)+\epsilon\sum_j\partial_j f(p)v_j.
+$$
+Indeed, the formula holds on constants and on $X_j$. It is additive, and multiplying two such expressions gives the product rule since $\epsilon^2=0$. In particular all pairings here are complex bilinear, with no conjugates. An element $a+\epsilon b$ is a unit exactly when $a\ne0$: its inverse is $a^{-1}-\epsilon b a^{-2}$, and reduction modulo $\epsilon$ proves necessity.
+
+**Lemma (tangent injectivity).** Suppose $R_K$ is local and $F_i\in K$, $h(p)\ne0$, and $hK\subseteq(F_i)$. Suppose the images of the $r_i\in A$ generate $MR_K$. If $\nabla_p F_i\cdot v=0$ and $\nabla_p r_i\cdot v=0$ for all indices, then $v=0$. The lemma works for any number of $F_i$ and requires only the stated ideal containment.
+
+**Proof.** Each $F_i$ lies in $M$ by the unit argument for a nonzero local quotient. Its dual evaluation therefore has both components zero, so the evaluation kills $(F_i)$. For $k\in K$, it kills $hk$, and $\operatorname{dualEv}_{p,v}(h)$ is a unit. Hence it kills $K$. Every $s\in S$ also has unit dual evaluation. The universal properties of localization and quotient now give the ring map
+$$
+\chi_v:R_K\longrightarrow D,
+\qquad [a/s]\longmapsto
+\operatorname{dualEv}_{p,v}(a)\operatorname{dualEv}_{p,v}(s)^{-1}.
+$$
+
+The archive also constructs $\chi_0$, the lift at the zero vector. This map sends $[a/s]$ to the scalar $a(p)/s(p)$ and kills $MR_K$. Each image $\psi(r_i)$ belongs to that ideal by the generation hypothesis, so $\chi_0(\psi(r_i))=r_i(p)=0$. The assumed derivative equations then give $\chi_v(\psi(r_i))=0$. Its kernel is an ideal and contains all of $MR_K$ by generation. In particular it kills every $\psi(X_j-p_j)$. Evaluating there gives $\epsilon v_j=0$, which implies $v_j=0$ by taking the nilpotent coefficient. Equivalently, a tangent vector of the algebraic germ is a dual-number lift of the residue map, and it is determined by its values on the local maximal ideal generators.
+
+##### Closing the holomorphic chart
+
+**Theorem.** Keep the regular local hypotheses of the cut lemma, and take $e$ polynomials $r_1,\ldots,r_e$ whose images generate $MR_K$. There are an ambient open neighborhood $U$ of $p$, an open neighborhood $V$ of $0$ in $\mathbb C^e$, and a holomorphic parametrization $g:V\to\mathbb C^n$ bijective onto $U\cap Z(K)$. Its inverse on that set is $y\mapsto r(y)=(r_i(y))_i$.
+
+**Proof.** Use the cut to construct
+$$
+\Psi(y)=(r(y),F(y))\in\mathbb C^e\times\mathbb C^{n-e}.
+$$
+Both blocks vanish at $p$. The derivative has rows $\nabla_p r_i$ and $\nabla_p F_i$. Its kernel is zero by the tangent injectivity lemma. Since $e+(n-e)=n$, the derivative is a complex linear isomorphism. Polynomial analyticity gives the strict derivative at $p$. Apply the already published strict and analytic inverse construction to obtain a local open chart with inverse $I$ holomorphic on an open target neighborhood $T_0$ of $(0,0)$. The archived call is <code>analyticAt_symm'</code>. Shrink the source to the intersection of the inverse chart's source, $\{h\ne0\}$, and $\Psi^{-1}(T_0)$, and call it $U$. Let $T$ be the image of $U$ under the chart. It is open, $I$ is analytic on it, and $\Psi$ and $I$ have both inverse identities there. [Strict inverse chart](#strict-inverse-chart-for-etale-local-sections) · [Positive radius](#a-positive-radius-for-the-inverse-series) · [Ordered composition](#ordered-composition-of-multilinear-power-series)
+
+The set $V=\{w:(w,0)\in T\}$ is open since it is the preimage under $j(w)=(w,0)$. It contains $0$. Define $g=I\circ j$ on $V$. Composition gives holomorphy on $V$. From $\Psi(g(w))=(w,0)$ we get $F(g(w))=0$ and $r(g(w))=w$. Since $h(g(w))\ne0$, the cut gives $g(w)\in Z(K)$. Conversely, if $y\in U\cap Z(K)$ then $F(y)=0$, so $(r(y),0)=\Psi(y)\in T$. The source identity gives $g(r(y))=y$. These identities establish the claimed bijection. The inherited inverse derivative gives $Dg(0)v=D\Psi(p)^{-1}(v,0)$. [Forward composition on restricted sets](#forward-composition-on-restricted-sets) · [Inverse-chart derivative](#derivative-cancellation-for-a-given-inverse-chart)
+
+At <code>AtlasA.lean:97</code>, <code>AlgRes.exists_goodChart</code> provides $K$, $p$ and the regularity and dimension from the ambient algebraic model of an existing patch. It pulls the ambient parametrization back along the patch's embedding into $Z(K)$. On the chart source the forward map is evaluation of $r$ in those ambient coordinates, and the returned ambient inverse is $g$. The downstream chart can be restricted to a specified open neighborhood of the original point. [Declaration and consumer map](../sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
+
+##### Remarks on the hypotheses and source scope
+
+- **Singularity.** For $K=(xy)$ at the origin of $\mathbb C^2$, the two coordinate axes have local dimension one. The gradient of every element of $K$ vanishes there by the product rule, so the cotangent space has dimension two. There is no independent gradient for the required one-equation cut. Even the supplied function $r=x+y$ has the nonzero common null vector $(1,-1)$ with $F=xy$. The single image of $r$ cannot generate the maximal ideal because its cotangent space is two-dimensional. On each axis, points arbitrarily close to the origin give the same small value of $r$, preventing a chart with that coordinate.
+- **A vanishing multiplier.** At the origin let $K=(y)$, $F=xy$, $h=x$ and $r=x$. The local ring is regular of dimension one, the image of $r$ generates its maximal ideal, and $hK=(F)$. But $h(0)=0$. For $v=(0,1)$ the dual evaluations of $F,r,h$ vanish while that of $y$ is $\epsilon\ne0$. Thus descent fails and the extra axis of $Z(F)$ passes through $p$. In the regular setting, if the full required number of $F_i$ already have independent gradients, the dimension argument above supplies a new multiplier that is a unit at $p$. This example isolates the missing unit hypothesis in the tangent lemma.
+- **Insufficient coordinate generators.** Keep $K=(y)$ at the origin and take $F=y$, $h=1$, $r=x^2$. In $\mathbb C[x]_{(x)}$, $(x^2)$ is strictly smaller than $(x)$: $x=x^2 a/s$ would imply $s=xa$ with $s(0)\ne0$. The direction $(1,0)$ kills $F$ and $r$ under dual evaluation, although it sends $x$ to $\epsilon$. On the line, $x$ and $-x$ have the same $r$-value in every neighborhood of zero.
+
+**Source scope [Lean, read].** The cut, the dual-number proof and the chart assembly have author-level local R3 proof-body readings. The regular-local domain theorem and the general nonzerodivisor dimension-drop theorem are named statement-level inputs. The earlier analytic inputs retain their individual reviews, and the formal chain's kernel replay and independent review of this subsection are separate verification steps. The calculations and failure tests are textbook deductions. [Source and attribution record](../sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
+
 #### Why the transversal zeros are finite: Nakayama and minimal primes
 
 The [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre) used one more fact about the translated forms, in step 5 of its Lemma 2: in the affine open $D(h)$, the transversal common zeros of $F_1/h,\ldots,F_d/h$ form a finite set $T$. Step 6 then chooses a single denominator $f_0$ that vanishes at no point of $S\cup T$, and this is possible only because $S\cup T$ is finite. The fact is the statement <code>finite_complexPoints_transversal_zeros</code>, whose producer is <code>GlobalTheory.TransvZeros.finite_transv_zeros</code>. This subsection reads that producer and the lemmas of its file, together with the two Mathlib proofs that carry the weight: Nakayama's lemma in the form "a finitely generated idempotent ideal is generated by an idempotent", and the finiteness of the minimal primes over an ideal of a Noetherian ring. We say which step pays for quasi-compactness, for closedness, for the residue field and for zero-dimensionality, and why the argument has to be algebraic. The Sard step, the jet forms, the holomorphic implicit functions and the cotangent basis keep the readings recorded in the previous subsections.

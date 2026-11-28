@@ -2085,6 +2085,13 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **Archive authors.** Levent Alpöge with Claude supply the parameter-preserving chart, the analytic zero slice and the chart-change application in A2. [Source and consumer table](sources/SOURCES.md#chapter-12--a-positive-radius-for-the-inverse-series)
 - **This book.** Hongmin Li with AI assistance presents the four original textbook arguments as a continuous module. The explicit radius, examples, failure tests and differential formulas explain the pinned proofs and calls. The original majorant section has an independent audit. The ordered composition, forward composition and cancellation sections each have a scoped same-source initial review. [Chapter 12](chapters/12-galois-representations-and-local-langlands.md#a-positive-radius-for-the-inverse-series)
 
+### Chapter 12 Jacobian cuts and holomorphic coordinates
+
+- **A2 authors.** Levent Alpöge with Claude supply the cotangent kernel and rank, the Jacobian cut, the dual-number tangent test, and the holomorphic coordinates and atlas construction. [Declaration map](sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
+- **Pinned Mathlib.** Nailin Guan supplies regularity criteria. Andrew Yang’s files supply the cotangent construction and nonzerodivisor dimension drop. Eric Wieser supplies the dual-number definitions. The declaration and file credits for the maximal-ideal dimension bound, square-zero unit test and polynomial partial derivatives are recorded at their pinned lines. [Pinned declaration credits](sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
+- **Classical commutative algebra.** Michael Atiyah and Ian Macdonald, Hideyuki Matsumura, and David Eisenbud are cited for localization, Noetherian dimension theory and regular local rings. [Bibliography](sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
+- **This book.** Hongmin Li with AI assistance develops the English proof sequence, the domain-case prime-chain explanation, two explicit hand calculations and three hypothesis tests, and records the direct atlas consumer. [Subsection](chapters/12-galois-representations-and-local-langlands.md#jacobian-cuts-and-dual-number-tangent-injectivity)
+
 ### Chapter 14 Fourier convolution and Bochner representatives
 
 - **Levent Alpöge with Claude** supplied A2’s translation flow, continuous class-valued convolution, representative-exchange lemma and reflected Fourier consumer. [Archive and declaration map](sources/SOURCES.md#chapter-14-bochner-production-of-convolution)
