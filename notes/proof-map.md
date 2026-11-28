@@ -1310,3 +1310,7 @@ Local R3 for the rational coordinate and separation proofs in ClassSetAssembly.l
 | The subtype projection and residual test | A2 `sigLam` and `sigLam_coe` in `DatumEmbeddingMemHlam.lean:104–113,140–145` and `formulaF_sigLam` in `FormulaF.lean:113–135`. |
 
 Local R3 [Lean, read] for the production and the direct proof bodies. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#hilbert-projection-and-l2-conditional-expectation) · [Sources and reading boundary](../sources/SOURCES.md#ch02-hilbert-projection-sources)
+
+### P13 spaced density for the far-range zero sum
+
+`PNTDensSpace.lean:60–130` supplies the two components of `zero_spacing`. The packing component enters `trivial_bound` at lines 154–166. The harmonic component enters the same-character row in `PNTDensBlock.lean:118–156`. `PNTDens.lean:19–109` uses `trivial_bound` and the two named counts `zero_count_first` and `zero_count_second` to assemble `LogDensityM`. `PNTFinal.lean:18,22–24` passes the witness to `PNTZSumL.lean:30–33,78–82`, where `density_norm` furnishes the finite-height representative count used at `PNTZSum.lean:482`. The detector and mean-square count proofs retain [Lean] / [Open] reading status. [Textbook section](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density) · [Pinned source record](../sources/SOURCES.md#ch04-spaced-zero-density-sources)

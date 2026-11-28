@@ -2232,3 +2232,10 @@ Hongmin Li with AI assistance transcribed the conditional proof, traced the thre
 - **Mathlib.** Thomas Browning and the Mathlib contributors supply subgroup index and quotient results. Michael Stoll and the Mathlib contributors supply the finite-field quadratic character. [Pinned library sources](sources/SOURCES.md#s-unit-norm-index-53124)
 - **A2.** Levent Alpöge with Claude supplied the formal S-unit production, including the auxiliary prime induction, the two norm-index bounds and the exact same-target call. [Pinned A2 declarations](sources/SOURCES.md#s-unit-norm-index-53124)
 - **Textbook.** Hongmin Li with OpenAI Codex assistance reconstructs the dependency through properness, gives both hand calculations of the relative quotients and supplies missing-hypothesis examples. [§5.3.1.24](chapters/05-the-square-root-barrier-core-gm.md#53124-auxiliary-places-and-the-s-unit-norm-index)
+
+### Chapter 4 character-fiber spacing and density assembly
+
+- **P. X. Gallagher and Terence Tao** supplied the classical density-estimate context and its explanation in the progression argument. [Gallagher 1970](https://doi.org/10.1007/BF01403187) · [Tao 2015](https://terrytao.wordpress.com/2015/02/22/254a-notes-7-linniks-theorem-on-primes-in-arithmetic-progressions/)
+- **Mathlib community** supplied the harmonic estimate, cardinality of the full character group, and half-plane nonvanishing, including the nonvanishing development by Michael Stoll and David Loeffler. [Pinned declarations](sources/SOURCES.md#ch04-spaced-zero-density-sources)
+- **Levent Alpöge with Claude** supplied the formal spacing, row and density assembly proofs and their progression application in A2. [Archive record](sources/SOURCES.md#a2)
+- **Hongmin Li with Codex assistance** supplied the English proofs in §4.10.28, two worked models, the deletion counterexample and exact checks, and linked the proved assembly to the existing progression exposition. [§4.10.28](chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density)

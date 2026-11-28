@@ -22,6 +22,8 @@ statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bo
 
 [Section 4.4.5.1](#4451-why-coprime-twists-stay-primitive) proves the exact conductor formula for the coprime twists used in both sieve stages.
 
+[§4.10.28](#p13-spaced-zero-density) proves the character-fiber spacing estimates and assembles the far-range density witness from the two block counts.
+
 [Section 4.11](#411-from-separated-inertia-lines-to-residual-irreducibility) follows the bad-prime handoff to residual irreducibility. [Section 4.11.1](#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) proves the small-degree primitivity input to its Jordan call. [Section 4.11.2](#4112-why-three-fixed-points-suffice-in-jordans-theorem) proves the alternating containment step.
 
 ---
@@ -2257,8 +2259,9 @@ modulus-dependent lower threshold.
 `SharpenS` by the differenced formula, proved in §4.10.6. `ZeroSum` is the relative bound
 on the weighted zeros after subtracting one copy of the selected pair.
 Its supplier uses the spaced zero-density bound `LogDensityM` and the
-lossy Deuring–Heilbronn input `DeuringHeilbronnMB`. These named analytic
-inputs and the partial-summation estimates cited below delimit the proof.
+lossy Deuring–Heilbronn input `DeuringHeilbronnMB`. [§4.10.28](#p13-spaced-zero-density) proves the
+spacing estimates and assembles `LogDensityM` from the two named block counts.
+The estimates cited below supply the partial-summation step.
 The numerical estimate is proved in §4.10.5. In particular, the separation witness used twice in
 the normalization comes from `excBound`, which in the archive uses
 Siegel's lower bound. Classical background is available in Davenport,
@@ -5160,7 +5163,7 @@ P_b(X)=\frac{\operatorname{li}_2(X)-\theta\operatorname{li}_2(X^\beta)}{\varphi(
 \qquad
 \operatorname{li}_2(u)=\int_2^u\frac{dt}{\log t}.
 $$
-The body of `pnt_progressions_relative_weak_holds` builds the far estimate with the smoothed formula `explicitS_proof'`, its differencing theorem `differenced_explicit_formula`, and `zero_sum_bound_lossy`. The last call takes the density and repulsion witnesses `logDensityM_proof'` and `deuringHeilbronnMB_proof'`. Next `glue_ranges` combines that estimate with `psi_relative_near_range`, using the same option and scale $\eta$ in both ranges. Finally `prime_count_of_psi` changes the weights. The splice and the final relative-error calculation are proved in [§4.10.3](#4103-conditional-splice-and-proof). The following proof of its Abel input comes from the same-source-reviewed conversion manuscript.
+The body of `pnt_progressions_relative_weak_holds` builds the far estimate with the smoothed formula `explicitS_proof'`, its differencing theorem `differenced_explicit_formula`, and `zero_sum_bound_lossy`. The last call takes the density and repulsion witnesses `logDensityM_proof'` and `deuringHeilbronnMB_proof'`. The density witness is assembled in [§4.10.28](#p13-spaced-zero-density). Next `glue_ranges` combines that estimate with `psi_relative_near_range`, using the same option and scale $\eta$ in both ranges. Finally `prime_count_of_psi` changes the weights. The splice and the final relative-error calculation are proved in [§4.10.3](#4103-conditional-splice-and-proof). The following proof of its Abel input comes from the same-source-reviewed conversion manuscript.
 
 **Lemma (Abel summation on the last half of the logarithmic scale) [Lean, read].**
 
@@ -5215,6 +5218,115 @@ Here $\log t\ge\beta\log X$ and $1-e^{-v}\le v$ for $v\ge0$. Thus $P_b(X)$ tends
 #### Reading record
 
 The [source register](../sources/SOURCES.md#chapter-4-siegel-and-relative-pnt) identifies each body used here. The direct real-zero wrappers, Siegel–Walfisz character proof and `PNTFinal` assembly have author-level local R3. The Abel summation and proper-power supply inherit the same-source preliminary review of the original conversion manuscript. The complete `siegelLower` proof and the deeper named inputs of the density, zero-free region and character-sum packages retain their reading boundaries. The rational checks of the two examples, local source reading, independent review and Lean kernel replay have separate scopes.
+
+### 4.10.28 Spaced zeros by character and the density constant {#p13-spaced-zero-density}
+
+#### Motivation
+
+The weighted zero sum in [§4.10.11](#41011-finite-height-contours-and-weighted-zero-sums) uses a density bound on finite sets of pairs $(\chi,\rho)$. It selects spaced ordinates within each character's zeros. This distinction matters twice. For a count, two characters can each contribute a zero at the same height. For a Dirichlet-polynomial mean square, the inverse difference of ordinates occurs only when the character quotient is principal. The same spacing lemma controls the size of a fiber and the sum of those inverse differences.
+
+We prove the two spacing estimates and assemble the density bound from the principal and nonprincipal count theorems. These two theorems are supplied by the archive with the same density exponents and potentially different modulus-height thresholds.
+
+#### Two calculations [Expository]
+
+**A. Four characters on the same two ordinates.** Modulo $5$, the units in powers of $2$ are $1,2,4,3$. For $j=0,1,2,3$, set $\chi_j(2^k)=i^{jk}$ and extend by zero off the units. On those four units the value lists are $(1,1,1,1)$, $(1,i,-1,-i)$, $(1,-1,1,-1)$ and $(1,-i,-1,i)$. For every $j$ take the two points $3/4-i/2$ and $3/4+i/2$. These are model points for the spacing hypotheses. At $T=1/2$, each character has ordinates $-1/2,1/2$ with gap $1$. After translation by $T$ their floors are $0,1$. The count in each fiber is $2$, the whole count is $8$, and the uniform bound is $5(2T+1)=10$. Using the actual totient gives $4(2T+1)=8$. The image of the entire set under the ordinate map has cardinality $2$ because it forgets the labels. The principal fiber has size $2$, and its complement has size $6$. For a fixed pair there is one other point in its fiber, with reciprocal distance $1$. The three other characters at its own height contribute no inverse-distance term to its mean-square row.
+
+**B. A two-sided model at unit separation.** Take $T=2$, $P=\{-2,-1,0,1,2\}$ and center $t=0$. The translated floors are $0,1,2,3,4$, so the cardinal bound is attained. The left distances are $2,1$ and the right distances are $1,2$. Both reciprocal sums are $1+1/2=3/2$, for a total of $3$. For an exact comparison with the stated bound, $\log 5=\int_1^5 du/u\ge4/5$, so $2(1+\log5)\ge18/5>3$. At the endpoint center $t=-2$ the left side is empty and the right distances are $1,2,3,4$, with sum $25/12$. More generally $P=\{-m,\ldots,m\}$ at $T=m$ has $2m+1$ points and reciprocal sum $2H_m$ at its center, where $H_m=\sum_{k=1}^m 1/k$. Integrating $1/u$ over $[1,m+1]$ gives $H_m\ge\log(m+1)$, so two sides can both contribute on the logarithmic scale.
+
+#### Definitions
+
+Write $\mathcal X_M$ for the complex Dirichlet characters modulo a positive integer $M$, and $1$ for the principal character modulo $M$. Our finite sets $S$ contain pairs $p=(\chi,\rho)$. For each $\chi$, the fiber $S_\chi$ consists of the pairs whose first coordinate equals $\chi$. The same-character spacing condition is
+$$
+(\chi,\rho),(\chi,\rho')\in S,\quad \rho\ne\rho'
+\quad\Longrightarrow\quad |\Im\rho-\Im\rho'|\ge1.
+$$
+The threshold parameter is the natural number $q_d(M,T)=\lceil MT\rceil_{\mathbb N}$. For the heights used in the density theorem this is the ordinary ceiling. The predicate `IsLZero` requires both $L(\rho,\chi)=0$ and $(\chi\ne1\ \text{or}\ \rho\ne1)$, excluding the principal pole from the formal zero predicate. We count distinct pairs. The weights recording multiplicities enter later through the consumer in §4.10.11.
+
+The predicates `Spacing` and `Triv` require just the height window and spacing, with $T\ge0$. The first applies to finite subsets of the real line. The second applies to the sets of pairs above, regardless of the real parts and the zero predicate. In the archive $q_d$, `Spacing`, and `Triv` are defined in `PNTDensSt`, and `LogDensityM` is defined in `DeuringHeilbronnM`.
+
+#### Spacing and the two bounds [Lean, read]
+
+**Harmonic bound and floor separation.** For an integer $n\ge1$, each term $1/k$ for $2\le k\le n$ is at most $\int_{k-1}^k du/u$. Adding the first term yields $H_n\le1+\log n$. The empty sum is $H_0=0$. In `space_harm`, the positive case uses Mathlib's harmonic estimate with the rational harmonic sum cast to the reals. Lean sets $\log 0=0$ for the separate zero case. If $a,b\ge0$ have equal natural floor $k$, then $k\le a,b<k+1$. Each of $a-b$ and $b-a$ is strictly less than $1$, giving $|a-b|<1$. This is `floor_eq_close`.
+
+**One side.** Let $Q$ be finite and let $f$ map its points to distances in $[1,2T]$. Assume $|f(x)-f(y)|\ge1$ for distinct $x,y\in Q$. Then $x\mapsto\lfloor f(x)\rfloor$ is injective by floor separation. Positivity gives $1/f(x)\le1/\lfloor f(x)\rfloor$. Thus
+$$
+\sum_{x\in Q}\frac1{f(x)}
+\le \sum_{k\in\{\lfloor f(x)\rfloor:x\in Q\}}\frac1k
+\le H_{\lfloor2T\rfloor}
+\le 1+\log(2T+1).
+$$
+The middle inequality uses inclusion in the integers from $1$ to $\lfloor2T\rfloor$. If $\lfloor2T\rfloor=0$, the sum is empty and $\log(2T+1)\ge0$. Otherwise apply the harmonic bound and monotonicity of the logarithm. This is `space_side`.
+
+**The window and a deleted center.** Suppose $P\subset[-T,T]$ is finite and any two distinct points are at least one unit apart. The shifted floor map $x\mapsto\lfloor x+T\rfloor$ is injective, since translation preserves differences and the shifted arguments are nonnegative. Its image lies among the integers $0$ through $\lfloor2T\rfloor$, including both endpoints when $2T$ is integral. This proves
+$$
+|P|\le\lfloor2T\rfloor+1\le2T+1.
+$$
+For $t\in P$, erase $t$ and split into points strictly above and strictly below $t$. On each side, the distances $x-t$ or $t-x$ lie in $[1,2T]$. The absolute difference between two distances on the same side is the absolute difference of the original points. The one-sided estimate therefore applies twice and yields
+$$
+\sum_{x\in P\setminus\{t\}}\frac1{|t-x|}\le2(1+\log(2T+1)).
+$$
+This proves `zero_spacing`. At $T=0$ the packing bound allows at most the singleton $\{0\}$, whose deleted-center sum vanishes. If $P$ is empty, the center assertion is vacuous.
+
+**The character count.** On each $S_\chi$, the map $(\chi,\rho)\mapsto\Im\rho$ is injective. An equal ordinate for distinct pairs in that fiber would give a gap of zero. Its image $P_\chi$ is unit spaced and lies in $[-T,T]$. The actual fibers partition $S$, including empty fibers, so
+$$
+|S|=\sum_{\chi\in\mathcal X_M}|S_\chi|
+=\sum_{\chi\in\mathcal X_M}|P_\chi|
+\le\varphi(M)(2T+1)\le M(2T+1).
+$$
+Mathlib supplies $|\mathcal X_M|=\varphi(M)$ over $\mathbb C$, which has enough roots of unity. The archive uses this in `space_card_char_le` and sums the fiber sizes in `trivial_bound`. Coincident ordinates in different fibers remain in their respective summands.
+
+#### The harmonic weight in a mean-square row
+
+Fix $p=(\chi,\rho)\in S$ in the block $U<n\le2U$. The exponent used in the pair estimate is determined by $w=(\rho-\sigma)+\overline{(\rho'-\sigma)}$, with $\Im w=\Im\rho-\Im\rho'$. Assume $T\ge2$, $U\ge1$ is an integer, and both real parts belong to $[\sigma,1]$ with $\sigma\ge1/2$. Then $0\le\Re w\le1$ and $|w|\le1+2T$. The character factor is $\chi\overline{\chi'}=\chi(\chi')^{-1}$. If $\chi'\ne\chi$, the named estimate `pair_cross_bound` for a nonprincipal quotient costs at most $4(M+1)(2+2T)$ even when $\Im w=0$. If $\chi'=\chi$ and $p'\ne p$, the gap makes $\Im w\ne0$. The named principal estimate `pair_same_bound` contributes the extra term $4U^{1-\Re w}/|\Im w|\le4U/|\Im w|$ for $U\ge1$. The diagonal costs at most $U$, by bounding each of the $U$ summands by one.
+
+Sum the reciprocal term over the one fiber of $p$ with the center deleted. Formally `off_diagonal_bound` rewrites a sum that includes the diagonal using Lean's $1/0=0$, then uses the erased ordinate image. Define the matrix entry by
+$$
+K(p,p')=\sum_{U<n\le2U}\chi(n)\overline{\chi'(n)}\, n^{-w}.
+$$
+The row bound is
+$$
+\sum_{p'\in S}|K(p,p')|\le U\bigl(9+8\log(2T+1)\bigr)+|S|\,8(M+1)(2+2T).
+$$
+Indeed the diagonal and inverse-distance parts cost at most $U+4U\cdot2(1+\log(2T+1))$. The remaining bound per pair is $4(M+1)(2+2T)$, widened to $8(M+1)(2+2T)$ in the producer. The first component of `zero_spacing` bounds the fibers for the trivial count. Its second component bounds these matrix rows. The pair estimates, the duality argument for the mean square and the block-detection proofs remain named inputs.
+
+#### Assembling LogDensityM [Lean, read]
+
+**The two input counts.** Let $C_0,C_1\in\mathbb R$ and $q_0,q_1\in\mathbb N$ be the witnesses supplied, respectively, by `zero_count_first : Count0` and `zero_count_second : Count1`. In each case the witnesses precede the universal quantifiers over $M,T,\sigma$ and the finite set of pairs. Both inputs require $M\ge3$, $T\ge2$, $\sigma\ge3/4$, $q_i\le q_d(M,T)$, and $\sigma\le\Re\rho<1$, $|\Im\rho|\le T$ on their sets. Count0 requires the principal character everywhere, `IsLZero`, and spacing of all distinct pairs on its set. Count1 requires nonprincipal characters, the equation $L(\rho,\chi)=0$, and spacing within each character. The respective conclusions are $|S_i|\le C_i F$, where
+$$
+X=MT,\qquad F=X^{24(1-\sigma)}(\log X)^{10}.
+$$
+
+**The conclusion and its quantifiers.** There exist reals $A,B,C$ such that for every natural $M\ge3$ with the nonzero instance, every real $T\ge2$ and $\sigma\ge1/2$, and every finite set $S$ of pairs modulo $M$ satisfying same-character spacing, the conditions $\sigma\le\Re\rho$, $|\Im\rho|\le T$ and `IsLZero` on its members imply
+$$
+|S|\le C X^{A(1-\sigma)}(\log X)^B.
+$$
+In `log_density_bound` the witnesses are
+$$
+A=24,\qquad B=10,\qquad Q=\max(q_0,q_1),\qquad C=|C_0|+|C_1|+3+3Q.
+$$
+Here $Q$ is taken in $\mathbb N$ and cast to $\mathbb R$ in the constant. The quantifiers impose no upper bound on $\sigma$, no lower cutoff on $q_d$, and no positivity conditions on the existential witnesses. These particular witnesses are positive. Lean first proves the inequality with a natural tenth power and identifies it with the real-power expression at the witness $B=10$.
+
+**Proof.** Since $X\ge6>e$, $\log X\ge1$. The character count gives $|S|\le M(2T+1)\le3X$. If $S$ is empty, the positive base $X$, the positive logarithm and $C\ge0$ give $0\le CF$ even for $\sigma>1$.
+
+Suppose now that $S$ contains a pair. Mathlib's half-plane nonvanishing theorem applies at $\Re\rho\ge1$ under precisely the guard $(\chi\ne1\ \text{or}\ \rho\ne1)$. This would contradict the zero equation. The wrapper `re_lt_one_of_isLZero` therefore gives $\Re\rho<1$ for every pair. Using any one member we get $\sigma<1$, so $X^{24(1-\sigma)}\ge1$ and $F\ge1$.
+
+- **Below the ceiling threshold** ($q_d(M,T)<Q$). Then $X\le q_d(M,T)<Q$. Hence $|S|\le3X<3Q\le3QF\le CF$.
+- **Below the detector's real-part threshold** ($Q\le q_d(M,T)$ and $\sigma<3/4$). Then $24(1-\sigma)>6>1$ and $X>1$, so $X\le X^{24(1-\sigma)}\le F$. Thus $|S|\le3X\le3F\le CF$.
+- **In the range of both counts** ($Q\le q_d(M,T)$ and $3/4\le\sigma$). Filter into $S_0$ with $\chi=1$ and $S_1$ with $\chi\ne1$. Both inherit the height and lower real-part conditions, and the wrapper gives the strict upper real-part bound. On $S_0$ every pair of distinct members has the same character, so the inherited spacing applies to all distinct members. Its zero predicate is retained. On $S_1$ keep the same-character spacing and project the predicate to $L(\rho,\chi)=0$. The ceiling bound implies both $q_i\le q_d(M,T)$. The filters are disjoint and exhaustive. Since $F\ge0$,
+$$
+|S|=|S_0|+|S_1|\le C_0 F+C_1 F\le (|C_0|+|C_1|)F\le CF.
+$$
+The three contributions to $C$ cover both counts, the low-$\sigma$ count and the bounded-$X$ count uniformly. Their witnesses depend only on the two existing count theorems, so the assembled constants can be chosen before $M,T,\sigma,S$. ◻
+
+#### Remarks and reading boundary
+
+**Deleting the same-character spacing hypothesis.** Modulo $5$, use just the principal character and the model points $3/4+i(j/n)$ for $0\le j\le n$. Their ordinates lie in $[0,1]$ and are distinct. At $T=2$ and $n\ge25$, there are $n+1>5(2T+1)=25$ pairs and $n+1>2T+1$ ordinates. At center $0$, the reciprocal sum is $nH_n\ge n$. The proposed upper bound is $2(1+\log5)\le10$, by integrating $1/u\le1$ from $1$ to $5$. The packing estimate and the reciprocal estimate both fail in this family, and no repeated ordinate or infinite term is needed. These are counterexamples to the geometric estimates with a hypothesis removed. The points in the calculations are prescribed complex locations.
+
+**Where the witness is used.** `PNTFinal` names the assembled term `logDensityM_proof'` and passes it with the repulsion theorem to `zero_sum_bound_lossy`. That consumer calls `density_norm`, which expresses the bound in terms of the distance cut $v/\log(MT)$ from $1$, and passes the result to `zeroSum_core`. With the witnesses here the normalization gives $a=24$, $B=10$ and the same $C$, since it replaces the entries by $\max(A,1)$, $\max(B,0)$ and $\max(C,1)$. At the call to the normalized count in `zeroSum_core`, the height is $M^{A_1}+3$ and the layer parameter is $v=j+1$. This supplies the count for the spaced representatives used in the weighted zero sum of [§4.10.11](#41011-finite-height-contours-and-weighted-zero-sums).
+
+**Classical context [Community].** Gallagher's large-sieve density estimate near $1$ and Tao's exposition of Linnik's theorem give context for using density estimates in progression theorems. The witnesses, the finite set of labeled pairs and the threshold proof here follow the pinned archive. [Gallagher 1970](https://doi.org/10.1007/BF01403187) · [Tao 2015](https://terrytao.wordpress.com/2015/02/22/254a-notes-7-linniks-theorem-on-primes-in-arithmetic-progressions/)
+
+**Source and status.** With $J$ the archive directory `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/`, the spacing and packing proofs are J/`PNTDensSpace.lean:11–177`, the harmonic row application is J/`PNTDensBlock.lean:14–156` with named pair estimates, and the nonvanishing wrapper and constant assembly are J/`PNTDens.lean:13–109`. These are author-level local R3. The deeper block counts in J/`ZeroCountFirst.lean:90` and J/`SecondBlockCount.lean:87` are [Lean] inputs whose detector and mean-square proofs remain [Open] in this reading. The Mathlib nonvanishing and character-cardinality theorems are inherited inputs. The worked examples have an exact arithmetic certificate. Independent review, Lean kernel replay and declaration-level reachability from Main remain [Open] for this section. [Pinned source ledger](../sources/SOURCES.md#ch04-spaced-zero-density-sources)
 
 ## 4.11 From separated inertia lines to residual irreducibility
 

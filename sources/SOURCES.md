@@ -8054,3 +8054,50 @@ Each forwarding edge through a statement file has its own file fingerprint. The 
 **Classical sources checked online 2026-11-28.** Hasse's 1931 journal scan, printed p. 64, states the prime-degree norm criterion with credit to Hilbert and Furtwängler and announces the cyclic extension. Milne, *Class Field Theory* v4.03, VIII 3.1 and 3.5(b), gives the cyclic norm and quadratic-form comparisons. Milne, *Algebraic Number Theory* v3.08, Theorems 4.3, 5.11, 7.20 and 8.31 and Proposition 7.31 give the class group bound, unit rank, approximation, prime separation by Chebotarev and simple-root lifting. Chebotarev is a classical comparison for the separating-place statement. A2 obtains that statement from properness. [Hasse scan](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Milne CFT](https://www.jmilne.org/math/CourseNotes/CFT.pdf) · [Milne ANT](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
 
 **Evidence.** The assumption boundary above is [Lean]. Finite exact-arithmetic certificates concern the examples. This local author reading leaves independent review, kernel replay and reachability from Main [Open]. It inherits the preceding wrapper's separate review scope.
+
+### Chapter 4 spaced zero density {#ch04-spaced-zero-density-sources}
+
+[A2](#a2), by Levent Alpöge with Claude, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The members below were compared byte for byte to the external archive in the predecessor run. Let J/ denote `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/`. The archived manifest pins Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. [§4.10.28](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density)
+
+| Declaration or use | File and lines | Scope |
+|---|---|---|
+| `qd`, `Spacing`, `Triv`, `PairCross`, `PairSame`, `Offdiag` | J/`PNTDensSt.lean:12,31–55` | Definitions |
+| `Count1`, `Count0` | J/`PNTDensSt.lean:90–102` | Definitions and witness order |
+| `LogDensityM` | J/`DeuringHeilbronnM.lean:77–82` | Definition and witness order |
+| `IsLZero` | `src/Formalism/LandauZeroFreeBounds/Statement.lean:12–13` | Definition |
+| `space_harm`, `floor_eq_close`, `space_side` | J/`PNTDensSpace.lean:11–17,19–25,27–58` | Author-level local R3 |
+| `zero_spacing` | J/`PNTDensSpace.lean:60–83,84–130` | Author-level local R3, shifted floor count and both deleted-center sums |
+| `space_card_char_le`, `trivial_bound` | J/`PNTDensSpace.lean:132–138,140–177` | Author-level local R3, actual character fibers |
+| `char_mul_conj_self`, `char_mul_conj`, `offdiag_term`, `off_diagonal_bound` | J/`PNTDensBlock.lean:14–17,19–22,24–106,108–156` | Author-level local R3 of pair case split and row summation |
+| `pair_cross_bound`, `pair_same_bound`, `dyadic_block_count` | J/`PNTDensPair.lean:106,231`, J/`PNTDensBlock.lean:164` | Named [Lean] inputs, full proof reading [Open] |
+| `zero_count_first : Count0`, `zero_count_second : Count1` | J/`ZeroCountFirst.lean:90`, J/`SecondBlockCount.lean:87` | Named [Lean] inputs, detectors and mean-square count proofs [Open] |
+| Calls to `off_diagonal_bound` | J/`ZeroCountFirst.lean:72`, J/`SecondBlockCount.lean:71` | Call sites. The principal count uses modulus one in this block. |
+| `re_lt_one_of_isLZero`, `log_density_bound` | J/`PNTDens.lean:13–17,19–109` | Author-level local R3 through all four branches |
+| `logDensityM_proof'`, `pnt_progressions_relative_weak_holds` | J/`PNTFinal.lean:18,22–24` | Direct wrapper and application |
+| `ZeroSumOfB`, `zero_sum_bound_lossy`, `density_norm`, `zeroSum_core` | J/`PNTDHBSt.lean:19`, J/`PNTZSumL.lean:30–33,78–82`, J/`PNTZSumB.lean:11–71`, J/`PNTZSum.lean:240–245,460–483` | Published §4.10.11's prior consumer reading and current call-site check |
+
+| Inherited Mathlib input | Pinned source | SHA-256 |
+|---|---|---|
+| `harmonic_eq_sum_Icc`, `harmonic_le_one_add_log` | `Mathlib/NumberTheory/Harmonic/Bounds.lean:20,33` | `c5f418513f5ca500c0c02527ebf65fe2554c22b47c39e7e7b28e6f1402bdf848` |
+| `DirichletCharacter.card_eq_totient_of_hasEnoughRootsOfUnity` | `Mathlib/NumberTheory/DirichletCharacter/Orthogonality.lean:40` | `8c28bee61c275be882f91a7d90b8745fd8945186718df7d844b9acdb9fd9341b` |
+| `DirichletCharacter.LFunction_ne_zero_of_one_le_re` | `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:398` | `945a2fd23ca9ebd2d48f101d771ef9117dd9847d48fd77ea2623d8c345f4f5a9` |
+
+| A2 source member | SHA-256 |
+|---|---|
+| `DeuringHeilbronnM.lean` | `c0de0ec90621331a4dd704f157df5f7e6388f030cc8f28a70cfeb883a254d358` |
+| `PNTBAsm.lean` | `3350c3876d260c73a8f1ddb4da6f8d1f0d0968b340f95f8a00cf42d98ac13b94` |
+| `PNTDHBSt.lean` | `7a0332eb08c50597d175b49ac021a6040e66f3f8355ae5c2ba593b124e11c334` |
+| `PNTDens.lean` | `4e27bb2c15942e3945782462eb165c3e0d0a2e14bab99775aad50f79d22ca755` |
+| `PNTDensBlock.lean` | `29cdc05744bf8c4f4fa0bce51f44a2783301a0ede50990d3f9f9b4337f28194b` |
+| `PNTDensPair.lean` | `c62d25394940073fc421c4db948da4d8acef1c3cc4e695b07fc053739b05f6a6` |
+| `PNTDensSpace.lean` | `a893b689fe19aa6e85cbf42312029a4b2cf0a653defe5f85a58a054a5a40e8d2` |
+| `PNTDensSt.lean` | `0598676b43460a9f530f6682821acadd38d50aceb9211c994f188e68d0892ab9` |
+| `PNTFinal.lean` | `9640f2f48b38cca23bbe8abd79095d1c684e680cad8b3683d96904387100554e` |
+| `PNTZSum.lean` | `7c323d800036eb5bffd8616e83cd718b3aa8d0766f13d94d90104411b1be9677` |
+| `PNTZSumB.lean` | `d0948ab8469d20b3389262b3fb2a94c4f7ae9d23053e2fe71f94e89df0f3fa5b` |
+| `PNTZSumL.lean` | `e2b6ee5ad8e7ec6669b1826667fdb54b40cb171253700c4925538fb8097a0ebf` |
+| `SecondBlockCount.lean` | `45d89f99fd96b6dc0cc41ecb0a18af8383f170153fd4c8b129479667a4510df3` |
+| `ZeroCountFirst.lean` | `3860fecca57c4af7b326485306bc6ae0233555aeb23cdc6858455c40c4b132de` |
+| `Statement.lean` | `5cd1f4d8ad1fac62aca7a5ea5fe5e64b35fe4ffe513b76cd34d340445ff12cb6` |
+
+[Gallagher1970] was checked through Crossref on 2026-11-28. [Tao2015], Theorems 2 and 7 and the section on log-free density, was consulted online on the same date for classical context. The exact arithmetic certificate covers both textbook examples and sample members of the deletion family. Independent same-source review, Lean kernel replay and declaration-level Main reachability are [Open].
