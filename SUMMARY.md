@@ -20,6 +20,7 @@
 
 - [6. Stepanov's method and multiplicity over the integers](chapters/06-stepanovs-method-and-multiplicity.md)
   - [Local period comparison (§§6.4.24–26)](chapters/06-period-comparison-reading-guide.md)
+<!-- Chapter 7 includes §7.4.3.21 (#74321-why-mirabolic-derivatives-have-finite-length). -->
 - [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
   - [Normalized induction and Jacquet modules (§§7.4.3.8–13)](chapters/07-normalized-induction-reading-guide.md)
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
