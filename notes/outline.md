@@ -494,3 +494,11 @@ Chapter 7 [§7.4.3.20](../chapters/07-chains-of-theta-lifts.md#74320-from-positi
 
 
 **Chapter 10, §§10.4.7.7–10.** Produce a common Frobenius corank witness from the two original Selmer spaces. Read the alternating and residually nonisomorphic span arguments, then recover equal dimensions by cancellation over the same CM field and transport to every discrete `IsRes` field. [§10.4.7.7](../chapters/10-congruence-modules-to-sha.md#10477-producing-the-initial-selmer-corank-witness) · [§10.4.7.8](../chapters/10-congruence-modules-to-sha.md#10478-dyadic-cocycle-evaluations-and-symmetric-annihilators) · [§10.4.7.9](../chapters/10-congruence-modules-to-sha.md#10479-full-cocycle-span-in-the-residually-nonisomorphic-branch) · [§10.4.7.10](../chapters/10-congruence-modules-to-sha.md#104710-equal-dimensions-for-the-original-residual-selmer-spaces)
+
+**Chapter 15 §§15.4.3.4–6.** Finite covers construct a regular Haar measure. Rectangles and marginals give the finite-place transport, including its original product constants. The general Carathéodory restriction and its compact-content application complete the measure supply. [Haar existence](../chapters/15-two-proofs-side-by-side.md#15434-constructing-haar-measure-from-finite-covers) · [Finite-place products](../chapters/15-two-proofs-side-by-side.md#15435-finite-place-products-from-rectangles-and-marginals) · [Carathéodory restriction](../chapters/15-two-proofs-side-by-side.md#15436-from-outer-measure-to-a-countably-additive-measure)
+
+### Chapter 15 companion drafts
+
+- <a id="chapter-15-draft-tychonoff"></a>§15.4.3.7, *Tychonoff compactness and a single Haar content*.
+- <a id="chapter-15-draft-preregular"></a>§15.4.3.8, *Compact covers and contents in preregular spaces*.
+- <a id="chapter-15-draft-concentrating-kernels"></a>§15.4.3.9, *Why concentrating kernels recover a point value*.

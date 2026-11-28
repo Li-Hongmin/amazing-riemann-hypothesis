@@ -1374,7 +1374,7 @@ integral, "locally finite Borel measure on $K$" in Lemma 15.3b(2), and "dilation
 | `Mathlib/MeasureTheory/Integral/LebesgueNormedSpace.lean:22–49` · `Function/L1Space/Integrable.lean:864–914` | `aemeasurable_withDensity_iff`, `L1.withDensitySMulLI`, `L1.withDensitySMulLI_apply` | Lemma 15.5d(1): strong measurability under positive density and Mathlib's $L^1$ multiplication-isometry prototype | R3 |
 | `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean:547–636` · `Function/AEEqFun.lean:280–318` | `AEEqFun.compMeasurePreserving`, `Lp.compMeasurePreserving`, `Lp.isometry_compMeasurePreserving`, `Lp.compMeasurePreserving_id`, `Lp.compMeasurePreservingₗᵢ` | Definition 15.5(2) and Lemma 15.5d(2)–(3): precomposition operator under `MeasurePreserving` and its conjugation by $U_{1/2}$ | R3 |
 | Inherited from §15.4.3.1 | `distribHaarChar`, `Real.map_volume_mul_left`, `IsHaarMeasure.nullSingletonClass`, `IsHaarMeasure.isInvInvariant_of_regular`, `ProperSpace ℚ_[p]`, Lemmas 15.3a(1),(3), 15.3b, 15.3c, Proposition 15.4 | Single-field $\mathbb R$ and non-archimedean modulus/shells, zero removal, multiplicative and inversion invariance, 1-field Fourier scaling | Inherited (audited in §15.4.3.1) |
-| Retained named inputs (unread / `[Open]`) | `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq` (`Constructions/Pi.lean`, `Integral/Lebesgue/Marginal.lean`), Haar instance on $\mathbb Q_p$ (absent at pin), Masullo diagonal smoothing (`pp. 15, 517`) & Ch. 10/12/13 strip-trace steps (`pp. 451, 514, 519, 521–522`); `addHaarMeasure_unique` is in `Haar/Basic.lean:670–676`, not `Haar/Unique.lean`, and is read in §15.4.3.3 | Measure-uniqueness and Fubini-marginal foundations `[Lean]`; $\mathbb Q_5$ measure normalization `[Expository]`; Masullo global trace steps `[Paper]` / `[Open]` | Statement / named boundary |
+| Retained named inputs (unread / `[Open]`) | `Measure.pi_eq` / `lintegral_eq_of_lmarginal_eq` (`Constructions/Pi.lean`, `Integral/Marginal.lean`), Haar instance on $\mathbb Q_p$ (absent at pin), Masullo diagonal smoothing (`pp. 15, 517`) & Ch. 10/12/13 strip-trace steps (`pp. 451, 514, 519, 521–522`); `addHaarMeasure_unique` is in `Haar/Basic.lean:670–676`, not `Haar/Unique.lean`, and is read in §15.4.3.3 | Measure-uniqueness and Fubini-marginal foundations [read in §15.4.3.5](#15435-finite-place-products-from-rectangles-and-marginals); $\mathbb Q_5$ measure normalization `[Expository]`; Masullo global trace steps `[Paper]` / `[Open]` | Statement / named boundary |
 
 #### 15.4.3.3 Uniqueness of Haar measure: proportionality, normalization and the constant in the half-density transport
 
@@ -1956,6 +1956,433 @@ paths under `Mathlib/`.
 | Inherited | `distribHaarChar` and `isInvInvariant_of_regular` (§15.4.3.1); the determinant and `withDensity` lemmas, Lemmas 15.5a–d and Theorem 15.6 (§15.4.3.2) |
 | Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the regularity and $\sigma$-finiteness instances; measurability of multiplication under second countability; the archive's own call sites of these theorems |
 | Literature | Halmos, *Measure Theory* (1950), Ch. XI, §§59–60, as cited by `Group/Prod.lean` [Halmos1950; bibliographic record checked, text not consulted]; F. van Doorn, "Formalized Haar Measure", ITP 2021, §6 [vanDoorn2021]; C. McQuillan's answer to S. Gouëzel's MathOverflow question 456670 [McQuillan2024] |
+
+**Reading order.** [Finite covers and Haar existence](#15434-constructing-haar-measure-from-finite-covers) supply the comparison measure used above. [Finite-place products](#15435-finite-place-products-from-rectangles-and-marginals) recover the density and transport constants of Theorem 15.6. [Carathéodory restriction](#15436-from-outer-measure-to-a-countably-additive-measure) supplies both measure constructions.
+
+#### 15.4.3.4 Constructing Haar measure from finite covers
+
+The comparison in Lemma 15.7c(3) starts by choosing a regular left Haar
+measure. Where does that measure come from? A small open neighborhood $U$ of
+the identity gives a unit of size: count how many translates cover a compact
+set. The unit changes with $U$, so compare every count with the count for
+one fixed compact set $K_0$. On a finite discrete group one can use
+$U=\{1\}$ and the counts are already cardinalities. On the real line an
+interval of positive length needs more and more translates as the unit
+shrinks, but the *ratio* of counts stays bounded. The proof constructs one
+simultaneous value for all compact sets and then makes open sets measurable.
+
+**Definition 15.10 (covering number and normalized count).**
+Let $G$ be a topological group with identity $1$ and let $K$ be compact. Write $N(K,V)$ for the
+least size of a finite cover of $K$ by left translates of $V$, when it
+exists. The pin writes a translate as the preimage under left
+multiplication by $g$, namely $g^{-1}V$. Inverting the finite set of
+indices gives the equivalent convention $gV$ used here. For compact
+$K$ and $\operatorname{int}V\ne\varnothing$ there is always such a cover.
+Indeed, if $v\in\operatorname{int}V$, the translate
+$xv^{-1}\operatorname{int}V$ contains $x$. Compactness extracts finitely
+many of these open sets, and the well-ordering of the natural numbers
+gives a minimum. The code takes the infimum of natural cardinalities
+and uses zero also when no cover exists. Every use of a minimum below
+has the finite-cover proof just given.
+
+Fix a compact $K_0$ with nonempty interior. For each open neighborhood
+$U$ of $1$ set $p_U(K)=N(K,U)/N(K_0,U)$. The denominator is a positive
+integer because $K_0$ is nonempty and a cover exists. Its nonempty
+interior will also allow translates of $K_0$ to cover *other* compact sets.
+
+**Lemma 15.10a (uniform bounds and small-scale additivity) [Lean, read].**
+For each compact $K$, the counts satisfy $0\le p_U(K)\le N(K,K_0)$ and $p_U(K_0)=1$.
+They are monotone, left invariant, vanish on the empty set and are
+subadditive on unions of two compact sets. If $G$ is Hausdorff and
+$K,L$ are disjoint compact sets, then $p_U(K\cup L)=p_U(K)+p_U(L)$
+for every sufficiently small $U$.
+
+**Proof.** Replace each translate of $K_0$ in a minimum cover of $K$
+by the corresponding translate of a minimum $U$-cover of $K_0$.
+This gives $N(K,U)\le N(K,K_0)N(K_0,U)$, including possible duplicate
+translates. Inclusion lets a cover of the larger set cover the smaller.
+Left multiplication by $g$ sends a cover to a cover of the same size,
+and $g^{-1}$ gives the reverse inequality. The empty family covers
+the empty set. The union of two minimum families proves subadditivity.
+
+For additivity, the indices of translates $gU$ that meet $K$ lie in
+$KU^{-1}$. If $KU^{-1}$ and $LU^{-1}$ are disjoint, separate a minimum
+cover of $K\cup L$ into the subfamilies meeting the two sets. Their sizes
+are at least $N(K,U)$ and $N(L,U)$, and their sum is at most the size
+of the original family. To find an appropriate neighborhood, choose
+disjoint opens $O_K,O_L$ around the compact sets. Such separation follows
+by separating pairs of points and using compactness twice, first over
+$L$ for each point of $K$, then over $K$. For each $x\in K$, continuity
+of multiplication at $(x,1)$ gives open neighborhoods $A_x$ of $x$
+and $W_x$ of $1$ with $A_xW_x\subseteq O_K$. Finitely many $A_x$
+cover $K$. Intersect the associated $W_x$ to get $W_K$ with
+$KW_K\subseteq O_K$. Obtain $W_L$ in the same way. For
+$U\subseteq(W_K\cap W_L)^{-1}$ the two sets of indices are disjoint.
+$\square$
+
+**Lemma 15.10b (a common cluster point) [Lean, read].**
+There is a finite-valued function $c$ on the compact sets with the
+normalization, monotonicity, invariance and subadditivity above, and
+with additivity on disjoint compact sets in a Hausdorff group.
+
+**Proof.** Give the functions on the set of compact subsets the product
+topology and put
+$P=\prod_{K\text{ compact}}[0,N(K,K_0)]$. Tychonoff's theorem makes
+$P$ compact. For each open identity neighborhood $V$, let $F_V$ be
+the closure of $\{p_U:1\in U\subseteq V,\ U\text{ open}\}$.
+For finitely many $V_i$, the function $p_{\cap_i V_i}$ belongs to $P$
+and to every $F_{V_i}$. The empty finite family can use $p_G$. Compactness
+gives $c\in P\cap\bigcap_V F_V$.
+
+The evaluation $f\mapsto f(K)$ is continuous. Each equation or weak
+inequality of Lemma 15.10a describes a closed subset of the product,
+since it concerns a finite linear combination of evaluations. For
+normalization, monotonicity, invariance and subadditivity use $F_G$.
+For additivity of a particular disjoint pair use $F_V$ for the
+neighborhood supplied by Lemma 15.10a. This proves all the relations
+for the same $c$. The construction allows arbitrary neighborhood
+systems and chooses a point in the intersection of tail closures.
+$\square$
+
+**Definition 15.11 (from content to outer measure).**
+Call a finite nonnegative function $c$ with these compact-set relations
+a content for this construction. Put
+$I(O)=\sup\{c(K):K\subseteq O,\ K\text{ compact}\}$ for open $O$ and
+$m^\ast(A)=\inf\{I(O): A\subseteq O,\ O\text{ open}\}$ for every subset
+$A$. These two operations take values in $[0,\infty]$. The empty compact
+set contributes zero to every supremum. For any compact $K$,
+$m^\ast(\operatorname{int}K)\le c(K)\le m^\ast(K)$ once the
+agreement $m^\ast(O)=I(O)$ on opens is established.
+
+**Lemma 15.11a (open covers and Borel measurability) [Lean, read].**
+On a Hausdorff space the preceding content construction yields an
+outer measure, agrees with $I$ on opens and makes every Borel set
+Carathéodory measurable.
+
+**Proof.** Suppose a compact $K$ is contained in a countable union of
+opens $O_i$. Extract a finite subcover. To use subadditivity of $c$,
+shrink this subcover *inside* $K$. For each point of $K$ choose an
+index of an open set containing it and choose a relative neighborhood
+whose closure in $K$ stays in $K\cap O_i$. This uses regularity of
+the compact Hausdorff space $K$, which follows by separating the
+point from the compact complement. Finitely many such neighborhoods
+cover $K$. For each index take the union of the assigned closures,
+yielding compact pieces $K_i\subseteq K\cap O_i$ whose union is $K$.
+Hence $c(K)\le\sum_i c(K_i)\le\sum_i I(O_i)$. Taking the supremum
+proves countable subadditivity of $I$ on opens. The outer measure in
+the pin starts with countable covering costs. Those costs reduce to a
+single open superset because a countable union of opens is open and
+its cost is at most the sum. Directly, if $\sum_i m^\ast(A_i)<\infty$,
+choose opens $O_i\supseteq A_i$ with
+$I(O_i)<m^\ast(A_i)+\varepsilon 2^{-i-1}$ for $i\ge0$. Their union bounds
+$m^\ast(\bigcup_i A_i)$ by the sum plus $\varepsilon$. An infinite
+sum gives the inequality immediately. Monotonicity and the empty-set
+axiom follow from the defining infimum. For open $O$, monotonicity of
+$I$ gives $m^\ast(O)=I(O)$.
+
+To test an open set $B$ for measurability, first split an open test
+set $O$. For any compact $L\subseteq O\cap B$, the set $O\setminus L$
+is open and contains $O\setminus B$. For every compact
+$M\subseteq O\setminus L$, disjoint additivity yields
+$c(L)+c(M)=c(L\cup M)\le I(O)$. Take the supremum over $M$ to get
+$c(L)+m^\ast(O\setminus B)\le I(O)$. Taking the supremum over $L$ now
+gives $m^\ast(O\cap B)+m^\ast(O\setminus B)\le m^\ast(O)$, including
+infinite values. For an arbitrary test set $A$, monotonicity bounds
+the two split terms by the same terms for every open $O\supseteq A$.
+Taking the infimum gives the Carathéodory inequality for $A$. The
+reverse inequality is subadditivity. The [Carathéodory sets](#15436-from-outer-measure-to-a-countably-additive-measure) form a
+$\sigma$-algebra on which the outer measure is countably additive.
+Since it contains the opens, restriction yields a Borel measure $m$.
+$\square$
+
+**Theorem 15.12 (existence with specified scale) [Lean, read].**
+Let $G$ be a locally compact Hausdorff topological group with the
+Borel $\sigma$-algebra. For any compact $K_0$ with nonempty interior,
+the preceding construction followed by division by $m(K_0)$ gives a
+regular left Haar measure $\mu$ with $\mu(K_0)=1$. Here regular means
+outer regular on Borel sets and inner regular by compact sets on opens,
+with finite mass on compact sets.
+
+**Proof.** Translation takes compact subsets of an open set bijectively
+to compact subsets of its translate and preserves $c$. Thus it
+preserves $I$. It also bijects the families of open supersets, so it
+preserves $m^\ast$ and its Borel restriction. For any compact $K$,
+local compactness gives compact neighborhoods of its points. Finitely
+many interiors cover $K$ and the union of the corresponding compact
+sets is a compact $F$ with $K\subseteq\operatorname{int}F$. Consequently
+$m(K)\le I(\operatorname{int}F)\le c(F)<\infty$. Outer regularity is
+the defining infimum. On opens $O$, the inequality $c(K)\le m(K)$
+for compact $K\subseteq O$ gives
+$I(O)\le\sup_{K\subseteq O}m(K)\le m(O)=I(O)$.
+
+In particular, $1=c(K_0)\le m(K_0)<\infty$. This makes the scalar
+$1/m(K_0)$ strictly positive and finite, so it preserves invariance
+and regularity. If $O$ is any nonempty open set, choose a finite cover
+of $K_0$ by $n$ translates of $O$, as in Definition 15.10. Then
+$1=\mu(K_0)\le n\mu(O)$, which forces $\mu(O)>0$. In the other direction,
+$\operatorname{int}K_0$ has finite mass by inclusion. Finitely many of
+its translates cover each compact set, giving the finite-mass
+condition of the Haar interface directly. $\square$
+
+**Where the hypotheses enter.** Local compactness supplies a compact
+neighborhood of $1$, hence an admissible $K_0$. Given such a $K_0$,
+its interior can be translated to give a compact neighborhood at
+every point. Inside any prescribed open neighborhood of $1$, choose
+a symmetric open $W$ with $W^2$ contained in that neighborhood and
+$W$ contained in the interior of a compact neighborhood. Then
+$\overline W\subseteq W^2$ because each translate $xW$ with
+$x\in\overline W$ meets $W$. This gives a compact neighborhood basis.
+The product compactness of Lemma 15.10b uses only compactness of the
+coordinate intervals and the covering bounds. Hausdorffness in this
+presentation is used for compact separation, compact-cover shrinking
+and closedness of compact sets in the Borel argument. The pin uses a
+weaker formulation: the group supplies the $R_1$ separation instance
+(distinct point closures admit disjoint neighborhoods), and
+`chaar_sup_eq` asks for disjoint compact sets with the second one closed.
+`Content.sup_disjoint` uses both closed. In the Carathéodory argument
+the pin replaces each compact $L,M$ by its compact closure inside the
+corresponding open set before applying disjoint additivity. It evaluates
+the measure of a compact set via its closure in
+`haarMeasure_self`. For the finiteness argument
+`Content.regular` uses weak local compactness, which
+`PositiveCompacts.locallyCompactSpace_of_group` supplies through
+$K_0$ in this application.
+
+**Worked example 1 (the discrete group $\mathbb Z/6\mathbb Z$).**
+Take $K_0=\{0,1,2\}$ in additive notation. The identity neighborhood
+$\{0\}$ forces every finer neighborhood to equal $\{0\}$. Each translate
+covers one point, so $N(K,\{0\})=|K|$, $N(K_0,\{0\})=3$ and the
+corresponding tail closure forces $c(K)=|K|/3$. For example,
+$K=\{0,4\}$ is covered by the two singletons and cannot be covered by
+one. The opens $O_1=\{0,1\}$ and $O_2=\{1,4\}$ also cover it.
+Their costs are $2/3$ each and their union costs $1$, as its three
+points give three translates. Since every subset is compact and open,
+$I(A)=c(A)$ and the open infimum equals $I(A)$. Thus $m(K_0)=1$ and
+$\mu(A)=|A|/3$. The whole group has mass $2$, and probability
+normalization instead gives mass $|A|/6$. The factor between the two
+scales is $2$.
+
+**Worked example 2 (the additive real line).**
+Take $K_0=[0,2]$. To determine the content of $[a,a+\ell]$ for $\ell>0$,
+we need estimates valid for every sufficiently small neighborhood $U$.
+Fix a positive integer $q$ and let $b=2/q$. If $U\subset(-\eta/2,\eta/2)$,
+a translate of $U$ meets at most one of any family of closed blocks
+separated by gaps of length $\eta$. For any length $s>0$,
+$\lfloor(s+\eta)/(b+\eta)\rfloor$ such blocks fit in $[0,s]$,
+and $\lceil s/b\rceil$ adjoining blocks cover it. Thus
+$\lfloor(s+\eta)/(b+\eta)\rfloor N([0,b],U)\le N([0,s],U)
+\le \lceil s/b\rceil N([0,b],U)$.
+For fixed $b$ choose $\eta>0$ small enough that the lower integer
+bound is at least $\lfloor s/b\rfloor-1$ for both $s=2$ and $s=\ell>0$.
+All $U\subset(-\eta/2,\eta/2)$ satisfy the estimates. Taking $q>1$
+gives
+$(\lfloor\ell/b\rfloor-1)/q\le p_U([a,a+\ell])
+\le\lceil\ell/b\rceil/(q-1)$.
+Each such closed bound passes to the cluster point. As $q\to\infty$
+the two bounds converge to $\ell/2$. A singleton has content $0$ by
+monotonicity inside arbitrarily short intervals.
+
+For a numerical cover, take $U=(-1/4,1/4)$. For any open interval
+unit of length $w$, the minimum for a closed interval of length
+$\ell$ is $\lfloor\ell/w\rfloor+1$. The union of the covering intervals
+has length at most $nw$ and contains an open neighborhood of both
+endpoints, so $nw>\ell$. Conversely if $nw>\ell$, divide the closed
+interval into $n$ equal pieces and center one open interval of width
+$w$ at each midpoint. For $K_0$ the minimum is $5$, and for $K=[1,4]$
+it is $7$. Thus this approximation gives $7/5$, with limiting
+content $3/2$.
+For a bounded open interval $(u,v)$, monotonicity bounds its inner
+content by $c([u,v])=(v-u)/2$. Closed intervals
+$[u+\varepsilon,v-\varepsilon]$ give the reverse bound as
+$\varepsilon\downarrow0$. For $K=[1,4]$, the opens $(0,3)$ and $(2,5)$
+both cost $3/2$. Their union $(0,5)$ costs $5/2$, while the single
+open neighborhood $(1-\varepsilon,4+\varepsilon)$ costs
+$3/2+\varepsilon$. Hence $3/2=c(K)\le m(K)\le3/2+\varepsilon$ for
+every $\varepsilon>0$. The same upper cover of $[0,2]$ costs
+$1+\varepsilon$, so $m(K_0)=1$ and $\mu(K)=3/2$. Translation and
+the same shrinking-cover calculation give half the ordinary length
+on every bounded interval. These intervals generate the Borel sets
+and cover the line by a countable sequence of finite-mass intervals,
+so $\mu$ is Lebesgue measure divided by $2$.
+
+**Failure of a zero-mass normalization [Expository].**
+Replace $[0,2]$ in the real-line construction by $\{0\}$. For every
+$U=(-w/2,w/2)$, the denominator is $1$, even though the singleton has
+empty interior. Now $p_U([0,2])=\lfloor2/w\rfloor+1\to\infty$.
+In the putative product bound the index $N([0,2],\{0\})$ is coded as
+zero because the cover family is empty. No bounded product argument
+results. At the measure level, a translation-invariant measure
+assigning mass $1$ to $\{0\}$ gives mass at least $n$ to $[0,2]$ for
+every $n$, by taking $n$ distinct points. It cannot be finite on
+compacts. Empty interior here breaks the covering comparison and
+the intended scale, even with a positive denominator at every step.
+
+**Notes and source map.** The inequalities involving compact content
+refer to the unscaled $m$. The pin performs a separate normalization
+after passing to a measure. Halmos §58, pp. 252–256, gives the covering ratios and the compact-product argument.
+His §53, Theorem C, gives the inequalities of Definition 15.11 and explains
+why the construction can change the value on a compact set. Gleason’s
+Theorem 4.3, Step 9, pp. 7–8, verifies the compact-to-open comparison on
+compact open sets. Van Doorn discusses the general comparison in §5,
+pp. 18:12–18:13. [Halmos, scanned reprint](https://59clc.wordpress.com/wp-content/uploads/2012/05/paul_r-_halmos_measure_theory_graduate_texts_inbookfi-org.pdf)
+[Gleason 2010](https://math.uchicago.edu/~may/VIGRE/VIGRE2010/REUPapers/Gleason.pdf) · [van Doorn 2021](https://doi.org/10.4230/LIPIcs.ITP.2021.18)
+
+`Measure.haar` at line 584 is an abbreviation which chooses an
+arbitrary `PositiveCompacts G` using local compactness and applies
+`haarMeasure`. This is the regular comparison measure $n$ in
+[§15.4.3.3, Lemma 15.7c](#15433-uniqueness-of-haar-measure-proportionality-normalization-and-the-constant-in-the-half-density-transport).
+For a specified $K_0$, use `haarMeasure K₀`. The uniqueness comparison
+and the scale transport are supplied by Theorem 15.8 and Corollary 15.9.
+The group-specific arguments in [Chapter 9](09-heights-slopes-and-near-orthogonality.md) use this existence supply.
+
+The paths below are relative to `Mathlib/` at
+`0df444a360eaa60ab8c11dca51a86af692955474`, pinned by the Lean archive
+with SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+R3 here records proof-body reading. The mathematical exposition uses
+the Hausdorff specialization of the topology interfaces.
+
+| Reading | Source | Role |
+|---|---|---|
+| Read | `MeasureTheory/Measure/Haar/Basic.lean:88–313` | `index`, `prehaar` and the covering inequalities |
+| Read | `MeasureTheory/Measure/Haar/Basic.lean:319–507` | Compact product, closed tail conditions, `chaar`, content and positive outer mass |
+| Read | `MeasureTheory/Measure/Content.lean:68–77, 105–108, 116, 118–221, 229–382` | Compact-cover shrinking, open cost, Borel measurability, outer and inner regularity |
+| Read | `MeasureTheory/OuterMeasure/Induced.lean:111–119, 155–203, 238–257` | Reduction of countable costs to one open superset and open Carathéodory tests |
+| Read | `MeasureTheory/Measure/Haar/Basic.lean:515–585`; `Topology/Algebra/Group/Compact.lean:24–32`; `MeasureTheory/Group/Measure.lean:584–601, 635–655, 799–809` | Normalization, regularity, finite compact mass, positivity and the choice underlying `Measure.haar` |
+| Read | `Topology/Algebra/Group/Basic.lean:1260–1277, 1306–1316`, `Topology/Algebra/Group/Pointwise.lean:312–323, 389–395`, `Topology/Sets/Compacts.lean:745–748` | Finite open translates, uniform thickening, group regularity and compact neighborhoods, and availability of a positive compact |
+| Inherited | §§15.4.3.1–15.4.3.3 | Modulus, linear change of variables, half-density and uniqueness, including their stated hypotheses |
+| Named inputs | [Tychonoff](#chapter-15-companion-drafts), the `RegularSpace` to `R1Space` instance, `IsCompact.finite_compact_cover` and the separation API | The proof above gives the Hausdorff arguments. Upstream library bodies remain at statement level |
+| Retained | Masullo diagonal smoothing and strip-trace claims in §§15.4.3.1–15.4.3.3 | Existing [Paper] and [Open] boundaries |
+
+Source reading and the book build give local checks of this section.
+Lean kernel verification has its own evidence record.
+
+#### 15.4.3.5 Finite-place products from rectangles and marginals
+
+Theorem 15.6 uses two measure identities before it can transport a half-density. The local additive moduli must multiply to give the modulus of the coordinatewise dilation, and the product of the local multiplicative measures must equal the additive product weighted by $c_S\Delta_S^{-1}$. Both identities can be tested on rectangles. The missing step is to explain when that test determines a measure on all Borel sets. For the real-coordinate calculation in Lemma 15.5a, there is a second question. Why does equality after integration in the sheared coordinate suffice to compare two full integrals?
+
+**First example.** Over $\mathbb Q$, take the real place and the place above $5$. With $\nu_5(\mathbb Z_5)=1$, the box $[1,2]\times 5\mathbb Z_5^\times$ has additive mass $4/25$. Its multiplicative mass is $\log 2$, since the finite-place factor is a translate of the normalized unit group and the positive real factor has measure $dx/x$. The two computations use the same box. The half-density has to account for the change in both of its sides.
+
+**Definition 15.13 (rectangles and lower marginals).** For a finite index set $I$, let $X=\prod_{i\in I}X_i$ with the product measurable structure, the least one making each evaluation $x\mapsto x_i$ measurable. Write $R(A)=\prod_i A_i$, with every $A_i$ measurable. Cylinders arise by letting unused sides be $X_i$. Write $P=\bigotimes_i m_i$ for the finite product of the measures $m_i$. A lower marginal over $J\subseteq I$ is
+$$M_J f(x)=\int f(x[J\leftarrow y])\,dP_J(y),\qquad P_J=\bigotimes_{i\in J}m_i,$$
+where $f$ takes values in $[0,\infty]$ and $x[J\leftarrow y]$ substitutes the coordinates in $J$. The result is constant in those coordinates of $x$. The product over an empty index set has one point, the empty tuple. Its mass is one.
+
+**Lemma 15.13a (production and uniqueness on rectangles).** [Lean, read] Assume each $m_i$ is $\sigma$-finite. Then
+$$P(R(A))=\prod_i m_i(A_i).$$
+The measure $P$ is $\sigma$-finite and every measure with these rectangle values equals $P$. More generally one may use side families $\mathcal C_i$ generating the coordinate measurable structures, closed under nonempty pairwise intersections and each containing a countable cover by sets of finite $m_i$-measure. [Pinned Mathlib, `Constructions/Pi.lean:71–293`][ch15-pi] · [`MeasurableSpace/Pi.lean:66–110`][ch15-pi-generation] · [`Measure/Restrict.lean:461–503`][ch15-pi-uniqueness]
+
+*Proof.* The pinned definition starts with the cost $b(E)=\prod_i m_i(\operatorname{pr}_i E)$, using the outer measures of the factors on arbitrary projections. It takes the largest outer measure dominated by this cost. Equivalently take the infimum of the cost sums of countable covers. Here the cost of the empty set can be taken to be zero, including in the empty-index case. This preserves the same outer measure. A nonempty set lies in the box of its projections, so the equivalent maximality test is domination by the product formula on boxes. For a coordinate cylinder $C=\{x:x_i\in A_i\}$ the $i$-projection splits exactly into its intersections with $A_i$ and its complement. Each other projection of either piece is contained in the original projection. Thus $b(E\cap C)+b(E\setminus C)\le b(E)$ by measurability of $A_i$ and distributivity in $[0,\infty]$. Splitting every member of a countable cover proves the Carathéodory inequality for the outer measure. The reverse is subadditivity. Hence the outer measure [restricts to a measure](#15436-from-outer-measure-to-a-countably-additive-measure) on the product measurable structure. This is the path through `OuterMeasure.pi`, `pi_caratheodory` and `Measure.pi`. [`OuterMeasure/OfFunction.lean:247–279`][ch15-cover-cost] · [`OuterMeasure/Caratheodory.lean:195–224`][ch15-cover-split]
+
+The upper bound on a box follows from its cost, with the empty box handled by the zero measure of the empty set. For the lower bound, enumerate $I$ without repetition. Build a measure by iterating the binary product along this list, starting with the unit mass on the empty tuple, then carry it to $X$ by the measurable coordinate equivalence. At every step the binary rectangle formula applies because the tail product is $\sigma$-finite, hence s-finite (a countable sum of finite measures). Indeed binary products of countable finite-measure exhaustions give a countable finite-measure exhaustion, starting here with a single point. The resulting measure has the asserted value on every measurable box by induction. The pinned helper `pi'_pi` in fact evaluates even boxes with arbitrary sides, using the outer-measure values of the measures. This stronger fact lets `OuterMeasure.le_pi` compare its outer measure with the canonical one on all boxes. Hence the auxiliary product gives the reverse inequality in `pi_pi_aux`. In the classical measurable-box argument, the same comparison on arbitrary boxes follows by enlarging each side to a measurable hull of the same outer measure, applying the measurable box formula there, and using monotonicity. [Binary product and its rectangle formula, `Measure/Prod.lean:169–247`][ch15-binary]
+
+For uniqueness, the rectangles with sides in $\mathcal C_i$ are a $\pi$-system with the empty intersection treated separately. They are measurable because they are finite intersections of cylinders. Conversely, a cylinder from the coordinate generator in position $i$ is a countable union of these boxes. Fix the prescribed side in position $i$ and use the countable cover in every other coordinate. A finite tuple of natural-number indices ranges over a countable set. This gives the two inclusions for `generateFrom_eq_pi`. Taking side covers in all positions also supplies countably many finite-mass boxes $B_n$ covering $X$. With all measurable sides one can choose increasing finite side exhaustions and use their diagonal products. The pinned `FiniteSpanningSetsIn.pi` enumerates tuples even for general side families, using measurable hulls for the finite-mass bound.
+
+If $Q$ agrees on the rectangles, restrict $P$ and $Q$ to a single $B_n$. They have the same finite total and agree on each generating rectangle since its intersection with $B_n$ is another generating rectangle or empty. The measurable sets on which the restrictions agree form a Dynkin system. For complements subtract from the common finite total, and for disjoint countable unions use countable additivity. The $\pi$–$\lambda$ theorem gives equality of restrictions. To recover the measures on all of $X$, split the cover into disjoint pieces $B_n\setminus\bigcup_{k<n} B_k$ and sum. This is the finite cancellation in `ext_of_generateFrom_of_cover` and the subsequent assembly of equal restrictions. Only the reference measure needs an assumed finite spanning family. The competitor inherits the same masses from rectangle agreement. For all measurable sides this is `Measure.pi_eq`. The pinned proof then identifies the list product with the canonical product and obtains `pi_pi`. $\square$
+
+**Lemma 15.13b (block integration and order).** [Lean, read] Let the factors be as in Lemma 15.13a. Reindexing by a bijection transports the product to the product of the relabelled measures. Splitting into two disjoint coordinate blocks identifies their product with the product on the union. If measurable $f,g:X\to[0,\infty]$ have $M_J f=M_J g$ pointwise, their full lower integrals agree. [Pinned Mathlib, `Constructions/Pi.lean:730–739`][ch15-pi-blocks] · [`Constructions/Pi.lean:781–788, 824–835, 893–901`][ch15-pi-glue] · [`Integral/Marginal.lean:78–156, 187–196, 220–239`][ch15-marginal]
+
+*Proof.* Each map and its inverse is measurable because evaluations are measurable. Its rectangle preimages have the same factors in a different order or split into two boxes. The binary rectangle formula and commutative multiplication therefore give the right masses under the map. Lemma 15.13a identifies the resulting measure. In the pin, the glue map for a disjoint union of finite sets uses the sum-type decomposition and then relabels the disjoint sum by the finite union.
+
+For disjoint $J,L$, transport $P_{J\cup L}$ to $P_L\otimes P_J$. Substituting into the two disjoint blocks commutes. Binary Tonelli for the nonnegative measurable integrand therefore gives $M_{J\cup L}f=M_L(M_J f)$. The inner integral is measurable by parametric lower integration, applied to the measurable substitution map. With $L=I\setminus J$, the marginal over the full index set is the constant full integral, since substituting all coordinates no longer uses $x$. The pin rewrites with `lmarginal_univ`, using the index equivalence from the full finite subtype to $I$, and applies `lmarginal_eq_of_subset` with the complementary block. If $X$ itself is empty, both integrals are zero, the other branch of `lintegral_eq_of_lmarginal_eq`. If $J$ is empty, its marginal is $f$ by integration against the unit atom. A singleton marginal is the ordinary lower integral in the updated coordinate, by the measure-preserving equivalence of a singleton-indexed product with its factor. Iterating the block formula gives any order of nonnegative integration, with no requirement that the full integral be finite. $\square$
+
+**Where §15.4.3.2 uses these lemmas.** In `Real.smul_map_diagonal_volume_pi`, the candidate is the rescaled pushforward. Its preimage of a box is the box of coordinate preimages, so the local factors are compared by `volume_pi_pi` and equality of measures is supplied by `pi_eq`. In `Real.volume_preserving_transvectionStruct`, `pi_eq` again reduces measure preservation to a box. The mapped mass becomes the integral of the box indicator composed with the map. The proof compares its singleton marginal along the changed coordinate with that of the original indicator and invokes `lintegral_eq_of_lmarginal_eq` to restore the full integral. These are separate uses of uniqueness and Tonelli. The determinant argument itself is Lemma 15.5a. [Pinned Mathlib, `Measure/Lebesgue/Basic.lean:364–408`][ch15-product-consumers]
+
+**Theorem 15.14 (finite-place modulus and half-density).** Let $S$ be a finite set of places of a number field, $K_S=\prod_{v\in S}F_v$ and $G_S=\prod_{v\in S}F_v^\times$. Use the local additive Haar measures $\nu_v$ from §15.4.3.1, with finite-place integer rings of mass one. Let $\rho_v$ be the restriction of $\nu_v$ to $F_v^\times$, and use the local multiplicative Haar measures $\mu_v=c_v\Delta_v^{-1}\rho_v$, where $c_v=1$ at infinity and $c_v=q_v/(q_v-1)$ at a finite place of residue size $q_v$. Put $\nu_S=\bigotimes_v\nu_v$, $\mu_S=\bigotimes_v\mu_v$, $c_S=\prod_v c_v$ and $\Delta_S(x)=\prod_v\Delta_v(x_v)$. Then:
+
+1. The additive and multiplicative products are Haar measures, and their values on rectangles fix their normalization. The complement of $G_S$ has additive measure zero.
+2. For $t\in G_S$ and $D_tx=tx$, the pushforward on $K_S$ is $(D_t)_*\nu_S=\Delta_S(t)^{-1}\nu_S$. Equivalently a Borel set $E$ has $\nu_S(tE)=\Delta_S(t)\nu_S(E)$.
+3. On $G_S$, letting $\rho=\nu_S|_{G_S}$, one has
+$$d\mu_S=c_S\Delta_S^{-1}\,d\rho.$$
+The map $U_Sg=c_S^{-1/2}\Delta_S^{1/2}g|_{G_S}$ is a unitary isomorphism from $L^2(K_S,\nu_S)$ to $L^2(G_S,\mu_S)$. The conjugate of multiplicative precomposition by $D_t$ is $g(x)\mapsto\Delta_S(t)^{1/2}g(tx)$.
+4. These statements hold for the empty product. For nonempty $S$, the condition that $g\mapsto\Delta_S(t)^a g(tx)$ be isometric for every $t$ forces $a=1/2$.
+
+*Proof.* Local fields and their multiplicative groups are second-countable locally compact Hausdorff. In these finite products, the Borel and product measurable structures agree. Evaluations are continuous, and every open set is a countable union of basic open rectangles using countable bases in the factors. Each factor has a countable cover by relatively compact open sets, obtained from local compactness and second countability, and Haar finiteness on compact sets makes these covering sets finite in measure. Thus each factor is $\sigma$-finite. The product is $\sigma$-finite by Lemma 15.13a. Compact subsets of the product lie in boxes of their compact projections, which have finite masses, so the product is finite on compact sets. Products of relatively compact neighborhoods give local finiteness at each point. Conversely local finiteness alone on an arbitrary space supplies no countable exhaustion. An uncountable discrete space with counting measure is locally finite and fails $\sigma$-finiteness.
+
+For translations on the additive group and multiplications on the multiplicative group, inverse images of rectangles have the same factor masses. The defining uniqueness applies to the translated measure. Any nonempty open set contains a nonempty open rectangle of positive mass. These facts give Haar invariance, compact finiteness and positivity on opens. The same rectangle argument gives inversion invariance of $\mu_S$ using its local version. For the restriction, the set $x_v=0$ is a box whose $v$-mass is zero, so its product mass is zero even if other factors have infinite mass. The complement of $G_S$ is the union of these finitely many boxes. The restricted measure has on boxes in $G_S$ the values $\prod_v\rho_v(A_v)$, so it is their product by uniqueness.
+
+The given local modulus identity says $\nu_v(t_v^{-1}A_v)=\Delta_v(t_v)^{-1}\nu_v(A_v)$. The inverse image under $D_t$ is exactly the product of these inverse sides. Multiplying the equalities shows that $\Delta_S(t)(D_t)_*\nu_S$ has the same rectangle values as $\nu_S$. Use Lemma 15.13a and divide by the positive finite scalar. Evaluating the pushforward formula on $tE$ gives the image formula.
+
+For the product density, write $w_v=c_v\Delta_v^{-1}$, so $w=\prod_v w_v$. The measure $w\rho$ on a box has mass
+$$\int \prod_v (1_{A_v}w_v)(x_v)\,d\rho(x)=\prod_v\int_{A_v} w_v\,d\rho_v=\prod_v\mu_v(A_v).$$
+The first equality follows by Lemma 15.13b and successively pulling out the factors independent of the integration variable. In extended nonnegative arithmetic, a zero factor multiplies infinity to zero. If one side integral vanishes, its factor is zero almost everywhere, and the full integral vanishes as well by the zero-mass cylinder calculation. Thus the equality holds for arbitrary Borel sides. The second equality is the single-place density identity. Rectangle uniqueness now gives $w\rho=\mu_S$. In particular the constant in this identity uses one $c_v$ for each finite place. For a purely finite set the product of integer unit groups has multiplicative mass one.
+
+The measures $w\rho$ and $\rho$ have the same null sets since $w$ is strictly positive and finite. The single-measure density integral formula gives the squared norm of $w^{-1/2}g$ as $\int |g|^2\,d\rho$. Multiplication by $w^{1/2}$ is its inverse, with extension from $G_S$ across the additive null set. This is Lemma 15.5d applied to the density just constructed. Taking the ratio of the multipliers at $tx$ and $x$ gives $\Delta_S(t)^{1/2}$, and precomposition on $L^2(\mu_S)$ is unitary by multiplicative invariance. For exponent $a$, the pushforward gives the squared norm ratio $\Delta_S(t)^{2a-1}$ on every nonzero $g$. With $S$ nonempty one can select a coordinate with modulus different from one, such as a uniformizer at a finite place or a dilation by $2$ at infinity, and use identity in the other coordinates. A nonzero $g$ exists by testing a finite positive-mass box. The ratio is one for all $t$ precisely at $a=1/2$. [Masullo, p. 518][ch15-product-masullo] $\square$
+
+**Two computations.**
+
+1. *The real and $5$-adic places of $\mathbb Q$.* For $R=[1,2]\times U_1$, $U_j=5^j\mathbb Z_5^\times$, the additive sides have masses $1$ and $5^{-1}(1-5^{-1})=4/25$. Take $t=(2,5)$. The image $[2,4]\times U_2$ has additive mass $2\cdot4/125=8/125$, which is $(2/5)(4/25)$. The preimage of $R$ is $[1/2,1]\times U_0$ and has mass $(1/2)(4/5)=2/5=(5/2)(4/25)$. The multiplicative measure on each shell is one and the interval integral is $\int_1^2 dx/x=\log 2$. On $R$ the squared multiplier of $U_S$ is $(4/5)(x/5)=4x/25$. For $g=1_R$ its norm after transport is
+   $$\|U_Sg\|^2=\frac{4}{25}\int_1^2 x\,\frac{dx}{x}\,\mu_5(U_1)=\frac{4}{25}=\|g\|^2.$$
+   The dilation sends $g$ to $(2/5)^{1/2}1_{D_t^{-1}R}$, of squared norm $(2/5)(2/5)=4/25$.
+
+2. *The complex place and the place above $(1+i)$ of $\mathbb Q(i)$.* This prime has residue size two. Put $\varpi=1+i$ in the finite completion, and use $V_j=\varpi^j\mathcal O_v^\times$. Let $A=\{z:1\le |z|\le 2\}$ and $R=A\times V_1$. The side masses are $3\pi$ in planar Lebesgue measure and $2^{-1}-2^{-2}=1/4$, so $\nu_S(R)=3\pi/4$. Take $t=(1+i,\varpi)$. Its two moduli are $2$ and $1/2$. The image has radii $\sqrt 2,2\sqrt 2$ and finite shell $V_2$, so its additive mass is $6\pi/8=3\pi/4$. The preimage has radii $1/\sqrt 2,\sqrt 2$ and shell $V_0$, so its mass is $(3\pi/2)(1/2)=3\pi/4$. With $c_S=2$, the squared multiplier on $R$ is $r^2/4$ at $r=|z|$. The complex multiplicative measure is $dr\,d\theta/r$ in polar coordinates and $\mu_v(V_1)=1$. Consequently
+   $$\mu_S(R)=2\pi\log 2,\qquad
+   \|U_S1_R\|^2=\frac{2\pi}{4}\int_1^2 r\,dr=\frac{3\pi}{4}.$$
+   The dilation for this particular $t$ has multiplier one. It preserves even the additive rectangle mass because the two local moduli cancel. A different dilation, with only the complex coordinate scaled, still tests uniqueness of the exponent.
+
+**Remarks.** For $S=\varnothing$, the full rectangle is the singleton and $\nu_S=\mu_S$ is its unit atom. The empty tuple serves as additive zero and as multiplicative identity in their respective groups. The only coordinate map is the identity, $\Delta_S=c_S=1$, and the norm of a constant value $b$ is $|b|$. Every exponent gives the same isometry. The empty set describes the endpoint of the finite-product theorem.
+
+**Tamagawa normalization [Paper].** The book uses $dx\,dy$ at a complex place and $\nu_v(\mathcal O_v)=1$ at every finite place. Write $\nu_v^{\mathrm{Tam}}=a_v\nu_v$ for Masullo's additive measure. Definition A.3.1.2 (p. 556) gives $a_v=1$ at a real place, $a_v=2$ at a complex place, and $a_v=N(\mathfrak d_{F_v/\mathbb Q_p})^{-1/2}$ at a finite place of residue characteristic $p$, with $\mathfrak d$ the local different. The finite factor is one at an unramified place. Definition A.3.2.2 and Lemma A.3.2.3 (p. 560) give $\mu_v^{\mathrm{Tam}}=a_v\mu_v$. Thus $c_S=\prod_{v\in S_f}q_v/(q_v-1)$ has the same value in the Tamagawa density formula when both measures are taken in Tamagawa scale. The finite unit mass in that scale is $a_v$, which accounts for the denominator $\mu_v^{\mathrm{Tam}}(\mathcal O_v^\times)$ in (12.5.1.2). In the complex example the two factors $2$ and $1/2$ cancel in the product. The Tamagawa side masses of the original rectangle are $6\pi$ and $1/8$. [Masullo, pp. 518, 519, 556 and 560][ch15-product-masullo]
+
+**The choice of $S$ in the trace formula [Paper].** In the proof on p. 520, $S$ is finite and contains all archimedean places, all places ramified over $\mathbb Q$, and all places where the character $\chi$ is ramified. It satisfies $\operatorname{Pic}(\mathcal O_{F,S})=1$. For $K=\operatorname{supp}\phi$ it is large enough that $|K|_F\subset (1/T,T)$ for some $T<N(\mathfrak p_v)$ at every finite $v\notin S$. The test function $\phi$ is invariant under left translation by the image in $C_F$ of $\prod_{v\notin S}\mathcal O_{F_v}^{\times}$. The two rectangle examples satisfy the conditions on places and the class group. The support and invariance conditions are on the test function. [Masullo, p. 520][ch15-product-masullo-520]
+
+The finite spanning family is essential for the general box uniqueness statement. On $X=Y=[0,1]$ use counting measure in the first coordinate and Lebesgue measure $\lambda$ in the second. On Borel sets $E$, set $P(E)=\sum_{x\in[0,1]}\lambda(E_x)$, where the sum is the supremum of finite subsums. This is a measure, since nonnegative sums commute, or equivalently since each summand is the pushforward of $\lambda$ along its vertical inclusion and arbitrary sums of measures are measures. Set $Q=P+d_*\lambda$ with $d(x)=(x,x)$. Both give the same product values on all Borel rectangles $A\times B$. If $A$ is finite or $\lambda(B)=0$, the added term $\lambda(A\cap B)$ is zero. In every remaining case the product is infinite. However the diagonal has $P$-mass zero and $Q$-mass one. The counting factor has no countable finite-mass cover. The theorem above supplies such a cover through the factor measures and rectangle values. It needs no additional $\sigma$-finiteness assumption on the competing measure.
+
+The product argument uses the existing single-place Haar and density formulas. Its hypotheses concern a finite product and a nonnegative marginal or an $L^2$ norm. The passage from a diagonal integral to the strip trace, the nuclearity issue on p. 451, and the $\alpha$-independence claim remain [Open] as in §15.4.3.2. For the classical binary construction and uniqueness, see Tao's Proposition 30 and Exercise 41. [Tao, *245A Notes 6*][ch15-tao-products]
+
+[ch15-cover-cost]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/OfFunction.lean#L247-L279
+[ch15-cover-split]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Caratheodory.lean#L195-L224
+[ch15-pi]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/Pi.lean#L71-L293
+[ch15-pi-generation]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/MeasurableSpace/Pi.lean#L66-L110
+[ch15-pi-uniqueness]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Restrict.lean#L461-L503
+[ch15-binary]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Prod.lean#L169-L247
+[ch15-pi-blocks]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/Pi.lean#L730-L739
+[ch15-pi-glue]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/Pi.lean#L781-L901
+[ch15-marginal]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Marginal.lean#L78-L239
+[ch15-product-consumers]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean#L364-L408
+[ch15-product-masullo]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=518
+[ch15-tao-products]: https://terrytao.wordpress.com/2010/10/30/245a-notes-6-outer-measures-pre-measures-and-product-measures/#existiprod
+[ch15-product-masullo-520]: https://math216.wordpress.com/wp-content/uploads/2026/11/the-music-of-the-primes.pdf#page=520
+
+#### 15.4.3.6 From outer measure to a countably additive measure
+
+**Motivation.** In §15.4.3.4, the outer measure prices every subset using open supersets. Two disjoint sets may share the same cheapest cover. The open-set test supplies a way to cut every test set at an open set while preserving its total price. We prove how such cuts give a measure and when its values recover the original data.
+
+**Example (a four-point space).** Partition $X=\{a,b,c,d\}$ into $P=\{a,b\}$, $Q=\{c\}$ and $R=\{d\}$ of weights $2,3,5$. Allow covers by unions of blocks, priced by the sum of their weights. Each cover pays at least once for every block meeting the set being covered. The union of just those blocks attains this lower bound. For the four possible intersections with $P$, in order $\varnothing,\{a\},\{b\},P$, the four price rows, according to whether the remainder is $\varnothing,\{c\},\{d\},\{c,d\}$, are $(0,2,2,2)$, $(3,5,5,5)$, $(5,7,7,7)$ and $(8,10,10,10)$.
+
+Every cut along a union of blocks assigns each block meeting a test set to exactly one side. A cut separating $a$ from $b$ fails on the test set $P$, where $2<2+2$. Thus exactly eight sets are measurable, with masses $0,2,3,5,5,7,8,10$ for $\varnothing,P,Q,R,P\cup Q,P\cup R,Q\cup R,X$. The disjoint sequence $P,Q,R,\varnothing,\ldots$ has finite union masses $0,2,5,10,10,\ldots$ starting at the empty union, with supremum $2+3+5=10$. Deleting measurability from disjoint additivity gives the strict counterexample $m(\{a,b\})=2<4=m(\{a\})+m(\{b\})$. [Expository]
+
+**Definition.** An outer measure $m:\mathcal P(X)\to[0,\infty]$ is monotone, vanishes on the empty set and is countably subadditive. A set $A$ belongs to the Carathéodory class $\mathcal C_m$ if, for **every** $T\subseteq X$, $m(T)=m(T\cap A)+m(T\setminus A)$. Subadditivity gives $m(T)\le m(T\cap A)+m(T\setminus A)$, so the test is the reverse inequality. [Lean, read] [OuterMeasure/Caratheodory.lean:53–70](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Caratheodory.lean#L53-L70)
+
+**Lemma (finite cuts).** The class contains the empty set and is closed under complements, finite unions and differences. For pairwise disjoint $A_i\in\mathcal C_m$ and $U_N=\bigcup_{i<N}A_i$, every $T\subseteq X$ satisfies $m(T\cap U_N)=\sum_{i<N}m(T\cap A_i)$.
+
+*Proof.* The empty cut has sides $\varnothing$ and $T$, and complementation exchanges the two terms in the test. For $A,B\in\mathcal C_m$, split $T$ at $A$ and split both pieces at $B$. The four masses sum to $m(T)$. Apply the same cuts to $T\cap(A\cup B)$; this gives the same three pieces inside the union and the empty set as fourth piece. The fourth piece of $T$ is $T\setminus(A\cup B)$. Grouping the terms proves the test for the union. De Morgan's law gives intersections, hence differences. For the finite sum start at $U_0=\varnothing$ and split $T\cap U_{N+1}$ at $A_N$. Disjointness gives the pieces $T\cap A_N$ and $T\cap U_N$, so induction proves the identity. [Lean, read] [OuterMeasure/Caratheodory.lean:62–134](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Caratheodory.lean#L62-L134)
+
+**Theorem (Carathéodory restriction).** For every outer measure on any set, $\mathcal C_m$ is a $\sigma$-algebra. On every $\sigma$-algebra $\mathcal A\subseteq\mathcal C_m$, the assignment $\mu(A)=m(A)$ for $A\in\mathcal A$ defines a measure.
+
+*Proof.* For a disjoint sequence in the lemma put $U=\bigcup_i A_i$. Subadditivity and the finite identity give $m(T\cap U)\le\sum_i m(T\cap A_i)=\sup_N m(T\cap U_N)$. For every $N$, the finite union is measurable and
+$m(T\cap U_N)+m(T\setminus U)\le m(T\cap U_N)+m(T\setminus U_N)=m(T)$.
+Addition of a fixed extended nonnegative number commutes with the supremum of this nonempty sequence: for a finite addend translate the supremum, and for an infinite addend both sides are infinite. Thus $m(T\cap U)+m(T\setminus U)\le m(T)$. For an arbitrary sequence $B_i$ of measurable sets, the measurable differences $B_i\setminus\bigcup_{j<i}B_j$ are disjoint and have the same union, since every point has a first index. This proves countable union closure.
+
+For pairwise disjoint $A_i\in\mathcal A$, subadditivity gives the upper bound $m(U)\le\sum_i m(A_i)$. For the lower bound, the finite identity at $T=X$ gives $\sum_{i<N}m(A_i)=m(U_N)\le m(U)$ for every $N$. Taking the supremum proves equality and the empty-set axiom completes the proof, including infinite masses. [Lean, read] [OuterMeasure/Caratheodory.lean:126–192](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Caratheodory.lean#L126-L192)
+
+**Remark (the formal measure).** Mathlib packages the cut class as **caratheodoryDynkin** and uses intersection closure in **DynkinSystem.toMeasurableSpace**. **OuterMeasure.toMeasure** supplies the empty-set value and disjoint-union equality to **Measure.ofMeasurable**. The resulting Lean measure evaluates arbitrary subsets via the underlying outer measure **trim**, whose value on $T$ is the infimum of $m(A)$ over $T\subseteq A\in\mathcal A$. Indeed the union of a countable measurable cover is a measurable superset of cost at most the sum, and each measurable superset is itself an admissible cover. For $T\in\mathcal A$ its own cover and monotonicity give equality. [Lean, read] [Measure/MeasureSpace.lean:773–798](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/MeasureSpace.lean#L773-L798) · [Measure/MeasureSpaceDef.lean:120–140](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean#L120-L140) · [OuterMeasure/Induced.lean:311–356](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Induced.lean#L311-L356)
+
+**Lemma (agreement with cover costs).** Let $\mathcal D$ contain $\varnothing$ and let $p:\mathcal D\to[0,\infty]$ have $p(\varnothing)=0$. For each $T\subseteq X$ let $m(T)$ be the infimum of $\sum_i p(D_i)$ over sequences in $\mathcal D$ covering $T$, with empty infimum $\infty$. Then $m$ is an outer measure. For each $D\in\mathcal D$, $m(D)=p(D)$ exactly when every allowed cover of $D$ costs at least $p(D)$. To recover this equality as a measure value on its domain also require $D\in\mathcal A\subseteq\mathcal C_m$. If every member $D$ of $\mathcal D$ splits at $S\subseteq X$ into two allowed pieces of combined price at most $p(D)$, then $S\in\mathcal C_m$.
+
+*Proof.* The all-empty cover gives zero and a cover of a larger set also covers a smaller one. When $\sum_i m(T_i)<\infty$, cover each $T_i$ within $\varepsilon/2^{i+1}$ of its infimum, enumerate the double sequence as a single cover, and let $\varepsilon$ decrease to zero. This gives subadditivity, whose infinite right side is automatic. A cover by $D$ padded with empty sets gives $m(D)\le p(D)$; the lower bound is precisely the cover condition. For the split test, split each cover member into the two allowed pieces. The two covering sums bound $m(T\cap S)$ and $m(T\setminus S)$ and have total at most the original cover cost. Take the infimum.
+
+In particular a premeasure on a ring, countably additive on disjoint sequences with union in the ring, satisfies both tests. For $D\subseteq\bigcup_i D_i$, the disjoint ring members $(D\cap D_i)\setminus\bigcup_{j<i}D_j$ have union $D$ and prices at most $p(D_i)$ by monotonicity from finite additivity. Cuts by ring members give two ring pieces of unchanged total price. Thus the restriction to the generated $\sigma$-algebra extends the premeasure. Finite additivity alone fails: price finite subsets of $\mathbb N$ at zero and cofinite sets at one. The singleton cover prices $\mathbb N$ at zero although its original price was one. [Lean, read] for the cover and split constructions. [Expository] for the ring deduction. [OuterMeasure/OfFunction.lean:55–119](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/OfFunction.lean#L55-L119) · [OuterMeasure/Caratheodory.lean:198–213](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/OuterMeasure/Caratheodory.lean#L198-L213)
+
+**Example (interval covers on the real line).** Allow bounded half-open intervals $[u,v)$, $u\le v$, of price $v-u$. Cutting at $(-\infty,t)$ for $u<t<v$ gives pieces of lengths $t-u$ and $v-t$. For $t\le u$ or $t\ge v$ one piece is empty. Thus all left open half-lines pass the test. Closed left half-lines are countable intersections of larger open left half-lines, and open intervals are differences of those two types. Every open set is a union of a countable family of rational open intervals. Hence the Borel sets lie in the cut class.
+
+For $a<b$ the one-interval cover gives $m([a,b))\le b-a$. Given any cover $[a,b)\subseteq\bigcup_n[u_n,v_n)$, enlarge each member at each end by $\varepsilon/2^{n+2}$. These open intervals have total excess length $\varepsilon$. For $0<\delta<b-a$, a finite subfamily covers $[a,b-\delta]$ by compactness. Partition that segment at the finitely many covering endpoints in its interior. Assign each successive subinterval to an interval containing its midpoint. Its interior lies in that interval because there is no covering endpoint in the interior of the subinterval. The disjoint lengths assigned to each covering interval sum to at most its length. Hence $b-a-\delta\le\sum_n(v_n-u_n)+\varepsilon$. Let $\delta,\varepsilon$ decrease to zero. This proves equality and the empty case is zero.
+
+For a concrete infinite disjoint family let $I_n=[1-2^{-n},1-2^{-(n+1)})$, $n\ge0$. Its individual masses are $2^{-(n+1)}$. The first $N$ intervals have union $[0,1-2^{-N})$ of mass $1-2^{-N}$, the telescoping sum of their masses. Their full union is $[0,1)$, of mass $1$ by the upper and lower cover bounds above. The singleton $\{1\}$ has mass zero by the covers $[1,1+2^{-N})$, so adjoining it gives $[0,1]$ of mass $1$. [Expository] [Tao, 245A Notes 1, Lemmas 6–7 and Exercise 17](https://terrytao.wordpress.com/2010/09/09/245a-notes-1-lebesgue-measure/)
+
+**Remark (the Haar consumer).** The open-set test in §15.4.3.4 gives $\operatorname{Borel}(G)\subseteq\mathcal C_m$. **Content.measure** invokes **outerMeasure.toMeasure** with **borel_le_caratheodory**. By the inherited open-cover formula, its values on open sets are $I(O)=\sup_{K\subseteq O}c(K)$ over compact $K$. For a Hausdorff space and compact $K$, $\mu(K)=\inf_{O\supseteq K}I(O)$ over open $O$, and $c(K)\le\mu(K)$. Since $c(K)$ is finite, equality is equivalent to having, for every $\varepsilon>0$, an open superset of price at most $c(K)+\varepsilon$. A sufficient condition is **ContentRegular**, meaning that $c(K)$ is the infimum of $c(K')$ over compact $K'$ with $K\subseteq\operatorname{int}K'$. Choose such $K'$ with $c(K')\le c(K)+\varepsilon$. Then $\mu(K)\le I(\operatorname{int}K')\le c(K')$ by monotonicity of the compact content. The pin also allows an $R_1$ space and uses $\mu(\operatorname{cl}K)=\mu(K)$ for compact $K$ in the lower bound. **haarMeasure** divides by the finite positive value of **haarContent.measure** on $K_0$. It requires no agreement of the original content with the measure on every compact set. The product argument in §15.4.3.5 uses the same restriction after its rectangle test, and its uniqueness is a separate finite-spanning argument. [Lean, read] [Measure/Content.lean:355–360,388–427](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Content.lean#L355-L427) · [Measure/Haar/Basic.lean:517–522](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L517-L522) · [Compact closure mass](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean#L288-L289) · [Halmos, §54, Theorem A](https://59clc.wordpress.com/wp-content/uploads/2012/05/paul_r-_halmos_measure_theory_graduate_texts_inbookfi-org.pdf)
+
+<a id="chapter-15-companion-drafts"></a>
+
+**Companion drafts.** [§15.4.3.7 Tychonoff compactness and a single Haar content](../notes/outline.md#chapter-15-draft-tychonoff), [§15.4.3.8 Compact covers and contents in preregular spaces](../notes/outline.md#chapter-15-draft-preregular) and [§15.4.3.9 Why concentrating kernels recover a point value](../notes/outline.md#chapter-15-draft-concentrating-kernels).
 
 #### 15.4.3.10 How powers of a unique peak concentrate at a point
 
