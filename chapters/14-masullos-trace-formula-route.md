@@ -3009,11 +3009,130 @@ zero, so both cut operators, both norms, and the mixed trace vanish.
 | `Planch.lean:34–46` | The representative clause identifies the reflected, exponentially weighted norm square with that of the kernel vector weighted by $\exp(-2x)$. This supplies the rewrite before the spectral estimate. |
 
 **Scope.** This is a local reading of the archive proof and its
-consuming steps. The Hilbert–Schmidt pairing, correlation limit,
-and spectral estimate are used at their interfaces. Masullo’s positive-width
+consuming steps. The [next subsection](#144210-hilbertschmidt-norms-and-mixed-traces-of-truncated-integral-operators)
+proves the Hilbert–Schmidt and mixed-trace formulas for the two
+families submitted to `kp`. The correlation limit and spectral estimate
+are used at their interfaces. Masullo’s positive-width
 strip trace-class step and strip-parameter independence remain [Open]. The archive attribution, pinned
 revision and library source links are recorded in the source ledger.
 [Sources](../sources/SOURCES.md#chapter-14-kernel-vectors-and-truncated-convolution)
+
+#### 14.4.2.10 Hilbert–Schmidt norms and mixed traces of truncated integral operators
+
+**Motivation.** The [preceding subsection](#14429-kernel-vectors-and-truncated-convolution) gives the two integral representations used in `BandHS`. Once those representations are available, two quantities can be read directly from their kernels. The Hilbert–Schmidt square is an integral of column energies. The trace of the product with a second cut operator's adjoint is an integral of column pairings. Both assertions use the adjoint of the cut operator to turn its evaluation against a fixed output vector into a function of the input coordinate.
+
+**Example 1 (scalar input and rank-one output).** Take $I=(0,1]$, $H=L^2(\mathbb R;\mathbb C)$, $J=1$, and $q=\mathbf1_I$, a unit vector in $H$. Let $k(y)z=q(1+iy)z$ and $k'(y)z=q(2-y+i)z$. These kernels are continuous as maps into the operator space. For the output direction $q$, the two adjoints give the vectors $v=\mathbf1_I(1-iy)$ and $v'=\mathbf1_I(2-y-i)$. Their squared norms are $1+1/3=4/3$ and $5-2+1/3=10/3$. The mixed product maps $u$ to $v'\langle v,u\rangle$. In an orthonormal basis starting with $v/\lVert v\rVert$, its only potentially nonzero diagonal entry is $\langle v,v'\rangle$. Expanding gives
+$$
+ (1+iy)(2-y-i)=2+i(-1+2y-y^2).
+$$
+Thus its trace is $2-i/3$. On the kernel side the two column energies are $1+y^2$ and $(2-y)^2+1$, and the mixed column entry is exactly the polynomial above. Integrating gives the same three values. Reversing the two kernels gives $2+i/3$. [Expository]
+
+**Example 2 (complex matrix-valued columns).** Take $V=\mathbb C^2$, $H=L^2(\mathbb R;V)$, $J=1$ and the same cut. Let $Qz=\mathbf1_I z$, an isometry, and set $k(y)=QA(y)$, $k'(y)=QB(y)$ with
+$$
+ A(y)=\begin{pmatrix}0&1+iy\\2i&y\end{pmatrix},
+ \qquad B(y)=\begin{pmatrix}1&2-i\\y&i\end{pmatrix}.
+$$
+On the input side use the two real orthonormal polynomials $p_0=1$, $p_1=\sqrt{12}(y-1/2)$ on $I$, extended by zero. The integrals of $p_0,p_1,yp_0,yp_1$ are $1,0,1/2,1/\sqrt{12}$. In the output basis $Qe_1,Qe_2$, the images of $p_j e_i$ form two matrix blocks for each operator:
+$$
+ A_0=\begin{pmatrix}0&1+i/2\\2i&1/2\end{pmatrix},
+ \quad A_1=\frac1{\sqrt{12}}\begin{pmatrix}0&i\\0&1\end{pmatrix},
+ \qquad
+ B_0=\begin{pmatrix}1&2-i\\1/2&i\end{pmatrix},
+ \quad B_1=\frac1{\sqrt{12}}\begin{pmatrix}0&0\\1&0\end{pmatrix}.
+$$
+Every entry of each input functional lies in the span of the two polynomials. Hence both operators kill the orthogonal complement of the four input vectors. Their Hilbert–Schmidt squares are $(4+5/4+1/4)+2/12=17/3$ and $(1+1/4+5+1)+1/12=22/3$. The trace diagonal of the mixed product, in input order $(p_0e_1,p_0e_2,p_1e_1,p_1e_2)$, is $i, (2+i)(1+i/2)-i/2, 0, 0$. It sums to $3/2+5i/2$.
+
+For the kernel calculation, the squared norms of the two columns of $A$ are $4,1+2y^2$. For $B$ they are $1+y^2,6$. Their integrals give $17/3$ and $22/3$. The mixed entries are $2iy$ and $(2+i)(1+iy)-iy=2+i+iy-y$. Their integral gives $3/2+5i/2$. In particular the mixed sum comes from column pairings with the $B$ column conjugated. [Expository]
+
+**Definitions.** Let $V$ be a finite-dimensional complex Hilbert space, $H$ a complex Hilbert space, and $J:L^2(\mathbb R;V)\to H$ an onto complex linear isometry. Use Borel Lebesgue measure and an inner product conjugate-linear in the first slot. For real endpoints $a,b$ let $I=(a,b]$. For each operator-norm continuous $k:\mathbb R\to\mathcal L(V,H)$ define $Y_k$ by
+$$
+ Y_k Ju=\int_I k(y)u(y)\,dy.
+$$
+Write $D_k(y)=\sum_i\lVert k(y)e_i\rVert^2$ for the total column energy in an orthonormal basis $(e_i)$ of $V$. An operator is Hilbert–Schmidt if the sum of squared images of an orthonormal basis is finite. That sum is its Hilbert–Schmidt norm squared.
+
+**Lemma (adjoint, Hilbert–Schmidt square and mixed trace on a set).** Take arbitrary $a,b\in\mathbb R$ and put $I=(a,b]$. Use the set-integral definition above for $Y_k$ and $Y_{k'}$. For continuous kernels $k,k'$ and every orthonormal basis $(e_i)$ of $V$, both operators are Hilbert–Schmidt, and
+$$
+ Y_k^\dagger c=J[\,\mathbf1_I(y)k(y)^\dagger c\,]\quad(c\in H),\qquad
+ \lVert Y_k\rVert_{\mathrm{HS}}^2=\int_I\sum_i\lVert k(y)e_i\rVert^2\,dy.
+$$
+The product $Y_{k'}^\dagger Y_k$ is trace class and
+$$
+ \operatorname{tr}(Y_{k'}^\dagger Y_k)
+   =\int_I\sum_i\langle k'(y)e_i,k(y)e_i\rangle\,dy.
+$$
+The integral is linear in $k$ and conjugate-linear in $k'$. The archive's `kp` takes bounded operators already satisfying the displayed integral representations. Surjectivity of $J$ makes those operators unique. Its oriented statement assumes $a\le b$ and reads
+$$
+ \lVert Y_k\rVert_{\mathrm{HS}}^2=\int_a^b\sum_i\lVert k(y)e_i\rVert^2\,dy,\qquad
+ \operatorname{tr}(Y_{k'}^\dagger Y_k)
+ =\int_a^b\sum_i\langle k'(y)e_i,k(y)e_i\rangle\,dy.
+$$
+Under that hypothesis the oriented integrals equal the set integrals on $(a,b]$. [Lean, read] `ContAdj.lean:34–50,133–148`. The construction of the bounded operator from the representation is spelled out below.
+
+**Proof of the adjoint and representative identities.** When $a\ge b$, the cut is empty and the set-integral assertions are all identities for zero operators. For the proof on a nonempty cut let $a<b$. Continuity bounds $\lVert k(y)\rVert$ by a constant $M$ on $[a,b]$. With any strongly measurable representative $u(y)$, continuous evaluation gives a strongly measurable integrand, bounded in norm by $M\lVert u(y)\rVert$ on $I$. The latter has integral at most $M\sqrt{b-a}\lVert u\rVert_2$. The Bochner integral is invariant under changes on an input null set and therefore defines a bounded complex linear operator through $J$. For fixed $c$, the function $y\mapsto k(y)^\dagger c$ is continuous because adjoint is norm continuous, and its cut is in $L^2$ by boundedness on the closed interval. Pairing with arbitrary $Ju$ in the second slot gives
+$$
+ \langle Y_k^\dagger c,Ju\rangle
+ =\langle c,Y_k Ju\rangle
+ =\int_I\langle c,k(y)u(y)\rangle\,dy
+ =\int_I\langle k(y)^\dagger c,u(y)\rangle\,dy.
+$$
+The last integral equals the $L^2$ inner product of the cut class and $u$. This gives the adjoint by surjectivity and nondegeneracy. Pairing two such adjoint vectors and using $\mathbf1_I^2=\mathbf1_I$ gives
+$$
+ \langle Y_k^\dagger c,Y_{k'}^\dagger c\rangle
+ =\int_I\langle k(y)^\dagger c,k'(y)^\dagger c\rangle\,dy.
+$$
+For $k'=k$ this is the real square identity. Lean obtains it by taking the complex self-inner products as real squares and commuting real-to-complex coercion with the integral. [Lean, read] `ContAdj.lean:22–69`.
+
+**Countable bases.** In $L^2(\mathbb R;V)$ take step functions with finitely many bounded rational interval endpoints and values with Gaussian-rational coordinates in a fixed orthonormal basis of $V$. There are countably many. They are dense by the usual density of simple functions with finite-measure support in $L^2$. In detail each finite-measure set $E$ in such a simple function can be approximated by a finite union of bounded rational intervals in symmetric-difference measure. Choose a compact $K\subset E$ and open $O\supset E$ with $\lambda(O\setminus K)$ arbitrarily small by Lebesgue regularity, then cover $K$ by finitely many rational open intervals contained in $O$. Indicator errors have $L^2$ norm equal to the square root of the symmetric-difference measure. Approximate each coefficient on the resulting finite-measure support by Gaussian-rational coordinates. The triangle inequality bounds the combined error. This constructs a countable dense set even in dimension zero, where the one zero function suffices. Its image under $J$ is dense in $H$.
+
+A Hilbert basis can be constructed by Gram–Schmidt from a countable dense sequence, dropping zero residuals. Any orthonormal family is countable, since the radius-$1/2$ balls around its vectors are disjoint (distinct vectors are at distance $\sqrt2$), and each contains an element of the countable dense set. This is the argument in `cnt`. Lean obtains the separability instance through $p=2<\infty$, the proper finite-dimensional coefficient space, and the continuous surjection $J$. [Lean, read] `ContAdj.lean:12–20,109–113`. The rational-step construction explains the real-line instance.
+
+**Parseval and square control.** For bounded $A,B:V\to H$ and any Hilbert basis $(c_m)$ of $H$, finite-dimensional Parseval gives
+$$
+ \langle A^\dagger c_m,B^\dagger c_m\rangle
+ =\sum_i \langle B e_i,c_m\rangle\langle c_m,A e_i\rangle.
+$$
+Indeed its $i$th term before adjoint transfer is $\langle A^\dagger c_m,e_i\rangle\langle e_i,B^\dagger c_m\rangle$. For each $i$ the sum over $m$ is absolutely convergent by Cauchy–Schwarz on the two Parseval coefficient sequences. Summing over $m$ gives $\sum_i\langle B e_i,A e_i\rangle$. In particular the real diagonal gives
+$$
+ \sum_m\lVert k(y)^\dagger c_m\rVert^2=\sum_i\lVert k(y)e_i\rVert^2=D_k(y).
+$$
+This is a continuous, bounded function on $[a,b]$, with $D_k(y)\le\dim(V)M^2$ there. By the square identity each finite sum of squared images under $Y_k^\dagger$ is bounded by $\int_I D_k$. Monotone convergence gives equality for the full sum. For completeness, for any bounded $T:H\to H$ and any two Hilbert bases $(c_m)$ and $(d_n)$, Parseval and summation of nonnegative terms give
+$$
+ \sum_n\lVert T d_n\rVert^2
+ =\sum_{n,m}|\langle c_m,Td_n\rangle|^2
+ =\sum_m\lVert T^\dagger c_m\rVert^2.
+$$
+The equality holds also for infinite values. Applied to $Y_k$ it proves both the Hilbert–Schmidt assertion and the square formula in every basis. The finite basis of $V$ can be chosen freely, because for $A,B$ the pointwise pairing equals the basis-independent sum in the output frame just computed. [Lean, read] `ContAdj.lean:71–102,141–148`. The archive obtains the final square by specializing the mixed trace and comparing the two diagonal sums.
+
+**Mixed trace and the exchange of sum and integral.** The trace ideal inputs are the product theorem for two Hilbert–Schmidt operators, the trace diagonal formula in any Hilbert basis for a trace-class operator, and cyclicity of the trace for the two Hilbert–Schmidt factors. These are applied to $Y_k$ and $Y_{k'}^\dagger$, both bounded and Hilbert–Schmidt by the preceding argument. Both products are trace class. The [trace-ideal references](../sources/SOURCES.md#chapter-14-truncated-integral-operators) identify the three interfaces used here. Cyclicity gives the output-basis diagonal
+$$
+ \operatorname{tr}(Y_{k'}^\dagger Y_k)
+ =\operatorname{tr}(Y_kY_{k'}^\dagger)
+ =\sum_m\langle Y_k^\dagger c_m,Y_{k'}^\dagger c_m\rangle.
+$$
+For $F_m(y)=\langle k(y)^\dagger c_m,k'(y)^\dagger c_m\rangle$, continuity and compact-interval bounds give integrability on $I$ term by term. Cauchy–Schwarz bounds $|F_m(y)|$ by half the sum of the two adjoint squares. Monotone convergence gives the bound
+$$
+ \sum_m\int_I |F_m(y)|\,dy\le \tfrac12\int_I(D_k(y)+D_{k'}(y))\,dy<\infty.
+$$ The pointwise series converges absolutely by the same bound and its partial sums are dominated by that integrable half-sum. Dominated convergence permits the exchange. The pointwise Parseval formula with $A=k(y)$ and $B=k'(y)$ gives the asserted integrand, in particular the order $k',k$. Lean uses the bound by the full sum of squares and the library integral-of-sum theorem. Its proof finishes by uniqueness of the sum. [Lean, read] `ContAdj.lean:104–130`.
+
+**Remarks on endpoints and square control.** A change at finitely many interval endpoints does not alter the operators, the cut classes or either scalar integral. If $a=b$, the interval is empty, the operators and products are zero, and all identities give zero. For $a>b$, the set $I$ is empty and the set-integral identities give zero. An oriented integral with reversed endpoints instead uses a minus sign. The oriented-integral interface `kp` requires $a\le b$.
+
+Continuity and finite cut length supply square integrability here. More generally let $k$ be strongly measurable in operator norm on $I$ with $\int_I D_k<\infty$. Evaluation and the adjoint are continuous, so the evaluated integrand and adjoint cut are strongly measurable. The bound $\lVert k(y)\rVert\le\sqrt{D_k(y)}$ gives
+$$
+ \int_I\lVert k(y)u(y)\rVert\,dy
+ \le\left(\int_I D_k(y)\,dy\right)^{1/2}\lVert u\rVert_2,
+ \qquad
+ \int_I\lVert k(y)^\dagger c\rVert^2\,dy
+ \le\lVert c\rVert^2\int_I D_k(y)\,dy.
+$$
+These bounds give the Bochner integral and the adjoint cut class used in the same square proof. Two such kernels give the mixed formula by the same absolute sum estimate. The following bounded operators illustrate what can fail without this control.
+
+Let $V=\mathbb C$, $H=L^2(\mathbb R)$ and $J=1$. Choose $q_n=\mathbf1_{(n,n+1]}$ for integers $n\ge1$. The vectors $q_n$ are orthonormal, and the disjoint translates below give orthonormal input vectors. Choose a real continuous bump $r$ supported inside $(0,1)$ with $\int r^2=1$, and put $r_n(y)=r(y-n)$. The continuous kernel $k(y)z=z\sum_{n\ge1}r_n(y)q_n$ is locally a finite sum. On the unbounded cut $(0,\infty)$ its integral on compactly supported inputs extends to the bounded operator $Tu=\sum_n q_n\langle r_n,u\rangle$ by Bessel's inequality. Since $Tr_n=q_n$, its Hilbert–Schmidt square is infinite. The full Bochner representation can also fail there. For $u=\sum_n r_n/n$ the squared input norm is $\sum_n 1/n^2$ but the integral of $\lVert k(y)u(y)\rVert$ is $\sum_n1/n$.
+
+For a finite cut, let $E_n=(2^{-n},2^{1-n})$ and choose a real continuous $L^2$-normalized bump $s_n$ compactly supported inside $E_n$. Use $k(y)z=z\sum_n s_n(y)q_n$ on $(0,1]$. This kernel is measurable, locally continuous away from $0$, and $\int_0^1\lVert k(y)\rVert^2\,dy=\sum_n1=\infty$. The finite-support integral on the span of the $s_n$ and the bounded operator $\sum_n q_n\langle s_n,u\rangle$ again give an infinite orthonormal sequence of unit images. The extension can equivalently be obtained as a strong limit of Bochner integrals on finite unions of the $E_n$, by Bessel for every input. This example drops the compact-interval continuity bound as well as square integrability. On a finite closed interval a norm-continuous kernel cannot violate that square bound. [Expository]
+
+**The two uses in `BandHS`.** Use [§14.4.2.9](#14429-kernel-vectors-and-truncated-convolution) and its inherited carrying and Bochner formulas for the two representations `y1`, `y2` in `BandHS.lean:23–40`. For $a\le b$, the first `kp` call at line 41 takes $Y=XP(I)$ and $Y'=\mathrm{av}(\phi)P(I)$, with $k(y)=U_yA$, $k'(y)=U_{-y}A'$ where $A=J'K_\kappa$ and $A'=J\,\mathrm{sv}(\phi(-\cdot))$. Moving $U_{-y}$ from the first slot to its adjoint $U_y$ in the second uses the unitary flow law. The mixed integrand becomes $\sum_i\langle A'e_i,U_{2y}Ae_i\rangle$, the correlation of the preceding subsection. Strong continuity of the flow gives continuity on each of the finitely many vectors $Ae_i$ or $A^\prime e_i$. Cauchy–Schwarz on the coordinates bounds each difference in operator norm by the square root of the sum of those squared column differences. Unitarity makes the first square $(b-a)\sum_i\lVert K_\kappa e_i\rVert_2^2$.
+
+The second call at line 42 uses $Y'$ and $k'$ in both slots. It retains the Hilbert–Schmidt assertion and square. The inherited scalar-vector norm and reflection formulas evaluate that square as $(b-a)\dim(V)\int_{\mathbb R}|\phi(x)|^2\,dx$. These are the simplifications at lines 43–60. For arbitrary endpoints the corresponding set formulas use $\max(b-a,0)$ for the length and a set integral for the correlation, as in §14.4.2.9. The mixed product of the two cut factors is the trace-class operator furnished here. Trace class for the uncut convolution and for Masullo's positive-width strip, and independence of the strip parameter, remain open in this route. [Sources](../sources/SOURCES.md#chapter-14-truncated-integral-operators)
 
 #### Absolute Cauchy products in a Banach algebra
 

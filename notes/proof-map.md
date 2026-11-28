@@ -1300,6 +1300,26 @@ At the same Mathlib pin, the finite coordinate model gives `LinearMap.continuous
 
 Application-level inputs include `memLp_of_hasCompactSupport`, `integrableOn_Lp_of_measure_ne_top`, `Lp.stronglyMeasurable`, `aestronglyMeasurable_comp₂`, and the isometric pullback. The deeper `SvSpec`, `AvSpec`, `bandTC`, `traceFar`, and `tailB` interfaces retain their existing status. The four principal kernel-vector clauses passed same-source first review. The `BandHS` consumer entry incorporates that review’s endpoint correction. Masullo’s positive-width strip trace class and strip-parameter independence remain [Open]. Kernel replay and Main reachability are unverified here.
 
+## Chapter 14 truncated integral operators
+
+[§14.4.2.10](../chapters/14-masullos-trace-formula-route.md#144210-hilbertschmidt-norms-and-mixed-traces-of-truncated-integral-operators) reads the A2 production bodies below at local R3. Short paths follow the [convolution map](#chapter-14-convolution-and-representatives). The proofs use the same finite-dimensional input and surjective complex linear isometry as `kp`. [Source fingerprints and library hypotheses](../sources/SOURCES.md#chapter-14-truncated-integral-operators)
+
+| Declaration | Proof location | Production and direct consumer |
+| --- | --- | --- |
+| `cnt` | `ContAdj.lean:12–20` | Counts orthonormal families by disjoint open balls. `trEq:109–113` transports separability through the onto isometry and uses this countability for the exchange at :117. |
+| `contAdj`, `cSq`, `memL` | `ContAdj.lean:22–32` | Norm continuity of the adjoint gives continuous evaluations and their squares. The indicator belongs to $L^2$ by the compact-interval bound and finite measure. These supply `adjEq:35,48`, `innEq:57`, `summ:92–93` and `trEq:116,122–123`. |
+| `adjEq` | `ContAdj.lean:34–50` | Identifies the adjoint with the transported cut class by testing against every $Ju$. Both calls in `innEq:55` use this formula. |
+| `innEq`, `normEq` | `ContAdj.lean:52–60,61–69` | Uses the $L^2$ inner product on the two classes. The diagonal yields the real square by commuting real-to-complex coercion with integration. Used in `summ:91` and `trEq:122,127`. |
+| `ptSum`, `ptSumR` | `ContAdj.lean:71–84` | Input-basis expansion and output Parseval give the column pairing with $k'$ first. The real specialization bounds the finite sums at `summ:95`. The mixed equality is used at `trEq:127`. |
+| `summ`, `isHS` | `ContAdj.lean:86–102` | Bounded nonnegative partial sums give adjoint-square summability. Adjoint invariance and the standard Hilbert basis then give the Hilbert–Schmidt property. The bounds enter `trEq:121–123` and the property enters `trEq:107–108` and `kp:139`. |
+| `trEq` | `ContAdj.lean:104–130` | Uses the trace-class diagonal, proves summability of the integrated absolute pairings and exchanges sum and integral. Cyclicity and uniqueness of the sum identify the trace. The integral is on the set $I_{a,b}$ for arbitrary real endpoints. `kp:140,142` consumes the mixed and diagonal cases. |
+| `UpperTheory.V.Z.IntegralApplyAeEq.kp` | `ContAdj.lean:133–148` | Assembles the Hilbert–Schmidt property, the square from diagonal trace, and the mixed trace. The condition $a\le b$ supplies the conversions at :140,147. The paper presentation also obtains the square by monotone convergence of the adjoint squares. |
+| `UpperTheory.V.Z.IntegralApplyAeEq.bandHS` | `BandHS.lean:13–60` | :21–24 promotes the two strongly continuous orbit columns. The existing `y1,y2` identities at :28–40 feed `kp` at :41–42. Unitarity and the scalar-vector norm at :43–55 give the squares. At :56–60 the flow adjoint gives the $2y$ correlation in the published consumer. |
+
+The `bandHS` outputs enter `BandTC.lean:73–76`, `TraceNear.lean:65` and `TraceFar.lean:65`. These are consumer call sites. GroundTheory's `HilbertSchmidt.lean:83–108,198–202` and `TraceClass.lean:343–350,366–378` supply the Hilbert–Schmidt and trace interfaces [Lean]. The underlying product bound, polar decomposition, factorization, and cyclic double sum stay at their named boundaries. The carrying, averaging and scalar-vector inputs keep their inherited scope.
+
+The same-source first review accepted five items under the stated hypotheses and named suppliers. The strongly measurable square-integrable extension is a paper argument. The finite examples have a separate exact certificate. Independent review of this subsection, kernel replay and Main reachability remain pending. Positive-width strip trace class and strip-parameter independence remain [Open].
+
 ### Chapter 9 compact lowering words
 
 In A2, **IsInfUnitary.lean:15–29,50,72–79** fixes the brackets, highest equations, root and compact stability. **CFCoreA.lean:16–144** gives the word recursions, diagonal shift, compact raising exchange and stable span at author-level local R3. Line 235 uses stability with supplied irreducibility. Line 248 uses stability and independently supplied finite dimension to assemble the compact type. The adjoint argument for irreducibility retains its separate hypotheses.
