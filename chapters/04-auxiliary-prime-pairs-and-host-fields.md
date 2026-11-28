@@ -3803,6 +3803,370 @@ The inherited `tail_mertens_nat` uses the bound on intermediate prefixes, and `t
 
 **Source note.** Tao's *254A Notes 1*, Proposition 12, proves the all-$x$ order bound with the even row $\binom{2N}{N}$ on $(N,2N]$ and a separate count of proper powers. The exact constant here follows Mathlib's odd-row primorial estimate and exponent grouping. The reading tag applies to this local production chain and the natural-number wrapper. The mathematical text inherits the original same-source preliminary review of the two elementary estimates and the natural-number specialization. [Sources and credits](../sources/SOURCES.md#chapter-4-41014-elementary-chebyshev-supply)
 
+### 4.10.15 The Chebyshev lower bound from least common multiples
+
+#### Motivation
+
+An upper estimate limits how much prime weight a prefix can contain. For a lower estimate we need a large integer whose prime factors, including their multiplicities, fit inside that prefix. The least common multiple of $1,\ldots,n$ supplies that budget. Each entry of the $n$th binomial row fits inside it by divisibility, while the sum of the row is $2^n$.
+
+#### Two worked calculations [Expository]
+
+At $n=8$ the prime powers in the prefix are $2,4,8$ over $2$, and $3,5,7$ over the remaining primes. Their largest powers give $L_8=8\cdot3\cdot5\cdot7=840$. Each power contributes the logarithm of its base, so $\psi(8)=3\log 2+\log 3+\log 5+\log 7=\log 840$. At $n=12$ the lists are $2,4,8$ over $2$, $3,9$ over $3$, and $5,7,11$ over the remaining primes. Thus $L_{12}=8\cdot9\cdot5\cdot7\cdot11=27720$ and $\psi(12)=3\log 2+2\log 3+\log 5+\log 7+\log 11=\log 27720$.
+
+For $n=2m$, the contribution at the power $q=p^i$ to the valuation of the central coefficient is $\lfloor n/q\rfloor-2\lfloor m/q\rfloor$. The following table gives every nontrivial power cutoff, including the cutoffs whose contribution vanishes. Powers beyond the row index contribute zero.
+
+| Row | Prime | Powers $q$ in order | Quotients $\lfloor n/q\rfloor$ | Quotients $\lfloor m/q\rfloor$ | Differences | Valuation available in $L_n$ |
+|---|---|---|---|---|---|---|
+| $8$ | $2$ | $2,4,8$ | $4,2,1$ | $2,1,0$ | $0,0,1$ | $3$ |
+| $8$ | $3$ | $3$ | $2$ | $1$ | $0$ | $1$ |
+| $8$ | $5$ | $5$ | $1$ | $0$ | $1$ | $1$ |
+| $8$ | $7$ | $7$ | $1$ | $0$ | $1$ | $1$ |
+| $12$ | $2$ | $2,4,8$ | $6,3,1$ | $3,1,0$ | $0,1,1$ | $3$ |
+| $12$ | $3$ | $3,9$ | $4,1$ | $2,0$ | $0,1$ | $2$ |
+| $12$ | $5$ | $5$ | $2$ | $1$ | $0$ | $1$ |
+| $12$ | $7$ | $7$ | $1$ | $0$ | $1$ | $1$ |
+| $12$ | $11$ | $11$ | $1$ | $0$ | $1$ | $1$ |
+
+It follows that $\binom{8}{4}=2\cdot5\cdot7=70$ with $840/70=12$, and $\binom{12}{6}=2^2\cdot3\cdot7\cdot11=924$ with $27720/924=30$. The row-average budgets are $256\le9\cdot70=630\le9\cdot840=7560$ and $4096\le13\cdot924=12012\le13\cdot27720=360360$. The average, middle entry and LCM therefore give three distinct quantities in each example.
+
+#### Definitions and the LCM identity
+
+Let $n$ be a nonnegative integer and set $L_n=\operatorname{lcm}(1,\ldots,n)$, with $L_0=1$. For a positive integer $a$ and prime $p$, write $v_p(a)$ for the exponent of $p$ in $a$. Let $e_p(n)$ be the number of positive integers $i$ with $p^i\le n$. This is the integer base logarithm given by the Lean expression $p\texttt{.log}\,n$ (an integer base-$p$ logarithm with value zero when $n<p$). Throughout the analytic formulas $\log$ is the real natural logarithm.
+
+Use $\Lambda(p^i)=\log p$ for $i\ge1$ and $\Lambda(m)=0$ elsewhere, including $m=0,1$. For $x\ge0$ use $N=\lfloor x\rfloor$, with $\psi(x)=\sum_{1\le m\le N}\Lambda(m)$, $\theta(x)=\sum_{p\le N}\log p$ and $\pi(N)$ the number of primes up to and including $N$.
+
+**Lemma (prime powers in the LCM) [Lean, read].** For every $n\ge0$ and every prime $p$, $v_p(L_n)=e_p(n)$. In particular
+$$
+L_n=\prod_{p\le n}p^{e_p(n)},\qquad
+\psi(n)=\log L_n=\sum_{p\le n}e_p(n)\log p .
+$$
+
+**Proof.** The valuation of the LCM is the maximum of the valuations over the prefix, with empty maximum zero. Indeed the product of the prime powers with these maximum exponents is a common multiple and divides every positive common multiple. If $1\le m\le n$ then $p^{v_p(m)}\mid m$, so $p^{v_p(m)}\le n$. If $p\le n$, the integer $p^{e_p(n)}$ lies in the prefix and attains the asserted valuation. If $p>n$, the valuation is zero throughout. This proves the product formula. The support of $\Lambda$ in the prefix is the disjoint union of the lists $p,p^2,\ldots,p^{e_p(n)}$. Unique factorization separates the bases, and powers within one list are strictly increasing. Each list contributes $e_p(n)\log p$, which is the logarithm of its factor in the product. The empty sum and product handle $n=0,1$. The floor identity extends this to $\psi(x)=\log L_{\lfloor x\rfloor}$ for all $x\ge0$. [Pinned source record](../sources/SOURCES.md#chapter-4-41015-chebyshev-lower-bound-from-lcms)
+
+#### Binomial divisibility and the whole row
+
+**Lemma (one unit of valuation per cutoff) [Lean, read].** For every $n\ge0$ and every integer $0\le k\le n$, $\binom nk\mid L_n$. Consequently $2^n\le(n+1)L_n$.
+
+**Proof.** In $a!$, count one contribution to $v_p$ for each multiple of each $q=p^i$ with $i\ge1$. This gives $v_p(a!)=\sum_{i\ge1}\lfloor a/p^i\rfloor$, with finitely many nonzero terms. Apply the identity $\binom nk\,k!(n-k)!=n!$. If $r$ and $s$ are the respective remainders of $k$ and $n-k$ modulo $q$, the difference of the three factorial quotients for this $q$ is
+$$
+\left\lfloor \frac{n}{q}\right\rfloor-
+\left\lfloor \frac{k}{q}\right\rfloor-
+\left\lfloor \frac{n-k}{q}\right\rfloor
+=\left\lfloor \frac{r+s}{q}\right\rfloor .
+$$
+As $0\le r+s\le2q-2$, the difference is zero or one, and it is zero if $q>n$. Thus $v_p(\binom nk)\le e_p(n)$ for every prime $p$. Both integers are positive, so the valuation inequalities imply divisibility. For the row bound, sum $\binom nk\le L_n$ over all $n+1$ indices, using the binomial theorem. The central coefficient is also at least the row average by unimodality, which follows from the ratio $(n-k)/(k+1)$ of successive entries. The pinned proof sums the individual bounds directly and needs no unimodality lemma. [Pinned source record](../sources/SOURCES.md#chapter-4-41015-chebyshev-lower-bound-from-lcms)
+
+#### From the row to the lower bounds
+
+**Theorem (source bounds and their ranges) [Lean, read].** Put $A(n)=n\log2-\log(n+1)$ and $B(x)=(x-1)\log2-\log(x+2)$. The declarations `psi_ge` and `psi_ge'` give
+$$
+A(n)\le\psi(n)\quad(n\in\mathbb N),\qquad
+B(x)\le\psi(x)\quad(x\in\mathbb R, x\ge0).
+$$
+The declarations `theta_ge` and `theta_ge'` give $A(n)-2\sqrt n\log n\le\theta(n)$ for every $n\in\mathbb N$ and $B(x)-2\sqrt x\log x\le\theta(x)$ for every real $x\ge1$. In the natural-number statement the product involving $\log 0$ is interpreted as zero at $n=0$, as in Lean. Finally `pi_ge` gives $A(n)/\log n\le\pi(n)$ for every $n\in\mathbb N$ using Lean's zero quotient at $n=0,1$. The ordinary real quotient bound `pi_ge'` is $B(x)/\log x\le\pi(\lfloor x\rfloor)$ for $x>1$.
+
+**Proof.** Take logarithms of the row inequality with both arguments positive. This gives $n\log2\le\log(n+1)+\log L_n$. For real $x\ge0$, $x-1<\lfloor x\rfloor\le x$ implies $B(x)\le A(\lfloor x\rfloor)\le\psi(x)$, since $\log2>0$ and $\lfloor x\rfloor+1\le x+2$. The estimate with the floor left in place is stronger. For $\theta$, subtract the inherited proper-power budget $0\le\psi(x)-\theta(x)\le2\sqrt x\log x$ for $x\ge1$. Use the stronger natural bound on integers $n\ge1$ and check $n=0$ by the empty sum. For the prime count at $x>1$, each $p\le N=\lfloor x\rfloor$ contributes $e_p(N)\log p\le\log x$ since $p^{e_p(N)}\le N\le x$. Sum and divide by the positive $\log x$. At integers $n\ge2$ use $A(n)$ in the same argument. The cases $n=0,1$ of the totalized statement reduce to zero on both sides. [Pinned source record](../sources/SOURCES.md#chapter-4-41015-chebyshev-lower-bound-from-lcms)
+
+#### Boundary checks and the meaning of the estimate
+
+**Small scales [Expository].** The integer lower bound has equality at $n=0,1$ and is positive at every $n\ge2$, since $2^2>3$ and $2(n+1)\ge n+2$. On $0<x<2$ we have $\psi(x)=0$, so the pure inequality $c x\le\psi(x)$ fails for every $c>0$. The floor bound is already positive at $x=2$. The relaxed real expression $B$ has exactly one zero on $[0,\infty)$, lying in $(3,4)$. It is strictly increasing because $B'(x)=\log2-1/(x+2)>0$, using $\log2=\int_1^2dt/t>1/2$, and $B(3)=\log(4/5)<0<B(4)=\log(8/6)$. Its delay is a cost of the relaxation.
+
+For a uniform pure comparison from $x=2$ onward one may take $c=\tfrac14\log(4/3)$. The function $\log(1+t)/t=\int_0^1 (1+ts)^{-1}\,ds$ decreases for $t>0$. Hence for $n\ge2$, $A(n)/n\ge\log2-\tfrac12\log3$. With $n=\lfloor x\rfloor\ge x/2$ for $x\ge2$, the asserted $c$ follows. This constant is an expository consequence. The pinned statements use the error terms above.
+
+The conditions also guard the proof itself. At $n=8,k=9$ the binomial coefficient is zero and does not divide $840$. At $x=-31/16$, the natural floor is zero and $\psi(x)=0$, while $B(x)=(17/16)\log2>0$. Even the relaxed real $\theta$ bound can fail below its stated domain. At $x=1/4$ its left side is $\tfrac54\log2-\log(9/4)>0$ since $2^5>(9/4)^4$, and $\theta(1/4)=0$.
+
+**What the two estimates determine [Expository].** With the upper bound of [§4.10.14](#p13-chebyshev-tailmertens), $\psi$ has linear order of growth. Dividing the real lower bound by $x$ gives a lower limit at least $\log2$, and the inherited upper bound gives an upper limit at most $\log4+4$. The proper-power budget is $o(x)$, so $\theta$ also has linear order. The prime-counting lower bound gives order at least $x/\log x$. For an upper bound, at most $\sqrt x$ primes lie up to $\sqrt x$, and the rest have weight at least $\tfrac12\log x$ in $\theta(x)$, so $\pi(\lfloor x\rfloor)\le\sqrt x+2\theta(x)/\log x$ for $x>1$. The PNT requires $\psi(x)/x\to1$, equivalently $\pi(\lfloor x\rfloor)\log x/x\to1$. The bounds here leave a fixed interval for the limiting coefficient. Even the model functions $x$ and $2x$ satisfy the two displayed real inequalities for $\psi$ on $x\ge0$, since $B(x)<0$ on $[0,1]$, $B(x)<(x-1)\log 2<x$ for $x>1$, and $\log4+4>2$, while their normalized values differ. [Tao, Proposition 31](https://terrytao.wordpress.com/2014/12/09/254a-notes-2-complex-analytic-multiplicative-number-theory/#equi-2)
+
+#### Consumer boundaries
+
+| Input | Verified consumer and contract | Scope |
+|---|---|---|
+| $L_n$ valuation and all-entry binomial bound | Mathlib `two_pow_le_mul_lcmUpto` and `psi_ge`, all $n\in\mathbb N$ | New local reading |
+| $\psi$ lower bound | Mathlib `theta_ge`, `theta_ge'` via the proper-power budget, and `pi_ge`, `pi_ge'` via the positive logarithm split | New local reading of the calls |
+| Exact $\psi=\log L$ identity | A2 `psi_le_of_lt_thirty` uses $L_n\le3^n$ for $n<30$ to obtain $\psi(x)\le1.1056x$ for $0\le x<30$. A2 `psi_le_two_mul_small` uses $L_n\le4^n$ for $n\le100$ to obtain $\psi(x)\le2x$ for $0\le x\le100$. | Actual identity calls in finite **upper** bounds |
+| $\psi(x)\le(\log4+4)x$ for $x\ge0$ | A2 `tail_mertens_psi` takes every natural prefix, including zero. The Mertens budget for $y\ge2$ passes to the existing prime-moment and tail consumers. | Inherited §4.10.14 and its same-source review, with downstream reviews as recorded in §§4.10.12–4.10.13 |
+| Relative PNT and Deuring–Heilbronn | The LCM lower inequality has no identified direct A2 call in the reviewed snapshot. The upper input to the Mertens argument is the row above. | Inherited analytic material |
+
+The A2 finite upper calls share the LCM identity and have separate finite premises. The textbook proof above follows the pinned Mathlib valuation and lower-bound declarations. [Sources and credits](../sources/SOURCES.md#chapter-4-41015-chebyshev-lower-bound-from-lcms)
+
+The local author-level source reading inherits the same-source preliminary ruling 11251451. The exact certificate covers the two worked rows and small-scale boundaries. Independent review and Lean kernel replay remain open.
+
+### 4.10.16 The Costa–Pereira comparison
+
+#### Motivation
+
+The primorial bound controls the total weight of primes. The LCM bound of [§4.10.15](#41015-the-chebyshev-lower-bound-from-least-common-multiples) gives a lower estimate for the total weight of prime powers. To pass from prime powers to primes, one needs a third estimate: the weight removed by discarding proper powers. Costa Pereira's regrouping isolates the square and cube scales with a correction for their overlap. Together with the linear upper bound of [§4.10.14](#p13-chebyshev-tailmertens) it improves the earlier $O(\sqrt{x}\log x)$ budget to $O(\sqrt{x})$.
+
+#### Two hand calculations [Expository]
+
+For integer $n$, let $F_j$ be the largest integer with $F_j^j\le n$ and set $B_j=\prod_{p\le F_j}p$, with the product over primes. All terms from $j=8$ onward have $B_j=1$ in these examples, since $2^8>128$.
+
+| $n$ | $(F_2,F_3,F_4,F_5,F_6,F_7)$ | $(B_2,B_3,B_4,B_5,B_6,B_7)$ |
+|---|---|---|
+| $63$ | $(7,3,2,2,1,1)$ | $(210,6,2,2,1,1)$ |
+| $64$ | $(8,4,2,2,2,1)$ | $(210,6,2,2,2,1)$ |
+| $127$ | $(11,5,3,2,2,1)$ | $(2310,30,6,2,2,1)$ |
+| $128$ | $(11,5,3,2,2,2)$ | $(2310,30,6,2,2,2)$ |
+
+For $63,64$, the square and cube cutoffs change at $8^2=4^3=64$, and the sixth cutoff changes at $2^6=64$. The fourth and fifth cutoffs are $2$ since $2^4=16$, $2^5=32$ and $3^4=81$. The seventh cutoff is $1$. For $127,128$ the square bounds are $11^2=121$ and $12^2=144$, the cube bounds are $5^3=125$ and $6^3=216$, and the fourth bounds are $3^4=81$ and $4^4=256$. The fifth and sixth cutoffs are $2$ since $2^6=64$ and $3^5=243$. The seventh cutoff changes at $2^7=128$. The products for cutoffs $7,8$ are $2\cdot3\cdot5\cdot7=210$, and the product for $11$ is $210\cdot11=2310$.
+
+**Across $2^6$.** In product form the gap is $\prod_{j\ge2}B_j$. The square and cube factors are $B_2B_4B_6$ and $B_3B_6$. At $63$ the gap is $210\cdot6\cdot2\cdot2=5040$, the square and cube factors are $420$ and $6$, and the correction factor is $B_5B_7/B_6=2$. Thus the sandwich is $2520\le5040\le5040$. At $64$ these factors are $840$, $12$, and $1$, with gap $10080$. The sandwich is $10080\le10080\le20160$. The sixth power contributes twice to the square and cube factors together, and the denominator removes one copy.
+
+**Across $2^7$.** At $127$ the gap product is $2310\cdot30\cdot6\cdot2\cdot2=1663200$, the square factor is $2310\cdot6\cdot2=27720$, and the cube factor is $30\cdot2=60$. The correction is $2\cdot1/2=1$, giving $1663200\le1663200\le3326400$. At $128$ the square and cube factors stay fixed, the correction is $2\cdot2/2=2$, and the gap doubles. Both bounds equal $3326400$. Taking logarithms gives the additive comparisons.
+
+#### Definitions and cutoff
+
+Write $\theta(y)=\sum_{p\le y}\log p$ and $\psi(y)=\sum_{p^j\le y,\ j\ge1}\log p$, with $p$ prime. Mathlib uses the natural floor $\lfloor y\rfloor_+=\max(0,\lfloor y\rfloor)$. Both sums vanish for $y<2$. For $x\ge0$ and positive integer $j$, set $b_j=\theta(x^{1/j})$. Since positive integer powers are increasing on the nonnegative axis,
+$$
+p\le\lfloor x^{1/j}\rfloor_+
+\quad\Longleftrightarrow\quad p^j\le x
+\quad\Longleftrightarrow\quad p^j\le\lfloor x\rfloor_+.
+$$
+Taking the natural floor before the root therefore gives the same prime cutoff as taking it after the root. The inequalities include the endpoint.
+
+**Lemma (finite exponent reindexing) [Lean, read].** For every real $x\ge0$ and integer $d\ge1$, put $M_d=\lfloor\log(x^{1/d})/\log2\rfloor_+$. For every natural $N\ge M_d$,
+$$
+\psi(x^{1/d})=\sum_{k=1}^N b_{dk}.
+$$
+The sequence $b_j$ is nonincreasing for $j\ge1$.
+
+**Proof.** Write $y=x^{1/d}$. For $y<2$, every prime-power term and every term of the exponent sum vanishes. This includes zero, where Mathlib sets $\log0=0$. For $y\ge2$, each $p^k\le y$ implies $2^k\le y$ and hence $k\le M_d$. The pair $(k,p)$ is uniquely determined by $p^k$ by unique prime factorization. Every prime power in the prefix has such a pair, with weight $\log p$. At fixed $k$ the prime cutoff is $\lfloor y^{1/k}\rfloor_+$. The exponential definition gives $y^{1/k}=x^{1/(dk)}$ for positive $x$, and both powers vanish at zero. This proves the reindexing. For $0\le x\le1$, all $b_j$ are zero. For $x>1$, the exponents $1/j$ decrease, so the root arguments decrease and monotonicity of $\theta$ gives the claim. [Source ledger](../sources/SOURCES.md#chapter-4-41016-the-costapereira-comparison)
+
+#### Proposition (six-term regrouping and comparison) [Lean, read]
+
+For every $x\ge0$ put $c_m=b_{6m-1}-b_{6m}+b_{6m+1}$ for integers $m\ge1$ and $N=M_1+M_2+M_3+M_5+M_7$. Then
+$$
+\psi(x)-\theta(x)=\psi(x^{1/2})+\psi(x^{1/3})+\sum_{m=1}^N c_m .
+$$
+Set $S_j(x)=\psi(x^{1/2})+\psi(x^{1/3})+\psi(x^{1/j})$. Then
+$$
+S_7(x)\le\psi(x)-\theta(x)\le S_5(x),
+\qquad
+\psi(x)-S_5(x)\le\theta(x)\le\psi(x)-S_7(x).
+$$
+The upper bound on the gap holds for all real $x$ with Mathlib's real powers.
+
+**Proof.** For every natural $N$ the finite identity is
+$$
+\sum_{j=1}^{1+6N} b_j
+=b_1+\sum_{k=1}^{3N}b_{2k}+\sum_{k=1}^{2N}b_{3k}+\sum_{m=1}^N c_m .
+$$
+At $N=0$ both sides equal $b_1$. Appending the block numbered $m=N+1$ adds the indices $6m-4$ through $6m+1$. The even terms contribute $6m-4,6m-2,6m$, and the multiples of three contribute $6m-3,6m$. The correction adds $6m-1$ and $6m+1$ and subtracts one copy of $6m$. This is the induction implemented by extending inclusive finite intervals at their upper endpoint. The index subtraction is ordinary since $m\ge1$. With the prescribed $N$, the lengths $1+6N$, $3N$, $2N$, $N$ and $N$ dominate $M_1$, $M_2$, $M_3$, $M_5$ and $M_7$ respectively. The reindexing lemma and $b_1=\theta(x)$ give the exact identity.
+
+For $m\ge1$, the inequalities $5m\le6m-1<6m<6m+1\le7m$ give
+$$
+b_{7m}\le b_{6m+1}\le c_m\le b_{6m-1}\le b_{5m}.
+$$
+The middle inequalities use $b_{6m-1}-b_{6m}\ge0$ and $b_{6m+1}-b_{6m}\le0$. Sum over $1\le m\le N$ and reindex at $d=5,7$. Rearranging gives the $\theta$ bounds. For negative $x$ the gap is zero and $S_5(x)$ is nonnegative. [Source ledger](../sources/SOURCES.md#chapter-4-41016-the-costapereira-comparison)
+
+#### Boundaries and consumers
+
+At $x=255/4$, rounding the sixth root to the nearest integer admits $2$, since $(3/2)^6<255/4<2^6$. The resulting term $\log2$ should be zero. At $64$ the strict cutoff $p^6<x$ loses the legitimate endpoint term. Using $p^j\le x$ directly preserves exactly the floored sum. Reversing the minus sign on $b_{6m}$ in the identity makes its right side too large by $2\log2$ at $64$.
+
+The lower bound needs a sign restriction in the pinned convention. At $x=-64$, Mathlib gives $x^{1/3}=64^{1/3}\cos(\pi/3)=2$. Thus $S_7(x)\ge\log2>0=\psi(x)-\theta(x)$. [Pinned real powers](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Pow/Real.lean#L95)
+
+**Corollary (square-root budget) [Lean, read].** For every real $x$, $0\le\psi(x)-\theta(x)\le3(\log4+4)\sqrt{x}$, with Mathlib's nonnegative square root. The first inequality follows by inclusion of prime terms. For $x\le1$ the gap vanishes. For $x>1$ the three roots in $S_5(x)$ lie between $0$ and $\sqrt{x}$. Apply the inherited estimate $\psi(y)\le(\log4+4)y$ to each. Nonnegativity also gives the norm bound at infinity.
+
+| Verified consumer | Contract |
+|---|---|
+| Mathlib square-root and big-O lemmas | Use the upper root estimate and the linear upper bound, then take the absolute-value bound at infinity. |
+| A2 dyadic prime intervals, psiTheta | For $x\ge1$, monotonicity puts the cubic and fifth-root weights below the square-root weight, yielding $\psi(x)-\theta(x)\le3\psi(\sqrt{x})$. The dyadic claim calls this wrapper. |
+| A2 Iwasawa decomposition, psi_le_of_le_sqrt | For $x\ge1$, $C\ge0$ and $\psi(y)\le Cy$ on $0\le y\le\sqrt{x}$, the upper root estimate and primorial bound give $\psi(x)\le1.4x+3C\sqrt{x}$. This supplies the large-scale step of the archive's $\psi(y)\le2y$ argument. |
+| A2 prime norms, normPrimes_short_interval_lower | Applies the square-root budget at $X(1+h)$ with $X\ge1$ and $0<h\le1$ to absorb the proper-power contribution in a short-interval count. |
+| Chapter 4 relative prime count and prime moments | The identified PNTPiA and PsiAPLeCount calls use the earlier logarithmic budget. TailMertens uses the inherited linear upper bound for $\psi$. |
+
+The three upper-side calls above are present in A2. The lower root inequality is established in Mathlib, and the scoped A2 search found no direct caller. [Source ledger](../sources/SOURCES.md#chapter-4-41016-the-costapereira-comparison)
+
+The local author-level source reading inherits the same-source preliminary ruling 11251609. The 85 exact checks cover finite instances. Direct inspection of the 1985 article and 1987 corrigendum, independent review of this section, and Lean kernel replay remain open.
+
+### 4.10.17 A strict prime count in a real dyadic interval
+
+#### Motivation
+
+A lower bound for the weight of prime powers can supply primes in $(y,2y]$ once we subtract the weight of proper powers at the upper endpoint. To get a count, we then divide by the largest weight a single prime could contribute. The archive needs this quantitative step in its count of squarefree polynomials over finite fields.
+
+#### Examples [Expository]
+
+* At $y=41/2$, the integers in the interval run from $21$ through $41$. The primes are $23,29,31,37,41$. The even entries are composite, and the remaining odd nonprimes are $21,25,27,33,35,39$. Thus $\pi(41)-\pi(20)=13-8=5$. The weight $\psi(41)-\psi(41/2)$ includes, in addition, $25,27,32$, with total extra weight $\log 5+\log 3+\log 2=\log 30$. Since $\log(41/2)>\log16>4(0.69)$, the count exceeds $3y/(5\log y)$ by more than $5-12.3/2.76>0$. Opening the right endpoint loses $41$, leaving four primes. Since $\log(41/2)<3.075$, four fails the claimed lower bound.
+* At $y=43/2$, the integers run from $22$ through $43$. The primes are $23,29,31,37,41,43$. Trial division by $2,3,5$ suffices since $43<49$. Thus $\pi(43)-\pi(21)=14-8=6$. The same proper powers contribute $\log30$. The half-open interval still contains six primes for every $43/2\le y<22$ by the floor identity below. Throughout that cell $3y/(5\log y)<13.2/2.76<5$, so the margin exceeds one prime. At $y=23$ the strict lower endpoint excludes $23$. The primes in $(23,46]$ are $29,31,37,41,43$. Counting on $[23,46]$ would give six.
+
+#### Definitions
+
+Let $\pi(n)$ count the primes at most $n$, and let $\lfloor x\rfloor_+$ be the natural floor. Set $N(y)=\pi(\lfloor 2y\rfloor_+)-\pi(\lfloor y\rfloor_+)$ for $y\ge1$. It counts exactly the primes $p$ with $y<p\le2y$. Define the two envelopes
+$$
+U(t)=1.1056t+0.7(\log t)^2,\qquad V(t)=0.92129t-\tfrac52\log t.
+$$
+Write $B(y)=3y/(5\log y)$ and $R(y)=V(2y)-3U(\sqrt{2y})-U(y)-B(y)\log(2y)$ on $y>1$.
+
+#### Lemma and proof [Lean, read]
+
+For $y\ge41/2$, the assembly `PI.PrimesDyadicRS.W.claim_of_two` gives $N(y)>B(y)$ from these two inputs:
+
+1. For every integer $41\le h<131072$, put $d_h=\pi(h)-\pi(\lfloor h/2\rfloor)$. Then $3(h+1)<10d_h\log(h/2)$.
+2. For every real $y\ge65536$, $R(y)>0$.
+
+The archive supplies both inputs to obtain `primes_dyadic_range`. For every $y\ge41/2$ this gives a nonempty set of primes in $(y,2y]$, since $N(y)>B(y)>0$.
+
+**Proof of the assembly.** Write $h=\lfloor 2y\rfloor_+$ and divide the inequalities $h\le2y<h+1$ by two. If $h=2k$ the resulting cell lies in $[k,k+1/2)$, and if $h=2k+1$ it lies in $[k+1/2,k+1)$. In both cases $\lfloor y\rfloor_+=\lfloor h/2\rfloor$, so $N(y)=d_h$. Below $65536$, $41\le h<131072$. The first input forces $d_h>0$, and
+$$
+5N(y)\log y\ge5d_h\log(h/2)>\tfrac32(h+1)>3y.
+$$
+This proves the claim in the whole real cell, including its left endpoint.
+
+For $y\ge65536$ use the archive's envelopes $\psi(t)\le U(t)$ for $t\ge1$ and $\psi(t)\ge V(t)$ for $t\ge30$. Their production uses the factorial quotient described below. The Costa–Pereira upper comparison of [§4.10.16](#41016-the-costapereira-comparison) gives, for $x\ge1$, $\psi(x)-\theta(x)\le3\psi(\sqrt{x})$, since the cubic and fifth roots are at most $\sqrt{x}$ and $\psi$ is increasing. Apply this at $x=2y$. At the lower endpoint, $\theta(y)\le\psi(y)$. Finally, summing $\log p\le\log(2y)$ over the primes in the interval gives
+$$
+N(y)\log(2y)\ge\theta(2y)-\theta(y)
+\ge V(2y)-3U(\sqrt{2y})-U(y).
+$$
+The second input therefore gives $N(y)-B(y)\ge R(y)/\log(2y)>0$. The error paid is at the upper endpoint only. [Source ledger](../sources/SOURCES.md#chapter-4-41017-a-strict-prime-count-in-a-real-dyadic-interval)
+
+#### Proof of the two inputs
+
+**The finite input [Lean, read].** Start with $d_2=1$. When $h$ is replaced by $h+1$, add the primality indicator of $h+1$ and, if $h+1$ is even, subtract that of $(h+1)/2$. These are the changes at the two ends. The latter prime, when present, belonged to the old interval since $h\ge2$, so natural subtraction agrees with ordinary subtraction. A candidate $m$ passes the archive's primality test if it is coprime to $(m-1)!$ for $2\le m\le362$, and to $362!$ for $362<m<363^2$. A composite in the second range has a prime divisor at most $362$, and a prime in that range has none. All candidates in the loop lie in the tested ranges.
+
+For $d=d_h>0$, let
+$$
+q=\left\lfloor\frac{7680000000000(h+1)}{10d\cdot6931471803}\right\rfloor.
+$$
+The checked integer test is $2^{q+257}\le h^{256}$. Taking logs and subtracting $256\log2$ gives $(q+1)\log2\le256\log(h/2)$. The floor gives $256\cdot 3(h+1)<10d(q+1)\cdot0.6931471803$. Since $0.6931471803<\log2$, the desired strict bound follows. The four kernel-decided runs start at $h=2,32768,65536,98304$ and terminate at $32768,65536,98304,131072$. Their endpoint counts are $1612,3030,4388,5709$, respectively. Each run tests its initial state through the state just before its terminal state, skipping the inequality for $h<41$. The recurrence and the endpoint checks chain the four runs and cover every required integer.
+
+**The real input [Lean, read].** Let $s=\sqrt y$, $L=\log y$ and $M=\log(2y)$. At $y\ge65536$ we have $s\ge256$, $L\ge16\log2>0$, $M/L\le17/16$ and $\sqrt2<1.4143$. From $\log(s/256)\le s/256-1$ and $\log2<0.6931471808$,
+$$
+L\le9.1+s/128,\qquad M\le9.8+s/128.
+$$
+The source squares these bounds and uses $s^2\ge256s$. Equivalently, dividing by $s$ first gives $L/s<0.044$ and $M/s<0.047$. Since $\log(\sqrt{2y})=M/2$, we get
+$$
+\frac{R(y)}{y}\ge
+2(0.92129)-1.1056-\tfrac35\tfrac{17}{16}
+-\frac{3(1.1056)(1.4143)}{256}
+-\frac{(5/2)(0.047)}{256}
+-0.7(0.044)^2-\frac{3(0.7)}4(0.047)^2>0.075.
+$$
+Every decimal in this comparison is an exact rational. In particular the large branch gives an explicit surplus of more than $0.075y/\log(2y)$ in the prime count, even at the join $y=65536$.
+
+#### Notes on the estimates and their consumer
+
+The sharper envelopes here come from the archive's factorial argument. Write $F(x)=\log(\lfloor x\rfloor_+!)$ and $D(x)=F(x)-F(x/2)-F(x/3)-F(x/5)+F(x/30)$. Expanding the factorials in von Mangoldt weights gives $D(x)=\sum_{n\le x}\Lambda(n)E(\lfloor x/n\rfloor)$, where $E(k)=k-\lfloor k/2\rfloor-\lfloor k/3\rfloor-\lfloor k/5\rfloor+\lfloor k/30\rfloor$. The function $E$ is periodic mod $30$, since $30-15-10-6+1=0$. On the residues $0,\ldots,29$, it is one on $1,2,3,4,5,7,8,9,11,13,14,17,19,23,29$ and zero elsewhere, by integer division. This yields $\psi(x)-\psi(x/6)\le D(x)\le\psi(x)$.
+
+The archive bounds $F(t)$ for $t\ge1$ between $t\log t-t-(\log t)/2+0.9$ and $t\log t-t+(\log t)/2+1$. For the upper bound, apply the upper integer Stirling estimate at $n=\lfloor t\rfloor_+$, using the monotonicity of the normalized Stirling sequence from its value at $1$. The remainder is then at most $1$ in the formula $n\log n-n+(\log n)/2$. The latter expression is increasing on $[1,\infty)$, so replace $n$ by $t$. For the lower bound, apply the lower integer Stirling estimate at $m=n+1$ and subtract $\log m$. This gives $H(m)+(\log(2\pi))/2$, where $H(u)=u\log u-u-(\log u)/2$. For $t\ge3/2$ the derivative $\log t-1/(2t)$ is nonnegative, by $\log(3/2)\ge1/3$. If $1\le t<3/2$, the inequality $\log t\le t-1$ gives $H(t)\le-1$, whereas $H(m)\ge H(2)>-1$. In both cases $H(m)\ge H(t)$, and $\log(2\pi)\ge1.8$ gives the stated lower bound. Substitution at $x,x/2,x/3,x/5,x/30$ for $x\ge30$ gives
+$$
+Ax-\tfrac52\log x+2\le D(x)\le Ax+\tfrac52\log x-4,
+\qquad
+A=\frac{\log 2}{2}+\frac{\log 3}{3}+\frac{\log 5}{5}-\tfrac{\log30}{30}.
+$$
+Indeed the five main terms combine to $Ax$. The additive corrections are $-1.2+\log30$ and $-0.7-\log30$, respectively, so $\log30\ge3.3$ gives the displayed bounds. With $0.92129\le A\le0.9213$ the lower envelope follows at once. For the upper envelope, start at $0\le t<30$ with $\operatorname{lcm}(1,\ldots,\lfloor t\rfloor_+)\le3^{\lfloor t\rfloor_+}$, the finite base test, and $\log3<1.1056$. For $x\ge30$ use $\psi(x)\le D(x)+\psi(x/6)$ and induct by factors of six. After substituting $U(x/6)$, the excess over $U(x)$ is bounded above by
+$$
+(0.9213+1.1056/6-1.1056)x
++(2.5-1.4\log6)\log x+0.7(\log6)^2-4<0
+$$
+using $1.7917\le\log6\le1.7918$. The LCM identity of [§4.10.15](#41015-the-chebyshev-lower-bound-from-least-common-multiples) is used in the finite base, while the general LCM lower bound and the coarser square-root budget from the preceding sections can be read independently of these sharper envelopes.
+
+The lower range matters. At $y=3/2$ the interval contains exactly the two primes $2,3$. The bound asks for more than $0.9/\log(3/2)>2$, since $\log(3/2)<0.45$. Thus the quantitative claim fails even with $y>1$. If the range is deleted altogether, $(1/2,1]$ is empty. At the odd cell $h=41$, replacing $h/2$ as a real logarithm argument by the integer $20$ changes the finite inequality, while using $21$ for the lower counting cutoff changes the represented integer interval. At $y=41/2$ rounding the upper cutoff down to an even integer would lose the prime $41$.
+
+In A2, `OrbitalBoundsConclusion/PrimesDyadicRS.lean:7–8` supplies `primes_dyadic_range` by passing `small_natural_numbers_bound` and `real_dyadic_inequality` to `claim_of_two`. The direct call is in `ExplicitFormulaCounts/SqfCounts.lean:43–45` in `counts_closed`, through `sqfPrimeFactor_of` and `analytic_of`. The latter passes the bound to `ana_main`, which applies it at $y=r/2$ with integer $r\ge100$. The count in $(r/2,r]$ is compared with the primes satisfying $r<2p$ and $p+3\le r$. Of the three omitted candidates $r-2,r-1,r$, at most two can be prime. [§4.10.18](#41018-counting-the-prime-degree-factor-exception) uses this endpoint budget in the fourth squarefree count.
+
+The `CharacterBoxes` construction chooses auxiliary primes with congruence and twist restrictions through its separate `PairEx` input from `MeanSquareBounds/pairEx.lean` and its prime-pair selection calls. The dyadic estimate counts all primes. The checked consumer is the squarefree count above. The present reading establishes no transitive dependency for the host-field prime selection. [Source ledger](../sources/SOURCES.md#chapter-4-41017-a-strict-prime-count-in-a-real-dyadic-interval)
+
+The local author-level source reading inherits the same-source preliminary ruling 11251733. The certificate covers 131,031 integer states, the segment joins and the rational surplus. The proof above transfers the finite checks to real intervals. Independent review and Lean kernel replay remain open.
+
+### 4.10.18 Counting the prime-degree factor exception
+
+#### Motivation
+
+A prime in a dyadic interval gives a possible **degree** of an irreducible polynomial over the host field. A bound on the number of exceptional labels needs more. It needs enough irreducibles of those degrees, a way to count their multiples, and a guarantee that the same multiple is counted only once. Work first in the entire space of monic polynomials. This makes divisibility a count of residue classes with an exact power of the field size.
+
+#### Two calculations at host-size parameters [Expository]
+
+For a prime $g$ and a prime degree $p$, the number of monic irreducibles of degree $p$ is $(g^p-g)/p$. For the exact arithmetic in these examples, the lower-bound argument below can be sharpened as follows. Every monic irreducible $Q$ of degree $p$ gives a field $\mathbb F_g[X]/(Q)$ of size $g^p$, so $Q$ divides $X^{g^p}-X$. The latter splits with simple roots in $\mathbb F_{g^p}$. Thus each such $Q$ has exactly $p$ preimages under the minimal-polynomial map, and the $g$ base field elements account for all degree-one preimages. The general production proof needs only the lower bound.
+
+The trial divisors for the two field sizes are $2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61$. The corresponding remainders are
+
+| $g$ | Remainders in trial-divisor order |
+|---|---|
+| $4099$ | $1,1,4,4,7,4,2,14,5,10,7,29,40,14,10,18,28,12$ |
+| $4111$ | $1,1,1,2,8,3,14,7,17,22,19,4,11,26,22,30,40,24$ |
+
+1. **The lower degree cutoff, $g=4099$, $r=100$.** Trial division by primes through $61$ proves that $4099$ is prime. Trial division by $2,3,5,7$ gives
+   $$S=\{53,59,61,67,71,73,79,83,89,97\}.$$
+   Here the dyadic interval gives precisely $S$, since $98,99,100$ are composite. The cofactor degrees in the displayed order are $47,41,39,33,29,27,21,17,11,3$. Write $G=4099^{100}$. The $p=53$ class has $(4099^{53}-4099)4099^{47}/53=(G-4099^{48})/53$ elements. Summing all ten disjoint classes gives the exact normalized count
+   $$
+   \frac{|B|}{G}=\sum_{p\in S}\frac{1-4099^{1-p}}p
+      >\frac{10}{100}\frac{4095}{4096}
+      >\frac1{20}>\frac1{5\log100}.
+   $$
+   For the last step one can use $\log100>6\log2>4$, since $100>2^6$ and $\log2>2/3$. This already bounds the exceptional family by $G-|B|$. Both sides of the exclusion occur among admissible squarefree labels. A product of $100$ distinct nonzero linear factors belongs to the exceptional family. A monic irreducible of degree $97$ times three distinct nonzero linear factors has the prescribed factor.
+
+2. **Two primes lost at the boundary, $g=4111$, $r=109$.** The same trial divisors through $61$ certify $4111$. The real lower endpoint is $54.5$, so the integer test starts at $55$. Trial division by $2,3,5,7$ gives thirteen primes through $109$. Of $107,108,109$, exactly $107$ and $109$ are prime. Hence
+   $$S=\{59,61,67,71,73,79,83,89,97,101,103\},$$
+   with cofactor degrees $50,48,42,38,36,30,26,20,12,8,6$. For $G=4111^{109}$, the $p=103$ class has $(G-4111^7)/103$ elements. The exact normalized sum and its margin satisfy
+   $$
+   \frac{|B|}{G}=\sum_{p\in S}\frac{1-4111^{1-p}}p
+       >\frac{11}{109}\frac{4095}{4096}
+       >\frac1{20}>\frac1{5\log109}.
+   $$
+   A budget that allows only one lost prime fails here. A degree-$103$ monic irreducible times six distinct nonzero linear factors supplies a squarefree witness in $B$. Replacing those six factors with $(X-1)^6$ still gives a member of $B$, now divisible by a square. The count of $B$ intentionally includes both. A product of $109$ distinct nonzero linear factors supplies a squarefree witness outside $B$.
+
+#### Definitions and inherited prime count
+
+Let $g$ be a natural prime and let $r$ be a natural number. Put $F=\mathbb F_g=\mathbb Z/g\mathbb Z$, $M_d=\{f\in F[X]: f\text{ monic},\ \deg f=d\}$, and let $I_d$ denote the irreducible members of $M_d$. Write
+$$
+S=\{p\in\mathbb N: p\text{ prime},\ r<2p,\ p+3\le r\}.
+$$
+These are exactly `monicDeg`, `irrDeg`, and `bigPrimes`. The archived `Ev g r f` requires $f\in M_r$, $f(0)\ne0$, squarefreeness, and absence of any irreducible divisor whose degree belongs to $S$. A nonmonic irreducible divisor can be normalized by its leading coefficient without altering the degree or divisibility. For the analytic step we use [§4.10.17](#41017-a-strict-prime-count-in-a-real-dyadic-interval) in its full real form. For every real $y\ge41/2$, the number of primes $y<p\le2y$ is strictly greater than $3y/(5\log y)$. This input already includes the finite range and the Chebyshev and factorial budgets.
+
+#### Lemma (disjoint divisibility classes and the irreducible supply) [Lean, read]
+
+For every prime $g$, every natural $r$, and every finite set $T$ all of whose members satisfy `Ev g r`,
+$$
+|T|\le g^r-\sum_{p\in S}|I_p|g^{r-p}.
+$$
+For every prime $g$ and every natural prime $p$,
+$$
+g^p-g\le p|I_p|.
+$$
+
+**Proof.** Reading and reconstructing the $d$ lower coefficients gives a bijection $F^d\to M_d$, so $|M_d|=g^d$, including $M_0=\{1\}$. For $p\in S$ and $Q\in I_p$, congruence $f\equiv0\pmod Q$ among monic degree-$r$ polynomials is equivalent to $f=Qh$ with $h\in M_{r-p}$. Equivalently, division by $Q$ gives a bijection from $M_r$ to pairs of a monic degree-$r-p$ quotient and a remainder of degree less than $p$ (including zero). Each of the $g^p$ remainder classes has $g^{r-p}$ elements. Lean counts the zero class by its product image.
+
+Suppose $Qh=Q'h'$ with both degrees $p,p'$ in $S$. Irreducibility over a field makes $Q$ prime. If $Q\mid h'$, then $p\le r-p'$, whereas both $p$ and $p'$ are strictly greater than $r/2$. Thus $Q\mid Q'$, and irreducibility and monicity force $Q=Q'$, hence $p=p'$ and $h=h'$. This proves both injectivity within the product for each $p$ and disjointness between distinct degrees. Write $B$ for the union of these product images. It is contained in $M_r$ and has the stated sum as its exact cardinality. Since $T$ excludes all these divisors, $T\sqcup B\subseteq M_r$, which yields the first inequality. Polynomials divisible by an irreducible square constitute a separate excluded family in the definition of $T$. For a fixed monic irreducible $R$ of degree $e$, that square condition is the zero residue class modulo $R^2$. It has $g^{r-2e}$ monic degree-$r$ members when $2e\le r$, and none when $2e>r$. The proof needs neither the size of that family nor a disjointness claim about its intersection with $B$. In particular a qualifying $Q$ itself cannot occur twice, because $2\deg Q>r$.
+
+For the second inequality, take $K=\mathbb F_{g^p}$. It has $g^p$ elements and dimension $p$ over $F$. At most $g$ elements are in the image of the base field. For every remaining element $a$, the tower law gives $[F(a):F]\mid p$. The value $1$ would put $a$ in $F$, so its monic minimal polynomial has degree $p$ and belongs to $I_p$. Each fiber of the minimal-polynomial map sits inside the distinct roots of one nonzero degree-$p$ polynomial over $K$ and has at most $p$ elements. This proves $g^p-g\le p|I_p|$. In particular $I_p$ is nonempty. This argument constructs the supply independently of any existence assumption about factors in the labels.
+
+#### Theorem (the fourth squarefree count) [Lean, read]
+
+For every natural prime $g\ge4096$, every natural $r\ge100$, and every finite set $T$ of polynomials satisfying `Ev g r`,
+$$
+|T|\le \left(1-\frac{1}{5\log r}\right)g^r.
+$$
+In fact the number of ambient monic polynomials in $B$ is strictly greater than
+$$
+\left(1+\frac{36605}{1024000}\right)\frac{g^r}{5\log r}.
+$$
+
+**Proof.** In the analytic proposition $S$ may be any finite set of naturals with the displayed membership equivalence. Application of the inherited theorem at the real $y=r/2$ is permitted since $r/2\ge50$. The upper floor is $r$, the lower floor is natural division by two, and the count is $\pi(r)-\pi(\lfloor r/2\rfloor)$. Compared with $S$, this includes the primes among $r-2,r-1,r$. At least one of these three integers is even and greater than two, so at most two extra primes enter. Write $L=\log r>0$. Since $0<\log(r/2)<L$, the strict dyadic bound gives
+$$
+5L(|S|+2)>\tfrac32r.
+$$
+The elementary estimate $\log100<4.64$ follows from $\log100=7\log2-\log(128/100)$, $\log2<0.693147181$, and $\log(128/100)\ge1-100/128$. The function $\log x/x$ has derivative $(1-\log x)/x^2$ and decreases for $x\ge100$, so $L\le0.0464r$. Therefore
+$$
+5L|S|>\tfrac32r-10L\ge\tfrac{259}{250}r.
+$$
+This gives $|S|>0$ before choosing any member. It also explains the strict margin in `AnaCore.lean:73–96`: with $c=4095/4096$, one has $(259/250)c=1+36605/1024000$, so $5L|S|c>r$.
+
+Now $p\ge2$, $p\le r$, and $g\ge4096$ give $g^{1-p}\le1/4096$. The lemma and coefficient count therefore yield, term by term,
+$$
+|I_p|g^{r-p}\ge\frac{g^p-g}{p}g^{r-p}
+   =g^r\frac{1-g^{1-p}}p\ge g^r\frac c r.
+$$
+Summing and using the strict bound on $5L|S|c$ proves the margin and the claimed weak upper bound on $|T|$. To see that the same supply guarantees a squarefree polynomial with nonzero constant and a qualifying factor for all these parameters, choose $p\in S$ and $Q\in I_p$ from the two strict counts. For $d=r-p$ use $h=X^d-1$ if $g\nmid d$, and $h=X^d+X+1$ if $g\mid d$. Here $d\ge3$. In the first case $h$ is coprime to $dX^{d-1}$, and in the second the derivative is $1$. In either case $h(0)\ne0$, and $d<p$ implies $Q\nmid h$. Thus $Qh$ is a squarefree label with the required factor. This existence argument is an exposition of the count's consequence.
+
+#### Boundary and consumer notes
+
+Deleting the lower cutoff without a replacement can invalidate the theorem. At $r=2$ the degree set $S$ is empty. The entire exceptional family then has $(g-1)^2$ elements: start with $g(g-1)$ monic quadratics with nonzero constant and remove the $g-1$ squares $(X-a)^2$ with $a\ne0$. For $g=4099$ this exceeds $4g^2/5$, while $1-1/(5\log2)<4/5$ by $\log2<1$. Also the strict degree cutoff $r<2p$ is essential to the product-image argument. Over $\mathbb F_2$ at $r=6$, $p=3$, the distinct rootless cubics $X^3+X+1$ and $X^3+X^2+1$ can be interchanged as factor and cofactor of their product. Both ordered pairs have the same image when $r=2p$ is admitted.
+
+In A2, `SquarefreePrimeFactor/SqfPrimeFactorOf.lean:8–9` passes `squarefree_count_estimate`, `irreducible_count_lower_bound`, and `analytic_of hRS` to `claim_of`. The latter substitutes the irreducible lower bound in the subtracted sum, with division by the positive prime degree. `Analytic.lean:8–14` calls `ana_main` with `bigPrimes r`; the range guard follows from $p+3\le r$. In `ExplicitFormulaCounts/SqfCounts.lean:18–45`, `counts_closed D` supplies the closed `primes_dyadic_range` to `sqfPrimeFactor_of` and uses the resulting `h6` at $g=D.\mathrm{host}.g(k)$ and $r=D.R.r$ for each $k\in\mathrm{Fin}(2)$. The field primality instance comes from the host. The tuple's other entries consume `squarefree_roots_injective`, `squarefree_root_shift`, and `squarefree_div_degree`. The modulus calculation inside `counts_of_sqf` supplies the root-shift entry. The fourth entry uses polynomial divisibility and all primes in its degree range, with no residue restriction on the degree. The table in [§4.10.23](#41023-when-prime-to-parts-of-roots-collide) gives the order of the four inputs. In `StmtLocFOfCountsAll.lean:188–192`, `P5` applies `wt_le_count` to the `Ev` filter. The corresponding positive label condition in [§4.11](#411-from-separated-inertia-lines-to-residual-irreducibility) is the sixth clause of `IsGood`. The weight conversion and the other clauses keep their own hypotheses. [Source ledger](../sources/SOURCES.md#chapter-4-41018-counting-the-prime-degree-factor-exception)
+
+The fourth count retains author-level local source reading and the independent-source second-level ruling 11251827 on the count, irreducible supply, analytic margin and specified handoff. The author's 100 exact checks and the audit's 1,530,033 assertions are finite certificates. Lean kernel replay remains open.
+
 ### 4.10.23 When prime-to parts of roots collide
 
 #### Motivation
@@ -3814,7 +4178,7 @@ The host labels in [§4.11](#411-from-separated-inertia-lines-to-residual-irredu
 | First | Two roots with the same prime-to part at an allowed prime | `squarefree_roots_injective` |
 | Second | A root with the same prime-to part as a prescribed unit | `squarefree_root_shift` |
 | Third | A divisor of a specified positive degree $a$ with $2a\le r$ | `squarefree_div_degree` |
-| Fourth | No irreducible divisor of prime degree $p$ in $r/2<p\le r-3$ | `sqfPrimeFactor_of primes_dyadic_range` |
+| Fourth | No irreducible divisor of prime degree $p$ in $r/2<p\le r-3$ | `sqfPrimeFactor_of primes_dyadic_range` ([§4.10.18](#41018-counting-the-prime-degree-factor-exception)) |
 
 The first slot concerns injectivity among the roots of a single label. Its exceptional predicate is `Eii`. The four slots share the host interfaces listed in the source ledger. [A2 `ExplicitFormulaCounts/SqfCounts.lean:18–45`](../sources/SOURCES.md#chapter-4-41023-when-prime-to-parts-of-roots-collide)
 
@@ -3951,7 +4315,7 @@ For a prime $g$, let $P$ be a type of labels and $J$ a type indexing units $c_{v
 3. For every prime $s\notin BB(N,g)$ and every $v$, the map $x\mapsto x_{s'}$ is injective on $R_v$.
 4. For every prime $s\ne g$, every $v,j$ and every $x\in R_v$, we have $x_{s'}\ne(c_{vj})_{s'}$, with the unit viewed in the algebraic closure.
 5. For every $a\ge1$ with $2a\le N$, some $f_v$ has no divisor of degree $a$ over $\mathbb F_g$.
-6. Some $f_{v_0}$ has an irreducible divisor of prime degree $p$ with $N<2p$ and $p+3\le N$.
+6. Some $f_{v_0}$ has an irreducible divisor of prime degree $p$ with $N<2p$ and $p+3\le N$. [§4.10.18](#41018-counting-the-prime-degree-factor-exception) counts the labels that lack such a factor.
 
 The label type $P$ may depend on $g$. Item 5 concerns the whole family. The label $v_0$ in item 6 can be reducible. [A2 StatementT.lean:19–29](../sources/SOURCES.md#chapter-4-411-inertia-lines-and-goodtuple)
 
