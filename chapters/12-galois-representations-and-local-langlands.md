@@ -2472,10 +2472,7 @@ The nonzero finite-length induction has a simple submodule. For every simple sub
 
 Let $V_w$ occur in $rT_i$. A contributing geometric cell has each column supplied by a single row. A split column would induce from a proper parabolic and could not contain that column's cuspidal letter. Consequently the row of $Z$ fills two columns, say $u<v$. Removing zero blocks in order reduces its Jacquet functor to the $(d,d)$ Jacquet functor. By the length-two lemma, that row has the tensor $\rho_i\boxtimes\rho_{i+1}$. Thus $w(u)=i$ and $w(v)=i+1$. The uniqueness of each index in the word gives $w^{-1}(i)<w^{-1}(i+1)$. $\square$
 
-For the native proof, the chosen length is written as $i+2+q$ with the archive indexing from zero. The pair comes from the base twist $\rho_i$, since $(\rho
-u^i)
-u^j=\rho
-u^{i+j}$. In the archive, classMain constructs the replacement by appending the left and right products and transporting the embeddings along induction-in-stages equivalences. Emb.range realizes the nonzero image. Positivity of fine Jacquet multiplicity transfers to the product with the replaced pair. The proof of comb uses Shuffle2.exists_cell_data to select a contributing size matrix and its row constituents. Shuffle2.exists_row deletes the zero entries in order. It compares the resulting cuspidal row with the prescribed tensor by reciprocity and the cuspidal permutation formula, and uses equality of the ordered-block Jacquet modules after identifying their positive sizes. The outcome is an order-preserving embedding of the two row positions into the whole word. The proof of stageP converts equality of the resulting cuspidal classes into equality of their twist indices.
+For the native proof, the chosen length is written as $i+2+q$ with the archive indexing from zero. The pair comes from the base twist $\rho_i$, since $(\rho\nu^i)\nu^j=\rho\nu^{i+j}$. In the archive, classMain constructs the replacement by appending the left and right products and transporting the embeddings along induction-in-stages equivalences. Emb.range realizes the nonzero image. Positivity of fine Jacquet multiplicity transfers to the product with the replaced pair. The proof of comb uses Shuffle2.exists_cell_data to select a contributing size matrix and its row constituents. Shuffle2.exists_row deletes the zero entries in order. It compares the resulting cuspidal row with the prescribed tensor by reciprocity and the cuspidal permutation formula, and uses equality of the ordered-block Jacquet modules after identifying their positive sizes. The outcome is an order-preserving embedding of the two row positions into the whole word. The proof of stageP converts equality of the resulting cuspidal classes into equality of their twist indices.
 
 #### Conditional existence and uniqueness by length
 
@@ -2494,6 +2491,224 @@ The exported `PositivityTheory.RgGu.segmentRepresentation` passes `SRC.stageP`, 
 **Reading boundary.** [Lean, read] refers to the local proof bodies in the source map. The deeper adjacent reducibility construction, the deeper first-cuspidal embedding used in two-word surjectivity, the separate Whittaker and derivative arguments, and the geometric filtration, finiteness and lower-level induction and Jacquet exactness remain named [Lean] inputs with [Open] reading boundaries. Linked and unlinked two-segment interactions remain separate inputs at this reading depth. The two character calculations illustrate the general argument and its normalization.
 
 [Archive declarations and named inputs](../sources/SOURCES.md#chapter-12-multisegment-exhaustion-jacquet-shuffles-and-segment-production)
+
+### 12.4.11 From a conductor-ball average to the mirabolic pairing
+
+#### Motivation
+
+The highest-derivative pairing used by [NuPair](#the-actual-nupair-call) repeatedly discards last-column relations. The adjacent-pair reducibility input in [§12.4.10](#12410-producing-the-increasing-segment-from-adjacent-pairs) uses the complementary-series assembly of NuPair. An invariant pairing on the original representations does not automatically descend through those relations. To construct one that does, integrate a matrix coefficient against the inverse of the desired last-column character. Two facts make this prescription work. Integration over successively larger boxes becomes exactly constant, and every nonzero left coinvariant class retains a right test vector. The small scale in this argument is the radius of a **frequency** box. The integration box in the space of columns grows as the frequency box shrinks.
+
+#### Examples over the 3-adic field
+
+Normalize additive Haar measure by $\lambda(\mathbb Z_3)=1$ and use product measure on two coordinates. Let $\psi_0(x)=\exp(2\pi i\{x\}_3)$, where $\{x\}_3$ is the finite sum of negative-power terms in the 3-adic expansion, taken modulo $\mathbb Z$. This is additive because that sum represents the class modulo $\mathbb Z_3$. Set $\psi_d(x)=\psi_0(3^{-d}x)$ for the two values $d=0,2$. The largest ball on which $\psi_d$ is trivial is $3^d\mathbb Z_3$. On the next larger ball the element $3^{d-1}$ has value $\zeta=\exp(2\pi i/3)$. A one-dimensional ball $3^k\mathbb Z_3$ has mass $3^{-k}$ by successive partitions into three equal cosets.
+
+**Example 1 (conductor $\mathbb Z_3$).** Take the column box $L=(3^{-1}\mathbb Z_3)^2$, of mass $9$. Its frequency box is $D=(3\mathbb Z_3)^2$, of mass $1/9$.
+
+1. For $x=(0,1/3)$ each $b\in D$ satisfies $b\cdot x\in\mathbb Z_3$. The integral of $\psi_0(-b\cdot x)$ over $D$ is $1/9$. For $x=(0,1/9)$ the second frequency coordinate runs over the three cosets $3j+9\mathbb Z_3$ with $j=0,1,2$. Each product cell has mass $1/27$, so the integral is $(1+\zeta^{-1}+\zeta^{-2})/27=0$.
+2. At the first $x$, replacing $D$ by $(0,1)+D$ multiplies its integral by $\psi_0(-1/3)=\zeta^{-1}$. Its mass stays $1/9$. Dividing the unshifted integral by this mass gives the value $1$ inside $L$ and $0$ at the tested point outside.
+3. On the column side take the test coefficient $C(x)=\psi_0(x_2)1_L(x)$. Its weighted integral over $L$ is $9$. For $y=(0,1/3)\in L$, the tests $C(x+y)$ and $C(x-y)$ give $9\zeta$ and $9\zeta^{-1}$. If $p=\operatorname{diag}(3,1)$, then $pL=\mathbb Z_3\times3^{-1}\mathbb Z_3$ has mass $3$. Integrating $\psi_0(-x_2)C(p^{-1}x)$ on $pL$ gives $3=|3|_3\cdot9$.
+
+**Example 2 (conductor $9\mathbb Z_3$).** Use $\psi_2$, the column box $L=(3^{-2}\mathbb Z_3)^2$ of mass $81$, and its frequency box $D=(3^4\mathbb Z_3)^2$ of mass $3^{-8}$.
+
+1. For $x=(0,1/9)$ the product $b\cdot x$ lies in $9\mathbb Z_3$ throughout $D$, so the integral is $3^{-8}$. For $x=(0,1/81)$ the second frequency coordinate is $81j$ modulo $729\mathbb Z_3$. There are nine product cells of mass $3^{-10}$, and the values are $\eta^{-j}$ for $0\le j<9$, with $\eta=\exp(2\pi i/9)$. Their sum is zero by multiplication by $\eta^{-1}$. The intermediate outside point $x=(0,1/27)$ gives the three cube roots with cells of mass $3^{-9}$, also summing to zero.
+2. For $x=(0,1/9)$ the translate $(0,27)+D$ gives $3^{-8}\zeta^{-1}$ since $\psi_2(27/9)=\psi_0(1/3)$. The unshifted mass cancels in the normalized frequency average as in Example 1.
+3. Take $C(x)=\psi_2(x_2)1_L(x)$ and $y=(0,3)$. The weighted integral is $81$, and the column translates give $81\zeta$ and $81\zeta^{-1}$. For $p=\operatorname{diag}(9,1)$, the image $pL=\mathbb Z_3\times3^{-2}\mathbb Z_3$ has mass $9$, and $\psi_2(-x_2)C(p^{-1}x)$ integrates to $9=|9|_3\cdot81$.
+
+These are test-function computations [Expository]. A representation-theoretic example below constructs the coefficient and its two Jacquet quotients from actual representations.
+
+#### Definitions
+
+Let $F$ be a nonarchimedean local field, with ring of integers $\mathcal O$, uniformizer $\varpi$, residue cardinality $q$, and absolute value $|\varpi|=q^{-1}$. Write $G_a=\mathrm{GL}_a(F)$, $\nu(g)=|\det g|$, and $P_a$ for the matrices in $G_a$ with last row $(0,\ldots,0,1)$. In this section $m=n+1\ge1$, so the archive's $\mathrm{Mir}(F,n+1)$ is $P_{m+1}$ and its $\mathrm{Mir}(F,n)$ is $P_m$. Write $u(x)$ for the unipotent matrix with last column $(x,1)$, where $x\in F^m$, and all other columns those of the identity. Write $\ell(g)=\operatorname{diag}(g,1)$ for $g\in G_m$. Thus $\ell(g)u(x)\ell(g)^{-1}=u(gx)$.
+
+Let $\psi:F\to S^1$ be continuous and nontrivial. Its conductor parameter is any $c\in F^\times$ such that $c\mathcal O$ is the largest centered ball on which $\psi$ is trivial. To see existence, choose a small ball mapped into the arc $|\arg z|<\pi/2$. Every positive integral multiple of a point of that ball is still in it. If $z\ne1$, a first positive multiple of the absolute value of its principal angle reaches $\pi/2$ before exceeding $\pi$, provided the angle starts in the arc. Hence all powers staying in the arc forces $z=1$. A point on which $\psi$ is nontrivial bounds the radii of triviality above. The radii of nonzero centered balls are discrete, so there is a largest one. This proves the exact condition called `HasConductor`. The additive kernel itself can be larger than $c\mathcal O$. [Lean, read]
+
+For $t\in F^\times$ put $L_t=(t\mathcal O)^m$ and $D_t=L_{c/t}$. Write $dx$ and $db$ for the same product additive Haar measure in the two sets of variables. The Haar measure on $F$ can have any positive normalization. Let $T,T'$ be smooth complex representations of $P_{m+1}$ on $V,V'$, and let $B:V\times V'\to\mathbb C$ be complex bilinear. For $s\in\mathbb Z_{\ge0}$ assume
+$$
+B(T(h)v,T'(h)v')=\nu(h)^s B(v,v') .
+$$
+Set $C_{v,v'}(x)=B(T(u(x))v,v')$, $w(x)=\psi(-x_m)$ and
+$$
+J_M(v,v')=\int_M w(x)C_{v,v'}(x)\,dx .
+$$
+The condition $\operatorname{EvVal}(v,v';A)$ means that there is a threshold $t_0\in F^\times$ such that $J_{L_t}(v,v')=A$ for every $|t|\ge |t_0|$. Each vector has an open stabilizer, which contains a compact open subgroup since $P_{m+1}$ has the congruence subgroups at the identity as a neighborhood basis. By continuity of $x\mapsto u(x)$, some small $L_d$ fixes $v$. Then $C_{v,v'}$ is constant on every coset of $L_d$, because $u(x+y)=u(x)u(y)$. The weight is continuous and locally constant by the conductor condition. This gives integrability on every compact measurable domain used below.
+
+Put $\chi(u(y))=\psi(y_m)$. Let $R_\chi(V)$ be the complex linear span of $T(u(y))v-\chi(u(y))v$ and define $V_\chi=V/R_\chi(V)$. Define $V'_{\chi^{-1}}$ using $T'$ and $\chi^{-1}$. The action of $p\in P_m$ on either quotient is induced by $\ell(p)$, since $(py)_m=y_m$. This is the archive's unnormalized $\Phi^-$ action.
+
+#### Lemma on one twisted step
+
+**Lemma (one twisted step).** [Lean, read] With the above hypotheses, every $(v,v')$ has a unique eventual value $B_0(v,v')$. It is bilinear and induces a bilinear form $\overline B$ on $V_\chi\times V'_{\chi^{-1}}$ with
+$$
+\overline B(p[v],p[v'])=\nu(p)^{s+1}\overline B([v],[v']) .
+$$
+If $B$ is left nondegenerate, meaning that every $v\ne0$ admits $v'$ with $B(v,v')\ne0$, then $\overline B$ is left nondegenerate. The threshold can depend on the pair of vectors. The theorem includes the case $m=1$, for which $P_m$ is the trivial group.
+
+#### Proof
+
+**1. Orthogonality on the conductor box.** For $x\in L_t$, each $b_i x_i$ lies in $c\mathcal O$ when $b\in D_t$, and so does their sum. If $x\notin L_t$, some $|x_i|>|t|$. The ball $x_i(c/t)\mathcal O$ is then strictly larger than $c\mathcal O$. Choose $b_0$ supported in that coordinate with $b_0\in D_t$ and $\psi(-b_0\cdot x)\ne1$. Translation by $b_0$ preserves $D_t$ and its measure, and multiplies the integral by that nonidentity scalar. Hence
+$$
+\int_{D_t}\psi(-b\cdot x)\,db=\operatorname{vol}(D_t)1_{L_t}(x).
+$$
+In particular, let $f$ be continuous on a compact measurable $M$ and put $I_b(M,f)=\int_M\psi(-b\cdot x)f(x)\,dx$. The integrand on $D_t\times M$ is bounded, measurable and supported on a set of finite measure. Fubini gives
+$$
+\frac{1}{\operatorname{vol}(D_t)}\int_{D_t} I_b(M,f)\,db=\int_{M\cap L_t} f(x)\,dx.
+$$
+The denominator is finite and strictly positive. If $I_b(M,f)=A$ for every $b\in D_t$, the cut-down integral equals $A$. In particular this applies with $A=0$. The factor that divides out belongs to the frequency integral. The matrix-coefficient integral $J_M$ itself has no volume denominator. This argument uses compact character orthogonality rather than a self-dual Haar normalization.
+
+**2. Small shears and transport of the frequency twist.** For $b\in F^m$ let $H_b=I+e_m b^{\mathrm T}$, where $e_m$ is the last coordinate vector. Then $H_bx=x+(b\cdot x)e_m$. Its determinant is $1+b_m$ by last-row expansion. For $\|b\|_\infty<1$, this is a unit of $\mathcal O$. The inverse is $I-(1+b_m)^{-1}e_m b^{\mathrm T}$, as one verifies by multiplying and using $(e_m b^{\mathrm T})^2=b_m e_m b^{\mathrm T}$. Both matrices tend to $I$ as $b$ tends to zero. Thus for a fixed pair of vectors, all sufficiently small $b$ make $\ell(H_b)$ fix both. For any one right vector and any compact box of such $b$, the vectors $T'(\ell(H_b))v'$ form a finite set. Indeed the orbit map has open fibers, which are the pullbacks of cosets of the open stabilizer, and compactness reduces the cover by the fibers to a finite one.
+
+For fixed $g\in G_m$, small $b$ preserve all domains $M=g^{-1}L_z$, uniformly in $z$. These domains are compact and open since $g$ is a homeomorphism. Choose $C\ge1$ bounding the absolute values of the entries of $g^{-1}$ and of $ge_m$. Then every entry of $ge_m b^{\mathrm T}g^{-1}$ has absolute value at most $C^2\|b\|_\infty$. Choose a ball on which this bound is strictly below $1$. The conjugates by $g$ of both $H_b$ and $H_b^{-1}$ have integral entries by the inverse formula and $|1+b_m|=1$. Both act on each $L_z$, so $H_bM=M$. This gives the same uniform membership bound as the source's two directions of the ultrametric estimate.
+
+For later use, the Haar change of variables for a linear $g$ is $dx=|\det g|\,dy$ under $x=gy$. In dimension one, scaling by a unit preserves $\mathcal O$, so Haar uniqueness makes its factor $1$. Scaling by $\varpi$ has factor $1/q$ by the $q$-coset partition of $\mathcal O$. In dimension $m$, diagonal stretches multiply those factors, coordinate permutations preserve product measure, and an elementary transvection preserves it by translation in one coordinate and Fubini. These matrices generate $G_m$ by elimination, so their factors multiply to $|\det g|$. Equivalently, the pushforward is $|\det g|^{-1}dx$.
+
+The representation law and covariance of $B$ give
+$$
+C_{T(\ell(g))v,T'(\ell(g))v'}(x)=\nu(g)^s C_{v,v'}(g^{-1}x).
+$$
+Take $g=H_b$ and suppose $\ell(H_b)$ fixes $v$ and $H_bM=M$. Its determinant has absolute value $1$. Changing variables $x=H_by$ therefore changes neither Haar mass nor the coefficient covariance factor. It changes the weight by $w(H_by)=\psi(-b\cdot y)w(y)$. For $f(x)=w(x)C_{v,v'}(x)$ this proves
+$$
+I_b(M,f)=J_M(v,T'(\ell(H_b))v').
+$$
+Thus a frequency twist is exactly the integral against a right vector obtained by a small shear. In the fixed-pair case it gives $I_b(M,f)=J_M(v,v')$ for every sufficiently small $b$.
+
+**3. Stabilization and linearity.** Fix $g,v,v'$. Choose $r\in F^\times$ with $|r|<1$ so that all $b\in L_r$ satisfy the lattice bound and the two fixed-vector conditions of step 2. Whenever $|c/t|\le |r|$ and $gL_t\subset L_z$, take $M=g^{-1}L_z$. Every $b\in D_t$ has $I_b(M,f)=J_M(v,v')$. Step 1 with $L_t\subset M$ gives
+$$
+J_{g^{-1}L_z}(v,v')=J_{L_t}(v,v').
+$$
+Equivalently, the integral on $g^{-1}L_z\setminus L_t$ vanishes. This is the conductor bound, including its uniformity in the larger box. For $g=1$ choose $t=c/r$. All $|z|\ge|t|$ yield the same value $J_{L_t}$. This is the existence step of `EvVal`.
+
+The larger of any two threshold radii is itself allowed and enforces both equalities, so the eventual value is unique. The coefficient is additive in either variable and homogeneous under complex scalars. On a common box beyond the two thresholds, integrability permits adding the integrals. For scalar multiplication the original threshold works. Uniqueness identifies the resulting values with those of the sum and scalar multiple, proving bilinearity, including for the scalar zero.
+
+**4. Translation and the determinant increment.** Inserting $T(u(y))$ in the left coefficient translates the argument to $x+y$. Inserting $T'(u(y))$ on the right translates it to $x-y$, by applying covariance to $u(y)$ with determinant $1$. Enlarge the integration box until it contains $y$ and the eventual-value threshold. Translation by either $y$ or $-y$ preserves the additive box. The weights after changing variables are $\psi(y_m)w(x)$ on the left and $\psi(-y_m)w(x)$ on the right. Thus
+$$
+B_0(T(u(y))v,v')=\chi(u(y))B_0(v,v'),\qquad
+B_0(v,T'(u(y))v')=\chi(u(y))^{-1}B_0(v,v').
+$$
+
+For $p\in P_m$, $w(py)=w(y)$. The coefficient rule and $x=py$ give
+$$
+J_{L_z}(T(\ell(p))v,T'(\ell(p))v')=\nu(p)^s\nu(p)J_{p^{-1}L_z}(v,v').
+$$
+Fix $t$ above the eventual threshold for $(v,v')$ and large enough that $|c/t|\le |r|$ for the conductor bound with $g=p$. If $|z|$ exceeds $|t|$ times a bound on the entries of $p$, then $pL_t\subset L_z$. Step 3 identifies the preimage integral with $B_0(v,v')$. Uniqueness gives covariance with exponent $s+1$. The two translation factors are the quotient characters. The extra $\nu(p)$ comes from the additive Haar measure on columns.
+
+**5. Left separation at a finite stage.** Assume $B$ is left nondegenerate and $v\notin R_\chi(V)$. Choose a small box $K=L_d$ on which $u(k)$ fixes $v$ and $\chi(u(k))=1$. Every larger box $L_t\supset K$ is a union of finitely many disjoint cosets $a+K$, with representatives in a set $S$. Compactness gives finiteness and Haar translation gives equal mass. The vector
+$$
+v_t=\sum_{a\in S}\psi(-a_m)T(u(a))v
+$$
+has class $|S|[v]\ne0$, because each summand has class $[v]$ and the coefficient field is $\mathbb C$. Hence $v_t\ne0$. Choose $v'$ with $B(v_t,v')\ne0$. On each coset the weighted coefficient is constant, so $J_{L_t}(v,v')=\operatorname{vol}(K)B(v_t,v')\ne0$. The right vector can depend on $t$.
+
+**6. From finite stages to an eventual nonzero test.** Fix $v\notin R_\chi(V)$. Choose $r$ that ensures the left fixed-vector condition and that $H_b$ preserves all untransformed boxes for $b\in L_r$. Choose $t$ large enough for step 5 and with $|c/t|\le |r|$. Take a right vector $v'$ from step 5 for this $t$. Suppose $B_0(v,w')=0$ for every $w'\in V'$. The shear orbit of $v'$ for $b\in L_r$ is finite. Each orbit vector has an eventual vanishing threshold with left vector $v$. Choose $u$ with radius at least all these thresholds and at least $|t|$. The shear identity on $M=L_u$ now gives $I_b(L_u,f)=0$ for all $b\in D_t$, since each is the integral against one of those orbit vectors. By step 1 the integral on $L_u\cap L_t=L_t$ vanishes, contradicting the choice of $v'$. This proves the existence of a right vector with $B_0(v,w')\ne0$. The compact orbit and its common threshold are what allow the finite-stage quantifier to be upgraded.
+
+**7. The two Jacquet quotients.** The translation identities kill every generator of $R_\chi(V)$ in the left slot and of $R_{\chi^{-1}}(V')$ in the right slot. Bilinearity kills the two spans. Thus $\overline B([v],[v'])=B_0(v,v')$ is independent of both representatives, and surjectivity of the two quotient maps gives uniqueness. The $P_m$ covariance already proved is precisely covariance for their induced actions. For any $[v]\ne0$, step 6 provides $w'$ with a nonzero value, so $[w']\ne0$ as well. The left radical of $B_0$ is exactly $R_\chi(V)$. The argument only gives the inclusion of $R_{\chi^{-1}}(V')$ in the right radical. $\square$
+
+#### A nonzero pair of actual quotients and two hypothesis tests
+
+**A representation on the affine mirabolic group.** [Expository] For $m=1$, write an element of $P_2$ as $(a,y)$ with upper row $(a,y)$ and multiplication $(a,y)(b,z)=(ab,y+az)$. On $V=V'=C_c^\infty(F^\times)$, the locally constant compactly supported functions, define
+$$
+(T(a,y)f)(z)=\psi(zy)f(za),\qquad
+(T'(a,y)h)(z)=\psi(-zy)h(za).
+$$
+The multiplication law verifies both representation identities. Compact support and local constancy give invariance under a common sufficiently small unit subgroup by a finite cover of the support by multiplicative cosets. Bounding $|z|$ on the support gives a small additive subgroup for which the phases are all trivial. These subgroups give an open stabilizer. Put $d^\times z=dz/|z|$ and use the bilinear form $B(f,h)=\int_{F^\times}f(z)h(z)|z|^{-s}\,d^\times z$. The phases cancel and changing from $z$ to $za$ gives $|a|^s$. The form is left nondegenerate by testing a compact open coset on which a nonzero $f$ is constant and nonzero.
+
+Both actual quotients are evaluations at $z=1$. The twisted relations vanish there. If a locally constant compactly supported function vanishes there, its compact support avoids $1$. For each point $z$ of the support choose $y$ with $\psi((z-1)y)\ne1$. The coefficient $\psi(zy)-\psi(y)$ is then a nonzero constant on a neighborhood of $z$. A finite disjoint compact open refinement of those neighborhoods partitions the support. On each piece divide the function by that constant to write the piece as one twisted relation. The same argument with $\psi^{-1}$ proves the right kernel equality. Evaluation is onto, for instance by the indicator of $1+\varpi\mathcal O$. This identifies two one-dimensional coinvariants.
+
+On this object the integral can also be evaluated directly. Fubini over the compact supports and step 1 in one coordinate give
+$$
+J_{L_t}(f,h)=\lambda(t\mathcal O)\int_{(1+(c/t)\mathcal O)\cap F^\times} f(z)h(z)|z|^{-s}\,d^\times z .
+$$
+For $|t|$ large the second domain consists of units and $f,h$ are constant there. Writing $\lambda(\mathcal O)=a_0$, the two masses multiply to $a_0^2|c|$, and $\overline B(f(1),h(1))=a_0^2|c|f(1)h(1)$. Over $\mathbb Q_3$ with $a_0=1$, take $f=h=1_{1+3\mathbb Z_3}$. With $\psi_0$, $t=3^{-1}$ gives masses $3$ and $1/3$, so the value is $1$. With $\psi_2$, $t=3^{-2}$ gives masses $9$ and $3^{-4}$, so the value is $1/9$. The two displayed coinvariant classes are both represented by the actual vector with value $1$ at the specified point. The example is a pair of mirabolic representations, with its own $P_2$ action. The segment example below concerns the separate requirement of coming from an irreducible $G_a$ representation for the NuPair consumer.
+
+**A nontrivial determinant test on the quotients.** The same construction works on $C_c^\infty(F^m)$, with $(g,y)\in P_{m+1}$ acting on $f$ by $\psi(z\cdot y)f(g^{\mathrm T}z)$ and on $h$ by $\nu(g)^{s+1}\psi(-z\cdot y)h(g^{\mathrm T}z)$. Use $B(f,h)=\int f(z)h(z)\,dz$. The group law is $(g,y)(a,w)=(ga,y+gw)$, and the change of variables $z\mapsto g^{\mathrm T}z$ gives covariance $\nu^s$. Smoothness follows by choosing a compact open lattice containing the support, a finer lattice whose cosets make the function constant, and a congruence subgroup on the first lattice that acts trivially modulo the finer one. Small $y$ make the characters trivial throughout the support. Write $a_0=\lambda(\mathcal O)$ and let $\lambda^m$ be the product measure used for both $dx$ and $dz$. Step 1 gives $J_{L_t}(f,h)=\lambda^m(L_t)\int_{e_m+D_t} f(z)h(z)\,dz$. For sufficiently large $|t|$, the two masses have product $\lambda^m(L_t)\lambda^m(D_t)=a_0^m\lambda^m(L_c)$. The eventual form is $a_0^m\lambda^m(L_c)f(e_m)h(e_m)$. The same finite partition argument for the two relation spaces works with $\psi((z-e_m)\cdot y)$, using a single coordinate of $z-e_m$ that is nonzero. For $m=2$ over $\mathbb Q_3$ with $a_0=1$, take $f=h=1_{e_2+(3\mathbb Z_3)^2}$ and $p=\operatorname{diag}(3,1)\in P_2$. Since $p^{\mathrm T}e_2=e_2$, the left class stays $1$ and the right class becomes $3^{-(s+1)}$. Thus the pairing changes from $1$ to $3^{-(s+1)}$ with $\psi_0$, or from $3^{-4}$ to $3^{-(s+5)}$ with $\psi_2$.
+
+**Delete nontriviality.** [Expository] Take both representations trivial and one-dimensional, $s=0$ and $B(v,v')=vv'$. With $\psi=1$, $J_{L_t}(1,1)=\operatorname{vol}(L_t)$ grows with $|t|$. No conductor ball is maximal, so the shrinking frequency box in step 1 cannot be constructed. All the representation and pairing hypotheses still hold.
+
+**Delete left smoothness.** [Expository] Over $\mathbb Q_3$ use $\psi_0$ and the same affine formulas on $V=C_c(\mathbb Q_3)$, the continuous compactly supported functions, and $V'=C_c^\infty(\mathbb Q_3)$, multiplying the right action by $|a|_3$. Use additive measure and $B(f,h)=\int f(z)h(z)\,dz$. This form has covariance $s=0$, and it separates each nonzero left vector by a compact open set on which a rotated real part of the vector is strictly positive. The right representation is smooth by the same compact-support argument. Take $h=1_{1+3\mathbb Z_3}$ and $f(z)=|z-1|_3 h(z)$. Every neighborhood of $1$ in $\mathbb Q_3^\times$ contains $a\ne1$ in $1+3\mathbb Z_3$. At $z=1$, $T(a,0)f$ has value $|a-1|_3>0$ while $f(1)=0$. Thus the small scaling shears do not fix $f$. For $t=3^{-j}$ with $j\ge1$, the compact integral still exists, and the one-dimensional orthogonality computation gives
+$$
+J_{L_t}(f,h)=3^j\int_{3^j\mathbb Z_3}|u|_3\,du
+=3^j(1-1/3)\sum_{\ell\ge j}3^{-2\ell}=\tfrac34\,3^{-j}.
+$$
+The values are all unequal. Smoothness in step 2 is needed even when the matrix coefficients remain continuous. In step 6, smoothness on the right is what makes the shear orbit finite and lets one select a common threshold.
+
+#### Why this is the pairing at the highest derivative
+
+The source uses the evaluation pairing between a smooth $G_N$ representation $\omega$ and its smooth contragredient. Each twisted step in `pair_iter` applies the theorem and increases $s$ by one. At order $t=j+1$, `pair_deriv` takes $j$ twisted steps and one ordinary Jacquet step. For the last step the next twisted quotient on the left must vanish. The separate [joint-character detection in §12.4.6](#1246-detecting-a-vector-by-all-its-twisted-jacquet-images) then shows that the last-column group acts trivially on the left. Covariance with determinant $1$ gives ordinary descent on the right, with no extra Haar factor. Starting with $s=0$ yields $\nu^j=\nu^{t-1}$ on the surviving general linear group. This section supplies the twisted steps and uses the inherited highest-order test and ordinary step. Chapter 7 §§7.4.3.14–15 uses the same bare derivative convention of successive twisted quotients followed by an ordinary quotient. The determinant character from the bilinear pairing here and the shift by $(1-t)/2$ used there for a unitarisable highest derivative have distinct roles.
+
+As a concrete instance of that consumer, use the ascending segment representation $\omega=Z([\rho,\rho\nu])$ of $G_4$ over $\mathbb Q_3$, the length-two case of the increasing segment in [§12.4.10](#12410-producing-the-increasing-segment-from-adjacent-pairs). For an explicit seed, let $I^+$ consist of matrices $i=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)$ with $a,d\in1+3\mathbb Z_3$, $b\in\mathbb Z_3$, $c\in3\mathbb Z_3$. The residues of $b$ and $c/3$ add under multiplication, so $i\mapsto\zeta^{\overline{b+c/3}}$ is a character. Each affine root coordinate gives a nontrivial residue character. It extends trivially across the center $Z$ since it is trivial on $I^+\cap Z$. The matrix $h=\left(\begin{smallmatrix}0&1\\3&0\end{smallmatrix}\right)$ normalizes $I^+$ and swaps those residues. Since $h^2=3I$, extension by the value $1$ on $h$ is compatible with the trivial central character. Use the compact induction from $Z I^+\langle h\rangle$ of this extended character for $\rho$. The compact induction and irreducibility are the cited human input. Zelevinsky's segment formula gives highest order $2$ and normalized derivative $\rho$, so the bare derivative is $S=\rho\nu$. The right bare derivative of the dual segment is $\rho^\vee$. One twisted step really occurs, since an ordinary quotient of that first twisted quotient is nonzero. The displayed affine integrals above have their own coefficient vectors and do not compute any specific matrix coefficient of this $G_4$ representation. [Adrian–Liu, §3.1, pp. 5–6](https://arxiv.org/pdf/1310.2585v4) · [Zelevinsky II, §§3.1–3.5, pp. 180–182](https://www.numdam.org/item/10.24033/asens.1379.pdf)
+
+In the actual NuPair producer, an injection from a simple left derivative class $S$ lets this pairing produce a right quotient $Q=S^\vee\nu^{t-1}$. The first normalized Jacquet letter is $\alpha=S\nu^{-t/2}$, from the negative half of the parabolic modulus. After normalizing the right letter and applying the inherited dual reversal, the last letter is
+$$
+(Q\nu^{-t/2})^\vee = S\nu^{1-t/2}=\alpha\nu .
+$$
+For the segment example $t=2$, this gives $\alpha=\rho$ and $\alpha\nu=\rho\nu$. The calls to `pair_deriv` in both NuPair assemblies use the same convention. The complementary-series assembly uses `DerFin` for the finite-length input that provides its simple submodule. That assembly feeds the adjacent-pair reducibility input `NR.rhoNuRhoReducibleC` named in [§12.4.10](#12410-producing-the-increasing-segment-from-adjacent-pairs). The general Gelfand–Kazhdan distributional result, Whittaker uniqueness and heredity, and the full local Langlands correspondence retain their separate status.
+
+#### Remarks on normalization, scope and attribution
+
+The unit-ball examples fix $a_0=1$. For arbitrary $a_0$, the high-dimensional example uses two product Haar integrations, one in $B$ and one in the column average, so its coefficient has the factor $a_0^m\lambda^m(L_c)$. The finite certificate checks the unit-normalized values. In a separate polar integration formula, mass one for the angular probability measure concerns that factor. The mass of the compact subgroup for the ambient measure requires the full formula. In a local coordinate argument, a derivative computed at the origin gives first-order information there. An exact derivative formula throughout a neighborhood requires a pointwise calculation.
+
+Bernstein–Zelevinsky use the same mirabolic group, character stabilizer and coinvariant quotients. Their normalized $\Phi^-$ action is the bare action here multiplied by $\nu^{-1/2}$ on each side. These two half-powers absorb the single Haar factor of step 4. In their convention a $\xi$-pairing satisfies $\xi(g)B(gv,gv')=B(v,v')$. The mirabolic group module is $\nu^{-1}$, so their module-pairing input has bare covariance $\nu$. To compare an initial bare exponent $s$, temporarily twist the right input by $\nu^{1-s}$, which is trivial on the last column and commutes with the quotient. Their proof of Proposition 3.8 explains why restriction to the compactly induced submodules retains left separation. Proposition 3.7 then descends this pairing on those submodules to a module-pairing on the normalized twisted quotients. On the smaller mirabolic this still has covariance $\nu$. Removing the temporary right twist and restoring the two bare actions gives exponent $s+1$. Conjugation by $\operatorname{diag}(-I_m,1)$ negates the last column and fixes the embedded $P_m$, so their same-character quotient on the right is isomorphic to the inverse-character quotient used here. The representation-theoretic conclusion is a specialization of the classical pairing theorem. This section explains A2's conductor-box proof and its source-level connection to NuPair. [Bernstein–Zelevinsky I, §§1.8–1.9, pp. 444–445, and §§3.1–3.8, pp. 450–453](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf) · [Bernstein–Zelevinsky 1976, §§5.3–5.4 and §§5.9–5.12, pp. 44–48](https://www.uni-muenster.de/imperia/md/content/theoretische_mathematik/topologie/bernstein-zelevinsky.pdf)
+
+**Reading status.** Author-level local R3 reading of the pinned archive, with same-source preliminary acceptance incorporating the Haar normalization correction. The same-source review accepted the general cutoff and pairing results and corrected the higher-dimensional example for arbitrary Haar normalization. The [Lean, read] tags refer to the cited A2 proof bodies. Kernel replay, proof-term dependencies from Main and review of the claimed RH proof remain open at this scope.
+
+#### Lean source map for the Haar pairing
+
+A2 joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Paths begin at the archive root. R3 refers to local reading at the specified proof spans. R2 records a definition, statement or dependency interface. R1 records a named pointer. See the reading status in the section.
+
+**Newly read**
+
+| Level | Declaration or use | Full archive path and line span |
+|---|---|---|
+| R3 | `pairing_phi`, hypotheses, eventual-value uniqueness, four bilinear laws and assembly | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/InvariantPairingMirabolicSmooth.lean:22–65` |
+| R2 | `uM`, `shearGL`, `piHaar`, `wt`, `coef`, `TwInv`, `JJ`, `EvVal` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ShearGL.lean:20–48` |
+| R2 | Product boxes, `HasConductor`, the Haar absolute value and the local-field instance for the examples | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsCompactSubgroupSmallAnnihilator.lean:14–46`; `lean/src/Development/AbelianVarietyTheory/Definitions/Foundations/MatrixMeasurableSpace.lean:15–34`; `lean/src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/PadicIsNonarchimedeanLocalField.lean:13–44,66–82` |
+| R3 | Continuous character is trivial near zero, then the largest trivial ball from nontriviality and discreteness | `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/AddCharConductorAndHaarIntegersExist.lean:13–76` |
+| R3 | Compact integrability and both additive and homogeneous laws at a common threshold | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicEvaluationLinear.lean:13–112`; duplicate coefficient continuity `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicCoefficientContinuous.lean:8–30` |
+| R3 | Bounds on conjugated small shears for all scales, left and right fixed-vector neighborhoods, finite right orbit | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ShearPreservesBoxMembership.lean:11–137`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SmoothVectorFixedSmallShear.lean:13–133`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ShearOrbitFinite.lean:14–120` |
+| R3 | Shear on columns, determinant of absolute value one and transport from a frequency twist to the right vector | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ShearGLMulVecAndNabsDet.lean:9–29`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingDepthVanishing.lean:15–50` |
+| R3 | Coefficient transformation with the two opposite shifts, and conjugation by the Levi matrix | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicCoefficientTranslation.lean:14–74,83–109` |
+| R3 | Orthogonality by translation, conductor dual box, weighted Fubini and cancellation by its positive mass | `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/FourierTransformInversionLocalFieldPi.lean:54–114`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedBoxIntegralIdentity.lean:9–100` |
+| R3 | Uniform preimage-box bound by fixing both vectors, then choosing the identity and substituting `t=c/r` | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingConductorBound.lean:15–81`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingConductorVanishing.lean:10–27` |
+| R3 | Enlarging the threshold to contain the translating vector, and the two character laws | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingDepthInduction.lean:16–100` |
+| R3 | Product Haar scaling on diagonal matrices and transvections, then set-integral change of variables | `lean/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsLocallyConstantAddChar.lean:105–146`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SetIntegralInvMulVec.lean:10–40` |
+| R3 | Weight fixed by the smaller mirabolic, product of determinant factors, and threshold transported by a matrix bound | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingConductorShift.lean:16–111,117–134` |
+| R3 | Compact-open coset representatives, finite-stage nonvanishing using the actual twisted relation space | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CompactSetFiniteCosetRepresentatives.lean:6–42`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicTwistedKernelNonvanishing.lean:13–151` |
+| R3 | Uniform threshold over a finite right orbit, then contradict finite-stage nonvanishing by the zero case of the cutoff identity | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicPairingConductorExtension.lean:20–120` |
+| R3 | Kill the two relation spaces, successive `liftQ` maps and use quotient representatives to prove covariance and left separation | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedInvariantPairingCharacter.lean:14–84` |
+| R2 | Algebraic relation space and quotient, last-column character and unnormalized action | `lean/src/Development/AbelianVarietyTheory/Definitions/Foundations/SmoothPartStable.lean:21–26`; `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/ColMatMulGlEmbMat.lean:41–51,82–86,148–170`; `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/MirabolicDerivatives/UnipApplyCastSuccLast.lean:16–29` |
+
+The companion-theory bodies give the mathematical content. Each exported `GlobalTheory.T` delegation used here was traced through the same-named `Statement.lean` import to the above proof, including the depth identity, compact shear orbit, and Fourier cutoff.
+
+**Inherited interfaces and actual consumers**
+
+| Level | Actual use | Full archive path and line span |
+|---|---|---|
+| R3 inherited, call rechecked | Iteration adds one per twisted step, then ordinary descent preserves the accumulated exponent. The ordinary descent itself consumes joint-kernel detection. | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/IsSmoothIterPhi.lean:128–171`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/InvariantPairingMirabolicVanishing.lean:53–93,101–154` |
+| R3 inherited, call rechecked | `nuPair` calls `pair_deriv` with the evaluation pairing at the highest order. The dual quotient and normalized Jacquet extraction follow. | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NuPairOfDerivativesJacquet.lean:67–132` |
+| R3 inherited, call rechecked | Complementary-series `nuPair_of` also calls `pair_deriv`, then uses `DerFin` and a simple submodule. The `CuspPairIrr` route feeds the adjacent-pair reducibility input of §12.4.10. | `lean/src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/NontrivialOfIsIrreducible.lean:57–140`; `lean/src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/CuspPairIrr.lean:13–16`; `lean/src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/ComplementarySeries/CuspPair.lean:16–54` |
+| R3 inherited | Smooth dual and irreducible quotient, negative half-modulus of Jacquet, and the conditional dual-reversal bridge | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PairingTwistedDeterminantSubquotient.lean:15–67`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/DerivativeJacquetHolds.lean:68–238,250–341`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/JmThetaHolds.lean:20–133` |
+
+The two test functions, the affine and higher-dimensional frequency-space representations, and the deletion tests are textbook examples [Expository]. The bounded determinant calculation on their quotients is a check of the production theorem's convention. The actual NuPair consumer uses a smooth irreducible general linear representation and its smooth dual. The $G_4$ segment instance uses Zelevinsky's derivative formula and the cited compact-induction construction. Its coefficients were not identified with the test functions.
+
+**Named retained inputs**
+
+| Level | Boundary | Full archive path and line span |
+|---|---|---|
+| R2 [Lean] | Joint-kernel Fourier detection for the highest-order choice and the final ordinary step. The one-step proof uses only the conductor indicator identity, read above. | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/MirabolicFourierExpansion.lean:74`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsNontrivialDerivative.lean:80–92`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/InvariantPairingMirabolicVanishing.lean:59–71` |
+| R2 [Lean] | Irreducible admissibility, smooth dual irreducibility and Jacquet finite length in the consumer. | `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IrreducibleAdmissibleGL.lean:10–13`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NuPairOfDerivativesJacquet.lean:82–97`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/DerivativeJacquetHolds.lean:321–322` |
+| R2 [Lean] | Whittaker dimension bound, heredity and cuspidal genericity in the adjacent-reducibility argument | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ReducibleCuspidalPairNongenericSubquotient.lean:116–140`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/WhittakerHeredityStatement.lean:7–8`; `lean/src/Development/WeilBound/RepresentationTheoryGL/GenericUnitaryGL/WhittakerCuspidal/WhitCuspOfSegCuspGeneric.lean:14–19` |
+| R1/R2 [Open] | General distributional Gelfand–Kazhdan and full local Langlands. The misleading local-Langlands wrapper in the consumer supplies GKLocal. | `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalLanglandsOfIrreducibleAdmissible.lean:13–17`; `lean/src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/EquivContra.lean:97` |
+| R1/R2 | Mathlib foundations for integration, topology of units, matrix induction and quotient constructors are used at their interfaces. | Named calls in `lean/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsLocallyConstantAddChar.lean:105–146`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedBoxIntegralIdentity.lean:48–62`; `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TwistedInvariantPairingCharacter.lean:55–83` |
+The one-step mirabolic pairing and its Haar inputs are traced in the [§12.4.11 source map](#lean-source-map-for-the-haar-pairing).
+
+
+- **P15, Chapter 12, §12.4.11.** Use shrinking frequency boxes and growing column boxes to produce the mirabolic pairing. Prove stabilization by small shears and conductor orthogonality, then descend to both twisted Jacquet quotients. The examples compute Haar mass and determinant scaling over $\mathbb Q_3$. [Section](../chapters/12-galois-representations-and-local-langlands.md#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing)
+
+- **P15, §12.4.11, scoped R3.** The conductor cutoff, fixed-vector shear identity and finite-orbit separation give the eventual pairing with covariance $\nu^{s+1}$. `pair_iter` and `pair_deriv` use this one-step result. The ordinary final step, joint-kernel detection and general GK retain their recorded standing. [Production map](../chapters/12-galois-representations-and-local-langlands.md#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing)
+### Chapter 12, §12.4.11 · The mirabolic Haar and conductor pairing
+
+- **Alpöge–Claude A2.** SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The companion-theory bodies establish the uniform conductor cutoff, eventual-value pairing, and its covariance and descent. [Full paths and original-source attribution](../chapters/12-galois-representations-and-local-langlands.md#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing)
+- **Bernstein–Zelevinsky I**, DOI 10.24033/asens.1333, pp. 443–445, 450–453, 454–456. The authors give normalized localization, module-pairing descent and the highest derivative application. PDF SHA-256 `8424600228ab72c5937e45edceefcae410a2a0b8f5ebf282185691542aa89092`, retrieved 2026-11-26. [Numdam](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf)
+- **Bernstein–Zelevinsky (1976)**, DOI 10.1070/RM1976v031n03ABEH001532, English pp. 44–48. The authors identify Fourier stalks and the unnormalized mirabolic sequence. Translation PDF SHA-256 `72dc22eb9991112936a88327f00d0f02a16a2bf8747518ca0ecfeeadd188e50c`, retrieved 2026-11-26. [English text](https://www.uni-muenster.de/imperia/md/content/theoretische_mathematik/topologie/bernstein-zelevinsky.pdf)
+- **Zelevinsky II**, pp. 180–182, and **Adrian–Liu v4**, pp. 5–6, supply the actual segment example and its cuspidal seed, with the references and hashes listed under §12.4.10. The LUMI guide supplies chapter context on partial local Langlands. [Pinned community guide](https://github.com/aapolipponen/rh-lean-check-lumi/blob/c6d0e2bc06ae4562d6656c6ef118739670d19eeb/docs/05-galois-representations.md#L37)
+- **Chapter 12, §12.4.11.** Hongmin Li with AI assistance gives a textbook reading of the Alpöge–Claude conductor-box proof, explicit local examples and a normalization comparison with Bernstein–Zelevinsky. The section traces the classical pairing to the existing NuPair consumer. [Section](chapters/12-galois-representations-and-local-langlands.md#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing)
 
 ## 12.5 Remarks, formalization notes, and Masullo's counterpart
 
@@ -2538,6 +2753,8 @@ between the two November 2026 manuscripts [Paper; Masullo pp. 117–154, 302–3
 ---
 
 ## 12.6 Lean counterpart for this chapter
+
+The [§12.4.11 Lean source map](#12411-from-a-conductor-ball-average-to-the-mirabolic-pairing) follows the conductor cutoff, the pairing on the two twisted Jacquet quotients and their use in NuPair.
 
 | Declaration | File:line | Mathematical content / role in Sections 12.3–12.4 | Tag |
 |---|---|---|---|
