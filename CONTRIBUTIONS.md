@@ -1231,6 +1231,13 @@ same-model review is recorded separately in the preceding run's audit.
 - **Classical arithmetic and formal library.** J. S. Milne gives the classical conductor–discriminant product and the monogenic trace-dual calculation. The pinned Mathlib suppliers and their credits are listed with the respective declarations. [Source record](sources/SOURCES.md#chapter-19-19320-root-discriminant-bounds-for-the-general-raw-host)
 - **Book exposition.** Hongmin Li with Codex supplies the full finite-sum proof, worked subgroups, failure cases and the comparison with the explicit layer. [§19.3.20](chapters/19-published-layer-case-studies-ii.md#19320-root-discriminant-bounds-for-the-general-raw-host)
 
+### Chapter 19 trivial inertia and the relative different (§19.3.21)
+
+- **Classical arithmetic.** Dedekind's prime factorization criterion and the classical inertia and trace-dual arguments are cited through J. S. Milne's *Algebraic Number Theory*. [Classical sources](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
+- **Mathlib community.** The referenced files credit Andrew Yang for the local unramifiedness and different bridges, Yongle Hu and Jiedong Jiang for Galois ramification, Thomas Browning for the invariant and finite flat proofs, Anne Baanen for the finite ideal quotient, Xavier Roblot for finite quotients and cyclotomic integral generation, and Oliver Nash for perfect fields. [Pinned sources](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
+- **Levent Alpöge with Claude.** The A2 archive supplies the inertia-to-different application, the agreement of the two conjugations and the signed discriminant square of the general host. [Archive source record](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
+- **Textbook exposition.** Hongmin Li with Codex supplies the step-by-step bridge, two integral-basis calculations with a deleted-premise control, and the verified declaration and chapter links. [§19.3.21](chapters/19-published-layer-case-studies-ii.md#19321-from-trivial-inertia-to-the-unit-relative-different)
+
 ### Chapter 19 power-basis isomorphisms (§19.3.19)
 
 - **Classical sources.** J. S. Milne gives simple-field homomorphisms by evaluation and the cyclotomic exponent criterion. The Stacks Project gives the simple algebraic quotient basis and degree. [Source record](sources/SOURCES.md#chapter-19-19319-power-basis-isomorphisms)

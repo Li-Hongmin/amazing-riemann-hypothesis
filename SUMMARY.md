@@ -49,6 +49,7 @@
 - [18. Auditing `GlobalTheory.Published`: worked statement-fidelity case studies (`P18`)](chapters/18-auditing-the-published-layer-case-studies.md)
 
 <!-- Chapter 19 includes the general raw host bounds in §19.3.20 (#19320-root-discriminant-bounds-for-the-general-raw-host). -->
+<!-- Chapter 19 includes the inertia-to-different bridge in §19.3.21 (#19321-from-trivial-inertia-to-the-unit-relative-different). -->
 - [19. Published layer case studies II](chapters/19-published-layer-case-studies-ii.md)
 
 # Records
