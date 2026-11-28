@@ -2804,7 +2804,7 @@ At a finite place use the positive index bound $4q_v^{\operatorname{ord}_v(2)}$ 
 
 **Lemma 2 (norm inequalities and properness).** If $D$ is admitted, $\delta\in U_D$ and $\delta$ is nonsquare, then $m=[U_D:U_D\cap R]$ is positive and $2m\le2^{t(D)}$. For every $D$ and every nonzero $\delta$, $[G:N_D]$ is positive and at least $2^{t(D)}$. Under the first set of hypotheses $U_DN_D$ is proper.
 
-**Proof of the first inequality.** Take $E=F(\sqrt\delta)$, conjugation $\tau$ and the full inverse image $D_E$ of $D$. Put $A=U_{D_E}(E)$ and $B=A^\tau$. The fixed group identifies with $U_D$ by descent and the restriction of valuations upstairs to positive multiples of the underlying valuations. The source uses the involution identity, with $P=\{a\tau(a):a\in A\}$,
+**Proof of the first inequality.** Take $E=F(\sqrt\delta)$, conjugation $\tau$ and the full inverse image $D_E$ of $D$. Put $A=U_{D_E}(E)$ and $B=A^\tau$. The fixed group identifies with $U_D$ by descent and the restriction of valuations upstairs to positive multiples of the underlying valuations. The source uses the [involution identity](#531241-two-square-index-identities-for-an-involution), with $P=\{a\tau(a):a\in A\}$,
 $$
 2[A:A^2][B:P]=[B:B^2]^2.
 $$
@@ -2855,7 +2855,82 @@ Since $j>0$ and $m\le j$, the first factor is one. The original $x$ lies in $U\c
 
 **Classical scope.** At an odd place outside $S$, both $\delta$ and $x$ are units. If the parameter has square residue it splits by lifting. Otherwise the quadratic residue extension has surjective norm on its nonzero elements by cyclicity, and a solution of the residue norm equation lifts by a simple derivative in at least one variable. Complex places split. The Hilbert–Furtwängler prime-degree antecedent credited in Hasse's 1931 theorem therefore already covers this admitted-set conclusion. Chebotarev on the biquadratic extension also supplies the separating-place assertion. The archive proves it through properness and finite coset representatives as above. [Hasse, 1931, p. 64](https://gdz.sub.uni-goettingen.de/download/pdf/PPN252457811_1931/PPN252457811_1931.pdf#page=69) · [Milne, *Class Field Theory*, VIII Theorems 3.1 and 3.5](https://www.jmilne.org/math/CourseNotes/CFT.pdf) · [Milne, *Algebraic Number Theory*, Theorem 8.31](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
 
-**Reading scope and consumer.** The production body and the cited direct proofs have author-level local R3 [Lean, read]. The final index argument is self-contained for abelian $G$ given $R\le N_S$, a finite index $[G:N_S]$, the two bounds $0<2[U:U\cap R]\le [G:N_S]$ and $[G:UN_S]\le2$, and $x\in U\cap N_S$. The arithmetic suppliers establish these hypotheses under the stated number-field assumptions. At the lower source boundary the proof uses the exact involution identity, place counts, finite completion square bound, local nonnorm and approximation inputs, and the group and rank inputs in the ledger [Lean]. The inequalities give properness, which gives the separating-place step and then the auxiliary pattern and final index comparison. The result feeds `GlobalTheory.T.sUnit_mem_globalNorm_of_mem_localNorms` and through it the already audited wrapper of [§5.3.1.23](#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle). Same-source review, cross-source review, Lean kernel replay and declaration reachability from `Main` for the new reading remain [Open]. [Complete source ledger](../sources/SOURCES.md#s-unit-norm-index-53124)
+**Reading scope and consumer.** The production body and the cited direct proofs have author-level local R3 [Lean, read]. The final index argument is self-contained for abelian $G$ given $R\le N_S$, a finite index $[G:N_S]$, the two bounds $0<2[U:U\cap R]\le [G:N_S]$ and $[G:UN_S]\le2$, and $x\in U\cap N_S$. The arithmetic suppliers establish these hypotheses under the stated number-field assumptions. At the lower source boundary the proof uses the [involution identity developed below](#531241-two-square-index-identities-for-an-involution), place counts, finite completion square bound, local nonnorm and approximation inputs, and the group and rank inputs in the ledger [Lean]. The inequalities give properness, which gives the separating-place step and then the auxiliary pattern and final index comparison. The result feeds `GlobalTheory.T.sUnit_mem_globalNorm_of_mem_localNorms` and through it the already audited wrapper of [§5.3.1.23](#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle). Same-source review, cross-source review, Lean kernel replay and declaration reachability from `Main` for the new reading remain [Open]. [Complete source ledger](../sources/SOURCES.md#s-unit-norm-index-53124)
+
+#### 5.3.1.24.1 Two square-index identities for an involution
+
+**Motivation.** In [Lemma 2 of §5.3.1.24](#53124-auxiliary-places-and-the-s-unit-norm-index), the square indices of the two unit groups are known, and the index of the norm image is the quantity to be bounded. The norm sends a fixed element to its square. The first identity measures how far the norm image extends beyond those fixed squares. The second identity compares the square quotients of the full group, the fixed group and the norm kernel. Its factor of two comes from an element whose quotient by its conjugate is $-1$ in the unit application.
+
+**Two worked examples.** Use additive notation in these examples, so squares are doubles. Write $B$ for the fixed subgroup, $P$ for the norm image, $C$ for the norm kernel, $S=2A$, $I=B\cap S$ and $J=B+S$. The maps are $N=1+\sigma$ and $f=1-\sigma$.
+
+1. Take $A=\mathbb Z/8\mathbb Z$ with $\sigma(x)=3x$. Then $\sigma^2=1$ because $9\equiv1\pmod8$, and $\varepsilon=4$ is fixed and is the unique nonzero element killed by doubling. We have $N(x)=4x$ and $f(x)=-2x$. Thus $B=P=\{0,4\}$ and $C=\{0,2,4,6\}=f(A)$. The square subgroups are $S=C$, $2B=\{0\}$ and $2C=\{0,4\}$. Consequently $BC$ in multiplicative notation corresponds to $B+C=C$, while $I=B$ and $J=C$.
+
+   The maps $x\mapsto 4x+2B$ and $x\mapsto -2x+2C$ have kernel $C$ because both quotient images record the parity of $x$. They induce surjections onto $P/2B$ and $C/2C$, respectively. For the second identity, $A/S\to C/2C$ is the same parity map, with trivial kernel $J/S$. The map $B\to J/S$ has kernel $I=B$. The map $I\to\{0,4\}$ given by $2y\mapsto f(y)$ sends $0$ to $0$ and $4$ to $4$ (use $y=2$), with kernel $2B$. Hence $[P:2B]=[C:2C]=2$, $[B:P]=1$, $[B:2B]=2$, $[A:S]=2$, $[I:2B]=2$ and $[B:I]=[J:S]=1$. The two identities read $1\cdot2=2$ and $2\cdot2=2\cdot2$. Their combination gives $2\cdot2\cdot1=2^2$.
+
+2. Take the infinite group $A=(\mathbb Z/8\mathbb Z)\oplus\mathbb Z$ with $\sigma(x,n)=(3x,n)$ and $\varepsilon=(4,0)$. The only elements killed by doubling are $(0,0)$ and $(4,0)$, both fixed, and $\sigma^2=1$. The maps are $N(x,n)=(4x,2n)$ and $f(x,n)=(-2x,0)$. Let $D_4=\{0,4\}$ and $D_2=\{0,2,4,6\}$ in $\mathbb Z/8\mathbb Z$. Then
+   $$
+   \begin{aligned}
+   B&=D_4\times\mathbb Z, & P&=D_4\times2\mathbb Z,
+   & C&=D_2\times\{0\}=f(A),\\
+   S&=D_2\times2\mathbb Z, & 2B&=\{0\}\times2\mathbb Z,
+   & 2C&=D_4\times\{0\},\\
+   B+C&=D_2\times\mathbb Z, & I&=D_4\times2\mathbb Z,
+   & J&=D_2\times\mathbb Z .
+   \end{aligned}
+   $$
+   The norm modulo $2B$ sends $(x,n)$ to $(4x,0)+2B$, and $f$ modulo $2C$ sends it to $(-2x,0)+2C$. Both maps are onto with kernel $B+C$. The quotient $A/S$ is described by $(x\bmod 2,n\bmod 2)$. Its map to $C/2C$ keeps the first bit, with kernel $J/S$ described by the second bit. The map $B\to J/S$ sends $(4k,n)$ to $n\bmod 2$ and has kernel $I$. On $I$, the map $2y\mapsto f(y)$ sends $(4k,2n)$ to $(4k,0)$ with kernel $2B$. In $B/2B$ the two independent bits are $k\bmod 2$ and $n\bmod 2$, while $B/P$ keeps the second bit and $P/2B$ keeps the first. This gives $[P:2B]=[C:2C]=2$, $[B:P]=2$, $[B:2B]=4$, $[A:S]=4$, $[I:2B]=2$ and $[B:I]=[J:S]=2$. The two identities read $2\cdot2=4$ and $2\cdot4=4\cdot2$. Their combination gives $2\cdot4\cdot2=4^2$.
+
+**Definitions.** Let $A$ be a commutative group and $\sigma:A\to A$ a homomorphism with $\sigma^2=\mathrm{id}_A$. Define
+$$
+N(a)=a\sigma(a),\qquad f(a)=a/\sigma(a),\qquad
+B=A^\sigma,\quad P=\operatorname{im}N,\quad C=\ker N.
+$$
+The maps $N,f$ are homomorphisms, and $\ker f=B$. We have $P\le B$ by applying $\sigma$ to $N(a)$, and $\operatorname{im}f\le C$ because $\sigma(f(a))=f(a)^{-1}$. Assume the group-theoretic Hilbert 90 condition that for every $a\in A$ with $N(a)=1$ there is $b\in A$ with $a=b/\sigma(b)$. This gives $\operatorname{im}f=C$. For $U\le A$ write $U^2=\{u^2:u\in U\}$, the image of $U$ under squaring, called `sqs U` in A2.
+
+For a subgroup $H\le V$, use $[V:H]$ for the natural-number cardinality of $V/H$ as in Lean. A finite quotient has at least its identity coset, so its index is positive. An infinite quotient has index zero. For ambient subgroups $H,V\le A$, Lean's `H.relIndex V` means $[V:V\cap H]$. For $H\le K\le V$ the quotient $V/H$ fibers over $V/K$ with fibers in bijection with $K/H$. Choosing coset representatives gives a bijection of sets with the product of those two quotients. The usual index product holds with the zero convention too, since the product of two nonempty sets is finite exactly when both are finite. [Pinned definitions and group-index API](../sources/SOURCES.md#involution-square-index)
+
+**Lemma 1 (norm image and norm kernel).** Under the assumptions just given,
+$$
+[B:P][C:C^2]=[B:B^2].
+$$
+
+**Proof.** For $b\in B$ one has $N(b)=b^2$, so $B^2\le P\le B$. Consider the two surjective homomorphisms
+$$
+A\longrightarrow P/B^2,\quad a\longmapsto N(a)B^2,
+\qquad
+A\longrightarrow C/C^2,\quad a\longmapsto f(a)C^2.
+$$
+The first has kernel $BC$. Indeed, if $N(a)=b^2$ for $b\in B$, then $N(a/b)=1$. Conversely for $a=bc$ with $b\in B$ and $c\in C$, one has $N(a)=b^2$. The second also has kernel $BC$. If $f(a)=c^2$ for $c\in C$, then $f(c)=c^2$ since $\sigma(c)=c^{-1}$. Hence $a/c\in\ker f=B$. Conversely $f(bc)=c^2$ for $b\in B$ and $c\in C$. This exhibits the common pullback in the Lean proof. Both quotients are isomorphic to $A/(BC)$ by the displayed maps, so $[P:B^2]=[C:C^2]$. The chain $B^2\le P\le B$ gives the result. [A2, `relIndex_norm_mul_relIndex_sqs_ker`](../sources/SOURCES.md#involution-square-index)
+
+**Lemma 2 (the factor of two).** Keep the hypotheses of Lemma 1 and suppose that $\varepsilon\in A$ satisfies $\varepsilon\ne1$, $\varepsilon^2=1$, $\sigma(\varepsilon)=\varepsilon$ and that every element $a$ with $a^2=1$ belongs to $\{1,\varepsilon\}$. Then
+$$
+2[A:A^2]=[B:B^2][C:C^2].
+$$
+
+**Proof.** Put $S=A^2$, $I=B\cap S$ and $J=BS$. First use $f$ to map $A/S\to C/C^2$, taking $aS\mapsto f(a)C^2$. This is well defined because $f$ carries squares to squares, and it is onto by Hilbert 90. Its kernel is $J/S$. To see this, if $f(a)=c^2$ for $c\in C$, choose $b\in A$ with $f(b)=c$. Then $a/b^2\in B$. Conversely $f(bs)=f(s)\in C^2$ for $b\in B$ and $s\in S$. Inclusion gives another surjective map $B\to J/S$, $b\mapsto bS$, with kernel $I$. We obtain
+$$
+[A:S]=[A:J][J:S]=[C:C^2][B:I].
+$$
+
+It remains to compute $I/B^2$. If $y^2=b^2$ with $b\in B$, then $(y/b)^2=1$. Both elements of $A[2]=\{1,\varepsilon\}$ belong to $B$, so $y/b\in B$ and $y\in B$. Conversely $y\in B$ gives $y^2\in B^2$. Therefore $y^2\in B^2$ exactly when $f(y)=1$.
+
+For $y^2\in I$, one has $f(y)^2=f(y^2)=1$. The assignment $y^2\mapsto f(y)$ defines a homomorphism $I\to\{1,\varepsilon\}$ because any two roots of $y^2$ differ by an element of $A[2]\subseteq\ker f$. Its kernel is $B^2$ by the preceding criterion. Since $N(\varepsilon)=\varepsilon^2=1$, Hilbert 90 gives $a_0\in A$ with $f(a_0)=\varepsilon$. Then $f(a_0^2)=1$, so $a_0^2\in I$ and the map is onto. In particular $I$ is the disjoint union of $B^2$ and $a_0^2 B^2$. Thus $[I:B^2]=2$. Multiplying along $B^2\le I\le B$ gives $[B:B^2]=2[B:I]$. Insert the formula for $[A:S]$ to obtain the identity. [A2, `two_mul_index_sqs_involution`](../sources/SOURCES.md#involution-square-index)
+
+**Return to the first $S$-unit inequality.** Multiply Lemma 2 by $[B:P]$ and use Lemma 1 on the resulting pair of factors to get
+$$
+2[A:A^2][B:P]
+=[B:B^2]\bigl([B:P][C:C^2]\bigr)
+=[B:B^2]^2.
+$$
+The Lean consumer `two_mul_index_sqs_mul_relIndex_norm_involution` performs this rearrangement. In `first_inequality_sUnits`, $A$ is the unit group supported above the admitted set and $B$ identifies with the base $S$-unit group. The involution is conjugation, $\varepsilon=-1$, and the required surjection to $C$ is the $S$-unit Hilbert 90 input in [Lemma 2 of §5.3.1.24](#53124-auxiliary-places-and-the-s-unit-norm-index). With that lemma's exponents $d,e$, the square indices of $B,A$ are $2^d,2^e$. The positive right side of $2\cdot 2^e[B:P]=2^{2d}$ forces $[B:P]>0$. The cancellation in the ensuing inequality uses the positive factor $2^e$. The global norm index is positive because it divides this positive norm-image index. [Actual Lean consumers](../sources/SOURCES.md#involution-square-index)
+
+**Remarks.** The two identities require neither finite generation nor finite indices. In the product for Lemma 2, the disjoint cases are that both factors on the right are positive, or at least one is zero. In the latter case $[A:A^2]=0$. For an example, replace the fixed free factor $\mathbb Z$ of the second calculation by a countable direct sum of copies of $\mathbb Z$. The groups $A/A^2$, $B/B^2$ and $B/P$ are then infinite, since the parity classes of the distinct free generators are all distinct. The $C/C^2$ quotient still has order two. Any cancellation of an index from a natural-number product needs positivity of that factor. At zero, multiplication identifies all values, as in $0\cdot1=0\cdot2$.
+
+Without Hilbert 90, take $A=\mathbb Z/8\mathbb Z$ and $\sigma(x)=-x$. Here $\varepsilon=4$ has all the required two-torsion properties, $N=0$, $P=\{0\}$, $C=A$, $f(A)=2A$ and $B=\{0,4\}$. Since $2B=\{0\}$ and $2C=2A$, Lemma 1 would say $2\cdot2=2$. Lemma 2 happens to hold here. Without the restriction on *all* two-torsion, take $A=(\mathbb Z/2\mathbb Z)^2$ with $\sigma$ swapping coordinates and $\varepsilon=(1,1)$. Here $N=f$ sends $(x,y)$ to $(x+y,x+y)$, so $B=P=C$ is the diagonal and Hilbert 90 holds. Every square subgroup is zero in additive notation. Lemma 1 gives $1\cdot2=2$, while Lemma 2 would give $2\cdot4=2\cdot2$. The examples show failures under these deletions. The fixedness clause itself follows from uniqueness of the nonidentity element of $A[2]$, since $\sigma$ is an automorphism. Lemma 1 uses no two-torsion clause.
+
+For the classical context, let the cyclic group of order two act on $A$ by $\sigma$. In the cyclic norm sequence, the degree $0$ and degree $-1$ Tate groups are $B/P$ and $C/f(A)$. The Hilbert 90 hypothesis here is the vanishing of the latter group. The quotient arguments above specialize that norm setup using the square subgroups and the two-element square kernel. They apply to abstract abelian groups with the stated hypotheses, with the natural-number convention supplied by Mathlib. [Milne, *Class Field Theory*, II §3, pp. 77–81](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**Reading scope.** The two production bodies, their statement wrappers and the combination have author-level local R3 [Lean, read]. The number-field inputs retain the scope of [§5.3.1.24](#53124-auxiliary-places-and-the-s-unit-norm-index). Independent review of this new text, Lean kernel replay and declaration-level reachability from `Main` remain [Open]. [Declaration ledger](../sources/SOURCES.md#involution-square-index)
 
 ## 5.4 Lemmas and proofs
 

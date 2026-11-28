@@ -2292,6 +2292,13 @@ Levent Alpöge with Claude supplied the A2 proofs of the short-frame, genus scal
 - **A2.** Levent Alpöge with Claude supplied the formal S-unit production, including the auxiliary prime induction, the two norm-index bounds and the exact same-target call. [Pinned A2 declarations](sources/SOURCES.md#s-unit-norm-index-53124)
 - **Textbook.** Hongmin Li with OpenAI Codex assistance reconstructs the dependency through properness, gives both hand calculations of the relative quotients and supplies missing-hypothesis examples. [§5.3.1.24](chapters/05-the-square-root-barrier-core-gm.md#53124-auxiliary-places-and-the-s-unit-norm-index)
 
+### Chapter 5 square indices under an involution (§5.3.1.24.1)
+
+- **Classical context.** Cartan and Eilenberg published the Tate cohomology construction following ideas of John Tate. J. S. Milne gives the cyclic norm sequence and its Tate groups. [Source and scope](sources/SOURCES.md#involution-square-index)
+- **A2.** Levent Alpöge with Claude supplied both formal square-index proofs and their combination in the first $S$-unit inequality. [Production declarations and consumer](sources/SOURCES.md#involution-square-index)
+- **Mathlib.** Thomas Browning introduced the relative-index formulas, including the predecessor of `relIndex_sup_right`. Yury G. Kudryashov introduced its current form and the index-two criterion. [Declaration history](sources/SOURCES.md#involution-square-index)
+- **Textbook.** Hongmin Li with Codex assistance gives explicit quotient maps and kernels, works the finite and infinite examples and the deletion counterexamples, and explains the role of positivity in the $S$-unit inequality. [§5.3.1.24.1](chapters/05-the-square-root-barrier-core-gm.md#531241-two-square-index-identities-for-an-involution)
+
 ### Chapter 4 character-fiber spacing and density assembly
 
 - **P. X. Gallagher and Terence Tao** supplied the classical density-estimate context and its explanation in the progression argument. [Gallagher 1970](https://doi.org/10.1007/BF01403187) · [Tao 2015](https://terrytao.wordpress.com/2015/02/22/254a-notes-7-linniks-theorem-on-primes-in-arithmetic-progressions/)
