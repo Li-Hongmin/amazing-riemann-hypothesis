@@ -3886,6 +3886,48 @@ The cuspidal-list application is in [§13.4.18](../chapters/13-greens-theorem-an
 - **Gan, Gross and Prasad (2012),** *Restriction Problems for Classical Groups: Examples*, Astérisque 346, §4, pp. 120–121, PDF SHA-256 `ccde144853db578bf7280106d39f53f311f82d463c4eae6dc689f823cc14cf42`. Their nontrivial additive character yields the adjacent-entry character. Proposition 4.1 for complex representations and total derivative order $a+b$ selects orders $a,b$. The finite-group projector gives the inverse-weight trace, and character spanning gives the separately conjugacy-invariant version. [Original](https://www.numdam.org/item/AST_2012__346__111_0.pdf)
 - **Bernstein and Zelevinsky (1977),** *Induced representations of reductive p-adic groups I*, Ann. Sci. Éc. Norm. Supér. 10, Lemma 4.5, p. 455 and Corollary 4.14(c), p. 458, PDF SHA-256 `8424600228ab72c5937e45edceefcae410a2a0b8f5ebf282185691542aa89092`. The original rule is stated over non-Archimedean local fields. Gan, Gross and Prasad explain the finite-field applicability. The direct cell proofs in this book follow A2. [Original](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
 
+### P16 column reduction and monomial cores
+
+[§13.4.23](../chapters/13-greens-theorem-and-the-literature-layer.md#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition) reads the arbitrary-field A2 body for `perm_eq_of_le`, `mono_unique`, `exists_col_reduced`, `exists_decomp` and `bruhat` at local R3 [Lean, read]. The stabilizer and finite-field cell formulas are textbook deductions. The original package `rhbook-ch13-bruhat-colreduced-1127c-11260057` received the partial same-source initial decision `11260139`. The decision supported the arbitrary-field proof, the fibers, the shuffle reduction and the literature record. It supplied corrections to the finite examples and the source ledger.
+
+The joined A2 SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The table records whole-file identities and source windows. Paths are relative to `lean/` and `AVT` denotes `src/Development/AbelianVarietyTheory`. Direct consumers retain the scopes shown in the chapter. [Archive A2](#a2)
+
+| A2 file and source windows | Bytes | SHA-256 |
+|---|---:|---|
+| `AVT/Proofs/DivisorProofs/ExistsColReduced.lean:1–174` | 8,700 | `615b9a1f428fb48dfe4edd7269fe5c3db3273e933a24172d9754fc632ddcc7cd` |
+| `src/Formalism/LocalToGlobal/Divisibility/DefGroup.lean:16–40,138–276` | 40,272 | `de55ce48c31b1799b7b9aa3dc26f7256988f5cbd4b34df2139856428b46a7a4f` |
+| `AVT/Definitions/Divisors/SplitDoublingNBlock.lean:1–55` | 2,705 | `f74a8a36272f61e95c239f1cd14d7aa90112f082a405a980022aaacbbb540086` |
+| `AVT/Proofs/FlagMeasures/ExistsUniqueShuffle.lean:1–129` | 6,625 | `0215fee73bc11f76ece62dca333bb7ac4501c7d902ce966403304e36f15e9f48` |
+| `AVT/Proofs/FlagMeasures/ExistsShuffle.lean:1–247` | 12,138 | `ce48e8e1875ee809626ba1e625d58568e7b6b573103f2b5a23935a81a6fd3e73` |
+| `AVT/Proofs/DivisorProofs/DegenerateWhittakerDimParabolicInductionCuspidal.lean:1–248` | 12,035 | `4ce0a4ad7dda486ad37762833ef33ceae84328ae7ebe4e7faea73e17f77b07f6` |
+| `AVT/Proofs/DivisorProofs/FinrankEigenCoindMackeyDoubleCosets.lean:1–132` | 6,877 | `5e9a8a26f27a0944fc61bfa4519319507d8d0171017c016b1f809f97f580bca1` |
+| `AVT/Proofs/DivisorProofs/WhittakerSpaceDimFiniteGLLeOne.lean:1–418` | 19,482 | `3bc4ce85960fa2768993f041743a89a5e7dea9affeaa40b1d5c3920733df242a` |
+| `AVT/Proofs/DivisorProofs/ExistsPermMatrixRepParabolicDoubleCoset.lean:1–35` | 1,987 | `b5170e03bd4cc24d18c6bf077ca9e4b94298fdf22a1e8be7ddf91b69b1b2f400` |
+| `AVT/Proofs/IwasawaDecomposition/DetNeZeroOfSignature.lean:100–117` | 24,887 | `af13cb1dd57108bbbc8135ece2a987b34bb835b500e0fbd25212c9ed66eb4fd4` |
+
+The open-cell path inherits `IsUnitOfUniUp.lean` from §13.4.22. The file has 460 lines. The read windows are 13–49, 52–62, 64–93, 98–181, 186–328, 332–378 and 384–458. The Mathlib pin is `0df444a360eaa60ab8c11dca51a86af692955474`. The corrected whole-file byte sizes are 18,378 for `Block.lean`, 36,509 for `Finset.lean`, 10,314 for `Find.lean` and 13,437 for `GeneralLinearGroup/Defs.lean`.
+
+- **François Bruhat**, *Sur les représentations induites des groupes de Lie*, Bull. Soc. Math. France **84** (1956), 97–205, Théorème 7;1 and note 41, pp. 187–189. The retrieved PDF has 11,149,196 bytes and SHA-256 `c8a0d3b3ab247e94ea97a813d68e126ccf2464fd6b63bae9653618c775ddc26c`. [Original](https://www.numdam.org/article/BSMF_1956__84__97_0.pdf)
+- **Armand Borel and Jacques Tits**, *Groupes réductifs*, Publ. Math. IHÉS **27** (1965), 55–150, §2.4 and Théorème 5.15. The retrieved PDF has 12,815,459 bytes and SHA-256 `ec6674ba292deaadd77a449f4bad3750db79c0b87b117a892ef6b09bb16357ad`. [Original](https://www.numdam.org/item/PMIHES_1965__27__55_0.pdf)
+
+### P16 degenerate Whittaker Mackey cells
+
+[§13.4.24](../chapters/13-greens-theorem-and-the-literature-layer.md#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells) follows the A2 local producers in `lean/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/`. All three bodies are [Lean, read] at local R3. Each has a direct `Statement.lean` wrapper, lines 6–7. The finite-field assembly and coinduction evaluation have the direct source windows below. The original package `rhbook-ch13-degenerate-1126q-11260740-i1-11260834` received same-source initial review `11261152`, which upheld the selected results. The matrix examples have exact finite certificates. Kernel replay and declaration reachability from `Main.lean` remain [Open]. [Archive A2](#a2)
+
+| Producer and proof windows | Use in the finite-field assembly |
+|---|---|
+| `CoindEigenEqBotOfRootInUnipotentRadical.lean:8–73` | At line 246, an active rise and nontrivial additive character force zero. |
+| `CoindEigenEqBotOfBlockCutCuspidal.lean:8–68` | At line 243, a crossing same-label pair forces zero by cuspidality. |
+| `CoindEigenSortingPermEqLeviWhittaker.lean:10–184` | At lines 213–231, stable order, interval fibers, absence of a rise and absence of a cut give both inclusions. |
+| `FinrankEigenCoindMackeyDoubleCosets.lean:10–130` | At line 202, evaluation turns coinduction into a sum over the supplied cells. |
+| `DegenerateWhittakerDimParabolicInductionCuspidal.lean:17–247` | Bruhat existence enters at line 70. The local branches apply over any field. The assembly at lines 188–247 requires a finite field, finite-dimensional complex inducing data, a nontrivial additive character and $j<r$ or $j=0$. |
+
+The product reaches `WhittakerSpaceDimParabolicInductionCuspidalEqOne.lean:40–41` at $j=0$ and `SymmetricPositionCharMultiplicityParabolicInduct.lean:26–29` in the finite position sum. Both use the separate Levi line theorem in [§13.4.25](../chapters/13-greens-theorem-and-the-literature-layer.md#13425-why-the-levi-whittaker-space-is-a-line).
+
+- **Gan, Gross and Prasad**, §4, pp. 120–121, describe twisted Jacquet quotients and the finite-field Leibniz rule. **Bernstein and Zelevinsky**, Lemma 4.5, p. 455, give the original rule over a non-Archimedean local field. [GGP](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [BZ](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
+- **James Janopaul-Naylor and C. Ryan Vinroot**, *Kostka multiplicity one for multipartitions*, Australas. J. Combin. **68**(2) (2017), 153–185, §6, pp. 182–184. The published paper states Zelevinsky’s Kostka multiplicity formula and a subset-sum special case. [Journal PDF](https://ajc.maths.uq.edu.au/pdf/68/ajc_v68_p153.pdf)
+- **George W. Mackey** gives the historical subgroup theorem. The cell evaluation in the chapter is derived directly from covariance. [Journal record](https://doi.org/10.2307/1969423)
+
 ### P16 the Levi Whittaker line
 
 - **Alpöge archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. [§13.4.25](../chapters/13-greens-theorem-and-the-literature-layer.md#13425-why-the-levi-whittaker-space-is-a-line) reads the local bodies of `FinrankLeOne.lean:20–150,158–389,393–397` and the six direct leaves in `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/`. The lower bound reads `ExistsColumnCharacterEigenSubmoduleNeBot.lean:10–233`, `ExistsBlockTriVecMulEqSinglePred.lean:10–113`, and `LeviWhittakerColumnCharacterEigenVecMulNeBot.lean:14–125`. The upper bound reads `WhittakerSpaceDimFiniteGLLeOne.lean:15–416`, `HeckeCommOfIrreducibleMultiplicityLeOne.lean:13–136`, and `FinrankCommonFixedLeOneOfCommutingHecke.lean:8–127`. `ExistsColReduced.lean:160–172` supplies named monomial existence. The Levi result returns through `LeviWhittakerEqOneOfCuspidal.lean:40–49` and its statement wrapper to `WhittakerSpaceDimParabolicInductionCuspidalEqOne.lean:40–41` and `SymmetricPositionCharMultiplicityParabolicInduct.lean:26–32`.

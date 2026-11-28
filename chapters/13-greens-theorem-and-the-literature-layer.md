@@ -3672,13 +3672,384 @@ The same matrices show why the representative argument has a class-function prem
 
 **Reading note.** [Lean, read] The prime-field proof is Alpöge–Claude, A2 archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. In `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/IsUnitOfUniUp.lean`, `coe_toG` (22–26) selects the invertible branch, and `wh_eq` (52–62) expands the group algebra projector pairing to a filtered inverse-weight average. The private support lemma at 155–181 and the block-entry and reconstruction proofs at 200–328 justify the two directions of the reindexing. The guarded entry sums at 332–378 include the zero-block cases. The producer `openCell` (384–458) uses the same inverse maps for the cardinality and the weighted sum. The local reading covers these bodies over prime $\mathbb Z/g\mathbb Z$. The proof above separately establishes the statement over every finite field. Gan–Gross–Prasad give a literature precedent for the assembled product via the highest derivative. Their Proposition 4.1 gives a filtration for the derivative of an induced representation. At order $a+b$, only orders $a,b$ on the factors contribute. In complex finite-group representations the inverse-weight projector identifies the character coinvariants with the corresponding eigenspace, and its trace gives the average. Irreducible characters span class functions in each variable. The article credits the derivative rule to Bernstein–Zelevinsky's local-field result and explains its finite-field use. The direct open-cell proof here follows the archive. [Gan–Gross–Prasad, §4, pp. 120–121](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [Bernstein–Zelevinsky, Lemma 4.5](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
 
-**Review and scope.** The fixed-cell result received independent review. Bruhat existence upstream of the shuffle enumeration on this path and the underlying Mathlib proofs for the finite reindexing and triangular determinant are cited inputs [Lean]. The Lean kernel replay and transitive dependency cone remain [Open]. [Source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average).
+**Review and scope.** The fixed-cell result received independent review. The shuffle enumeration on this path uses monomial existence from [§13.4.23](#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition). The underlying Mathlib proofs for the finite reindexing and triangular determinant are cited inputs [Lean]. The Lean kernel replay and transitive dependency cone remain [Open]. [Source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average).
 
 For the application of this product to cuspidal lists and their degrees, see [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series).
 
+### 13.4.23 Column reduction and the unique monomial-core Bruhat decomposition
+
+[§§13.4.21–22](#13421-why-every-non-open-whittaker-cell-vanishes) evaluate a two-block Whittaker average by choosing shuffle representatives and computing each contribution. The archive obtains those representatives from a matrix theorem over an arbitrary field. It writes each invertible matrix as $g=uMu'$ with upper unitriangular factors and a uniquely determined monomial matrix $M$.
+
+Right multiplication by $I_n+\alpha E_{k,c}$ with $k<c$ adds a multiple of an earlier column to a later one. If the columns reach the same bottom row, a suitable multiple cancels the later bottom entry. A minimum of the sum of column heights therefore has distinct bottom pivots. The pivot positions and values record the permutation and the scalars of the monomial core. A stabilizer measures how the two unitriangular factors can vary. In [§13.4.24](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells), existence supplies permutation representatives in the opposite orientation, $P\backslash G/U$.
+
+#### Worked examples
+
+To match matrix arrays on the page with Lean's zero-based index type $\mathrm{Fin}\,n = \{0,\dots,n-1\}$, we write $1,\dots,n$ for row and column numbers in hand calculations and note the shift $r = a_{\mathrm{Lean}}+1$: in Lean, a strict upper bound $f(c)\in\mathbb N$ satisfying $(gu)_{a,c}=0$ for all $a\ge f(c)$ with sharpness at $s(c)+1 = f(c)$ means in $1$-based coordinates that $f(c)\in\{1,\dots,n\}$ is the **largest (lowest on the page) row index carrying a nonzero entry in column $c$**, and $N = \sum_{c=1}^n f(c)$ is the sum of those bottom pivot row numbers.
+
+**Example 1 (Two-step height collision, unique monomial core, and non-unique unipotent factors in $\mathrm{GL}_3(\mathbb F_3)$).** Over $\mathbb F_3 = \{0,1,2\}$, consider
+
+$$
+g = \begin{pmatrix} 2 & 0 & 1 \\ 2 & 1 & 1 \\ 0 & 1 & 2 \end{pmatrix}, \qquad \det g = 2(2-1) - 0 + 1(2-0) = 4 \equiv 1 \pmod 3.
+$$
+
+At $v_0 = I_3$, the lowest nonzero row indices of the three columns of $g$ are $f^{(0)} = (2,3,3)$, with height sum $N_0 = 2+3+3 = 8$. Columns $k=2 < c=3$ collide at row $3$, where $g_{3,2}=1$ and $g_{3,3}=2$. Set $\alpha_1 = -g_{3,3}/g_{3,2} = -2/1 \equiv 1 \pmod 3$ and right-multiply by the upper-right transvection $t_1 = I_3 + E_{2,3}\in U_3(\mathbb F_3)$:
+
+$$
+H_1 = g\,t_1 = \begin{pmatrix} 2 & 0 & 1 \\ 2 & 1 & 1 \\ 0 & 1 & 2 \end{pmatrix}\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix} = \begin{pmatrix} 2 & 0 & 1 \\ 2 & 1 & 2 \\ 0 & 1 & 0 \end{pmatrix}.
+$$
+
+Now the bottom nonzero row profile drops to $f^{(1)} = (2,3,2)$ with $N_1 = 7 < 8$, exposing a second collision at row $2$ between columns $k=1 < c=3$, where $(H_1)_{2,1}=2$ and $(H_1)_{2,3}=2$. Set $\alpha_2 = -(H_1)_{2,3}/(H_1)_{2,1} = -2/2 \equiv 2 \pmod 3$ and apply $t_2 = I_3 + 2E_{1,3}\in U_3(\mathbb F_3)$:
+
+$$
+v = t_1 t_2 = \begin{pmatrix} 1 & 0 & 2 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}, \qquad H = g\,v = H_1 t_2 = \begin{pmatrix} 2 & 0 & 2 \\ 2 & 1 & 0 \\ 0 & 1 & 0 \end{pmatrix}.
+$$
+
+The bottom nonzero rows of $H$ are $f^{(2)} = (2,3,1)$, which are pairwise distinct and achieve the global minimum $N_{\min} = 1+2+3 = 6$ across all $27$ matrices in $U_3(\mathbb F_3)$. Reading the bottom nonzero position and value in each column gives the unique permutation $\sigma = (2,3,1)$ in one-line notation ($0$-based $0\mapsto 1,\,1\mapsto 2,\,2\mapsto 0$) and the unique torus tuple $d = (H_{2,1}, H_{3,2}, H_{1,3}) = (2,1,2)\in (\mathbb F_3^\times)^3$.
+
+To isolate the monomial matrix $\operatorname{mono}(\sigma,d)$, one either clears the entries above each column pivot by left upper-right row operations $(I_3 - E_{1,2})(I_3 - E_{2,3})H = \operatorname{mono}(\sigma,d)$ or evaluates the closed ratio formula $u_{a,b} = H_{a,\sigma^{-1}(b)} / H_{b,\sigma^{-1}(b)}$ from `exists_decomp` with $\sigma^{-1} = (3,1,2)$:
+
+$$
+u = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}, \qquad \operatorname{mono}(\sigma,d) = \begin{pmatrix} 0 & 0 & 2 \\ 2 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}, \qquad u' = v^{-1} = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{pmatrix},
+$$
+
+satisfying $u\,\operatorname{mono}(\sigma,d)\,u' = H\,v^{-1} = g$. The pair $(u,u')$ varies because $1<2$ is a non-inversion of $\sigma$ with $\sigma(1)=2 < 3=\sigma(2)$, so $\ell(\sigma)=2 < \binom{3}{2}$. For every $t\in\mathbb F_3$, the upper-right root commutation $(I_3 + t E_{2,3})\,\operatorname{mono}(\sigma,d) = \operatorname{mono}(\sigma,d)\,(I_3 + (d_2/d_1)t E_{1,2}) = \operatorname{mono}(\sigma,d)\,(I_3 + 2t E_{1,2})$ produces
+
+$$
+u_t = u(I_3 + t E_{2,3}) = \begin{pmatrix} 1 & 1 & t \\ 0 & 1 & 1+t \\ 0 & 0 & 1 \end{pmatrix}, \qquad u'_t = (I_3 - 2t E_{1,2})u' = \begin{pmatrix} 1 & t & 1+2t \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{pmatrix}.
+$$
+
+As $t$ runs over $\{0,1,2\}$, these $q^{\binom{3}{2}-\ell(\sigma)} = 3^{3-2} = 3$ pairs exhaust all solutions to $u_t\,\operatorname{mono}(m)\,u'_t = g$ in $U_3(\mathbb F_3)\times (S_3\times(\mathbb F_3^\times)^3)\times U_3(\mathbb F_3)$, all sharing $m=((2,3,1),(2,1,2))$. Passing $\sigma=(2,3,1)$ to `ExistsUniqueShuffle` sorts the first-block image $\sigma(\{1,\dots,a\})$ and its complement individually: for $(a,b)=(2,1)$, $\sigma(\{1,2\})=\{2,3\}$ is already increasing and yields the open shuffle $(2,3,1)$ (word $BAA$); for $(a,b)=(1,2)$, $\sigma(\{1\})=\{2\}$ and complement $\{1,3\}$ yield the middle shuffle $(2,1,3)$ (word $BAB$ in the $\mathrm{GL}_3(\mathbb F_3)$ table of [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes)).
+
+**Example 2 (Three-step cascade over $\mathbb F_4$, unique factors on the open Borel cell, and shuffle reordering).** Let $\mathbb F_4 = \mathbb F_2[\omega]/(\omega^2+\omega+1) = \{0,1,\omega,\omega^2\}$, where characteristic $2$ gives $-x = x$ and $\omega^{-1} = \omega^2 = \omega+1$. Take
+
+$$
+g = \begin{pmatrix} \omega & \omega^2 & 1 \\ \omega & 1 & 1 \\ \omega & \omega & \omega^2 \end{pmatrix} \in \mathrm{GL}_3(\mathbb F_4), \qquad \det g = \omega(\omega^2+\omega) + \omega^2(\omega^3+\omega) + (\omega^2+\omega) = 1 \ne 0.
+$$
+
+Initially all three columns reach row $3$, so $f^{(0)} = (3,3,3)$ and $N_0 = 9$. Three upper-right transvections resolve the cascade:
+
+1. Columns $k=1<c=2$ collide at row $3$: $\alpha_1 = g_{3,2}/g_{3,1} = \omega/\omega = 1$, $t_1 = I_3 + E_{1,2}$, giving $H_1 = g t_1$ with second column $(\omega^2+\omega, 1+\omega, \omega+\omega)^{\mathsf T} = (1,\omega^2,0)^{\mathsf T}$ and $f^{(1)}=(3,2,3)$, $N_1=8$.
+2. Columns $k=1<c=3$ collide at row $3$: $\alpha_2 = (H_1)_{3,3}/(H_1)_{3,1} = \omega^2/\omega = \omega$, $t_2 = I_3 + \omega E_{1,3}$, giving $H_2 = H_1 t_2$ with third column $(1+\omega^2, 1+\omega^2, \omega^2+\omega^2)^{\mathsf T} = (\omega,\omega,0)^{\mathsf T}$ and $f^{(2)}=(3,2,2)$, $N_2=7$.
+3. Columns $k=2<c=3$ now collide at row $2$: $\alpha_3 = (H_2)_{2,3}/(H_2)_{2,2} = \omega/\omega^2 = \omega^2$, $t_3 = I_3 + \omega^2 E_{2,3}$, giving
+
+$$
+v = t_1 t_2 t_3 = \begin{pmatrix} 1 & 1 & 1 \\ 0 & 1 & \omega^2 \\ 0 & 0 & 1 \end{pmatrix}, \qquad H = g\,v = \begin{pmatrix} \omega & 1 & 1 \\ \omega & \omega^2 & 0 \\ \omega & 0 & 0 \end{pmatrix},
+$$
+
+with $f^{(3)} = (3,2,1)$ and $N_{\min}=6$. The unique monomial core is the longest Weyl element $\sigma = (3,2,1)$ ($0$-based $0\mapsto 2,\,1\mapsto 1,\,2\mapsto 0$) with $d = (\omega,\omega^2,1)$. Because every pair $i<j$ is inverted by $\sigma$ ($\ell(\sigma)=3=\binom{3}{2}$), the stabilizer $U_3(\mathbb F_4)\cap \operatorname{mono}(\sigma,d)\,U_3(\mathbb F_4)\,\operatorname{mono}(\sigma,d)^{-1} = \{I_3\}$ is trivial, and the unitriangular factors
+
+$$
+u = \begin{pmatrix} 1 & \omega & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}, \qquad u' = v^{-1} = \begin{pmatrix} 1 & 1 & \omega \\ 0 & 1 & \omega^2 \\ 0 & 0 & 1 \end{pmatrix}
+$$
+
+are **strictly unique** ($4^{3-3}=1$). Under the parabolic split $(a,b)=(2,1)$, however, $\sigma$ sends $\{1,2\}$ to $\{3,2\}$ in decreasing order; `ExistsUniqueShuffle` sorts $\{3,2\}$ to $\{2,3\}$ to form the $(2,1)$-shuffle $\sigma_{\mathrm{sh}}=(2,3,1)$ and folds the internal coordinate swap into a non-upper-triangular Levi block inside $P_{2,1}(\mathbb F_4)$:
+
+$$
+g = u\,\operatorname{pm}(2,3,1)\,p, \qquad p = \operatorname{pm}(2,3,1)^{-1}\operatorname{mono}(\sigma,d)\,u' = \begin{pmatrix} 0 & \omega^2 & \omega \\ \omega & \omega & \omega^2 \\ 0 & 0 & 1 \end{pmatrix} \in P_{2,1}(\mathbb F_4).
+$$
+
+#### Definitions
+
+Let $F$ be any field and $n\in\mathbb N$, and index matrices in $M_n(F)$ by $\mathrm{Fin}\,n = \{0,\dots,n-1\}$ with its standard linear order (`ExistsColReduced.lean:7`, `DefGroup.lean:138–169`).
+
+1. **Upper unitriangular subgroup (`unip`).** Define $\operatorname{unip}(F,n)\le \mathrm{GL}_n(F)$ to be the subgroup of invertible matrices $u\in\mathrm{GL}_n(F)$ whose underlying matrix satisfies $u_{i,j}=0$ whenever $j<i$ (`unip_lower`) and $u_{i,i}=1$ for every $i\in\mathrm{Fin}\,n$ (`unip_diag`). Conversely (`mem_unip_of`, `ExistsColReduced.lean:51–56`), any matrix $A\in M_n(F)$ satisfying $A_{i,j}=0$ for $j<i$ and $A_{i,i}=1$ has $\det A = \prod_{i\in\mathrm{Fin}\,n} A_{i,i} = 1\ne 0$ in the field $F$ (`Matrix.det_of_upperTriangular`) and therefore lifts via `mkOfDetNeZero` to a unique element $u\in\operatorname{unip}(F,n)$ with underlying matrix $A$. For $k<c$ in $\mathrm{Fin}\,n$ and $\alpha\in F$, the elementary transvection $T_{k,c}(\alpha) = I_n + \alpha E_{k,c}$ (`Matrix.transvection k c α`) satisfies both conditions because $(k,c)$ lies strictly above the diagonal, hence lifts into $\operatorname{unip}(F,n)$.
+2. **Monomial data and matrices (`mono`).** A **monomial datum** of rank $n$ over $F$ is a pair $m = (\sigma, d) \in \operatorname{Perm}(\mathrm{Fin}\,n) \times (\mathrm{Fin}\,n \to F^\times)$. Its **monomial matrix** (`ExistsColReduced.lean:15–16`) is
+
+$$
+\operatorname{mono}(\sigma,d)_{a,c} = \begin{cases} d(c), & \text{if } a = \sigma(c), \\ 0, & \text{if } a \ne \sigma(c), \end{cases} \qquad a,c\in\mathrm{Fin}\,n,
+$$
+
+where $d(c)\in F^\times$ is coerced to $F$. At $n=0$, $\mathrm{Fin}\,0$ is empty, $\operatorname{Perm}(\mathrm{Fin}\,0)\times (\mathrm{Fin}\,0\to F^\times)$ has a single element, and $\mathrm{GL}_0(F)$ and $\operatorname{unip}(F,0)$ are trivial one-element groups.
+3. **Column height bounds and column-reduced matrices.** For $g\in\mathrm{GL}_n(F)$ and $N\in\mathbb N$, define the height-sum predicate (`ExistsColReduced.lean:63–64`)
+
+$$
+P_g(N) :\iff \exists u\in\operatorname{unip}(F,n),\;\exists f:\mathrm{Fin}\,n\to\mathbb N,\quad \sum_{c\in\mathrm{Fin}\,n} f(c) = N \;\land\; \forall a,c\in\mathrm{Fin}\,n,\; f(c)\le a \implies (gu)_{a,c}=0.
+$$
+
+A matrix $H\in M_n(F)$ is **column-reduced** with pivot permutation $\sigma\in\operatorname{Perm}(\mathrm{Fin}\,n)$ if $H_{\sigma(c),c}\ne 0$ for every $c\in\mathrm{Fin}\,n$ and $H_{a,c}=0$ whenever $\sigma(c) < a$.
+
+#### Lemmas, main theorem, and proofs
+
+**Lemma 13.4.23.1 (Finite-order permutation rigidity and two-sided monomial action; `ExistsColReduced.lean:9–29`).** Let $F$ be a field and $n\in\mathbb N$.
+
+1. (*`perm_eq_of_le`*) If $\tau\in\operatorname{Perm}(\mathrm{Fin}\,n)$ satisfies $\tau(b)\le b$ for every $b\in\mathrm{Fin}\,n$, then $\tau(b)=b$ for every $b\in\mathrm{Fin}\,n$.
+2. (*`mul_mono` and `mono_mul`*) For every $A\in M_n(F)$, every $m=(\sigma,d)\in\operatorname{Perm}(\mathrm{Fin}\,n)\times(\mathrm{Fin}\,n\to F^\times)$, and all $a,c\in\mathrm{Fin}\,n$,
+
+$$
+(A\,\operatorname{mono}(m))_{a,c} = A_{a,\sigma(c)}\,d(c), \qquad (\operatorname{mono}(m)\,A)_{a,c} = d(\sigma^{-1}(a))\,A_{\sigma^{-1}(a),c}.
+$$
+
+**Proof.** For (1), reindexing the sum of natural-number values along the bijection $\tau$ gives $\sum_{i\in\mathrm{Fin}\,n} \tau(i) = \sum_{i\in\mathrm{Fin}\,n} i$ (`Equiv.sum_comp`). Because $\tau(i)\le i$ holds termwise in $\mathbb N$ and $\mathbb N$ is an ordered cancellative commutative monoid, equality of the finite sums forces termwise equality $\tau(b)=b$ at every $b\in\mathrm{Fin}\,n$ (`Finset.sum_eq_sum_iff_of_le`).
+
+For (2), expanding matrix multiplication on the right gives $(A\,\operatorname{mono}(m))_{a,c} = \sum_{k\in\mathrm{Fin}\,n} A_{a,k}\operatorname{mono}(m)_{k,c}$, in which only $k=\sigma(c)$ survives. On the left, $(\operatorname{mono}(m)\,A)_{a,c} = \sum_{k\in\mathrm{Fin}\,n} \operatorname{mono}(m)_{a,k} A_{k,c}$; since $a=\sigma(k)$ is equivalent to $k=\sigma^{-1}(a)$, every term with $k\ne \sigma^{-1}(a)$ vanishes (`Finset.sum_eq_single`), leaving $d(\sigma^{-1}(a))\,A_{\sigma^{-1}(a),c}$. $\square$
+
+**Lemma 13.4.23.2 (Uniqueness of the monomial core; `mono_unique`, `ExistsColReduced.lean:31–50`).** Let $F$ be a field, $n\in\mathbb N$, $m=(\sigma,d)$ and $m'=(\sigma',d')$ monomial data, and $u,u'\in\operatorname{unip}(F,n)$. If $u\,\operatorname{mono}(m) = \operatorname{mono}(m')\,u'$ as matrices in $M_n(F)$, then $m = m'$.
+
+**Proof.** Fix any $b\in\mathrm{Fin}\,n$ and evaluate both sides of $u\,\operatorname{mono}(m) = \operatorname{mono}(m')\,u'$ at row $a=\sigma(b)$ and column $c=b$. By Lemma 13.4.23.1(2) and $u_{\sigma(b),\sigma(b)}=1$ (`unip_diag`), the left-hand entry equals $u_{\sigma(b),\sigma(b)}\,d(b) = d(b)$. Put $\tau = (\sigma')^{-1}\circ\sigma \in \operatorname{Perm}(\mathrm{Fin}\,n)$ (`m.1.trans m'.1.symm`), so $\tau(b) = (\sigma')^{-1}(\sigma(b))$. By Lemma 13.4.23.1(2), the right-hand entry equals $d'(\tau(b))\,u'_{\tau(b),b}$, yielding the key relation
+
+$$
+d(b) = d'(\tau(b))\,u'_{\tau(b),b} \qquad (\forall b\in\mathrm{Fin}\,n).
+$$
+
+Suppose toward a contradiction that $\tau(b) \not\le b$ for some $b$, so $b < \tau(b)$. Because $u'\in\operatorname{unip}(F,n)$ is upper unitriangular, `unip_lower` gives $u'_{\tau(b),b} = 0$, whence $d(b) = d'(\tau(b))\cdot 0 = 0$, contradicting $d(b)\in F^\times$. Therefore $\tau(b)\le b$ for every $b\in\mathrm{Fin}\,n$. Lemma 13.4.23.1(1) gives $\tau(b)=b$, that is, $(\sigma')^{-1}(\sigma(b))=b$ for all $b$. Applying $\sigma'$ yields $\sigma(b)=\sigma'(b)$ for all $b$, so $\sigma=\sigma'$. Substituting $\tau(b)=b$ back into the key relation and using $u'_{b,b}=1$ (`unip_diag`) gives $d(b) = d'(b)\cdot 1 = d'(b)$ in $F$, hence in $F^\times$ (`Units.ext`), so $m=m'$. $\square$
+
+**Lemma 13.4.23.3 (Column-reduced existence via height-sum minimization; `exists_col_reduced`, `ExistsColReduced.lean:58–140`).** For every field $F$, every $n\in\mathbb N$, and every $g\in\mathrm{GL}_n(F)$, there exist $u\in\operatorname{unip}(F,n)$ and $\sigma\in\operatorname{Perm}(\mathrm{Fin}\,n)$ such that $H = gu$ satisfies $H_{\sigma(c),c}\ne 0$ for all $c\in\mathrm{Fin}\,n$ and $H_{a,c}=0$ whenever $\sigma(c) < a$.
+
+**Proof.** Taking $u=1\in\operatorname{unip}(F,n)$ and the constant bound $f(c)=n$ shows $P_g(n^2)$: for every $a\in\mathrm{Fin}\,n$ we have $a<n$, so the premise $n\le a$ is impossible (`hex`). By well-ordering of $\mathbb N$, let $N_{\min} = \operatorname{Nat.find}(\mathrm{hex})$ be the least natural number satisfying $P_g$, and choose witnesses $u\in\operatorname{unip}(F,n)$ and $f:\mathrm{Fin}\,n\to\mathbb N$ with $\sum_{c\in\mathrm{Fin}\,n} f(c) = N_{\min}$ and $(gu)_{a,c}=0$ for all $a\ge f(c)$.
+
+*Step 1: Strict positivity $f(c)>0$ (`hpos`, lines 68–76).* Suppose $f(c)=0$ for some $c\in\mathrm{Fin}\,n$. Then $0\le a$ holds for every $a\in\mathrm{Fin}\,n$, so $(gu)_{k,c}=0$ for all $k\in\mathrm{Fin}\,n$. Evaluating the $(c,c)$ entry of $(gu)^{-1}(gu) = I_n$ gives $1 = \sum_{k\in\mathrm{Fin}\,n} ((gu)^{-1})_{c,k}(gu)_{k,c} = 0$, impossible in a field (`zero_ne_one`).
+
+*Step 2: Uniform sharpness at $f(c)-1$ (`hmin`, lines 77–99).* Let $v\in\operatorname{unip}(F,n)$ be **any** upper unitriangular element that obeys the same column vanishing bound: $(gv)_{a,k}=0$ whenever $f(k)\le a$. We claim that for each $c\in\mathrm{Fin}\,n$ there exists $a\in\mathrm{Fin}\,n$ with $a+1 = f(c)$ and $(gv)_{a,c}\ne 0$. If not, then $(gv)_{a,c}=0$ holds for every $a\in\mathrm{Fin}\,n$ satisfying $a+1=f(c)$. Define $f':\mathrm{Fin}\,n\to\mathbb N$ by replacing $f(c)$ with $f(c)-1$ and leaving $f(k)$ unchanged for $k\ne c$ (`Function.update`). Because $f(c)>0$ by Step 1, $\sum_{k\in\mathrm{Fin}\,n} f'(k) = N_{\min}-1 < N_{\min}$. Yet for any $a,k\in\mathrm{Fin}\,n$ with $f'(k)\le a$, either $k\ne c$ (so $f(k)\le a$ and $(gv)_{a,k}=0$), or $k=c$ and $f(c)\le a$ (so $(gv)_{a,c}=0$), or $k=c$ and $a+1=f(c)$ (so $(gv)_{a,c}=0$ by assumption). Thus $(v,f')$ witnesses $P_g(N_{\min}-1)$, contradicting `Nat.find_min`. Notice that this simultaneously proves $f(c)\le n$ (since $a\in\mathrm{Fin}\,n$ satisfies $a+1=f(c)$).
+
+*Step 3: Eliminating equal-height collisions (`hinj`, lines 100–130).* Applying Step 2 to $v=u$ chooses a map $s:\mathrm{Fin}\,n\to\mathrm{Fin}\,n$ such that $s(c)+1 = f(c)$ and $H_{s(c),c}\ne 0$ for all $c$, where $H = gu$. Suppose $k < c$ in $\mathrm{Fin}\,n$ and $s(k) = s(c)$. Then $f(k) = s(k)+1 = s(c)+1 = f(c)$, and $H_{s(c),k} = H_{s(k),k}\ne 0$. Since $F$ is a field and $k<c$, the transvection
+
+$$
+T = T_{k,c}\!\left(-\frac{H_{s(c),c}}{H_{s(c),k}}\right) = I_n - \frac{H_{s(c),c}}{H_{s(c),k}}\,E_{k,c}
+$$
+
+is well-defined and lifts by `mem_unip_of` to an element $t\in\operatorname{unip}(F,n)$, so $ut\in\operatorname{unip}(F,n)$ with underlying matrix $g(ut) = H T$. For any column $j\ne c$, $(HT)_{a,j} = H_{a,j}$ (`mul_transvection_apply_of_ne`), which vanishes for $a\ge f(j)$. For column $c$, $(HT)_{a,c} = H_{a,c} - H_{a,k}(H_{s(c),c}/H_{s(c),k})$ (`mul_transvection_apply_same`); whenever $a\ge f(c)$, we also have $a\ge f(k)$ because $f(k)=f(c)$, so $H_{a,c}=0$ and $H_{a,k}=0$, giving $(HT)_{a,c}=0$. Consequently $v = ut\in\operatorname{unip}(F,n)$ still satisfies the full bound $f$! Applying Step 2 to $v=ut$ at column $c$ produces $a\in\mathrm{Fin}\,n$ with $a+1 = f(c)$—hence $a = s(c)$—and $(HT)_{s(c),c}\ne 0$. Yet direct calculation gives
+
+$$
+(HT)_{s(c),c} = H_{s(c),c} + H_{s(c),k}\!\left(-\frac{H_{s(c),c}}{H_{s(c),k}}\right) = 0,
+$$
+
+a contradiction.
+
+*Step 4: Bijectivity (`hinj'`, lines 131–140).* For arbitrary $k,c\in\mathrm{Fin}\,n$ with $s(k)=s(c)$, trichotomy (`lt_trichotomy`) rules out $k<c$ and $c<k$ by Step 3, forcing $k=c$. Being an injective self-map of the finite type $\mathrm{Fin}\,n$, $s$ is bijective (`Finite.injective_iff_bijective`) and defines $\sigma\in\operatorname{Perm}(\mathrm{Fin}\,n)$. Whenever $\sigma(c) < a$, we have $f(c) = s(c)+1 \le a$, whence $H_{a,c}=0$. At $n=0$, $\mathrm{Fin}\,0$ is empty, $N_{\min}=0$, and every universal quantifier over $\mathrm{Fin}\,0$ holds vacuously. $\square$
+
+**Theorem 13.4.23.4 (Bruhat decomposition with unique monomial core, unipotent fiber, and shuffle reduction; `ExistsColReduced.lean:142–173`, `ExistsUniqueShuffle.lean:38–128`).** Let $F$ be any field and $n\in\mathbb N$.
+
+1. (*`exists_decomp` and `bruhat`*) For every $g\in\mathrm{GL}_n(F)$, there exists a **unique** monomial datum $m=(\sigma,d)\in\operatorname{Perm}(\mathrm{Fin}\,n)\times(\mathrm{Fin}\,n\to F^\times)$ for which there exist $u,u'\in\operatorname{unip}(F,n)$ satisfying
+
+$$
+g = u\,\operatorname{mono}(m)\,u'.
+$$
+
+2. (*Stabilizer fiber and finite-field cell size*) Fix $g = u\,\operatorname{mono}(\sigma,d)\,u'$ as in (1). A pair $(v,v')\in\operatorname{unip}(F,n)\times\operatorname{unip}(F,n)$ satisfies $v\,\operatorname{mono}(\sigma,d)\,v' = g$ if and only if $v = u\,z$ and $v' = (\operatorname{mono}(\sigma,d)^{-1} z^{-1} \operatorname{mono}(\sigma,d))\,u'$ for an element $z\in\operatorname{unip}(F,n)\cap \operatorname{mono}(\sigma,d)\,\operatorname{unip}(F,n)\,\operatorname{mono}(\sigma,d)^{-1}$, i.e. an upper unitriangular matrix $z$ whose off-diagonal nonzero entries $(r,s)$ ($r<s$) satisfy $\sigma^{-1}(r) < \sigma^{-1}(s)$. When $F=\mathbb F_q$ is finite of order $q$ and $\ell(\sigma) = \#\{(i,j)\in(\mathrm{Fin}\,n)^2 : i<j,\;\sigma(i)>\sigma(j)\}$, there are $q^{\binom{n}{2}-\ell(\sigma)}$ such factorizations $(v,v')$ of $g$, and the double coset $\operatorname{unip}(\mathbb F_q,n)\,\operatorname{mono}(\sigma,d)\,\operatorname{unip}(\mathbb F_q,n)$ has cardinality $q^{\binom{n}{2}+\ell(\sigma)}$.
+3. (*Parabolic shuffle reduction, `existsUnique_shuffle`*) For any integer $a$ with $0\le a\le n$ and $g\in\mathrm{GL}_n(F)$, let $P_{a,n-a}\le\mathrm{GL}_n(F)$ be the upper block-triangular subgroup defined by $p_{i,j}=0$ for $j<a\le i$. Sorting the subset $S = \{r\in\mathrm{Fin}\,n : \sigma^{-1}(r) < a\}$ of size $a$ in increasing order before its complement produces the unique permutation $\sigma_{\mathrm{sh}}\in\operatorname{Perm}(\mathrm{Fin}\,n)$ that is increasing on $\{0,\dots,a-1\}$ and on $\{a,\dots,n-1\}$ such that $g\in\operatorname{unip}(F,n)\,\operatorname{pm}(\sigma_{\mathrm{sh}})\,P_{a,n-a}$, where $\operatorname{pm}(\tau) = \operatorname{mono}(\tau, 1)$.
+
+**Proof.** For existence in (1) (`exists_decomp`, lines 142–159), apply Lemma 13.4.23.3 to $g$ to obtain $v\in\operatorname{unip}(F,n)$ and $\sigma\in\operatorname{Perm}(\mathrm{Fin}\,n)$ such that $H = gv$ satisfies $H_{\sigma(c),c}\ne 0$ and $H_{a,c}=0$ for $\sigma(c)<a$. Define $d:\mathrm{Fin}\,n\to F^\times$ by $d(c) = H_{\sigma(c),c}$ (`Units.mk0`) and define $A\in M_n(F)$ by
+
+$$
+A_{a,b} = \frac{H_{a,\sigma^{-1}(b)}}{H_{b,\sigma^{-1}(b)}}, \qquad a,b\in\mathrm{Fin}\,n.
+$$
+
+Because $H_{b,\sigma^{-1}(b)} = H_{\sigma(\sigma^{-1}(b)),\sigma^{-1}(b)}\ne 0$, every denominator is nonzero in $F$. For $b<a$, setting $c=\sigma^{-1}(b)$ gives $\sigma(c)=b<a$, so $H_{a,\sigma^{-1}(b)}=0$ and $A_{a,b}=0$; on the diagonal $a=b$, $A_{i,i} = H_{i,\sigma^{-1}(i)} / H_{i,\sigma^{-1}(i)} = 1$. By `mem_unip_of`, $A$ lifts to $u\in\operatorname{unip}(F,n)$. For all $a,c\in\mathrm{Fin}\,n$, Lemma 13.4.23.1(2) gives
+
+$$
+(u\,\operatorname{mono}(\sigma,d))_{a,c} = A_{a,\sigma(c)}\,d(c) = \frac{H_{a,c}}{H_{\sigma(c),c}}\,H_{\sigma(c),c} = H_{a,c},
+$$
+
+so $u\,\operatorname{mono}(\sigma,d) = H = gv$. Setting $u' = v^{-1}\in\operatorname{unip}(F,n)$ yields $g = u\,\operatorname{mono}(\sigma,d)\,u'$. For uniqueness in (1) (`bruhat`, lines 160–173), suppose $v\,\operatorname{mono}(m')\,v' = g = u\,\operatorname{mono}(m)\,u'$ with $u,u',v,v'\in\operatorname{unip}(F,n)$. Multiplying on the left by $u^{-1}$ and on the right by $(v')^{-1}$ yields
+
+$$
+(u^{-1}v)\,\operatorname{mono}(m') = \operatorname{mono}(m)\,(u'(v')^{-1}).
+$$
+
+Since $\operatorname{unip}(F,n)$ is a subgroup, $u^{-1}v$ and $u'(v')^{-1}$ belong to $\operatorname{unip}(F,n)$, so Lemma 13.4.23.2 gives $m' = m$.
+
+For (2), $v\,\operatorname{mono}(m)\,v' = u\,\operatorname{mono}(m)\,u'$ rearranges to $\operatorname{mono}(m)^{-1}(u^{-1}v)\operatorname{mono}(m) = u'(v')^{-1}$. Putting $z = u^{-1}v\in\operatorname{unip}(F,n)$, membership of $w = \operatorname{mono}(m)^{-1} z \operatorname{mono}(m)$ in $\operatorname{unip}(F,n)$ holds if and only if $v' = w^{-1}u'\in\operatorname{unip}(F,n)$. By Lemma 13.4.23.1(2), $w_{i,j} = d(i)^{-1} z_{\sigma(i),\sigma(j)} d(j)$, so $w$ is upper unitriangular precisely when $z_{\sigma(i),\sigma(j)}=0$ whenever $j<i$, i.e. $z_{r,s}=0$ whenever $r<s$ and $\sigma^{-1}(r) > \sigma^{-1}(s)$. Ordering the $\binom{n}{2}-\ell(\sigma)$ remaining strict upper positions $(r,s)$ ($r<s$ and $\sigma^{-1}(r)<\sigma^{-1}(s)$) shows that each may be chosen freely in $F$ while preserving unitriangularity of both $z$ and $w$ (equivalently, the allowed entries give coordinates in $\mathbb F_q^{\binom{n}{2}-\ell(\sigma)}$ over a finite field). Dividing $|\operatorname{unip}(\mathbb F_q,n)|^2 = q^{2\binom{n}{2}}$ by the uniform fiber size $q^{\binom{n}{2}-\ell(\sigma)}$ gives the double-coset size $q^{\binom{n}{2}+\ell(\sigma)}$.
+
+For (3), let $g = u\,\operatorname{mono}(\sigma,d)\,u'$ be the Bruhat decomposition of $g$. Define the injective sorting key $\operatorname{key}_S(r) = r$ if $\sigma^{-1}(r) < a$ and $n+r$ otherwise (`ExistsUniqueShuffle.lean:56–63`), and let $\sigma_{\mathrm{sh}} = \operatorname{Tuple.sort}(\operatorname{key}_S)$ (`:78`). Because $\#\{r : \sigma^{-1}(r) < a\} = a$, $\sigma_{\mathrm{sh}}$ lists $S$ in increasing order on $\{0,\dots,a-1\}$ and $\mathrm{Fin}\,n\setminus S$ in increasing order on $\{a,\dots,n-1\}$, so $\sigma^{-1}(\sigma_{\mathrm{sh}}(i)) < a \iff i < a$ (`:92–95`). Set $p = \operatorname{pm}(\sigma_{\mathrm{sh}})^{-1} u^{-1} g = \operatorname{pm}(\sigma_{\mathrm{sh}})^{-1}\operatorname{mono}(\sigma,d)\,u'$. For $j < a \le i$, Lemma 13.4.23.1(2) gives
+
+$$
+p_{i,j} = (\operatorname{mono}(\sigma,d)\,u')_{\sigma_{\mathrm{sh}}(i),\,j} = d\bigl(\sigma^{-1}(\sigma_{\mathrm{sh}}(i))\bigr)\,u'_{\sigma^{-1}(\sigma_{\mathrm{sh}}(i)),\,j} = 0
+$$
+
+because $i\ge a$ implies $\sigma^{-1}(\sigma_{\mathrm{sh}}(i))\ge a > j$ and `unip_lower` kills $u'$ there (`:108–119`). Hence $p\in P_{a,n-a}$ and $g = u\,\operatorname{pm}(\sigma_{\mathrm{sh}})\,p$. Conversely, if $u_1\,\operatorname{pm}(\tau_1)\,p_1 = u_2\,\operatorname{pm}(\tau_2)\,p_2$ for two $(a,n-a)$-shuffles $\tau_1,\tau_2$, then $(u_2^{-1}u_1)\,\operatorname{pm}(\tau_1) = \operatorname{pm}(\tau_2)\,(p_2 p_1^{-1})$. Evaluating at row $r$ and column $\tau_1^{-1}(r)$ gives $1 = (p_2 p_1^{-1})_{\tau_2^{-1}(r),\,\tau_1^{-1}(r)}$ (`block_of_eq`, `:38–54`); if $\tau_1^{-1}(r) < a \le \tau_2^{-1}(r)$, membership of $p_2 p_1^{-1}$ in $P_{a,n-a}$ forces the right-hand side to be $0$, contradicting $1\ne 0$. By symmetry $\{r:\tau_1^{-1}(r)<a\} = \{r:\tau_2^{-1}(r)<a\}$, so $\operatorname{key}_S\circ\tau_1$ and $\operatorname{key}_S\circ\tau_2$ are both monotone rearrangements of the injective map $\operatorname{key}_S$, forcing $\tau_1=\tau_2$ (`Tuple.unique_monotone`, `:124–127`). $\square$
+
+#### Failure boundaries
+
+**Failure Boundary 1 (Dropping field inverses: non-existence of Bruhat decomposition over $\mathbb Z/4\mathbb Z$).** Replace the field $F$ by the finite commutative local ring $R = \mathbb Z/4\mathbb Z$, where $R^\times = \{1,3\}$ and $2$ is a nonzero nilpotent zero-divisor. Then $|\mathrm{GL}_2(R)| = 6\cdot 2^4 = 96$ (lifting the $6$ matrices of $\mathrm{GL}_2(\mathbb F_2)$ across the $16$ congruence matrices $I_2 + 2M_2(\mathbb F_2)$), whereas $|U_2(R)| = 4$ and $|\operatorname{Mono}_2(R)| = 2\cdot 2^2 = 8$. For any $u = \begin{pmatrix}1&x\\0&1\end{pmatrix}$, $u' = \begin{pmatrix}1&y\\0&1\end{pmatrix}\in U_2(R)$ and $d_1,d_2\in \{1,3\}$:
+
+- if $\sigma = \mathrm{id}$, $(u\,\operatorname{mono}(\mathrm{id},d)\,u')_{2,1} = 0$ ($16$ matrices);
+- if $\sigma = (1\,2)$, $(u\,\operatorname{mono}((1\,2),d)\,u')_{2,1} = d_1 \in \{1,3\}$ ($64$ matrices).
+
+Hence $|U_2(R)\,\operatorname{Mono}_2(R)\,U_2(R)| = 80 < 96$: all $16$ invertible matrices with $(2,1)$-entry congruent to $2\bmod 4$ fail to admit a Bruhat decomposition. Concretely, on $g = \begin{pmatrix} 1 & 0 \\ 2 & 1 \end{pmatrix}\in\mathrm{GL}_2(\mathbb Z/4\mathbb Z)$ ($\det g = 1$), every $u = \begin{pmatrix} 1 & x \\ 0 & 1 \end{pmatrix}\in U_2(\mathbb Z/4\mathbb Z)$ produces
+
+$$
+g\,u = \begin{pmatrix} 1 & x \\ 2 & 2x+1 \end{pmatrix}, \qquad (gu)_{2,1} = 2 \ne 0, \quad (gu)_{2,2} = 2x+1 \in \{1,3\} \ne 0.
+$$
+
+Thus $N_{\min} = 2+2 = 4$, both columns stay locked in an equal-height collision $s(1)=s(2)=2$, and Step 3 of Lemma 13.4.23.3 breaks down at `-(H (s c) c / H (s c) k)` (`ExistsColReduced.lean:105,129`) because $2x+1\equiv 0\pmod 4$ has no solution: the pivot $H_{2,1}=2$ is not a unit.
+
+**Failure Boundary 2 (Mixing lower-triangular transvections: collapse of monomial uniqueness and Bruhat cell jumps).** Over **every** field $F$, let $U_2^+(F) = \operatorname{unip}(F,2)$ be the upper unitriangular subgroup and $U_2^-(F)$ the lower unitriangular subgroup. The invertible matrix $g = \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}\in\mathrm{GL}_2(F)$ ($\det g = -1\in F^\times$) admits simultaneously an upper–upper factorization and a lower–upper factorization with **distinct** monomial cores:
+
+$$
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix} = \underbrace{\begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}}_{\in U_2^+(F)} \underbrace{\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}}_{\operatorname{mono}((1\,2),(1,1))} \underbrace{\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}}_{\in U_2^+(F)} = \underbrace{\begin{pmatrix} 1 & 0 \\ 1 & 1 \end{pmatrix}}_{\in U_2^-(F)} \underbrace{\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}}_{\operatorname{mono}(\mathrm{id},(1,-1))} \underbrace{\begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}}_{\in U_2^+(F)}.
+$$
+
+In Lemma 13.4.23.2, rewriting $\ell\,\operatorname{mono}(m')\,u'_1 = u\,\operatorname{mono}(m)$ as $(u^{-1}\ell)\,\operatorname{mono}(m') = \operatorname{mono}(m)\,(u'_1)^{-1}$ produces $u^{-1}\ell = \begin{pmatrix} 0 & -1 \\ 1 & 1 \end{pmatrix}\notin U_2^+(F)$, invalidating `unip_diag` at line 38; equivalently, if lower transvections $T_{k,c}(\alpha)$ ($k>c$) are adjoined to the allowed column operations, $\langle U_2^+(F), U_2^-(F)\rangle = \mathrm{SL}_2(F)$ collapses every Bruhat cell of equal determinant into a single coset. Specifically, on $H = \begin{pmatrix} 1 & 1 \\ 1 & 2 \end{pmatrix}\in\mathrm{GL}_2(\mathbb F_3)$, the upper transvection $T_{1,2}(1)$ ($k=1<c=2$) gives $\begin{pmatrix} 1 & 2 \\ 1 & 0 \end{pmatrix}$ with true core $((1\,2),(1,2))$, whereas the lower transvection $T_{2,1}(1)$ ($k=2>c=1$) gives $\begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}$ with core $(\mathrm{id},(2,2))$, jumping from the open cell into the Borel subgroup; and on $I_2$, right-multiplying by $T_{2,1}(1)$ turns $(I_2)_{2,1}=0$ into $1\ne 0$, violating the height bound $f(1)=1$ in Step 3 of Lemma 13.4.23.3.
+
+#### Remarks and consumers
+
+**Archive scope and reading depth.** [Lean, read] In the pinned Alpöge–Claude archive A2 (joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`), `GlobalTheory.FinGL.Bruhat` (`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsColReduced.lean:1–174`) is proved over an **arbitrary field** `[Field F]` without finiteness assumptions on $F$; only the matrix index set `Fin n` is finite. Its direct subgroup supply is `Formalism.L2.DIV.unip` (`src/Formalism/LocalToGlobal/Divisibility/DefGroup.lean:138–169`), re-exported through `src/Development/AbelianVarietyTheory/Definitions/Divisors/SplitDoublingNBlock.lean:1–55`. Pinned Mathlib supplies `Finset.sum_eq_sum_iff_of_le` (`Algebra/Order/BigOperators/Group/Finset.lean:574–586`), `Nat.find_spec` and `Nat.find_min` (`Data/Nat/Find.lean:72–80`), `Matrix.transvection` (`LinearAlgebra/Matrix/Transvection.lean:82–136`), `Matrix.det_of_upperTriangular` (`LinearAlgebra/Matrix/Block.lean:332–342`), and `mkOfDetNeZero` (`LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean:130`).
+
+| Downstream consumer in A2 (`lean/src/...`) | How `ExistsColReduced.lean` enters | Scope and status |
+|---|---|---|
+| `Development/AbelianVarietyTheory/Proofs/FlagMeasures/ExistsUniqueShuffle.lean:12–128` | Calls `exists_decomp x` (`:106`), `mono`, `mul_mono`, `mono_mul`, `unip_lower`, and `unip_diag` to prove `Shuffle.existsUnique_shuffle` over prime $\mathbb Z/g\mathbb Z$, feeding `mackey_doubleCoset_pairing` (`CardDoubleCosetMulCardInter.lean:81–140`) inside `WhMul.wh_hcT` (`WhittakerDimensionHarishChandraInductionMul.lean:135–142`) for §§13.4.8 and 13.4.21–13.4.22. | [Lean, read] (`CardDoubleCosetMulCardInter` inherited via §13.4.21) |
+| `Development/AbelianVarietyTheory/Proofs/FlagMeasures/ExistsShuffle.lean:203–246` | `ParCoset.exists_perm` (`:205`) calls `Bruhat.exists_decomp x` and splits $\operatorname{mono}(m)=\operatorname{pU}(m_1)D$ to prove two-sided parabolic double-coset uniqueness `ParCoset.doubleCoset` (`:220–246`), consumed with `mackey_doubleCoset_pairing` by `Mackey.mackey_formula` (`MackeyFormulaHarishChandraRestrictionInduction.lean:104–112`). | [Lean, read] (local call chain; downstream `mackey_cell_term` [Lean]) |
+| `Development/AbelianVarietyTheory/Proofs/DivisorProofs/DegenerateWhittakerDimParabolicInductionCuspidal.lean:68–96,188–247` | Imports `SplitDoublingNBlock` and `ExistsColReduced`; `exists_pm` (`:70`) unpacks `Bruhat.bruhat F r g` to factor $g = p\,\operatorname{pm}(w)\,u$ ($p\in\operatorname{blockTri}(b)$, $u\in\operatorname{unip}(F,r)$), `blk_eq_of_rel` (`:87–96`) reuses `sum_eq_sum_iff_of_le`, and `degenerateWhittakerDim_parabolicInduction` (`:188–247`) proves $\operatorname{whCut}_\psi(\operatorname{parInd}_b\sigma, j) = \operatorname{splitDoublingNBlock}(b,j)\cdot\operatorname{leviWh}_\psi(b,\sigma)$ over any finite field $F$. | [Lean, read] for `:68–96,188–247` and `FinrankEigenCoindMackeyDoubleCosets.lean:114–131`. The three local eigenspace proofs appear in [§13.4.24](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells) |
+| `Development/AbelianVarietyTheory/Proofs/DivisorProofs/WhittakerSpaceDimFiniteGLLeOne.lean:339–417` | Imports `SplitDoublingNBlock` and `ExistsColReduced`; `whDim_le_one` (`:413`) calls `Bruhat.bruhat F r g` and applies the anti-diagonal transpose involution `sg` (`sg_monomial`, `:339–395`) to prove Gelfand–Graev multiplicity at most one, $\operatorname{whDim}_\psi(\tau)\le 1$, for every finite-dimensional irreducible $\mathbb C$-representation $\tau$ of $\mathrm{GL}_r(F)$ over any finite field $F$ and any nontrivial additive character $\psi$. See [§13.4.25](#13425-why-the-levi-whittaker-space-is-a-line). | [Lean, read] |
+| `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsPermMatrixRepParabolicDoubleCoset.lean:9–34` | `exists_perm_rep_blockTri` (`:16`) calls `exists_decomp g` to produce $g = p'\,\operatorname{permGL}(F,w)\,p$ for arbitrary monotone block labelings $b,b'$, consumed at `BlockTriMemParab.lean:228` and `MonotoneTwoBlockIndicator.lean:63`. | [Lean, read] (consumer call sites checked) |
+| `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DetNeZeroOfSignature.lean:102–117` | `PtEx.exists_lo_mono_up` (`:108`) applies `exists_decomp` to the row-reversed matrix $Z.\mathrm{submatrix}\,\mathrm{Fin.revPerm}\,\mathrm{id}$ over a characteristic-zero field $E$ to obtain a lower-unitriangular–monomial–upper-unitriangular factorization $Z = \ell\,M\,u$. | [Lean, read] for `:102–117` (surrounding signature cone [Lean]) |
+
+**Classical literature.** François Bruhat introduced the double-coset bijection with the Weyl group in order to bound intertwining numbers of induced representations of semisimple Lie groups, first by explicit verification on the four classical families and then in general in *Sur les représentations induites des groupes de Lie*, Bull. Soc. Math. France **84** (1956), 97–205, Chapitre III, §7, n° 2, Théorème 7;1 and footnote (41), pp. 187–189 (`G = N M' N` at pp. 188–189). Claude Chevalley established the cellular double-coset decomposition for Chevalley groups over arbitrary fields in *Sur certains groupes simples*, Tohoku Math. J. (2) **7** (1955), 14–66. Over an arbitrary ground field $k$, Armand Borel and Jacques Tits, *Groupes réductifs*, Publ. Math. IHÉS **27** (1965), 55–150, §2.4 (pp. 65–66, including footnote (2)) and §5.13–5.15, Théorème 5.15 (pp. 99–101), prove both $G_k = U_k\,N_k\,U_k$, the exact monomial-core uniqueness $U\,n\,U = U\,n'\,U \iff n = n'$ for $n,n'\in N_k$ (matching `mono_unique` and `bruhat`), and the sharpened algebraic isomorphism $(n\,U^- n^{-1}\cap U)\times \{n\}\times U \xrightarrow{\sim} U\,n\,U$ accounting for the unipotent fiber in Theorem 13.4.23.4(2). The anti-transpose Gelfand involution route from $G = U\,N\,U$ to Whittaker multiplicity $\le 1$ on $\mathrm{GL}_r(\mathbb F_q)$ corresponds classically to I. M. Gelfand and M. I. Graev (1962) and S. I. Gelfand, *Math. USSR-Sb.* **12** (1970), 13–39 (`[Gelfand1970]`). [Bruhat 1956, pp. 187–189](https://www.numdam.org/article/BSMF_1956__84__97_0.pdf) · [Borel–Tits 1965, pp. 65–66, 99–101](https://www.numdam.org/item/PMIHES_1965__27__55_0.pdf)
+
+**Reading and review.** The archive body for column reduction and monomial uniqueness is [Lean, read] at local R3. The stabilizer calculation is the textbook derivation above. Same-source initial review upheld the arbitrary-field proof and the fiber and shuffle arguments, and identified arithmetic and ledger corrections incorporated here. The overall decision on the original package was partial. The corrected examples use exact finite matrix certificates. Kernel replay and the transitive dependency cone remain [Open]. [Source ledger](../sources/SOURCES.md#p16-column-reduction-and-monomial-cores)
+
+### 13.4.24 Degenerate Whittaker eigenspaces on parabolic Mackey cells
+
+The Bruhat factorization in [§13.4.23](#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition) puts a permutation in each cell $PxU$. The two-block averages used the full adjacent-entry character. Here a cut divides the coordinates into a prefix and a suffix. The degenerate character omits the adjacent entry crossing that cut when there is such an entry. When we restrict a parabolically induced representation to the unitriangular group, each double coset asks whether the conjugated character can occur on a stabilizer. Two tests control this question. An **active rise**, a retained adjacent entry whose labels increase, asks the inducing radical to act by a nontrivial scalar. A Levi block distributed across the cut asks a proper unipotent radical inside that block to fix a vector. The cells that pass both tests have a copy of the same Levi Whittaker eigenspace, with one such cell for every choice of whole blocks of the prescribed total size.
+
+#### Worked examples
+
+**Two coordinates over $\mathbb F_2$.** Use zero-based indices and write $E_{ac}$ for a matrix unit. Take the two singleton blocks $A<B$, the upper triangular subgroup $P$, and its trivial complex character. Here $P=U=\{I,I+E_{01}\}$. This is irreducible inducing data, trivial on the inducing radical. No singleton block can be cut internally, so the cuspidality condition is vacuous. The additive character is $\psi(t)=(-1)^t$.
+
+The word $AB$ represents $x=I$, and $BA$ represents the swapping matrix. Their stabilizers in $U$ are $U$ and $\{1\}$, respectively. The six matrices of $\mathrm{GL}_2(\mathbb F_2)$ are distributed between cells of sizes $2\cdot2/2=2$ and $2\cdot2/1=4$. Equivalently these give one and two left $P$-cosets. The character projector on each cell has trace equal to the weighted stabilizer sum divided by its order:
+
+| Cut $j$ | Active entries | $AB$ | $BA$ | Total |
+|---|---|---|---|---:|
+| 0 | $01$ | $(1-1)/2=0$ | $1/1=1$ | 1 |
+| 1 | none | $(1+1)/2=1$ | $1/1=1$ | 2 |
+
+In rank two the second choice is already the trivial character of $U$. Here the subset counts are one for $j=0$ and two for $j=1$, and the Levi Whittaker dimension is one. The same group supplies a genuine block cut if we take $P=G$ with one block of size two and let $\sigma$ be the sign of the permutation of the three nonzero vectors. For every coordinate subset of size one, its radical has order two and its nonidentity transvection swaps two nonzero vectors. Thus it acts by $-1$ and has zero invariants. There is one cell, with stabilizer $U$. Its normalized trace is $(1+1)/2$ for $j=0$ and $(1-1)/2$ for $j=1$. The second value is the cuspidal obstruction.
+
+**Three blocks in $\mathrm{GL}_4(\mathbb F_2)$.** Use the labels $A<B<C$ with sizes $(2,1,1)$. Inflate the character given by the sign on the $A$ diagonal block and the trivial characters on the two singleton blocks. This gives an irreducible one-dimensional $\sigma$. For any coordinate subset cutting $A$, the internal transvection across that cut acts by $-1$ by the same calculation on the three nonzero vectors of $\mathbb F_2^2$. This verifies the full cuspidality condition for this datum. The normalized Levi Whittaker dimension is one because $\sigma$ and the block character agree on both elements of the Levi unitriangular group.
+
+A word gives the permutation by taking the original coordinates of each letter in increasing order. For instance $BACA$ gives $w=(2,0,3,1)$, meaning $w(0)=2$. Put $l_a=b(w(a))$. In $H_x=U\cap x^{-1}Px$, a strict upper entry $u_{ac}$ is free precisely when $l_a\le l_c$. Indeed $(xux^{-1})_{w(a),w(c)}=u_{ac}$ and the only additional zero requirements come from block triangularity. If $a_A<c_A$ are the two positions of $A$, the inducing character of $xux^{-1}$ is $(-1)^{u_{a_Ac_A}}$. At $j=2$ the target character is $(-1)^{u_{01}+u_{23}}$ with forbidden entries set to zero. Thus each free coordinate occurring with odd coefficient in the product of the two characters contributes $1-1=0$ to the numerator. If every coefficient is even, every summand is $1$.
+
+In the following table the free pairs give $k$, their number, and hence $|H_x|=2^k$. The column for each allowed $j$ records the first active rise by its pair of indices, $C$ for a cut block in a word with no active rise, or $L$ for a sorting match. For each adjacent rise, the indicated coordinate gives an uncancelled factor $1-1$. For each $C$, the two $A$ positions give a free internal coordinate across the cut. It appears only in the inducing character and gives the same factor $1-1$. Thus both branches have numerator zero. Every $L$ has numerator $2^k$, so its normalized dimension is one. The denominator is the same for all $j$ in a given row.
+
+| Word | Free pairs | $|H_x|$ | Left $P$-cosets $64/|H_x|$ | $j=0$ | $j=1$ | $j=2$ | $j=3$ |
+|---|---|---:|---:|---|---|---|---|
+| $AABC$ | $01,02,03,12,13,23$ | 64 | 1 | $12$ | $12$ | $23$ | $12$ |
+| $AACB$ | $01,02,03,12,13$ | 32 | 2 | $12$ | $12$ | $L$ | $12$ |
+| $ABAC$ | $01,02,03,13,23$ | 32 | 2 | $01$ | $23$ | $01$ | $01$ |
+| $ABCA$ | $01,02,03,12$ | 16 | 4 | $01$ | $12$ | $01$ | $01$ |
+| $ACAB$ | $01,02,03,23$ | 16 | 4 | $01$ | $23$ | $01$ | $01$ |
+| $ACBA$ | $01,02,03$ | 8 | 8 | $01$ | $C$ | $01$ | $01$ |
+| $BAAC$ | $03,12,13,23$ | 16 | 4 | $23$ | $23$ | $23$ | $L$ |
+| $BACA$ | $02,12,13$ | 8 | 8 | $12$ | $12$ | $C$ | $12$ |
+| $BCAA$ | $01,23$ | 4 | 16 | $01$ | $L$ | $01$ | $01$ |
+| $CAAB$ | $12,13,23$ | 8 | 8 | $23$ | $23$ | $23$ | $L$ |
+| $CABA$ | $12,13$ | 4 | 16 | $12$ | $12$ | $C$ | $12$ |
+| $CBAA$ | $23$ | 2 | 32 | $L$ | $L$ | $L$ | $C$ |
+
+For example at $j=2$ the coordinate $23$ makes the numerator for $AABC$ vanish even though the two $01$ factors cancel. For $BACA$, both active entries are forbidden by block triangularity. The coordinate $13$ is free and belongs to $A$, so the sum is $4(1-1)/8=0$. For $AACB$ only $01$ contributes to either character, giving $32/32=1$. For $CBAA$ the free entry $23$ gives $2/2=1$. Those last two words come from $J=\{A\}$ and $J=\{B,C\}$. The table sums to dimensions $(1,2,2,2)$ at the four allowed cuts. The corresponding whole-block choices are $\varnothing$, the two singleton labels individually, $\{A\}$ or $\{B,C\}$, and $\{A,B\}$ or $\{A,C\}$. Also $|P|=6\cdot 2^5=192$, and the left-coset counts add to $105$. Multiplying by $192$ gives $20160=(16-1)(16-2)(16-4)(16-8)$, the order obtained by choosing four independent columns.
+
+**Removing the nontriviality hypothesis.** Return to the singleton datum in rank two, keep $j=0$, and replace $\psi$ everywhere by $1$. Now the root in the $AB$ cell acts by the required scalar. The two contributions are $2/2=1$ and $1/1=1$. The predicted whole-block product would still be $1\cdot 1$, while the actual dimension is $2$. In particular the root-vanishing assertion fails on an admissible cusp datum as soon as its character hypothesis is deleted.
+
+#### Definitions
+
+Write $I=\{a\in\mathbb N:a<r\}$, $G=\mathrm{GL}_r(F)$, and $U=U_r(F)$. The block labels are a monotone map $b:I\to\mathbb N$. Its image $B$ consists of the labels of actual blocks, and $I_\beta=b^{-1}(\beta)$ for $\beta\in B$. Set $P=\{p\in G:p_{ik}=0\text{ if }b(i)>b(k)\}$ and let $\pi:P\to P$ retain only the diagonal blocks. The archive's `IsCuspDatum` requires monotonicity of $b$, irreducibility of the complex representation $\sigma:P\to\mathrm{GL}(V)$, and the following two conditions.
+
+- **Inflation.** If $\pi(p)=I_r$ then $\sigma(p)=1$.
+- **Cuspidality.** For each subset $S\subseteq I$ cutting some block, $V^{N_S}=0$. Here cutting means $I_\beta\cap S$ and $I_\beta\setminus S$ are both nonempty for some $\beta$, and $N_S$ consists of matrices in $P$ whose entries can differ from the identity only at $(i,k)$ with $b(i)=b(k)$, $i\in S$, and $k\notin S$.
+
+The product of any two differences with this support is zero because the column set is disjoint from the row set. These matrices therefore form a subgroup under addition of the differences, embedded in $P$. Inside each diagonal block they are the radical of the parabolic stabilizing the coordinate subspace defined by $S$. Averaging over a finite subgroup identifies invariants with ordinary Jacquet coinvariants over $\mathbb C$: the average is a projection, and its kernel is the span of $\sigma(u)v-v$, since subtracting the average from $v$ is the average of $v-\sigma(u)v$. This explains the zero Jacquet interpretation of the stated condition.
+
+For a relation $D$ on $I$, write $s_D(g)=\sum_{(a,c)\in D}g_{ac}$. Use exactly the archive's two relations:
+
+$$
+D_j=\{(a,c):c=a+1,\ a+1\ne j\},\qquad
+D_b=\{(i,k):k=i+1,\ b(i)=b(k)\}.
+$$
+
+These are `cutEdge j` and `blkEdge b`. With an additive character $\psi:F\to\mathbb C^\times$ put $\chi_j(u)=\psi(s_{D_j}(u))$ for $u\in U$. Each adjacent entry of $uu'$ is the sum of the corresponding entries, since there is no intermediate index and the diagonal entries are one. Thus $\chi_j$ is a character. The same argument applies to $D_b$ on $P\cap U=U$. The permutation matrix $x=\operatorname{pm}(w)$ sends $e_a$ to $e_{w(a)}$, so $(x^{-1}g x)_{ac}=g_{w(a),w(c)}$. The local subspaces of $V$ are
+
+$$
+\begin{aligned}
+E_x&=\{v:\sigma(p)v=\chi_j(x^{-1}px)v\text{ for }p\in K_x\}, \qquad K_x=P\cap xUx^{-1},\\
+W_b&=\{v:\sigma(p)v=\psi(s_{D_b}(p))v\text{ for }p\in P\cap U\}.
+\end{aligned}
+$$
+
+In these terms $\dim W_b$ is `leviWh ψ b σ`. The map $\pi$ is the block-diagonal Levi projection. In particular $W_b$ tests only the action and character of the unitriangular subgroups of the diagonal blocks, since inflation kills the kernel and $D_b$ stays inside the diagonal blocks.
+
+#### Lemmas and proofs
+
+**Evaluation on a Mackey cell.** For finite $G$, let $\operatorname{coind}_P^G\sigma$ consist of functions $f:G\to V$ with $f(pg)=\sigma(p)f(g)$, with action $(\rho(g_0)f)(g)=f(gg_0)$ for $g_0\in G$. This is `parInd b σ` in the archive. On the subspace supported on $PxU$, the $\chi_j$-eigencondition is $f(gu)=\chi_j(u)f(g)$. Evaluation $f\mapsto f(x)$ identifies that eigenspace with $E_x$.
+
+Indeed $px=x(x^{-1}px)$ gives the defining equation at $x$. Conversely take $v\in E_x$ and set $f(pxu)=\chi_j(u)\sigma(p)v$, extending by zero off $PxU$. If $pxu=p'xu'$, then $p'^{-1}p\in K_x$ with conjugate $u'u^{-1}$, giving $\sigma(p)v=\chi_j(u'u^{-1})\sigma(p')v$. The formula agrees for the two factorizations. Left and right covariance follow by multiplication in $P$ and $U$, and the complement is stable under both actions. Thus the inverse to evaluation is linear and defined for every $v\in E_x$. Different cells have disjoint supports, giving the direct sum over cells.
+
+For the normalization, let $H_x=x^{-1}K_xx=U\cap x^{-1}Px$. On $V$ the projection onto $E_x$ is
+
+$$
+Q_x=\frac{1}{|H_x|}\sum_{h\in H_x}\chi_j(h)^{-1}\sigma(xhx^{-1}).
+$$
+
+This is the average of a representation of $H_x$ twisted by the inverse character. Reindexing by multiplication shows its image is fixed by the twisted action, and the average is the identity on fixed vectors. Hence the trace is $\dim E_x$, including for the zero space. The right action on $P\backslash PxU$ is transitive with stabilizer $H_x$ at $Px$, so that orbit has $|U|/|H_x|$ points and the cell has $|P||U|/|H_x|$ elements. Each cell enters the dimension with coefficient one. For $W_b$ the identical projector construction applies with $P\cap U$ and $\psi\circ s_{D_b}$.
+
+**Lemma 13.4.24.1 (A root in the inducing radical).** Let $F$ be any field and let $\psi\ne 1$. The local lemmas allow an arbitrary complex representation space $V$. Suppose $(a,c)\in D_j$ and $b(w(a))<b(w(c))$. Then $E_x=0$. The same statement holds for any $x$ with the displayed conjugation formula.
+
+**Proof.** Take $t\in F$ with $\psi(t)\ne 1$ and $p=I_r+tE_{w(a),w(c)}$. Its inverse is $I_r-tE_{w(a),w(c)}$, since the two indices are distinct. The strict inequality places $p$ in $P$ and gives $\pi(p)=I_r$. Its conjugate is $I_r+tE_{ac}$, which is in $U$ since $a<c$. Its selected-entry sum is $t$. Any $v\in E_x$ then satisfies $v=\sigma(p)v=\psi(t)v$. The nonzero scalar $1-\psi(t)$ forces $v=0$. $\square$
+
+**Lemma 13.4.24.2 (A cut through a Levi block).** Let $F$ be any field and $\psi$ any additive character. If $a<j\le c$ and $b(w(a))=b(w(c))$ for a pair in $I$, then $E_x=0$ for any $x$ with the same conjugation formula.
+
+**Proof.** Put $S=w(\{a'\in I:a'<j\})$. The given pair witnesses a cut through a block. For $p\in N_S$, every entry of $x^{-1}px-I_r$ is supported at $(a',c')$ with $a'<j\le c'$. This implies $x^{-1}px\in U$. The only adjacent pair crossing this cut would have $c'=a'+1=j$. It is omitted from $D_j$, so $s_{D_j}(x^{-1}px)=0$. Thus every $v\in E_x$ is fixed by $N_S$. The cuspidality clause implies $v=0$. $\square$
+
+**Lemma 13.4.24.3 (Equality on a sorting match).** Let $F$ be any field and $\psi$ any additive character. As above take $x$ with the permutation conjugation formula. Assume the following properties:
+
+1. Within a fixed preimage block, $a<c$ implies $w(a)<w(c)$.
+2. Each preimage block is an interval in $I$.
+3. On every $(a,c)\in D_j$, $b(w(c))\le b(w(a))$.
+4. No preimage block meets both sides of the cut.
+
+Then $E_x=W_b$ as subspaces of $V$.
+
+**Proof.** First $\pi(pq)=\pi(p)\pi(q)$ for $p,q\in P$. In an entry inside a diagonal block, a nonzero product summand can only have intermediate label both at least and at most that block label. Entries between distinct blocks on both sides of the identity are zero after projection. Applying the multiplication identity to $p,p^{-1}$ in both orders proves that $\pi(p)$ is invertible. Consequently $p^{-1}\pi(p)$ has identity diagonal blocks, and inflation gives $\sigma(\pi(p))=\sigma(p)$. Also $s_{D_b}(\pi(p))=s_{D_b}(p)$.
+
+On the preimage of a fixed block, the order in $I$ and the order of the images are equivalent by property 1 and injectivity. For a same-block pair, adjacency of the images implies adjacency of the preimages: an intermediate preimage would lie in the same block by property 2 and its image would be strictly between consecutive images. Conversely, adjacency of preimages implies adjacency of images: an intermediate image lies in the same block by monotonicity of $b$, and its inverse image would lie strictly between the preimages. Property 4 ensures that a same-block adjacent pair does not straddle the cut. Thus for equal block labels $(w(a),w(c))\in D_b$ if and only if $(a,c)\in D_j$.
+
+Reindex the $D_b$ sum by $w$ on both coordinates. Same-label entries match by this adjacency equivalence. If the labels differ and $(a,c)\in D_j$, property 3 forces $b(w(a))>b(w(c))$, so $p_{w(a),w(c)}=0$ for $p\in P$. This proves, on the entire parabolic,
+
+$$
+s_{D_j}(x^{-1}px)=s_{D_b}(p).
+$$
+
+For $p\in P\cap U$, the matrix $\pi(p)$ belongs to $K_x$. On conjugating it, unequal-block entries are zero, diagonal entries are one, and lower entries within a block vanish by within-block order. In the other direction, for $p\in K_x$, $\pi(p)\in P\cap U$. To see the lower zeros, write an internal lower pair as $(w(a),w(c))$ with $w(a)>w(c)$. Order equivalence gives $a>c$, and $x^{-1}px$ has a zero there. Diagonal entries come from those of $x^{-1}px$ and unequal-block entries again vanish. If $v\in E_x$, testing on $\pi(p)$ for $p\in P\cap U$ gives the equations for $W_b$ by the action and sum identities. If $v\in W_b$, testing on $\pi(p)$ for $p\in K_x$ gives the equations for $E_x$ by the same identities. These are inverse inclusions on the same $V$. $\square$
+
+**Theorem 13.4.24.4 (All finite-field branches).** Let $F$ be any finite field, let $\psi:F\to\mathbb C^\times$ be a nontrivial additive character, and take $r\in\mathbb N$, a finite-dimensional complex $V$, and $b,\sigma$ with `IsCuspDatum` as above. For $j\in\mathbb N$ with $j<r$ or $j=0$, each $P\backslash G/U$ cell has exactly one of these branches, tested in order on its label word $l_a=b(w(a))$:
+
+| Branch | Condition | Cell contribution |
+|---|---|---|
+| Radical | An active adjacent pair has $l_a<l_c$ | $E_x=0$ |
+| Block cut | No active rise and some $a<j\le c$ has $l_a=l_c$ | $E_x=0$ |
+| Sorting match | No active rise and no block cut | At the stable sorted representative, $E_x=W_b$ |
+
+The cells in the last row are in bijection with subsets $J\subseteq B$ satisfying $\sum_{\beta\in J}|I_\beta|=j$. Therefore
+
+$$
+\operatorname{whCut}_\psi(\operatorname{parInd}_b\sigma,j)
+=\operatorname{splitDoublingNBlock}(b,j)\operatorname{leviWh}_\psi(b,\sigma).
+$$
+
+**Proof.** The monomial Bruhat factorization of [§13.4.23](#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition) supplies $G=\bigcup_w P\operatorname{pm}(w)U$: the left unitriangular factor and the monomial diagonal scaling on the left of the permutation both lie in $P$. To see why the tests are well defined, suppose $p\operatorname{pm}(w)=\operatorname{pm}(w')u$ with $p\in P$, $u\in U$. The diagonal of $\operatorname{pm}(w')^{-1}p\operatorname{pm}(w)$ is one. Thus $p_{w'(a),w(a)}=1$ implies $b(w'(a))\le b(w(a))$. The two label sequences have equal sums, since each permutation visits all coordinates. Therefore the inequalities are equalities at every position. Conversely for equal words the permutation $\operatorname{pm}(w)\operatorname{pm}(w')^{-1}$ preserves every block and belongs to $P$. Hence the word is a complete invariant. For a change $x'=p_0xu_0$, evaluation on the corresponding cell transports $E_x$ to $E_{x'}$ by the invertible map $v\mapsto\chi_j(u_0)\sigma(p_0)v$. The first two rows now follow from Lemmas 13.4.24.1 and 13.4.24.2.
+
+In the last row take $J$ to be the set of labels appearing in positions $a<j$. By the no-cut condition, exactly the coordinates from the blocks in $J$ occupy this prefix, so their total size is $j$. On each side every adjacent pair is active, so each side lists its labels in weakly decreasing order. This determines the word for $J$ uniquely. Conversely, list the blocks of $J$ first in decreasing label order, then the other blocks in decreasing label order, using increasing original indices within each block. The result is the stable sort of the archive's key with first component $0$ for labels in $J$ and $1$ otherwise, and second component the reversed label order. The prefix length is $j$, the labels decrease weakly on both sides, and equal labels occur in intervals without crossing the cut. Thus all four hypotheses of Lemma 13.4.24.3 hold for this representative. Distinct $J$ give distinct prefix label sets and hence distinct cells. The evaluation isomorphism gives the claimed sum. The factor $\dim W_b$ remains in the identity. $\square$
+
+#### Remarks and source trail
+
+**Ends and empty labels.** For $j=0$ all adjacent pairs are active and only $J=\varnothing$ passes the size condition. For $r=0$ the sole allowed cut is $0$, the label image is empty, and $G=P=U=\{1\}$. All edge sums are zero, the evaluation map is the identity under the one-point identification and both sides equal $\dim V$ (one under the irreducibility hypothesis). For $r=1$ the theorem has $j=0$ and $U=\{1\}$. A label with an empty fiber is outside $B$, so adding nominal zero-size blocks cannot multiply the subset count. For $r>0$, $j=r$ is excluded by the cited Lean statement. The same mathematical proof applies at that endpoint with a wholly left prefix and $J=B$. For $j>r$ the cut again omits no adjacent edge, but the subset count is zero, so the book makes no such dimension claim there. For example the singleton rank-two datum has generic dimension one. For trivial $\psi$ the cut lemma and the sorting equality still apply with their own hypotheses, as the rank-two counterexample shows for the overall formula.
+
+**Literature and archive.** The subgroup restriction principle behind evaluation goes back to Mackey's subgroup theorem. The finite-field derivative approach of Gan, Gross and Prasad uses twisted Jacquet quotients, describes the vanishing intermediate derivatives of a cuspidal, and attributes the derivative Leibniz rule to Bernstein and Zelevinsky. The present argument evaluates the two-segment character directly on the finite-group stabilizers. Janopaul-Naylor and Vinroot state Zelevinsky’s Kostka multiplicity formula for degenerate Gel’fand–Graev characters and identify a subset-sum instance for two parts and single-box shapes. That result is phrased for irreducible constituents. Here the representation is the full coinduction, and the result identifies the individual stabilizer eigenspaces. [Mackey, journal record](https://doi.org/10.2307/1969423) · [Gan–Gross–Prasad, §4, pp. 120–121](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [Bernstein–Zelevinsky, Lemma 4.5](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf) · [Janopaul-Naylor–Vinroot, §6](https://ajc.maths.uq.edu.au/pdf/68/ajc_v68_p153.pdf)
+
+The file names below are relative to `lean/src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/` in A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Each named wrapper in `GlobalTheory.T` delegates to the corresponding proof at line 7 of its `Statement.lean` file. [Source ledger](../sources/SOURCES.md#p16-degenerate-whittaker-mackey-cells)
+
+| Producer | Direct supply | Actual call in `DegenerateWhittakerDimParabolicInductionCuspidal.lean` |
+|---|---|---|
+| `CoindEigenEqBotOfRootInUnipotentRadical.lean:8–73`, `MackeyRadical.exists_elem`, `eig_eq_bot_of_radical` | Transvection and inverse, inflation, conjugation and the scalar equation | `:246` calls `coindEigen_eq_bot_of_root_in_unipotent_radical` with `hψ` and the active rise |
+| `CoindEigenEqBotOfBlockCutCuspidal.lean:8–68`, `MackeyCut.eig_eq_bot_of_cut` | Prefix transported by $w$, `IsCuspDatum.cusp`, and the omitted crossing edge | `:243` calls `coindEigen_eq_bot_of_block_cut_cuspidal` with the same-label crossing pair |
+| `CoindEigenSortingPermEqLeviWhittaker.lean:10–184`, `SortWh.eig_conj_eq_leviWh` and helpers | Block projection, internal adjacency equivalence, weighted-sum identity and both eigenspace inclusions | `:213` calls `coindEigen_sorting_perm_eq_levi_whittaker`; `:214–231` supplies stable order, interval fibers, absence of a rise and absence of a cut |
+
+The evaluation and sum supplier `MackeyCosets.finrank_eig_coind` is called through its wrapper at `:202`. At `:208–210` the resulting sum of equal Levi dimensions becomes a product by the number of eligible subsets. The three producer proofs above receive local R3 **[Lean, read]**. Same-source initial review upheld the three branches and the finite-field assembly with the stated hypotheses. Evaluation and assembly are traced to the local interfaces above. Examples and normalization calculations are textbook derivations. Kernel replay, a declaration dependency path to `Main.lean`, and peer review are separate checks with no new results here.
+
+**The two consumers.** [§13.4.25](#13425-why-the-levi-whittaker-space-is-a-line) proves separately that $\dim W_b=1$ under the finite-field cuspidal hypotheses. `WhittakerSpaceDimParabolicInductionCuspidalEqOne.lean:40–41` applies the present formula at $j=0$, where only the empty subset qualifies, then uses the Levi dimension. `SymmetricPositionCharMultiplicityParabolicInduct.lean:26–29` applies the formula for each $0\le j\le k<r$ in its finite sum, then uses the same dimension-one theorem before the separate position shift.
+
 ### 13.4.25 Why the Levi Whittaker space is a line
 
-The finite-field degenerate Whittaker product formula counts block subsets and gives each surviving cell the same contribution, the dimension of a Levi eigenspace. Why does each cell contribute one? The argument below uses cuspidal vanishing to produce a vector and finite-group multiplicity one to bound the space it generates. Both steps take place before parabolic induction. We use the product formula when we return to the two consumers. The formula enters through the separate archive declaration `GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`. For the two-block class-function calculation with the full adjacent character, see [§§13.4.21–22](#13421-why-every-non-open-whittaker-cell-vanishes).
+The [finite-field degenerate Whittaker product formula](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells) counts block subsets and gives each surviving cell the same contribution, the dimension of a Levi eigenspace. Why does each cell contribute one? The argument below uses cuspidal vanishing to produce a vector and finite-group multiplicity one to bound the space it generates. Both steps take place before parabolic induction. We use the product formula when we return to the two consumers. The formula enters through the separate archive declaration `GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`. For the two-block class-function calculation with the full adjacent character, see [§§13.4.21–22](#13421-why-every-non-open-whittaker-cell-vanishes).
 
 #### Two matrix examples
 
@@ -3697,7 +4068,7 @@ Number the coordinates from $0$ to $r-1$, where $r\ge0$. Let $F$ be a finite fie
 
 Write $s_b(u)=\sum_{i+1<r,\,b(i)=b(i+1)}u_{i,i+1}$. On $K=P_b\cap U_r$, this sum is additive under multiplication, since the entries immediately above the diagonal add. Put $W_b=\{v\in V:\sigma(u)v=\psi(s_b(u))v\ \forall u\in K\}$. Thus $\dim W_b$ is exactly the archive's $\mathrm{leviWh}$.
 
-**Named input (monomial representatives).** For each positive block size $m$, every $g\in\mathrm{GL}_m(F)$ can be written $g=u n u'$ with $u,u'\in U_m$ and $n$ monomial, namely $n e_i=t_i e_{w(i)}$ with $w$ a permutation and $t_i\in F^\times$. This is the existence part of the archive's $\mathrm{Bruhat.bruhat}$ in *ExistsColReduced.lean*, also used in the Chapter 13 work on Bruhat reduction. Only existence is needed here.
+**Named input (monomial representatives).** For each positive block size $m$, every $g\in\mathrm{GL}_m(F)$ can be written $g=u n u'$ with $u,u'\in U_m$ and $n$ monomial, namely $n e_i=t_i e_{w(i)}$ with $w$ a permutation and $t_i\in F^\times$. This is the existence part of the archive's $\mathrm{Bruhat.bruhat}$ in *ExistsColReduced.lean*, proved in [§13.4.23](#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition). Only existence is needed here.
 
 **Proposition.** Under this named input and the four datum fields, $\dim_{\mathbb C}W_b=1$ for every such $F,\psi,r,V,b,\sigma$.
 
@@ -3745,14 +4116,14 @@ On $E$, the operators $e_c a_c(g)$ preserve $E$ by idempotence and the cross-blo
 
 The source entry is *LeviWhittakerEqOneOfCuspidal.lean*, lines 40–49. Its proof delegates to *FinrankLeOne.lean*, lines 393–397. That body combines the upper bound from `finrank_le_one` with the conversion of `eig_ne_bot` into a positive dimension. In the lower bound, the three statement wrappers feed column Fourier selection, the supported row operation and inverse-action transport into `step`. In the upper bound, `exists_blocks`, `exists_diag` and `exists_proj` supply the product coordinates, the block insertion and its retraction. The three upper-bound wrappers supply the individual finite-$\mathrm{GL}$ bound, the averages and compression identities, and the common-fixed-space bound. [Source ledger](../sources/SOURCES.md#p16-the-levi-whittaker-line)
 
-- *WhittakerSpaceDimParabolicInductionCuspidalEqOne.lean*, lines 38–41, uses the product formula at $j=0$. The zero cut has the full adjacent character and the only subset of actual nonempty blocks of size sum zero is the empty subset. The separately supplied Levi dimension gives $\mathrm{whDim}_\psi(\mathrm{parInd}(b,\sigma))=1$.
-- *SymmetricPositionCharMultiplicityParabolicInduct.lean*, lines 19–32, first uses the zero-position formula expressing $\mathrm{nPos}$ as a sum over $0\le j\le k$. From $\rho+k+1\le r$ one has $j<r$. At line 29 each degenerate Whittaker term is rewritten by the product formula and then by the Levi dimension, leaving $\sum_{j=0}^k \mathrm{splitDoublingNBlock}(b,j)\,\mathrm{gam}(|F|,k-j)$, where $\mathrm{gam}(q,0)=1$ and $\mathrm{gam}(q,l)=q^l-q^{l-1}$ for $l>0$. At a successor position the separate shift theorem reduces to the previous position. Here $\mathrm{splitDoublingNBlock}(b,j)$ counts subsets of the actual block labels whose sizes sum to $j$. Both consumers use the coinduced representation denoted by `parInd` in the archive.
+- *WhittakerSpaceDimParabolicInductionCuspidalEqOne.lean*, lines 38–41, uses the [product formula](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells) at $j=0$. The zero cut has the full adjacent character and the only subset of actual nonempty blocks of size sum zero is the empty subset. The separately supplied Levi dimension gives $\mathrm{whDim}_\psi(\mathrm{parInd}(b,\sigma))=1$.
+- *SymmetricPositionCharMultiplicityParabolicInduct.lean*, lines 19–32, first uses the zero-position formula expressing $\mathrm{nPos}$ as a sum over $0\le j\le k$. From $\rho+k+1\le r$ one has $j<r$. At line 29 each degenerate Whittaker term is rewritten by the [product formula](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells) and then by the Levi dimension, leaving $\sum_{j=0}^k \mathrm{splitDoublingNBlock}(b,j)\,\mathrm{gam}(|F|,k-j)$, where $\mathrm{gam}(q,0)=1$ and $\mathrm{gam}(q,l)=q^l-q^{l-1}$ for $l>0$. At a successor position the separate shift theorem reduces to the previous position. Here $\mathrm{splitDoublingNBlock}(b,j)$ counts subsets of the actual block labels whose sizes sum to $j$. Both consumers use the coinduced representation denoted by `parInd` in the archive.
 
 The lower bound uses nontriviality of $\psi$ even when $\psi$ has a kernel, because the tests run over all scalar multiples. Cuspidal vanishing enters precisely at a zero row inside a block. The single-block upper bound uses finite-group averaging and nontriviality, while joint irreducibility and inflation bring it back to $V$. In rank zero $P_b=U_r=\{1\}$ and irreducibility gives dimension one. In rank one every nonempty fiber has size one, so the unipotent character condition is vacuous and the finite abelian group acts on an irreducible line. The conclusion uses no degree formula for cuspidal characters.
 
 **Literature.** By Frobenius reciprocity, the multiplicity of an irreducible module in the induced character representation equals the dimension of its character eigenspace. S. I. Gel’fand states both versions in Theorems 0.5 and 0.5′ and credits I. M. Gel’fand and M. I. Graev’s 1962 paper for the proof. His §0 assumes $q>2$, and his Theorem 3.3 relates cuspidal radical vanishing to the absence of singular characters. Gan, Gross and Prasad give the finite-field top derivative of a cuspidal as one-dimensional in §4. The weighted projector identifies their twisted quotient with our eigenspace. It kills every $uv-\chi(u)v$, and $v-ev=|U|^{-1}\sum_{u\in U}\chi(u)^{-1}(\chi(u)v-uv)$. The column and compression arguments explain the archive’s production of this classical conclusion for the original Levi datum. [Gel’fand 1970, §§0, 3–4](https://www.mathnet.ru/eng/sm3499) · [Gel’fand and Graev 1962](https://www.mathnet.ru/eng/dan27244) · [Gan–Gross–Prasad 2012, §4](https://www.numdam.org/item/AST_2012__346__111_0.pdf)
 
-**Reading status.** The named local production bodies are **[Lean, read]** at R3. Bruhat existence is a named **[Lean]** input to the argument, and the finite-field Mackey product is inherited at its previous reading level. This section records source reading and call-site verification. Lean kernel replay, declaration reachability from `Main.lean`, and independent review of this reading are separate checks and remain open here.
+**Reading status.** The named local production bodies are **[Lean, read]** at R3. Bruhat existence and the finite-field Mackey product enter as named inputs, with source reading recorded in [§13.4.23](#13423-column-reduction-and-the-unique-monomial-core-bruhat-decomposition) and [§13.4.24](#13424-degenerate-whittaker-eigenspaces-on-parabolic-mackey-cells). This section records source reading and call-site verification. Lean kernel replay, declaration reachability from `Main.lean`, and independent review of this reading are separate checks and remain open here.
 
 ## 13.5 Remarks, formalization notes, and Masullo's counterpart
 
