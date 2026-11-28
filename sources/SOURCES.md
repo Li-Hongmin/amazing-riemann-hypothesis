@@ -5093,7 +5093,7 @@ The author-level source reading concerns the declarations listed here. Kernel re
 
 ### Chapter 18 §18.3.16 The nine-term isomorphism ladder
 
-[Lean, read] `PoitouTateSequenceTransport.lean:16–132,224–261` gives `exact_transfer`, `nine_ladder` and the inverse-precomposition wiring. `TransportA.lean:18–83` transports the low-degree cochain representatives. `PtConclOfIsoOf.lean:80–101` packages the normalized row. [Lean] The three restriction and three scalar trace comparisons at lines 134–163 and 171–220 are named inputs to the ladder. The connecting arrows are existential witnesses. Same-source preliminary review accepted the conditional transport. [Paper] Milne I.4.10(b), pp. 56–57, 66. [Milne](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Pinned Mathlib dual map](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Dual/Defs.lean#L115-L160) [§18.3.16](../chapters/18-auditing-the-published-layer-case-studies.md#18316-transporting-the-poitoutate-nine-term-sequence)
+[Lean, read] `PoitouTateSequenceTransport.lean:16–132,224–261` gives `exact_transfer`, `nine_ladder` and the inverse-precomposition wiring. `TransportA.lean:18–83` transports the low-degree cochain representatives. `PtConclOfIsoOf.lean:80–101` packages the normalized row. [Lean] The three restriction and three scalar trace comparisons at lines 134–163 and 171–220 are inputs to the ladder. [§18.3.27](../chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two) gives their proof bodies and continuous cup primitives. The connecting arrows are existential witnesses. Same-source preliminary review accepted the conditional transport. [Paper] Milne I.4.10(b), pp. 56–57, 66. [Milne](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Pinned Mathlib dual map](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/LinearAlgebra/Dual/Defs.lean#L115-L160) [§18.3.16](../chapters/18-auditing-the-published-layer-case-studies.md#18316-transporting-the-poitoutate-nine-term-sequence)
 
 ### Chapter 18 §18.3.17 Transport of Sha kernels
 
@@ -5716,6 +5716,25 @@ This entry records author-level source reading with local Lean replay, declarati
 Main reachability and review of the new exposition pending. The cochain examples and
 their exact finite-coordinate checks are [Expository].
 [Public verification record](https://math.mit.edu/~drew/grh/)
+
+### Chapter 18 §18.3.27 The six localization and trace comparisons
+
+[Lean, read] Author-level local R3 for the six square bodies and their immediate cochain and quotient inputs. The A2 members below match the joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Lean v4.33.1 and Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. [Archive ledger](#1-the-lean-archive-primary-source) · [Chapter text](../chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two)
+
+| A2 file and lines | SHA-256 |
+| --- | --- |
+| `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NineTermExactIff.lean:21–53,75–80` | `8304c20439bfa3338bd8084f7dfb58ae984e8b2dbbd776cc8d5cfe97aa960348` |
+| `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PoitouTateSequenceTransport.lean:83–91,105–132,134–163,165–220,241–261` | `e0578277477bc79ca5216444e7f098f536814a5842734b0fd6f02cea8a4e1dd9` |
+| `src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PoitouTateSequenceTransportStatement.lean:8–9` | `c137049a43b43621dd5982603cf9ff742ee78140ad254d0f8deef1b1a9462a81` |
+| `src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtConclOfIsoOf.lean:48–61,80–103` | `b2c8762cb16379c5a0c01d2ce51ec9a04f9b5371ae4e2d17dda16bf45343c0fa` |
+| `src/ReciprocityTheory/GaloisValuations/ContinuousConstSMulQuotient.lean:30–80,86–150` | `610c38bcf79837ed06292f22f6ce7ccdb40dc8df503e0ed41a06e71e9224b55f` |
+| `src/ReciprocityTheory/GaloisValuations/SeparatedDvrSecondCohomologyMem.lean:33–102,132–171,198–213,226–265` | `52e77c27ae46d0c14e80e46af66a7d94d84c36a665165406e512c229ea261bb0` |
+| `src/ReciprocityTheory/Hypotheses/GalCohDefs.lean:21–81,91–111` | `12342f816a027d1b70de377fa0057306bf64a2986b66b283fc099bb8efd78d31` |
+| `src/ReciprocityTheory/NeutralLocalFields/LocalFieldComparison/TransportA.lean:18–83` | `2603474c843da283671e608643b0086469ca58f23606c344f56732fcf157fa5f` |
+
+The three `local_degree_…_square` bodies occupy lines 134–137, 139–150 and 152–163 in degree order. The three `trace_pairing_degree_…_square` bodies occupy lines 171–184, 201–220 and 186–199 in degree order. The `hj` interface at lines 165–169 uses the inherited input of §18.3.13. The ladder and existential connecting maps are inherited from §18.3.16. The same-field arithmetic existence cone and Mathlib internals are outside this reading. Independent review of the new exposition and kernel replay remain [Open].
+
+[Paper] Milne, *Arithmetic Duality Theorems*, 2nd ed., I §4, pp. 56–57 and 66. The complementary duals precede Theorem 4.10 and the row follows it. The notes give the attribution to Tate and Poitou. PDF SHA-256 `2c6195ec76a974f3f336c77cb71cc3845b018aad2d43136716b3477a3bc5fb31`. [Author PDF](https://www.jmilne.org/math/Books/ADTnot.pdf)
 
 ### Root multisets and separable root counting (§5.3.1.12)
 
@@ -7274,6 +7293,7 @@ Source IDs A2 (Levent Alpöge with Claude, 2026, joined archive) and M0 (Mathlib
 - [Chapter 18, §18.3.24](../chapters/18-auditing-the-published-layer-case-studies.md#18324-combining-prime-power-compact-pairings-on-the-same-module) · [Chapter 18 §18.3.24 Combining prime-power compact pairings](#chapter-18-18324-combining-prime-power-compact-pairings)
 - [Chapter 18, §18.3.25](../chapters/18-auditing-the-published-layer-case-studies.md#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent) · [Chapter 18 §18.3.25 Fixed-exponent compact duality](#chapter-18-18325-fixed-exponent-compact-duality)
 - [Chapter 18, §18.3.26](../chapters/18-auditing-the-published-layer-case-studies.md#18326-extending-continuous-cohomology-from-a-closed-subgroup) · [Chapter 18 §18.3.26 Closed subgroup cohomology](#chapter-18-18326-closed-subgroup-cohomology)
+- [Chapter 18, §18.3.27](../chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two) · [Chapter 18 §18.3.27 The six localization and trace comparisons](#chapter-18-18327-the-six-localization-and-trace-comparisons)
 
 ### Chapter 19
 <a id="publication-sources-chapter-19"></a>

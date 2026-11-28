@@ -1653,6 +1653,11 @@ into a textbook proof, worked two nonzero classes and the failure examples, and 
 the exact uses of the representative in the Sylow and closed-subgroup arguments.
 [Chapter text](chapters/18-auditing-the-published-layer-case-studies.md#18326-extending-continuous-cohomology-from-a-closed-subgroup)
 
+### Chapter 18 §18.3.27 — Restriction and trace-pairing squares
+
+- **Tate and Poitou** supply the classical duality context, documented by **J. S. Milne**. **Levent Alpöge with Claude** supply the six comparison proofs, continuous cup constructions and the transport in A2. **Mathlib contributors** supply the linear dual, finite sum and quotient interfaces used by those proofs. [Source ledger](sources/SOURCES.md#chapter-18-18327-the-six-localization-and-trace-comparisons)
+- **Hongmin Li with AI assistance** followed the cochain values and continuous primitives, worked the two finite models and their failure tests, and connected the individual comparisons to the published ladder. The new exposition has author-level local R3. [Chapter text](chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two)
+
 ### Root multisets and separable root counting (§5.3.1.12)
 
 - **Chris Hughes, Johannes Hölzl, Kim Morrison, Jens Wagemaker, Johan Commelin, Thomas Browning, Kenny Lau and Mathlib contributors** — The pinned polynomial file headers credit the root multiplicity and root multiset development and the split-product interface used in [§5.3.1.12](chapters/05-the-square-root-barrier-core-gm.md#53112-root-multisets-and-separable-root-counting). [Fixed Mathlib source map](sources/SOURCES.md#root-multisets-and-separable-root-counting-53112)
