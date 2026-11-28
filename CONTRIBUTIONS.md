@@ -1092,6 +1092,13 @@ same-model review is recorded separately in the preceding run's audit.
 - **Mathlib community.** The pinned library contributes linear disjointness, completion maps, tensor equivalences and determinant norm identities, with file credits in the source ledger. [Sources](sources/SOURCES.md#odd-prime-cyclotomic-norm-descent-53121)
 - **Textbook.** Hongmin Li with OpenAI Codex assistance explains the place square and the Bézout witness, and works out the real seventh-root cubic over the rationals and over the real quadratic base. The cited proof reading has author-level local R3. [§5.3.1.21](chapters/05-the-square-root-barrier-core-gm.md#53121-descending-an-odd-prime-degree-norm-after-adjoining-roots-of-unity)
 
+### Chapter 14 absolute Cauchy products
+
+- **Mathlib contributors** — Supply the normed-ring Cauchy product, the finite-fiber sum, the strict-radius norm estimate and the two continuous multiplication identities. The source ledger records the declaration history and the ports. [Source ledger](sources/SOURCES.md#chapter-14-absolute-cauchy-products)
+- **Ovidiu Costin** — Gives the commuting Banach-algebra exponential identity and the exponential proof of spectral reality in his functional-analysis notes. [Source ledger](sources/SOURCES.md#chapter-14-absolute-cauchy-products)
+- **Walter Rudin and Franz Mertens** — Rudin gives the conditional scalar counterexample and attributes the one-absolute-input Cauchy product theorem to Mertens. [Source ledger](sources/SOURCES.md#chapter-14-absolute-cauchy-products)
+- **Hongmin Li (with AI assistance)** — Provides the ordered bilinear proof with rectangle and antidiagonal tail bounds, the square-zero matrix and infinite shift calculations, and the account of the two continuous multiplication limits in the exponential difference. [Expository] [Chapter 14](chapters/14-masullos-trace-formula-route.md#absolute-cauchy-products-in-a-banach-algebra)
+
 ### Chapter 14 factorial ratios and the Banach exponential
 
 - **Jean le Rond d'Alembert, Walter Rudin, and Ovidiu Costin** — Classical ratio comparison and eventual factorial decay at arbitrary arguments (d'Alembert 1768, Tome V, Mémoire XXXV, §I), $\limsup$ ratio/root comparison and entire complex exponential series (Rudin 1976, §§3.33–3.40, Ch. 8), and Banach-algebra exponential series and commuting addition law (Costin 2020, §§1.0–1.1). [Source ledger](sources/SOURCES.md#chapter-14-factorial-ratios-and-the-banach-exponential)
