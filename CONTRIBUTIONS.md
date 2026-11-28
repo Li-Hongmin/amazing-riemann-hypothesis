@@ -2072,10 +2072,18 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - [17.4.12 Producing the finite local zero formula](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17412-producing-the-finite-local-zero-formula)
 - [17.4.13 Mellin continuation and uniform growth in the ray-class family](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17413-mellin-continuation-and-uniform-growth-in-the-ray-class-family)
 - [17.4.14 Euler nonvanishing and the center of the local disk](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17414-euler-nonvanishing-and-the-center-of-the-local-disk)
+- [17.4.14.1 Why Dirichlet series can be differentiated term by term](chapters/17-behrends-sphere-lemma-and-host-geometry.md#174141-why-dirichlet-series-can-be-differentiated-term-by-term)
 - [17.4.15 Ray-class size and theta counts at a fixed modulus](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17415-ray-class-size-and-theta-counts-at-a-fixed-modulus)
 - [17.4.17 Small ideal representatives and short bases at a fixed modulus](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17417-small-ideal-representatives-and-short-bases-at-a-fixed-modulus)
 - [17.4.18 Minkowski volume and small ordinary-class representatives](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17418-minkowski-volume-and-small-ordinary-class-representatives)
 
+
+### Termwise differentiation in §17.4.14.1
+
+- **Classical analysis.** G. H. Hardy and Marcel Riesz established the interior convergence and differentiation results and distinguished absolute convergence. Hugh L. Montgomery and Robert C. Vaughan give the modern ordinary-series treatment. Carl Runge supplies the polynomial approximation step in the pointwise counterexample, cited through Arun Debray's notes. The NIST DLMF records the zeta derivative and the character series. [Source register](sources/SOURCES.md#p13-termwise-differentiation-of-dirichlet-series)
+- **Mathlib community.** Michael Stoll wrote the pinned L-series derivative, abscissa and half-plane files. Aaron Anderson and Michael Stoll are credited for the L-series definitions and norm comparison, Vincent Beffara for the holomorphic-limit file, and Sébastien Gouëzel for the uniform summation file. The constant-base complex power derivative file credits Chris Hughes, Abhimanyu Pallavi Sudhir, Jean Lo, Calle Sönne, Sébastien Gouëzel and Rémy Degenne. [Pinned files](sources/SOURCES.md#p13-termwise-differentiation-of-dirichlet-series)
+- **A2.** Levent Alpöge with Claude supply the same-family Euler applications to the character coefficient and its divided weight. [Euler source map](sources/SOURCES.md#p13-ray-class-euler-nonvanishing-and-center-bound)
+- **This book.** Hongmin Li with AI assistance gives the logarithmic tail estimate, the two worked truncations and the two counterexamples, and traces the two calls to the pinned Mathlib proof. [Subsection](chapters/17-behrends-sphere-lemma-and-host-geometry.md#174141-why-dirichlet-series-can-be-differentiated-term-by-term)
 
 <a id="attribution-chapter-18-specific-sections"></a>
 

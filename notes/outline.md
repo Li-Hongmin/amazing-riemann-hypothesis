@@ -102,6 +102,8 @@ Chapter 17, §17.4.13 gives the Mellin production of continuation and uniform gr
 
 Chapter 17, §17.4.14 proves the Euler lower bound and weighted logarithmic derivative on the right of $1$, and supplies the disk center and logarithmic budget from the same family. [Chapter 17 §17.4.14](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17414-euler-nonvanishing-and-the-center-of-the-local-disk)
 
+Chapter 17, §17.4.14.1 proves termwise differentiation to the right of the absolute abscissa, with logarithmic tail bounds, zeta and mod-$4$ calculations, boundary counterexamples, and the two Euler calls. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#174141-why-dirichlet-series-can-be-differentiated-term-by-term) · [Source map](../sources/SOURCES.md#p13-termwise-differentiation-of-dirichlet-series)
+
 Chapter 17, §17.4.15 produces the fixed-modulus family size and the common class density. It proves the residue/sign quotient and the generator fibre, then derives the sharp-cutoff and theta fields from the shifted norm form. The two worked moduli are $8$ over the rationals and $3$ over the imaginary quadratic field of discriminant $-103$. [Subsection](../chapters/17-behrends-sphere-lemma-and-host-geometry.md#17415-ray-class-size-and-theta-counts-at-a-fixed-modulus)
 
 Chapter 17, §17.4.10 follows the P13 exceptional zero from the fixed-modulus family to the weighted interval. It includes the zero-free region, uniqueness with multiplicity, power separation and the two-endpoint deduction, conditional on the analytic inputs listed in the source map.
