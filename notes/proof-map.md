@@ -1294,3 +1294,15 @@ The lowest-type existence path uses **VNormSqLowKSubRootLt.lean:145,156** for do
 ## Chapter 1 §1.2.2.15
 
 Local R3 for the rational coordinate and separation proofs in ClassSetAssembly.lean:78–169, the construction and inverse in 395–504, and isomOfTrace in IsomOfTrace.lean:10–25. Assembly 641–644 uses the two projections of one code equality for the integral field basis. At 688–704 the composition of the transported maps preserves trace, then hF certifies isom h and the pullback equality gives the lattice image. The denominator and finite-intermediate inputs, short-vector supply, genus arithmetic and the global class-set theorem retain their named [Lean] boundaries. Declaration-level Main reachability and kernel replay are [Open]. [Chapter 1 §1.2.2.15](../chapters/01-statement-and-fidelity.md#12215-why-the-trace-gram-matrix-needs-the-scalar-action) · [Pinned source record](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+### Chapter 2 Hilbert projection and conditional expectation (P2 background)
+
+| Producer | Actual consumer |
+| --- | --- |
+| `exists_norm_eq_iInf_of_complete_convex` and the real and complex minimizer criteria, `Projection/Minimal.lean:34–307` | `HasOrthogonalProjection.ofCompleteSpace` in `Projection/Basic.lean:54–60`. |
+| `isCompl_orthogonal`, `norm_projection_orthogonal_le` and `isTopCompl_orthogonal`, `Projection/Basic.lean:88–104` | `orthogonalProjectionOnto` at 113 via `projectionOntoL`. |
+| `L2.innerProductSpace` and completeness of `lpMeas` | `condExpL2` at 68–70. The contraction and measurable representative supply the tests at 74–143 and 209–252. |
+| `integral_condExpL2_eq` and `aestronglyMeasurable_condExpL2` | `MemLp.condExpL2_ae_eq_condExp'` with an integrable input and a $\sigma$-finite trim, `ConditionalExpectation/Basic.lean:390–397`. |
+| The subtype projection and residual test | A2 `sigLam` and `sigLam_coe` in `DatumEmbeddingMemHlam.lean:104–113,140–145` and `formulaF_sigLam` in `FormulaF.lean:113–135`. |
+
+Local R3 [Lean, read] for the production and the direct proof bodies. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#hilbert-projection-and-l2-conditional-expectation) · [Sources and reading boundary](../sources/SOURCES.md#ch02-hilbert-projection-sources)
