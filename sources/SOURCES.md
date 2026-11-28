@@ -3924,6 +3924,29 @@ The companion drafts §13.4.18 (cuspidal degree and Whittaker average one, `rhbo
 
 **Verification scope.** Polar Haar and the conditional ordinary square-integral handoff inherit same-source initial review. The numerical comparison inherits the mathematical findings of a different-source audit whose overall verdict was partial and whose call-site correction is applied here. The indicated A2 bodies have author-level local readings. The deeper Casimir, stability and lowest-type suppliers, fulfillment of `AllHyp.s47`, and declaration-level reachability from `Main` retain their own scope. Archive replay is separately reported by the Lean community. [Community replay report](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
+### Chapter 9 PRV extremal component and Dirac kernel
+
+[§9.4.23](../chapters/09-heights-slopes-and-near-orthogonality.md#9423-the-prv-extremal-component-and-the-highest-weight-graph) · [§9.4.25](../chapters/09-heights-slopes-and-near-orthogonality.md#9425-when-the-casimir-puts-the-physical-highest-weight-line-in-the-dirac-kernel)
+
+The file locations below are under `lean/src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/`, except where marked. [A2 archive, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`](#a2)
+
+| Interface | Pinned source and scope |
+|---|---|
+| PRV graph and original matrix coordinates | `HighestWeights/PRVComponents.lean:16–27`; `HighestWeights/PRVComponents/ParthasarathyTensorMatrix.lean:38–141,145–251`; in that directory, `HighestWeightDifferencesNat.lean:19–170` and `TensorActionLieRelations.lean:22–179`. [Lean, read] |
+| Inherited compact inputs | `lean/src/Formalism/RealPlaceAnalysis/RealPlaceTaylor/CompactCasimirHighestWeight.lean:178–222` gives the cyclic span and same-weight line. `HighestWeights/Exists.lean:15–43` gives an integral dominant type, with compact bracket and adjoint from `HighestWeights/HasDerivAtRealOfComplex.lean:254–281`. Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474` supplies finite orthogonal splitting, eigenspaces, matrix algebra and fractional parts. |
+| Fock witness | `TensorRepresentations/LowFock.lean:14–41`, `LowFockB.lean:108–159`, `LowFockC.lean:11–97`, `LowFockD.lean:59–106`, `LowFockE.lean:37–105`; `TraceGap/ExistsNonzeroPhysicalHighestWeightVectorTensFock.lean:12–57`, `SignedActionTensor.lean:58–62`, `FockWeightWedgeLowerModes.lean:105–162`. The StrictAnti and BlockAnti calls have distinct hypotheses. |
+| Dirac inclusion | `TraceGap/CoordSpan.lean:13,29–31`, `TraceGap/SignedActionTensor.lean:120–153`, `TensorRepresentations/CARUnit.lean:179–274`, `TensorRepresentations/CsqDdPt.lean:10–208`, `DiscreteSeriesExistence/SchSharpA.lean:13–138,200–204`. [Lean, read] |
+| Downstream use | `TraceGap/GeneratedSubStable.lean:50–81,93–111,191` and `TraceGap/SupTrace.lean:75–87,195–215` use the kernel inclusion in the trace route. `FormalDegree/FdCons.lean:39–52`, `FormalDegree/FdConsA.lean:94–110,128–141`, `TensorRepresentations/Sandwich.lean:17–26` and `TensorRepresentations/SandwichA.lean:157–186` give the degree-limit and ratio wiring. Compare `DiscreteSeriesExistence/CFPrime.lean:81–89` and `TensorRepresentations/CcARatioZero.lean:108–141` for the distinct sources of the seed Casimir. |
+| Author-level reading | Local R3 for the named proofs. The compact-law citation uses the equal-sign range upheld by the inherited partial audit. |
+| Same-source initial review | R023 upheld the PRV graph, matrix witness and Fock dominance handoff, with the diagonal-embedding terminology correction. R083 upheld the algebraic kernel inclusion under its original premises. |
+| Different-source review | Pending for these two sections. The inherited compact highest-line verdict and the compact portion of the derived-law verdict apply at their cited interfaces. |
+| Finite computation and formal replay | The source packages record 862 exact PRV assertions and 1122 exact Dirac assertions on the original examples and controls. Community archive replay is recorded separately. |
+| Pending scope | [Open] Reverse kernel inclusion and full classification, a uniform Dirac gap, Hilbert closure, and declaration-level export reachability for this reading. The exterior-degree declaration `line_deg` serves a separate role and §9.4.24 is reserved. |
+
+PRV's 1966 announcement, §§1–2 and p. 524, gives the diagonal tensor-product result for two dominant integral labels of a complex semisimple Lie algebra and identifies the dual weight by the longest Weyl element. The 1967 journal page supplies bibliographic metadata. Kumar, *Tensor Product Decomposition*, §5, distinguishes the original longest-element result from the general Weyl-element version. The local algebraic matrix statement, real central shifts and signed Fock application belong to A2. [1966 announcement](https://doi.org/10.1090/S0002-9904-1966-11528-8) · [1967 paper](https://annals.math.princeton.edu/1967/85-3/p03) · [Kumar, §5](https://kumar.math.unc.edu/papers/kumar60.pdf#page=8)
+
+Parthasarathy, *Dirac operator and the discrete series*, Annals of Mathematics 96 (1972), 1–30, Proposition 3.1 and its proof, pp. 13–14, use equivariant twisted spinors over $G/K$. This is the precedent for the negative ambient Casimir and the scalar from the compact highest weight. A2 gives the signed exterior-algebra realization, the factor of two, the precise weights and the positive coefficient form on the algebraic tensor product. [Publisher](https://annals.math.princeton.edu/1972/96-1/p01) · [Original scan](https://www.math.utah.edu/~ptrapa/math-library/parthasarathy-dirac-operator.pdf#page=14)
+
 ### Chapter 9 translation and the formal-degree constant
 
 [Chapter 9 §9.4.26](../chapters/09-heights-slopes-and-near-orthogonality.md#9426-recovering-the-formal-degree-constant-from-a-translation-ray) explains the large-gap

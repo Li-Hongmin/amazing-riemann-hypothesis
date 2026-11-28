@@ -797,6 +797,220 @@ The general Harish-Chandra classification and its identification with the archiv
 
 ---
 
+### 9.4.23 The PRV extremal component and the highest-weight graph
+
+**Motivation.** A highest vector in the first factor and a lowest vector in the second already have the desired sum of weights. Raising their tensor generally gives a nonzero contribution from the second factor. The archive constructs the correction terms by pairing two highest vectors in a different space. Their cyclic submodule becomes the graph of an intertwiner. Evaluating it on vectors supported in single coordinates produces the required tensor in the original space. [Expository]
+
+**Two worked tensors.** We use one-based root indices, take all signs equal, and use the polynomial module itself as the ambient $M=V$ in both examples. On degree-$d$ polynomials the operators are $F_{ab}=x_a\partial_{x_b}$. The monomials are orthogonal with $\|x^\alpha\|^2=\alpha!/d!$, from the symmetrization of the orthonormal tensor basis. For $a\ne b$ and $\alpha_b>0$, put $\beta=\alpha+e_a-e_b$. The equality $\alpha_b\beta!=(\alpha_a+1)\alpha!$ proves $F_{ab}^\dagger=F_{ba}$ on monomial pairs. Both sides vanish when there is no matching transfer. The diagonals have real eigenvalues. The product rule gives the matrix-unit bracket. Each weight has a single monomial, and polynomial projections in the commuting diagonal operators recover each monomial component of a vector in a stable subspace. Transfers connect all degree-$d$ monomials with nonzero coefficients, so the symmetric power is irreducible.
+
+1. **Two symmetric squares for $U(2)$.** Take the first square on the $x$ variables, with $w=x_1^2$. In the second square use the orthonormal basis $q_0=y_1^2$, $q_1=\sqrt2\,y_1y_2$, $q_2=y_2^2$. Raising sends $q_2$ to $\sqrt2\,q_1$, $q_1$ to $\sqrt2\,q_0$, and $q_0$ to zero. Lowering acts by transpose. The lowest column $f=(0,0,1)$ gives $\nu=(0,2)$, and the sum with $\Lambda=(2,0)$ is $(2,2)$, on the dominance wall. Its weight coordinates have the form $(A x_2^2,Bx_1x_2,Cx_1^2)$. Raising gives $(2A+\sqrt2 B)x_1x_2$ in row $0$, $(B+\sqrt2 C)x_1^2$ in row $1$, and zero in row $2$. Taking $C=1$ gives $A=1$ and $B=-\sqrt2$. The tensor is
+   $$
+   x_2^2y_1^2-2x_1x_2y_1y_2+x_1^2y_2^2=(x_1y_2-x_2y_1)^2.
+   $$
+   The auxiliary highest module can be taken to be the determinant square, with vector $p=1$. In its tensor with the dual, use the single-coordinate vectors $s_0,s_1,s_2$ with value $p$. The lowering operator sends $s_2$ to $-\sqrt2\,s_1$ and $s_1$ to $-\sqrt2\,s_0$. Starting from $(s_2,w)$, the first two lowered pairs are $(-\sqrt2\,s_1,2x_1x_2)$ and $(2s_0,2x_2^2)$. They and the starting pair span the graph over the entire auxiliary space. The three graph values recover the coordinates just computed.
+
+2. **A symmetric square and an exterior square for $U(3)$.** Take $V=\operatorname{Sym}^2\mathbb C^3$ and $w=x_1^2$. In the second factor use the orthonormal basis $q_{12},q_{13},q_{23}$, where $q_{ij}=e_i\wedge e_j$. Acting on the two slots gives exactly one nonzero basis image for each raising operator: $G_{12}q_{23}=q_{13}$, $G_{23}q_{13}=q_{12}$, $G_{13}q_{23}=-q_{12}$. Lowering is by transpose, and $G_{aa}$ counts occurrences of $a$ in each pair. This action inherits the bracket from the two commuting slot actions on the tensor square. The lowering operators kill $q_{23}$ because $e_1$ is absent and replacing $e_2$ by $e_3$ repeats an exterior factor. The lowest column for $q_{23}$ gives $\nu=(0,1,1)$ and $\mu=(2,1,1)$ lies on the second wall. The full weight equations give coordinates $(A x_1x_3,Bx_1x_2,Cx_1^2)$. Raising by $12$ gives $(B+C)x_1^2$ in the $q_{13}$ row. Raising by $23$ gives $(A+B)x_1x_2$ in the $q_{12}$ row, and raising by $13$ gives $(A-C)x_1^2$ in that row. All other rows in these three tests vanish. Taking $C=1$ gives
+   $$
+   x_1x_3\otimes q_{12}-x_1x_2\otimes q_{13}+x_1^2\otimes q_{23}.
+   $$
+   In this case the auxiliary module can be $T=\det\otimes\mathbb C^3$, with $p=\det\otimes e_1$ in determinant-line notation. The volume pairing identifies $q_{12}^*,q_{13}^*,q_{23}^*$ with $e_3,-e_2,e_1$ tensored with the inverse determinant line. The determinants cancel in $P$, identifying it with $\mathbb C^3\otimes\mathbb C^3$. The generator $x_0$ becomes $e_1\otimes e_1$. Its cyclic span is the symmetric square by the monomial irreducibility argument above, and the alternating square is its orthogonal complement. Multiplication $e_a\otimes e_b\mapsto x_ax_b$ intertwines by the product rule. It sends $x_0$ to $w$ and kills the alternating complement, so its graph is exactly the extension in Lemma 1. Evaluating it on $s_{12},s_{13},s_{23}$ gives $x_1x_3,-x_1x_2,x_1^2$.
+
+   Its lowest-column contraction is $w$, the graph normalization proved below. Adding $\tfrac12 I$ to every diagonal $F_{aa}$ gives another legal algebraic instance with the same coordinates and weight $(5/2,3/2,3/2)$. Here the auxiliary compact model has integral label $(2,1,1)$ and the proof shifts its derived action by $1/2$.
+
+**Definitions.** Fix $n\ge0$ and a signature $\epsilon:\operatorname{Fin}n\to\{\mathrm{true},\mathrm{false}\}$. Call $(a,b)$ compact if $\epsilon_a=\epsilon_b$. Within these pairs, $a<b$ is raising and $b<a$ lowering. A ring-valued family $B$ satisfies `KRel` when for all $a,b,c,d$ with both pairs compact,
+$$
+[B_{ab},B_{cd}]=\delta_{bc}B_{ad}-\delta_{da}B_{cb}.
+$$
+A nonzero Kronecker term also has a compact pair. For an inner-product space with first slot conjugate linear, `KUnit` requires $\langle B_{ab}u,v\rangle=\langle u,B_{ba}v\rangle$ for every compact pair and every $u,v$. Weight $\lambda\in\mathbb R^n$ means $B_{aa}v=\lambda_a v$ for every $a$. The predicates `KHighest` and `IsKHWVec` add $B_{ab}v=0$ for every raising pair. Nonzero is a separate condition. Compact stability of a subspace means stability under every compact operator. Write $\operatorname{kSpan}(B,v)$ for the smallest compact-stable subspace containing $v$. We write the weight equations with real scalars acting through the inclusion $\mathbb R\subset\mathbb C$.
+
+For a complex vector space $M$, `IsKIrrHW` at $(\epsilon,F,\Lambda,V)$ requires that $V\le M$ be finite-dimensional and compact-stable, that every compact-stable subspace $V'\le V$ be $0$ or $V$, and that some $w\in V$ be nonzero and satisfy `IsKHWVec` at $\Lambda$. The ambient $M$ is an algebraic complex vector space. Write DS for `ReciprocityTheory/ReductiveGroups/DiscreteSeries` and HW for `DS/HighestWeights`. See `Formalism/RealPlaceAnalysis/StatementKT.lean:10–34`, `StatementA.lean:26–32` and `DS/IsInfUnitary.lean:28–29,72–79`.
+
+**Lemma 1 (the highest-weight graph, `highest_weight_graph_submodule`).** Let $P$ be a finite-dimensional complex inner-product space and $M$ a complex vector space. Suppose $E$ on $P$ satisfies `KRel` and `KUnit`, and $F$ on $M$ satisfies `KRel`. Assume `IsKIrrHW` at $(\epsilon,F,\Lambda,V)$. Take any nonzero highest vectors $x_0\in P$ and $w\in V$ for $E$ and $F$ of the same full weight $\Lambda$. Under $Q_{ab}(y,v)=(E_{ab}y,F_{ab}v)$ on $P\times M$, there is a compact-stable subspace $\Gamma\subseteq P\times V$ containing $(x_0,w)$, for which the first projection is onto $P$ and has zero kernel. Equivalently, $\Gamma$ is the graph of a complex-linear $L:P\to V$ with $Lx_0=w$ and $LE_{ab}=F_{ab}L$ for every compact pair.
+
+*Proof.* The product family has `KRel` componentwise. Let $Z=\operatorname{kSpan}(E,x_0)$ and $\Gamma_0=\operatorname{kSpan}(Q,(x_0,w))$. The stable product $Z\times V$ contains the generator and hence $\Gamma_0$. The first projection image lies in $Z$, contains $x_0$ and is stable because the projection intertwines. By minimality its image is $Z$. The second projection likewise has stable image in $V$ containing $w$, so irreducibility makes it onto $V$.
+
+Put $N=\{v\in M:(0,v)\in\Gamma_0\}$. It lies in $V$ and is stable by applying $Q_{ab}$ to $(0,v)$. Irreducibility gives $N=0$ or $N=V$. In the latter case $(0,w)$ has weight $\Lambda$ in $\Gamma_0$. Apply the previously established algebraic lemmas `compact_span_eq_lowering` and `lowering_span_weight_scalar` to the product action. Their hypotheses are the compact bracket and the full highest-weight equations of the paired generator. They identify the part of the cyclic span of weight $\Lambda$ with the line of the generator. See `Formalism/RealPlaceAnalysis/RealPlaceTaylor/CompactCasimirHighestWeight.lean:178–222`. Thus $(0,w)=c(x_0,w)$. The first coordinate forces $c=0$, contradicting $w\ne0$ in the second.
+
+For $z\in Z$, $y\in Z^\perp$, one has $\langle z,E_{ab}y\rangle=\langle E_{ba}z,y\rangle=0$. Thus the complement is stable. Finite dimension gives $P=Z\oplus Z^\perp$. Set $\Gamma=\Gamma_0+(Z^\perp\times\{0\})$. Lift $y=z+z'$ by choosing a lift $(z,v)\in\Gamma_0$ and adding $(z',0)$. If the resulting first coordinate is zero, the two first coordinates lie in $Z\cap Z^\perp=\{0\}$ and the second is zero by the result for $N$. The sum is stable, lies over $V$ and contains the pair. Subtracting lifts proves uniqueness of the value at each point of $P$. Taking linear combinations or applying a compact operator to a lift gives linearity and intertwining. In particular the cyclic graph already gives a surjective intertwiner $Z\to V$, which this construction extends by zero on $Z^\perp$. `HW/PRVComponents/ParthasarathyTensorMatrix.lean:20–141`. [Lean, read]
+
+**Lemma 2 (finite root strings and central shifts).** Let $F$ satisfy the compact bracket law and let $w\ne0$ be highest of full weight $\Lambda$ in a finite-dimensional compact-stable $V\le M$. Let $G$ be a finite matrix family with `KRel` and $f\ne0$ a column of real diagonal weight $\nu$, killed by every compact lowering matrix. For all compact $a<b$, $\Lambda_a-\Lambda_b$ and $\nu_b-\nu_a$ are nonnegative integers. Thus for every compact pair, $(\Lambda+\nu)_a-(\Lambda+\nu)_b$ is integral.
+
+*Proof.* Evaluating the bracket at a vector gives
+$$
+F_{ab}F_{cd}v=F_{cd}F_{ab}v+\delta_{bc}F_{ad}v-\delta_{da}F_{cb}v.
+$$
+For any ordered pair of distinct same-sign indices put $R=F_{ab}$, $S=F_{ba}$ and $H_j=F_{jj}$. Then $[R,S]=H_a-H_b$, $[H_a,S]=-S$, and $[H_b,S]=S$. If $u\ne0$ is killed by $R$ and has diagonal eigenvalues $\ell_a,\ell_b$, then $u_k=S^ku$ has eigenvalues $\ell_a-k,\ell_b+k$. For each $k\ge0$,
+$$
+Ru_{k+1}=(k+1)(\ell_a-\ell_b-k)u_k.
+$$
+At $k=0$ this is $RSu=(H_a-H_b)u$. For the induction, commute $R$ across the outer $S$ and use the formula at $k$ and the diagonal eigenvalues at $k+1$. The new coefficient is $(k+1)(\ell_a-\ell_b-k)+\ell_a-\ell_b-2(k+1)=(k+2)(\ell_a-\ell_b-k-1)$. If the string stays in a finite-dimensional subspace, distinct eigenvalues $\ell_a-k$ force a first zero $u_{m+1}$. The formula then gives $\ell_a-\ell_b=m$. Apply this to $w$ in $V$ and to $f$ in the full finite column space with $a,b$ exchanged. Reversing a pair negates its integer difference and equal indices give zero. This also proves the adjacent archive endpoint `kIrrHW_int`. The tensor proof calls the general root-string supplier. `HW/PRVComponents/CompactRelationsApplyComm.lean:14–106` and `HighestWeightDifferencesNat.lean:19–170`. [Lean, read]
+
+Now suppose $\mu=\Lambda+\nu$ is blockwise dominant. Put $\lambda_a=\lfloor\mu_a\rfloor$ and $t_a=\mu_a-\lambda_a$. The root strings imply that $t$ is constant on each block. Floors preserve weak order. The integral dominant existence theorem `HW.kType_exists_of_dom` (`HW/Exists.lean:15–43`) supplies a compact model on a finite-dimensional inner-product space $T$ with nonzero highest vector $p$ of weight $\lambda$. Its derived family $B$ satisfies both laws by `KType.kRel` and `KType.kUnit` (`HW/HasDerivAtRealOfComplex.lean:254–281`). Put $A_{ab}=B_{ab}+\delta_{ab}t_aI$. The scalars commute, and the extra bracket term on the right is $\delta_{bc}\delta_{ad}(t_a-t_c)I$, zero because $b=c$ puts $c$ in the block of $a$. The real diagonal shifts preserve `KUnit` and give $p$ the full weight $\mu$, with raising still zero. `HW/PRVComponents/TensorActionLieRelations.lean:22–61` and `ParthasarathyTensorMatrix.lean:157–173`. [Lean, read]
+
+**Theorem (matrix PRV existence, `parthasarathy_tensor_matrix`).** Let $M$ be any complex vector space, $F$ an endomorphism family satisfying `KRel`, and $\Lambda\in\mathbb R^n$ and $V\le M$ satisfy `IsKIrrHW` at $(\epsilon,F,\Lambda,V)$. Let $\iota$ be a finite index type with decidable equality and $G_{ab}\in\operatorname{Mat}_\iota(\mathbb C)$ satisfy `KRel` and $G_{ba}=G_{ab}^\dagger$ for every compact pair. Assume $\nu\in\mathbb R^n$ and $f\ne0$ satisfy
+$$
+G_{aa}f=\nu_a f\quad(\forall a),\qquad
+G_{ab}f=0\quad(\forall a,b:\ b<a,\ \epsilon_a=\epsilon_b).
+$$
+Suppose $\mu=\Lambda+\nu$ satisfies $\mu_b\le\mu_a$ for every $a<b$ with $\epsilon_a=\epsilon_b$. Then there is a nonzero $x\in M^\iota$ with $x_i\in V$ for all $i$ such that
+$$
+\begin{aligned}
+F_{aa}x_i+\sum_{j\in\iota}(G_{aa})_{ij}x_j&=\mu_a x_i
+  &&(\forall a,\ \forall i\in\iota),\\
+F_{ab}x_i+\sum_{j\in\iota}(G_{ab})_{ij}x_j&=0
+  &&(\forall a<b,\ \epsilon_a=\epsilon_b,\ \forall i\in\iota).
+\end{aligned}
+$$
+
+*Proof.* Choose the target $w$ and the auxiliary $(T,A,p)$ above. Define $D_{ab}=-G_{ab}^{\mathsf T}$ and $g=\overline f$ componentwise. Transposition reverses multiplication, hence $[D_{ab},D_{cd}]=-[G_{ab},G_{cd}]^{\mathsf T}$ and `KRel` transfers to $D$. The matrix adjoint premise gives $D_{ba}=D_{ab}^\dagger$ and $D_{ab}g=-\overline{G_{ba}f}$ for compact pairs. The latter identity follows by writing its $i$th component $-\sum_j(G_{ab})_{ji}\overline{f_j}$. Thus $g$ is nonzero of weight $-\nu$ for $D$, and the raising matrices kill it by the lowering equations for $f$.
+
+Use $P=T^\iota$ with sum inner product (finite `PiLp 2` in Lean) and
+$$
+(E_{ab}y)_i=A_{ab}y_i+\sum_j(D_{ab})_{ij}y_j.
+$$
+The pointwise $A$ and matrix $D$ actions commute by complex linearity, so the commutator contains only the two separate commutators and gives `KRel`. In $\langle E_{ab}y,z\rangle$ the pointwise part equals $\sum_i\langle y_i,A_{ba}z_i\rangle$. The matrix part is $\sum_{i,j}\overline{(D_{ab})_{ij}}\langle y_j,z_i\rangle=\sum_j\langle y_j,\sum_i(D_{ba})_{ji}z_i\rangle$. This proves `KUnit`. Now $x_0=(g_i p)_i$ is nonzero because some $g_i\ne0$ and $p\ne0$. Each diagonal eigenvalue is $\mu_a-\nu_a=\Lambda_a$, and each summand of every raising operator kills $x_0$. Lemma 1 gives the graph and $Lx_0=w$.
+
+Let $s_i$ have value $p$ in slot $i$ and zero elsewhere. If $A_{ab}p=cp$ for a compact pair, the $k$th coordinate of $E_{ab}s_i$ is $\delta_{ki}cp-(G_{ab})_{ik}p$. This explains the row index $i$ in the original tensor equations. Thus
+$$
+E_{ab}s_i=cs_i-\sum_j(G_{ab})_{ij}s_j.
+$$
+Put $x_i=L(s_i)\in V$. Applying the intertwining identity yields $F_{ab}x_i=c x_i-\sum_j(G_{ab})_{ij}x_j$. Take $c=\mu_a$ on the diagonal and $c=0$ for raising pairs. Finally,
+$$
+\sum_i\overline{f_i}x_i=L\Big(\sum_i g_i s_i\Big)=L(x_0)=w\ne0.
+$$
+The proof gives this normalization. The public wrapper exposes membership in $V$, nonvanishing and the coordinate equations. See `HW/PRVComponents/ParthasarathyTensorMatrix.lean:145–251`, `TensorActionLieRelations.lean:67–179` and `HW/PRVComponents.lean:16–27`. [Lean, read]
+
+**Failure when dominance is deleted.** Keep the first symmetric square of the $U(2)$ example and take $\operatorname{Sym}^3\mathbb C^2$ in the second factor, with its symmetric-power inner product and lowest vector $y_2^3$. The proposed weight is $(2,3)$. In unnormalized monomials, its weight basis is $u_k=x_1^{2-k}x_2^k y_1^k y_2^{3-k}$ for $k=0,1,2$. At weight $(3,2)$ use $v_k=x_1^{2-k}x_2^k y_1^{k+1}y_2^{2-k}$. Raising sends $u_k$ to $(3-k)v_k+k v_{k-1}$ with the second term absent at $k=0$. The triangular matrix has diagonal $3,2,1$, so the proposed highest space is zero even though all other hypotheses hold. More generally, a negative compact gap forces zero, by the finite root-string calculation on $V^\iota$ with its tensor bracket.
+
+Deleting `KUnit` from the graph lemma can also fail. For $n=1$ let $E_{11}e_2=e_1$ and $E_{11}e_1=0$ on $P=\mathbb C^2$, and let $F_{11}=0$ on $V=M=\mathbb C$. The bracket holds and $x_0=e_1,w=1$ have weight zero. An invariant graph on all of $P$ would give $L(e_1)=F_{11}L(e_2)=0$ despite $Lx_0=1$. The pair still generates a graph over the line $Z=\mathbb C e_1$.
+
+**Zero-rank and empty-index cases.** If $n=0$, stability is automatic and irreducibility together with $w\ne0$ forces $V=\mathbb Cw$. The tuple with $w$ in any single slot and zero elsewhere satisfies the vacuous weight equations. Some slot exists since $f\ne0$. For empty $\iota$, the sole column is zero, so the premises cannot hold.
+
+**Scope and consumers.** For two ordinary compact unitary representations the tensor cyclic span of the resulting vector is irreducible. Indeed, in any orthogonal stable splitting of this span, both projections of the generator have its diagonal weight. The same-weight part is its line by the lowering argument, so orthogonality forces one projection to vanish and cyclicity forces the other summand to be the whole span. Compact group stability follows from the derived action by exponentiation on the connected compact blocks. The wrapper gives the coordinate witness for the algebraic target $F$. The compact Pieri results in `HW/PieriRules/`, the Weyl dimension formula in `HW/Finrank.lean:14–51`, and the pointed isometry in `HW/Unique.lean:30–81` are separate suppliers with their own hypotheses.
+
+The two direct archive calls use the matrices `lfMat` on the exterior Fock basis indexed by physical subsets. Their chosen column is supported on the wedge indexed by all modes $(i,j)$ with $\epsilon_i=\mathrm{true}$, $\epsilon_j=\mathrm{false}$ and $j<i$. The tuples $\rho_C$ and $\rho_N$ count, at each index, half the number of later indices minus half the number of earlier ones among equal and opposite signs, respectively. For $p$ true and $q$ false indices, $\rho_{\mathrm{Hol}}$ is $q/2$ on true indices and $-p/2$ on false ones. Counting occurrences with sign gives the wedge weight $\rho_{\mathrm{Hol}}-\rho_N$. In the positive block, a lowering move removes an occupied $(b,j)$ and inserts $(a,j)$ with $b<a$. Whenever the removal succeeds, $j<b<a$ and the new mode is already occupied. In the negative block the move is from $(i,a)$ to $(i,b)$, where $b<a<i$, with the same duplication. Failed removals and repeated insertions both give zero. This supplies all compact lowering equations. The matrix bracket and adjoint are the physical restrictions of the signed Fock action. `DS/TensorRepresentations/LowFockB.lean:108–159` and `LowFockC.lean:11–97`.
+
+In `lowFock_exists` the full bracket `IsGlRep` restricts to `KRel`. Assume `StrictAnti lam`, meaning strict decrease over the full index order, and the given `IsKIrrHW` at $\operatorname{lowK}(\epsilon,\lambda)=\lambda+\rho_N-\rho_C$. For consecutive indices $a<b$ in a sign block, $\rho_{C,a}-\rho_{C,b}=1$ and $k=\rho_{N,a}-\rho_{N,b}$ counts the opposite-sign indices strictly between $a$ and $b$. Write $m=\operatorname{lowK}_a-\operatorname{lowK}_b$, an integer by the finite root string. Then $m+1-k=\lambda_a-\lambda_b>0$, so $m\ge k$. Since $\rho_{\mathrm{Hol}}$ is constant on each block, $m-k$ is exactly the gap in the desired tensor label. Summing consecutive gaps gives every required dominance comparison. In the second consumer the premise `BlockAnti ε lam` says $\lambda_a-\lambda_b\ge1$ for every compact $a<b$. It directly gives the nonnegative gap $\lambda_a-\lambda_b-1$ at consecutive pairs. `DS/TensorRepresentations/LowFockD.lean:59–106` and `DS/TraceGap/ExistsNonzeroPhysicalHighestWeightVectorTensFock.lean:12–36`.
+
+The lift `lfLift` sends the output tuple to $\sum_S x_S\otimes b_S$ in the original Fock basis. Coefficient extraction recovers each $x_S$ and proves nonvanishing. The matrix action on each $b_S$ transports the tuple equations to the diagonal action on the tensor, and unphysical annihilators kill every participating $b_S$. Thus both calls give a nonzero point in `tensFock V` and `physicalSubspace ε` of weight $\lambda-\rho_C+\rho_{\mathrm{Hol}}$ killed by all compact raising operators. Then `line_exists` packages the first witness in its specified intersection. The subsequent `dirac_sharp` uses the second witness at $\lambda-\operatorname{phSum}(Ph)$, retaining tensor-range membership, nonvanishing and the compact highest-weight equations. Its hypotheses include `Gap3`, the full bracket, infinitesimal unitarity, a nonempty set of positive noncompact pairs and the scalar Casimir at the unshifted parameter on the entire shifted compact seed. The proof uses those fields with the square identity and positivity in the shifted-weight contradiction. `DS/TensorRepresentations/LowFock.lean:14–41`, `LowFockE.lean:37–105`, `DS/TraceGap/SignedActionTensor.lean:58–62`, `FockWeightWedgeLowerModes.lean:105–162`. [Lean]
+
+**Classical context.** Parthasarathy, Ranga Rao and Varadarajan's 1966 announcement, §2, Theorem 1, p. 522, takes two dominant integral labels and restricts the corresponding irreducible two-factor representation to the diagonal $X\mapsto(X,X)$ specified in §1. In tensor-product notation its second restricted factor has lowest weight $-\mu_2^\ast$, where the star here denotes the highest weight of the dual. Equivalently this lowest weight is $w_0\mu_2$, with $w_0$ the longest Weyl element. The announced theorem gives multiplicity one for the dominant representative of the orbit of $\Lambda+w_0\mu_2$ in the complex semisimple setting. The matrix producer above treats an already dominant sum, allows a finite matrix family with a chosen lowest column, and accommodates blockwise real central shifts in the derived action. [Paper] [1966 announcement](https://doi.org/10.1090/S0002-9904-1966-11528-8) · [1967 paper](https://annals.math.princeton.edu/1967/85-3/p03)
+
+**Review and scope.** The local proof reading is author-level R3. Same-source initial review R023 upheld the cyclic graph, the original-coordinate witness and the Fock dominance handoff, with the diagonal terminology correction incorporated above. Different-source review of this section is pending. [Source ledger](../sources/SOURCES.md#chapter-9-prv-extremal-component-and-dirac-kernel)
+
+**Numbering.** §9.4.24 is reserved for the separate exterior-degree result `line_deg`. The late local draft has author-level source reading and awaits proof review.
+
+---
+
+### 9.4.25 When the Casimir puts the physical highest-weight line in the Dirac kernel
+
+**Motivation.** The PRV construction in [§9.4.23](#9423-the-prv-extremal-component-and-the-highest-weight-graph) gives a physical highest-weight tensor. To use it in the Dirac trace, we need a second fact: the Dirac operator kills it. The square compares the ambient Casimir with a scalar computed from the tensor's compact weight. When the scalars agree, the tensor inner product converts the equation for the square into an equation for the operator itself. [Expository]
+
+**Worked examples.** Use one-based indices and write $b_{ia}$ for a mode, with vacuum $1$.
+
+1. **Rank two with nonzero Dirac action.** In signature $(-,+)$ take $M$ to consist of finite sums of $u_j$, $j\ge0$, with orthogonal squared norms $g_0=1$, $g_j=j(j+3)g_{j-1}$. Define
+   $$
+   \begin{aligned}
+   E_{11}u_j&=(2+j)u_j,& E_{22}u_j&=-(2+j)u_j,\\
+   E_{12}u_j&=u_{j+1},& E_{21}u_j&=-j(j+3)u_{j-1}.
+   \end{aligned}
+   $$
+   The last term is zero at $j=0$. The diagonal commutators with $E_{12}$ have coefficients $1,-1$, those with $E_{21}$ have coefficients $-1,1$, and $[E_{12},E_{21}]u_j=((j+1)(j+4)-j(j+3))u_j=(4+2j)u_j$. The diagonals commute, which completes the matrix-unit check. The norm recursion gives $E_{12}^{\dagger}=-E_{21}$ as a pairing identity on $M$, and the real diagonals are symmetric. For $W=\mathbb C u_0$ and $\lambda=(3/2,-3/2)$, the shifts are $\rho_C=0$, $\rho_N=(1/2,-1/2)$ and $\rho_{\rm Hol}=(-1/2,1/2)$. The compact seed weight is $(2,-2)$ and the target weight is $(1,-1)$. The Casimir on $W$ is $8-4=4$, equal to $9/2-1/2$. The tensor $z=u_0\otimes b_{21}$ adds weight $(-1,1)$ to the seed, has no compact raising equations and is killed by every forbidden contraction. The compact Casimir at $z$ contributes $2$, and the holomorphic diagonal correction contributes $2$. Creation repeats the occupied mode, and the contraction term contains $E_{21}u_0=0$. To see that the operator acts elsewhere, set $x=u_0\otimes1$ and $y=u_1\otimes b_{21}$. Then $Dx=y$ and $Dy=4x$. The squared norms of $x,y$ are $1,4$, so $t(Dx,y)=t(x,Dy)=4$.
+2. **Rank three with two occupied modes.** Take signature $(-,+,+)$, $M=W=\mathbb C u$ with $\|u\|=1$, and $E_{ab}=\delta_{ab}I$. The bracket has zero left side and equal right-hand terms. The real diagonals and zero off-diagonals satisfy the signed adjoint law. The seed has weight $(1,1,1)$. Here $\rho_C=(0,1/2,-1/2)$, $\rho_N=(1,-1/2,-1/2)$ and $\rho_{\rm Hol}=(-1,1/2,1/2)$. For $\lambda=(0,2,1)$ we get $\mathrm{lowK}=(1,1,1)$ and $\mathrm{gaW}=(-1,2,2)$. The tensor $z=u\otimes(b_{21}\wedge b_{31})$ adds weight $(-2,1,1)$. The sole compact raising operator replaces $(3,1)$ by the already occupied $(2,1)$, and forbidden contractions vanish. The ambient Casimir is $3I$ and $\mathrm{casVal}(\lambda)=5-2=3$. The compact Casimir at $z$ contributes $9$ and the diagonal correction contributes $-6$. Both Dirac terms vanish because every mixed matrix unit acts as zero.
+
+Both examples realize the complete local representation hypotheses with the full exterior factor and a one-dimensional irreducible seed $W$. As an abstract illustration of the last positivity step, take the ordinary inner product on $\mathbb C^2$, $T=\begin{pmatrix}1&1\\1&1\end{pmatrix}$ and $v=(1,-1)$. Then $T$ is symmetric, $T^2=2T$, $T^2v=0$, and $\|Tv\|^2=\langle v,T^2v\rangle=0$. This third example concerns only the form and operator in that step. [Expository]
+
+**Definitions.** Let $n\ge0$, $I=\operatorname{Fin}n$, $\epsilon:I\to\{\mathrm{true},\mathrm{false}\}$, and let $P,Q$ be the true and false sets of sizes $p,q$. Let $M$ be a complex inner-product space. Set $F=\mathrm{Fock}(n)=\bigwedge(\mathbb C^{I\times I})$ and $X=M\otimes_{\mathbb C}F$, with algebraic tensor product. On $X$ write $L_{ab}=E_{ab}\otimes1$, $P_{ia}=1\otimes c^+_{ia}$ and $Q_{ia}=1\otimes c^-_{ia}$ for the left action, exterior multiplication on the left by $b_{ia}$, and contraction by its coordinate functional, respectively. Products act right to left. Let
+$$
+S_{ab}=\begin{cases}
+\sum_{j\in Q}P_{aj}Q_{bj}&a,b\in P,\\
+-\sum_{i\in P}P_{ib}Q_{ia}&a,b\in Q,\\
+0&\epsilon_a\ne\epsilon_b,
+\end{cases}
+\qquad A_{ab}=L_{ab}+S_{ab}.
+$$
+The archive's Dirac operator is $D=D_++D_-$, where
+$$
+D_+=\sum_{i\in P,\,a\in Q}L_{ai}P_{ia},\qquad
+D_-=-\sum_{i\in P,\,a\in Q}L_{ia}Q_{ia}.
+$$
+For an operator family $B$, put $C_B=\sum_{a,b}B_{ab}B_{ba}$ and let $C_K(B)$ be the sum over equal signs. For real tuples use $u\cdot v=\sum_a u_av_a$, $\mathrm{nsq}(u)=u\cdot u$, and, in zero-based indices, $\rho_a=(n-1)/2-a$. The coordinate $\rho_{C,a}$ is half the number of same-sign indices after $a$ minus half the number before it. The tuple $\rho_N$ counts opposite signs in the same way. Put $r=\rho_{\rm Hol}$ with entries $q/2$ on $P$ and $-p/2$ on $Q$. Define
+$$
+\mathrm{lowK}=\lambda+\rho_N-\rho_C,\qquad
+\gamma=\mathrm{gaW}=\lambda-\rho_C+r,\qquad
+\mathrm{casVal}(\lambda)=\mathrm{nsq}(\lambda)-\mathrm{nsq}(\rho).
+$$
+The predicate $\mathrm{IsKHWVec}(\epsilon,B,\nu,v)$ means $B_{aa}v=\nu_av$ for every $a$ and $B_{ab}v=0$ for every same-sign $a<b$. The subspace $\mathrm{lineSub}(\epsilon,E,\lambda,W)$ of $X$ is the intersection of this highest-weight subspace for $(A,\gamma)$, the range $\mathrm{tensFock}(W)=\operatorname{im}(\iota_W\otimes1)$ for the inclusion $\iota_W:W\hookrightarrow M$, and $\mathrm{physicalSubspace}(\epsilon)=\bigcap_{(i,a)\notin P\times Q}\ker Q_{ia}$.
+
+Write $b_s$ for the ordered wedge on a subset $s$ of the $n^2$ modes, with order transported from $\operatorname{Fin}(n^2)$, and $x_s(v)=(1\otimes b_s^\vee)v$ for its coefficient in $M$. The archive's `tform` is $t(v,v')=\sum_s\langle x_s(v),x_s(v')\rangle_M$, conjugate linear in the first argument. Real scalars on complex spaces act through their complex images.
+
+**Lemma (physical highest-weight tensors in the Dirac kernel).** For every $n,\epsilon,M$ above, every real tuple $\lambda$ on $I$, and every family $E$ of complex-linear endomorphisms of $M$, assume the following.
+
+1. $\mathrm{IsGlRep}(E)$ holds, meaning $[E_{ab},E_{cd}]=\delta_{bc}E_{ad}-\delta_{da}E_{cb}$ for all $a,b,c,d\in I$.
+2. $\mathrm{IsInfUnitary}(\epsilon,E)$ holds, meaning $\langle E_{ab}u,v\rangle_M=\operatorname{adjSign}(\epsilon,a,b)\langle u,E_{ba}v\rangle_M$ for all $a,b\in I$ and $u,v\in M$. The sign is $1$ for equal signs and $-1$ otherwise.
+3. The complex subspace $W\le M$ satisfies $\mathrm{IsKIrrHW}(\epsilon,E,\mathrm{lowK},W)$. It is finite dimensional and stable under every same-sign $E_{ab}$. Every subspace of $W$ stable under all these operators is $0$ or $W$. There is a nonzero $w\in W$ satisfying $\mathrm{IsKHWVec}(\epsilon,E,\mathrm{lowK},w)$.
+4. For every $v\in W$, $C_Ev=\mathrm{casVal}(\lambda)v$, with the same $\lambda$ used in $\mathrm{lowK}$ and $\mathrm{gaW}$.
+
+Then for every $z\in\mathrm{lineSub}(\epsilon,E,\lambda,W)$ one has $Dz=0$ in $X$. This is `TRGap.line_ker`. [Lean, read]
+
+**Proof.** On pure tensors $L_{ab}L_{ba}$ applies $E_{ab}E_{ba}$ to the first factor and keeps the second. Summing and extending by linearity gives $C_L=C_E\otimes1$ (`ssh_casimir_eT`). Choose $y\in W\otimes F$ with $(\iota_W\otimes1)y=z$. Put $c=\mathrm{casVal}(\lambda)$. The scalar premise says $C_E\circ\iota_W=c\iota_W$, as maps out of $W$. Thus
+$$
+C_L z=(C_E\otimes1)(\iota_W\otimes1)y
+=((C_E\circ\iota_W)\otimes1)y=c(\iota_W\otimes1)y=cz.
+$$
+Composition and scaling commute with the tensor map by the pure-tensor rule. This argument uses the whole scalar premise on $W$ because $y$ may have several independent first-factor coefficients.
+
+The operators $L$ inherit the matrix-unit law. Lifted creations anticommute with one another, as do lifted contractions, and $Q_\alpha P_\beta+P_\beta Q_\alpha=\delta_{\alpha\beta}I$ for mode pairs $\alpha,\beta$. These are the canonical anticommutation relations, from exterior antisymmetry and the contraction rule $c^-_\alpha(b_\beta\wedge f)=\delta_{\alpha\beta}f-b_\beta\wedge c^-_\alpha f$. Operators on different factors commute. These are the three inputs to `two_D_sq`.
+
+Put $U=\sum_{i\in P,\,a\in Q}L_{ia}L_{ai}$ and $B=\sum_{\epsilon_a=\epsilon_b}L_{ab}S_{ba}$. Within either mixed block the $L$'s commute, since the two Kronecker terms of their bracket vanish. Anticommutation then gives $D_+^2=D_-^2=0$. In the sum of the two mixed products the summand before the overall minus sign is
+$$
+[L_{ai},L_{jb}]P_{ia}Q_{jb}+\delta_{ij}\delta_{ab}L_{jb}L_{ai}.
+$$
+The bracket $\delta_{ij}L_{ab}-\delta_{ab}L_{ji}$ gives $B$ after taking the minus sign and summing. The contraction delta gives $-U$, so $D^2=B-U$. Reversing the mixed products $L_{ai}L_{ia}$ gives the correction $p\sum_{a\in Q}L_{aa}-q\sum_{i\in P}L_{ii}$, hence $C_L=C_K(L)+2U-2\sum_a r_a L_{aa}$. Expanding $C_K(A)$ gives $C_K(L)+2B+C_K(S)$. In $C_K(S)$, moving a contraction past a creation gives $p$ copies of the occupation sum from the positive block and $q$ from the negative block. The quartic sums have terms $P_{ix}P_{jy}Q_{jx}Q_{iy}$ and $P_{ix}P_{jy}Q_{iy}Q_{jx}$ over $i,j\in P$ and $x,y\in Q$. They cancel by anticommutation. Thus $C_K(S)=(p+q)\sum_{i\in P,\,a\in Q}P_{ia}Q_{ia}=2\sum_a r_a S_{aa}$. Substituting gives
+$$
+2D^2=-C_L+C_K(A)-2\sum_a r_a A_{aa}.
+$$
+
+To evaluate on a highest vector, use $[A_{ab},A_{ba}]=A_{aa}-A_{bb}$ for equal signs. The left-family bracket gives the $L$ part. For the $S$ part, anticommuting gives $[P_\alpha Q_\beta,P_\eta Q_\theta]=\delta_{\beta\eta}P_\alpha Q_\theta-\delta_{\theta\alpha}P_\eta Q_\beta$. For a positive pair $a,b$, summing gives the occupation at $a$ minus the occupation at $b$. For a negative pair, contraction and insertion interchange $a,b$ in the defining formula, giving the occupation at $b$ minus that at $a$, which is again $S_{aa}-S_{bb}$. The diagonal terms of $C_K(A)z$ give $\sum_a\gamma_a^2 z$. For same-sign $a<b$ the term $A_{ba}A_{ab}z$ vanishes, and commuting the other product gives $A_{ab}A_{ba}z=(\gamma_a-\gamma_b)z$. These differences sum to $2\rho_C\cdot\gamma$. The resulting coefficient in $2D^2z$ is
+$$
+\mathrm{nsq}(\gamma+\rho_C)-\mathrm{nsq}(\rho_C)-2r\cdot\gamma-c.
+$$
+Each block's $\rho_C$ entries sum to zero by pair cancellation, so $\rho_C\cdot r=0$. Listing $P$ then $Q$, in their original internal order, lists $\rho_C+r$ in the order of $\rho$. At zero-based block position $k$, its entry is $(p-1)/2-k+q/2$ on $P$ and $(q-1)/2-k-p/2$ on $Q$. These equal the corresponding $\rho$ entries at positions $k$ and $p+k$. Consequently $\mathrm{nsq}(\rho)=\mathrm{nsq}(\rho_C)+\mathrm{nsq}(r)$. With $\gamma=\delta+r$, expansion gives the coefficient of `two_D_sq_khw`:
+$$
+2D^2z=\big(\mathrm{nsq}(\delta+\rho_C)-\mathrm{nsq}(\rho)-c\big)z.
+$$
+In `line_ker`, $\delta=\lambda-\rho_C$. The two compact shifts cancel pointwise and $c$ is exactly $\mathrm{nsq}(\lambda)-\mathrm{nsq}(\rho)$. The real difference and its complex image are zero. Invertibility of $2$ gives $D(Dz)=0$.
+
+On the tensor form the signed adjoint law for $L$ holds coefficient by coefficient. Inserting a mode at position $k$ yields the same sign $(-1)^{k-1}$ as deleting it at that position, so creation and contraction are adjoint in the wedge basis. Expanding the coefficient sums gives $t(P_{ia}v,v')=t(v,Q_{ia}v')$. Moving $L_{ai}$ across the form contributes $-L_{ia}$ because $i,a$ have opposite signs. The right-factor operator $Q_{ia}$ commutes with $L_{ia}$, so moving both factors and summing gives $t(D_+v,v')=t(v,D_-v')$. Hermitian symmetry gives the reverse relation, and adding yields $t(Dv,v')=t(v,Dv')$ (`tform_D`).
+
+The real part of $t(v,v)$ is $\sum_s\|x_s(v)\|^2$. If it vanishes then every coefficient is zero and the basis expansion $v=\sum_s x_s(v)\otimes b_s$ gives $v=0$. This is `tform_self_re_pos`. It follows that $t(Dz,Dz)=t(z,D(Dz))=0$ implies $Dz=0$. The entire proof takes place on the algebraic tensor domain. [Lean, read]
+
+**Failure tests.** Let $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ on $\mathbb C^2$. For the ordinary positive form one has $N^2e_2=0$ and $Ne_2=e_1$. The two symmetry pairings $\langle Ne_2,e_1\rangle$ and $\langle e_2,Ne_1\rangle$ are $1,0$. With $G=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ and the Hermitian form $t_G(x,y)=\overline{x}^{\,t}Gy$, both $GN$ and $N^\dagger G$ are $\operatorname{diag}(0,1)$. Thus symmetry holds for $t_G$, while $e_1$ is nonzero and isotropic. These two examples isolate symmetry and positivity in the final inference. In the rank-two representation one can also test the scalar premise: use $W'=\mathbb C u_1$, $\lambda'=(5/2,-5/2)$ and $z'=u_1\otimes b_{21}$. The seed and tensor weights are $(3,-3)$ and $(2,-2)$. The compact and physical equations still hold, but the actual Casimir is $18-4-10=4$ and the required value is $12$. Directly $Dz'=4u_0\otimes1$. [Expository]
+
+**Scope and consumers.** The proof takes the highest-weight and tensor-range components of line membership. The original interface retains physical membership and compact irreducibility. Zero tensors are included. If a sign block is empty, both Dirac sums are empty, including in rank zero. The nonzero witness is supplied separately by `line_exists` under $\mathrm{StrictAnti}(\lambda)$, the bracket and compact irreducibility. The existence proof is in §9.4.23. The degree range comes separately from `line_deg` (`TraceGap/SignedActionTensor.lean:70–118`).
+
+In `GeneratedSubStable.lean:50–83` the ambient $M$ is a derived domain $D_0\le H$ of a unitary representation on a complete $H$. The derived action supplies the bracket and infinitesimal unitarity. The calls `line_exists hanti hE hV`, `line_ker hE hU hV hc hzL` and `line_deg hE hU hV hzL` use the same $V,\lambda$ and witness. The Dirac equation, $V\le\mathrm{genSub}(E,V)$ and physical membership give
+$$
+z\in KK=\ker D\cap\mathrm{tensFock}(\mathrm{genSub}(E,V))\cap\mathrm{physicalSubspace}(\epsilon).
+$$
+Compact stability puts the lowering span of $z$ in $KK$. The reverse inclusion in `ker_D_eq_kLowSpan` uses `lowestKType_casimir_cone`, `casimir_scalar_on_generated`, `khw_lowK_mem`, `highestWeight_uniqueness` and finite-layer exhaustion via `genSub_eq_iSup_layer`. The producer also takes group stability of $V$, integrality of $\lambda_a-(n-1)/2$, $\mathrm{StrictAnti}(\lambda)$, $\mathrm{GapAtLeast}(\epsilon,\lambda,h)$, $\mathrm{thrStar}(\epsilon)<h$ and both sign blocks nonempty. At line 191 the archive returns equality with the lowering span and its compact irreducibility. [Lean] The reverse inclusion and full kernel classification remain [Open] in this reading.
+
+In `SupTrace.lean:75–87,195–215` the domain is the smooth one, and `arb_datum` and `casOnSmooth_of_isDS` supply $V$ and its scalar. The equality puts $KK$ in the finite trace layer $Y_0$ and transports parity from the degree field to all of $KK$. The call to `str_YY` takes the layer inclusion, parity equation and scalar on the generated module. `WKTensFockGenSub.lean:119` takes kernel equality and irreducibility. [Lean]
+
+A uniform lower bound for $D^2$ on the orthogonal complement of the kernel would need control of all remaining compact weights and a uniform bound on their positive square scalars. The related `dirac_sharp` uses `Gap3` and `kernel_lemma` to exclude specified nonempty noncompact shifts by a negative square scalar. The estimate `casimir_gap_at_noncompact_weight` bounds the compact Casimir of the generated first factor under its own weight-gap premises. For a Dirac bound one still needs control of the diagonal tensor Casimir with the $r$ correction and an estimate or decomposition covering the complement. A Hilbert-space spectral statement also needs a closed realization and domain control. These are [Open] boundaries of this reading.
+
+**Classical context.** Proposition 3.1 of Parthasarathy's 1972 article computes the square on equivariant twisted spinors over $G/K$ as a negative ambient Casimir plus a highest-weight scalar. The signed exterior model and its normalization here come from A2. [Paper] [Parthasarathy 1972, pp. 13–14](https://www.math.utah.edu/~ptrapa/math-library/parthasarathy-dirac-operator.pdf#page=14)
+
+The reading is pinned to A2 SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Under `lean/src/ReciprocityTheory/ReductiveGroups/DiscreteSeries/` see `TraceGap/SignedActionTensor.lean:20–28,120–153`, `TensorRepresentations/CARUnit.lean:179–274`, `TensorRepresentations/CsqDdPt.lean:10–208` and `DiscreteSeriesExistence/SchSharpA.lean:13–138,200–204`. [A2](../sources/SOURCES.md#a2) · [Reading record](../sources/SOURCES.md#chapter-9-prv-extremal-component-and-dirac-kernel)
+
+**How the degree proofs use these results.** [§9.4.26](#9426-recovering-the-formal-degree-constant-from-a-translation-ray) applies `thmFD` in `fdc_cd` with the recurrence supplied by `fdc_step` and with the lowest-type coefficient data supplied by `anyF`. The recurrence calls `fdeg_ratio_V` on the compact-dual Haar. The coefficient construction uses `equiv_sigLam_of_isDS`, and the choice of degree uses `isDS_props_of_gap`. Both go through `casOnDatum_of_isDS` and `casimir_eq_casVal_of_no`. The latter calls `lowFock_exists` at the original parameter, consuming the §9.4.23 tensor-range membership, nonvanishing and highest-weight equations to establish its own scalar Casimir. Its physical membership field is discarded. [Lean] (`FormalDegree/FdCons.lean:39–52`, `FormalDegree/FdConsA.lean:94–110,128–141`, `DiscreteSeriesExistence/RangeDatumEmbedding.lean:95–104`, `EquivSigLamOfIsDS.lean:32–54,65–83`, `CFPrime.lean:81–89`.)
+
+In [§9.4.28](#9428-how-the-tensor-sandwich-determines-a-one-step-formal-degree-ratio), `fdeg_ratio_V` obtains the model ratio through `swC_main` and `cc_gk`. Inside `cc_gk` the two model scalars come from `datumV_casimir` on the smooth right-regular datum. The tensor occurrence starts with compact Pieri. The embedding, partial traces and Schur equality give the model ratio and eigenspace description. The two calls to `equiv_sigLam_of_isDS` in `swC_main` consume the §9.4.23 witness indirectly through the scalar route above, when transporting the numerical ratio to the caller's representations. The §9.4.25 inclusion `line_ker` is consumed by `ker_D_eq_kLowSpan` in the separate `supTrace` route. The cited degree-limit and tensor-ratio handoffs take neither that kernel equality nor the `line_ker` equation as an input. [Lean] (`TensorRepresentations/Sandwich.lean:17–26`, `SandwichA.lean:157–186`, `CcARatioZero.lean:108–141`, `OccBLowKShiftF.lean:72–89`, `DiscreteSeriesExistence/EqZeroOfDatumEmbeddingEqZero.lean:158–185`, `TraceGap/GeneratedSubStable.lean:79–81`, `SupTrace.lean:75–87,195–215`.)
+
+**Review and scope.** The local proof reading is author-level R3. Same-source initial review R083 upheld the signed square, weight cancellation and kernel inclusion on the algebraic domain. Different-source review of this section is pending. [Source ledger](../sources/SOURCES.md#chapter-9-prv-extremal-component-and-dirac-kernel)
+
+---
+
 ### 9.4.26 Recovering the formal-degree constant from a translation ray
 
 A ratio of two discrete-series degrees cancels their common Haar constant. In the size estimates of Chapter 9 the field `D.dsig` enters on its own. Its compact-dual normalization fixes the absolute scale of the Vandermonde factor used there. The archive recovers the constant by translating the Harish–Chandra parameter away from the root walls. On this ray, the compact-type dimension has a computable leading term, and a rescaling of the noncompact coordinates makes two coefficient estimates meet at the same Gaussian mass.
