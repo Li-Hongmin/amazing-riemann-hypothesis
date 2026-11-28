@@ -2503,7 +2503,7 @@ Assume PoitouTateTotallyComplex, LocalFiniteness, LocalTateDuality, LocalEulerCh
 
 *Proof.* First take $K=k$. Both reductions are continuous because the integral matrices are continuous in the adic topology and reduction is discrete. The residue field is finite of characteristic $\ell$. Reducing the matrix identity $T(g)^tT'(g)=\epsilon_0(g)I$ gives the perfect cyclotomic pairing. Indeed the $\ell$-adic cyclotomic symbol reduces modulo $\ell$ before its image in $k$, since $\ell$ lies in $\mathfrak m_O$. Outside $S$, the unramified clause of IsotypicValuationAtRing and the unramifiedness clause of the twist character make $T$ trivial on inertia. The same follows for $T'$ by the unramifiedness of the cyclotomic character away from $\ell$.
 
-**Orthogonal complements at the original places.** At $v\mid\ell$, the assertion is about the images of the actual finite-cocycle lattices used by bkOn. To prove one inclusion, take integral finite cocycles $d,d'$ generating the two images. Use a uniformizer $\varpi$ and the division map $a\mapsto a/\varpi+O$ into $\operatorname{Frac}(O)/O$ with the cyclotomic action. The lattice lifting criterion lift_blochKatoCocycle_iff_orthogonal_lattice says that the cup of $d$ with a dual cochain having a finite lift modulo $\varpi$ becomes a coboundary after this division. Here $d'$ supplies its own lift. The division map induces an injection from residual $H^2$ into the corresponding torsion-coefficient $H^2$ by LocalH2Injective.h2_inj under LocalTateDuality with the local and torsion data in the file. Thus the residual cup class is zero. Cup bilinearity and the coboundary identities extend this to both generated subspaces.
+**Orthogonal complements at the original places.** At $v\mid\ell$, the assertion is about the images of the actual finite-cocycle lattices used by bkOn. To prove one inclusion, take integral finite cocycles $d,d'$ generating the two images. Use a uniformizer $\varpi$ and the division map $a\mapsto a/\varpi+O$ into $\operatorname{Frac}(O)/O$ with the cyclotomic action. The lattice lifting criterion lift_blochKatoCocycle_iff_orthogonal_lattice says that the cup of $d$ with a dual cochain having a finite lift modulo $\varpi$ becomes a coboundary after this division. Here $d'$ supplies its own lift. The division map induces an injection from residual $H^2$ into the corresponding torsion-coefficient $H^2$ by [`LocalH2Injective.h2_inj`](#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients) under `LocalTateDuality` with the local and torsion data in the file. Thus the residual cup class is zero. Cup bilinearity and the coboundary identities extend this to both generated subspaces.
 
 Conversely let a residual dual cocycle $y$ annihilate the original condition. Lift its coordinates along $O\to k$. The lift has locally constant reduction and has cocycle defect in $\mathfrak m_O$ by the residual cocycle identity. Each integral original finite cocycle reduces to an allowed class. By hypothesis its reduced cup with $y$ equals the coboundary of a locally constant residual cochain. Lift that cochain coordinatewise and apply $a\mapsto a/\varpi+O$. The resulting divided equation is independent of the chosen lifts, since changes by $\varpi O$ map to zero. The converse of the lattice criterion gives an integral *finite* dual cocycle congruent to the lifted dual cochain. Its reduction represents $[y]$ in bkOn. This proves equality of the two conditions with the indicated annihilator relation. The lattice lifting criterion uses the local bridge and the Bloch–Kato input in GalHyp and is supplied by [§10.4.7.11](#104711-lifting-residual-cocycles-to-the-blochkato-lattice) under its stated hypotheses. The integral annihilator comparison feeding that criterion is in [§10.4.7.12](#104712-integral-local-duality-and-the-two-finite-condition-annihilators). Local Tate duality and the subsequent `h2_inj` remain named inputs at this call.
 
@@ -2821,7 +2821,7 @@ For the second clause, if $d$ is finite, take each tested finite quotient cocycl
 
 The arithmetic coefficient and dual-lattice hypotheses have nonzero-rank examples in the classical setting. Take $V=k_0$ trivial, $V'=k_0(1)$, $L=R$, $L'=R(1)$, standard multiplication, and $F=k_0$. The trivial representation has $D_{\mathrm{dR}}=K$ by the fixed-ring condition and hence satisfies the required dimension identity. The standard cyclotomic lattice is stable and the duality condition reads $y\in R$ exactly when $Ry\subset R$. In the archive this specialization still takes the declared `IntegralDuality` input. Zero cocycles are always available on both sides. The finite examples below establish sharper nonemptiness and strict failures for the algebra of the tests.
 
-**Connection to the lifting criterion.** The direct caller `bkAll_of_blochKatoLocal` extracts `hInt` from `BlochKatoLocal` and invokes `T.blochKato_annihilator_of_integralLocalDuality` to supply `hB`. In the same caller `hRat` separately supplies `bkACore`, and `LocalTateDualityK` and `LocalEulerCharK` enter the separate Part C assembly. In §10.4.7.11 the specialization of `lift_iff` reads `bkBCore` from the local slot of `GalHyp` and calls only its first clause on the divided residual cocycle against all integral finite testers. The uniformizer step and `IsFCoc` identification are those of that subsection. `LocalH2Injective.h2_inj` enters the later residual descent in `bkOn_orthogonal`. The production of deep local Tate duality and of the abstract arithmetic input, and the dependency path to `Main`, remain separate verification questions. [A2, `BlochKatoLocalAllPrimesOfBlochKato.lean:18–30`; `LiftBlochKatoCocycleIffOrthogonalLattice.lean:229–230,278–316`; `ResidualBlochKatoLatticeDualOrthogonal.lean:94–134,176–193`; LUMI Frontier K §1.8.]
+**Connection to the lifting criterion.** The direct caller `bkAll_of_blochKatoLocal` extracts `hInt` from `BlochKatoLocal` and invokes `T.blochKato_annihilator_of_integralLocalDuality` to supply `hB`. In the same caller `hRat` separately supplies `bkACore`, and `LocalTateDualityK` and `LocalEulerCharK` enter the separate Part C assembly. In §10.4.7.11 the specialization of `lift_iff` reads `bkBCore` from the local slot of `GalHyp` and calls only its first clause on the divided residual cocycle against all integral finite testers. The uniformizer step and `IsFCoc` identification are those of that subsection. [`LocalH2Injective.h2_inj`](#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients) enters the later residual descent in `bkOn_orthogonal`. The production of deep local Tate duality and of the abstract arithmetic input, and the dependency path to `Main`, remain separate verification questions. [A2, `BlochKatoLocalAllPrimesOfBlochKato.lean:18–30`; `LiftBlochKatoCocycleIffOrthogonalLattice.lean:229–230,278–316`; `ResidualBlochKatoLatticeDualOrthogonal.lean:94–134,176–193`; LUMI Frontier K §1.8.]
 **Hand calculations [Expository].** Use the following two finite groups to isolate the cochain algebra. The sign character in these models is a twist of the coefficient module. For the rational finite condition take all rational cocycles, which are all coboundaries by averaging in characteristic zero. This is also the tensor-period kernel for the auxiliary choice of base field with trivial action as the tensor algebra. These models certify the algebra of the tests independently of the local-field period hypotheses.
 
 For both groups let $G=C_n=\langle s\rangle$, $n$ even, and put $\epsilon_i=(-1)^i$ and $I_i=(1-\epsilon_i)/2$. On $V=F^2$ let $s$ act as $\operatorname{diag}(-1,1)$ and on $V'=F^2$ as $\operatorname{diag}(1,-1)$. Use the dot product with sign target and $L=L'=O^2$, exactly dual by the two standard basis tests. Write $D=F/O$. A cocycle is determined by its value at $s$. Summing the orbit of that value for the relation $s^n=1$ gives the complete parametrization
@@ -2856,6 +2856,582 @@ Finally, in the first model replace the dot product by half the dot product and 
 The residual local condition above $\ell$ uses reductions from the saturated integral finite cocycles on the chosen DVR. The odd-prime and dyadic examples in §10.4.7.11 show why the residual local invariant space may contribute even when the rational invariants vanish, and why a residual cup can require a primitive in a larger torsion stage. The saturation example changes the image defining the local condition, the pairing scaled by $3$ loses a tester, and the enlarged lattice loses the integral section comparison. The two $C_2$ models here illustrate both annihilators, the $C_4$ model distinguishes the arithmetic input from the algebra of restriction of scalars, and the trace and section examples show where the full scalar family and the integral lattice pairing enter.
 
 In `ResidualSelmerFinrankEqDual.lean:219–249`, the two residual consumers give the exact local annihilator at $v\mid\ell$. This is the local comparison used in the conditional Greenberg–Wiles count. The resulting [`EqDim`](#104710-equal-dimensions-for-the-original-residual-selmer-spaces) is passed to [`ChooseH`](#10477-producing-the-initial-selmer-corank-witness) and to the first-order determinant bound in the odd-prime and dyadic wrappers. Those wrappers supply the Selmer coefficient bounds for the auxiliary-place family in §10.4.7.4, which the all-powers twist construction in §10.4.7 consumes. The two uses of `adm2` there have distinct interfaces. `BlochKatoReduction.adm2` is valuation stability, and its value enters `GalHyp` through `AdmACD`. The `bkBCore` projection comes from `Gen.adm3`. `IntegralHeckeForms.adm2` is the single-character witness obtained by taking $a=1$ in the all-powers construction. [Auxiliary-twist argument](#1047-where-does-adm2-come-from) · [Source ledger](../sources/SOURCES.md#chapter-10-blochkato-lattice-lifting-and-integral-annihilators)
+
+**Continue with the same coefficient DVR and cup product.** [§10.4.7.13](#104713-rational-local-duality-field-trace-coboundaries-and-the-general-coefficient-annihilator) supplies the rational annihilator, [§10.4.7.14](#104714-exact-blochkato-annihilators-at-finite-level) combines it with the integral–divisible test, and [§10.4.7.15](#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients) returns to the residual divided cup.
+
+#### 10.4.7.13 Rational local duality, field-trace coboundaries, and the general-coefficient annihilator
+
+##### Motivation [Expository]
+
+[§10.4.7.12](#104712-integral-local-duality-and-the-two-finite-condition-annihilators) deduced the integral-divisible Bloch–Kato annihilator `bkBCore` over a coefficient discrete valuation ring $O \subset L$ from the $\mathbb Z_\ell$-coefficient hypothesis `Published.BlochKato.IntegralDuality`. Because its target was the torsion quotient $(L/O)(\chi)$, projecting to $(\mathbb Q_\ell/\mathbb Z_\ell)(\chi)$ and reassembling locally constant witnesses required clearing fractional denominators in the trace-dual basis of $O$ via a principal generator $\delta$ of the inverse different $\mathfrak D_{O/\mathbb Z_\ell}^{-1}$ (`ExistsIntegralDualFunctional.lean`).
+
+Alongside `bkBCore`, the local bundle `LocalSituation.bkAll` (`LocalSituation.lean:308`) and the global local-condition triple `BlochKatoPhases.adm3` (`BlochKatoPhases.lean:396–398`) carry the rational Bloch–Kato annihilator `bkACore` (`LocCoh.lean:154–159`), which states that on continuous rational 1-cocycles over any admissible coefficient field $L/\mathbb Q_\ell$, the Bloch–Kato finite subspaces $Z^1_f(\mathrm{PD}, \rho)$ and $Z^1_f(\mathrm{PD}, \rho')$ are exact mutual annihilators under the $L(\chi)$-valued cup product, with continuous $L$-valued 1-cochain witnesses (`CobL`). In `BlochKatoLocalAllPrimesOfBlochKato.lean:18–30`, `bkACore` is produced independently from `Published.BlochKato.RationalDuality` (`hRat`) by `BlochKatoAnnihilatorOfRationalLocalDuality.lean`, and then feeds both slot 1 of `bkAll` and the finite-level torsion annihilator producer `breuilKisin_partC_of_partA_partB_finite_level`, developed in [§10.4.7.14](#104714-exact-blochkato-annihilators-at-finite-level).
+
+Moving from integral quotients to rational vector spaces simplifies the algebra in three decisive ways while preserving two sharp traps:
+1. **No codifferent ideal is needed.** Because $\operatorname{char}(\mathbb Q_\ell) = 0$, every finite extension $L/\mathbb Q_\ell$ is separable, so the unmodified field trace form $(x, y) \mapsto \operatorname{Tr}_{L/\mathbb Q_\ell}(xy)$ (`Algebra.traceForm ℚ_[l] LL`) is nondegenerate. The trace-dual basis $(d_i)$ of any $\mathbb Q_\ell$-basis $(b_i)$ of $L$ already lies in the target field $L$; denominators such as $1/[L:\mathbb Q_\ell]$ or ramification factors in $\mathfrak D_{O/\mathbb Z_\ell}^{-1}$ are invertible in $L$ because `CobL` asks for a continuous $L$-valued 1-cochain rather than an $(L/O)$-valued map.
+2. **Scalar movement has no section defect.** Unlike `cupLD`, which lifts $V'/L'$ via a non-canonical section `liftD` and satisfies scalar movement only modulo $O$, the rational cup product `cupL` acts directly on vectors in $V$ and $V'$, so moving $c \in L$ onto either cochain slot gives a strict pointwise identity of functions $G_K \times G_K \to \mathbb Q_\ell$ (`cupS`, `cupS'`).
+3. **Both universal scalar testing and the de Rham condition remain indispensable.** A single bare trace $\operatorname{Tr}_{L/\mathbb Q_\ell}(z)$ ($c = 1$) kills the entire traceless hyperplane $\ker(\operatorname{Tr}_{L/\mathbb Q_\ell})$ of dimension $[L:\mathbb Q_\ell] - 1$, producing false-positive coboundaries whenever $[L:\mathbb Q_\ell] \ge 2$; and in characteristic-zero cohomology, finite groups have $H^1 = H^2 = 0$ by averaging, so genuine nondegenerate tests live on infinite profinite or finitely generated groups, where dropping `IsDR` collapses $H^1_f$ below half the Euler-characteristic dimension of $H^1$ and destroys reverse annihilation on both sides.
+
+##### Example 10.13ep. Trace cup-product descent over the ramified quadratic field $\mathbb Q_2(\sqrt{2})$ [Expository]
+
+Take $k_0 = \mathbb Q_2$ and the ramified quadratic extension $L = \mathbb Q_2(\pi)$ with $\pi^2 = 2$. In §10.4.7.12 (`Second calculation`), the integer ring $O = \mathbb Z_2[\pi]$ had $\mathbb Z_2$-basis $(1, \pi)$ whose trace-dual basis $(1/2, \pi/4)$ failed to lie in $O$, forcing a rescaling by $\delta = \pi/4$. Over the rational field $L$, keep the $\mathbb Q_2$-basis $(b_0, b_1) = (1, \pi)$. Since $\operatorname{Tr}_{L/\mathbb Q_2}(x_0 + x_1\pi) = 2x_0$, the unmodified trace Gram matrix is $\operatorname{diag}(2, 4)$ ($\det = 8 \ne 0$), and the trace-dual basis is
+$$
+(d_0, d_1) = \left(\frac{1}{2},\ \frac{\pi}{4}\right) \in L^2, \qquad w = \operatorname{Tr}_{L/\mathbb Q_2}(1\cdot w)\,\frac{1}{2} + \operatorname{Tr}_{L/\mathbb Q_2}(\pi\cdot w)\,\frac{\pi}{4} \quad (w \in L),
+$$
+with no denominator clearing required because $1/2$ and $\pi/4$ belong to $L$.
+
+To exhibit a nondegenerate characteristic-zero pairing, let $G = \mathbb Z_2 \times \mathbb Z_2$ (with topological generators $\sigma = (1, 0)$ and $\tau = (0, 1)$), trivial cyclotomic character $\chi = 1$, trivial 1-dimensional representations $V = V' = L$, and $L$-bilinear pairing $P(x, y) = xy$, whose restricted trace pairing is $(\mathrm{trPair}\,P)(x, y) = \operatorname{Tr}_{L/\mathbb Q_2}(xy) = 2x_0 y_0 + 4x_1 y_1$. Take the unramified period ring $B = \mathbb Q_2[X]$ with $\sigma(X) = X + 1$ and $\tau(X) = X$. Every continuous 1-cocycle $G \to L$ is a continuous group homomorphism $(m, n) \mapsto m u_1 + n u_2$ with $(u_1, u_2) \in L^2$, while $B^1(G, L) = \{0\}$; since $\tau$ acts trivially on $V \otimes_{\mathbb Q_2} B$, $a_{u_1, u_2}(g) \otimes 1 = g(w) - w$ holds for some $w \in V \otimes_{\mathbb Q_2} B$ (specifically $w = u_1 \otimes X$ when $u_2 = 0$) if and only if $u_2 = 0$. Hence $\dim_L H^1(G, V) = \dim_L H^1(G, V') = 2$ and
+$$
+Z^1_f(G, V) = \{a_{u_1, 0} : u_1 \in L\} \cong L, \qquad Z^1_f(G, V') = \{b_{v_1, 0} : v_1 \in L\} \cong L.
+$$
+For $a_{u_1, u_2}$ and $b_{v_1, v_2}$, the cup product is $z((m, n), (m', n')) = (m u_1 + n u_2)(m' v_1 + n' v_2) \in L$, and the untwisted differential $(d_1 f)(g, h) = f(h) - f(gh) + f(g)$ satisfies $(d_1 f)(\sigma, \tau) - (d_1 f)(\tau, \sigma) = 0$ for every $f : G \to L$ because $\sigma\tau = \tau\sigma$. Thus the alternating functional $\mathcal I(z) := z(\sigma, \tau) - z(\tau, \sigma) = u_1 v_2 - u_2 v_1$ vanishes on all coboundaries. Conversely, whenever $u_1 v_2 - u_2 v_1 = 0$, the 2-adically continuous polynomial cochain
+$$
+F(m, n) = -\frac{1}{2} m^2 u_1 v_1 - m n u_1 v_2 - \frac{1}{2} n^2 u_2 v_2 : \mathbb Z_2^2 \longrightarrow L
+$$
+satisfies $(d_1 F)((m, n), (m', n')) = m m' u_1 v_1 + (m n' + n m') u_1 v_2 + n n' u_2 v_2 = z((m, n), (m', n'))$ identically.
+
+Now choose the nonzero finite pair $a(m, n) = m(1 + \pi) \in Z^1_f(G, V)$ and $b(m', n') = m'(2 - \pi) \in Z^1_f(G, V')$. Since $(1 + \pi)(2 - \pi) = 2 + \pi - 2 = \pi$, their cup product is the nonzero traceless cochain $z((m, n), (m', n')) = m m' \pi$. Following `cobL_iff_trace` and `cupS`:
+- At $c = b_0 = 1$, $(\mathrm{cupL}_{\mathrm{trPair}}(a, b))((m, n), (m', n')) = \operatorname{Tr}_{L/\mathbb Q_2}(m m' \pi) = 0$, which is $d_1 f_0$ for $f_0(m, n) = 0$.
+- At $c = b_1 = \pi$, moving $\pi$ into the right slot gives $(\pi \cdot b)(m', n') = m'(2\pi - 2) \in Z^1_f(G, V')$, and $(\mathrm{cupL}_{\mathrm{trPair}}(a, \pi \cdot b))((m, n), (m', n')) = \operatorname{Tr}_{L/\mathbb Q_2}(\pi \cdot m m' \pi) = \operatorname{Tr}_{L/\mathbb Q_2}(2 m m') = 4 m m'$, which is $d_1 f_1$ for the continuous $\mathbb Q_2$-witness $f_1(m, n) = -2 m^2$.
+- Assembling along $(d_0, d_1) = (1/2, \pi/4)$ produces $F(m, n) = f_0(m, n)\cdot \frac{1}{2} + f_1(m, n)\cdot \frac{\pi}{4} = -\frac{\pi}{2} m^2$, satisfying $(d_1 F)((m, n), (m', n')) = m m' \pi = z((m, n), (m', n'))$.
+
+Testing any $b_{v_1, v_2} \in Z^1_{\mathrm{cts}}(G, V')$ against $a_{1, 0} \in Z^1_f(G, V)$ yields $\mathcal I(\mathrm{cupL}(a_{1, 0}, b_{v_1, v_2})) = v_2$, forcing $v_2 = 0$ ($b \in Z^1_f(G, V')$), and testing $a_{u_1, u_2}$ against $b_{1, 0}$ forces $u_2 = 0$, confirming both exact annihilator clauses.
+
+##### Example 10.13eq. Nontrivial cyclotomic twist $\chi \ne 1$ on a non-abelian tame group over $\mathbb Q_5(\sqrt{2})$ [Expository]
+
+Take $k_0 = \mathbb Q_5$ and the unramified quadratic extension $L = \mathbb Q_5(\sqrt{2})$ ($X^2 - 2$ is irreducible modulo $5$), again with basis $(b_0, b_1) = (1, \sqrt{2})$ and trace-dual basis $(d_0, d_1) = (1/2, \sqrt{2}/4) \in L^2$. To realize a nontrivial cyclotomic twist in characteristic zero, model the $\ell = 5$ tame Galois group at residue cardinality $q = 3$ by the semidirect group $G = \{(x, m) : x \in \mathbb Z_5,\ m \in \mathbb Z\}$ (dense inside $\mathbb Z_5 \ltimes (\mathbb Z/4\mathbb Z \times \mathbb Z_5)$ since $3 \in \mathbb Z_5^\times$ has $3^4 \equiv 1 \pmod 5$) with multiplication
+$$
+(x, m) \cdot (x', m') = (x + 3^m x',\; m + m'), \qquad \sigma = (0, 1),\ \tau = (1, 0),\ \sigma\tau = (3, 1) = \tau^3\sigma,
+$$
+and nontrivial character $\chi(x, m) = 3^m \in \mathbb Q_5^\times$, so $\chi(\sigma) = 3 \ne 1$ and $\chi(\tau) = 1$.
+
+Set $V = L \oplus L(\chi)$ with $\rho(x, m) = \operatorname{diag}(1, 3^m)$, $V' = L(\chi) \oplus L$ with $\rho'(x, m) = \operatorname{diag}(3^m, 1)$, and $P((u_1, u_2), (v_1, v_2)) = u_1 v_1 + u_2 v_2$. Then $P(\rho(g)u, \rho'(g)v) = 3^m(u_1 v_1 + u_2 v_2) = \chi(g) P(u, v)$. On the relation $\sigma\tau = \tau^3\sigma$, cocycles into $L$ satisfy $\alpha + u_\tau = 3 u_\tau + \alpha$, forcing $u_\tau = 0$, whereas cocycles into $L(\chi)$ satisfy $v_\sigma + 3\gamma = 3\gamma + v_\sigma$, leaving both $v_\sigma$ and $\gamma$ free while coboundaries $(\delta w)(x, m) = (3^m - 1)w$ span the pure $\sigma$-component. Hence all 1-cocycles on $V$ and $V'$ have the exact normal forms
+$$
+a_{(\alpha;\,\beta,\gamma)}(x, m) = \left(m\alpha,\ x\gamma + \frac{3^m - 1}{2}\beta\right), \qquad
+b_{(\beta',\gamma';\,\alpha')}(x, m) = \left(x\gamma' + \frac{3^m - 1}{2}\beta',\ m\alpha'\right)
+$$
+with $\alpha, \beta, \gamma, \beta', \gamma', \alpha' \in L$, so $\dim_L Z^1 = 3$, $\dim_L B^1 = 1$, and $\dim_L H^1(G, V) = \dim_L H^1(G, V') = 2$. With the unramified period ring $B = \mathbb Q_5[Y]$ ($\sigma(Y) = Y + 1$, $\tau(Y) = Y$, matching Bloch–Kato `(3.7.1)` away from $p$), a cocycle is trivialized over $B$ if and only if its inertia value at $\tau = (1, 0)$ vanishes, giving $\gamma = 0$ on $V$ and $\gamma' = 0$ on $V'$ ($\dim_L Z^1_f = 2$, $\dim_L H^1_f = 1$).
+
+By `cyclotomicTwist_differential_apply`, the $\chi$-twisted differential of any 1-cochain $f : G \to L$ is
+$$
+(d_1 f)\bigl((x, m), (x', m')\bigr) = 3^m f(x', m') - f(x + 3^m x', m + m') + f(x, m).
+$$
+Because $\chi(\sigma) = 3$, $\chi(\tau) = \chi(\tau^2) = \chi(\tau^3) = 1$, and $\sigma\tau = \tau^3\sigma$, expanding the linear combination
+$$
+\mathcal I_\chi(z) := z(\sigma, \tau) - z(\tau^3, \sigma) - z(\tau^2, \tau) - z(\tau, \tau)
+$$
+on $z = d_1 f$ telescopes identically to
+$$
+\bigl(3 f(\tau) - f(\sigma\tau) + f(\sigma)\bigr) - \bigl(f(\sigma) - f(\tau^3\sigma) + f(\tau^3)\bigr) - \bigl(f(\tau) - f(\tau^3) + f(\tau^2)\bigr) - \bigl(2 f(\tau) - f(\tau^2)\bigr) = 0,
+$$
+whereas omitting the factor $\chi(\sigma) = 3$ leaves the nonzero defect $-2 f(\tau)$. Evaluating $\mathcal I_\chi$ on $z = \mathrm{cupL}(a_{(\alpha;\,\beta,\gamma)}, b_{(\beta',\gamma';\,\alpha')})$, where $z((x, m), (x', m')) = m\alpha \cdot 3^m(x'\gamma' + \frac{3^{m'}-1}{2}\beta') + (x\gamma + \frac{3^m-1}{2}\beta) m'\alpha'$, gives $z(\sigma, \tau) = 3\alpha\gamma'$, $z(\tau^3, \sigma) = 3\gamma\alpha'$, and $z(\tau^2, \tau) = z(\tau, \tau) = 0$, hence
+$$
+\mathcal I_\chi\bigl(\mathrm{cupL}(a_{(\alpha;\,\beta,\gamma)},\ b_{(\beta',\gamma';\,\alpha')})\bigr) = 3(\alpha\gamma' - \gamma\alpha').
+$$
+Whenever $\alpha\gamma' - \gamma\alpha' = 0$, the explicit 1-cochain
+$$
+F(x, m) = -\alpha\gamma'\,m x - \frac{\alpha\beta'}{2}\,m\cdot 3^m + \frac{\beta\alpha'}{2}\,m
+$$
+satisfies $d_1 F = \mathrm{cupL}(a_{(\alpha;\,\beta,\gamma)}, b_{(\beta',\gamma';\,\alpha')})$ at every pair $((x, m), (x', m'))$.
+
+Specialize to the nonzero finite pair $\alpha = 1, \beta = 2, \gamma = 0$ and $\beta' = 2\sqrt{2}, \gamma' = 0, \alpha' = \sqrt{2}$, whose cup product $z((x, m), (x', m')) = \bigl(m\cdot 3^m(3^{m'} - 1) + (3^m - 1)m'\bigr)\sqrt{2}$ takes the nonzero value $z(\sigma, \sigma) = 8\sqrt{2}$:
+- At $c = 1$, $\operatorname{Tr}_{L/\mathbb Q_5}(1 \cdot z) = 0$, with $\mathbb Q_5$-witness $f_0(x, m) = 0$.
+- At $c = \sqrt{2}$ (realized via `cupS` on $\sqrt{2}\cdot b$), $\operatorname{Tr}_{L/\mathbb Q_5}(\sqrt{2}\cdot z) = 4 m\cdot 3^m(3^{m'} - 1) + 4(3^m - 1)m'$, which is $d_1 f_1$ for $f_1(x, m) = -4 m\cdot 3^m + 4m$.
+- Dual-basis reconstruction yields $F(x, m) = f_0(x, m)\cdot \frac{1}{2} + f_1(x, m)\cdot \frac{\sqrt{2}}{4} = -\sqrt{2}\,m\cdot 3^m + \sqrt{2}\,m$, and indeed $(d_1 F)((x, m), (x', m')) = z((x, m), (x', m'))$.
+Conversely, for the ramified non-finite cocycle $b_{\mathrm{ram}} = b_{(0,\sqrt{2};\,0)}$ ($b_{\mathrm{ram}}(\tau) = (\sqrt{2}, 0) \ne 0$) paired with $a_{(1;\,0,0)} \in Z^1_f(G, V)$, the scalar shift $c = \sqrt{2}$ gives $\mathcal I_\chi(\operatorname{Tr}_{L/\mathbb Q_5}(\sqrt{2}\cdot \mathrm{cupL}(a_{(1;\,0,0)}, b_{\mathrm{ram}}))) = 12 \ne 0$, certifying $b_{\mathrm{ram}} \notin Z^1_f(G, V')$.
+
+##### Definitions [Lean, read]
+
+Fix a prime $\ell$ (`[Fact l.Prime]`), a local prime structure $\mathcal P : \mathrm{LocPrime}(\ell)$, and a finite extension $K : \mathrm{FinExt}(\ell)$ inside the algebraic closure $\Omega_\ell$, with Galois group $G = G_K$, base field $k_0 = \mathbb Q_\ell$, base integer ring $R = \mathbb Z_\ell$, and period datum $\mathrm{PD} = \mathcal P.\mathrm{PD}(K) : \mathrm{PeriodData}\,G\,k_0\,K_0\,K\,B\,B_{\mathrm{dR}}$ as in §10.4.7.12 (`Statement.lean:75–112`, `DataNLoc.lean:527–559`). For any coefficient field $L$ with a $k_0$-algebra structure $\iota : k_0 \to L$, `cycLL PD L : G →* Lˣ` sends $g \mapsto \iota(\mathrm{PD}.\chi(g))$, and `charRep (cycLL PD L)` is the 1-dimensional $L$-representation on $L$ acting by multiplication by $\iota(\mathrm{PD}.\chi(g))$ (`LocCoh.lean:25–26`, `Statement.lean:481–484`).
+
+Given an $L$-representation $\rho'$ on $V'$ and an $L$-bilinear map $P : V \times V' \to L$, the rational cup product (`LocCoh.lean:129–131`) and continuous rational coboundary predicate (`LocCoh.lean:137–138`, `AdRep.lean:27–30`) are
+$$
+\mathrm{cupL}(\rho', P)(a, b)(g, h) := P\bigl(a(g),\ \rho'(g)(b(h))\bigr),
+$$
+$$
+\mathrm{CobL}(\mathrm{PD}, z) :\Longleftrightarrow \exists f : G \to L,\ \text{Continuous } f \ \wedge\ d_1\bigl(\mathrm{charRep}(\mathrm{cycLL}\,\mathrm{PD}\,L)\bigr)f = z.
+$$
+For $(L, O)$ satisfying `GoodO` (`LocCoh.lean:28–33`) and bundles $A, A' : \mathrm{GRep}(G, k_0, L, O)$ (`LocCoh.lean:36–54`), write $Z^1_{\mathrm{cts}}(\rho)$ for `continuousCocycles ρ`, $B^1(\rho)$ for `B1 ρ = range (cob ρ)`, $Z^1_f(\mathrm{PD}, \rho)$ for `finiteCocycles PD ρ`, and $H^1_f(\mathrm{PD}, \rho) := Z^1_f(\mathrm{PD}, \rho) / (B^1(\rho) \cap Z^1_f(\mathrm{PD}, \rho))$ for `FiniteCohomology PD ρ` (`Statement.lean:173–202, 318`). Note that `finiteCocycles PD ρ` is an $L$-submodule of $G \to V$: if $c(g) \otimes_{k_0} 1 = \mathrm{actVB}(\mathrm{PD}, \rho, g)(w) - w$ for $w \in V \otimes_{k_0} B$, then $(a \cdot c)(g) \otimes_{k_0} 1 = \mathrm{actVB}(\mathrm{PD}, \rho, g)(a \cdot w) - a \cdot w$ for every scalar $a \in L$ (`Statement.lean:198–202`).
+
+The general-coefficient rational annihilator `bkACore PD` (`LocCoh.lean:154–159`) quantifies over all $(L, O)$ satisfying `GoodO`, all $A, A' : \mathrm{GRep}(G, k_0, L, O)$, and all $L$-bilinear $P : A.V \times A'.V \to L$ satisfying `IsDR PD A.ρ` and `IsDual1 PD A.ρ A'.ρ P`, asserting both exact annihilator equivalences between $Z^1_f(\mathrm{PD}, A.\rho)$ and $Z^1_f(\mathrm{PD}, A'.\rho)$ inside $Z^1_{\mathrm{cts}}(A.\rho)$ and $Z^1_{\mathrm{cts}}(A'.\rho)$. Its $\mathbb Q_\ell$-base counterpart `Published.BlochKato.RationalDuality PD` (`RationalDualityOfAllCoefficients.lean:30–39`, `[Lean]` arithmetic interface) states the same two equivalences over $L = k_0 = \mathbb Q_\ell$, while `Published.BlochKato.DimFormula PD` (`RationalDualityOfAllCoefficients.lean:21–29`, `[Lean]` arithmetic interface) states finite dimensionality of $H^1_f(\mathrm{PD}, \rho)$ over $\mathbb Q_\ell$ and the tangent-space dimension formula
+$$
+\dim_{\mathbb Q_\ell} H^1_f(\mathrm{PD}, \rho) = \dim_{\mathbb Q_\ell} H^0(\rho) + \dim_{\mathbb Q_\ell} D_{\mathrm{dR}}(\mathrm{PD}, \rho) - \dim_{\mathbb Q_\ell}\bigl(D_{\mathrm{dR}}(\mathrm{PD}, \rho) \cap \mathrm{Fil}^0(V \otimes_{\mathbb Q_\ell} B_{\mathrm{dR}})\bigr)
+$$
+for every finite-dimensional orbit-continuous $\mathbb Q_\ell$-representation $\rho$ with the $\mathbb Q_\ell$-module topology satisfying `IsDR PD ρ`, and `LocalSituation.bkADim PD` (`LocalSituation.lean:274–279`) states the corresponding equality over arbitrary `GoodO` coefficients $(L, O)$.
+
+##### Lemma 10.13er (cyclotomic-twisted differential and field-trace coboundary criterion) [Lean, read]
+
+Let $L/k_0$ be a finite field extension equipped with its $k_0$-module topology (`[FiniteDimensional ℚ_[l] LL] [IsModuleTopology ℚ_[l] LL]`).
+1. For every function $f : G \to L$ and every pair $(g, h) \in G \times G$,
+   $$
+   d_1\bigl(\mathrm{charRep}(\mathrm{cycLL}\,\mathrm{PD}\,L)\bigr)f(g, h) = \iota(\mathrm{PD}.\chi(g))\,f(h) - f(gh) + f(g).
+   $$
+2. For every two-cochain $z : G \times G \to L$ (without assuming continuity or the two-cocycle identity),
+   $$
+   \mathrm{CobL}(\mathrm{PD}, z) \iff \forall c \in L,\ \mathrm{CobL}\!\left(\mathrm{PD},\; (g, h) \mapsto \operatorname{Tr}_{L/k_0}\bigl(c \cdot z(g, h)\bigr)\right),
+   $$
+   where the right-hand `CobL` uses $L = k_0$. Moreover, the reverse implication uses the $k_0$-witnesses only at the elements of a chosen $k_0$-basis $(b_i)$ of $L$.
+
+[A2, `BlochKatoAnnihilatorOfRationalLocalDuality.lean:26–66`.]
+
+**Proof.** Part (1) (`cyclotomicTwist_differential_apply`, `:26–29`) unfolds `ReciprocityTheory.Def.d1` (`AdRep.lean:27–30`), `charRep`, `cycLL`, and `Algebra.smul_def`.
+
+For part (2) (`cobL_iff_trace`, `:31–66`), `IsModuleTopology k_0 L` provides continuous addition and continuous $k_0$-scalar multiplication on $L$ (`:34–35`), and ensures that every $k_0$-linear map out of $L$ is continuous (`IsModuleTopology.continuous_of_linearMap`).
+
+($\Rightarrow$) Suppose $z = d_1 f$ for a continuous $f : G \to L$, and fix $c \in L$. Set $f_c(g) := \operatorname{Tr}_{L/k_0}(c \cdot f(g))$. Left multiplication by $c$ is $k_0$-linear and $\operatorname{Tr}_{L/k_0} : L \to k_0$ is $k_0$-linear, so $\operatorname{Tr}_{L/k_0} \circ (c \cdot -)$ is continuous, making $f_c = (\operatorname{Tr}_{L/k_0} \circ (c \cdot -)) \circ f$ continuous (`:39–40`). At each $x = (g, h) \in G \times G$, because $\chi(g) := \mathrm{PD}.\chi(g)$ lies in the base field $k_0$, the $k_0$-algebra law $\iota(\chi(g))\,f(h) = \chi(g) \cdot f(h)$ commutes with left multiplication by $c$:
+$$
+c \cdot \bigl(\iota(\chi(g))\,f(h) - f(gh) + f(g)\bigr) = \chi(g) \cdot (c\,f(h)) - c\,f(gh) + c\,f(g).
+$$
+Applying the $k_0$-linear map $\operatorname{Tr}_{L/k_0}$ preserves addition, subtraction, and $\chi(g)$-scalar multiplication, yielding $(d_1 f_c)(g, h) = \operatorname{Tr}_{L/k_0}(c \cdot z(g, h))$ (`:41–47`).
+
+($\Leftarrow$) Assume that for every $c \in L$ there exists a continuous $f_c : G \to k_0$ with $d_1 f_c = \operatorname{Tr}_{L/k_0}(c \cdot z)$ (`choose f hf using h`, `:49`). Because $\operatorname{char}(k_0) = 0$, $L/k_0$ is separable, so `Algebra.traceForm k_0 L` ($(u, v) \mapsto \operatorname{Tr}_{L/k_0}(uv)$) is nondegenerate (`traceForm_nondegenerate`, `:50`). Choose a finite $k_0$-basis $(b_i)$ of $L$ and let $(d_i)$ be its trace-dual basis in $L$ (`LinearMap.BilinForm.dualBasis`, `:51–52`), characterized by $(d.\mathrm{repr}\,w)_i = \operatorname{Tr}_{L/k_0}(w\,b_i) = \operatorname{Tr}_{L/k_0}(b_i\,w)$ and $w = \sum_i (d.\mathrm{repr}\,w)_i\,d_i$ for every $w \in L$. Define
+$$
+F(g) := \sum_i f_{b_i}(g) \cdot d_i : G \longrightarrow L.
+$$
+Each summand $g \mapsto f_{b_i}(g) \cdot d_i$ is continuous because $f_{b_i} : G \to k_0$ is continuous and $k_0$-scalar multiplication against the constant vector $d_i \in L$ is continuous; hence the finite sum $F$ is continuous (`continuous_finsetSum`, `:54`). For every $x = (g, h) \in G \times G$, evaluating $(d.\mathrm{repr}(z(x)))_i$ gives
+$$
+(d.\mathrm{repr}(z(x)))_i = \operatorname{Tr}_{L/k_0}\bigl(b_i \cdot z(x)\bigr) = (d_1 f_{b_i})(g, h) = \chi(g)\,f_{b_i}(h) - f_{b_i}(gh) + f_{b_i}(g).
+$$
+Substituting this coordinate formula into $z(x) = \sum_i (d.\mathrm{repr}(z(x)))_i\,d_i$ and distributing the scalar operations across the finite sum yields
+$$
+z(g, h) = \sum_i \bigl(\chi(g)\,f_{b_i}(h) - f_{b_i}(gh) + f_{b_i}(g)\bigr)\cdot d_i = \iota(\chi(g))\,F(h) - F(gh) + F(g) = (d_1 F)(g, h),
+$$
+proving $\mathrm{CobL}(\mathrm{PD}, z)$ (`:55–66`). $\square$
+
+##### Lemma 10.13es (scalar restriction of module topology, `finiteCocycles`, and `bkADim`) [Lean, read]
+
+Let $(L, O)$ satisfy `GoodO (Qp := k_0) L O` and let $A : \mathrm{GRep}(G, k_0, L, O)$ have underlying $L$-space $V$ and representation $\rho = A.\rho$. Write $\mathrm{res}_{k_0}\rho : G \to \operatorname{End}_{k_0}(V)$ for scalar restriction (`DeRhamPotSemistable.lean:28–34`).
+1. **Tower module topology (`isModuleTopology_of_tower`).** $V$ carries `FiniteDimensional k_0 V`, `IsModuleTopology k_0 V`, and `ContinuousConstSMul k_0 V`.
+2. **Exact preservation of `finiteCocycles` and $H^1_f$ (`mem_finiteCocycles_restrictScalars_Ql`, `h1fEquiv`).** For every function $c : G \to V$,
+   $$
+   c \in Z^1_f(\mathrm{PD},\, \mathrm{res}_{k_0}\rho) \iff c \in Z^1_f(\mathrm{PD},\, \rho),
+   $$
+   inducing $k_0$-linear isomorphisms $Z^1_f(\mathrm{PD}, \mathrm{res}_{k_0}\rho) \simeq_{k_0} Z^1_f(\mathrm{PD}, \rho)$ and $H^1_f(\mathrm{PD}, \mathrm{res}_{k_0}\rho) \simeq_{k_0} H^1_f(\mathrm{PD}, \rho)$.
+3. **Descent of the Bloch–Kato dimension formula (`bkADim_of_dimFormula`).** Under `Published.BlochKato.DimFormula PD`, `LocalSituation.bkADim PD` holds: whenever `IsDR PD ρ` holds,
+   $$
+   \dim_L H^1_f(\mathrm{PD}, \rho) = \dim_L H^0(\rho) + \dim_L D_{\mathrm{dR}}(\mathrm{PD}, \rho) - \dim_L\bigl(D_{\mathrm{dR}}(\mathrm{PD}, \rho) \cap \mathrm{Fil}^0(V \otimes_{k_0} B_{\mathrm{dR}})\bigr).
+   $$
+
+[A2, `BlochKatoDimOfQlDimensionFormula.lean:14–115`; `BlochKatoDimOfQlDimensionFormulaStatement.lean:8–9`; `BlochKatoAnnihilatorOfRationalLocalDuality.lean:121–134`; `DeRhamPotSemistable.lean:28–52`.]
+
+**Proof.** Both `bkADim_of_dimFormula` (`:90`) and `bkACore_of_rationalDuality` (`:121`) unpack `GoodO` as `⟨-, hfin, hmt, htr, -⟩`, using only `FiniteDimensional k_0 L`, `IsModuleTopology k_0 L`, and `IsTopologicalRing L`, and discarding the DVR and open-range clauses on $O$.
+
+For (1), transitivity of finite dimensionality gives `FiniteDimensional k_0 V` (`Module.Finite.trans L V`). Choosing an $L$-basis $e : V \simeq_L (\mathrm{Fin}(\dim_L V) \to L)$, both $e$ and $e^{-1}$ are $L$-linear and therefore continuous under `IsModuleTopology L V` (`:19–21`). Restricting scalars on $e^{-1}$ to $k_0$ yields a continuous $k_0$-linear equivalence $(\mathrm{Fin}(\dim_L V) \to L) \simeq_{L[k_0]} V$; since $L$ has the $k_0$-module topology, so does the finite product $(\mathrm{Fin}(\dim_L V) \to L)$, and `IsModuleTopology.iso` transfers `IsModuleTopology k_0 V` to $V$ (`:22–24`). Constant $k_0$-scalar multiplication $x \mapsto q \cdot x = \iota(q) \cdot x$ is continuous by `algebraMap_smul` and `ContinuousConstSMul L V` (`BlochKatoAnnihilatorOfRationalLocalDuality.lean:129–134`).
+
+For (2), `actVB PD ρ g` acts on $V \otimes_{k_0} B$ (where the tensor product is already taken over $k_0$ in `Statement.lean:125–126`) by $\rho(g) \otimes \mathrm{actB}(g)$. Induction on tensors (`TensorProduct.induction_on`, `:33–38`) shows `actVB PD (resQ ρ) g x = actVB PD ρ g x` for every $x \in V \otimes_{k_0} B$. Because `continuousCocycles (resQ ρ)` and `continuousCocycles ρ` have the identical carrier $\{c : G \to V \mid \text{Continuous } c \wedge \forall g\,h,\ c(gh) = c(g) + \rho(g)c(h)\}$, the period-trivialization witnesses $x \in V \otimes_{k_0} B$ for $c(g) \otimes_{k_0} 1 = \mathrm{actVB}(g)x - x$ also coincide identically (`mem_finiteCocycles_restrictScalars_Ql`, `:59–63`). Wrapping the identity map gives `finiteCocyclesResEquiv` (`:65–71`); since `B1 (resQ ρ)` and `B1 ρ` have the same underlying coboundaries $g \mapsto \rho(g)v - v$, passing to quotients via `Submodule.Quotient.equiv` and `Submodule.Quotient.restrictScalarsEquiv` gives `h1fEquiv` (`:73–77`).
+
+For (3), pointwise inspection identifies $H^0(\mathrm{res}_{k_0}\rho) = H^0(\rho).\mathrm{restrictScalars}\,k_0$ (`:40–42`), $D_{\mathrm{dR}}(\mathrm{PD}, \mathrm{res}_{k_0}\rho) = D_{\mathrm{dR}}(\mathrm{PD}, \rho).\mathrm{restrictScalars}\,k_0$ (`DeRhamPotSemistable.lean:42–44`), and $\mathrm{Fil}^a(V \otimes_{k_0} B_{\mathrm{dR}})$ over $k_0$ with the $k_0$-scalar restriction of $\mathrm{Fil}^a(V \otimes_{k_0} B_{\mathrm{dR}})$ over $L$ (`FilV_resQ`, `:44–56`). By `finrank_mul_finrank`, `IsDR PD ρ` implies `IsDR PD (resQ ρ)` (`isDR_resQ_iff`, `DeRhamPotSemistable.lean:46–51`). Applying `DimFormula PD` to `(V, resQ ρ)` (`:96`) gives finite-dimensional $H^1_f$ and the dimension identity over $k_0$. The invariants lie in $V$, and the de Rham identity gives finite dimension for the de Rham space and its filtration subspace. Rewriting all four $k_0$-dimensions as $[L : k_0]$ times the corresponding $L$-dimensions (`:97–110`) yields $[L : k_0] \cdot \mathrm{LHS} = [L : k_0] \cdot \mathrm{RHS}$ in $\mathbb Z$. Since $[L : k_0] > 0$ (`Module.finrank_pos`), cancelling $[L : k_0] \ne 0$ via `mul_left_cancel₀` proves `bkADim PD` (`:111–114`). $\square$
+
+##### Lemma 10.13et (trace pairing nondegeneracy and two-sided scalar movement) [Lean, read]
+
+Let $L/k_0$ be a finite extension and let $\rho : G \to \operatorname{End}_L(V)$, $\rho' : G \to \operatorname{End}_L(V')$, and $P : V \times V' \to L$ satisfy `IsDual1 PD ρ ρ' P`. Define `trPair P : V →ₗ[k_0] V' →ₗ[k_0] k_0` by $(\mathrm{trPair}\,P)(x, y) := \operatorname{Tr}_{L/k_0}(P(x, y))$.
+1. `trPair P` is $k_0$-bilinear and satisfies `IsDual1 PD (resQ ρ) (resQ ρ') (trPair P)`.
+2. For every scalar $c \in L$ and all cochains $a : G \to V$, $b : G \to V'$, the following strict identities of functions $G \times G \to k_0$ hold:
+   $$
+   \mathrm{cupL}(\mathrm{res}_{k_0}\rho', \mathrm{trPair}\,P)(a, c\cdot b)
+   = \mathrm{cupL}(\mathrm{res}_{k_0}\rho', \mathrm{trPair}\,P)(c\cdot a, b)
+   = \bigl(x \mapsto \operatorname{Tr}_{L/k_0}(c \cdot \mathrm{cupL}(\rho', P)(a, b)(x))\bigr),
+   $$
+   and at $c = 1$, $\mathrm{cupL}(\mathrm{res}_{k_0}\rho', \mathrm{trPair}\,P)(a, b)(x) = \operatorname{Tr}_{L/k_0}(1 \cdot \mathrm{cupL}(\rho', P)(a, b)(x))$.
+
+[A2, `BlochKatoAnnihilatorOfRationalLocalDuality.lean:73–109, 137–148`.]
+
+**Proof.** `LinearMap.mk₂` constructs `trPair P` using tower scalar compatibility `LinearMap.map_smul_of_tower` (`:73–87`). Unpack `hP : IsDual1 PD ρ ρ' P` into equivariance `h1`, left radical vanishing `h2`, right radical vanishing `h3`, and equal $L$-ranks `h4` (`:95`).
+- *Cyclotomic equivariance (`:97–101`)*: For $g \in G$, $x \in V$, $y \in V'$, `h1` gives $P(\rho(g)x, \rho'(g)y) = \iota(\mathrm{PD}.\chi(g))\,P(x, y) = (\mathrm{PD}.\chi(g) : k_0) \cdot P(x, y)$, and $k_0$-linearity of $\operatorname{Tr}_{L/k_0}$ pulls out $\mathrm{PD}.\chi(g) \in k_0^\times$.
+- *Left radical (`:102–104`)*: Suppose $(\mathrm{trPair}\,P)(x, y') = 0$ for all $y' \in V'$. Fix $y \in V'$; for every scalar $c \in L$, testing at $y' = c \cdot y$ gives $\operatorname{Tr}_{L/k_0}(P(x, y) \cdot c) = \operatorname{Tr}_{L/k_0}(c \cdot P(x, y)) = \operatorname{Tr}_{L/k_0}(P(x, c \cdot y)) = 0$ by $L$-linearity of $P(x, -)$. Nondegeneracy of `Algebra.traceForm k_0 L` (`hB.1`) implies $P(x, y) = 0$ for every $y \in V'$, and `h2` forces $x = 0$.
+- *Right radical (`:105–107`)*: Symmetrically, if $(\mathrm{trPair}\,P)(x', y) = 0$ for all $x' \in V$, testing $x' = c \cdot x$ across all $c \in L$ gives $\operatorname{Tr}_{L/k_0}(P(x, y) \cdot c) = 0$, hence $P(x, y) = 0$ by `hB.1`, hence $y = 0$ by `h3`.
+- *Equal $k_0$-dimensions (`:108`)*: $\dim_{k_0} V = [L : k_0]\dim_L V = [L : k_0]\dim_L V' = \dim_{k_0} V'$ by `Module.finrank_mul_finrank` and `h4`.
+
+For part (2) (`cupS`, `cupS'`, `cup1`, `:137–148`), at any $x = (g, h) \in G \times G$, $\rho'(g)$ is $L$-linear and $P$ is $L$-bilinear, so
+$$
+P\bigl(a(g), \rho'(g)(c \cdot b(h))\bigr) = P\bigl(a(g), c \cdot \rho'(g)b(h)\bigr) = c \cdot P\bigl(a(g), \rho'(g)b(h)\bigr) = P\bigl(c \cdot a(g), \rho'(g)b(h)\bigr),
+$$
+and applying $\operatorname{Tr}_{L/k_0}$ gives all three pointwise identities. $\square$
+
+##### Theorem 10.13eu (general-coefficient rational local Bloch–Kato annihilators) [Lean, read]
+
+For every prime $\ell$, local structure $\mathcal P : \mathrm{LocPrime}(\ell)$, and $K : \mathrm{FinExt}(\ell)$ with $\mathrm{PD} = \mathcal P.\mathrm{PD}(K)$, the base-field hypothesis `Published.BlochKato.RationalDuality PD` holds if and only if `bkACore PD` holds: for every $(L, O)$ satisfying `GoodO (Qp := ℚ_[l]) L O`, every pair $A, A' : \mathrm{GRep}(G_K, \mathbb Q_\ell, L, O)$, and every $L$-bilinear $P : A.V \times A'.V \to L$ satisfying `IsDR PD A.ρ` and `IsDual1 PD A.ρ A'.ρ P`,
+$$
+\begin{aligned}
+\forall a \in Z^1_{\mathrm{cts}}(A.\rho),\quad
+a \in Z^1_f(\mathrm{PD}, A.\rho) &\iff \forall b \in Z^1_f(\mathrm{PD}, A'.\rho),\ \mathrm{CobL}\bigl(\mathrm{PD},\ \mathrm{cupL}(A'.\rho, P)(a, b)\bigr),\\
+\forall b \in Z^1_{\mathrm{cts}}(A'.\rho),\quad
+b \in Z^1_f(\mathrm{PD}, A'.\rho) &\iff \forall a \in Z^1_f(\mathrm{PD}, A.\rho),\ \mathrm{CobL}\bigl(\mathrm{PD},\ \mathrm{cupL}(A'.\rho, P)(a, b)\bigr).
+\end{aligned}
+$$
+
+[A2, `BlochKatoAnnihilatorOfRationalLocalDuality.lean:118–170`; `BlochKatoAnnihilatorOfRationalLocalDualityStatement.lean:8–9`; `RationalDualityOfAllCoefficients.lean:30–39, 99–116`.]
+
+**Proof.** ($\Rightarrow$: `bkACore_of_rationalDuality`, exported as `GlobalTheory.T.blochKatoAnnihilator_of_rationalLocalDuality`.) Fix $(L, O)$, $A, A'$, and $P$ with `hdR : IsDR PD A.ρ` and `hP : IsDual1 PD A.ρ A'.ρ P`. By Lemma 10.13es(1), $A.V$ and $A'.V$ carry finite $\mathbb Q_\ell$-dimensions, the $\mathbb Q_\ell$-module topologies (`isModuleTopology_of_tower`), and continuous constant $\mathbb Q_\ell$-scalar multiplication (`:125–134`), while orbit continuity `A.cont` and `A'.cont` is unchanged under `resQ`. By `isDR_resQ_iff` and Lemma 10.13et(1), `IsDR PD (resQ A.ρ)` and `IsDual1 PD (resQ A.ρ) (resQ A'.ρ) (trPair P)` hold. Specializing `h : Published.BlochKato.RationalDuality PD` to `(A.V, A'.V, resQ A.ρ, resQ A'.ρ, trPair P)` gives both $\mathbb Q_\ell$-annihilator clauses `key.1` and `key.2` (`:135–136`).
+
+*First clause (`:150–159`).* Fix $a \in Z^1_{\mathrm{cts}}(A.\rho) = Z^1_{\mathrm{cts}}(\mathrm{res}_{\mathbb Q_\ell} A.\rho)$. By Lemma 10.13es(2) (`← mem_finiteCocycles_restrictScalars_Ql`) and `key.1 a ha`, $a \in Z^1_f(\mathrm{PD}, A.\rho)$ is equivalent to
+$$
+H :\ \forall b \in Z^1_f(\mathrm{PD},\, \mathrm{res}_{\mathbb Q_\ell} A'.\rho),\quad \mathrm{CobL}\bigl(\mathrm{PD},\ \mathrm{cupL}(\mathrm{res}_{\mathbb Q_\ell} A'.\rho,\, \mathrm{trPair}\,P)(a, b)\bigr).
+$$
+- *Forward ($H \Rightarrow$ $L$-orthogonality, `:152–156`)*: Take any $b \in Z^1_f(\mathrm{PD}, A'.\rho)$. By Lemma 10.13er(2) (`cobL_iff_trace`), to prove $\mathrm{CobL}(\mathrm{PD}, \mathrm{cupL}(A'.\rho, P)(a, b))$ it suffices to prove $\mathrm{CobL}(\mathrm{PD}, x \mapsto \operatorname{Tr}_{L/\mathbb Q_\ell}(c \cdot \mathrm{cupL}(A'.\rho, P)(a, b)(x)))$ for every $c \in L$. By `cupS` (Lemma 10.13et(2)), this cochain equals $\mathrm{cupL}(\mathrm{res}_{\mathbb Q_\ell} A'.\rho, \mathrm{trPair}\,P)(a, c \cdot b)$. Because `finiteCocycles PD A'.ρ` is an $L$-submodule, $c \cdot b \in Z^1_f(\mathrm{PD}, A'.\rho)$ (`smul_mem c hb`), hence $c \cdot b \in Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell} A'.\rho)$ by Lemma 10.13es(2), and $H(c \cdot b)$ supplies the required $\mathbb Q_\ell$-coboundary witness.
+- *Reverse ($L$-orthogonality $\Rightarrow H$, `:157–159`)*: Take any $b \in Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell} A'.\rho)$. By Lemma 10.13es(2), $b \in Z^1_f(\mathrm{PD}, A'.\rho)$, so the assumed $L$-orthogonality gives $\mathrm{CobL}(\mathrm{PD}, \mathrm{cupL}(A'.\rho, P)(a, b))$. Applying the forward implication of `cobL_iff_trace` at the single scalar $c = 1$ and rewriting by `cup1` yields $\mathrm{CobL}(\mathrm{PD}, \mathrm{cupL}(\mathrm{res}_{\mathbb Q_\ell} A'.\rho, \mathrm{trPair}\,P)(a, b))$, proving $H$.
+
+*Second clause (`:160–169`).* Symmetrically, fix $b \in Z^1_{\mathrm{cts}}(A'.\rho) = Z^1_{\mathrm{cts}}(\mathrm{res}_{\mathbb Q_\ell} A'.\rho)$. Rewriting $b \in Z^1_f(\mathrm{PD}, A'.\rho)$ by Lemma 10.13es(2) and `key.2 b hb` reduces it to $H' : \forall a \in Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell} A.\rho),\ \mathrm{CobL}(\mathrm{PD}, \mathrm{cupL}(\mathrm{res}_{\mathbb Q_\ell} A'.\rho, \mathrm{trPair}\,P)(a, b))$. If $H'$ holds and $a \in Z^1_f(\mathrm{PD}, A.\rho)$, then for every $c \in L$ we have $c \cdot a \in Z^1_f(\mathrm{PD}, A.\rho) = Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell} A.\rho)$, so `cupS'` and $H'(c \cdot a)$ satisfy `cobL_iff_trace` (`:162–166`). Conversely, if $\mathrm{CobL}(\mathrm{PD}, \mathrm{cupL}(A'.\rho, P)(a, b))$ holds for all $a \in Z^1_f(\mathrm{PD}, A.\rho)$, then for any $a \in Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell} A.\rho) = Z^1_f(\mathrm{PD}, A.\rho)$ (no carrier pullback $q^{-1}$ is needed here because both submodules consist of the exact same functions $G_K \to A.V$), projecting via `cobL_iff_trace` at $c = 1$ and `cup1` establishes $H'$ (`:167–169`).
+
+($\Leftarrow$: `rationalDuality_of_allCoefficients`, `RationalDualityOfAllCoefficients.lean:99–116`.) First, `goodO_padicInt` (`:99–101`) verifies `GoodO (Qp := ℚ_[l]) ℚ_[l] ℤ_[l]` using the open embedding `PadicInt.isOpenEmbedding_coe`. Given $\mathbb Q_\ell$-spaces $V, V'$ satisfying the premises of `RationalDuality PD`, equip them with the pullback $\mathbb Z_\ell$-module structures `Module.compHom V (algebraMap ℤ_[l] ℚ_[l])` and scalar towers (`:112–115`), bundle them as `GRep` records over $(\mathbb Q_\ell, \mathbb Z_\ell)$, and specialize `bkACore PD` at `LL = ℚ_[l]`, `O = ℤ_[l]`. $\square$
+
+##### Strict failure boundaries when universal scalar testing or `IsDR` is dropped [Paper] / [Expository]
+
+**Failure Boundary 10.13ev (omitting full scalar quantification $\forall c \in L$ in `cobL_iff_trace` and `cupS`) [Expository].** Let $L/k_0$ be any nontrivial finite extension ($[L : k_0] \ge 2$). Because $\operatorname{Tr}_{L/k_0} : L \to k_0$ is surjective (`traceForm_nondegenerate`), $\dim_{k_0} \ker(\operatorname{Tr}_{L/k_0}) = [L : k_0] - 1 \ge 1$. Pick $0 \ne \theta \in \ker(\operatorname{Tr}_{L/k_0})$ and any continuous two-cochain $z_0 : G \times G \to k_0$ with $\neg\,\mathrm{CobL}(\mathrm{PD}, z_0)$. Then $z := \theta \cdot z_0 : G \times G \to L$ satisfies $\neg\,\mathrm{CobL}(\mathrm{PD}, z)$: if $z = d_1 F$ for a continuous $F : G \to L$, nondegeneracy of the trace form provides $c \in L$ with $\operatorname{Tr}_{L/k_0}(c\theta) = 1$, and Lemma 10.13er(2) ($\Rightarrow$) gives $z_0 = \operatorname{Tr}_{L/k_0}(c z) = d_1(\operatorname{Tr}_{L/k_0}(c F))$, contradicting $\neg\,\mathrm{CobL}(\mathrm{PD}, z_0)$. Yet for every base scalar $q \in k_0$ (in particular $c = 1$), $\operatorname{Tr}_{L/k_0}(q \cdot z) = q\operatorname{Tr}_{L/k_0}(\theta)\,z_0 = 0 = d_1(0)$. Explicitly:
+- In Example 10.13ep ($L = \mathbb Q_2(\pi)$, $\pi^2 = 2$), pair the finite cocycle $a_{1, 0}(m, n) = m$ with the non-finite cocycle $b_{0, \pi}(m', n') = n'\pi \notin Z^1_f(G, V')$. Their cup product $z_{\mathrm{bad}}((m, n), (m', n')) = m n' \pi$ is not an $L$-coboundary since $\mathcal I(z_{\mathrm{bad}}) = \pi \ne 0$, yet $\operatorname{Tr}_{L/\mathbb Q_2}(q \cdot z_{\mathrm{bad}}) \equiv 0$ for every $q \in \mathbb Q_2$ ($c = 1$ gives a false positive), while $c = \pi$ yields $\mathcal I(\operatorname{Tr}_{L/\mathbb Q_2}(\pi \cdot z_{\mathrm{bad}})) = 4 \ne 0$.
+- In Example 10.13eq ($L = \mathbb Q_5(\sqrt{2})$, $\chi(\sigma) = 3$), pair $a_{(1;\,0,0)} \in Z^1_f(G, V)$ with $b_{\mathrm{ram}} = b_{(0,\sqrt{2};\,0)} \notin Z^1_f(G, V')$. Here $\mathcal I_\chi(z_{\mathrm{ram}}) = 3\sqrt{2} \ne 0$, yet $\operatorname{Tr}_{L/\mathbb Q_5}(1 \cdot z_{\mathrm{ram}}) \equiv 0$, while $c = \sqrt{2}$ detects $\mathcal I_\chi(\operatorname{Tr}_{L/\mathbb Q_5}(\sqrt{2}\cdot z_{\mathrm{ram}})) = 12 \ne 0$. The same mechanism shows that if $Z^1_f$ were closed only under $k_0$-scalars rather than all $L$-scalars (`smul_mem c`), testing $b_{0, \pi}$ or $b_{\mathrm{ram}}$ against $k_0$-rational finite cocycles via `trPair P` would fail to exclude it.
+
+**Failure Boundary 10.13ew (dropping the de Rham hypothesis `IsDR`) [Paper] / [Expository].** Before invoking `IsDR`, observe a universal coboundary identity valid for any `PeriodData` and `IsDual1 PD ρ ρ' P`: if $a \in Z^1_{\mathrm{cts}}(\rho)$ and $b(h) = \rho'(h) y_0 - y_0 \in B^1(\rho')$, then $f(g) := -P(a(g), \rho'(g) y_0)$ is continuous and satisfies
+$$
+(d_1 f)(g, h) = -\chi(g) P(a(h), \rho'(h) y_0) + P\bigl(a(g) + \rho(g)a(h),\, \rho'(gh) y_0\bigr) - P(a(g), \rho'(g) y_0) = \mathrm{cupL}(\rho', P)(a, b)(g, h);
+$$
+symmetrically, if $a(g) = \rho(g) x_0 - x_0 \in B^1(\rho)$ and $b \in Z^1_{\mathrm{cts}}(\rho')$, then $f'(g) := P(x_0, b(g))$ satisfies $d_1 f' = \mathrm{cupL}(\rho', P)(a, b)$. Consequently, whenever $Z^1_f(\mathrm{PD}, \rho') = B^1(\rho')$ ($H^1_f = 0$), *every* continuous cocycle $a \in Z^1_{\mathrm{cts}}(\rho)$ annihilates all of $Z^1_f(\mathrm{PD}, \rho')$.
+
+1. *Classical arithmetic counterexample at $\ell = p = 3$ `[Paper]`.* Take $K = \mathbb Q_3$, base field $k_0 = \mathbb Q_3$, and decompose the 3-adic cyclotomic character $\chi_{\mathrm{cyc}} : G_{\mathbb Q_3} \to \mathbb Z_3^\times = \{\pm 1\} \times (1 + 3\mathbb Z_3)$ as $\chi_{\mathrm{cyc}}(g) = \omega(g)\langle\chi_{\mathrm{cyc}}(g)\rangle$. Define the continuous character $\psi(g) := \langle\chi_{\mathrm{cyc}}(g)\rangle^{1/2} \in 1 + 3\mathbb Z_3$, set $V = \mathbb Q_3(\psi)$ and $V' = \mathbb Q_3(\psi^{-1}\chi_{\mathrm{cyc}}) = \mathbb Q_3(\omega\psi)$, and pair them by multiplication $P(x, y) = xy$. Every premise of `Published.BlochKato.RationalDuality` except `IsDR` holds. By [Fontaine–Ouyang, Example 3.26, p. 50], the Sen eigenvalues of $V$ and $V'$ are $1/2 \notin \mathbb Z$ and $1 - 1/2 = 1/2 \notin \mathbb Z$; by [Fontaine–Ouyang, Proposition 5.5, p. 89, and Proposition 5.30, p. 100], neither $V$ nor $V'$ is Hodge–Tate or de Rham, so $D_{\mathrm{HT}}(V) = D_{\mathrm{dR}}(V) = D_{\mathrm{cris}}(V) = 0$ and $D_{\mathrm{HT}}(V') = D_{\mathrm{dR}}(V') = D_{\mathrm{cris}}(V') = 0$ ($\dim_{\mathbb Q_3} D_{\mathrm{dR}}(V) = 0 \ne 1 = [\mathbb Q_3 : \mathbb Q_3]\dim_{\mathbb Q_3} V$).
+
+   We check directly from the period-ring axioms (`PeriodData.φ_comm`, `Fil_exh`, `Fil_sep`, `fund`) that $Z^1_f(\mathbb Q_3, V) = B^1(\mathbb Q_3, V)$: if $a(g) = \psi(g) g(x) - x \in \mathbb Q_3$ for $x \in B_{\mathrm{cris}}$, applying $\varphi - 1$ gives $(\psi(g)g - 1)(\varphi(x) - x) = 0$ for all $g \in G_{\mathbb Q_3}$, so $\varphi(x) - x \in D_{\mathrm{cris}}(V) = 0$. If $\iota(x) \notin \mathrm{Fil}^0 B_{\mathrm{dR}}$, let $m \le -1$ be the unique integer with $\iota(x) \in \mathrm{Fil}^m B_{\mathrm{dR}} \setminus \mathrm{Fil}^{m+1} B_{\mathrm{dR}}$ ([Fontaine–Ouyang, Proposition 5.22, p. 96]); since $a(g) \in \mathbb Q_3 \subset \mathrm{Fil}^0 B_{\mathrm{dR}} \subseteq \mathrm{Fil}^{m+1} B_{\mathrm{dR}}$, reducing $(\psi(g)g - 1)\iota(x) = a(g)$ modulo $\mathrm{Fil}^{m+1} B_{\mathrm{dR}}$ yields a nonzero invariant in $(\mathbb C_3(m) \otimes_{\mathbb Q_3} V)^{G_{\mathbb Q_3}} \subseteq D_{\mathrm{HT}}(V) = 0$, a contradiction. Thus $\varphi(x) = x$ and $\iota(x) \in \mathrm{Fil}^0 B_{\mathrm{dR}}$, so $x \in B_{\mathrm{cris}}^{\varphi=1} \cap \mathrm{Fil}^0 B_{\mathrm{dR}} = \mathbb Q_3$ (`PeriodData.fund`, Bloch–Kato `(1.17.2)`), whence $a(g) = (\psi(g) - 1)x \in B^1(\mathbb Q_3, V)$. Identically, $Z^1_f(\mathbb Q_3, V') = B^1(\mathbb Q_3, V')$. Because $\psi \ne 1$ and $\omega\psi \ne 1$, $H^0(\mathbb Q_3, V) = H^0(\mathbb Q_3, V') = 0$, local Tate duality gives $H^2(\mathbb Q_3, V) = H^2(\mathbb Q_3, V') = 0$, and the local Euler–Poincaré characteristic formula ([Bloch–Kato, p. 356]) gives $\dim_{\mathbb Q_3} H^1(\mathbb Q_3, V) = \dim_{\mathbb Q_3} H^1(\mathbb Q_3, V') = 1$. Choosing any non-coboundary $a \in Z^1_{\mathrm{cts}}(G_{\mathbb Q_3}, V) \setminus B^1(G_{\mathbb Q_3}, V)$, the universal identity above shows $\mathrm{CobL}(\mathrm{cupL}(a, b))$ for every $b \in Z^1_f(\mathbb Q_3, V') = B^1(\mathbb Q_3, V')$, while $a \notin Z^1_f(\mathbb Q_3, V)$ — and symmetrically on $V'$, refuting both reverse implications of Theorem 10.13eu.
+
+2. *Explicit Laurent `PeriodData` model `[Expository]`.* Over $k_0 = K_0 = K = \mathbb Q$ with $p = 3$, take the one-relator Demuškin-shaped group $G_{\mathrm{Dem}} = \langle \sigma, \tau, \eta_1, \eta_2 \mid \sigma\tau = [\eta_1, \eta_2]\tau^3\sigma \rangle$ (discrete topology), $\chi(\sigma) = 3$, $\chi(\tau) = \chi(\eta_1) = \chi(\eta_2) = 1$, and $B = B_{\mathrm{dR}} = \mathbb Q[t, t^{-1}]$ with $\mathrm{actB}(g)(t^n) = \chi(g)^n t^n$, $\varphi(t^n) = 3^n t^n$, $\iota = \mathrm{id}$, and $\mathrm{Fil}^a = t^a \mathbb Q[t]$. Every field of `PeriodData` (`Statement.lean:75–112`) holds because $3^n = 1 \iff n = 0$. Let $V = \mathbb Q(\rho_2)$ and $V' = \mathbb Q(\rho_{3/2})$ be 1-dimensional with $\rho_2(\sigma) = 2$, $\rho_{3/2}(\sigma) = 3/2$, trivial action of $\tau, \eta_1, \eta_2$, and $P(x, y) = xy$ (`IsDual1` holds since $2 \cdot (3/2) = 3 = \chi(\sigma)$). Because $2 \cdot 3^n \ne 1$ and $(3/2) \cdot 3^n \ne 1$ for all $n \in \mathbb Z$, $D_{\mathrm{dR}}(\rho_2) = D_{\mathrm{dR}}(\rho_{3/2}) = 0$ (`IsDR` fails) and $Z^1_f(\rho_2) = B^1(\rho_2)$, $Z^1_f(\rho_{3/2}) = B^1(\rho_{3/2})$.
+
+   The cocycles $a_1$ and $b_2$ take value $1$ on $\eta_1$ and $\eta_2$, respectively, and vanish on the other generators. Both lie outside $B^1$, since the action of each $\eta_i$ is trivial. Let $c=[\eta_1,\eta_2]$ with convention $[x,y]=xyx^{-1}y^{-1}$. The two identities used in the coboundary calculation are $c\tau^3\sigma=\sigma\tau$ and $c\eta_2\eta_1=\eta_1\eta_2$. In this group define
+   $$
+   \begin{aligned}
+   \mathcal I_\chi^{\sigma,\tau}(z)
+    &=z(\sigma,\tau)-z(\tau^3,\sigma)-z(\tau^2,\tau)-z(\tau,\tau),\\
+   \widehat{\mathcal I}_{\mathrm{Dem}}(z)
+    &=\mathcal I_\chi^{\sigma,\tau}(z)-z(c,\tau^3\sigma)+z(c,\eta_2\eta_1)
+       -z(\eta_1,\eta_2)+z(\eta_2,\eta_1).
+   \end{aligned}
+   $$
+   For any one-cochain $f$, the expression obtained by omitting the two terms with first argument $c$ takes the value
+   $$
+   f(\tau^3\sigma)-f(\sigma\tau)+f(\eta_1\eta_2)-f(\eta_2\eta_1)
+   $$
+   on $d_1f$. Since $\chi(c)=1$, the two extra terms on $d_1 f$ are
+   $$
+   -f(\tau^3\sigma)+f(\sigma\tau)+f(\eta_2\eta_1)-f(\eta_1\eta_2).
+   $$
+   Hence $\widehat{\mathcal I}_{\mathrm{Dem}}(d_1f)=0$ for every $f$.
+
+   The indicator cochain of $\eta_1\eta_2$ gives $1$ for the expression with those terms omitted. To see that its four arguments are distinct, use the group $(U_3(\mathbb Q)\times\mathbb Q)\rtimes_\alpha\mathbb Z$. Write a coordinate in $U_3(\mathbb Q)\times\mathbb Q$ as $(x,y,z,w)$ with product given by adding the coordinates and adding $xy'$ to the third coordinate. The automorphism is $\alpha(x,y,z,w)=(2x,3y/2,3z+w,3w)$. Send $\sigma$ to the positive integer generator, and send $\tau,\eta_1,\eta_2$ to the unit vectors of the $w,x,y$ coordinates. The commutator is the unit vector of the $z$ coordinate, and $\sigma\tau=c\tau^3\sigma$ holds in this image. The images of $\tau^3\sigma,\sigma\tau,\eta_1\eta_2,\eta_2\eta_1$ are respectively $((0,0,0,3),1)$, $((0,0,1,3),1)$, $((1,1,1,0),0)$ and $((1,1,0,0),0)$. The indicator is continuous in the discrete topology, so its differential is a genuine $\chi$-coboundary.
+
+   The $x$ and $y$ coordinates give $a_1$ and $b_2$ with their respective actions. In particular $a_1(c)=0$, so the two added terms vanish on their cup. The corrected functional takes value $-1$ on $\mathrm{cupL}(a_1,b_2)$, proving that this cup is nonzero modulo coboundaries. Yet $a_1$ annihilates all of $Z^1_f(\rho_{3/2})=B^1(\rho_{3/2})$ by the coboundary identity above.
+
+##### Remarks: `BlochKatoDimOfQlDimensionFormula`, literature comparison, downstream wiring, and boundaries [Lean, read] / [Lean] / [Paper]
+
+**How `BlochKatoDimOfQlDimensionFormula` bridges to $\mathbb Q_\ell$-base mutual annihilation.** The connection operates at two distinct levels that should not be conflated:
+1. *Direct formal supply inside `BlochKatoAnnihilatorOfRationalLocalDuality.lean` `[Lean, read]`.* Line 6 of `BlochKatoAnnihilatorOfRationalLocalDuality.lean` imports `BlochKatoDimOfQlDimensionFormula.lean` to use two lemmas from `GlobalTheory.BkCoeff`: `isModuleTopology_of_tower` (`:14–24`, invoked at `:127–128` so `resQ A.ρ` and `resQ A'.ρ` satisfy the `[IsModuleTopology ℚ_[l] V]` typeclass premise of `Published.BlochKato.RationalDuality`) and `mem_finiteCocycles_restrictScalars_Ql` (`:59–63`, invoked six times at `:150, 156, 158, 160, 166, 168` to identify $Z^1_f(\mathrm{PD}, \mathrm{res}_{\mathbb Q_\ell}\rho) = Z^1_f(\mathrm{PD}, \rho)$). Theorem 10.13eu itself does *not* call `bkADim_of_dimFormula`, because `Published.BlochKato.RationalDuality` already postulates bidirectional exact annihilation over $\mathbb Q_\ell$.
+2. *Why $\mathbb Q_\ell$-base mutual annihilation rests on the dimension formula `[Paper]` / `[Lean]`.* In [Bloch–Kato, Proposition 3.8 and Corollary 3.8.4, pp. 354–356], trivialization in $B_{\mathrm{cris}}$ (`(3.7.2)`) immediately forces two finite classes to cup to zero in $H^2(K, \mathbb Q_p(1))$, giving only the forward inclusion $H^1_f(K, V) \subseteq H^1_f(K, V^*(1))^\perp$. Upgrading that isotropic inclusion to *exact* mutual annihilation requires the dimension identity `(3.8.5)`,
+   $$
+   \dim_{\mathbb Q_p} H^1_f(K, V) + \dim_{\mathbb Q_p} H^1_f(K, V^*(1)) = \dim_{\mathbb Q_p} H^1(K, V),
+   $$
+   which Bloch and Kato prove by summing the de Rham tangent-space formula Corollary 3.8.4 (`Published.BlochKato.DimFormula`) across $V$ and $V^*(1)$ (using Fontaine's duality of de Rham representations and $\dim_K \mathrm{Fil}^0 D_{\mathrm{dR}}(V) + \dim_K \mathrm{Fil}^0 D_{\mathrm{dR}}(V^*(1)) = \dim_K D_{\mathrm{dR}}(V)$) against the local Euler–Poincaré characteristic and $\dim_{\mathbb Q_p} H^2(K, V) = \dim_{\mathbb Q_p} H^0(K, V^*(1))$ (Failure Boundary 10.13ew shows this sum collapses to $0 + 0 < 1$ without `IsDR`). Archive A2 also contains a parallel concrete module `BlochKatoExactAnnihilatorsPeriodDatum.lean:58–73, 147–241` (`[Lean]`, deep helpers unread here) that executes this exact subspace-coannihilator dimension squeeze (`exact_ann`) from `LocalTateDualityK`, `LocalEulerCharK`, and `LocTied`. On the `Published.BlochKatoLocal` route read here, `DimFormula` and `RationalDuality` sit side by side over $\mathbb Q_\ell$, and `BlochKatoDimOfQlDimensionFormula` (`bkADim_of_dimFormula`) transports `DimFormula` to general coefficients $(L, O)$ by cancelling $[L : \mathbb Q_\ell] \ne 0$ while sharing `BkCoeff` with `bkACore_of_rationalDuality`. The `DimFormula` input gives finite dimensionality of $H^1_f$, including rank zero.
+
+In [Rubin, Theorem 1.4.1, Proposition 1.4.2, and Proposition 1.4.3(c)(i)–(ii), pp. 18–19] (with Remark 1.3.6, pp. 15–16), local duality is formulated directly over a general coefficient extension $\Phi/\mathbb Q_p$, proved at $\ell \ne p$ from unramified inertia invariants, and taken at $\ell = p$ with rational orthogonal complements $H^1_f(K, V)$ and $H^1_f(K, V^*)$ (`bkACore`) as the starting point from which integral-divisible (`bkBCore`) and mod-$M$ torsion (`bkC`) orthogonalities are deduced.
+
+**Downstream supply and consumer wiring (`hRat` $\to$ `bkACore` $\to$ `hA`) [Lean, read].** In `BlochKatoLocalAllPrimesOfBlochKato.lean:18–30`, `bkAll_of_blochKatoLocal` unpacks `hBK l P AI hT K : DimFormula (P.PD K) ∧ RationalDuality (P.PD K) ∧ IntegralDuality (P.PD K)` (`RationalDualityOfAllCoefficients.lean:60–62`) into `⟨hDim, hRat, hInt⟩`:
+- Line 22 passes `hRat` *alone* to `GlobalTheory.T.blochKatoAnnihilator_of_rationalLocalDuality l P K hRat`, producing `hA : bkACore (P.PD K)`.
+- Line 23 passes `hInt` to `GlobalTheory.T.blochKato_annihilator_of_integralLocalDuality l P K hInt` (§10.4.7.12), producing `hB : bkBCore (P.PD K)`.
+- Lines 24–25 assemble the five-conjunct local bundle `LocalSituation.bkAll (P.PD K)` (`LocalSituation.lean:308`): slot 1 is `hA : bkACore (P.PD K)`, slot 2 is `blochKatoDim_of_Ql_dimensionFormula l P K hDim : bkADim (P.PD K)` (Lemma 10.13es(3)), slot 3 is `BKRightExact.bkARightExact_of_tied l P AI hT K : bkARightExact (P.PD K)` (`[Lean]`), slot 4 is `hB`, and slot 5 is `breuilKisin_partC_of_partA_partB_finite_level hTD hEC l P AI hT K hA hB : bkC (P.PD K)` (`BreuilKisinPartCOfPartAPartBFiniteLevelStatement.lean:11–12`), where `bkC_of_bkA_bkB` (`BreuilKisinPartCOfPartAPartBFiniteLevel.lean:22–28`) uses `hA` for forward orthogonality in `blochKato_reductions_orthogonal_mod_pow`, `hB` for the right reverse implication, and `hTD : LocalTateDualityK` for the double annihilator. The wrapper passes `hEC` through its signature and the proof binds it anonymously.
+- Lines 27–30 wrap all `(l, K)` into `blochKatoLocal_allPrimes_of_blochKato : ... → LocalSituation.Conclusion5 D` (`LocalSituation.lean:595–596`), whose first projection `(h55 _ _).1 : bkACore` is specialized to fixed coefficients via `LargeLevelLemmas.bkAAt_of_core` (`LargeLevelLemmas.lean:30–32`) inside `bloch_kato_annihilator_above_l` (`BlochKatoAnnihilatorAboveL.lean:11–14`) and `bkaAll_of_hypotheses` (`BlochKatoAnnihilatorAllOfTateDualityEulerChar.lean:13–16`). Separately, on the global auxiliary-twist side `BlochKatoPhases.adm3 D` (`BlochKatoPhases.lean:396–398`) bundles `bkACore ∧ bkADim ∧ bkBCore`, from which §10.4.7.11 projected `.2.2` (`bkBCore`).
+
+**Reading boundary.** The `[Lean, read]` scope of this subsection covers `BlochKatoAnnihilatorOfRationalLocalDuality.lean:1–171`, `BlochKatoAnnihilatorOfRationalLocalDualityStatement.lean:1–9`, `BlochKatoDimOfQlDimensionFormula.lean:1–116`, `BlochKatoDimOfQlDimensionFormulaStatement.lean:1–9`, `RationalDualityOfAllCoefficients.lean:21–125`, `DeRhamPotSemistable.lean:21–52`, `BlochKatoLocalAllPrimesOfBlochKato.lean:18–32`, `LocCoh.lean:21–170`, `LocalSituation.lean:274–308, 595–596`, `LargeLevelLemmas.lean:22–33`, and `BlochKatoAnnihilatorAboveL.lean:11–16` in pinned archive A2 (`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`, Lean `v4.33.1`), while §10.4.7.11 (`11251709`) and §10.4.7.12 (`11251815`) are cited strictly at their audited scopes. Retained as named `[Lean]` or `[Open]` boundaries are the arithmetic production of `Published.BlochKato.RationalDuality`, `Published.BlochKato.DimFormula`, and `Published.BlochKato.IntegralDuality`, the proof bodies of `LocalTateDualityK`, `LocalEulerCharK` (`LocalTateDualityK.lean:47–62`), `BKRightExact.bkARightExact_of_tied`, the arithmetic comparisons in [§10.4.7.14](#104714-exact-blochkato-annihilators-at-finite-level), and `BlochKatoExactAnnihilatorsPeriodDatum` deep helpers, the comparison of the abstract `LocTied` period rings with classical $B_{\mathrm{cris}}$ and $B_{\mathrm{dR}}$ `[Open]`, Lean `v4.33.1` kernel replay, and compiled-environment reachability from `Main.riemannHypothesis` (`[Community]` / `[Open]`, [LUMI Frontier K §1.8](https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md)). [Bloch–Kato, pp. 353–356](https://virtualmath1.stanford.edu/%7Econrad/BSDseminar/refs/BKTamagawa.pdf) · [Rubin, pp. 14–19](https://wstein.org/people/rubin/book/hEulerSystems.pdf) · [Fontaine–Ouyang, pp. 50, 89, 96, 99–100](https://www.imo.universite-paris-saclay.fr/%7Efontaine/galoisrep.pdf)
+
+**Preliminary review.** C1–C4 of the same-source review hold under the named inputs. C5 identified the omitted terms in the Laurent example. The corrected expression and indicator calculation are given above. The original verdict was partial. [Source record](../sources/SOURCES.md#chapter-10-104713-rational-local-duality)
+
+#### 10.4.7.14 Exact Bloch–Kato annihilators at finite level
+
+##### Motivation [Expository]
+
+A finite local condition on a lattice quotient comes from integral cocycles whose rational classes are Bloch–Kato finite. To recover that condition from cup products, we must be able to detect a class that fails to lift to such a cocycle. The rational cup of [§10.4.7.13](#104713-rational-local-duality-field-trace-coboundaries-and-the-general-coefficient-annihilator) supplies orthogonality of the reductions, with the same coefficient field and ordered pairing. The mixed cup of [§10.4.7.12](#104712-integral-local-duality-and-the-two-finite-condition-annihilators) supplies the right-hand return through the divisible quotient. Detection uses two other facts. On one side, the integral–divisible pairing tests the image of a finite cocycle after division by the level. On the other, we have to recover a subgroup of divisible cocycles from the integral cocycles that annihilate it. This second step takes place modulo all divisible coboundaries. [Lean, read] [Archive A2 and bibliographic record](../sources/SOURCES.md#chapter-10-104714-exact-blochkato-annihilators-at-finite-level)
+
+##### Two calculations on local Galois groups [Paper] [Expository]
+
+Take the classical period realization over $K=\mathbb Q_3$. Put $G=G_K$, use arithmetic Frobenius for reciprocity, and write $\chi$ for the $3$-adic cyclotomic character. Use the pair of representations $V=L$ and $V'=L(1)$ with multiplication as the pairing in their lattice bases. Here $L$ is a coefficient field, independent of $K$. These representations are de Rham. In the period datum, the trivial line has invariant basis $1$ over $K$, and the twist has a basis given by the inverse of the period $t$ times a twist generator. More explicitly, an invariant on the twist multiplied by $\iota(t)$ is invariant for the untwisted period action, hence is in $K$. Extension of coefficients gives the same dimension in the two examples below.
+
+**First calculation.** Take $O=\mathbb Z_3$, $T=O$, $T'=O(1)$ and $r=2$. Let $u=4$. Local reciprocity identifies the maximal abelian pro-$3$ quotient of $G$ with the $3$-completion of $K^\times$. The latter is $\mathbb Z_3^2$, with the coordinates $(v,w)$ given by $3^v u^w$ in the completion. The subgroup $\{\pm1\}$ disappears and $\log(4)$ generates $3\mathbb Z_3$ since $\log(4)\equiv 3\pmod 9$. In the series for $\log(1+3)$ every term after the first has valuation at least $2$, because $n-v_3(n)\ge2$ for $n\ge2$. At level $9$, a character in $H^1(G,T/9T)$ is specified by its values $(x,y)$ on $3,4$ under reciprocity. A Kummer class in $H^1(G,T'/9T')$ is specified by the exponents $(a,b)$ of $3^a4^b$. Both modules are $(\mathbb Z/9)^2$.
+
+By the classical Bloch–Kato calculation, the rational finite line for the trivial representation is the unramified line, and that for $\mathbb Q_3(1)$ is the unit Kummer line. On the trivial side the integral cohomology is $\operatorname{Hom}_{\mathrm{cts}}(G,\mathbb Z_3)$, with the same coordinates over $\mathbb Z_3$. On the twist side the compatible Kummer isomorphisms identify $H^1(G,\mathbb Z_3(1))$ with the $3$-completion of $K^\times$. There is no root of unity of order $3$ in $K$, so these Kummer lifts have no inverse-limit ambiguity from degree zero. The coordinates inject into their rationalizations, and every pair of finite-level coordinates lifts integrally. The two finite subgroups are thus the lines $y=0$ and $a=0$, respectively. In the order character then Kummer, the invariant of the cup is
+$$
+\frac{xa+yb}{9}\pmod{\mathbb Z_3}.
+$$
+For example, the character $(3,0)$ and the unit class $(0,3)$ are nonzero classes of order $3$ on the two finite lines. The character $(0,3)$ is detected by the class of $4$, with value $1/3$. The class $(3,0)$ on the Kummer side is detected by the unramified character $(1,0)$, also with value $1/3$. For the whole left annihilator use the test $(a,b)=(0,1)$, which forces $y=0$. For the whole right annihilator use $(x,y)=(1,0)$, which forces $a=0$. Each coordinate line contains a class of order $9$, and pairing those generators with the complementary generators gives $1/9$. The map to the divisible representation on either side is multiplication by $1/9$ followed by reduction by the original lattice. [Bloch–Kato, Example 3.9 and Example 3.10.1](https://virtualmath1.stanford.edu/%7Econrad/BSDseminar/refs/BKTamagawa.pdf) · [Milne, Class Field Theory, I §1 and III §3, Proposition 3.6 and Lemma 3.7, and §4, Steps 2–3](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**Second calculation.** Retain $K=\mathbb Q_3$ and take $L=\mathbb Q_3(\pi)$, $\pi^2=3$, $O=\mathbb Z_3[\pi]$. The two terms in $a+b\pi$ have valuations of different parity for the valuation normalized by $v_L(\pi)=1$. This gives the ring of integers $O$, with uniformizer $\pi$ and $R=O/\pi^2O=\mathbb F_3[\epsilon]/(\epsilon^2)$, where $\epsilon$ is the residue of $\pi$. Take $T=O$ and take $T'=\pi^{-1}O(1)$ in $V'=L(1)$. With $m(x,z)=\pi xz$ the dual lattice of $O$ is precisely $\pi^{-1}O(1)$. In the bases $1$ and $\pi^{-1}$ the pairing has matrix $(1)$. Coordinates on the twist side always refer to that second basis.
+
+In the two $\mathbb Z_3$-coordinates of $O$, the integral and rational complexes are finite direct sums of the complexes in the first calculation. The finite-condition definition uses the tensor product over $\mathbb Q_3$, so period trivialization is componentwise in the same basis. Hence at level $\pi^2$ the character and Kummer coordinates range over $R^2$ with finite conditions $y=0$ and $a=0$. In the target $(L/O)[\pi^2]$ the cup value is $(xa+yb)/3\bmod O$. To compute it, apply the base invariant in each of the two coefficient coordinates. Equivalently evaluate the character on $3$ and $4$ and multiply by the Kummer coefficients in $R$. The two coordinate tests above still force $y=0$ and $a=0$ because $t\mapsto t/3\bmod O$ is injective on $R$. The finite character $(\epsilon,0)$ and the finite unit class $(0,\epsilon)$ both survive at this layer. The character $(0,\epsilon)$ is detected by $(0,1)$ with value $\pi/3=1/\pi\bmod O$, and the Kummer class $(\epsilon,0)$ is detected by $(1,0)$ with the same value. Multiplying either of these testers by $\epsilon$ would give zero, since $\pi^2/3=1$. The unit as well as the nilpotent coefficients matter to detection.
+
+Here the invariant tests exactly the vanishing in `CobO` in the classical realization. For the first example, $\mu_9\hookrightarrow\mu_{3^\infty}$ gives an injection on $H^2$: the Kummer sequence and Hilbert 90 identify $H^2(G,\mu_{3^n})$ with $\operatorname{Br}(K)[3^n]$, compatibly with inclusion in the Brauer group. Locally constant cochains on the compact $G^j$ have finite image, so passage to the union introduces no extra vanishing. For the second example use the two base coordinates of $L/O$ and the same injection for $\mu_3$. These calculations use the actual character and Kummer modules of $G_{\mathbb Q_3}$ and the classical period realization. The theorem below takes the archive's period datum and its named inputs as supplied. [Milne, Class Field Theory, II §1, III §§2–4](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+##### Cochains, the local condition and the pairing [Lean, read]
+
+Fix a prime $\ell$, a `LocPrime` $\mathcal P$, and $K$ in `FinExt` over $\mathbb Q_\ell$, with $G=G_K$ and period datum $\mathrm{PD}=\mathcal P.\mathrm{PD}(K)$. Let $(L,O)$ satisfy `GoodO`. Thus $O$ is a DVR with fraction field $L$, $L/\mathbb Q_\ell$ is finite with the prescribed module topology and topological ring structure, and the image of $O$ is open. Identify $O$ with its image. Let $A,A'$ be the archive's `GRep` records, which supply finite-dimensional $L$-spaces $V,V'$ with their module topologies and continuous orbit maps. Let $T,T'$ be stable finite free spanning lattices. Let $m:V\times V'\to L$ be a pairing satisfying `IsDualLat1`. In addition to rational nondegeneracy and equal dimensions, this gives
+$$
+m(gx,gy)=\chi(g)m(x,y),\qquad
+T'=\{y\in V':m(T,y)\subseteq O\}.
+$$
+Here $\chi$ is the character of $\mathrm{PD}$ viewed in $L^\times$, and $g$ acts on each variable through its own representation. We use the normalized twist lattice $L_1$ with underlying submodule $O$ in $L(1)$. Its stability gives the induced action on $L/O$. In a basis of $T$ and the $m$-dual basis in $V'$, membership in the dual lattice says that all coordinates belong to $O$. Applying the same criterion with the two bases reversed gives $T=\{x:m(x,T')\subseteq O\}$. Thus the flipped pairing $m^{\mathrm{op}}(y,x)=m(x,y)$ satisfies `IsDualLat1` on $(T',T)$.
+
+Take an irreducible $\varpi\in O$, any integer $r\ge0$, and the two stability witnesses for $\varpi^rT,\varpi^rT'$. Scalar linearity gives this stability. Write $q=\varpi^r$ using its image in $L$ and put $Q_T=T/qT$, $D_T=V/T$, and similarly for $T'$. Write $Z_T$, $Z_Q(T)$ and $Z_D(T)$ for continuous $T$-valued cocycles and locally constant cocycles valued in $Q_T$ and $D_T$, respectively. In particular `quotientCocycles` means
+$$
+c:G\longrightarrow Q_T,\qquad c(gh)=c(g)+gc(h),\qquad c\text{ locally constant},
+$$
+where the action is induced by the lattice action. Let $Z_f(V)$ be the continuous cocycles $d$ for which there is some $X\in V\otimes_{\mathbb Q_\ell}B$ with $d(g)\otimes1=gX-X$ for every $g$ under the diagonal period action. Then $Z_f(T)=Z_T\cap Z_f(V)$. Write $B_Q(T)$ and $B_D(T)$ for the images of $\delta x:g\mapsto gx-x$ with $x$ in $Q_T$ and $D_T$. With $R_T$ reduction modulo $qT$ on lattice cocycles and $p_T:V\to D_T$, the source definitions are
+$$
+F_Q(T)=R_T Z_f(T)+B_Q(T),\qquad F_D(T)=p_T Z_f(V)+B_D(T).
+$$
+These are `HfQ` and `HfD` as submodules of functions. Passage to $H^1$ further quotients by the appropriate coboundaries. Define $J_T=\mathrm{ioL}$ on coefficients by
+$$
+J_T(\bar x)=q^{-1}x+T.
+$$
+We also write $J_Tc$ for pointwise application. Changing $x$ by $qt$ changes the scaled lift by $t\in T$. Thus $J_T$ is linear and equivariant and identifies $Q_T$ with $D_T[q]$. It sends locally constant cocycles to locally constant cocycles. The lattice and its dilate are open by finite-dimensional lattice coordinates, so reduction of a continuous lattice cocycle is locally constant. For $B_D(T)$, lift $x\in D_T$ to $v\in V$ and reduce the continuous cocycle $g\mapsto gv-v$ modulo the open lattice. This proves $B_D(T)\subseteq Z_D(T)$.
+
+The source uses `liftQ` and `liftD` as chosen set-theoretic sections. With such lifts, `cupQ` and the mixed cup `cupLD` are the $L$-valued functions
+$$
+C_Q(c,c')(g,h)=q^{-1}m(\widehat c(g),g\widehat c'(h)),
+\qquad
+C_D(d,b)(g,h)=m(d(g),g\widehat b(h)).
+$$
+Here $\widehat c(g)$ means the chosen lift evaluated at $c(g)$. The first lift in $C_Q$ belongs to $T$ and the second to $T'$. In $C_D$, $d$ takes values in $T$ and $\widehat b(h)$ lifts $b(h)\in D_{T'}$ to $V'$. Integrality and stability imply that changes of either finite lift, or of the divisible lift in the mixed cup, change the displayed values by elements of $O$. Denote their reductions in $L/O$ by an overline. The test `CobO` is
+$$
+\operatorname{Cob}_O(z)
+\quad\Longleftrightarrow\quad
+\exists f:G\to L/O\text{ locally constant},\quad \overline z(g,h)=\chi(g) f(h)-f(gh)+f(g)\quad(\forall g,h).
+$$
+Write this differential as $d_\chi f$. The test is invariant under pointwise integral perturbations and under addition of $d_\chi f$ or negation. The rational predicate `CobL` uses the same differential with a continuous $L$-valued $f$ and equality in $L$. Reduction modulo the open $O$ turns such a primitive into a locally constant primitive. In particular $C_Q$ requires only one factor of $q^{-1}$. Using $J$ on both arguments would introduce two factors and would fail the lift-independence test in general.
+
+The definitions are in `src/Formalism/WeaklyAdmissibleFiltrations/Statement.lean:173–202,230–242`, `StatementTor.lean:23–71,103–130`, `src/Formalism/SharpRestriction/LevelLetterCocycles/LocCoh.lean:21–89,99–141` and `LocalSituation.lean:288–308`, `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IoLMk.lean:19–48` and `src/ReciprocityTheory/BasicDefinitions/AdRep.lean:10–45`. [Archive A2](../sources/SOURCES.md#1-the-lean-archive-primary-source)
+
+##### Transport lemmas [Lean, read]
+
+**Lemma 1 (finite lift and divisible-image test).** One has $F_Q(T)=R_T Z_f(T)\subseteq Z_Q(T)$. For every function $c:G\to Q_T$,
+$$
+J_Tc\in F_D(T)\quad\Longleftrightarrow\quad c\in F_Q(T).
+$$
+
+*Proof.* A finite quotient coboundary $\delta\bar x$ lifts to $\delta x$ for a representative $x\in T$. This is a continuous lattice cocycle and is Bloch–Kato finite with period witness $x\otimes1$. Thus the summand $B_Q(T)$ can be absorbed into the reduction, and local constancy follows from the openness argument above. If $c=R_Td$ with $d\in Z_f(T)$, then $J_Tc=p_T(q^{-1}d)$ belongs to $F_D(T)$ by scalar linearity of $Z_f(V)$.
+
+Conversely suppose $J_Tc=p_T f+\delta\bar x$, where $f\in Z_f(V)$ and $\bar x\in D_T$. Lift $\bar x$ to $x\in V$ and put $w=f+\delta x$. The period witness for $\delta x$ is again $x\otimes1$, so $w\in Z_f(V)$. For each $g$ choose any $t_g\in T$ above $c(g)$. The equality in $D_T$ says $q^{-1}t_g-w(g)\in T$. Therefore
+$$
+q w(g)=t_g-q\big(q^{-1}t_g-w(g)\big)\in T,\qquad
+q w(g)\equiv t_g\pmod{qT}.
+$$
+The continuous finite cocycle $qw$ is lattice-valued and reduces to $c$. The choice of the $t_g$ affects only this congruence calculation. Continuity comes from $w$. This argument also covers a difference of functions whose divisible image is a coboundary. $\square$
+
+**Lemma 2 (two transports of the cup test).** For $d\in Z_T$ and any function $c':G\to Q_{T'}$,
+$$
+\overline{C_D(d,J_{T'}c')}=\overline{C_Q(R_Td,c')}.
+$$
+For $s\in Z_Q(T)$ and $e\in Z_{T'}$,
+$$
+\operatorname{Cob}_O(C_Q(s,R_{T'}e))
+\quad\Longleftrightarrow\quad
+\operatorname{Cob}_O(C_D^{\mathrm{op}}(e,J_Ts)).
+$$
+
+*Proof.* In the first identity choose $d(g)$ as the first finite lift and $q^{-1}\widehat c'(h)$ as the divisible lift. Stability and integrality give the same reductions for the source's choices. For the second identity put $u_g=\widehat s(g)$ and $F(g)=q^{-1}m(u_g,e(g))\bmod O$. The finite cocycle relation gives $u_{gh}\equiv u_g+gu_h\bmod qT$. The relation $e(gh)=e(g)+ge(h)$ holds in the lattice. Expanding $d_\chi F$ and using equivariance cancels the $m(gu_h,ge(h))$ term against $\chi(g)m(u_h,e(h))$. The two remaining cross terms give
+$$
+d_\chi F(g,h)
+=-q^{-1}m(u_g,ge(h))-q^{-1}m(gu_h,e(g))\pmod O.
+$$
+The first term is minus the reduced finite cup and the second is minus the reduced flipped mixed cup. Changing $u_{gh}$ by a multiple of $q$ contributes an integral value. The map $g\mapsto u_g$ is locally constant because $s$ is and the section is a function. The pairing with the continuous $e$ and reduction by open $O$ show that $F$ is a locally constant one-cochain. Hence this computation supplies an actual primitive relating the two tests. $\square$
+
+These proofs follow `MemBlochKatoQuotientPowIffReduction.lean:26–61`, `LatticeReductionModPowMemLocConstCocycles.lean:22–69`, `LatticeDivisibleCoboundariesLeLocConstCocyclesAl.lean:13–37`, `LatticeQuotientToDivisibleQuotientMemCocycles.lean:13–29`, `BlochKatoQuotientOfDivisibleImageMem.lean:15–84`, `CupDivisibleImageCoboundaryIffFiniteLevel.lean:21–112` and `FiniteLevelCupSwapCoboundaryIff.lean:20–200`, all in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/`. Flipping the lattices is `src/Formalism/SharpRestriction/LevelLetterCocycles/RamificationTwoAndConjugationAtQAndD.lean:235–287,456–471`. [Archive A2](../sources/SOURCES.md#1-the-lean-archive-primary-source)
+
+##### The integral–divisible double annihilator [Lean, read]
+
+**Lemma 3.** Under `LocalTateDualityK`, let $B_D(T')\subseteq S\subseteq Z_D(T')$ be an $O$-submodule and $b\in Z_D(T')$. Suppose every $d\in Z_T$ that cups to a coboundary with all of $S$ also cups to a coboundary with $b$. Then $b\in S$.
+
+*Proof.* The archive's integral Tate pairing yields a bilinear map on integral cohomology and divisible cocycles
+$$
+\beta:H^1(G,T)\times Z_D(T')\longrightarrow L/O
+$$
+with $\beta([d],b)=0$ equivalent to $\operatorname{Cob}_O(C_D(d,b))$. The cochain construction takes the class of the reduced mixed cup in $H^2(G,(L/O)(1))$ and composes with the supplied top-degree Tate isomorphism. To see the descent, the $d_2$ differential of the mixed cup cancels by the two cocycle laws and equivariance. Local constancy follows by fixing a lift of $b(h)$ on a neighborhood of $h$ and using continuity in the first coordinate followed by reduction modulo $O$. If $d=\delta t$, $t\in T$, a primitive is $h\mapsto m(t,\widehat b(h))\bmod O$. If $b=\delta\bar x$, with lift $x\in V'$, a primitive is $g\mapsto-m(d(g),gx)\bmod O$. The first primitive is locally constant from $b$ and the second from reduction of a continuous map. In both formulas the cocycle law in the other argument gives $d_\chi$ of the displayed primitive equal to the cup. Thus divisible coboundaries lie in the right radical. The supplied integral Tate detection lemma gives the reverse inclusion, so the radical is $B_D(T')$. Integral cohomology $M=H^1(G,T)$ is finitely generated over $O$ by the archive's Tate finiteness supply.
+
+Here is the algebra used by `lattice_dual_cyclotomic`. Choose generators $v_1,\ldots,v_n$ of $M$. The set of coefficient vectors $a\in O^n$ with $\beta(\sum a_i v_i,b)\ne0$ is compact by compactness of $O$, supplied by the coefficient-ring interface, since each such functional is continuous on coefficient vectors with values in the discrete quotient $L/O$. For each $s\in S$, the locus $\beta(\sum a_i v_i,s)\ne0$ is open there. These loci cover that compact set by the testing hypothesis, so finitely many elements $s_1,\ldots,s_k$ suffice. The function $d\mapsto\beta(d,b)$ therefore factors through the image of $d\mapsto(\beta(d,s_i))_i$ in $(L/O)^k$. Since $L/O$ is divisible over a DVR, it is injective by Baer's criterion: on a principal nonzero ideal $(u)$, a map with value $y$ at $u$ extends by choosing a preimage of $y$ under multiplication by $u$, and the zero ideal poses no constraint. Thus the factored function extends to an $O$-linear functional on $(L/O)^k$.
+
+For each $i$, the coordinate $\beta(d,s_i)$ is killed by a fixed power of a uniformizer, since this holds on finitely many generators of $M$. The $\varpi^j$-torsion of $L/O$ is cyclic with generator $\varpi^{-j}+O$. On this cyclic module any endomorphism of $L/O$ acts by an $O$-scalar. Consequently the extension gives $\beta(d,b)=\sum b_i\beta(d,s_i)$ for some $b_i\in O$ and every $d\in M$. Then $b-\sum b_i s_i$ is in the right radical, hence in $B_D(T')\subseteq S$. This proves the claim, including the case where the compact set is empty. $\square$
+
+In the source, `LatticeDualCyclotomic.lean:14–53` calls `IntegralTatePairingLatticeDual.lean:32–96`, `FiniteH1PeriodDatum.lean:15–57`, `LatticeDualPairingCyclotomic.lean:50–196` and `MemOfForallAnnihilatorAnnihilatorFieldModInteger.lean:17–242`. Here is the detection step inside the third call.
+
+Suppose $b\notin B_D(T')$ and choose $j$ with $\varpi^j b=0$. For each $n=j+k$, multiply a lift of $b$ by $\varpi^n$ and reduce modulo $\varpi^n T'$. This gives a finite cocycle $b_n$ with $J_{T'}b_n=b$ at level $n$. If $b_n$ were a finite coboundary, its equivariant image would be a divisible coboundary. The second clause of the A2 interface `tate_pairing_lattice_quotients_nondegenerate` now gives a cocycle on $T/\varpi^nT$ whose cup against $b_n$ fails **the `CobO` test in the divisible scalar twist $(L/O)(\chi)$**. This is the interface invoked at `LatticeDualPairingCyclotomic.lean:124`. Its nonzero class lies in $H^2(G,(L/O)(\chi))$. Nonvanishing in finite-coefficient cohomology alone would be insufficient. For example, for the trivial action, $H^2(C_3,\mathbb Z/3)=\mathbb Z/3$ whereas $H^2(C_3,\mathbb Q_3/\mathbb Z_3)=0$.
+
+The finite cup and the mixed cup against $b$ agree pointwise modulo $O$. Indeed a lift of $b_n(h)$ differs from $\varpi^n$ times a lift of $b(h)$ by an element of $\varpi^nT'$. The factor $\varpi^{-n}$ cancels the first term's scaling, and the remaining term pairs integrally. Reduction of a detector to the preceding level preserves its mixed cup because differences in the preceding lattice power pair integrally with $b$ after lifting. The finite nonempty detector sets consequently admit a compatible sequence: any finite set of compatibility requirements can be met by choosing a detector at a sufficiently high level and projecting down, so compactness of the product gives a compatible choice. The supplied limit construction produces a continuous lattice cocycle. Its reduction modulo $\varpi^jT$ agrees with the first detector, so the reduced mixed cup still fails `CobO`. This proves the right-radical assertion: every $b$ annihilated by all integral cocycles belongs to $B_D(T')$.
+
+The top-degree Tate comparison, the finite nondegeneracy in the divisible target, finiteness and the compatible lattice limit are the named interfaces at this step. [Archive A2](../sources/SOURCES.md#chapter-10-104714-exact-blochkato-annihilators-at-finite-level)
+
+##### Part C theorem and proof [Lean, read]
+
+**Theorem.** With the data above, suppose $A$ is de Rham in the sense of `IsDR PD A.ρ`, namely $\dim_L D_{\mathrm{dR}}(A)=[K:\mathbb Q_\ell]\dim_L V$. Assume $h_A:\mathrm{bkACore}(\mathrm{PD})$, $h_B:\mathrm{bkBCore}(\mathrm{PD})$ and `LocalTateDualityK`. At every level $r\in\mathbb N$ with the stipulated stability witnesses,
+$$
+c\in F_Q(T)\ \Longleftrightarrow\
+\forall c'\in F_Q(T'),\ \operatorname{Cob}_O(C_Q(c,c'))\qquad (c\in Z_Q(T)),
+$$
+
+$$
+c'\in F_Q(T')\ \Longleftrightarrow\
+\forall c\in F_Q(T),\ \operatorname{Cob}_O(C_Q(c,c'))\qquad (c'\in Z_Q(T')).
+$$
+Here $h_A$ supplies both rational annihilator clauses with `CobL` under rational twisted duality. The clause of $h_B$ used below is the right divisible condition: for $b\in Z_D(T')$, membership $b\in F_D(T')$ is equivalent to $\operatorname{Cob}_O(C_D(d,b))$ for every $d\in Z_f(T)$. The two inherited core statements quantify over all coefficient and representation data as in `LocCoh.lean:154–169`. We use those cores with the given $A,A'$ and $m$.
+
+*Forward implications.* Take $c\in F_Q(T)$ and $c'\in F_Q(T')$. Lemma 1 gives lifts $d\in Z_f(T)$ and $e\in Z_f(T')$. The rational forward implication of $h_A$ supplies a continuous primitive $f$ for $m(d(g),ge(h))$. Scaling $f$ by $q^{-1}$ and reducing by open $O$ proves the desired test: replacing the lifts by $d(g)+qt_g$ and $e(h)+qt'_h$ changes the scaled cup by
+$$
+m(t_g,ge(h))+m(d(g),gt'_h)+q\,m(t_g,gt'_h)\in O.
+$$
+The same argument supplies both forward implications.
+
+*Right reverse implication.* Suppose $c'\in Z_Q(T')$ annihilates $F_Q(T)$. By equivariance $J_{T'}c'\in Z_D(T')$. For every $d\in Z_f(T)$ the reduction $R_Td$ lies in $F_Q(T)$ and the first cup transport gives $\operatorname{Cob}_O(C_D(d,J_{T'}c'))$. The specified implication of $h_B$ yields $J_{T'}c'\in F_D(T')$. Lemma 1 pulls this back to $c'\in F_Q(T')$. This is `clause2` in the producer.
+
+*Left reverse implication.* Suppose $c\in Z_Q(T)$ annihilates $F_Q(T')$. In the divisible cocycles of $T$, put
+$$
+S=J_T(F_Q(T))+B_D(T).
+$$
+It lies in $Z_D(T)$ because $F_Q(T)\subseteq Z_Q(T)$, $J_T$ is equivariant, and $B_D(T)\subseteq Z_D(T)$. It contains $B_D(T)$. Apply Lemma 3 to the flipped pair, with testers from $Z_{T'}$ and candidate $J_Tc$.
+
+To verify its hypothesis, take $e\in Z_{T'}$ with $\operatorname{Cob}_O(C_D^{\mathrm{op}}(e,b))$ for every $b\in S$. For each $s\in F_Q(T)$ use $J_Ts\in S$ and the swapped test of Lemma 2. This proves $\operatorname{Cob}_O(C_Q(s,R_{T'}e))$ for every $s$. Since $R_{T'}e\in Z_Q(T')$, the right reverse implication just proved places $R_{T'}e$ in $F_Q(T')$. Now use the hypothesis on $c$ against that reduction. The swapped test in the other direction gives $\operatorname{Cob}_O(C_D^{\mathrm{op}}(e,J_Tc))$. This proves that $J_Tc$ belongs to the double annihilator required by Lemma 3 and hence belongs to $S$.
+
+Expand membership in the sum. There exist an actual function $a\in F_Q(T)$ and $z\in B_D(T)$ such that $J_Tc=J_Ta+z$. Thus $J_T(c-a)=z\in F_D(T)$, pointwise by linearity. Lemma 1 applied to $c-a$ gives $c-a\in F_Q(T)$. Adding back $a$ gives membership of the original $c$ in $F_Q(T)$. The pullback uses $F_D(T)$, which already contains every divisible coboundary. At $r=0$ the quotient modules are zero and the same proof applies. $\square$
+
+The source is `BreuilKisinPartCOfPartAPartBFiniteLevel.lean:22–79`. The forward proof is `BlochKatoReductionsOrthogonalModPow.lean:28–107`. In the right reverse implication only the first clause of $h_B$ is used. The proof uses $h_A$ through the forward implication in its first clause and `LocalTateDualityK` through Lemma 3. [Archive A2](../sources/SOURCES.md#chapter-10-104714-exact-blochkato-annihilators-at-finite-level)
+
+##### Failure when a hypothesis is removed [Expository]
+
+**An integral pairing with a nonunit determinant.** In the first calculation replace multiplication by $m_0(x,y)=3xy$, keeping both lattices and the condition unchanged. This is rationally perfect, equivariant and integral. The $m_0$-dual of $T$ is $3^{-1}\mathbb Z_3(1)$, strictly larger than $T'$. The finite pairing now takes value $3(xa+yb)/9\bmod\mathbb Z_3$. Therefore the left annihilator of the right finite line contains exactly the characters with $y\in3(\mathbb Z/9)$, and the right annihilator of the left finite line consists of classes with $a\in3(\mathbb Z/9)$. Both are strictly larger than the finite lines. The excluded classes with $y=3$ or $a=3$ give explicit false positives. This checks the effect of dropping lattice perfection while keeping rational perfection.
+
+**Omitting $B_D$ in the cocycle recovery lemma.** Use the first example in its original order, with integral trivial coefficients testing the divisible twist $D=\mathbb Q_3/\mathbb Z_3(1)$. Let $S_0=J(F_Q)$ on that side and $z=\delta(1/27+\mathbb Z_3)$ in twist coordinates. Inversion defines an automorphism over $K$ of the cyclotomic extension at level $27$. Indeed the cyclotomic polynomial translated by $1$ is Eisenstein at $3$, so the Galois group of the extension is all of $(\mathbb Z/27)^\times$. At such a $g$, $z(g)=-2/27\bmod\mathbb Z_3$, which has order $27$. Every value of every element in $S_0$ is killed by $9$, so $z\notin S_0$. Every integral tester annihilates $z$ because $z$ is a divisible coboundary, with the mixed cup primitive exhibited in Lemma 3. Hence $z$ satisfies the double-annihilator test for $S_0$ but lies outside $S_0$. The failure concerns the lemma on divisible cocycles, whose domain allows $z$. At the original finite layer a different coboundary illustrates the last step of the proof: $\delta(1/9+\mathbb Z_3)$ is $J$ of $\delta(1\bmod9)$ on the twist, and multiplication back by $9$ gives the integral finite cocycle $\delta 1$.
+
+##### The caller and the scope of the reading
+
+The export `GlobalTheory.T.breuilKisin_partC_of_partA_partB_finite_level` at `BreuilKisinPartCOfPartAPartBFiniteLevelStatement.lean:11–12` forwards to the proof above. Its public type takes `LocalTateDualityK`, `LocalEulerCharK`, $\ell,\mathcal P,\mathrm{AI}$, `LocTied`, $K,h_A,h_B$. At line 23 the introductions discard `LocalEulerCharK`, $\mathrm{AI}$ and the `LocTied` witness using anonymous binders. The named Tate input enters at line 60. Both tests in the theorem use the same order of the finite cup. The flipped pairing enters only the intermediate integral test, which has no de Rham premise. The `LocTied` witness is used by the outer assembly, where `BlochKatoLocalAllPrimesOfBlochKato.lean:18–25` unpacks `Published.BlochKatoLocal` into the dimension, rational and integral inputs and separately calls the right-exactness supplier. The resulting five slots, in order, are `bkACore`, `bkADim`, `bkARightExact`, `bkBCore` and the `bkC` proved here. Lines 27–30 assemble `Conclusion5 D` over all local primes and fields using `D.loc`, `D.locA` and `D.locT`. [Lean, read] [Archive A2](../sources/SOURCES.md#chapter-10-104714-exact-blochkato-annihilators-at-finite-level)
+
+The lattice-lift and integral–divisible results of §§10.4.7.11–12 are used at their previously audited conditional scope. The rational result of §10.4.7.13 is inherited at the scope of its same-source preliminary review, with the corrected noncommutative example in that section. Part C uses the cores as premises. The same-source preliminary review was partial. It accepted the two conditional equivalences and identified the coefficient target of the detector and the side of the flipped reverse implication as corrections. The named upstream production of the arithmetic inputs, the deep Tate comparisons, `BKRightExact.bkARightExact_of_tied`, remain named inputs. [§10.4.7.15](#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients) follows the separate residual call to `LocalH2Injective.h2_inj`. The pinned archive is A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, with Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. This is author-level source reading and a textbook proof with worked finite calculations. Community kernel reports cover their own stated checks. [LUMI Frontier K](https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md)
+
+Classically Bloch–Kato give the rational finite condition and the integral pullback in (3.7.2)–(3.7.3), with mutual annihilation stated in Proposition 3.8 on p. 354 and its proof continuing through p. 359. Rubin's Proposition 1.4.3(i)–(ii), for nonzero $M\in O$ and orthogonal rational conditions at residue characteristic $p$, gives the integral–divisible and finite coefficient conclusions. Its proof uses the compatibility diagrams for the local Tate pairings and Lemma 1.3.8(i). The archive writes the finite coefficient argument on cocycles, with an explicit sign in the swapped cup and a coboundary sum on the divisible side. [Bloch–Kato, pp. 353–356](https://virtualmath1.stanford.edu/%7Econrad/BSDseminar/refs/BKTamagawa.pdf) · [Rubin, pp. 14–19](https://wstein.org/people/rubin/book/hEulerSystems.pdf)
+
+#### 10.4.7.15 Descending a cyclotomic coboundary to finite coefficients
+
+##### Motivation [Expository]
+
+The finite annihilator of [§10.4.7.14](#104714-exact-blochkato-annihilators-at-finite-level) tests the divided cup in the divisible twist. In the residual application, the lattice lifting criterion gives a primitive for a divided cup in $\operatorname{Frac}(O)/O$. At a residual place the required primitive takes values in $k=O/\mathfrak m_O$. Even if every value of the coboundary lies in the embedded copy of $k$, the given primitive can take values outside that copy. The problem is to find a new primitive for the same two-variable function. We will use two facts. The given primitive and the embedded coefficients fit in one finite $\mathbb Z_\ell$-module, and a single degree-two Tate class at that level gives coordinates for the cohomology of both coefficient modules. The argument is the residual descent used after the lattice lifting criterion of [§10.4.7.11](#104711-lifting-residual-cocycles-to-the-blochkato-lattice).
+
+##### Two local calculations [Expository]
+
+In both examples take the number field $F=\mathbb Q$, the algebraic closure $\Omega$ consisting of the elements algebraic over $\mathbb Q$ inside $\overline{\mathbb Q_p}$, and the valuation ring $A$ of the restricted $p$-adic valuation at $v=(p)$. Write $G=\operatorname{Dec}_F(A)$. The standard decomposition-group comparison identifies $G$ with the absolute Galois group of $\mathbb Q_p$. Choose arithmetic Frobenius on the maximal unramified extension, and let $t_n(g)\in\{0,\ldots,n-1\}$ record the exponent of the restriction of $g$ on the unramified degree-$n$ extension. This defines a continuous surjection to $\mathbb Z/n\mathbb Z$, and multiplication in $G$ adds the exponents modulo $n$. When $\ell\ne p$, reduction is injective on $\ell^j$-th roots of unity and each such root belongs to a finite unramified extension. In fact each residue root lifts uniquely by Hensel's lemma since the derivative of $X^{\ell^j}-1$ is a unit there. Thus, whenever $p^n\equiv1\bmod\ell^j$, the cyclotomic action modulo $\ell^j$ is multiplication by $p^{t_n(g)}$. All cochains below are inflated from indicated finite tables on these quotients. The identities on the tables hold for every pair in $G$ by this inflation. [Milne, Algebraic Number Theory, §8, §7 and Proposition 8.10, p. 139](https://www.jmilne.org/math/CourseNotes/ANT.pdf) · [Milne, Class Field Theory, I §1, pp. 19–23](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**First calculation. A primitive on a finer unramified quotient.** Let $p=19$, $\ell=3$ and $O=\mathbb Z_3$. Take $B'=\mathbb Z/3$, $B=\mathbb Z/9$, and $f(a)=3a\bmod 9$. The respective reduction maps make these $O$-modules and $f$ is $O$-linear and injective. The cyclotomic action on these coefficients is trivial because $19\equiv1\bmod9$ and inertia acts trivially. Put $i=t_3(g)$ and $j=t_3(h)$, and set
+$$
+z(g,h)=\left\lfloor\frac{i+j}{3}\right\rfloor\bmod3,\qquad
+c(g)=i\bmod9.
+$$
+The matrix of $z$ on exponent pairs $0,1,2$ has rows $(0,0,0),(0,0,1),(0,1,1)$. The larger primitive gives
+$$
+(\delta c)(g,h)=j-((i+j)\bmod3)+i
+              =3\left\lfloor\frac{i+j}{3}\right\rfloor=f(z(g,h)).
+$$
+The value $c(g)=1$ is outside the image of $f$. Moreover on the degree-three quotient, any hypothetical primitive $b$ would satisfy
+$$
+\sum_{i=0}^2(\delta b)(i,1)
+ =3b(1)+\sum_{i=0}^2\bigl(b(i)-b((i+1)\bmod3)\bigr)=0\bmod3,
+$$
+whereas the sum for $z$ is $1$. Use the degree-nine quotient of the same $G$. Write $t_9(g)=i+3u$, $t_9(h)=j+3w$, with digits $0,1,2$. The high digit of $t_9(gh)$ is $u+w+\lfloor(i+j)/3\rfloor\bmod3$. Therefore $b(g)=-u\bmod3$ satisfies
+$$
+(\delta b)(g,h)=-w+(u+w+\lfloor(i+j)/3\rfloor)-u=z(g,h).
+$$
+In the large module $c(g)-f(b(g))\equiv i+3u=t_9(g)\bmod9$ is an additive character of $G$. Its differential vanishes. The sample $z=1$ on $(i,j)=(2,1)$ verifies that the original coboundary is a nonzero function.
+
+**Second calculation. A nontrivial cyclotomic action and a divisible target.** Let $p=7$, $\ell=3$, $O=\mathbb Z_3$, $B'=\mathbb Z/9$ and $B=\mathbb Q_3/\mathbb Z_3$. Embed $B'$ by $f(a)=a/9+\mathbb Z_3$. Every class in $B$ is killed by a power of $3$. Identify $B[27]$ with integers modulo $27$ via $m\mapsto m/27+\mathbb Z_3$, so that $f$ in these coordinates is multiplication by $3$. Set $i=t_{27}(g)$, $j=t_{27}(h)$. The large twist is $7^i\bmod27$ and its reduction on $B'$ is $7^i\bmod9$. Take $c(g)=i/27+\mathbb Z_3$. The large differential, in numerator coordinates modulo $27$, is $(7^i-1)j$, since the wrap in $t_{27}(gh)$ is a multiple of $27$. Define
+$$
+z(g,h)=\frac{7^i-1}{3}\,j\bmod9.
+$$
+The numerator $7^i-1$ is divisible by $3$, so $f(z)=\delta c$ with the displayed sign. For example $z=2$ at $i=j=1$. The value $c(g)=1/27+\mathbb Z_3$ is outside $f(B')$.
+
+To find a small primitive, set $S_i=\sum_{a=0}^{i-1}7^a$, with $S_0=0$. The successive powers modulo $27$ for $a=0,\ldots,8$ are $1,7,22,19,25,13,10,16,4$. Their sum is $117\equiv9\bmod27$, and $7^9\equiv1\bmod27$. Thus $S_{27}\equiv3\cdot9=0\bmod27$. From $S_{i+j}=S_i+7^iS_j$ and the period modulo $27$, the function $u(g)=S_i/27+\mathbb Z_3$ is a twisted 1-cocycle. Each $S_i\equiv i\bmod3$, so
+$$
+b(g)=\frac{i-S_i}{3}\bmod9,\qquad f(b(g))=c(g)-u(g).
+$$
+For $i=0,\ldots,8$ the values of $b$ are $0,0,7,0,3,4,0,6,1$. They repeat every nine indices since $S_{i+9}-S_i\equiv 7^i\cdot9\equiv9\bmod27$. Applying the differential gives $f(\delta b)=\delta c-\delta u=\delta c=f(z)$, hence $\delta b=z$. At $i=j=1$ the small differential is $7\cdot0-7+0\equiv2\bmod9$, in agreement with the nonzero sample. These are calculations on quotients of two genuine decomposition groups. The finite tables verify the cochain formulas, while the theorem on $G$ uses local Tate duality.
+
+##### Definitions and the two Tate inputs [Lean, read]
+
+Let $F$ be any number field, $\Omega/F$ an algebraic closure, $v$ a nonzero prime of $\mathcal O_F$, and $A$ a valuation subring of $\Omega$ above $v$. Give $G=\operatorname{Dec}_F(A)$ the topology inherited from $\operatorname{Gal}(\Omega/F)$, and let $\chi=\chi_\ell|_G$ be the restriction of the $\ell$-adic cyclotomic character to $G$. Put $R=\mathbb Z_\ell$. If $O$ is a commutative $R$-algebra and $T$ is an $O$-module, write $T(\chi)$ for the additive module $T$ with $g$ acting by the image of $\chi(g)$ in $O$. With the underlying $R$-module this is scalar multiplication by $\chi(g)$. All local constancy conditions are for functions into the discrete coefficient set. For a 1-cochain $a$ and a 2-cochain $w$, define
+$$
+\begin{aligned}
+(\delta a)(g,h)&=\chi(g)a(h)-a(gh)+a(g),\\
+(d_2 w)(g,h,k)&=\chi(g)w(h,k)-w(gh,k)+w(g,hk)-w(g,h).
+\end{aligned}
+$$
+A 2-cocycle is locally constant with $d_2w=0$. The notation $H^2(G,T(\chi))$ means these cocycles modulo differentials of locally constant 1-cochains. If $T$ is killed by $\ell^N$, the action factors through the scalar residue $\chi_N$ in $R_N=R/\ell^N R$. The reduction $R\to R_N$ has open fibres, so $(g,t)\mapsto\chi_N(g)t$ is continuous into discrete $T$. Consequently $\delta a$ is locally constant. Expanding $d_2\delta a$ cancels all terms except $(\chi(g)\chi(h)-\chi(gh))a(k)$, which is zero. For any $R$-linear $f$ with the same scalar twist on both sides, $f$ commutes term by term with both differentials. [A2, H2EquivOfTorsionCharacter.lean:70–115; Global.lean:15–25,90–107; SeparatedDvrSecondCohomologyMem.lean:68–102]
+
+The named arithmetic premise is `ReciprocityTheory.Gal.LocalTateDuality` on number-field decomposition groups. At our $(F,\Omega,\ell,A,v)$ the proof consumes the following clauses at each $N\ge1$.
+
+1. For the **trivial representation** on $R_N$, the first clause supplies an $R_N$-linear isomorphism $e_N:H^2(G,R_N(\chi_N))\simeq R_N$. Its target cohomology is cyclotomic, even though the representation passed to the input is trivial. That representation is continuous because the action map is the projection to the second factor.
+2. For any finite discrete $R_N$-module representation $\rho$, the last clause identifies $H^2(G,M_\rho)$ by the degree-$(2,0)$ cup pairing with invariant elements of its cyclotomic dual. We use this clause with $\rho(g)=\chi_N(g)\operatorname{id}_M$. In this case every element of $M^\vee=\operatorname{Hom}_{R_N}(M,R_N)$ is invariant in the cyclotomic dual. Its action is $(g\phi)(m)=\chi_N(g)\phi(\rho(g^{-1})m)=\phi(m)$.
+
+For this representation, the pairing followed by $e_N$ maps $[w]$ to the functional $\phi\mapsto e_N([\phi\circ w])$. Indeed the degree-zero factor in the cup is fixed, so the value is $\phi(w(g,h))$. Evaluation commutes with the scalar differential, hence this formula also sends a coboundary to zero. The archive supplies bijectivity of the pairing map. For the existence argument we need its injectivity together with finite biduality. [A2, GalCoh.lean:22–34,201–205; GalCohDefs.lean:21–27,49–81,104–106; ContinuousConstSMulQuotient.lean:118–150; CobOfGen.lean:87–105]
+
+##### Lemma. A common degree-two generator at each positive level [Lean, read]
+
+For each $N\ge1$ there is a function $u_N:G\times G\to R$ with the following properties for **every** finite $R$-module $M$ killed by $\ell^N$. Multiplication of $u_N$ by each $x\in M$ gives a 2-cocycle. Each 2-cocycle $w$ with values in $M(\chi)$ has a decomposition
+$$
+w(g,h)=u_N(g,h)x+(\delta b)(g,h)
+$$
+for some $x\in M$ and locally constant $b:G\to M$. If $u_N x=\delta b$ for a locally constant $b$, then $x=0$.
+
+**Proof.** For any finite $R_N$-module $M$, the standard additive character $a\mapsto\exp(2\pi i a/\ell^N)$ identifies $R_N$ additively with the group of $\ell^N$-th roots of unity. Every additive character of $M$ takes values in that group and corresponds uniquely to an $R_N$-linear functional, since the scalars are integer residues. The decomposition of the finite abelian group $M$ into cyclic groups shows that its characters separate points and that their number equals $|M|$. In each cyclic factor of order $d$ the generator may be sent to any of the $d$ distinct $d$-th roots, and a nonzero coordinate is detected by a primitive choice on that factor. Thus $M\to M^{\vee\vee}$ is injective. Both modules have cardinality $|M|$ by applying the same count to the dual, so evaluation is bijective.
+
+Choose a locally constant $R_N(\chi_N)$-valued cocycle $\bar u_N$ representing $e_N^{-1}(1)$. Lift its values to integer representatives in $R$ to define $u_N$. Only the reductions of these values act on $M$, so applying the map $a\mapsto ax$ from $R_N$ to $M$ gives a locally constant cocycle $u_Nx$. For every $\phi\in M^\vee$,
+$$
+e_N([\phi\circ (u_N x)])
+   =e_N([\bar u_N\,\phi(x)])=\phi(x).
+$$
+For a given $w$, evaluation identifies $\phi\mapsto e_N([\phi\circ w])$ with evaluation at some $x\in M$. The Tate pairing is injective in the degree-two variable, so $[w]=[u_N x]$. By the definition of the quotient there is a locally constant $b$ with $w-u_Nx=\delta b$. Finally if $[u_Nx]=0$, all the $\phi(x)$ vanish, forcing $x=0$. The choice of $u_N$ is made before $M$ is chosen, which lets two modules use the same cocycle. [A2, H2EquivOfTorsionCharacter.lean:17–62,77–82,334–416]
+
+##### Theorem. Descent under a finite coefficient embedding [Lean, read]
+
+Assume `LocalTateDuality`. For every $F,\Omega,\ell,A,v$ as above, with $\ell$ prime, every commutative $\mathbb Z_\ell$-algebra $O$, all $O$-modules $B',B$ with $B'$ finite as a set and every injective $O$-linear $f:B'\to B$, suppose that for each $y\in B$ some power of $\ell$ kills $y$. Give both modules the scalar cyclotomic twist just defined. For **every** function $z:G\times G\to B'$ and every locally constant $c:G\to B$ satisfying
+$$
+ f(z(g,h))=(\delta c)(g,h)\qquad(g,h\in G),
+$$
+there is a locally constant $c':G\to B'$ satisfying $z(g,h)=(\delta c')(g,h)$ for every $g,h$. The same assertion with a curried $z$ is `GlobalTheory.LocalH2Injective.h2_inj`.
+
+**Proof.** First, $G$ is compact. It is the intersection over $x\in\Omega$ of the conditions $gx\in A\Longleftrightarrow x\in A$. Conversely those conditions force $gA=A$ by applying them also to $g^{-1}x$. For a fixed $x$ each condition is a union of cosets of the open stabilizer of $x$ and so is closed, since the complement is also a union of open cosets. The Krull Galois group is profinite and compact, so its closed subgroup $G$ is compact. Restricting the continuous cyclotomic character to this subgroup preserves continuity.
+
+Restrict scalars along $R\to O$, retaining $f$ as an injective $R$-linear map. The action by $(\ell:\mathbb Z_\ell)^n$ now agrees with multiplication by the natural number $\ell^n$ in the additive group. The fibres of $c$ are an open cover of $G$, so a finite subcover proves that $c(G)$ is finite. The union
+$$
+S=c(G)\cup f(B')
+$$
+is finite. For each element of $S$ choose a killing power and take a common exponent $r$, using $r=0$ if the only value is zero. Let $M=\operatorname{span}_R S\subseteq B$. Then $\ell^rM=0$ and $M$ is a quotient of the finite module $(R/\ell^r R)^S$. In particular $M$ is finite, regardless of the size of $B$ or $O$. Use the positive level $N=r+1$ as in the archive. View $c$ as $c_M:G\to M$ and $f$ as $f_M:B'\hookrightarrow M$. The fibres of $c_M$ are the original fibres of $c$, and $B'$ is killed by $\ell^N$ because $f_M$ is injective. The hypothesis is the pointwise equality $f_M\circ z=\delta c_M$ in $M$.
+
+We now know $\delta c_M$ is a locally constant 2-cocycle. Since $f_M$ is injective, the fibres of $z$ equal the corresponding fibres of $f_M\circ z$. This proves local constancy of $z$. Further, $f_M(d_2z)=d_2(\delta c_M)=0$, so $d_2z=0$. Apply the generator lemma to $B'$ at level $N$ to get $x\in B'$ and a locally constant $b$ with $z=u_Nx+\delta b$. Applying $f_M$ and subtracting the differential of $f_M\circ b$ gives
+$$
+u_N f_M(x)=\delta(c_M-f_M\circ b).
+$$
+The cochain on the right is locally constant, since sums, differences and postcomposition preserve local constancy. Apply the last clause of the generator lemma to $M$ at this very same level. It gives $f_M(x)=0$ and injectivity gives $x=0$. We can take $c'=b$, which proves the original equality for the same $z$. [A2, Global.lean:370–403; H2EquivOfTorsionCharacter.lean:235–259; CobOfGen.lean:16–108]
+
+**Cohomological interpretation.** For a pointwise $\ell$-primary torsion module with the discrete topology, the scalar action is continuous. Around each $(g,t)$ keep $t$ fixed and reduce $\chi$ modulo a power killing $t$. Thus the continuous cohomology of $B(\chi)$ is defined by the same differentials. The injection on continuous $H^2$ says that when the image of a cocycle is the differential of some locally constant $c$, the original cocycle is already a differential. The theorem above also recovers the cocycle identity and local constancy when $z$ is supplied as an arbitrary function.
+
+##### Failure without injectivity [Expository]
+
+Keep the original decomposition group at $p=19$, the common cyclotomic twist with $\ell=3$, and the modules $B'=\mathbb Z/3$ and $B=\mathbb Z/9$ from the first calculation. Replace $f$ by the zero linear map and take $c=0$. Construct a different $z$ as follows. Let $a:G\to\mathbb Z/3$ be the exponent of arithmetic Frobenius on the unramified cubic extension of $\mathbb Q_{19}$. Fix $\zeta\in\mu_3(\mathbb Q_{19})$ reducing to $7\bmod19$, which is a primitive cube root since $7^3\equiv1$ and $7\not\equiv1\bmod19$. In the completion model let $\alpha^3=19$ and define $k(g)\in\mathbb Z/3$ by $g(\alpha)/\alpha=\zeta^{k(g)}$. This is a continuous character because $\zeta$ is fixed. The polynomial $X^3-19$ is Eisenstein, so the resulting cyclic extension is totally ramified of degree three. Identify $B'(\chi)$ with $\mu_3$ via $\zeta$ and set $z(g,h)=a(g)k(h)$ in additive notation. This is the cup of the unramified character and the Kummer class of $19$. The cup invariant is $a(\operatorname{Art}_{\mathbb Q_{19}}(19))/3=1/3\bmod\mathbb Z$ with arithmetic Frobenius convention. Equivalently its vanishing would require $19$ to be a norm from the unramified cubic extension, where the valuation of every norm is a multiple of three. Hence $z$ is a nonzero cohomology class on $G$ itself, though $f\circ z=\delta0$. [Milne, Class Field Theory, III §3, Proposition 3.6 and Lemma 3.7, pp. 109–110, and III §4, Steps 2–3, pp. 111–113](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+##### The actual residual cup and the reading boundary
+
+In [the original residual orthogonality argument](#104710-equal-dimensions-for-the-original-residual-selmer-spaces), `GlobalTheory.ResOrth.bkOn_orthogonal` the source picks two integral finite cocycles $d,d'$ among the generators of the two residual local conditions. The rows below identify the arguments of the call at line 190. The proof of the lattice lifting criterion is used at its previously established conditional scope.
+
+| Argument | Value passed by the residual consumer |
+|---|---|
+| Number field, closure and place | $F=D.\mathrm{host}.E$, $\Omega=N.\mathrm{Om}$, $\ell=X.l\,i$, $v\mid\ell$, $A=N.\mathrm{plOm}.1\,v$, with place-over proof $N.\mathrm{plOm}.2\,v$. Thus $G$ is exactly `DecV N v`. |
+| Ring, small and large modules | $O=X.O0\,i$, $B'=k=O/\mathfrak m_O$ with finite residue field, $B=\operatorname{Frac}(O)/O$ with scalar twist `eps0 X i` and its reduction on $k$. |
+| $f$ and injectivity | $\iota(\bar a)=[a/\varpi]$. Over a DVR the kernel of $O\to\operatorname{Frac}(O)/O$, $a\mapsto[a/\varpi]$, is $\varpi O=\mathfrak m_O$. This is the division embedding of lines 94–116. |
+| Pointwise $\ell$-power torsion | $\ell$ belongs to $\mathfrak m_O$. If the denominator of a representative of a class in $B$ is a unit times $\varpi^m$, then $\ell^m$ is divisible by that denominator. Hence the class is killed by $\ell^m$. |
+| $z$ and large primitive | $z(g,h)=\overline{d(g)\mathbin{\cdot}(T^\vee(g)d'(h))}$ with $T^\vee=\texttt{Tdual i s}$. The forward lattice criterion takes $y=d'$, whose finite lift is $d'$ itself, and yields the locally constant large primitive named `f` in the caller. Division by $\varpi$ occurs once, through $\iota$. |
+| Small primitive and next use | The returned $c'$ is called `c` in the caller. The map $O\to K$ into the discrete field `IsRes i K` kills $\mathfrak m_O$ and hence factors through $\pi:k\to K$. The caller uses $g\mapsto b\,b'\,\pi(c'(g))$ for the generators scaled by $b,b'\in K$. |
+
+The cyclotomic compatibility in the last row is a scalar identity. The character `eps0 X i` is obtained by applying $R\to O$ to `cycZ`, so $\pi$ sends the reduced scalar to its image under $O\to K$. Applying $\pi$ to the small coboundary equation therefore gives the same differential over $K$. Multiplication by $bb'$ commutes with that differential and, by bilinearity of the dot product, gives the cup of the scaled residual generators. The consumer extends from generators using the cup identities for sums and coboundaries. [A2, ResidualBlochKatoLatticeDualOrthogonal.lean:94–134,156–210; LiftBlochKatoCocycleIffOrthogonalLatticeStatement.lean:8–10; BlochKatoPhases.lean:126–127,241–243]
+
+The arithmetic antecedent belongs to the finite local duality of John Tate. In the completed-local-field formulation, the Kummer sequence and Hilbert 90 identify $H^2(G,\mu_{\ell^N})$ with the $\ell^N$-torsion of the Brauer group. The invariant identifies this torsion with $\frac{1}{\ell^N}\mathbb Z/\mathbb Z$, which becomes $R_N$ by sending $1/\ell^N$ to $1$. For an $R_N$-module, every character into the multiplicative group takes values in $\mu_{\ell^N}$. This explains the cyclotomic dual and why Tate's degree-two pairing has the form used here. A choice of primitive root identifies the scalar twist with roots of unity. This accounts for the classical realization of the hypotheses in the examples. [Tate, ICM Stockholm 1962, §2, Theorem 2.1, p. 289](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM1962.1/ICM1962.1.ocr.pdf) · [Milne, Arithmetic Duality Theorems, 2nd ed., I §2, Corollary 2.3, p. 28](https://www.jmilne.org/math/Books/ADTnot.pdf)
+
+Our source reading covers the conditional proof, the finite generator and its direct supplies, and the displayed use in the residual consumer. It uses a single positive level after bounding the cochain image. The construction of compatible generators across all levels and the comparison proofs producing the full `LocalTateDuality` input have their own reading boundaries. Part C in [§10.4.7.14](#104714-exact-blochkato-annihilators-at-finite-level) concerns a different coefficient pairing and uses `LocalTateDualityK`. The pinned sources are A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, and Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`. This is author-level local R3 source reading. The same-source preliminary review accepted the conditional same-level generator, finite-span descent and original residual application. Finite arithmetic verification, kernel replay, compiled dependency reachability and peer review have separate scopes. [Source record](../sources/SOURCES.md#chapter-10-104715-descending-a-cyclotomic-coboundary-to-finite-coefficients)
 
 ### 10.4.8 From tame inertia to the order of a Selmer determinant
 
@@ -4462,7 +5038,7 @@ is continuous because the sum converges uniformly. Each summand is $\delta i_n$.
 
 For a profinite $G$ with continuous action, Jannsen's Theorem 2.2 identifies continuous cochain cohomology for the inverse limit of a Mittag–Leffler system of discrete modules with the derived cohomology of that system. Here the coefficient transitions are surjective, and finiteness of $H^1$ at a fixed level makes the descending images into that group stabilize. Jannsen's sequence (2.1) and Lemma 1.15 therefore identify $H^2_{\mathrm{cont}}(G,R(\chi))$ with the inverse limit of the finite-layer $H^2$. This covers injectivity in the arithmetic setting of this section. The archive gives the primitive directly by a compact intersection and works at that step with an arbitrary topological space on the group and compatible actions. The local finiteness on the cyclotomic layers is the input from Tate, with the order of each finite module invertible in the characteristic-zero field, even at residue characteristic $\ell$. [Jannsen, *Continuous étale cohomology*, pp. 213, 215–216](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf) · [Tate, ICM 1962, Theorem 2.1, p. 289](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf)
 
-The reading here covers the separation proof, its direct topological supplies, the division lemma and the integral coordinate consumer at author-level local R3. Finite local $H^1/H^2$, the same-positive-level descent, the common generator, and local Tate duality enter with their existing scopes. Independent audit, kernel replay, compiled reachability from `Main.riemannHypothesis` and peer review have separate evidence requirements. Part C and the full supply of `LocalH2Injective.h2_inj` remain outside this local result. [Pinned declarations](../sources/SOURCES.md#chapter-10-compatible-integral-primitives)
+The reading here covers the separation proof, its direct topological supplies, the division lemma and the integral coordinate consumer at author-level local R3. Finite local $H^1/H^2$, [the same-positive-level descent](#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients), the common generator, and local Tate duality enter with their existing scopes. Independent audit, kernel replay, compiled reachability from `Main.riemannHypothesis` and peer review have separate evidence requirements. [Part C](#104714-exact-blochkato-annihilators-at-finite-level) and the arithmetic supply of `LocalTateDuality` are separate inputs. [Pinned declarations](../sources/SOURCES.md#chapter-10-compatible-integral-primitives)
 
 ### 10.4.17 Recovering invariant length from torsion-level counts
 

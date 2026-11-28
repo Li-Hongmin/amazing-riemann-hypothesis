@@ -6219,3 +6219,56 @@ Thomas Browning's declarations in [pinned Mathlib Spectrum.lean:425–468](https
 Richard B. Melrose's [MIT 18.102 notes, Chapter 3, §18](https://math.mit.edu/~rbm/18.102Sp20/Chapter3.pdf), Lemma 3.16 and Theorem 3.4, pp. 89–92, give classical precedent on separable Hilbert spaces. The book uses a positive-form maximizing argument on arbitrary complex Hilbert spaces. Agreement of the projection root with the library root uses [Rpow/Basic.lean:239–289](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean#L239). Online originals checked on 2026-11-25. The [compact root comparison](../chapters/14-masullos-trace-formula-route.md#positive-root-consumer-compact-spectrum) invokes the general CFC root.
 
 Declaration-level introduction records for the compact theorem and Rayleigh estimates. [#36520](https://github.com/leanprover-community/mathlib4/pull/36520) · [#35173](https://github.com/leanprover-community/mathlib4/pull/35173) · [#35464](https://github.com/leanprover-community/mathlib4/pull/35464) · [#36246](https://github.com/leanprover-community/mathlib4/pull/36246)
+
+### Chapter 10 §10.4.7.13 Rational local duality
+
+[Textbook](../chapters/10-congruence-modules-to-sha.md#104713-rational-local-duality-field-trace-coboundaries-and-the-general-coefficient-annihilator) · [Archive A2 and pinned versions](#1-the-lean-archive-primary-source). In this record IE means `lean/src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/`. The joined A2 SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+| Textbook result | A2 location and scope |
+|---|---|
+| Field trace and moving scalars in either slot | IE/`BlochKatoAnnihilatorOfRationalLocalDuality.lean:26–66,73–109,137–148`, twisted differential, trace-dual reconstruction, `trPair` and its two radical tests. |
+| Restriction of scalars and dimension | IE/`BlochKatoDimOfQlDimensionFormula.lean:14–115`, including the unchanged cocycle and period witness and `h1fEquiv`. `PublishedTheorems/AutomorphicForms₂/DeRhamPotSemistable.lean:21–52` gives the de Rham comparison across the same coefficient tower. |
+| Rational annihilator and specialization | IE/`BlochKatoAnnihilatorOfRationalLocalDuality.lean:118–170` and its statement wrapper at lines 8–9. `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/RationalDualityOfAllCoefficients.lean:21–39,60–62,99–116` gives the named inputs and the reverse specialization at the base DVR. |
+| Local bundle | IE/`BlochKatoLocalAllPrimesOfBlochKato.lean:18–30` places `hA` in slot 1, `hB` in slot 4, and passes both to slot 5. `DimFormula` supplies slot 2. |
+
+[Lean, read] Local R3 for the transport proofs. The same-source preliminary review (11260009) accepted C1–C4 under the named inputs. Its partial verdict identified the Laurent-model error in C5. The edition includes both commutator terms and the indicator cochain. The arithmetic production of the named Published inputs and the comparison of period realizations retain their statement-level scope.
+
+[Paper] Bloch–Kato, (3.7.1)–(3.7.3), Proposition 3.8 and Corollary 3.8.4, pp. 353–356, and Rubin, Remark 1.3.6 and Theorem 1.4.1 through Proposition 1.4.3, pp. 14–19, give the classical rational and integral context. Fontaine–Ouyang, Example 3.26 and Propositions 5.5, 5.22 and 5.30, explain the nonintegral-weight example and period comparison. [Bloch–Kato](https://virtualmath1.stanford.edu/%7Econrad/BSDseminar/refs/BKTamagawa.pdf) · [Rubin](https://wstein.org/people/rubin/book/hEulerSystems.pdf) · [Fontaine–Ouyang](https://www.imo.universite-paris-saclay.fr/%7Efontaine/galoisrep.pdf)
+
+### Chapter 10 §10.4.7.14 Exact Bloch–Kato annihilators at finite level
+
+[Textbook](../chapters/10-congruence-modules-to-sha.md#104714-exact-blochkato-annihilators-at-finite-level) · [Archive A2](#1-the-lean-archive-primary-source).
+
+| Textbook result | A2 location and scope |
+|---|---|
+| Finite lift and comparison | IE/`IoLMk.lean:19–48`, `MemBlochKatoQuotientPowIffReduction.lean:26–61`, `LatticeReductionModPowMemLocConstCocycles.lean:22–69`, `LatticeDivisibleCoboundariesLeLocConstCocyclesAl.lean:13–37`, `LatticeQuotientToDivisibleQuotientMemCocycles.lean:13–29`, `BlochKatoQuotientOfDivisibleImageMem.lean:15–84`. |
+| Cup transports | IE/`CupDivisibleImageCoboundaryIffFiniteLevel.lean:21–112` and `FiniteLevelCupSwapCoboundaryIff.lean:20–200`, preserving the original cup order in the theorem. |
+| Detection and double annihilator | IE/`LatticeDualCyclotomic.lean:14–53`, `IntegralTatePairingLatticeDual.lean:32–96`, `FiniteH1PeriodDatum.lean:15–57`, `LatticeDualPairingCyclotomic.lean:50–196`, `MemOfForallAnnihilatorAnnihilatorFieldModInteger.lean:17–242`. The finite detection call at line 124 takes the `CobO` interface at IE/`TatePairingLatticeQuotientsNondegenerateStatement.lean:10`. |
+| Part C | IE/`BlochKatoReductionsOrthogonalModPow.lean:28–107` and `BreuilKisinPartCOfPartAPartBFiniteLevel.lean:22–79`. `clause2` recovers the right condition. The left reverse implication uses the flipped pairing and the full group of divisible coboundaries. |
+
+[Lean, read] Local R3 for the stated producer slices. `LocalTateDualityK`, the finite-stage comparison in the divisible twist, finiteness, and compatible limit enter through their declared interfaces. The same-source preliminary review (11260852) was partial. It accepted the conditional equivalences and required the explicit divisible-coefficient detection and corrected side. [Paper] The classical precedent is Rubin, Proposition 1.4.3(c)(i)–(ii), with Milne's character–Kummer sign in Class Field Theory III §§3–4. [Rubin](https://wstein.org/people/rubin/book/hEulerSystems.pdf) · [Milne](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+### Chapter 10 §10.4.7.15 Descending a cyclotomic coboundary to finite coefficients
+
+[Textbook](../chapters/10-congruence-modules-to-sha.md#104715-descending-a-cyclotomic-coboundary-to-finite-coefficients) · [Archive A2](#1-the-lean-archive-primary-source).
+
+| Textbook result | A2 location and scope |
+|---|---|
+| Common positive-level generator | `lean/src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/H2EquivOfTorsionCharacter.lean:17–62,70–115,334–416`, with the finite biduality, scalar cocycle and `cup20` evaluation. The first and last `LocalTateDualityAt` clauses are in `lean/src/ReciprocityTheory/Hypotheses/GalCoh.lean:22–34,201–205`. |
+| Finite span and same-function descent | `H2EquivOfTorsionCharacter.lean:235–259` and IE/`CobOfGen.lean:16–108`. The span contains both the image of the given primitive and the embedded finite source. |
+| Original residual consumer | IE/`ResidualBlochKatoLatticeDualOrthogonal.lean:94–134,176–210`, with the division embedding, the original divided cup and the return through the residue field. IE/`ContinuousAlgebraMapPadicInt.lean:365–370` supplies membership of the prime in the maximal ideal. |
+
+[Lean, read] Local R3 for the direct finite-coefficient and residual proofs. Same-source preliminary review (11261204) accepted the conditional results, including the same positive layer, under `LocalTateDuality`. The arithmetic supply of that input has its own reading scope. [Paper] Tate's ICM theorem and Milne's duality give the classical finite-module context. Milne's Algebraic Number Theory §7 and §8 Proposition 8.10 give the approximation and finite completion comparison used in the local examples. [Tate, Theorem 2.1, p. 289](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM1962.1/ICM1962.1.ocr.pdf) · [Milne, ADT I §2](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Milne, ANT §§7–8](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+[Community] Frontier K records its own source and static reachability work on the auxiliary twist and frame. [Open] This module leaves pinned kernel replay, compiled constant reachability from `Main.riemannHypothesis`, and broader arithmetic interfaces at their respective prior scopes. [Pinned LUMI report, §§1.3–1.8](https://raw.githubusercontent.com/aapolipponen/rh-lean-check-lumi/905943b8950179296a1ab29db5ebf03495e709f1/docs/reports/frontier-k-twist-and-frame.md)
+
+The seven classical PDFs and the pinned community report were retrieved on 2026-11-28. SHA-256 fingerprints:
+
+- `ADT.pdf` — `2c6195ec76a974f3f336c77cb71cc3845b018aad2d43136716b3477a3bc5fb31`
+- `ANT.pdf` — `24b83c789a89f25aebffb3cbe4ae5ca29edd0075acc072de093d140770630847`
+- `BK.pdf` — `ec89c6436c7e16580791eddd562c8c04a12442d8a8484f8ac75c5ea8dc04f5e5`
+- `CFT.pdf` — `50d79af78250a9f1117ad9d337e0b231704a533fc707966ed1bfa52e13d498f5`
+- `FO.pdf` — `56590ae4bc10cc274491a37c1ab65af2eb1f712227bc295fe986d66c3204059f`
+- `Rubin.pdf` — `1b0229731e38bfaaa55b38a219c055019d1c7db1f0ecec3c083125da87b6e8e4`
+- `Tate.pdf` — `cf598c827436cd0f2276cb64e1bd20cdf5ee1b7a472611147a5cd8060ca15b96`
+- `LUMI.md` — `079e077183d6326403c3bde6cdc5b7155c5ac01e9a939f2ba8340f3c74beee0a`
