@@ -1446,3 +1446,23 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 
 - **Proof and source credit.** Levent Alpöge with Claude supplied the formal construction, the left unit, the normalized shift and the detection argument in A2. Yunzhou Xie and Yaël Dillies are credited on the pinned Mathlib Tate complex file. John Tate's theorem and J. S. Milne's exposition provide the classical comparison. [Source ledger](sources/SOURCES.md#chapter-11-tate-cup-and-all-integer-shifts)
 - **Textbook work.** Hongmin Li with AI assistance developed the four English sections and their worked examples. This edition links the two connecting formulas to the norm-unit identities, explains the switch at degree zero, identifies the chosen restriction and links the split-module acyclicity to its proof. The examples include nonflat tensoring, signs visible modulo three, regular-module positive controls and failures of top-group-only tests. [§11.4.3.12](chapters/11-the-window-bound-vwin.md#114312-the-tate-cup-product-by-augmentation-shifts) · [§11.4.3.13](chapters/11-the-window-bound-vwin.md#114313-the-degree-zero-unit-of-the-tate-cup-product) · [§11.4.3.14](chapters/11-the-window-bound-vwin.md#114314-the-zero-degree-normalization-of-tates-isomorphism) · [§11.4.3.15](chapters/11-the-window-bound-vwin.md#114315-detecting-cohomological-triviality-on-subgroups)
+
+### Chapter 14 self-adjoint spectral reality
+
+- **Mathlib contributors.** The spectrum files credited to Jireh Loreaux supply the forward exponential spectral inclusion, inversion of spectral points, the unit-circle bound and the real-spectrum proof. The Banach exponential file credits Anatole Dedecker, Eric Wieser and Yuyang Zhao. The unitary norm identity is in the C*-basic file credited to Frédéric Dupuis. Ovidiu Costin supplies a classical published-online course-note precedent using analytic spectral mapping. [Source ledger](sources/SOURCES.md#chapter-14-self-adjoint-spectral-reality)
+- **Hongmin Li (with AI assistance).** Read the pinned local proof bodies, wrote the English proof with an arbitrary real parameter, worked the multiplier and matrix examples and the failure cases, traced the permanence and calculus consumers, and implemented the predecessor audit's Teschl section correction. [Chapter section](chapters/14-masullos-trace-formula-route.md#why-self-adjoint-elements-have-real-spectrum)
+
+### Chapter 14 spectral permanence
+
+- **Mathlib contributors.** The spectrum files credited to Jireh Loreaux supply the Banach-algebra component argument and the C-star two-square argument. The units file credited to Heather Macbeth supplies local inversion. These are library results used upstream of the calculus. [Source record](sources/SOURCES.md#chapter-14-spectral-permanence)
+- **Hongmin Li (with AI assistance).** Wrote the English resolvent propagation proof, the continuous-spectrum and nonnormal examples, and the two counterexamples, with a correspondence to the pinned proof bodies. [Chapter section](chapters/14-masullos-trace-formula-route.md#spectral-permanence-by-propagation-of-the-resolvent)
+
+### Chapter 14 continuous functional calculus
+
+- **Formal sources.** Alpöge with Claude supply the trace consumers. Jireh Loreaux supplies the Mathlib character-space construction, scalar restrictions and Hilbert-operator star order. [Sources](sources/SOURCES.md#chapter-14-continuous-functional-calculus)
+- **Book exposition.** Hongmin Li with AI assistance gives the polynomial-extension proof on arbitrary complex Hilbert spaces, the two full calculi and the comparison with the pinned source. [Chapter 14](chapters/14-masullos-trace-formula-route.md#continuous-functional-calculus-and-the-positive-square-root)
+
+### Chapter 14 positive compact spectral decomposition
+
+- **Original proof and formal library.** Alpöge with Claude supply the A2 trace interfaces. Thomas Browning introduced the compact spectral declarations and the Rayleigh estimates. Heather Macbeth is the original author of the spectrum file. Bhavik Mehta contributes the Fredholm alternative. Richard B. Melrose supplies classical course-note precedent in the separable setting. [#36520](https://github.com/leanprover-community/mathlib4/pull/36520) · [#35173](https://github.com/leanprover-community/mathlib4/pull/35173) · [#35464](https://github.com/leanprover-community/mathlib4/pull/35464) · [#36246](https://github.com/leanprover-community/mathlib4/pull/36246)
+- **Book exposition.** Hongmin Li with AI assistance gives the positive compact decomposition, its CFC agreement and its trace evaluation on arbitrary complex Hilbert spaces, with local author-level source reading. [Sources](sources/SOURCES.md#chapter-14-positive-compact-spectral-decomposition)
