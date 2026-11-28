@@ -2076,6 +2076,11 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **Alpöge with Claude and the Mathlib community.** Archive A2 supplies the actual period actions, rank, matrix and coordinate declarations. The pinned library supplies the determinant, adjugate, bases, flatness and fixed-field proofs. [Declaration and supplier register](sources/SOURCES.md#dpst-unramified-rank-source)
 - **This book.** Hongmin Li with AI assistance contributes the textbook exposition, hand calculations, exact finite checks and consumer map. The rank and coordinate manuscripts have same-source preliminary reviews. [Published module](chapters/06-period-comparison-reading-guide.md) · [Review scope](notes/proof-map.md#chapter-6-period-comparison)
 
+### Chapter 6 §6.4.25.1 Determinant norms and algebra units
+
+- **Classical algebra.** Milne's finite-free norm and the Stacks Project's locally free determinant construction are precedents for the definition. [Source register](sources/SOURCES.md#determinant-norm-units-source)
+- **Mathlib contributors and the A2 authors.** The community formalized the multiplication determinant, matrix inverse and endomorphism criteria. Alpöge with Claude apply those results to the original rank-one period. [Pinned declarations](sources/SOURCES.md#determinant-norm-units-source)
+- **This book.** Hongmin Li with AI assistance contributes the cofactor exposition, original-ring inverse formula, exact worked examples and deletion examples, and the source map from the pinned library to the same period consumer. [Subsection](chapters/06-stepanovs-method-and-multiplicity.md#determinant-norm-units)
 
 ### Chapter 12 inverse series, ordered composition and inverse charts
 
