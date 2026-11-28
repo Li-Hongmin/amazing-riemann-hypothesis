@@ -1437,6 +1437,12 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Michiel Hazewinkel**, **Bernard Dwork**, and **Jean-Pierre Serre** supply the classical formal-group context, the Artin–Hasse integrality calculation, and the two-variable criterion with attribution to Dwork. The **Mathlib contributors** supply the pinned formal-series operations and valuation lemmas.
 - **Hongmin Li with AI assistance** contributed the English proof exposition, the coefficient and hypothesis-deletion examples, and the publication map following the same `Hser` and the exact differences used by the Dwork and equivalence calls. The review record distinguishes the two same-source initial reviews from the independent load-bearing review of §8.4.21. [Source and verification record](sources/SOURCES.md#ch08-hser-module-sources)
 
+### Chapter 8 §§8.4.23–26 — Witt norms, logarithm laws, and division points
+
+- **Levent Alpöge with Claude** authored the pinned model, the law, symmetry and divided-derivative exports, and the functional-equation and torsion-iteration Lean bodies cited in the module. **Mathlib contributors** supply the universal Witt arithmetic and operators, the DVR and adic valuation infrastructure, and the formal-series operations. These include Johan Commelin, Robert Y. Lewis, Heather Macbeth, Jiedong Jiang, María Inés de Frutos-Fernández, Filippo A. E. Nuccio, Justus Springer and Antoine Chambert-Loir.
+- **Witt, Lazard, Honda, Hazewinkel, Lubin and Tate** supply the classical antecedents. **Commelin and Lewis** document the Lean formalization of Witt operations and the prime-field isomorphism. [Source ledger](sources/SOURCES.md#ch08-law-model-sources)
+- **Hongmin Li with AI assistance** contributes the English textbook exposition, exact examples, premise-deletion arguments, and the presentation of the conditional Witt realization, the four scalar and division-point scopes, and the actual consumer calls. This publication incorporates the reviewed Witt cotangent correction and the Lubin–Tate page correction. [Chapter 8](chapters/08-divisibility-at-inert-primes.md#8423-the-witt-vector-norm-and-frobenius-model-supply)
+
 ### Chapter 12 §12.4.11 — Conductor cutoff and the mirabolic pairing
 
 - **Levent Alpöge with Claude** supplies the pinned A2 conductor cutoff, bilinear pairing and two twisted-quotient descent, including the determinant factor and preservation of left separation. [A2 source record](sources/SOURCES.md#chapter-12-12411--conductor-cutoff-and-the-mirabolic-pairing)
