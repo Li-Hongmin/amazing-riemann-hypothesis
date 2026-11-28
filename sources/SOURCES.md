@@ -1287,18 +1287,17 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Fields*, 2nd ed., Grundlehren der mathematischen Wissenschaften 323, Springer, Berlin–Heidelberg,
   2008, ISBN 978-3-540-37888-4, doi:10.1007/978-3-540-37889-1 (cited in Chapter 18).
   Verified: 2026-11-22 via Crossref / Springer Grundlehren vol. 323 (`doi:10.1007/978-3-540-37889-1`).
-- **[OswaldSteuding2015]** N. M. R. Oswald and J. Steuding, "Complex analyses of an incomplete work
-  of Adolf Hurwitz" / historical analysis of Hurwitz's 1880/1882 dissertation on Dirichlet series,
-  arXiv:1506.00856 (2015), documenting that Hurwitz (1882, pp. 92–93) restricted $a$ to rational
-  parameters in binary-quadratic-form $L$-series (cited in Chapter 1, §1.2.2.6).
-  Verified: 2026-11-25 via arXiv record `arXiv:1506.00856` and audit record `audit-rhbook-ch01-fe-pair-1125m`.
+- **[KosmannSchwarzbach2022]** Yvette Kosmann-Schwarzbach, “Seven Concepts Attributed to Siméon-Denis Poisson,” SIGMA 18 (2022), 092, §2.5, pp. 7–8. The discussion identifies the Gaussian identity on p. 420 of the 1823 memoir and the more general case in the 1827 memoir. Read online 2026-11-28 for Chapter 1, §1.2.2.7. [Original article](https://www.imath.kiev.ua/~sigma/2022/092/)
+- **[OswaldSteuding2015]** Nicola M. R. Oswald and Jörn Steuding, “Aspects of Zeta-Function
+  Theory in the Mathematical Works of Adolf Hurwitz,” 2015. Discusses the rational-parameter
+  scope of Hurwitz's 1882 paper. [arXiv:1506.00856](https://arxiv.org/abs/1506.00856)
 - **[Page1935]** A. Page, "On the number of primes in an arithmetic progression", *Proceedings of
   the London Mathematical Society* (2) 39 (1935), 116–141, doi:10.1112/plms/s2-39.1.116 (cited in
   Chapter 4).
   Verified: 2026-11-21 via LMS (`doi:10.1112/plms/s2-39.1.116`), ser. 2, vol. 39, pp. 116–141.
 - **[Poisson1823]** S.-D. Poisson, "Suite du mémoire sur les intégrales définies et sur la sommation
   des séries", *Journal de l'École Royale Polytechnique*, Tome XII, 19e cahier (1823), 404–509 (p. 420,
-  Poisson summation formula, cited in Chapter 1, §1.2.2.7).
+  Gaussian special case, cited in Chapter 1, §1.2.2.7).
   Verified: 2026-11-25 via bibliographic records for *J. École Polytech.*, Tome XII, 19e cahier (1823), pp. 404–509 (p. 420).
 - **[Polya1930]** G. Pólya, "Über das Vorzeichen des Restgliedes im Primzahlsatz", *Nachrichten von
   der Gesellschaft der Wissenschaften zu Göttingen, Mathematisch-Physikalische Klasse* 1930,
@@ -1421,10 +1420,10 @@ textbook chapters carry their key in bold and an explicit `Verified:` record bel
   Verified: 2026-11-22 via EuDML / Springer (`doi:10.1007/BF01406843`), *Invent. Math.* vol. 55, no. 3 (1979), pp. 251–295.
 - **[SteinWeiss1971]** E. M. Stein and G. Weiss, *Introduction to Fourier Analysis on Euclidean Spaces*,
   Princeton Mathematical Series 32, Princeton University Press, Princeton, NJ, 1971,
-  ISBN 978-0-691-08078-9 (Ch. VII, §2, Corollary 2.6, pp. 251–252, two-sided $O(\lvert x\rvert^{-b})$
+  ISBN 978-0-691-08078-9 (Ch. VII, §2, Corollary 2.6, two-sided $O(\lvert x\rvert^{-b})$
   Poisson summation criterion modeled by Mathlib's `Real.tsum_eq_tsum_fourier_of_rpow_decay`, cited in
   Chapter 1, §1.2.2.7).
-  Verified: 2026-11-25 via Princeton University Press PMS vol. 32 bibliographic metadata (`ISBN 978-0-691-08078-9`) and Chapter VII, §2, Corollary 2.6 statement.
+  Verified: 2026-11-25 via Princeton University Press PMS vol. 32 bibliographic metadata (`ISBN 978-0-691-08078-9`) for the bibliographic record. Chapter VII, §2, Corollary 2.6 is the locator cited by the pinned Mathlib source.
 - **[Stepanov1969]** S. A. Stepanov, "On the number of points of a hyperelliptic curve over a
   finite prime field" (Russian: *О числе точек гиперэллиптической кривой над конечным простым
   полем*), *Izvestiya Akademii Nauk SSSR, Seriya Matematicheskaya* 33 (1969), no. 5, 1171–1181;
@@ -6043,3 +6042,9 @@ The two proofs concern the strict branch for complex Dirichlet characters of eve
 - **Pinned sources.** A2 SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`; its manifest pins Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. In the strict branch, `LFunction_eq_LSeries` transports `LSeries_ne_zero_of_one_lt_re`, which consumes `LSeries.mul_mu_eq_one`. The latter uses two summability witnesses, `LSeries_convolution'`, `convolution_mul_moebius` and `LSeries_delta`. The product comes from `LSeriesHasSum.convolution` through `summable_mul_of_summable_norm`, `HasSum.mul`, `HasSum.tsum_fiberwise` and `term_convolution'`. [A2](#a2) · [Strict branch](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Nonvanishing.lean#L398-L401) · [Consumer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L209-L232) · [Fiber formula and product](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Convolution.lean#L101-L154)
 - **Classical context** (accessed 2026-11-28). DLMF (27.5.1)–(27.5.2) supply the coefficient convolution and Möbius divisor identity. DLMF (25.15.1) uses $\Re s>1$, (25.15.3) uses the nonzero residues at modulus greater than one, and (25.15.4) gives the factors removed on change of level. Lebl’s Proposition 2.6.3 covers rearrangement of absolutely convergent real series. His Theorem 2.6.5 is Mertens’ theorem for the additive Cauchy product of two convergent series, with one absolutely convergent. Tao’s Remark 37 identifies Tonelli for sums with the counting-measure case; Corollary 46 gives Fubini–Tonelli. The book’s transport proof here works directly with complex finite sums and finite absolute mass. Euler’s prime reciprocal divergence enters by name for the boundary comparison. [DLMF §27.5](https://dlmf.nist.gov/27.5) · [DLMF §25.15](https://dlmf.nist.gov/25.15) · [Lebl, *Basic Analysis I*, §2.6](https://www.jirka.org/ra/html/sec_moreonseries.html) · [Tao, *245A Notes 6*](https://terrytao.wordpress.com/2010/10/30/245a-notes-6-outer-measures-pre-measures-and-product-measures/) · [Prime reciprocal divergence](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/SumPrimeReciprocals.lean#L98)
 - **Review scope.** Local R3 is the author’s reading of the named bodies and branches in each section. The Möbius reciprocal manuscript received a same-source initial review (2026-11-24, five claims sustained). The detailed multiplication-fiber manuscript received an independent-source review (2026-11-24, five claims sustained, with the Tao citation corrected to Remark 37). The latter verdict covers the regrouping and its use at the reciprocal call site. Finite example checks and the historical archive check are separate from these prose reviews. This publication involved no Lean kernel replay. [Contribution record](../CONTRIBUTIONS.md#chapter-2-the-möbius-inverse-and-multiplication-fibers)
+
+### Chapter 1 §§1.3.2.2–3, odd theta and conductor descent
+
+- **Mathlib and archive A2.** The pinned proof map gives declaration ranges, proof-body reading and the retained Poisson, Mellin and Euler-product inputs. The Gauss computation uses the negative finite Fourier phase, with the positive-phase Gauss sum as scalar. The archive uses the level-change formula in `Imprimitive.lean` and `ClaimStrip.lean`. [Odd theta and Fourier](../notes/proof-map.md#p1-chapter-1-odd-theta-and-primitive-fourier) · [Conductor descent](../notes/proof-map.md#p1-chapter-1-conductor-descent-and-nonunit-gauss-vanishing)
+- **[MontgomeryVaughan2007]** Chapter 9, p. 282, (9.1)–(9.2) gives induction with zero-extension and the bad Euler factors. Theorem 9.7, pp. 287–288, gives the complex positive-phase primitive Gauss identity and norm, using the proper divisor in the nonunit case. The proof here follows the pinned arbitrary-additive-character statement over an integral domain. Read the author's Cambridge chapter PDF on 2026-11-28. [Original chapter](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/13.0_pp_282_325_Primitive_characters_and_Gauss_sums.pdf)
+- **NIST DLMF.** Read on 2026-11-28 for the classical convention $N>1$, induction and primitivity, the complex Gauss separability criterion and the primitive functional equation. The $N=1$ case in the textbook follows the pinned Mathlib convention. [§27.8](https://dlmf.nist.gov/27.8) · [§27.10](https://dlmf.nist.gov/27.10) · [§25.15](https://dlmf.nist.gov/25.15)
