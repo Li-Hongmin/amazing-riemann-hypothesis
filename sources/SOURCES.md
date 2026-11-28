@@ -2912,6 +2912,12 @@ A2 joined archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334
 - **The Stacks Project**, retrieved 2026-11-28. Lemma 10.143.2 gives a square presentation with unit Jacobian for an étale ring map. Theorem 41.13.1 gives étale coordinates locally for a smooth morphism. The one-variable standard étale definition is in §10.144. [00U9](https://stacks.math.columbia.edu/tag/00U9) · [039Q](https://stacks.math.columbia.edu/tag/039Q) · [00UB](https://stacks.math.columbia.edu/tag/00UB)
 - **Jean-Pierre Serre**, *Géométrie algébrique et géométrie analytique*, §2, no. 5, Lemma 1 and Proposition 2 with its remark, pp. 7–9, retrieved 2026-11-28. These establish the analytic-space context of the affine complex-point topology and holomorphy of regular functions. The section proof uses the separate analytic inverse. [Original article](https://doi.org/10.5802/aif.59)
 
+### Chapter 10 §10.4.13.1 finite inertia exclusions
+
+- **Archive A2.** `GlobalTheory.InertiaAlmostAll.finite_ramified` and its integral-multiple, finite-support and single-element lemmas, along with the direct forwarding and open-subgroup wrappers. The section gives the pinned archive, toolchain and Mathlib revision, with file and line ranges. [Chapter 10, §10.4.13.1](../chapters/10-congruence-modules-to-sha.md#104131-only-finitely-many-places-have-inertia-moving-a-fixed-finite-extension)
+- **J. S. Milne, *Algebraic Number Theory*, v3.08 (2020-07-19).** Proposition 2.34 gives the power-basis formula. Theorem 3.35 and Remark 3.39(b) supply the relative discriminant criterion, Theorem 3.41 supplies the maximal-order factorization test, and §8 supplies finite inertia. PDF checked 2026-11-28, SHA-256 `24b83c789a89f25aebffb3cbe4ae5ca29edd0075acc072de093d140770630847`. [Author's notes](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+- **The Stacks Project**, Lemma 15.112.10. Transitivity on prolongations and surjectivity on residue automorphisms in possibly infinite Galois extensions give the inertia restriction argument in the examples. Checked 2026-11-28. [Tag 0BRK](https://stacks.math.columbia.edu/tag/0BRK)
+
 ### Chapter 10 §10.4.13 auxiliary prime selection
 
 - **Archive A2**, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The conditional selection, the evaluation bridge, and the actual call sites are pinned by complete paths and lines in the chapter. [Chapter 10, §10.4.13](../chapters/10-congruence-modules-to-sha.md#10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient)

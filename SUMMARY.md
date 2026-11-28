@@ -26,6 +26,7 @@
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
   - [8.4.12.1 Why restriction to one place preserves the same InClass witness](chapters/08-single-place-class-restriction.md)
 - [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
+<!-- Chapter 10 includes the finite inertia exclusions in §10.4.13.1 (#104131-only-finitely-many-places-have-inertia-moving-a-fixed-finite-extension). -->
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 - [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)
 

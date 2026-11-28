@@ -161,6 +161,8 @@ Chapter 13, §§13.4.4–13.4.8, supplies the regular-character construction and
 
 **Chapter 10, §10.4.13.** Two worked Frobenius examples lead to degree-one selection, independent character correction in the two-batch selector, and the conjugacy-invariant Selmer test used when Step adjoins a place. [Subsection](../chapters/10-congruence-modules-to-sha.md#10413-choosing-the-auxiliary-primes-in-a-common-galois-quotient)
 
+**Chapter 10, §10.4.13.1.** Integral multiples and separation of conjugate roots give one finite exception set for every prolongation of a finite place and every inertia element acting on the same finite extension. Two quadratic calculations compare prime support with the field discriminant and the infinite multiquadratic example tests finite degree. [Subsection](../chapters/10-congruence-modules-to-sha.md#104131-only-finitely-many-places-have-inertia-moving-a-fixed-finite-extension)
+
 
 **Chapter 10, §10.4.7.1.** Two rank-two DVR computations lead to the bounded-index lattice criterion, the removal of the idempotent denominator and the base-change invariance of the normalized index. Together they carry one `partAB` bound to the lattice clauses of `GoodTw` at every coprime power; re-choosing a lattice breaks the transport. [Subsection](../chapters/10-congruence-modules-to-sha.md#10471-lattice-specialization-one-index-bound-for-every-coprime-power)
 
