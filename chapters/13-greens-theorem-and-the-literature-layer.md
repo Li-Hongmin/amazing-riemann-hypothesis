@@ -2448,7 +2448,7 @@ Specializing Mathlib's multivariate Newton recurrence `MvPolynomial.mul_esymm_eq
 **Theorem 13.40 (Conditional main theorem: coordinate-free `nameLaws`, representation-level `PM.greenCuspidal`, convention re-choice, and consumer ledger).** [Lean, read] *Let $g$ be prime, inheriting `PM.greenRegularCharacters` (`GreenCuspidalCharsByRegularCharsProof.lean:137`), `isCharacter_cuspidal_rootSum_regular`, `(I1)`–`(I2)`, and `(I4)`–`(I9)` at the conditional depths established in Sections 13.4.4–13.4.11.*
 
 - **(A) Coordinate-free naming laws and local Langlands wiring (`NameLaws.lean:78–123`, `CentralUnit.lean:39–202`, `ParUniq.lean:15–53`).** *`UpperTheory.Zero.LLC.nameLaws` holds (consuming only `PM.greenRegularCharacters` and Lemma 13.38). Downstream in the depth-zero local Langlands chain for Chapter 12 (`P15`), `parEx` consumes Clauses 1, 4, 2 of `nameLaws` together with `nameCentral` (proving that the local parameter `TypeAt y V` is independent of the auxiliary unramified extension $D$), while `parUniq` consumes Clauses 1 and 3 (proving uniqueness and injectivity of the cuspidal Weil–Deligne parameter).*
-- **(B) Representation-level `PM.greenCuspidal` and exact three-clause dependency split (`HarishChandraModules.lean:12`, `GreenCuspidal.lean:268–304`, `LabelMapNonempty.lean:18–127`).** *Assume in addition the four named statement-level interfaces `[Lean]` (of which **(U2)** is subsequently read at `R3` in §13.4.13, **(U1)** in §13.4.14, and **(U4)** in §13.4.15, leaving **(U3)** at `R2 [Lean]`): **(U1)** converse regular-exponent existence `GlobalTheory.CuspFormula.exists_regular` (`ExistsLabel.lean:49`), **(U2)** elliptic determination of cuspidal characters `GlobalTheory.CuspGL.cuspElliptic_statement` (`IrrCharEqOneOfSubsingleton.lean:45`), **(U3)** character-to-module Jacquet vanishing `isCuspidal_of_sum_char` plus `harishChandra_induction_character_properties`, and **(U4)** central idempotent orthogonality `zIdemOrthogonal_holds` / `central_idempotent_properties`. Then for every `L : LabelDatum g` and $d \ge 1$, `GreenAll.cuspParam_all (conv L) d` builds `Wmap` satisfying `CuspParam (conv L) d Wmap`, and `PM.greenCuspidal` proves `GlobalTheory.Published.GreenCuspidal` (`= GlobalTheory.GLq.Green`) with the following clause-by-clause consumption:*
+- **(B) Representation-level `PM.greenCuspidal` and exact three-clause dependency split (`HarishChandraModules.lean:12`, `GreenCuspidal.lean:268–304`, `LabelMapNonempty.lean:18–127`).** *Assume in addition the four named statement-level interfaces `[Lean]` (of which **(U2)** is subsequently read at `R3` in §13.4.13, **(U1)** in §13.4.14, and **(U4)** in §13.4.15, and the radical-sum implication of **(U3)** in [§13.4.16](#13416-cuspidality-from-unipotent-radical-sums)): **(U1)** converse regular-exponent existence `GlobalTheory.CuspFormula.exists_regular` (`ExistsLabel.lean:49`), **(U2)** elliptic determination of cuspidal characters `GlobalTheory.CuspGL.cuspElliptic_statement` (`IrrCharEqOneOfSubsingleton.lean:45`), **(U3)** character-to-module Jacquet vanishing `isCuspidal_of_sum_char` plus `harishChandra_induction_character_properties`, and **(U4)** central idempotent orthogonality `zIdemOrthogonal_holds` / `central_idempotent_properties`. Then for every `L : LabelDatum g` and $d \ge 1$, `GreenAll.cuspParam_all (conv L) d` builds `Wmap` satisfying `CuspParam (conv L) d Wmap`, and `PM.greenCuspidal` proves `GlobalTheory.Published.GreenCuspidal` (`= GlobalTheory.GLq.Green`) with the following clause-by-clause consumption:*
   1. **Existence (+ degree)** *(`h1 : IsCuspOf L P (τ P)`): existence of a simple cuspidal module with label $P$ (`exists_cuspidal_label`, `ExistsCuspidalWithLabel.lean:57–135`) consumes generator-power regularity (§13.4.9) and `isCharacter_cuspidal_rootSum_regular` (§§13.4.4, 13.4.10–13.4.11); the degree identity $\dim W(P) = \prod_{i=1}^{d-1}(g^i - 1)$ on this representation-level path (`finrank_of_simple_cuspidal`, `CuspidalParametrization.lean:50–72`) consumes `(I2)` (`psi_one`, §13.4.10) together with **(U1)** `exists_regular` (whereas on the `green_of_regular` path of §§13.4.1 and 13.4.4, existence + degree come directly from `exists_cusp_of_regular` without **(U1)**).*
   2. **Injectivity** *(`h2 : τ P = τ P' → P = P'`): proved in `GreenCuspidal.lean:286–290` from `hasCuspLabel_of_character` (`:258–266`, using **(U3)**) and Lemma 13.39 (`hasCuspLabel_unique`). It consumes **neither** **(U1)**, **nor** **(U2)**, **nor** **(U4)**, **nor** $g \ge 5$, **nor** exhaustion.*
   3. **Exhaustion** *(`h3 : IsCusp σ → ∃ P, σ = τ P`): proved in `GreenCuspidal.lean:291–301` via `isCuspidal_of_isCusp` (`:168`, using **(U3)**), `exists_label` (`LabelMapNonempty.lean:18–81`, using **(U1)** and `exists_cuspidal_label`), and `iso_of_label` (`:83–120`, using **(U2)** and **(U4)**).*
@@ -3091,8 +3091,8 @@ For every simple left ideal $N \le_A A$ and every $n \in N$, $a \in A$, we have 
    - *(iii) Characteristic zero for trace cancellation and degree recovery (`CharZero ℂ`):* Even if $\operatorname{char} k = p \nmid \lvert\Gamma\rvert$ and $k = \overline{\mathbb F_p}$, `centralIdemAct` (`CentralIdempotentAction.lean:28–31, 58`) cancels $(\dim_k W : k) \neq 0$ from $\mu\cdot(\dim_k W : k) = (\dim_k\tau : k)\langle\chi_\sigma, \chi_\tau\rangle$, and `iso_of_label` (`LabelMapNonempty.lean:110`) recovers the exact integer equality $\dim\tau = \dim\tau'$ from $\chi_\tau(1) = \chi_{\tau'}(1)$ via `Nat.cast_inj`. Over $\overline{\mathbb F_p}$ ($p \nmid \lvert\Gamma\rvert$), $(\dim_k W : k) \neq 0$ would require Frobenius's divisibility theorem $\dim_k W \mid \lvert\Gamma\rvert$, and $\chi_\tau(1) = \chi_{\tau'}(1)$ in $\overline{\mathbb F_p}$ determines $\dim_k\tau$ only modulo $p$! Over $\mathbb C$, `CharZero ℂ` gives both $(\dim_{\mathbb C} W : \mathbb C) \neq 0$ and `Nat.cast_inj` directly from `Nontrivial W`.
    - *(iv) The factor $\dim_{\mathbb C}\tau$ and the inverse $\gamma^{-1}$:* Dropping $\dim_{\mathbb C}\tau$ scales $e_\tau$ by $(\dim\tau)^{-1}$, breaking idempotence whenever $\dim\tau > 1$ (Example 13.55(4c)); dropping $\gamma^{-1}$ conjugates $e_\tau$ to $e_{\tau^\vee}$, projecting onto the contragredient module $\tau^\vee$ and annihilating $\tau$ whenever $\chi_\tau$ is non-real (Example 13.56(4c)).
 4. *Second downstream use of `zIdemOrthogonal_holds`: injectivity of `L.idem` in `PendTie.eSerO_eq_sum`.* Beyond `iso_of_label`, `CentralIdempotentProperties` does a second piece of work in `PendTie.lean:125–280` when bridging abstract Harish-Chandra series idempotents `eSerO O r f` (defined in `GaloisConjCentralIdempotent.lean:105` as an infinite `finsum` over all `z : MonoidAlgebra ℂ Γ` realized by simple constituents with series label $f$) to a finite sum over an explicit representative family `L : LzTieC Γ` (`eSerO_eq_sum`, `:250–280`). To turn the `finsum` over images `L.idem i = zIdem (L.rep i)` into a finite sum over indices $i$, `LzTieC.rep_inj` (`:179–186`) proves that $i \mapsto \mathrm{zIdem}(L.\mathrm{rep}\,i)$ is **injective** on distinct isomorphism classes by running the exact same three-line contradiction as `iso_of_label`: if $i \neq j$ yet $\mathrm{zIdem}(L.\mathrm{rep}\,i) = \mathrm{zIdem}(L.\mathrm{rep}\,j)$, non-isomorphism `L.disj` + `zIdemOrthogonal_holds` gives $\mathrm{zIdem}(L.\mathrm{rep}\,i)^2 = 0$, idempotence gives $\mathrm{zIdem}(L.\mathrm{rep}\,i) = 0$, and nonvanishing (`L.idem_ne_zero`, proved from `central_idempotent_properties.2.2.1` + `Nontrivial`) yields a contradiction!
-5. *What remains at statement level after §13.4.15.* Reading `zIdemOrthogonal_holds` and its production chain closes **(U4)**, but does **not** make `PM.greenCuspidal` or `GreenSeries.green_series` unconditional. The following named interfaces remain at statement level (`R2 / [Lean]`):
-   - **(U3)** on `PM.greenCuspidal` itself (`GreenCuspidal.lean:146, 179`): `GlobalTheory.T.cuspidal_of_unipotent_sums_vanish` (`CuspidalOfUnipotentSumsVanishStatement.lean:8`, re-exported as `isCuspidal_of_sum_char`) and `GlobalTheory.T.harish_chandra_character` (`HarishChandraCharacterStatement.lean:6`, re-exported as `harishChandra_induction_character_properties`);
+5. *What remains at statement level after §13.4.15.* Reading `zIdemOrthogonal_holds` and its production chain closes **(U4)**, but does **not** make `PM.greenCuspidal` or `GreenSeries.green_series` unconditional. The following list records the interfaces at the boundary of this subsection:
+   - **(U3)** on `PM.greenCuspidal` itself (`GreenCuspidal.lean:146, 179`): `GlobalTheory.T.cuspidal_of_unipotent_sums_vanish` (`CuspidalOfUnipotentSumsVanishStatement.lean:8`, re-exported as `isCuspidal_of_sum_char`) (read in [§13.4.16](#13416-cuspidality-from-unipotent-radical-sums)) and `GlobalTheory.T.harish_chandra_character` (`HarishChandraCharacterStatement.lean:6`, re-exported as `harishChandra_induction_character_properties`, retained here at R2);
    - Finite-group Harish-Chandra Mackey and Whittaker interfaces (the Mackey producers are treated in [§13.4.17](#13417-mackey-orthogonality-for-cuspidal-induction)) consumed downstream of `PM.greenCuspidal` (`mackey_cuspidal` at `IsoIffIntertwiningHolds.lean:73`, `ip_hcL_cusp`, `wh_cusp_eq_one`, `wh_hcT`, `hc_degree` in `ProdFactorsOfMonic.lean`, and `harishChandraSeriesLabel_exists_unique_GLn` for $5 \le g$ in `AdmissibleLabelWeights…:216`);
    - Deeper monomial-basis and trace-comparison inputs inside `(I6)` (§13.4.5), plus the inertial-type chain (`FinCusp`, `lblOf_holds`) noted in §13.4.14 Remark 5.
    As throughout this book, line-by-line source reading (`R3 / [Lean, read]`), exact Python verification, and a clean `mdbook build` are **not** a Lean kernel replay.
@@ -3108,8 +3108,76 @@ For every simple left ideal $N \le_A A$ and every $n \in N$, $a \in A$, we have 
 | R3 / `[Lean, read]` | `iso_of_label`, `cuspParam_all`, `greenLab`; `pickPoly`, `pickPoly_spec`, `greenO` (`lab_spec`, `lab_inj`), `LzTieC.rep_inj`, `eSerO_eq_sum`; `IrreducibleCharpolyInv.greenLab`; `GreenCuspidal.green`, `greenCuspidal`, `PM.greenCuspidal` | `FTHC/LabelMapNonempty.lean:83–132`; `src/Formalism/LocalToGlobal/NormalizedHeckeFactors/PendTie.lean:17–85, 125–280`; `src/Formalism/PeriodIntegrals/UnitaryGroupMassFormula/GreenLabelCharpoly/IrreducibleCharpolyInv.lean:25–47`; `FTHC/GreenCuspLabels/GreenCuspidal.lean:268–304`; `src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/HarishChandraModules.lean:12–13` | Theorem 13.60 & Remark 4 |
 | `[Lean, read]` (Mathlib, pin `0df444a`) | `char_one`, `char_conj`, `char_linHom`, `card_inv_mul_sum_char_eq_finrank`, `card_inv_mul_sum_char_mul_char_eq_finrank`, `Representation.char_orthonormal`, `FDRep.char_one`, `FDRep.char_iso`; `GroupAlgebra.average`, `invariantsEquivIntertwiningMap`; `bijective_or_eq_zero`, `algebraMap_intertwiningMap_bijective_of_isAlgClosed`, `finrank_intertwiningMap_self`; `equivariantProjection`, `instIsSemisimpleModule`; `IsSemisimpleModule.sSup_simples_eq_top`; `Module.End.exists_eigenvalue` | `Mathlib/RepresentationTheory/Character.lean:64, 90, 98–143, 163, 172`; `Mathlib/RepresentationTheory/Invariants.lean:36, 107`; `Mathlib/RepresentationTheory/Irreducible.lean:64–85`; `Mathlib/RepresentationTheory/Maschke.lean:115, 168`; `Mathlib/RingTheory/SimpleModule/Basic.lean:351–353`; `Mathlib/LinearAlgebra/Matrix/ToLin/Triangularizable.lean:63` | Lemmas 13.58–13.59 & Theorem 13.60 |
 | Inherited `R3` | **(U1)** `CuspFormula.exists_regular` + `exists_label` (§13.4.14); **(U2)** `CuspGL.cuspElliptic_statement` (§13.4.13); `exists_cuspidal_label`, `hasCuspLabel_unique`, `finrank_of_simple_cuspidal` (§13.4.12) | Sections 13.4.12–13.4.14 | Cited without re-proof |
-| Statement level / `[Lean]` | **(U3)** `cuspidal_of_unipotent_sums_vanish` (`isCuspidal_of_sum_char`), `harish_chandra_character` (`harishChandra_induction_character_properties`); Mackey/Whittaker `mackey_cuspidal`, `ip_hcL_cusp`, `wh_cusp_eq_one`, `wh_hcT`, `hc_degree`; `harishChandraSeriesLabel_exists_unique_GLn` ($5 \le g$); deeper `(I6)` inputs (§13.4.5) | `BD/CuspidalOfUnipotentSumsVanishStatement.lean:8`; `BD/HarishChandraCharacterStatement.lean:6`; `FTHC/GreenCuspLabels/GreenCuspidal.lean:146, 179`; `FTHC/IntertwiningIsomorphisms/IsoIffIntertwiningHolds.lean:73`; `ProdFactorsOfMonic.lean:44, 72, 128, 146`; `AdmissibleLabelWeights…:216` | Explicitly retained at `R2 [Lean]` (Remark 5) |
+| Statement level / `[Lean]` | **(U3)** `cuspidal_of_unipotent_sums_vanish` (`isCuspidal_of_sum_char`), `harish_chandra_character` (`harishChandra_induction_character_properties`); Mackey/Whittaker `mackey_cuspidal`, `ip_hcL_cusp`, `wh_cusp_eq_one`, `wh_hcT`, `hc_degree`; `harishChandraSeriesLabel_exists_unique_GLn` ($5 \le g$); deeper `(I6)` inputs (§13.4.5) | `BD/CuspidalOfUnipotentSumsVanishStatement.lean:8`; `BD/HarishChandraCharacterStatement.lean:6`; `FTHC/GreenCuspLabels/GreenCuspidal.lean:146, 179`; `FTHC/IntertwiningIsomorphisms/IsoIffIntertwiningHolds.lean:73`; `ProdFactorsOfMonic.lean:44, 72, 128, 146`; `AdmissibleLabelWeights…:216` | Depth within §13.4.15 (Remark 5). See [§13.4.16](#13416-cuspidality-from-unipotent-radical-sums), §13.4.17, and [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series) for the subsequent reads. |
 | Our check | `verify_zidem_supply.py` (`06ff02a2…54da`): 20,516 exact assertions covering all 32 archive files, complete $\mathrm{GL}_2(\mathbb F_2)$ and $\mathrm{GL}_2(\mathbb F_3)$ class/character/idempotent tables and negative controls over $\mathbb Q(\zeta_3)$ and $\mathbb Q(\zeta_8)$, $\mathbb R[C_3]$ / $\mathbb F_2[C_2]$ field failures, and §13.4.13's `sep_numerical_ineq` | Run certificate (`sources/SOURCES.md`, Part I §7) | Exact computational check (not a Lean kernel check) |
+
+### 13.4.16 Cuspidality from unipotent radical sums
+
+A regular root sum can furnish the character of a simple representation. To use it as a cuspidal character one needs a further test: does any vector survive after passing to coinvariants under the radical of a proper parabolic? Over the complex numbers the trace of a single average gives the dimension of these coinvariants. For finite general linear groups one needs one average for each maximal parabolic type.
+
+#### Examples
+
+**Example 13.61 ($\mathrm{GL}_2(\mathbb F_2)$).** The action on the three nonzero vectors is faithful, and the group has order $(4-1)(4-2)=6$, so it is the full permutation group. The sole standard cut is $1+1$, with radical $\{1,u\}$ for $u=I+E_{12}$. On $e_1,e_2,e_1+e_2$, $u$ fixes the first vector and interchanges the last two. On the sign line the traces are $1,-1$. The sum is zero, and both the fixed space and the coinvariant quotient vanish because $u-1$ acts by $-2$. In the sum-zero plane of the permutation module, the vectors $(2,-1,-1),(0,1,-1)$ give eigenvalues $1,-1$ for $u$. The traces are $2,0$, so the sum is $2$ and the fixed space and quotient both have dimension $1$. The sum-zero plane is simple: any nonzero vector has unequal coordinates, subtracting its transposition gives a nonzero coordinate difference, and all its translates span the plane.
+
+**Example 13.62 ($\mathrm{GL}_2(\mathbb F_3)$).** On the projective line $\infty,0,1,2$ the radical is translation by $t\in\mathbb F_3$. It fixes $\infty$, and nonzero translations cycle the other points. The kernel of the projective action consists of scalars: fixing the coordinate lines forces a diagonal matrix, and fixing the line of $(1,1)$ forces equal diagonal entries. The image has order $(9-1)(9-3)/2=24$, so it is the full permutation group on four letters. On the three pair partitions $\infty 0\mid 12,\ \infty 1\mid 20,\ \infty 2\mid 01$, translation by $1$ is a three-cycle and the permutation swapping $0,1$ is a transposition. The image on partitions is the full group on three letters. The sum-zero plane of this action is simple by the coordinate-difference argument. Subtracting the constant line from the partition permutation module gives traces $2,-1,-1$. The sum is zero. In the full module the invariants are constant and the quotient identifies the three partition basis vectors. The sum-zero plane therefore has zero invariants and zero coinvariants, since the differences span the plane.
+
+On the four-point sum-zero space the traces are $3,0,0$, obtained from $4,1,1$ by subtracting the constant line. The sum is $3$. The fixed line is spanned by $(3,-1,-1,-1)$, and the differences of the three finite-point basis vectors span the two-dimensional subspace killed in the coinvariant quotient. The quotient has dimension $3-2=1$, also given by $3/3$. This representation is simple by the same coordinate-difference argument. Every proper parabolic in either example stabilizes a line, and all lines are conjugate.
+
+#### Definition and averaging lemma
+
+Let $K$ be a finite field of size $q$, $G=\mathrm{GL}_d(K)$, and $(V,\rho)$ a finite-dimensional complex representation with character $\chi$. For $0<a<d$ let $U_a$ consist of the matrices $\begin{pmatrix}I_a&X\\0&I_{d-a}\end{pmatrix}$. These form the radical of the standard parabolic stabilizing the first $a$ coordinates. Multiplication adds $X$, so $|U_a|=q^{a(d-a)}$. Equivalently this is the product of the commuting root subgroups $\{I+tE_{ij}:t\in K\}$ for $i\le a<j$ in one-based indexing. The sum in the test runs over all choices of entries together.
+
+A proper parabolic $P$ is the stabilizer of a flag with at least one nonzero proper intermediate subspace. Its radical $U_P$ acts trivially on each successive quotient. In an adapted basis these are block upper triangular matrices with identity diagonal blocks. The archive uses a surjection $b:\mathrm{Fin}(d)\to\mathrm{Fin}(s)$ onto $s\ge2$ ordered blocks. Its predicate `IsCuspidal` says every vector fixed by the corresponding set `unip K b` is zero. `parab` imposes block upper triangularity on both the matrix and its inverse, and `unip` also requires identity diagonal blocks. [Lean, read] (`IsConstituent.lean:11–14,23–44`).
+
+**Lemma 13.63 (Trace and coinvariants).** For a finite subgroup $U$, the canonical map from the fixed space $V^U$ to the quotient $V_U=V/\langle\rho(u)v-v:u\in U,\ v\in V\rangle$ is an isomorphism and
+
+$$
+|U|^{-1}\sum_{u\in U}\chi(u)=\dim_{\mathbb C}V^U=\dim_{\mathbb C}V_U.
+$$
+
+*Proof.* Let $A=|U|^{-1}\sum_{u\in U}\rho(u)$. Left multiplication permutes the summands, so $Av$ is fixed, and $A$ acts as the identity on fixed vectors. In the decomposition into image and kernel, its trace is therefore the image dimension. Right multiplication shows that $A$ kills each difference $\rho(u)v-v$. Conversely, $v-Av$ is an average of differences and equals $v$ if $v\in\ker A$. Thus the difference span is exactly the kernel and the natural map from the image to the quotient is an isomorphism. If $U=U_P$, this isomorphism respects the Levi quotient action because $P$ normalizes $U$. $\square$
+
+The direct Lean input `eq_zero_of_sum_char` (`CuspidalOfUnipotentSumsVanish.lean:73–92`) restricts the representation along the subgroup inclusion. It turns the ambient indicator sum into a sum over the subgroup subtype, makes the complex cast of its order invertible, and applies Mathlib's `Representation.card_inv_mul_sum_char_eq_finrank`. The resulting zero finite rank forces the invariant submodule to be bottom. Mathlib obtains the identity by taking the trace of the averaging projection (`RepresentationTheory/Character.lean:102–108` and `Invariants.lean:126–149`). The quotient identification above translates the fixed-vector statement into coinvariants.
+
+#### Criterion and proof
+
+**Theorem 13.64 (Finite general linear cuspidality criterion).** For a finite-dimensional complex representation of $G$ the following are equivalent.
+
+1. $\sum_{u\in U_a}\chi(u)=0$ for every $0<a<d$.
+2. $V_{U_P}=0$ for every proper parabolic $P$.
+3. $V^{U_P}=0$ for every proper parabolic $P$.
+
+The implication from (1) to (3) is **(U3)**, conditional on the full family of sums. The production interface `GlobalTheory.T.cuspidal_of_unipotent_sums_vanish` is [Lean, read] at R3 (`CuspidalOfUnipotentSumsVanishStatement.lean:8–12`). The other implications use Lemma 13.63. No simplicity hypothesis is needed, and the tests are vacuous for $d\le 1$.
+
+*Proof.* The lemma identifies (2) and (3), and (3) implies (1) by testing the standard maximal parabolics. For the forward implication fix a coordinate block map $b$ and let $S=b^{-1}(0)$. Its size $a$ is positive by surjectivity and strictly less than $d$ because block $1$ is nonempty. Choose a permutation $\sigma$ sending $S$ to the first $a$ coordinates and let $p$ be its permutation matrix. For $x\in p^{-1}U_ap$ the entries off the identity are supported on rows in $S$ and columns outside $S$. These entries lie strictly above the block diagonal. The inverse has the same pattern since the off-diagonal part squares to zero. Thus $p^{-1}U_ap\subseteq\mathrm{unip}(K,b)$. If $v$ is fixed by the latter radical, for $u\in U_a$ one has $\rho(u)\rho(p)v=\rho(p)\rho(p^{-1}up)v=\rho(p)v$. By the $a$-th zero and Lemma 13.63, $\rho(p)v=0$. Applying $\rho(p^{-1})$ gives $v=0$. Any flag becomes a coordinate flag in an adapted basis, which transports the conclusion by conjugation. $\square$
+
+The statement wrapper delegates to `GlobalTheory.CompanionTheory.TyFin.CuspIff.isCuspidal_of_sum_char`. Its file `CuspidalOfUnipotentSumsVanish.lean` constructs the subgroup and proves its membership predicate at `:12–55`. At `:99–123` the first fiber gives $a$, and an equal-cardinality bijection of subtypes extends to the required permutation. At `:124–129` the indicator sum yields vanishing of the standard fixed space. `pm_conj` (`:57–71`) computes the matrix entries after conjugation. Lines `:131–166` prove the inclusion, using inverse closure for the inverse condition in `parab`, and `:167–177` transport the vector and apply the inverse operator.
+
+**Lemma 13.65 (Direct supply from primitivity).** If $\phi$ on the endomorphisms of $K^d$ satisfies `IsPrimitive`, then $\sum_{u\in U_a}\phi(u)=0$ for every $0<a<d$. [Lean, read] (`FinsumUnipotentRadicalEqZeroStatement.lean:7–8` and `FinsumUnipotentRadicalEqZero.lean:10–26`).
+
+*Proof.* For a nonzero proper subspace $D$ the defining condition says $\sum_{N\in\mathfrak n_D}\phi(g+N)=0$ for each endomorphism $g$ preserving $D$, where $\mathfrak n_D$ consists of maps into $D$ that kill $D$. Take $D$ to be the span of the first $a$ coordinates and $g=I$. Then $N$ has only its top right block free and $I+N$ has inverse $I-N$. The map $N\mapsto I+N$ is a bijection onto $U_a$, with inverse $u\mapsto u-I$. In Lean the bijection comes from `exists_standardUnipotentRadical_bijOn_nilradical`. The inequalities rule out bottom and top via dimension, and `finsum_mem_eq_of_bijOn` changes variables. $\square$
+
+#### Return to the label constructions
+
+For a legal polynomial $P$, `exists_cuspidal_label` chooses a root and expresses it as a power of the prescribed generator. Its degree gives regularity of the exponent. The inherited root-sum result gives an actual representation with character $\chi=(-1)^{d-1}\phi$ on invertible matrices, with $\phi$ the invariant-subspace Möbius inverse attached to the additive root-power sum. The norm computation gives simplicity (`ExistsCuspidalWithLabel.lean:63–93`). At `:94–104` the proof obtains primitivity from the inherited Möbius-inverse theorem, applies Lemma 13.65, converts the set sum to an ambient indicator sum, and distributes $(-1)^{d-1}$. Theorem 13.64 then gives cuspidality. The elliptic trace formula for the label is supplied at `:105–134`. The wrapper `GlobalTheory.T.exists_cuspidal_with_label` delegates to this producer, and `GreenAll.cuspParam_all` uses the wrapper as its second component (`ExistsCuspidalWithLabelStatement.lean:8–10`, `LabelMapNonempty.lean:122–126`).
+
+`green` chooses the family from that second component. For each chosen witness, `res_eq_zero_iff` identifies the Levi restriction at the identity with the vanishing of the standard radical sum, after cancelling $q^{-a(d-a)}$. `isCusp_character` proves the vanishing from fixed-vector vanishing (`GreenCuspidal.lean:146–167,272–285`). Injectivity transports the trace clause across a character equality and applies label uniqueness to the chosen witness (`:258–266,286–290`). In exhaustion, `isCuspidal_of_isCusp` converts the input restriction zeros into the standard sums and directly calls the same production body as the U3 wrapper (`:169–175,291–301`). The first parametrization clause gives the label and the third gives the isomorphism used to equate characters. The third clause consumes U4 as in Theorem 13.60(A).
+
+`GreenAll.greenLab` passes the full parametrization to `PendTie.greenO` (`LabelMapNonempty.lean:130–131`). The supplied parametrization includes the U3 realization proof. The individual map field proofs use the first and third clauses on modules already supplied with cuspidality. `lab_spec` retains only the four polynomial conditions. `lab_inj` recovers the full label witnesses and applies the third clause to a common label (`PendTie.lean:70–84`).
+
+#### Failure when a maximal block type is omitted
+
+Take $W=\mathbb F_2^4$ and the sign line $\epsilon$ of $\mathrm{GL}_2(\mathbb F_2)$ from Example 13.61. Induce $\epsilon\otimes\epsilon$ from the stabilizer of a two-plane $S_0$, through its actions on $S_0$ and $W/S_0$. This gives one line over each two-plane $S$, with stabilizer acting on that fiber by the product of the two signs. There are $(15\cdot14)/(3\cdot2)=35$ fibers.
+
+For the radical of a line $L$, an invariant vector must have a component at each orbit representative $S$ fixed by the stabilizer of $S$ in that radical. Write its elements as $I+N$, with image of $N$ contained in $L$ and $N|_L=0$. If $L\subset S$, choose $N$ nonzero on $S/L$. The action is a transvection on $S$ and the identity on the quotient. If $L$ is outside $S$, choose nonzero $N$ killing $S+L$. The action is the identity on $S$ and a transvection on the quotient. Either way a stabilizer element acts by $-1$, killing the invariant component. The cut $a=1$ therefore gives zero. The cut $a=3$ also gives zero: the duality $g\mapsto (g^{-1})^{\mathsf T}$ exchanges lines and hyperplanes and sends each two-plane to its annihilator. It exchanges the two actions on the fibers with their contragredients, leaving their product of signs unchanged. For $a=2$ at $S_0$ the fiber at $S_0$ is fixed pointwise. Thus testing both extreme cuts misses a nonzero coinvariant space. By Maschke every simple summand passes the two extreme tests, and at least one fails at $a=2$. Exact enumeration gives the three unnormalized sums $0,32,0$ for the induced module. The middle radical has order $16$, so the missed coinvariant space has dimension $2$.
+
+#### Remarks
+
+The finite field controls the radical and its order. The averaging and the inference from trace zero to dimension zero take place over $\mathbb C$. A virtual character can cancel fixed dimensions across its summands, so the preceding realization as an actual representation matters. For the classical setting see Gel'fand's treatment of analytic representations in §13.4.13, `[Gelfand1970]`, English translation pp. 13–39. [DOI record](https://doi.org/10.1070/SM1970v012n01ABEH000907)
+
+Archive A2 is pinned at SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` and Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`. The reading covers the local production bodies and consumers cited here. Earlier sections supply the named Möbius-inverse, character realization, and labeling inputs at their recorded reading levels.
+
+The U3 wrapper itself quantifies over a finite field `K`. Its application in the prime-field Green-series chain supplies actual cuspidal characters for the Mackey calculation in §13.4.17 and the Whittaker average in [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series).
 
 ### 13.4.17 Mackey orthogonality for cuspidal induction
 
@@ -3154,7 +3222,282 @@ For $d=2$ take $x=1$. The local sign product squares to one on all $576$ terms. 
 | `ThetaLabelRootOfHarishChandraConstituent.lean:102` | The forced permutation retains the rank-one type furnished by the character of $\mathrm{GL}_1$. |
 | `CardCuspidalMultisetsTotalDegreeLe.lean:54` | Orthogonality gives disjointness of constituent sets for different multisets. |
 
-**Attribution and scope.** The finite-group argument uses the double-coset decomposition named for George W. Mackey. Howlett and Lehrer study the associated induced-cuspidal intertwining theory. The Lean production is from the Alpöge–Claude archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` with Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. The flag argument and examples are this book's exposition. Earlier Green existence, radical averages and character formulas are inputs at their existing scope. Whittaker multiplicity, the degree of the list induction and general series label existence and uniqueness retain their earlier status. [Source record](../sources/SOURCES.md#chapter-13-13417--mackey-orthogonality-for-cuspidal-induction)
+**Attribution and scope.** The finite-group argument uses the double-coset decomposition named for George W. Mackey. Howlett and Lehrer study the associated induced-cuspidal intertwining theory. The Lean production is from the Alpöge–Claude archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` with Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. The flag argument and examples are this book's exposition. Earlier Green existence, the radical-sum criterion in [§13.4.16](#13416-cuspidality-from-unipotent-radical-sums), and character formulas are inputs at their recorded scope. See [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series) for the Whittaker average and the degree of list induction. General series label existence and uniqueness retain their earlier status. [Source record](../sources/SOURCES.md#chapter-13-13417--mackey-orthogonality-for-cuspidal-induction)
+
+### 13.4.18 Whittaker averages and the degree of a Green series
+
+A parabolically induced character has two useful measurements. Its value at the identity gives the dimension of the induced space. Its average against a nondegenerate character of the upper unitriangular subgroup counts Whittaker functionals. In the squarefree construction of §13.4.12, the first measurement supplies the degree formula and the second makes the irreducible representation furnished by §13.4.17 generic. Both computations start with the supplied cuspidal degrees.
+
+#### Worked examples
+
+**Rank two over $\mathbb F_2$.** The action on the three nonzero vectors identifies $G_2$ with $S_3$. Its sign character $\sigma$ has values $1,-1$ on the two elements of $U_2$. The nonidentity element fixes one nonzero vector and exchanges the other two. The ordinary radical average is zero, so $\sigma$ is cuspidal. With the additive character $t\mapsto(-1)^t$, the Whittaker average is $(1+1)/2=1$. The single factor $X^2+X+1$ has torus factor $3$, and the degree identity is $1\cdot3=(2-1)(4-1)$. Using the trivial character of $U_2$ gives zero.
+
+The repeated list of two trivial rank-one characters induces the permutation character on the three lines, with values $3,1$ on $U_2$. Its Whittaker average is $(3-1)/2=1$ and its degree identity for $(X+1)^2$ is $3\cdot1^2=3$. The untwisted average is $2$, although each rank-one average is $1$. Whittaker multiplication can therefore fail for a trivial twist.
+
+For a repeated factor with a nonunit torus factor, take the two trivial rank-one characters over $\mathbb F_3$. On the four projective lines their induced character has values $4,1,1$ on the upper root group. Each nonidentity translation fixes just the line at infinity. If $\zeta$ is a primitive cube root of unity, the average is $(4+\zeta^{-1}+\zeta^{-2})/3=1$. For $(X-1)^2$ the degree formula is $4\cdot2^2=16=(3-1)(9-1)$. Replacing the multiset of factors by its underlying set would give $4\cdot2=8$.
+
+**Rank three over $\mathbb F_2$.** Let $u(a,b,c)$ be the upper unitriangular matrix with entries $a,b,c$ in positions $(1,2),(2,3),(1,3)$. Put $H=\operatorname{Ind}_{P_{2,1}}^{G_3}(\sigma\boxtimes 1)$, with inflation understood. Its value is a sum over stable planes, weighted by the sign of the action on the three nonzero vectors of each plane. Let $J$ be the permutation character on complete flags, induced from three trivial rank-one characters.
+
+At the identity there are seven planes and three lines in each plane, so $H(1)=7$ and $J(1)=21$. For a transvection write $u=1+T$. The stable planes are the three containing $\operatorname{im}T$. The plane $\ker T$ contributes sign $+1$ and three lines. The other two each contribute sign $-1$ and one line. For a regular unipotent the only stable plane and line are $\ker T^2$ and $\ker T$. Its action on the plane is a transvection. Indeed a vector outside $\ker T^2$ generates a three-dimensional cyclic space under $T$, so cannot lie in a stable plane. The full values on $U_3$ follow.
+
+| Type | Count | $H(u)$ | $J(u)$ | Sum of $(-1)^{a+b}$ | Sum of $(-1)^a$ |
+|---|---:|---:|---:|---:|---:|
+| Identity | 1 | 7 | 21 | 1 | 1 |
+| Transvection | 5 | $-1$ | 5 | $-3$ | 1 |
+| Regular unipotent | 2 | $-1$ | 1 | 2 | $-2$ |
+
+The regular elements have $a=b=1$ since the only potentially nonzero entry of $T^2$ is $ab$. The sum of either nontrivial weight over all eight triples is zero. The nondegenerate averages are $(7+3-2)/8=1$ for $H$ and $(21-15+2)/8=1$ for $J$. For the factors $X^2+X+1$ and $X+1$ the degree identity is $7\cdot3\cdot1=21$. For the three positions of $(X+1)^3$ it is $21\cdot1^3=21=(2-1)(4-1)(8-1)$. The nontrivial degenerate character $(-1)^a$ is trivial on the $(2,3)$ root subgroup and gives $(21+5-2)/8=3$ for $J$. The constant functions in the flag representation give a trivial constituent, so average one does not imply irreducibility.
+
+#### Definitions
+
+For a finite field $F$ of cardinality $q$, let $G_n=\mathrm{GL}_n(F)$ and let $U_n$ be its upper unitriangular subgroup. Take $G_0=U_0=\{1\}$. For an additive character $\psi:(F,+)\to\mathbb C^\times$ put
+
+$$
+\lambda_{n,\psi}(u)=\psi\left(\sum_{i=1}^{n-1}u_{i,i+1}\right),\qquad
+W_{n,\psi}(\chi)=\frac{1}{|U_n|}\sum_{u\in U_n}\lambda_{n,\psi}(u)^{-1}\chi(u).
+$$
+
+The first superdiagonal adds under multiplication, so $\lambda_{n,\psi}$ is a character. For $n\ge2$, nondegeneracy means nontriviality on every subgroup $1+F E_{i,i+1}$. A nontrivial $\psi$ has this property. In ranks zero and one the sum is empty. The GreenSeries contracts use $F=\mathbb F_g=\mathrm{ZMod}\,g$ and $g$ prime. The archive's wh uses the inverse-weight average. The finite-group projection and parabolic index computations apply over every finite field. More generally, weighting each adjacent entry by a nonzero element of $F$ gives a diagonal conjugate of this character. Indeed the adjacent ratios of a diagonal matrix can be prescribed recursively, so conjugation rescales those entries as desired.
+
+Write $A_n(q)=\prod_{j=1}^n(q^j-1)$ and $A_0(q)=1$. Denote the two-block parabolic by $P_{a,b}$ and its radical by $R_{a,b}$. For $a+b=n$, put
+
+$$
+\operatorname{res}_{a,b}\chi(x,y)=q^{-ab}\sum_{r\in R_{a,b}}\chi(\operatorname{diag}(x,y)r).
+$$
+
+For a representation this is the character of $R_{a,b}$-invariants under the diagonal block group. A cuspidal character here is irreducible, of positive rank $d$, with $\operatorname{res}_{a,d-a}\chi(1,1)=0$ for each $0<a<d$. Define $D_m\chi(x)=W_{n-m,\psi}(\operatorname{res}_{m,n-m}\chi(x,-))$. The derivative index $m$ denotes the rank left over. A list of rank and function pairs $((d_i,\chi_i))$ has total rank $n=\sum_i d_i$. Write $H_L$ for its iterative Harish–Chandra product, with $H_{[]}=1$ in rank zero.
+
+#### Lemmas and proofs
+
+**The Whittaker projection.** For any finite-dimensional complex $G_n$-module $V$, the average on its character equals the dimension of the $\lambda_{n,\psi}$-eigenspace in $V$. Set $P=|U_n|^{-1}\sum_u\lambda_{n,\psi}(u)^{-1}\rho(u)$. For $v\in U_n$, setting $w=vu$ in the sum for $\rho(v)P$ gives $\rho(v)P=\lambda_{n,\psi}(v)P$. On vectors already transforming by $\lambda_{n,\psi}$, $P$ acts identically. Thus $P$ is a projection onto that eigenspace. Its trace equals its rank in an image and kernel basis. Linearity of trace gives $W_{n,\psi}(\chi_V)$. An equivariant functional $\ell:V\to\mathbb C_{\lambda_{n,\psi}}$ satisfies $\ell P=\ell$, and every functional on the image extends equivariantly by composition with $P$. For an irreducible $V$, Frobenius reciprocity and semisimplicity identify this dimension with the multiplicity of $V$ in $\operatorname{Ind}_{U_n}^{G_n}\lambda_{n,\psi}$.
+
+**The identity value of Harish–Chandra induction.** For $a,b\ge0$, the induction sum $\operatorname{hc}_{a,b}$ is the sum over conjugators $y$ with $y^{-1}xy\in P_{a,b}$, applying $\alpha$ and $\beta$ to the diagonal blocks and dividing by $|P_{a,b}|$. At $1$, every conjugator in the defining sum contributes $\alpha(1)\beta(1)$ and the denominator is $|P_{a,b}|$. Fixing the two invertible diagonal blocks leaves $q^{ab}$ choices for the rectangular block. Counting invertible matrices column by column gives
+
+$$
+|G_n|=\prod_{j=0}^{n-1}(q^n-q^j)=q^{n(n-1)/2}A_n(q).
+$$
+
+After $j$ independent columns the next must avoid a span of cardinality $q^j$. In $|G_{a+b}|/(|G_a||G_b|q^{ab})$ the powers of $q$ cancel since the exponent for $a+b$ exceeds the two exponents for $a,b$ by $ab$. Therefore
+
+$$
+\operatorname{hc}_{a,b}(\alpha,\beta)(1)A_a(q)A_b(q)= A_{a+b}(q)\alpha(1)\beta(1).
+$$
+
+These factors are nonzero. Applying the two-block identity to the head and the tail, starting at the empty list, gives
+
+$$
+H_L(1)=A_n(q)\prod_i\frac{\chi_i(1)}{A_{d_i}(q)}.
+$$
+
+This identity uses only the defining function sum and allows arbitrary inputs, zero ranks, and repetitions.
+
+**Cuspidal average from the derivative expansion.** [Lean, read] Fix a prime $g$, any nontrivial $\psi$ on $\mathbb F_g$, a rank $d>0$ and a class function $\chi$ on $G_d$. The mirabolic block-diagonal expansion applies since conjugation invariance under $G_d$ implies invariance under its mirabolic subgroup. At the identity it expresses $\chi(1)$ as the sum of the identity values of $\operatorname{hc}_{m,d-1-m}(D_m\chi,\Gamma_{d-1-m})$ over $0\le m<d$. Here $\Gamma_r$ is induced from $\lambda_{r,\psi}$ and has degree $|G_r|/|U_r|=A_r(g)$, as all strictly upper entries of $U_r$ are free. In each term the two-block index cancels $A_{d-1-m}(g)$. Since $A_{d-1}(g)/A_m(g)=\prod_{j=m+1}^{d-1}(g^j-1)$, the resulting expansion is
+
+$$
+\chi(1)=\sum_{m=0}^{d-1}D_m\chi(1)\prod_{j=m+1}^{d-1}(g^j-1).
+$$
+
+If $\chi$ is cuspidal, the radical average projects onto the invariant subspace, whose dimension is zero at each proper cut. Thus the entire restriction character vanishes there, and $D_m\chi(1)=0$ for $0<m<d$. For $m=0$ the radical is trivial and $D_0\chi(1)=W_{d,\psi}(\chi)$. Consequently $\chi(1)=A_{d-1}(g)W_{d,\psi}(\chi)$. With the supplied degree $A_{d-1}(g)$, cancellation gives $W_{d,\psi}(\chi)=1$. This is the implication exported by wh_cusp_eq_one, including rank one with an empty product.
+
+**The list average and exact Green degree.** [Lean, read] Fix any prime $g$ and any nontrivial $\psi$ as above. Let $L$ be any list of cuspidal characters satisfying $\chi_i(1)=A_{d_i-1}(g)$. The two-block Whittaker multiplication of §13.4.8 gives $W_{n,\psi}(H_L)=1$. The empty list has average $1$. In the head step the head and induced tail are both class functions. Averaging the tensor first in the tail variable multiplies the head function by the tail average, which is $1$ by induction. Averaging the head gives $1$ by the cuspidal lemma. This argument includes repeated entries.
+
+For the degree statement take any $f\in\mathbb F_g[X]$ and a list $Q=((P_i,(d_i,\chi_i)))$ whose polynomial multiset equals the normalized factor multiset of $f$. Assume $d_i=\deg P_i$ and $\chi_i(1)=A_{d_i-1}(g)$ at each position. A normalized factor is irreducible and has positive degree. Thus $A_{d_i}(g)=\chi_i(1)(g^{d_i}-1)$. In the list degree identity all factors $\chi_i(1)$ are nonzero and cancel. This yields
+
+$$
+H_L(1)\operatorname{torusCard}(g,f)=A_n(g),\qquad
+\operatorname{torusCard}(g,f)=\prod_i(g^{d_i}-1).
+$$
+
+Here $L$ is the list obtained by forgetting the polynomials and $n$ is its total rank. The proof retains one factor per occurrence. The theorem degHcL requires the multiset, ranks and identity-value hypotheses just stated. The empty list gives $1=1$.
+
+#### Remarks and consumers
+
+Fix a prime $g$, a label datum as in §13.4.12 and $N>0$. For a squarefree monic $f$ of degree $N$ and nonzero constant term, each factor $P$ of rank $d$ supplies $\tau_d(P)$ from the existence clause of Green, including its cuspidality and its degree $A_{d-1}(g)$. Distinct factors give distinct dependent pairs by injectivity at equal rank. The inherited Mackey self-pairing and character decomposition then give a simple module with the induced character. Choose the standard additive character, nontrivial because its value at $1$ is a primitive $g$-th root. The level levGen uses no gap and includes every adjacent edge with coefficient $1$. Its coefficients equal those of the averaging idempotent by the unitriangular membership test and the adjacent-entry sum, with the out-of-range final entry set to zero. Its nonzero projected image supplies the genericity witness. The degree branch uses the independently proved identity and passes to natural numbers via $\chi_V(1)=\dim V$. Label recovery uses the inherited support argument.
+
+| Interface | Producer and consumer in the archive | Output used |
+|---|---|---|
+| Nondegenerate level and projection | ProdFactorsOfMonic.lean:21–63,67–100, called at :337 | Adjacent-root character, inverse coefficients on the unitriangular subgroup, and a nonzero vector in the image |
+| Cuspidal average | WhittakerDimensionCuspidalGreenDegreeEqOne.lean:42–79, called at ProdFactorsOfMonic.lean:133 | Average one given cuspidality and the supplied degree |
+| List average | ProdFactorsOfMonic.lean:102–137, using WhittakerDimensionHarishChandraInductionMul.lean:65–184, called at ProdFactorsOfMonic.lean:338–343 | Average one, then nonzero on the simple character via the character equality |
+| List degree | HarishChandraProductListDegree.lean:18–37,54–114, consumed at ProdFactorsOfMonic.lean:152 | Identity-value product with the full $A_{d_i}(g)$ for each position |
+| Factor degree | ProdFactorsOfMonic.lean:139–187, called at :344–350 | Cancellation using the supplied block degrees, followed by the integer dimension identity |
+| Published interface | ProdFactorsOfMonic.lean:243–351 via BridgesAut.lean:49–50 | GreenSeriesSt uses genericity and degree together with inherited irreducibility and label injectivity |
+
+A list average of one for an actual character means exactly one constituent occurrence contributes a Whittaker space of dimension one. The projection formula also works for degenerate characters. The mirabolic and multiplicative identities used here require the stated nontrivial additive twist, with explicit failures in the examples. In particular the rank of the projection and the degree of the induced representation measure different spaces.
+
+**Reading scope.** [Lean, read] covers the local proof bodies and the pinned Mathlib column count and projection trace. The expansion uses mirabolicConjInvariant_eq_sum_induced_derivatives, mirabolicInduction_blockDiag_eq_harishChandra_gelfandGraev, and isClassFunction_bernsteinZelevinskyDerivative, whose local prime-field productions are read in [§13.4.19](#13419-fourier-decomposition-on-the-finite-mirabolic-group) and [§13.4.20](#13420-block-diagonal-mirabolic-induction-and-the-gelfandgraev-factor). The cuspidal-list average uses the Whittaker multiplication of §13.4.8, with the non-open and open cells read in [§13.4.21](#13421-why-every-non-open-whittaker-cell-vanishes) and [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight). Green treats parabolic product degrees in Lemma 2.7 and gives the simplex degree formula in Lemma 7.4. The derivative proof follows the Alpöge–Claude archive. [Green (1955), Lemmas 2.7 and 7.4](https://doi.org/10.1090/S0002-9947-1955-0072878-2)
+
+### 13.4.19 Fourier decomposition on the finite mirabolic group
+
+The degree formula of §13.4.18 comes from an identity at every mirabolic element. In the last-row convention the last row is fixed, while the column above its final entry is free. Fourier analysis in that column has two kinds of coefficients. The zero row gives an ordinary average, and the nonzero rows give induction from a smaller mirabolic stabilizer.
+
+#### Worked examples
+
+**Rank two over $\mathbb F_2$.** Take the permutation character $J_2$ on the three lines. The mirabolic is $U_2=\{1,u\}$ with $u=1+E_{12}$. The values are $(3,1)$ because $u$ fixes only its image line. For $\psi(t)=(-1)^t$, the derivative at remaining rank one is $(3+1)/2=2$, and at remaining rank zero it is $(3-1)/2=1$. Both inducing subgroups are $U_2$. The respective weights are $1$ and $(-1)^{u_{12}}$, giving terms $(2,2)$ and $(1,-1)$ on $(1,u)$. Their sum is $(3,1)$. The nonzero untwisted radical average witnesses the proper-cut contribution.
+
+**Rank three over $\mathbb F_2$.** Take the permutation character $J_3$ on complete flags. An element of the mirabolic has upper-left block $h\in G_2$ and last column $v\in\mathbb F_2^2$ above the diagonal. The identity fixes $7\cdot3=21$ flags. For a transvection $1+T$, the stable planes are the three containing $\operatorname{im}T$. The plane $\ker T$ has three fixed lines and each other plane has one, giving five flags. For a regular unipotent the sole flag is $\ker T\subset\ker T^2$: any vector outside $\ker T^2$ generates a three-dimensional space, and the only fixed line is $\ker T$. For $h$ of order three, $1-h$ is invertible, so translation in the column conjugates $(h,v)$ to $(h,0)$. In that splitting the unique stable line is the fixed space and the unique stable plane is the irreducible summand. They are complementary, giving zero flags.
+
+For $h=1$ the column values are $21,5,5,5$. For $h$ of order two, set $L=\operatorname{im}(h-1)=\ker(h-1)$. The square of $(h,v)$ has upper column $(h-1)v$, so the element is a transvection for $v\in L$ and regular unipotent otherwise. The rank-two derivative is the column mean, taking values $9,3,0$ when the order of $h$ is $1,2,3$. For the other derivatives, write $(a,b,c)=(u_{12},u_{23},u_{13})$ in $U_3$. There is one identity, five transvections, and two regular elements with $a=b=1$. The sums of the weights $(-1)^b$ on these three sets are $1,1,-2$, and those of $(-1)^{a+b}$ are $1,-3,2$. The resulting rank-one and rank-zero derivatives are $(21+5-2)/8=3$ and $(21-15+2)/8=1$.
+
+Both lower-rank terms induce from $U_3$. A coset represented by $(k,0)$ corresponds to the nonzero row $r=e_2k^{-1}$ and is fixed exactly when $rh=r$. The rank-one term weighs it by $(-1)^{rv}$, with coefficient three. The rank-zero weight has the additional factor $-1$ for $h$ of order two, because $k^{-1}hk=1+E_{12}$, and factor $+1$ for $h=1$. For $h=1$, summing the three nonzero row weights gives $3$ at $v=0$ and $-1$ elsewhere by cancellation. For $h$ of order two, the single fixed nonzero row annihilates $L$, so its weight is $+1$ on $L$ and $-1$ elsewhere. For order three there is no fixed nonzero row. This gives every term at every element.
+
+| Case | Count | Rank two | Rank one | Rank zero | $J_3$ |
+|---|---:|---:|---:|---:|---:|
+| $h=1$, $v=0$ | 1 | 9 | 9 | 3 | 21 |
+| $h=1$, $v\ne0$ | 3 | 9 | $-3$ | $-1$ | 5 |
+| $h$ of order two, $v\in L$ | 6 | 3 | 3 | $-1$ | 5 |
+| $h$ of order two, $v\notin L$ | 6 | 3 | $-3$ | 1 | 1 |
+| $h$ of order three | 8 | 0 | 0 | 0 | 0 |
+
+#### Definitions
+
+Let $F=\mathbb F_q$, $G_a=\mathrm{GL}_a(F)$ and $U_b$ be upper unitriangular, with $G_0=U_0=\{1\}$. For $n\ge1$ let $P_n$ stabilize the last row $e_n$. For $0\le m<n$ and $b=n-m$ put
+
+$$
+R_m^{(n)}=\left\{\begin{pmatrix}h&B\\0&u\end{pmatrix}:h\in G_m,\ B\in F^{m\times b},\ u\in U_b\right\}\subseteq P_n.
+$$
+
+The projection $\pi_m$ to $h$ has kernel of size $q^{mb}|U_b|=q^{mb+b(b-1)/2}$. For an additive character $\psi$ of $F$ set $\lambda_m(x)=\psi(\sum_{j=m+1}^{n-1}x_{j,j+1})$ on this subgroup. The lower-right projection is a homomorphism and the adjacent entries add, so $\lambda_m$ is a character. Its weight is trivial on the rectangle. For $f:P_n\to\mathbb C$ define
+
+$$
+D_m^{(n)}f(h)=\frac1{q^{mb}|U_b|}\sum_{B,u}
+ f\left(\begin{smallmatrix}h&B\\0&u\end{smallmatrix}\right)
+ \psi\left(-\sum_{i=1}^{b-1}u_{i,i+1}\right).
+$$
+
+Writing the rectangular block as $hC$ recovers the radical average of §13.4.18, followed by the inverse-weight Whittaker average. For $H\le K$ define
+
+$$
+I_H^K(\alpha)(x)=\frac1{|H|}\sum_{y\in K:\ y^{-1}xy\in H}\alpha(y^{-1}xy).
+$$
+
+For class functions $\alpha$ the summands are constant on each fixed coset $yH$ for the left action of $x$. Each such coset has $|H|$ representatives.
+
+#### Lemma and proof
+
+**Mirabolic derivative decomposition.** For every finite field $F$, every nontrivial complex additive character $\psi$, every $n\ge1$ and every complex class function $f$ on $P_n$, the derivatives $D_m^{(n)}f$ are class functions on $G_m$ for all $0\le m<n$, and for every $x\in P_n$,
+
+$$
+f(x)=\sum_{m=0}^{n-1} I_{R_m^{(n)}}^{P_n}\big((D_m^{(n)}f\circ\pi_m)\lambda_m\big)(x).
+$$
+
+The class-function assertion holds for the trivial additive character as well. On the prime-field archive path the input is defined on $G_n$ and conjugation invariance is required only under $P_n$ on $P_n$. Every class function on $P_n$ extends by zero to such an input, and all values used lie on $P_n$. [Lean, read] for the two named production bodies below in the prime-field scope.
+
+**Class invariance.** Conjugation by $\operatorname{diag}(y,1_b)\in P_n$ replaces $(h,B,u)$ by $(yhy^{-1},yB,u)$. The rectangle change is bijective and the weight is fixed. Summing gives $D_m^{(n)}f(yhy^{-1})=D_m^{(n)}f(h)$, so each inducing function is a class function.
+
+**One column.** Write $n=k+1$, $k\ge1$. In $P_n$ the multiplication of pairs is $(h,v)(a,w)=(ha,v+hw)$. Define
+
+$$
+\widehat f(h,r)=q^{-k}\sum_v f(h,v)\psi(-rv),\qquad
+f(h,v)=\sum_r\widehat f(h,r)\psi(rv).
+$$
+
+To prove inversion, for a nonzero column $z$ the functional $r\mapsto rz$ is surjective. Translation by a row with $\psi(rz)\ne1$ gives $\sum_r\psi(rz)=0$. At $z=0$ the sum is $q^k$. Substitution proves inversion. The same surjectivity for a nonzero row shows that distinct rows give distinct characters on the columns, hence they give all $q^k$ characters. This argument permits a nontrivial kernel of $\psi$ on the field.
+
+Conjugation by $(1,w)$ sends $(h,v)$ to $(h,v+(1-h)w)$. Accordingly the coefficient equals itself times $\psi(r(1-h)w)$ for every $w$. If $rh\ne r$, the functional of $w$ is surjective and the coefficient is zero. Conjugation by $(a,0)$ and change of variables give
+
+$$
+\widehat f(a^{-1}ha,ra)=\widehat f(h,r).
+$$
+
+The zero row gives $D_k^{(n)}f(h)$. The nonzero rows form one orbit by extension of a nonzero row to a basis. The stabilizer of $e_k$ is $P_k$. Put $K=P_k\ltimes F^k\subset P_n$ and $T(h)=\widehat f(h,e_k)$ for $h\in P_k$. Covariance makes $T$ a class function there. The function $\theta(h,v)=\psi(e_kv)$ on $K$ is a character by $e_k h=e_k$.
+
+The cosets of $K$ have representatives $(a,0)$, indexed bijectively by $r=e_k a^{-1}\ne0$. A coset is fixed by $(h,v)$ exactly when $a^{-1}ha\in P_k$, equivalently $rh=r$. Its term in the induction of $(T\circ p)\theta$, with $p:K\to P_k$ the upper-left projection, is $T(a^{-1}ha)\psi(e_k a^{-1}v)=\widehat f(h,r)\psi(rv)$. Thus the induction sum equals the entire nonzero part of Fourier inversion, and
+
+$$
+f(h,v)=D_k^{(n)}f(h)+I_K^{P_n}((T\circ p)\theta)(h,v).
+$$
+
+**Recursion.** For $m<k$, the inverse image of $R_m^{(k)}$ under $p$ is $R_m^{(n)}$, since adding the last column extends both the rectangle and the unitriangular block. On that inverse image the weight in rank $n$ is the rank-$k$ weight multiplied by $\theta$. The fibre over a fixed point of $G_m$ has $q^k$ times as many elements as in rank $k$. The two inverse weights in the nested averages multiply, and the denominators multiply by the same factor $q^k$. Therefore $D_m^{(k)}T=D_m^{(n)}f$.
+
+For $L\le P_k$ and $\alpha$ on $L$, induction from $p^{-1}(L)$ to $K$ of the pullback times $\theta$ gives $(I_L^{P_k}(\alpha)\circ p)\theta$. Each conjugator downstairs has $q^k$ lifts, the character is invariant under conjugation, and the denominator is $q^k|L|$. Induction through $K$ is transitive. Indeed, for $H\le K\le P_n$ expand both sums. Every total conjugator $z$ with $z^{-1}xz\in H$ has $|K|$ factorizations $z=ya$ with $a\in K$, and each has $y^{-1}xy\in K$. This cancels the intermediate denominator and gives $I_H^{P_n}$. Applying the rank-$k$ formula to $T$ now gives all terms $m<k$. The zero Fourier coefficient supplies $m=k$, since $R_k^{(n)}=P_n$ and its weight is trivial.
+
+The induction starts at $P_1=\{1\}$ with $D_0^{(1)}f(1)=f(1)$. In any positive rank the $m=0$ term is the full Whittaker average on $U_n$ times the induction of its positive-weight character. The $m=n-1$ term is the inflated untwisted column average with $U_1=\{1\}$. They coincide in rank one and occur only once there. At ambient rank zero the final row is absent. If the mirabolic convention is extended to the trivial group in rank zero, the empty sum gives zero even for the constant-one function, so the asserted range begins at rank one.
+
+#### Remarks and consumers
+
+**Dropping hypotheses.** In the rank-two example the trivial additive twist gives two coefficients equal to two and both weights trivial, so the proposed right side is four throughout. To test class invariance, take the indicator of a single element $(h,0)$ of $P_3(\mathbb F_2)$ with $h$ of order two. Its rank-two derivative takes $1/4$ at $h$ and zero at another conjugate in $G_2$. Each induction sum is conjugation invariant by reindexing its outer sum even for arbitrary input, so the expansion cannot equal that indicator either.
+
+**Additive-character convention.** Conjugation by $\operatorname{diag}((-1)^{n-j})_{j=1}^n$ in $P_n$ reverses every adjacent-entry sign. For class-function inputs the derivative and induced term are unchanged by replacing $\psi$ with $\psi^{-1}$. The proof keeps the inverse averaging weight and the positive inducing weight to display the normalization and fibre factors.
+
+**Consumer contract.** MirabolicClassFunBlockDiagonalEqSumDerivatives.lean:22–27 specializes at $\operatorname{diag}(h,1)$ for $h\in G_{n-1}$, invoking the decomposition and derivative class invariance. Its separate comparison, mirabolicInduction_blockDiag_eq_harishChandra_gelfandGraev, identifies each term with $\operatorname{hc}_{m,n-1-m}(D_m^{(n)}f,\Gamma_{n-1-m})(h)$ by the block-diagonal calculation in [§13.4.20](#13420-block-diagonal-mirabolic-induction-and-the-gelfandgraev-factor) [Lean, read] in the prime-field scope. At $h=1$, the established §13.4.18 degree contract gives the coefficient $\prod_{j=m+1}^{n-1}(q^j-1)$, with the empty product at the top rank. In the prime-field archive path this feeds wh_cusp_eq_one with the supplied cuspidal degree. The separate GreenSeries degree proof, Mackey input and Chapter 9 mirabolic dimension bound have their earlier scopes.
+
+**Archive and literature.** In A2 (joined SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc), under lean/src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/, MirabolicConjInvariantEqSumInducedDerivativesStatement.lean:7 is supplied by MirabolicConjInvariantEqSumInducedDerivatives.lean:112–133, with base calculation at :96–110. IsClassFunctionBernsteinZelevinskyDerivativeStatement.lean:7 is supplied by IsClassFunctionBernsteinZelevinskyDerivative.lean:122–166. The direct Fourier argument follows this archive production.
+
+Bernstein and Zelevinsky, *Induced representations of reductive p-adic groups I*, §§3.2 and 3.5, pp. 450–452, give the last-column functors and filtration over a nonarchimedean local field. Gan, Gross and Prasad, *Restrictions of representations of classical groups: examples*, §4, Proposition 4.2, p. 121, give the finite-field representation statement. Their $E_{n-1}$ is $P_n$, their $R_i$ is $R_m^{(n)}$ at $i=m$, and their order $n-i$ is $n-m$. Their character on the lower unitriangular block extends trivially across the rectangle. For a complex representation, the inverse-weight average computes the trace on the corresponding character space of the kernel of $\pi_m$: the average of the operators projects to that space by reindexing, and it commutes with embedded $G_m$ by conjugation. The finite-group filtration splits over $\mathbb C$ by semisimplicity, and irreducible characters span all complex class functions. The direct proof works at the function level and gives the normalization explicitly. [Bernstein–Zelevinsky (1977)](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0/) · [Gan–Gross–Prasad (2012)](https://www.numdam.org/book-part/AST_2012__346__111_0/)
+
+### 13.4.20 Block-diagonal mirabolic induction and the Gelfand–Graev factor
+
+The expansion of §13.4.19 takes place in the mirabolic group. To read it on the embedded general linear group, evaluate each summand at $\operatorname{diag}(h,1)$. Mirabolic conjugation can introduce a nonzero last column. On the support of the summand the coordinate of that column used by the character vanishes. The remaining induction is inside the smaller general linear group, where the lower diagonal block supplies the Gelfand–Graev factor.
+
+#### Worked examples
+
+Take $F=\mathbb F_3$ and $\psi(t)=\zeta^t$ with $\zeta^2+\zeta+1=0$ and $\zeta\ne1$. Write $J_s=sI_2+E_{12}$ for $s=1,2$. Both matrices are invertible and nonsemisimple, and both differ from the identity. Use $k=2$, $\rho_0(1)=1$, $\rho_1(1)=2$, $\rho_1(2)=3$, and $\rho_2\equiv5$.
+
+Here $|G_2|=(9-1)(9-3)=48$, $|G_1|=2$ and $|G_0|=1$. The condition that $A^{-1}J_sA$ be triangular says that $A$ sends the first coordinate line to a $J_s$-stable line. The unique such line is the eigenspace $\ker(J_s-sI_2)$. Hence the triangular conjugates arise exactly from
+
+$$
+A=\begin{pmatrix}a&b\\0&d\end{pmatrix},
+\qquad A^{-1}J_sA=\begin{pmatrix}s&d/a\\0&s\end{pmatrix}.
+$$
+
+There are $2\cdot3\cdot2=12$ such matrices, with $d/a=1,2$ occurring six times each. Each $A$ has nine mirabolic lifts. Thus $|P_3|=432$. The three inducing group orders at $i=0,1,2$ are $27$, $54=2\cdot3^2\cdot3$, and $432$. The respective smaller inducing group orders are $3,6,48$, the parabolic orders are $48,12,48$, and the unitriangular orders for the Gelfand–Graev factors are $3,1,1$.
+
+**Example 1. The unipotent Jordan block $h=J_1$.** At $i=0$ the support consists of $12\cdot9$ conjugators. The last adjacent entry is zero because the second entry of $A^{-1}(J_1-I_2)v$ vanishes for triangular $A$ and any column $v$. The mirabolic numerator is $54\zeta+54\zeta^2=-54$, giving $-54/27=-2$. The right factor is $\Gamma_2(J_1)=(6\zeta+6\zeta^2)/3=-2$. The outer numerator is $48(-2)$ by conjugation invariance, and its denominator is $48$. At $i=1$ the same $108$ conjugators contribute, with weight $1$ from the last adjacent entry. The value is $108\cdot2/54=4$. On the right the quotient scalar is $1$, so $\Gamma_1(1)=2/1$ and the value is $12\cdot2\cdot2/12=4$. At $i=2$ the weight is $1$ everywhere, so the two values are $432\cdot5/432$ and $48\cdot5/48$, using $\Gamma_0(1)=1/1$.
+
+**Example 2. The Jordan block $h=J_2$ of eigenvalue $2$.** At $i=0$ unitriangular support is empty because of the eigenvalue $2$. The zero numerators are divided by $27$ on the left and by $3$ (inner) and $48$ (outer) on the right. At $i=1$ the $108$ lifts of triangular conjugators all have bottom-block first diagonal entry $2$, so the mirabolic numerator over $54$ is zero. On the right the $12$ triangular conjugators give quotient scalar $2$, with $\Gamma_1(2)=0/1$. The numerator is $12\cdot3\cdot0$ over $12$. At $i=2$ all weights are $1$, giving $432\cdot5/432=48\cdot5/48$ with $\Gamma_0(1)=1/1$.
+
+#### Definitions
+
+Keep $R_i^{(n)}$, $\pi_i$, $\lambda_i$ and $I_H^K$ from §13.4.19. With $i+b=k$ define
+
+$$
+Q_{i,b}=\left\{\begin{pmatrix}a&B\\0&d\end{pmatrix}:a\in G_i,\ d\in G_b,\ B\in F^{i\times b}\right\}.
+$$
+
+Write $\sigma_m(u)=\sum_{j=1}^{m-1}u_{j,j+1}$ for $u\in U_m$, with empty sum zero, and set $\Gamma_m=I_{U_m}^{G_m}(\psi\circ\sigma_m)$. The adjacent entries add under multiplication in $U_m$, giving a character, nontrivial on every simple-root subgroup when $\psi$ is nontrivial and $m\ge2$. The same definition makes sense for the trivial additive character. In rank zero $\Gamma_0(1)=1$, and in rank one $\Gamma_1$ is the regular character of $G_1$.
+
+The Harish–Chandra product $\operatorname{hc}_{i,b}(\alpha,\beta)$ is induction from $Q_{i,b}$ of $(a,B,d)\mapsto\alpha(a)\beta(d)$. The functions are multiplied on the Levi quotient before induction. The denominator is $|Q_{i,b}|=q^{ib}|G_i||G_b|$. We extend the block condition defining $R_i^{(k)}$ to $i=k$, where it gives $G_k$ with trivial weight.
+
+#### Lemma and proof
+
+**Block-diagonal comparison.** For every finite field $F$, every complex additive character $\psi$ of $F$, all integers $0\le i\le k$, every complex class function $\rho$ on $G_i$, and every $h\in G_k$,
+
+$$
+I_{R_i^{(k+1)}}^{P_{k+1}}\big((\rho\circ\pi_i)\lambda_i\big)
+  (\operatorname{diag}(h,1))
+=\operatorname{hc}_{i,k-i}(\rho,\Gamma_{k-i})(h).
+$$
+
+[Lean, read] for the prime-field body named below.
+
+**Delete the last column.** Write the conjugator as $y=\left(\begin{smallmatrix}A&v\\0&1\end{smallmatrix}\right)$ with $A\in G_k$ and $v\in F^k$. For $T=A^{-1}hA$, $w=A^{-1}v$ and $X=y^{-1}\operatorname{diag}(h,1)y$, the equation $\operatorname{diag}(h,1)y=yX$ gives
+
+$$
+X=\begin{pmatrix}T&(T-I_k)w\\0&1\end{pmatrix}.
+$$
+
+Deleting the last row and column preserves and reflects membership in the inducing subgroup: $X\in R_i^{(k+1)}$ exactly when $T\in R_i^{(k)}$. The deleted row already has identity entries and every entry above it in the deleted column is free in the subgroup equations. The top-left $i$-block is unchanged. When $i<k$ and the support condition holds, the last row of $T$ equals the last row of $I_k$. Therefore $((T-I_k)w)_k=0$. This kills the extra adjacent entry $X_{k,k+1}$ in the weight, and every earlier term belongs to $T$. When $i=k$ both adjacent sums are empty, also for $k=0$.
+
+Each $A$ has $q^k$ columns, so the numerator is $q^k$ times the corresponding numerator for induction from $R_i^{(k)}$ to $G_k$. The projection $P_{k+1}\to G_k$ has $q^k$ points over every element, and $R_i^{(k+1)}$ is the inverse image of $R_i^{(k)}$. Hence the denominator has exactly the same factor $q^k$. Cancel to obtain $I_{R_i^{(k)}}^{G_k}((\rho\circ\pi_i)\lambda_i)(h)$.
+
+**Induce through the parabolic.** Put $b=k-i$, $Q=Q_{i,b}$ and $R=R_i^{(k)}$. The projection $Q\to G_i\times G_b$ is a surjective homomorphism by block multiplication. Every diagonal pair has exactly $q^{ib}$ lifts because its upper rectangle is arbitrary and the determinant is the product of the two diagonal determinants. The subgroup $R$ is the inverse image of $G_i\times U_b$, of order $q^{ib}|G_i||U_b|$, with $|U_b|=q^{b(b-1)/2}$ counting the freely chosen upper entries. All group orders are positive since the groups contain their identities, including for empty blocks.
+
+For $z\in Q$ with blocks $(a,d)$, conjugation by $p\in Q$ with blocks $(s,t)$ gives $(s^{-1}as,t^{-1}dt)$. Its contribution is zero unless $t^{-1}dt\in U_b$, and on the support the weight is $\rho(a)\psi(\sigma_b(t^{-1}dt))$, using class invariance of $\rho$. Summation over the rectangle and over $s\in G_i$ contributes $q^{ib}|G_i|$. Dividing by $|R|$ leaves $\rho(a)\Gamma_b(d)$.
+
+To pass to $G_k$, expand both inductions. Each total conjugator $u$ carrying $h$ into $R$ has exactly $|Q|$ factorizations $u=y p$ with $p\in Q$, because each $p$ gives one $y=u p^{-1}$ with $y^{-1}hy=p(u^{-1}hu)p^{-1}\in Q$. This cancels the outer $|Q|$ and proves induction in stages. The Lean proof likewise reindexes $y\mapsto yp$ for each $p\in Q$ and then sums over $p$.
+
+At $i=0<k$ the smaller inducing group is $U_k$, giving $\rho(1)\Gamma_k(h)$. At $0<i=k$ the large inducing group is all of $P_{k+1}$ and the answer is $\rho(h)\Gamma_0(1)=\rho(h)$. At $i=k=0$ all groups are trivial and both sides give $\rho(1)$. The proof includes trivial $\psi$. The nontriviality premise belongs to the separate derivative expansion.
+
+#### Remarks and consumers
+
+**Failure tests.** In Example 1 at $i=0$, erase the mirabolic twist while keeping $\Gamma_2$. The left becomes $108/27=4$ and the right stays $-2$. Erasing both twists gives the comparison for trivial $\psi$. Dividing the original mirabolic numerator by $3$ with the nine lifts still present gives $-54/3=-18$. On the right at $i=1$, dividing the parabolic numerator by the Levi order $4$ gives $48/4=12$ instead of $4$. Class invariance is required for the intermediate formula as written. At $i=k=2$, take the indicator of $J_1$ itself. The intermediate induction gives $6/48=1/8$ at $J_1$, since centralizing triangular matrices have $a=d$, whereas the indicator takes value one. For the full raw-sum comparison one can average $\rho$ by conjugation in $G_i$ first. The sums are unchanged by reindexing the outer conjugators by right multiplication with a diagonal lift of each element of $G_i$.
+
+**Consumers.** MirabolicClassFunBlockDiagonalEqSumDerivatives.lean:22–27 applies §13.4.19 with positive rank $k+1$, mirabolic conjugacy invariance and $\psi\ne1$. Its range gives $i\le k$ and derivative class invariance supplies the premise on $\rho=D_i f$. The comparison then applies at every $h\in G_k$. ClassFunctionDegreeEqSumDerivatives.lean:69–93 starts with an ordinary class function in positive rank and the same nontriviality premise. It restricts the conjugacy condition, takes $h=1$ and uses the degree calculation of §13.4.18.
+
+**Archive and classical provenance.** GlobalTheory.GLm.indR_diag1_eq_hc_gg is at Proofs/FlagMeasures/MirabolicInductionBlockDiagEqHarishChandraGelfan.lean:630–648 in Alpöge–Claude A2, SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc, Mathlib 0df444a360eaa60ab8c11dca51a86af692955474. The Lean base field is $\mathbb Z/g\mathbb Z$ for $g$ prime. The arbitrary finite-field result follows from the matrix proof. [Lean, read] at local R3 covers the comparison and its direct support and counting inputs. The book supplies the finite-sum exposition and hand calculations.
+
+Bernstein–Zelevinsky §§3.2 and 3.5, pp. 450–452, give the local-field mirabolic functors and derivative filtration. Gan–Gross–Prasad §4, Proposition 4.2, p. 121, gives the finite-field filtration, attributing it to Bernstein–Zelevinsky. In the proof of Corollary 4.3, pp. 121–122, they restrict each induced graded piece using $G_{n-1}R_i=P_n$ to obtain the Harish–Chandra product with $E[n-1-i]$. Here $n=k+1$ and $E[k-i]=\Gamma_{k-i}$, with the same regular rank-one and trivial rank-zero conventions. The restriction step applies to an inflated $G_i$ module tensored with the generic character of the unitriangular tail. Its trace uses the positive inducing weight. Irreducible characters span the complex class functions on $G_i$. The corollary itself specializes the derivatives to those of a parabolic product of irreducible cuspidals. The matrix proof shows directly why the restriction step works and also permits the trivial additive character. [Bernstein–Zelevinsky (1977)](https://www.numdam.org/item/ASENS_1977_4_10_4_441_0/) · [Gan–Gross–Prasad (2012)](https://www.numdam.org/book-part/AST_2012__346__111_0/)
 
 ### 13.4.21 Why every non-open Whittaker cell vanishes
 
@@ -3204,7 +3547,7 @@ $$
 
 $$
 
-The identity lies in each intersection, so the denominators are positive. The Lean producer gives zero for the numerator, and its consumer multiplies by the reciprocal. The evaluation in [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight) gives the remaining term, $\operatorname{Wh}_{a,\psi}(x\mapsto\operatorname{Wh}_{b,\psi}(\Phi(x,-)))$. In particular for $\Phi(x,y)=\alpha(x)\beta(y)$ this is $\operatorname{Wh}_{a,\psi}(\alpha)\operatorname{Wh}_{b,\psi}(\beta)$, the product used in the cuspidal-list induction. The cuspidal degree argument uses separate mirabolic and Harish–Chandra inputs. The [source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average) records their companion drafts and reading levels.
+The identity lies in each intersection, so the denominators are positive. The Lean producer gives zero for the numerator, and its consumer multiplies by the reciprocal. The evaluation in [§13.4.22](#13422-the-open-whittaker-cell-and-its-exact-weight) gives the remaining term, $\operatorname{Wh}_{a,\psi}(x\mapsto\operatorname{Wh}_{b,\psi}(\Phi(x,-)))$. In particular for $\Phi(x,y)=\alpha(x)\beta(y)$ this is $\operatorname{Wh}_{a,\psi}(\alpha)\operatorname{Wh}_{b,\psi}(\beta)$, the product used in the cuspidal-list induction. The cuspidal degree argument in [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series) uses the mirabolic decomposition in [§13.4.19](#13419-fourier-decomposition-on-the-finite-mirabolic-group) and the Harish–Chandra comparison in [§13.4.20](#13420-block-diagonal-mirabolic-induction-and-the-gelfandgraev-factor).
 
 **Hand calculation in $\mathrm{GL}_2(\mathbb F_2)$.** Use $(a,b)=(1,1)$, $\psi(t)=(-1)^t$ and $\Phi=1$. The word $AB$ has $w=1$ and $I=\{1,1+E_{12}\}$. The upper-right kernel acts trivially on both Levi blocks and the weights are $1,-1$. The normalized contribution is $(1-1)/2=0$. For $BA$, the swap takes the root to the lower triangle, so $I=\{1\}$ and the contribution is $1$. Since $|G|=6$ and $|U|=|P|=2$, the cell sizes are $2,4$. Directly, induction of $1$ counts fixed lines. The identity fixes three, and $1+E_{12}$ fixes only the kernel line of $E_{12}$. The Whittaker average is $(3-1)/2=1$. With trivial $\psi$ it becomes $(3+1)/2=2$, whereas the product of rank-one averages is still $1$. The non-open numerator becomes $2$ and gives the extra $1$.
 
@@ -3330,6 +3673,8 @@ The same matrices show why the representative argument has a class-function prem
 **Reading note.** [Lean, read] The prime-field proof is Alpöge–Claude, A2 archive SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. In `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/IsUnitOfUniUp.lean`, `coe_toG` (22–26) selects the invertible branch, and `wh_eq` (52–62) expands the group algebra projector pairing to a filtered inverse-weight average. The private support lemma at 155–181 and the block-entry and reconstruction proofs at 200–328 justify the two directions of the reindexing. The guarded entry sums at 332–378 include the zero-block cases. The producer `openCell` (384–458) uses the same inverse maps for the cardinality and the weighted sum. The local reading covers these bodies over prime $\mathbb Z/g\mathbb Z$. The proof above separately establishes the statement over every finite field. Gan–Gross–Prasad give a literature precedent for the assembled product via the highest derivative. Their Proposition 4.1 gives a filtration for the derivative of an induced representation. At order $a+b$, only orders $a,b$ on the factors contribute. In complex finite-group representations the inverse-weight projector identifies the character coinvariants with the corresponding eigenspace, and its trace gives the average. Irreducible characters span class functions in each variable. The article credits the derivative rule to Bernstein–Zelevinsky's local-field result and explains its finite-field use. The direct open-cell proof here follows the archive. [Gan–Gross–Prasad, §4, pp. 120–121](https://www.numdam.org/item/AST_2012__346__111_0.pdf) · [Bernstein–Zelevinsky, Lemma 4.5](https://www.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf)
 
 **Review and scope.** The fixed-cell result received independent review. Bruhat existence upstream of the shuffle enumeration on this path and the underlying Mathlib proofs for the finite reindexing and triangular determinant are cited inputs [Lean]. The Lean kernel replay and transitive dependency cone remain [Open]. [Source ledger](../sources/SOURCES.md#p16-the-two-block-whittaker-average).
+
+For the application of this product to cuspidal lists and their degrees, see [§13.4.18](#13418-whittaker-averages-and-the-degree-of-a-green-series).
 
 ### 13.4.25 Why the Levi Whittaker space is a line
 
