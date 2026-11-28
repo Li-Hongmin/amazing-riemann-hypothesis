@@ -1805,6 +1805,8 @@ DF(q_0,y_0)^{-1}(h,w)=(h,M^{-1}(w-Ch)).
 $$
 In the archive the rows of the auxiliary matrix index variables via a bijection from the relation indices. The derivative formula is written as row-vector multiplication by this matrix, so nonvanishing of its determinant gives injectivity. The equality of finite dimensions then gives surjectivity. In particular, the determinant concerns the auxiliary block; it requires no invertibility of $C$.
 
+<span id="strict-inverse-chart-for-etale-local-sections"></span>
+
 Analyticity gives a strict derivative at the specified point. The strict-derivative inverse theorem produces an open partial homeomorphism. Shrink its source to the open neighborhood on which $F$ remains analytic and $DF$ remains an isomorphism, using continuity of the derivative and openness of the invertible matrices. At every point of this smaller source the inverse has derivative $DF^{-1}$ evaluated at that source point, where this notation means the inverse linear operator. To see the analytic step in finite dimensions, the real differentiable inverse on these open sets has complex-linear derivative, since $DF$ and its inverse are complex linear. It satisfies the complex differentiability criterion throughout the open target, hence is holomorphic there. The formal body applies the corresponding analytic inverse lemma pointwise on the target of the restricted homeomorphism. This is <code>AnalyticLineDerivative.main</code>, the direct producer invoked by <code>EtaleFamily.exists_local_inverse</code>. $\square$
 
 **Theorem (holomorphic sections of an étale family) [Lean, read].** Under the hypotheses above, there is an open neighborhood $N$ of $q_0$ and a section $q\mapsto\sigma_q:R\to\mathbb C$ with $\sigma_q\circ\psi|_A=\phi_b$ and $\sigma_q(\psi(X_i))=x_i$. Every evaluation $q\mapsto\sigma_q(r)$, for $r\in R$, is holomorphic on $N$. There are finitely many test elements $f_j\in R$ and an open neighborhood $O$ of $(b_0,(e(f_j))_j)$ in the space of their values with the base parameter. For every solution $(b,h)$ having $(b,(h(f_j))_j)\in O$, the pair $q=(b,(h(\psi(X_i)))_i)$ belongs to $N$ and $h=\sigma_q$.
@@ -1822,6 +1824,303 @@ If the Jacobian hypothesis is dropped, $x\mapsto x^2$ on $\mathbb A^1_\mathbb C$
 **Reading the formal proof.** In archive A2 (SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>), the new R3 readings are <code>ModuliProofs/ExistsHolomorphicSections.lean:18–205</code> and its direct supplier <code>ModuliProofs/Imports.lean:9–148</code> in <code>src/Development/AbelianVarietyTheory/Proofs/</code>. The former passes from the unit Jacobian to the inverse, descends evaluation through the presentation and proves the finite-test recovery clause. The latter proves the analytic and derivative formulas and constructs the restricted inverse. The standard-smooth presentation theorem, the library strict-derivative and analytic inverse lemmas, and the complex differentiability-to-analyticity interface are used at their statements. The Sard, jet, finite-avoidance and ratio-ideal arguments retain their scoped readings. The comparison of analytic and algebraic sheaves in GAGA and Lean kernel verification are outside this reading.
 
 The [reduced auxiliary projection](#from-a-general-projection-to-a-reduced-origin-fibre) carries the resulting origin fibre into the [local Lefschetz weight](#from-a-finite-étale-chart-to-the-local-lefschetz-weight). The chart inverse here supplies the Sard argument along that route. The weight computation itself uses the cochain, exterior trace and Koszul identities given in its own subsection. See the [source ledger](../sources/SOURCES.md#chapter-12-1244-holomorphic-local-sections-of-étale-families) for the direct calls and the inherited geometric inputs.
+
+#### A positive radius for the inverse series
+
+**Motivation.** The [strict inverse chart used for the étale local sections](#strict-inverse-chart-for-etale-local-sections) supplies the local inverse as a map. To represent it by a convergent series, start with a formal inverse of the expansion of the forward map. An inverse coefficient of degree $n$ is a finite sum, but a convergent inverse needs a single scale that works for every $n$. The order of composition matters for finding that scale. In the left inverse recursion, the degree-$n-1$ inverse coefficient can occur in $n-1$ positions, with one quadratic input and the remaining inputs linear. In the right inverse recursion the same degree can occur only in the two ordered splits $(1,n-1)$ and $(n-1,1)$ for $n>2$. We estimate the right inverse first.
+
+**Example 1 (a scalar quadratic).** Let $f(z)=z+\alpha z^2$ on $\mathbb C$, where $\alpha\ne0$. In the centered inverse $g(w)=\sum_{n\ge1}b_n w^n$, the equation $g+\alpha g^2=w$ gives $b_1=1$ and
+$$
+b_n=-\alpha\sum_{j=1}^{n-1} b_j b_{n-j}.
+$$
+In succession this gives $b_2=-\alpha$, $b_3=2\alpha^2$, $b_4=-5\alpha^3$ and $b_5=14\alpha^4$. Writing $b_n=(-\alpha)^{n-1}c_{n-1}$ gives $c_0=1$ and $c_m=\sum_{j=0}^{m-1}c_jc_{m-1-j}$. Thus the formal series $H(t)=\sum_{m\ge0}c_m t^m$ satisfies $H=1+tH^2$. The root with constant term $1$ is $(1-\sqrt{1-4t})/(2t)$, interpreted formally. The coefficient of $t^m$ is
+$$
+-\frac12\binom{1/2}{m+1}(-4)^{m+1}=\frac{(2m)!}{m!(m+1)!}.
+$$
+These numbers also count ordered full binary trees with $m$ internal vertices. The two subtrees of the root give the displayed recurrence. Since $c_m\le 4^m$, every $b_n$ satisfies $|b_n|\le(4|\alpha|)^{n-1}$. The binomial series gives $g(w)=(\sqrt{1+4\alpha w}-1)/(2\alpha)$ near $0$. There is a holomorphic branch on $|w|<1/(4|\alpha|)$. At $w_*=-1/(4\alpha)$ a holomorphic extension would give a holomorphic square root $1+2\alpha g(w)$ of a function with a simple zero, which is impossible because the square of a holomorphic function has even zero order. Hence the true radius is $1/(4|\alpha|)$. For the general bound below one may take $C=1/|\alpha|$, $r=|\alpha|$ and $I=1$. It gives $1/(8|\alpha|)$, half the true radius. The binary-tree bound recovers the true radius here.
+
+**Example 2 (two matrix variables).** Let $A=M_2(\mathbb C)$ with the maximum absolute row-sum norm, and give $A^2$ the maximum of its two component norms. Take $f(X,Y)=(X+XY,Y+XY)$. Its bilinear coefficient is $B((X,Y),(X',Y'))=(XY',XY')$ and $\|B\|=1$ by submultiplicativity and evaluation on identity matrices. For target $(U,V)$, write the inverse as $(U+H,V+H)$ with $H$ of order at least two. The right inverse equation is $H=-(U+H)(V+H)$. Equating degrees in order gives
+$$
+\begin{aligned}
+H_2&=-UV,\\
+H_3&=-UH_2-H_2V=U^2V+UV^2,\\
+H_4&=-UH_3-H_3V-H_2H_2
+     =-U^3V-2U^2V^2-UV^3-UVUV .
+\end{aligned}
+$$
+The factor order is the order of matrix multiplication. With $U=E_{11}$ and $V=E_{12}$, where $E_{ij}$ are the matrix units, $UV=V$ and $VU=V^2=0$, so $H_2=-V$, $H_3=V$ and $H_4=-V$. The inputs are noncommuting and all three degrees are nonzero. On independent input slots the recurrence uses consecutive blocks and applies $B$ to the two block outputs. Consequently the operator norms of its inverse coefficients $q_n$ obey $\|q_1\|=1$ and $\|q_n\|\le\sum_{j=1}^{n-1}\|q_j\|\|q_{n-j}\|$. Induction with the recurrence in Example 1 gives $\|q_n\|\le c_{n-1}\le 4^{n-1}$ for every $n\ge1$. This proves absolute convergence on the open ball of radius $1/4$. The general bound below with $C=r=I=1$ gives radius at least $1/8$.
+
+**Definitions.** Let $E,F$ be normed spaces over a nontrivially normed field. A formal multilinear series $p$ from $E$ to $F$ has continuous $n$-linear coefficients $p_n:E^n\to F$, with $p_0$ a constant. Its operator-norm radius is the supremum of $s\ge0$ for which $\|p_n\|s^n$ is bounded over $n$. For a composition of degree $k$, choose an ordered list of positive integers $(d_1,\ldots,d_j)$ with sum $k$. Group the $k$ inputs into consecutive blocks of these lengths, evaluate the inner coefficients on their respective blocks, and apply the outer coefficient of degree $j$ to the resulting ordered tuple. This is centered composition, which ignores the inner constant. The left inverse is the series on the outside in $q\circ p$, and the right inverse is on the inside in $p\circ q$. The stored inverse constant $x\in E$ accounts for the source base point. When $p_1=L$ in one-slot form, the pinned formal inverse identities give $q_L\circ p=\operatorname{id}_{E,x}$ and $p\circ q_R=\operatorname{id}_{F,p_0}$, where $\operatorname{id}_{E,x}$ has constant $x$, linear term the identity and all higher terms zero. The notation for $F$ is analogous. The library identifies the two formal inverses using associativity. The next section proves the associativity used at that step. [Inverse.lean:49–291](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Inverse.lean#L49)
+
+**Lemma 1 (enlarging the set of ordered blocks) [Expository].** For any integer $n\ge0$, nonnegative real numbers $u_k$ for $k\ge0$, and $r,t\ge0$, one has
+$$
+\sum_{k=2}^n t^k
+ \sum_{\substack{j\ge2, d_1+\cdots+d_j=k\\d_i\ge1}}
+ r^j\prod_{i=1}^j u_{d_i}
+\le
+\sum_{j=2}^n \left(r\sum_{d=1}^{n-1}t^d u_d\right)^j .
+$$
+Sums with empty index sets are zero.
+
+*Proof.* For $n<2$ the outer sums are empty. Otherwise the weight for each ordered composition equals $\prod_{i=1}^j (rt^{d_i}u_{d_i})$ because the block lengths sum to $k$. Its length satisfies $2\le j\le n$. Each block has length at most $k-1\le n-1$, because some other block has positive length. The map from a degree and its composition to $(j,(d_1,\ldots,d_j))$ is injective since the sum of the tuple recovers the degree. The image consists exactly of tuples in $\{1,\ldots,n-1\}^j$ of total at most $n$. Enlarge to that entire Cartesian power using nonnegativity. Its product sum factors by finite distributivity into $\bigl(\sum_{d=1}^{n-1} rt^d u_d\bigr)^j$. Summing over lengths proves the inequality. $\square$
+
+**Lemma 2 (from coefficients to partial sums) [Expository].** For any such $p$, supplied continuous linear isomorphism $L:E\to F$, and $x\in E$, let $q$ be the series constructed by the right inverse recursion with $L$. Put $I=\|L^{-1}\|$. Suppose $C,r,t\ge0$ and $\|p_j\|\le Cr^j$ for every $j\ge0$. Set $S_n(t)=\sum_{k=1}^{n-1}t^k\|q_k\|$ for $n\ge1$. Then for every $n\ge1$,
+$$
+S_{n+1}(t)\le It+IC\sum_{j=2}^n(rS_n(t))^j .
+$$
+
+*Proof.* The degree-one coefficient is $L^{-1}$, with norm $I$. For $k\ge2$ the recursion sets
+$$
+q_k=-L^{-1}\sum_{\substack{j\ge2, d_1+\cdots+d_j=k\\d_i\ge1}}
+            p_j(q_{d_1},\ldots,q_{d_j}),
+$$
+where each term is the ordered block substitution defined above. Indeed, the definition computes $p\circ q$ with all degrees from $k$ onward zeroed in its inner series. The length-one composition is then zero, and every block in a longer composition has degree strictly below $k$. This gives a finite recursion with a unique coefficient at each degree. For any input tuple, the norm of a substituted term is at most $\|p_j\|\prod_i\|q_{d_i}\|$ times the product of the norms of the $k$ original inputs, since the blocks partition the slots. Applying $L^{-1}$ multiplies this bound by at most $I$. Take operator norms and sum with weights $t^k$. Lemma 1, with $u_d=\|q_d\|$, gives the claimed estimate. No equality between $p_1$ and $L$ is needed for this estimate on the recursively defined series. $\square$
+
+**Proposition (a uniform positive radius) [Expository].** In Lemma 2 assume $C,r>0$. Put $K=I+1$ and
+$$
+t_0=\frac{1}{\max(2rK, 2ICr^2K^2)} .
+$$
+Then $t_0>0$ and $\sum_{k\ge1}t_0^k\|q_k\|\le Kt_0$. In particular $\operatorname{rad}(q)\ge t_0$. If $p_1=L$, the same statement holds for the left inverse. If $E$ is complete, the resulting inverse series converges absolutely and uniformly on the closed target ball $\|v\|\le t_0$, evaluated on the diagonal $(v,\ldots,v)$.
+
+*Proof.* The hypotheses make the denominator positive even when $I=0$. Write $t=t_0$. The empty sum gives $S_1(t)=0$. If $S_n(t)\le Kt$, then $0\le rS_n(t)\le1/2$. For $0\le z\le1/2$, the finite sum of powers of $z$ from $2$ to $n$ is at most $2z^2$. By Lemma 2,
+$$
+S_{n+1}(t)\le It+2IC(rS_n(t))^2
+\le \bigl(I+2ICr^2K^2 t\bigr)t\le Kt .
+$$
+Thus every partial sum has the same upper bound. The real partial sums increase, so they converge and give the asserted bound at $t_0$. In particular every single weighted coefficient is bounded at that scale. The zero-degree term has finite norm and makes no difference to the radius. If the input is given only by $\operatorname{rad}(p)>0$, choose a positive $s$ below that radius. The weighted norms at $s$ are bounded by a positive constant $C$, so one can take $r=s^{-1}$.
+
+Under $p_1=L$, the inherited formal inverse identities identify the two series with the same stored constant, so the bound transfers coefficient by coefficient. For evaluation, each diagonal term has norm at most $t_0^k\|q_k\|$ throughout the ball, and the tail of that scalar series tends to zero. This gives uniformly Cauchy partial sums whose limits belong to $E$ by completeness. The continuous linear isomorphism transports completeness between $E$ and $F$, so the Banach-space formulation also allows evaluation of the forward series in $F$. The coefficient estimates and the formal radius itself use only normed spaces. The analytic inverse representation on a neighborhood uses the [recovery of the outer sum](#ordered-composition-of-multilinear-power-series) below. $\square$
+
+**Boundary cases.** For $p(z)=z^2$ with zero center the forward radius is infinite. Every centered formal candidate $q$ has $q^2$ of degree at least two (or identically zero), so the degree-one equation for a right inverse fails. The matching invertible linear coefficient is essential to the inverse interpretation. A supplied isomorphism alone still defines the recursion of Lemma 2.
+
+Completeness matters at the step of taking a sum in the specified space. Equip the space $c_{00}$ of finitely supported complex sequences with the $\ell^1$ norm, let $T e_j=e_{j+1}$ on its unit vectors, and set $p(v)=v-v_1Tv$. This is a polynomial with linear coefficient the identity and bilinear coefficient $(u,v)\mapsto-u_1Tv$. Its formal inverse on input $te_1$ has first term $te_1$ and degree-$n$ diagonal term $t^n e_n$. Indeed the right inverse equation is $q=te_1+q_1^{\mathrm{coord}}Tq$, where the first coordinate $q_1^{\mathrm{coord}}$ is $t$ since $(Tq)_1=0$. For $0<|t|<1$ the terms are absolutely summable in norm, but a limit in $c_{00}$ would have the infinitely supported coordinate list $(t,t^2,\ldots)$ by continuity of each coordinate. The normed-space radius bound still applies.
+
+A finite truncation has finite weighted norm sum at every finite scale. Even a specified finite prefix can be followed by a factorial tail, for which the weighted terms fail to tend to zero at every positive scale. It is the cutoff-independent bound in the induction that pays for a positive radius.
+
+**Production notes [Lean, read].** The first auxiliary lemma is named <code>radius_right_inv_pos_of_radius_pos_aux1</code>. It expresses the ordered block sum as a sum over pairs of a degree and a composition, extends the finite index set by positivity, and uses the bijection <code>compChangeOfVariables_sum</code> to pass to all tuples of lower block degrees. The last equality expands the product of sums. The second lemma, <code>radius_rightInv_pos_of_radius_pos_aux2</code>, isolates the degree-one term, expands <code>rightInv_coeff</code>, bounds the norm of the outer linear composition and the norm of the sum, and uses <code>compAlongComposition_norm</code> on each summand before calling the first lemma. The pinned wrapper chooses a sufficiently small positive scale and uses the partial-sum induction to give an eventual coefficient bound at that scale. The explicit $t_0$ and the sum at $t_0$ above record what the same inequalities give in prose. The wrapper's next consumer uses coincidence with the left inverse under the degree-one matching hypothesis, and the analytic inverse proof consumes the resulting positive radius in its convergent-composition step. [Inverse.lean:363–478,482–558,656–668](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Inverse.lean#L363) · [Composition.lean:300–322,540–644](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L540)
+
+Gouëzel credits Jürgen Pöschel for the finite-sum technique in the file commentary. In Pöschel's proof of Theorem 5.2, the inversion argument bounds each Taylor cutoff in a derivative seminorm before passing to all orders. Here the cutoff controls a weighted sum of multilinear operator norms. The archive A2 (SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>) uses the analytic wrapper in its local section construction, at <code>src/Development/AbelianVarietyTheory/Proofs/ModuliProofs/Imports.lean:125–148</code>. [Pöschel, §5, p. 16](https://arxiv.org/abs/1702.03691)
+
+#### Ordered composition of multilinear power series
+
+**Motivation.** The [formal inverse identities and radius estimate](#a-positive-radius-for-the-inverse-series) supply a candidate inverse series of positive radius. Two steps connect these facts to analytic inversion. The formal calculation must preserve the order of the inputs even for coefficients that are sensitive to permutations. The analytic calculation must recover the sum of the outer series from a known expansion of the composite. That direction is needed because the outer function is the inverse whose analyticity is being proved.
+
+**Example 1.** Let $p,q,r$ be three copies of $\phi(t)=\sum_{j\ge1}t^j=t/(1-t)$ over $\mathbb C$. In degree $n\ge1$, every composition of $n$ contributes $1$ to $q\circ p$. Cutting at any subset of the $n-1$ internal gaps gives $2^{n-1}$ terms, so $q\circ p=t/(1-2t)$. In the three-layer computation each gap has three possibilities: no cut, a cut between fine blocks within one coarse block, or a cut between coarse blocks. Thus the coefficient is $3^{n-1}$. In degree two the three choices give $1+1+1$. In degree three the fine partitions $(3),(1,2),(2,1),(1,1,1)$ give $1+2+2+4=9$. Starting with the coarse partition gives $4+2+2+1=9$. In degree four the contributions by number of fine blocks are $1+3\cdot2+3\cdot4+8=27$. In both parenthesizations the constant is zero and the linear coefficient is one. The resulting function is $t/(1-3t)$ on $|t|<1/3$. On this disk $|\phi(t)|<1/2$ and $|\phi(\phi(t))|<1$, so each substitution is within the domain of its geometric series. For the recovering direction take $f(t)=\phi(t)$ and $g(u)=u/(1-2u)$ near zero. The known composite $t/(1-3t)$ then recovers $\sum_{j\ge1}2^{j-1}f(t)^j=g(f(t))$ locally.
+
+**Example 2.** Set $A=M_2(\mathbb C)$ and let
+$$
+P(X,Y)=(X+XY,Y),\qquad Q(X,Y)=(X,Y+YX),\qquad R(X,Y)=(X+XY,Y)
+$$
+on $A^2$ with a product matrix norm. For slots $u=(X,Y)$ and $v=(X',Y')$, use the ordered coefficients $P_2(u,v)=R_2(u,v)=(XY',0)$ and $Q_2(u,v)=(0,YX')$. All three linear coefficients are identities. First $Q(P(X,Y))=(X+XY,Y+YX+YXY)$, so applying $R$ adds $(X+XY)(Y+YX+YXY)$ to the first coordinate. The six products in this rectangle are $XY,XYX,XYXY,XYY,XYYX,XYYXY$. In the other parenthesization $R(Q(X,Y))=(X+XY+XYX,Y+YX)$, using the ordered ternary term $X_1Y_2X_3$. Substitution into that ternary term gives
+$$
+(X+XY)Y(X+XY)=XYX+XYXY+XYYX+XYYXY.
+$$
+The linear term supplies $X+XY$ and the quadratic term supplies $XY+XYY$. The second coordinate in either case is $Y+YX+YXY$. Grouping every contribution by degree gives
+
+| Degree | First coordinate | Second coordinate |
+|---|---|---|
+| 0 | $0$ | $0$ |
+| 1 | $X$ | $Y$ |
+| 2 | $2XY$ | $YX$ |
+| 3 | $XYX+XYY$ | $YXY$ |
+| 4 | $XYXY+XYYX$ | $0$ |
+| 5 | $XYYXY$ | $0$ |
+
+All higher coefficients vanish. Each word in this table prescribes the corresponding slotwise product, in order, even for distinct slot inputs. For example the two degree-four terms are $X_1Y_2X_3Y_4$ and $X_1Y_2Y_3X_4$. With matrix units $X=E_{11}$ and $Y=E_{12}$, $XY=E_{12}$ and $YX=0$. The degree-five word is genuinely present, for instance at $X=Y=I_2$. All series here are polynomials with infinite radius. The products illustrate why interchanging slots would change the formal identity.
+
+**Definition.** Work over a nontrivially normed field $K$ with normed $K$-spaces $E,F,G,H$. A formal multilinear series $p$ from $E$ to $F$ is a sequence of continuous $K$-multilinear maps $p_n:E^n\to F$. Write $p_n[y]=p_n(y,\ldots,y)$ and $p_0[\,]$ for evaluation at the unique empty tuple. An ordered composition $c$ of $n$ is a list $(c_0,\ldots,c_{\ell-1})$ of positive integers with sum $n$. Put $s_c(i)=\sum_{j<i}c_j$. For $q$ from $F$ to $G$, define
+$$
+T_c(v)=q_\ell\bigl(p_{c_i}((v_{s_c(i)+j})_{0\le j<c_i})\bigr)_{0\le i<\ell},
+\qquad
+(q\circ p)_n=\sum_{c\text{ of }n}T_c.
+$$
+Here the parenthesized family is the argument tuple of $q_\ell$. Each input appears in one block, so linearity in that slot follows first from the relevant $p_{c_i}$ and then from $q_\ell$. Continuity follows from the finite product of the block maps and continuity of $q_\ell$. There are $2^{n-1}$ compositions for $n>0$, by the gap argument, and one empty composition for $n=0$. Thus every coefficient is a finite sum. At degree zero the result is $q_0[\,]$. In Mathlib this is <code>q.comp p</code>, a total operation ignoring $p_0$. The analytic substitution into an expansion centered at $f(x)$ uses the zero-constant increment $f(x+y)-f(x)$, while the stored $p_0[\,]$ equals $f(x)$.
+
+**Lemma 1 (formal associativity).** For every $p:E\to F$, $q:F\to G$ and $r:G\to H$ understood as formal series, $(r\circ q)\circ p=r\circ(q\circ p)$ as sequences of multilinear maps.
+
+*Proof.* Fix $n$ and an arbitrary tuple $v$ of length $n$. Expanding the left side indexes its terms by a fine composition $a$ of $n$ and a composition $b$ of the length of $a$. The list $b$ partitions the list of fine blocks into consecutive nonempty groups. Let $d_i$ be the sublist of $a$ in group $i$ and let $c_i$ be its sum. Then $c$ is a composition of $n$, and each $d_i$ is a composition of $c_i$. Conversely concatenate the $d_i$ to recover $a$ and record their lengths to recover $b$. Positivity ensures that the concatenated list and all group lengths are valid, and the prefix lengths cut the concatenation back at exactly the original group boundaries. At $n=0$ both index sets have one element with all lists empty.
+
+On the right, expanding each slot of $r$ by multilinearity gives precisely the sum over $(c,(d_i)_i)$. The two terms agree at every level. The outer arity is the number of groups, middle arity in group $i$ is $b_i$, and inner arity for fine block $j$ in group $i$ is $(d_i)_j=a_{s_b(i)+j}$. The input at offset $k$ in that block is the same on both sides since
+$$
+s_a(s_b(i)+j)+k=s_c(i)+s_{d_i}(j)+k.
+$$
+Indeed the fine blocks before this slot consist of all previous groups followed by the first $j$ blocks in group $i$. Reindexing the finite sums now gives equality at the arbitrary tuple $v$ and hence equality of the maps. The proof uses no convergence or symmetry. Lean names the equivalence <code>Composition.sigmaEquivSigmaPi</code> and uses this prefix identity after transporting each of the three arities. $\square$ [Composition.lean:962–1289](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L962)
+
+**Lemma 2 (absolute summability of the block family).** If $p,q$ have positive radius, there exists a real $\rho>0$ with $\sum_{n,c}\|T_c\|\rho^n<\infty$, where $c$ ranges over compositions of $n$.
+
+*Proof.* Choose real radii $0<u,v<1$ strictly below the radii of $p,q$ respectively. The operator-norm radius gives bounds $\|p_j\|u^j\le C_p$ and $\|q_j\|v^j\le C_q$ for all $j$, with $C_p\ge1$ and $C_q>0$. Apply the multilinear norm bound first to the inner maps, then to the outer map. Each slot contributes once, yielding $\|T_c\|\le \|q_\ell\|\prod_i\|p_{c_i}\|$. With $\rho=uv/(4C_p)$ the weighted bound is
+$$
+\|T_c\|\rho^n
+\le C_q v^{n-\ell} C_p^{\ell-n}4^{-n}
+\le C_q4^{-n},
+$$
+since $\ell\le n$. The degree-zero contribution is finite. At positive $n$, multiplying the estimate by $2^{n-1}$ gives a geometric bound with ratio $1/2$. For $\|y\|\le\rho$, the same summable family bounds the norms of $T_c(y,\ldots,y)$. $\square$ [Composition.lean:300–326,449–506](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L449)
+
+**Lemma 3 (recovering the outer sum).** For any functions $f:E\to F$ and $g:F\to G$, any $p,q$ as above and any $x\in E$, assume that $g\circ f$ has expansion $q\circ p$ at $x$, that $f$ has expansion $p$ at $x$, and that $q$ has positive radius. There exists a neighborhood of $0$ in $E$ such that for every $y$ in it,
+$$
+\operatorname{HasSum}\bigl(n\mapsto q_n[f(x+y)-f(x)],\,g(f(x+y))\bigr).
+$$
+An expansion at $x$ means that some positive ball radius, at most the series radius, gives the asserted diagonal sum at every increment in that ball. Here $\operatorname{HasSum}$ means convergence of the net of sums over finite subsets, directed by inclusion.
+
+*Proof.* Choose $y$ in a positive ball on which both given expansions hold and with $\|y\|<\rho$ from Lemma 2. Also require $\|f(x+y)-f(x)\|<\operatorname{rad}(q)$ throughout a possibly smaller neighborhood. This follows from continuity of $f$ at $x$ and positivity of the outer radius. Write $L=g(f(x+y))$ and $z=f(x+y)-f(x)$.
+
+The block sum over a finite set of pairs $(n,c)$ is a Cauchy net: given $\varepsilon>0$, include enough terms of the summable norm bound that the norm sum outside them is less than $\varepsilon$. Two finite sums containing this set differ by at most that tail. The sets consisting of all compositions of degrees $<N$ eventually contain any prescribed finite set, and their sums tend to $L$ by the given composite expansion. Consequently the full net tends to $L$. Explicitly, include a sufficiently late set from this family so its sum is close to $L$, and use the Cauchy estimate to compare every sufficiently large finite sum to that sum. This is the finite-fibre regrouping used by <code>HasSum.of_sigma</code>.
+
+Write $q^{<M}(w)=\sum_{k<M}q_k[w]$ and $p^{<N}$ similarly. Finite multilinearity gives
+$$
+q^{<M}\left(\sum_{1\le j<N}p_j[y]\right)
+=\sum_{\substack{(n,c):\ \ell(c)<M\\ c_i<N\text{ for every }i}}
+T_c(y,\ldots,y).
+$$
+The tuple of inner degrees in each expanded term is exactly the ordered list $c$; its sum recovers $n$ and its length recovers the outer arity. This proves the reindexing in both directions, including the empty list when $M>0$. As $M,N$ grow independently, the sets on the right contain every prescribed finite subset once $M$ exceeds all its lengths and $N$ all its block sizes. They therefore give a joint limit $L$. For $N\ge1$ the argument on the left is $p^{<N}(y)-p_0[\,]$ and tends to $z$ by the expansion of $f$.
+
+For fixed $M$, continuity of the polynomial $q^{<M}$ gives the corresponding limit $q^{<M}(z)$ as $N\to\infty$. To pass from joint convergence to convergence of these limits, take any closed neighborhood $U$ of $L$ and an open neighborhood inside $U$. The joint limit puts the rectangle $M\ge M_0$, $N\ge N_0$ inside the open neighborhood. For each $M\ge M_0$, closedness puts $q^{<M}(z)$ in $U$. Closed neighborhoods form a basis, so $q^{<M}(z)\to L$. Finally, strictly inside the radius of $q$, the scalar series $\sum_n\|q_n[z]\|$ converges by comparison with a weighted norm series at a radius strictly between $\|z\|$ and $\operatorname{rad}(q)$. Its finite-subset net is Cauchy, and its degree cutoffs converge to $L$. The same tail comparison gives the claimed $\operatorname{HasSum}$. $\square$ [Inverse.lean:567–651](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Inverse.lean#L567) · [Composition.lean:540–694](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L540)
+
+**Completeness and the local inverse.** In a complete target, a summable norm bound produces an actual sum for any family under consideration. In Lemma 3 the two given expansions and the joint truncation limit already supply the limits needed to identify the Cauchy nets, so the pinned lemma has normed-space hypotheses alone. When starting with a positive-radius series and defining its function by summation, completeness of its target supplies existence on each smaller ball. If a formal identity identifies its coefficients with those of an existing local expansion, evaluation and uniqueness of limits identify the two functions there. In the inverse application the identity series already expands the identity function. On the open source of the partial homeomorphism, this is an expansion of the inverse composed with the forward map. Lemma 3 therefore recovers the candidate inverse sum on increments in the forward image. The open target and continuity of the inverse turn this into a neighborhood of the target point.
+
+| Consumer | Exact inputs and use |
+|---|---|
+| <code>leftInv_eq_rightInv</code>, Inverse.lean:283–291 | Matching invertible linear coefficient and the inherited one-sided formal identities with their stored constants. <code>comp_assoc</code> reassociates the three series at line 289 before the identity laws cancel the outside factors. |
+| <code>hasFPowerSeriesAt_symm</code>, Inverse.lean:656–668 | Open partial homeomorphism $f$, $a$ in its source, expansion $p$ of $f$ at $a$, and $p_1$ the one-slot form of a continuous linear equivalence $i$. Set $q=p.\mathrm{leftInv}(i,a)$. The inherited left identity and openness supply an expansion of $f^{-1}\circ f$ by $q\circ p$ at $a$. The inherited positive radius of $q$ and the given expansion of $f$ give the other two inputs to Lemma 3. |
+| Inverse.lean:669–694 | Translate the input increment by $a$, restrict to the open source and simplify the left inverse. Pull the eventual sum back through the continuous inverse at $f(a)$, restrict to the open target and simplify the right inverse. Intersect a ball in this target neighborhood with the radius of $q$ to obtain the inverse expansion. |
+| <code>analyticAt_symm'</code> and <code>analyticAt_symm</code>, FDeriv/Analytic.lean:414–429 | Analyticity at the source point supplies $p$. The derivative formula identifies $p_1$ with the given equivalence. The target version assumes target membership at $b$, applies the source version at $f^{-1}(b)$ and rewrites $f(f^{-1}(b))=b$. |
+| Archive A2, ModuliProofs/Imports.lean:125–148 | The equivalence $i$ represents $L$ and analyticity upgrades the derivative to a strict derivative at $a_0$. The strict-inverse chart is restricted to an open $U$ on which $F$ is analytic and each derivative is a continuous linear equivalence. For every $b$ in the restricted target, its inverse image lies in $U$, supplying the exact analyticity and derivative premises of <code>analyticAt_symm</code>. |
+
+**Notes on hypotheses and uniqueness.** A nonzero inner constant can make ordinary formal substitution undefined. For $p(t)=1+t$ and $q(t)=\sum_{k\ge0}t^k$, the literal constant coefficient of $q(p(t))$ would sum infinitely many ones, and even the coefficient of $t$ would sum the integers $k\ge1$. Positivity of every block size is what bounds the arity by the degree. The pinned total operation still works by ignoring the inner constant. Analytically one must expand at the correct center and substitute the zero-constant increment.
+
+A proposed exchange of two sums without absolute summability can give different limits even when both iterated sums exist. On $i,j\ge0$ take $a_{ij}=\mathbf 1_{j=i}-\mathbf 1_{j=i+1}$. Every row sums to zero. Column zero sums to one and all other columns sum to zero. The two iterated sums are zero and one, and the sum of absolute values is infinite. This is a boundary for the reindexing argument involving all degrees. The finite identity at each degree still holds.
+
+Finally, a diagonal function germ determines the diagonal homogeneous terms of its convergent expansion, over the nontrivially normed field in the lemmas. To see this, subtract two expansions and fix any vector $v$. If $m$ is the first index with nonzero diagonal difference $d_m[v]$, evaluate at $tv$, divide the zero sum by $t^m$ and let $t$ tend to zero through nonzero scalars. The higher terms tend to zero: choose $s>0$ with $s\|v\|$ below both radii. For $0<|t|\le s$, the tail norm after division is bounded by $|t|s^{-m-1}\sum_{n>m}s^n\|d_n[v]\|$. Nontriviality gives such scalars tending to zero, forcing $d_m[v]=0$. The argument applies at each $v$. The multilinear maps themselves can differ, even over $\mathbb C$: on $\mathbb C^2$ the bilinear map $(u,v)\mapsto u_1v_2-u_2v_1$ is nonzero and vanishes on all diagonals. Adding it in degree two leaves every diagonal evaluation unchanged. This is why Lemma 1 proves equality on arbitrary tuples.
+
+**Source scope [Lean, read].** The two producers and their ordered-block and truncation proofs are read locally at Mathlib pin <code>0df444a360eaa60ab8c11dca51a86af692955474</code>. Composition.lean credits Sébastien Gouëzel and Johan Commelin. The archive application is in A2, joined SHA-256 <code>9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc</code>. The book contributes the exposition, computations and boundary examples. The [preceding radius section](#a-positive-radius-for-the-inverse-series) supplies the recursion and majorants. The [open inverse chart](#strict-inverse-chart-for-etale-local-sections) supplies the identities and neighborhood transport used in the analytic application. [Sources](../sources/SOURCES.md#chapter-12--ordered-composition-of-multilinear-power-series)
+
+#### Forward composition on restricted sets
+
+**Motivation.** Once an inverse chart is analytic, composing it with a linear inclusion gives an analytic parametrization of a slice. For general nonlinear inner maps and restricted outer expansions there is a further issue. The image of the inner function can lie in the outer set while the polynomial approximations to the inner function leave that set. The outer partial sums must converge at these moving arguments.
+
+**Example 1 (scalar, at nonzero centers).** Over $\mathbb R$ take $x=2$, $s=(2,9/4)$, $t=(3,7/2)$ and
+$$
+f(2+h)=3+\frac{h}{1-h},\qquad g(3+w)=7+\frac{w}{1-2w}.
+$$
+Assign arbitrary values at the poles to make total functions. The scalar coefficients act by multiplying the product of the slot inputs. The geometric series give $p_0=3$, $p_j=1$ for $j>0$, and $q_0=7$, $q_k=2^{k-1}$ for $k>0$, with radii $1$ and $1/2$. For $0<h<1/4$, the inner increment lies in $(0,1/3)$, so $f(s)\subset t$.
+
+A positive degree $n$ has $\binom{n-1}{k-1}$ compositions of length $k$, each contributing $2^{k-1}$. Thus its coefficient is $3^{n-1}$ by the binomial theorem. The constant is $7$, and the first three positive coefficients are $1,3,9$. Direct substitution gives
+$$
+g(f(2+h))=7+\frac{h/(1-h)}{1-2h/(1-h)}=7+\frac{h}{1-3h}.
+$$
+The resulting series has radius $1/3$, and the restricted identity holds for every $0\le h<1/4$. At $h=1/8$, the argument increment of the outer expansion is $1/7$ and the composite value is $36/5$.
+
+**Example 2 (a two-dimensional curve).** Use the maximum norm on $\mathbb R^2$. Set $x=(1,-1)$, $b=(2,3)$ and $d=(5,-2)$. Define $f(x+(u,v))=b+(A,B)$ with $A=u+v^2$, $B=v+uv$, and let $g(b+(a,c))=d+(a+ac,c+a^2)$. Use
+$$
+s=\{x+(u,2u):0<u<1/4\},\qquad
+t=\{b+(u+4u^2,2u+2u^2):0<u<1/4\}.
+$$
+Here $f(s)=t$. For slots $U=(u_1,v_1)$ and $V=(u_2,v_2)$ take $p_1=q_1=\mathrm{id}$, $p_2(U,V)=(v_1v_2,u_1v_2)$ and $q_2(U,V)=(u_1v_2,u_1u_2)$. The stored constants are $b$ and $d$. Both series are finite with infinite radius. Witness radii $1/2$ and $1$ suffice since the input increment has norm $2u<1/2$ and the output increment has norm less than $5/8$.
+
+| Degree | Contributing compositions | Diagonal value |
+|---|---|---|
+| 0 | empty | $(5,-2)$ |
+| 1 | $(1)$ | $(u,v)$ |
+| 2 | $(2),(1,1)$ | $(v^2+uv,uv+u^2)$ |
+| 3 | $(1,2),(2,1)$ | $(u^2v+v^3,2uv^2)$ |
+| 4 | $(2,2)$ | $(uv^3,v^4)$ |
+
+All higher coefficients vanish. The two cubic contributions are $(u^2v,uv^2)$ and $(v^3,uv^2)$ in the indicated order. Direct multiplication gives $AB=uv+u^2v+v^3+uv^3$ and $A^2=u^2+2uv^2+v^4$, accounting for every term in $d+(A+AB,B+A^2)$. At $(u,v)=(1/8,1/4)$ the inner increment is $(3/16,9/32)$ and the composite is $(2683/512,-431/256)$. The linear truncation restored to center $b$ lies outside $t$ for every point of $s$. Its increment has second coordinate twice the first. On $t$ the difference of the second coordinate increment and twice the first is $-6u^2$.
+
+**Definition.** Let $K$ be any nontrivially normed field and $E,F,G$ normed $K$-spaces. Write $s_x=s\cup\{x\}$ and $B(x,R)=\{z:\|z-x\|<R\}$ for extended radius $R\in[0,\infty]$. An expansion of $f:E\to F$ by a formal multilinear series $p$ at $x$ within $s$ means that some $0<R_f\le\operatorname{rad}(p)$ satisfies
+$$
+\forall y\in B(0,R_f),\quad x+y\in s_x\implies
+\operatorname{HasSum}(n\mapsto p_n[y],f(x+y)).
+$$
+Here $p_n[y]$ evaluates on $n$ copies of $y$, and $\operatorname{HasSum}$ means convergence of the net of finite subsums. At $y=0$, every positive-degree evaluation vanishes, so $p_0[\,]=f(x)$ even when $x\notin s$. Use the ordered block maps $T_c$ of the preceding subsection, indexed by a degree $n$ and an ordered composition $c$ of $n$. The degree $n$ coefficient of $q\mathbin{\mathrm{comp}}p$ is the finite sum of those maps at that degree. [Basic.lean:80–99,433–436](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Basic.lean#L80)
+
+**Lemma (moving partial sums).** Suppose $g:F\to G$ has expansion $q$ at $b$ within $t$ with witness $R_g$. If $\|z\|<R_g$ and $b+z\in t_b$, then $Q_N(w)=\sum_{k<N}q_k[w]$ converges to $g(b+z)$ jointly as $N\to\infty$ and $w\to z$ in $F$.
+
+*Proof.* Choose a finite $a$ with $\|z\|<a<R_g$. The scalar series $\sum_k\|q_k\|a^k$ converges by the operator-norm radius estimate. For $N\ge m$ and $\|w\|<a$ the difference $Q_N(w)-Q_N(z)$ has norm at most
+$$
+\|Q_m(w)-Q_m(z)\|+2\sum_{k\ge m}\|q_k\|a^k.
+$$
+Choose $m$ to make the tail small and use continuity of $Q_m$ to make the first term small on a neighborhood of $z$. At $z$, the supplied sum implies $Q_N(z)\to g(b+z)$. The inequality holds throughout the chosen neighborhood, including arguments $w$ with $b+w$ outside $t_b$. $\square$ [Basic.lean:607–669](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Basic.lean#L607)
+
+**Theorem (forward composition within a set) [Lean, read].** For every $f:E\to F$, $g:F\to G$, $s\subseteq E$, $t\subseteq F$, $x\in E$ and formal series $p,q$ of the matching types, assume $f$ has expansion $p$ at $x$ within $s$, $g$ has expansion $q$ at $b=f(x)$ within $t$, and $f(s)\subseteq t$. There exists $0<R\le\operatorname{rad}(q\mathbin{\mathrm{comp}}p)$ such that for every $y\in B(0,R)$ with $x+y\in s_x$,
+$$
+\operatorname{HasSum}\bigl(n\mapsto(q\mathbin{\mathrm{comp}}p)_n[y],g(f(x+y))\bigr).
+$$
+
+*Proof.* Fix witnesses $R_f,R_g$. The inherited block majorant supplies a finite $r>0$ with $C=\sum_{n,c}\|T_c\|r^n<\infty$. For each degree the triangle inequality gives $\|(q\mathbin{\mathrm{comp}}p)_n\|r^n\le C$, hence $r\le\operatorname{rad}(q\mathbin{\mathrm{comp}}p)$ by the operator-norm characterization.
+
+The expansion of $f$ gives continuity at $x$ within $s_x$. Indeed, the moving partial sums lemma at increment zero makes every sufficiently late truncation close to $f(x)$ throughout a neighborhood of zero. At each allowed increment in that neighborhood the known limit is $f(x+y)$, so it lies within the closed ball of the same tolerance. Arbitrarily small tolerances give continuity. The pinned proof obtains it from local uniform convergence on the translated restricted ball. On $s_x$, the mapping hypothesis and $f(x)=b$ give $f(s_x)\subseteq t_b$. The target $t_b\cap B(b,R_g)$ is a neighborhood within $t_b$. Continuity and the mapping property pull it back to a neighborhood of $x$ within $s_x$, so some $\delta>0$ satisfies
+$$
+f(s_x\cap B(x,\delta))\subseteq t_b\cap B(b,R_g).
+$$
+Set $R=\min(R_f,\delta,r)$. It is positive and bounded by the composite radius.
+
+Fix an arbitrary allowed $y$. Put $z=f(x+y)-b$ and $P_N=\sum_{1\le j<N}p_j[y]$. For $N\ge1$, $P_N$ is the inner partial sum minus $p_0[\,]=b$, so $P_N\to z$. The transported conditions give $\|z\|<R_g$ and $b+z\in t_b$. The moving partial sums lemma along $(N,P_N)$ gives $Q_N(P_N)\to g(f(x+y))$.
+
+The inherited finite truncation identity at equal cutoffs identifies $Q_N(P_N)$ with the sum of $T_c(y,\ldots,y)$ over pairs $(n,c)$ with $\ell(c)<N$ and all block sizes $<N$. These finite sets eventually contain each finite set of pairs. Since $\|y\|<r$, the scalar majorant $\|T_c\|r^n$ makes the net of finite subsums Cauchy. Given a tolerance, choose a finite set beyond which Cauchy differences are small. Choose a late cutoff containing it with sum close to $g(f(x+y))$. Every finite subsum containing the initial set is close to that cutoff sum. Thus the full net has the known limit. For finite sets of degrees, their unions of fibres are finite and eventually contain each finite set of pairs. Taking that net yields the degree sum with the same limit. This is the finite-fibre case of <code>HasSum.sigma</code>. For every $v\in s_x\cap B(x,R)$ take $y=v-x$. Uniqueness of the sum gives equality of the functions $v\mapsto (q\mathbin{\mathrm{comp}}p).\mathrm{sum}(v-x)$ and $v\mapsto g(f(v))$ on this whole domain. $\square$ [Composition.lean:508–520,703–820](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L703)
+
+**Constants and locality.** For any constant vector $d_0\in F$, translating the inner function to $f+d_0$ changes its stored constant to $p_0+d_0$. Translating the outer function to $g(\cdot-d_0)$ moves its center to $b+d_0$ and its set to $t+d_0$ with the same coefficients. These statements follow by adding $d_0$ to the inner sum and by evaluating the outer sum at the same increment. The pointwise composite and every formal composite coefficient stay fixed, since positive block sizes omit the inner constant. If only $f$ is translated and $g$ is kept fixed, the outer expansion must be taken at the new image center. For $g(w)=w^2$, the outer constant and linear coefficient change from $b^2,2b$ to $(b+d_0)^2,2(b+d_0)$. The convention on the formal operation permits any stored inner constant.
+
+The proof only uses the image condition close to $x$. If it holds on $s_x\cap B(x,\eta)$ for some $\eta>0$, apply the theorem with $s\cap B(x,\eta)$ and shrink the resulting radius to at most $\eta$. Without the local image condition the conclusion can fail. Take $x=1$, $s=(1,2)$, $f(1+h)=2+h$, $t=\{2\}$ and $g(2)=7$, $g(w)=8$ for $w\ne2$. The inner affine expansion and the outer constant expansion within $t$ both have infinite radius. Their formal composite is constant $7$. For every $R>0$ and every $0<h<\min(R,1)$ the function composite is $8$. It is discontinuous within $s_x$ and hence has no expansion there. The original hypotheses are inhabited by both worked examples, and also admit $s=\varnothing$, when insertion still tests the center.
+
+**Completeness and consumers.** The forward theorem and the moving partial sums lemma require normed spaces. They use real scalar norm sums, the supplied function sums and comparison to an explicitly identified limit. When starting with a positive-radius formal series alone, completeness of its target is used to produce a sum from the absolute norm bound. The corresponding declarations are <code>FormalMultilinearSeries.summable</code>, <code>hasSum</code> and <code>hasFPowerSeriesOnBall</code>. The separate inverse proof at Inverse.lean:656–694 starts with the identity expansion on the open source and uses the [recovery lemma for a known composite](#ordered-composition-of-multilinear-power-series). Its derivative wrapper identifies the first coefficient via <code>HasFPowerSeriesAt.fderiv_eq</code> at the given center (FDeriv/Analytic.lean:109–111,137–139), which also works in normed spaces. Differentiation at a shifted point by the change-of-origin expansion is a separate completeness-dependent interface (lines 193–196). The [strict inverse chart construction](#strict-inverse-chart-for-etale-local-sections) uses completeness of the forward domain in its closed-ball iteration.
+
+In the archive's <code>RegularLocalRings/AnChart.lean:64–95</code>, the inverse theorem supplies analyticity of the inverse chart near the chart image. To restrict it to a slice, the proof then uses <code>AnalyticAt.comp</code> with $w\mapsto(w,0)$, analytic as a product of the identity and a constant. Membership in the chart target and the chart's right-inverse law give membership of the slice point in the neighborhood where the inverse is analytic. This call uses the unrestricted wrapper of the within theorem. The setwise wrapper uses the mapping premise to select the outer expansion at each image point. In A2, <code>AtlasIndep.lean:45–58,75–83</code> uses the unrestricted <code>AnalyticAt.comp</code> on a holomorphic function in chart coordinates and an analytic transition. The left-inverse identity on the open overlap supplies the eventual equality that identifies the resulting germ. [Pinned wrappers](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Composition.lean#L822) · [Sources](../sources/SOURCES.md#chapter-12--forward-composition-on-restricted-sets)
+
+#### Derivative cancellation for a given inverse chart
+
+**Motivation.** The chain rule gives a necessary formula for the derivative of an inverse. To prove the inverse differentiable, we first need to bound increments in the inverse coordinates. The known derivative of the composite supplies that bound after we transfer the lower estimate from the outer map.
+
+**A triangular chart.** Take $f(x,y)=(2x,3y+x^2)$ on $\mathbb R^2$ with the maximum norm. The center $(1,2)$ maps to $(2,7)$. Its polynomial inverse is $g(u,v)=(u/2,(v-u^2/4)/3)$. In $f(g(u,v))$ the square $(u/2)^2$ cancels $-u^2/4$. In $g(f(x,y))$ the second coordinate becomes $(3y+x^2-x^2)/3=y$ and the first becomes $x$. The forward increment at $(1,2)$ is $(2h,2h+3k+h^2)$. Its linear part is $A(h,k)=(2h,2h+3k)$, with inverse $B(p,q)=(p/2,(q-p)/3)$. The inverse increment at $(2,7)$ is
+$$
+g(2+p,7+q)-g(2,7)=(p/2,(q-p)/3-p^2/12).
+$$
+The error has maximum norm $p^2/12$. For two source offsets of norms at most $\delta$, the forward error after subtracting the linear difference has second coordinate $(h_1+h_2)(h_1-h_2)$, bounded by $2\delta$ times their distance. This verifies strict differentiability as well. For a within example, $g$ takes the target half-plane $u\ge 2$ into the source half-plane $x\ge 1$, and the target center belongs to its half-plane.
+
+**Definition.** For normed spaces over a nontrivially normed field $\mathbb K$, the two-point derivative predicate $\operatorname{HasFDerivAtFilter}(m,M,\mathcal L)$ says that for every $\varepsilon>0$, eventually in the filter $\mathcal L$ on input pairs $(x,y)$,
+$$
+\|m(x)-m(y)-M(x-y)\|\le\varepsilon\|x-y\|.
+$$
+In particular the definition includes pairs of equal points. For the ordinary derivative the filter is $\mathcal N(a)\times\operatorname{pure}(a)$, where the pure filter fixes the second coordinate at $a$. For the within derivative replace the first factor by $\mathcal N_s(a)$, the neighborhood filter restricted to $s$. The strict derivative uses the neighborhood of $(a,a)$.
+
+**Theorem (cancelling an outer derivative) [Lean, read].** For every nontrivially normed field $\mathbb K$, normed $\mathbb K$-spaces $E,F,G$ (in particular Banach spaces), maps $g:E\to F$, $f:F\to G$, $h:E\to G$, filters $\mathcal L_E$ on $E^2$ and $\mathcal L_F$ on $F^2$, and continuous linear maps $A:F\to G$, $B:G\to F$, $H:E\to G$, assume the following.
+
+1. The pair map $(x,y)\mapsto(g(x),g(y))$ tends from $\mathcal L_E$ to $\mathcal L_F$.
+2. The two-point derivatives of $f$ along $\mathcal L_F$ and of $h$ along $\mathcal L_E$ are $A$ and $H$, respectively.
+3. Eventually in $\mathcal L_E$, both $f(g(x))=h(x)$ and $f(g(y))=h(y)$.
+4. $BA=\operatorname{id}_F$ on all of $F$.
+
+Then $g$ has two-point derivative $BH$ along $\mathcal L_E$.
+
+**Proof.** Put $C=\max(1,\|B\|)$. For $(u,v)$ along $\mathcal L_F$, write $w=u-v$ and $R_f=f(u)-f(v)-Aw$. Use tolerance $1/(2C)$ and $BAw=w$ to obtain, eventually,
+$$
+\|w\|\le C\|f(u)-f(v)\|+C\|R_f\|
+       \le C\|f(u)-f(v)\|+\tfrac12\|w\|.
+$$
+Thus $\|w\|\le 2C\|f(u)-f(v)\|$. This is the lower comparison furnished in the pinned proof by the embedding induced by $A$. Pull it back by the pair map, set $d=x-y$, $w=g(x)-g(y)$, and use the composite equality at both endpoints. We get $\|w\|\le 2C\|\Delta h\|$, where $\Delta h=h(x)-h(y)$. Put $R_h=\Delta h-Hd$ and $M=\|H\|+1$. The derivative of $h$ at tolerance $1$ bounds $\|\Delta h\|$ by $M\|d\|$, so eventually $\|w\|\le 2CM\|d\|$.
+
+Given any $\varepsilon>0$, pull back the outer remainder bound with tolerance $\varepsilon/(4C^2M)$ and intersect with the eventual bound $\|R_h\|\le\varepsilon\|d\|/(2C)$. Now $R_f$ denotes the remainder evaluated on the transported pair. On this intersection,
+$$
+w-BHd=B(Aw-Hd)=B(R_h-R_f).
+$$
+Its norm is at most $C(\varepsilon/(2C)+2CM\varepsilon/(4C^2M))\|d\|=\varepsilon\|d\|$. The source first uses the two-sided asymptotic comparison for the forward increment, then pulls back the outer $o$ estimate, and lastly applies the bounded map $B$ to the difference of remainders. The tolerance proof spells out these operations with norms. It includes the zero space and uses no completeness. [Kudryashov, Mathlib OfCompLeft.lean:50–81](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/OfCompLeft.lean#L50)
+
+**Corollaries for neighborhood filters.** For the ordinary derivative, continuity at $a$ moves the first factor to $\mathcal N(g(a))$ and the fixed factor goes to $\operatorname{pure}(g(a))$. Eventual equality in $\mathcal N(a)$ also holds at $a$. For strict differentiability, continuity transports both moving coordinates, and taking the product of the eventual equality with itself supplies the two equalities. For the within theorem, choose any $s\subseteq E$, $t\subseteq F$ and $a\in s$, and give the two within derivatives and the eventual equality on $\mathcal N_s(a)$. The transport required is from $\mathcal N_s(a)$ to $\mathcal N_t(g(a))$. For instance, continuity at $a$ along $s$ plus eventual membership of $g(x)$ in $t$ yields this transport by intersecting the preimages of target neighborhoods with that membership condition. The fixed factor again goes to $\operatorname{pure}(g(a))$. The explicit membership $a\in s$ ensures the equality at the fixed endpoint. No uniqueness of within derivatives or membership $g(a)\in t$ is asked for separately. [Mathlib OfCompLeft.lean:83–107](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/OfCompLeft.lean#L83)
+
+**Inverse derivative.** In the cancellation theorem let $G=E$ and $h=\operatorname{id}_E$. Its derivative is the identity because the remainder vanishes. For a continuous linear equivalence $A:F\to E$, use $B=A^{-1}$. Each neighborhood version gives the corresponding derivative $A^{-1}$ of $g$ when $f(g(y))=y$ eventually and its continuity or transport premise is supplied. In chart notation $f:X\to Y$, put $a=f(x_0)$ with $x_0$ in the open source and let $g$ be the chart inverse. The source identity gives $g(a)=x_0$. On the open target $f(g(y))=y$, so the equality is eventual. Continuity on the open target gives continuity at $a$. The ordinary and strict derivative conclusions follow from the matching derivatives of $f$ at $x_0$. These steps apply to a chart already given. [Mathlib OfCompLeft.lean:159–218](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/OfCompLeft.lean#L159)
+
+**A coupled chart and its slice.** Set $u=x+y^2$ and $f(x,y)=(u,y+u^2)$. The center $(1,1)$ maps to $(2,5)$. The inverse is $g(u,v)=(u-Y^2,Y)$ with $Y=v-u^2$. On applying $f$ to $g$ the first coordinate is $u-Y^2+Y^2=u$ and the second is $Y+u^2=v$. At a forward image $Y=y$ and $u-Y^2=x$. For source increments $(h,k)$ put $p=h+2k+k^2$. The forward increment is $(p,k+4p+p^2)$. Its error after subtracting the linear part $(h+2k,4h+9k)$ is $(k^2,4k^2+p^2)$. With $r=\|(h,k)\|_\infty\le1$, we have $|p|\le4r$ and error norm at most $20r^2$. The linear part and its inverse are
+$$
+A=\begin{pmatrix}1&2\\4&9\end{pmatrix},
+\qquad B=\begin{pmatrix}9&-2\\-4&1\end{pmatrix}.
+$$
+Both products are the identity, with diagonal entries $9-8$ and off-diagonal entries zero. For target increments $(p,q)$ put $m=q-4p$ and $k=m-p^2$. The inverse increment is $(p-2k-k^2,k)$, so its error after subtracting $B(p,q)$ is $(2p^2-k^2,-p^2)$. For $r=\|(p,q)\|_\infty\le1$, we have $|k|\le6r$ and error norm at most $38r^2$. The slice $(2+p,5)$ has inverse tangent $(9,-4)$ by setting $q=0$. In general a zero-slice inclusion $j(w)=(w,0)$ has derivative $Jv=(v,0)$. Substituting $Jv$ into the inverse derivative remainder proves $D(g\circ j)(w_0)=A^{-1}J$ at a slice center $j(w_0)=a$, since $\|Jv\|\le\|J\|\|v\|$.
+
+**Failure tests.** With $f=h=\operatorname{id}_{\mathbb R^2}$ and $g(p,q)=(|p|,q)$, transport and the linear left inverse are available at zero. The two scalar slopes of the first component are $-1$ and $1$, and the missing premise is the eventual composite equality. With $f(x,y)=(x^3,y)$ and $g(u,v)=(\sqrt[3]{u},v)$, continuity and both inverse identities hold. The derivative $A(h,k)=(0,k)$ at zero has no linear left inverse, and the inverse quotient in the first coordinate is $u^{-2/3}$ for $u>0$. The continuity premise is substantive too. On $\mathbb R$, take $f(t)=t$ for $|t|<1/4$, $f(t)=t-1$ for $|t-1|<1/4$, and $f(t)=0$ elsewhere. Set $g(0)=0$ and $g(y)=1+y$ for $y\ne 0$. Then $f(g(y))=y$ near zero and the forward derivative at $g(0)$ is $1$, while $g$ jumps at zero.
+
+**Remark (approximation and the chart consumers).** For two points in a source where $\|\Delta f-Ad\|\le c\|d\|$, put $N=\|A^{-1}\|$ in the nonzero case. If $c<N^{-1}$, then $\|\Delta f\|\ge(N^{-1}-c)\|d\|$. On the image this bounds the inverse increment, yielding inverse continuity. Applying $A^{-1}$ to the forward remainder gives an inverse approximation constant $Nc/(N^{-1}-c)$. The zero space is handled separately. Openness in the [strict inverse construction](#strict-inverse-chart-for-etale-local-sections) uses the cited closed-ball covering theorem with source completeness. The differential consumer <code>HasStrictFDerivAt.to_localInverse</code> calls <code>OpenPartialHomeomorph.hasStrictFDerivAt_symm</code>, which uses cancellation. If a supplied $g$ satisfies $g\circ f=\operatorname{id}$ near the source, transport this equality along the constructed continuous inverse and use the target identity to identify their germs. This is the direction used by <code>HasStrictFDerivAt.to_local_left_inverse</code>. [Mathlib ApproximatesLinearOn.lean:312–399](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/InverseFunctionTheorem/ApproximatesLinearOn.lean#L312) · [Mathlib InverseFunctionTheorem/FDeriv.lean:145–198](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/InverseFunctionTheorem/FDeriv.lean#L145)
+
+In A2, <code>AnChart.lean:29–68</code> constructs the polynomial coordinate map $\Psi$, computes its derivative $L_m$, proves injectivity by the gradient criterion, obtains surjectivity by equal finite dimensions and packages the equivalence as $\mathrm{Le}$. Analyticity supplies the strict derivative and <code>toOpenPartialHomeomorph</code> constructs $\Phi$. These data imply the inverse derivative $\mathrm{Le}^{-1}$ at $\Phi(p)$ and the slice derivative $\mathrm{Le}^{-1}J$ at the slice center. The actual call at line 68 is <code>analyticAt_symm'</code> for inverse analyticity. FDeriv/Analytic.lean:414–430 identifies the first coefficient by the forward derivative and calls <code>hasFPowerSeriesAt_symm</code>. That proof uses the [positive inverse radius](#a-positive-radius-for-the-inverse-series) and [composite sum recovery](#ordered-composition-of-multilinear-power-series), with the source and target inverse identities and transport by inverse continuity. At <code>AnChart.lean:86–95</code>, the archive composes the analytic inverse with the analytic zero-slice inclusion. The differential calculation above is a consequence of the chart data. The analytic call follows the series route. The [étale-section producer](#holomorphic-local-sections-of-étale-families) also follows that route: <code>Imports.lean:141–148</code> restricts the chart and invokes <code>analyticAt_symm</code> pointwise at its target. [Mathlib FDeriv/Analytic.lean:414–430](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Calculus/FDeriv/Analytic.lean#L414) · [Mathlib Inverse.lean:656–694](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Analytic/Inverse.lean#L656) · [A2 source record](../sources/SOURCES.md#chapter-12--derivative-cancellation-for-a-given-inverse-chart)
 
 #### Why the transversal zeros are finite: Nakayama and minimal primes
 
@@ -2068,7 +2367,7 @@ Evaluation on $W$ agrees with evaluation after restriction from either chart, so
 
 **Corollary (common-zero cotangent classes) [Expository].** Under the same hypotheses, at a common zero of the $f_j$, either condition is equivalent to the corresponding ratio classes generating $\mathfrak m/\mathfrak m^2$ in the same local ring $L$, and $d_z(f_j/b)=(a/b)(z)\,d_z(f_j/a)$ for every $j$.
 
-*Proof.* the maps from the two chart rings and the overlap to the stalk identify their localizations at the evaluation kernels with $L$. At a common zero the $I_c$ lie in $m_c$. The image of $I_c$ in $m_c/m_c^2$ is the $\mathbb C$-span of the classes of its generators, since all coefficients act there by their residues. The preceding isomorphism with $\mathfrak m/\mathfrak m^2$ gives the asserted equivalence. To calculate the first-order classes, the product identity in $L$ gives $d_z(rq)=r(z)d_zq+q(z)d_zr$. For a unit $q$ this also gives $d_z(q^{-1})=-q(z)^{-2}d_z q$, upon differentiating $qq^{-1}=1$. With $r=f_j/a$ and $q=b/a$, we have
+*Proof.* The maps from the two chart rings and the overlap to the stalk identify their localizations at the evaluation kernels with $L$. At a common zero the $I_c$ lie in $m_c$. The image of $I_c$ in $m_c/m_c^2$ is the $\mathbb C$-span of the classes of its generators, since all coefficients act there by their residues. The preceding isomorphism with $\mathfrak m/\mathfrak m^2$ gives the asserted equivalence. To calculate the first-order classes, the product identity in $L$ gives $d_z(rq)=r(z)d_zq+q(z)d_zr$. For a unit $q$ this also gives $d_z(q^{-1})=-q(z)^{-2}d_z q$, upon differentiating $qq^{-1}=1$. With $r=f_j/a$ and $q=b/a$, we have
 $d_z(r/q)=q(z)^{-1}d_z r-r(z)q(z)^{-2}d_z q$.
 At the common zero $r(z)=0$ for every $j$, so the second term drops out and every class is multiplied by the same nonzero scalar. The transformation on the list of $k$ classes has matrix $(a/b)(z) I_k$. $\square$
 
