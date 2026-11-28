@@ -36,6 +36,7 @@
 # Part III. Foundations built inside the archive
 
 - [12. Galois representations and partial local Langlands](chapters/12-galois-representations-and-local-langlands.md)
+<!-- Chapter 12, §12.4.4 includes the regular-local domain proof (#why-a-regular-local-ring-is-a-domain). -->
 <!-- Chapter 13 includes the invariant-subspace counts for the Gram matrix in §13.4.6.1 (#13461-counting-invariant-subspaces-and-cyclic-vectors-for-the-gram-matrix). -->
 - [13. Green's theorem and the literature layer](chapters/13-greens-theorem-and-the-literature-layer.md)
 <!-- Chapter 17 includes §17.4.14.1 (#174141-why-dirichlet-series-can-be-differentiated-term-by-term). -->

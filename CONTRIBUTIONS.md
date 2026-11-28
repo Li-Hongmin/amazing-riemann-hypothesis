@@ -2135,6 +2135,13 @@ editorial corrections. The rational checks cover the worked examples and finite 
 - **Classical commutative algebra.** Michael Atiyah and Ian Macdonald, Hideyuki Matsumura, and David Eisenbud are cited for localization, Noetherian dimension theory and regular local rings. [Bibliography](sources/SOURCES.md#chapter-12-jacobian-cuts-and-dual-number-tangent-injectivity)
 - **This book.** Hongmin Li with AI assistance develops the English proof sequence, the domain-case prime-chain explanation, two explicit hand calculations and three hypothesis tests, and records the direct atlas consumer. [Subsection](chapters/12-galois-representations-and-local-langlands.md#jacobian-cuts-and-dual-number-tangent-injectivity)
 
+### Chapter 12 regular local rings and principal dimension drop
+
+- **Classical commutative algebra.** Nakayama's lemma, Krull's height theorem and prime avoidance supply the algebra. Atiyah and Macdonald and Matsumura are references for the classical theory. The Stacks Project contributors give the regular-local domain theorem through the associated graded ring and Krull intersection. [Sources](sources/SOURCES.md#chapter-12-regular-local-rings-and-principal-dimension-drop)
+- **Mathlib contributors.** Nailin Guan supplied the regularity criterion, the maximal-ideal dimension bound and the cotangent comparison. Andrew Yang supplied the nonzerodivisor successor bound, cotangent construction and minimal-prime localization files. Thomas Browning supplied minimal-prime finiteness, and the Nakayama file credits Chris Hughes. [Pinned source credits](sources/SOURCES.md#chapter-12-regular-local-rings-and-principal-dimension-drop)
+- **A2 authors.** Levent Alpöge with Claude supplied the cotangent replacement and dimension squeeze for a parameter quotient and the induction that proves the regular-local domain statement used in `JacChartB`. [Production and consumer](sources/SOURCES.md#chapter-12-regular-local-rings-and-principal-dimension-drop)
+- **This book.** Hongmin Li with AI assistance follows the production proof, distinguishes its quotient bound from the Jacobian dimension drop, and works out the plane and DVR calculations and their hypothesis tests. [Chapter 12](chapters/12-galois-representations-and-local-langlands.md#why-a-regular-local-ring-is-a-domain)
+
 ### Chapter 14 Fourier convolution and Bochner representatives
 
 - **Levent Alpöge with Claude** supplied A2’s translation flow, continuous class-valued convolution, representative-exchange lemma and reflected Fourier consumer. [Archive and declaration map](sources/SOURCES.md#chapter-14-bochner-production-of-convolution)
