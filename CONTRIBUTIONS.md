@@ -1502,3 +1502,20 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 ### Chapter 3 local integrability, endpoint FTC and disk logarithms
 
 Hongmin Li with AI assistance presents the common measurable witness, the endpoint and null-representative examples, the wedge calculation and uniqueness on the disk. The chapter follows Alpöge and Claude's three archive applications in the winding and local logarithmic derivative arguments. [Chapter 3](chapters/03-landau-window-criterion.md#from-a-finite-filter-to-an-integrable-endpoint-neighborhood) · [Archive calls and classical references](sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
+### Chapter 2, dense extension, Bochner integration and metric-valued limits
+
+**Community formalization.** Mathlib's pinned file headers credit Moritz Doll and Zhouhang Zhou
+for the operator extension, Johannes Hölzl, Sébastien Gouëzel and Patrick Massot for the uniform
+extension machinery, Rémy Degenne, Zhouhang Zhou, Yury Kudryashov and Sébastien Gouëzel for
+the simple-class and Bochner integration chain, and Floris van Doorn and Rémy Degenne for the
+Borel limit and measurable patch. The source register records individual file credits and the
+Alpöge–Claude archive call sites. [Extension sources](sources/SOURCES.md#ch02-banach-extension-sources)
+· [Limit sources](sources/SOURCES.md#ch02-metric-limit-sources)
+
+**Our exposition and checking.** Hongmin Li with AI assistance integrated the two earlier
+textbook drafts, preserving the examples and the local source readings. The independent
+extension audit accepted four mathematical items, with the Bourbaki theorem number still
+pending. The independent metric-limit audit accepted its five items and supplied two
+editorial corrections. The rational checks cover the worked examples and finite tests.
+[Dense extension](chapters/02-functional-equations-and-primitive-characters.md#banach-dense-extension) · [Metric-valued limits](chapters/02-functional-equations-and-primitive-characters.md#metric-valued-ae-limits)

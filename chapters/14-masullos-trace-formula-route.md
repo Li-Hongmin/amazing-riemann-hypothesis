@@ -1546,6 +1546,8 @@ and its compact neighborhood control the missing mass and the closed support.
 
 ##### 14.4.2.3.1 Finite-measure simple functions in Lp
 
+At $p=1$, this density theorem supplies the dense inclusion used to [extend the simple integral](./02-functional-equations-and-primitive-characters.md#banach-dense-extension).
+
 **Motivation.** Lemma E starts with an approximation procedure for indicators
 of finite-measure sets. To use that procedure on an arbitrary $L^p$ class,
 we first have to produce finitely many such sets and control the error of
