@@ -731,3 +731,5 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 ### Chapter 4 spaced zero density in the relative progression estimate
 
 [§4.10.28](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density) proves packing and harmonic bounds for unit-spaced ordinates, applies them inside each character fiber, and assembles the three witnesses of `LogDensityM`. Author-level local R3 covers the spacing proofs, the row estimate conditional on the pair bounds, and the final constant assembly. The two block-count proofs remain named [Lean] inputs with reading [Open].
+
+**Chapter 1 §1.2.2.16.** A genus supplies a common integral scale and, through the Hermitian dual, a covolume upper bound. Minkowski’s inequality supplies full short frames. The determinant of a scaled trace Gram matrix confines each pulled-back lattice to a finite interval of additive subgroups. The worked examples enumerate the binary genus of discriminant $-23$ and the six nonzero short vectors in a real quadratic trace lattice. [Chapter 1 §1.2.2.16](../chapters/01-statement-and-fidelity.md#12216-short-vectors-genus-covolume-and-the-finiteness-of-the-class-set)

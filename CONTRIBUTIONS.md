@@ -300,7 +300,7 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 - **Floris van Doorn** is credited in the Haar, content and finite-product files, and **Heather Macbeth** shares credit for the lower marginals. **Johannes Hölzl and Mario Carneiro** are credited in the outer-measure, induced measure and measure-space files. The group-topology suppliers credit **Johannes Hölzl, Mario Carneiro and Patrick Massot**. The compact-set supplier credits **Floris van Doorn and Yaël Dillies**. **Paul R. Halmos**, **Jonathan Gleason** and **Terence Tao** supply the classical covering, extension and product precedents. — [Lean, read] for the listed production bodies · [Community] for the classical sources. [Source ledger](sources/SOURCES.md)
 
-- **Anne Baanen** authored the cited Mathlib field trace and integral trace files. **Ashvni Narayanan and Anne Baanen** authored the cited number-field file supplying the integral basis and its integral elements. [Pinned source record](sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+- **Anne Baanen** authored the cited Mathlib field trace and integral trace files. **Xavier-François Roblot**, with **Riccardo Brasca**, added the cited integral basis and its integral-element formula (mathlib3 #18474) to the number-field file whose header names Ashvni Narayanan and Anne Baanen. [Pinned source record](sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
 
 ## Sources for the lattice estimates
 
@@ -2228,6 +2228,10 @@ Hongmin Li with AI assistance transcribed the conditional proof, traced the thre
 - **Mathlib.** Andrew Yang, Chris Hughes, Kim Morrison, Johan Commelin, Anne Baanen and the other credited contributors supplied basis extension, tensor bases, multiplication matrices, determinants and arithmetic infrastructure. [Pinned declarations and file authors](sources/SOURCES.md#the-quadratic-hasse-norm-branch-53123)
 - **Classical precedents.** Hasse's norm theorem, with the prime-degree antecedent he credits to Hilbert and Furtwängler, and the Hasse–Minkowski theorem supply the classical statements compared here. [Classical sources](sources/SOURCES.md#the-quadratic-hasse-norm-branch-53123)
 - **Textbook.** Hongmin Li with OpenAI Codex assistance traced the same scalar through the proof, computed the split and field cases over the rationals, and gave counterexamples for the real-place, unit and characteristic hypotheses. [Chapter 5 §5.3.1.23](chapters/05-the-square-root-barrier-core-gm.md#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle)
+
+### Chapter 1 §1.2.2.16 — Short vectors and class set finiteness
+
+Levent Alpöge with Claude supplied the A2 proofs of the short-frame, genus scale, dual covolume bound, denominator, finite subgroup and covering-set steps. Hermann Minkowski supplies the successive-minimum inequality. J. W. S. Cassels, John H. Conway and Neil J. A. Sloane supply classical quadratic-form precedents. Andrew V. Sutherland supplies a trace-duality precedent. Hongmin Li with AI assistance wrote the proof correspondence, the complete binary genus and quadratic trace computations, and the hypothesis-deletion examples. [Source record](sources/SOURCES.md#chapter-1-12216-short-vectors-and-class-set-finiteness)
 
 ### Chapter 1 §1.2.2.15 — Trace Gram and scalar action
 

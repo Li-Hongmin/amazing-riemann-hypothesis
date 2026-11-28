@@ -8,6 +8,7 @@
 # Part 0. The statement
 
 - [1. The statement and its fidelity](chapters/01-statement-and-fidelity.md)
+<!-- Chapter 1 includes §1.2.2.16 (#12216-short-vectors-genus-covolume-and-the-finiteness-of-the-class-set). -->
 
 # Part I. The analytic endgame
 
