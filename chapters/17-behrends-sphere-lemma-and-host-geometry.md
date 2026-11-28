@@ -19,9 +19,10 @@
 > `src/Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/NoThreeConsecutiveThickPlaces.lean`,
 > `src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean`,
 > `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ThickSetDensityLeInvFourLw.lean`, and
-> `src/Formalism/BehrendSets/FinalE.lean` (`R3`); `[Lean]` for statement-level inspections of
-> imported Bernoulli-sampling and prime-supply sub-lemmas (`topsBase`; `shortNorm`, which counts primes
-> represented by the norm form `NormOne`; `R2`); the small-prime deduction is read in §17.4.5.
+> `src/Formalism/BehrendSets/FinalE.lean` (`R3`). Sections 17.4.5–9 read the small-prime deduction,
+> `topsBase`, the progression deweighting argument, `ShortNorm` and the finite ray projection at their
+> listed local scope. The [source map](../sources/SOURCES.md#p13-host-prime-supply) gives the inherited
+> review levels and named inputs.
 > The exceptional-zero production and weighted-interval budget have their own local reading scope
 > in §17.4.10.
 >
@@ -540,6 +541,8 @@ $4 L_w s < n_0 \le n$ embeds $T_2 \subseteq \{0, 1, \dots, N - 1\}$ where $N := 
 since $\{0, 1, 2\} \not\subseteq T_2$ (as $2(1 - 0) = 1(2 - 0)$ violates `NoRel` at $i = 1, j = 2$,
 `:29–38`), $\lvert T_2 \rvert \le N - 1 = \lfloor (n - 1)/(4 L_w) \rfloor$, so $4 L_w \lvert T_2 \rvert < n$! $\square$
 
+<a id="host-scale-balancing"></a>
+
 ### 17.4.4 Scale balancing (`thickFrame2` with $C_T = 64$), `hostOfField`, and `log_conductor_mul_height_le_of_pageN`
 
 **Theorem 17.4 (AM–GM scale bridge `thickFrame2`, full `Host` assembly, and subexponential conductor-height bound).** [Lean, read]
@@ -709,7 +712,7 @@ The filtered interval count is exactly the difference by disjoint
 union at $\lfloor Y\rfloor$. [Lean, read]
 (`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimesAPIntervalOfPrimesRel.lean:12–87`,
 `src/Formalism/GL3MeanSquares/HookFormulaTorsion/GlobalBoundRefinements.lean:22–246,366–433`,
-`src/Formalism/GL3MeanSquares/HookFormulaTorsion/PrimesInProgressionCountLowerBound.lean:200–343`.)
+`src/Formalism/GL3MeanSquares/HookFormulaTorsion/PrimesInProgressionCountLowerBound.lean:10–341`.)
 
 **Lemma (one prime within a fixed power).** The interval estimate
 implies `SmallOne`. [Lean, read]
@@ -822,10 +825,565 @@ supplies no uniform polynomial cutoff.
 `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/SumRpowZerosLeStatement.lean:8–9`,
 `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimeCountRelativeErrorOfPsiRelativeErrorStatement.lean:8–9`.)
 
-All archive citations in this subsection refer to A1, `lean.tar.gz` SHA-256
+All archive citations in this subsection refer to A2, `lean.tar.gz` SHA-256
 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
 
 ---
+
+### 17.4.6 Bernoulli selection of the top places
+
+The host has two size requirements. The first concerns the random set $TT$ of top places. Its
+size must be comparable to $x^{-\varepsilon/8}n$, its counts in the cosets of $A_0$ must be
+controlled, and relatively few of its points may lie on bad Frobenius orbits. The second concerns
+the thick indices $T_2$, which must obey `NoRel` and have size at least $x^{-\varepsilon}n$.
+The two requirements meet in `HostGood`. The sampling proof below supplies the first, and
+§17.4.4 supplies the second.
+
+#### Example in a cyclic group
+
+Work in $\mathbb Z/64\mathbb Z$ with the candidate representatives $S=\{0,1,2,7\}$ and $L=2$.
+For ordered distinct $a,b,c$ the relations to forbid are $j(b-a)=i(c-a)$ for
+$i,j\in\{-2,-1,1,2\}$, $i\ne j$. With largest representative $s=7$, we have $4Ls<64$, and the difference
+of the two sides has absolute value at most $28$, so a congruence here is an integer equality.
+The possible ratios $i/j$ are $-2,-1,-1/2,1/2,2$. In increasing order, a forbidden triple has
+consecutive gaps in ratio $1:1$, $1:2$, or $2:1$. Indeed one can take the base point at the middle
+or either endpoint, and these are precisely the positive gap ratios obtained from the five
+signed ratios. The gap pairs are $(1,1),(1,6),(2,5),(1,5)$, so the only forbidden
+three-element support is $\{0,1,2\}$, witnessed by $(a,b,c,i,j)=(0,1,2,1,2)$.
+
+Retain each point independently with probability $3/4$. The expected size is $3$, and the
+probability of any forbidden relation is $27/64$ by the union bound over the single distinct
+support. For any sample remove one point from each surviving forbidden support, skipping
+supports already destroyed. Deletion cannot create an edge of this family. If $Z$ is the
+number of surviving supports, the output size is at least $|T|-Z$, whose expectation is
+$3-27/64=165/64>2$. Thus some relation-free output has size at least $3$.
+For example, sampling all four points and deleting $1$ leaves $\{0,2,7\}$.
+
+More generally, let $\mathcal F$ be any finite family of nonempty forbidden supports in
+a finite set $S$. With independent retention probabilities $p_a$, a sufficient
+condition to obtain a set of size at least the integer $m$ avoiding all supports is
+$\sum_{a\in S}p_a-\sum_{F\in\mathcal F}\prod_{a\in F}p_a>m-1$.
+The first sum is the expected sample size. The second is the expected number of
+surviving supports, by linearity. A sample attains at least their difference after
+the deletion procedure, and integrality gives the claimed size. Independence is used inside each product. Events for overlapping supports need
+no independence. The exponent counts **distinct points**, even if an equation is written
+several times or uses repeated variables. The pairwise inequalities in
+`src/Formalism/FrobeniusOrbits/HostThickExists.lean:13–16` make every `NoRel` witness
+a three-element support. The restrictions $i,j\ne0$ and $i\ne j$ ensure the coefficients
+$i-j,j,-i$ are all nonzero. For instance $i=j=0$ gives an identity on every triple.
+The example's probability $3/4$ is a choice for four candidates. For uniformly sampled
+triples the deletion estimate is $p|S|-p^3|\mathcal F|$. If the number of forbidden
+supports is quadratic in $|S|$, optimizing that estimate gives a square-root size scale.
+The archived sampling argument instead counts failures of orbit occupancy conditions.
+It applies the same product rule to distinct orbit positions and uses positive
+probability to keep both the occupancy budget and the size budget.
+
+For a numerical comparison to the archived window count, use the entire cyclic group
+$\mathbb Z/64\mathbb Z$ as one orbit with step $1$ and retention probability $\delta=1/4$.
+If a short window has length $L_2=4$ and capacity $K=3$, its unforced failure needs
+all four points and has probability $1/256$. Force a point $t$ into the sample as in
+`orbit_sum`. A window through $t$ fails with probability $1/64$ and a window away from
+$t$ still fails with probability $1/256$. There are four windows through $t$ and sixty away,
+so the union bound is $4/64+60/256=19/64$. The uniform bound used by the theorem is
+$64\binom43(1/4)^3=4$, which can exceed $1$ at this toy scale. The unconditional expected
+retention is $16$, and the probability of both retaining $t$ and witnessing a short-window
+failure is bounded by $(1/4)(19/64)$. The tile and long-window conditions enter the general proof below.
+
+#### Definitions and conditional selection lemma
+
+For finite $A$, give a sample $T\subseteq A$ the product weight
+$$w(T)=\prod_{a\in T}p_a\prod_{a\in A\setminus T}(1-p_a).$$
+Write $\mathbb E$ for summation against this weight. On a specified finite set of
+natural-number positions, the same construction is denoted by `exP`. The source definitions
+are `src/Development/AutomorphicArithmetic/ThickFrames/MarkedLow.lean:10–21`.
+
+**Lemma (class sizes and weighted bad-point counts).** [Lean, read]
+Let $A$ and the set of classes be finite with decidable equality, and let $c$ map each
+point of $A$ to a class. Suppose $0\le p_a\le\delta\le1$, $\delta\ge0$, $\beta\ge0$,
+and $D>0$ with $2\delta |A|\le D^2$. Let $I$ be a finite set of labels with
+weights $\omega_i\ge0$ and predicates $\operatorname{Bad}(i,t,T)$.
+Assume for every $i\in I$ and $t\in A$ that
+$$\mathbb P(t\in T,\ \operatorname{Bad}(i,t,T))\le\beta\delta.$$
+There exists a single sample such that for every class $b$ its count differs from
+$\sum_{c(a)=b}p_a$ by at most $D$, and its weighted bad count is at most
+$4\beta\delta |A|\sum_{i\in I}\omega_i$.
+This is `src/Development/AutomorphicArithmetic/ThickFrames/select.lean:70–76`.
+
+*Proof.* The weights are nonnegative. Split subsets at a fresh point $a$. The weights
+of the two branches acquire factors $1-p_a$ and $p_a$, and the sum of the weights
+is $1$ by induction. The same split proves the second-moment identity for
+$z+\sum_{a\in T}g_a$. On adding $a$, the two branch means differ by $g_a$,
+and their weighted squares give the square of the new mean plus
+$p_a(1-p_a)g_a^2$. The old variance occurs in both branches and keeps its
+coefficient $1$. Consequently the second moment is
+$$(z+\textstyle\sum_a g_a p_a)^2+\sum_a g_a^2p_a(1-p_a).$$
+For a centered class count $Y_b$, take $g_a=\mathbf1_{c(a)=b}$ and $z=-\sum_a g_a p_a$.
+Then summing the variances over classes counts each point once, giving
+$\mathbb E\sum_b Y_b^2\le\delta|A|\le D^2/2$.
+Write $B(T)=\sum_i\omega_i\sum_t\mathbf1_{t\in T,\ \operatorname{Bad}(i,t,T)}$
+and $m=\beta\delta|A|\sum_i\omega_i$. Linearity and the hypothesis give
+$0\le\mathbb E B\le m$. A finite weighted mean has at least one
+positive-weight term no larger than the mean: otherwise the weighted sum would be strictly larger.
+Apply this fact to
+$$\frac{\sum_bY_b^2}{D^2}+\frac{B(T)}{4m}.$$
+Use zero for the second summand when $m=0$, as in Lean's real division. The expectation
+is at most $1$ (the proof budgets $1/2$ for each summand, with $1/4$ available
+for the second when $m>0$). Both terms are nonnegative, so the selected sample satisfies
+both bounds. When $m=0$, $\mathbb EB=0$ and all positive-weight samples have $B=0$.
+The proof uses no independence between the bad events or between the two constraints.
+The moment split is at `src/Development/AutomorphicArithmetic/ThickFrames/select.lean:5–40`,
+the positive-weight averaging at `src/Development/AutomorphicArithmetic/ThickFrames/select.lean:42–58`,
+and the two estimates and their combination at
+`src/Development/AutomorphicArithmetic/ThickFrames/select.lean:78–174`. $\square$
+
+#### How the archive pays for a bad orbit
+
+For a step $h$, let $d=\operatorname{addOrderOf}(h)$ and choose $b$ with $t=b+i h$
+for some natural $i$. On indices $0\le j<d$ the map $j\mapsto b+jh$ is injective:
+equality implies $d\mid j-k$. This is the distinct-coordinate hypothesis behind the
+orbit sampling law. Summing the product weights on all group points outside its image
+gives $1$, and leaves the same product law on the image. Reduce $i$ modulo $d$ to
+$i_0$. In the joint event that $t$ is present and the orbit is bad, split the sum at
+$i_0$. The absent branch contributes zero and the present branch contributes $p_t$
+times the probability of failure after inserting $i_0$ into a sample from
+$\{0,\ldots,d-1\}\setminus\{i_0\}$. This identity holds even for $p_t=0$.
+It is `src/Development/AutomorphicArithmetic/ThickFrames/orbitSum.lean:63–77`,
+`src/Development/AutomorphicArithmetic/ThickFrames/orbitSum.lean:113–130` and
+`src/Development/AutomorphicArithmetic/ThickFrames/orbitSum.lean:134–159`.
+
+Here are the three bad events in the forced sample. Use $\ell=(6r+1)u$ and let
+$M_0+1$ fit into the $\lfloor d/\ell\rfloor$ full tiles. Assume
+$3\delta/4\le p_j\le\delta$, $0\le\delta\le1$, and $u\ge1$.
+The windows are sets of residues, so a window of length $L$ has at most $L$ distinct
+positions even if the modular indices repeat.
+The definitions are in `src/Formalism/SubspaceCounting/StatementB.lean:9–13`
+and `src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean:10–28`.
+
+1. **Short windows.** If one of the $d$ length-$L_2$ windows has more than $K$
+   retained points, at least $K$ of its points were selected outside the forced
+   position. Union over $K$-subsets of the remaining window: each is retained with
+   probability at most $\delta^K$. Thus the contribution is at most
+   $d\binom{L_2}{K}\delta^K$. It is zero if there are too few distinct positions.
+2. **Marked tiles.** A tile is divided into $6r+1$ disjoint cells of width $u$.
+   In the odd-numbered cells require emptiness, and in the even-numbered cells require
+   exactly one retained point, at an even position. In an empty cell the probability
+   is at least $(1-\delta)^u$. In a singleton cell sum disjoint singleton events over
+   at least $\lfloor u/2\rfloor$ even positions, giving at least
+   $\lfloor u/2\rfloor(3\delta/4)(1-\delta)^{u-1}$.
+   Their product, with exponents $3r+1$ and $3r$ respectively, is $\pi=\operatorname{markedLow}$.
+   Starting at any full tile, take that tile and the next $M_0$ cyclically. Erase the tile
+   containing the forced point if it occurs. At least $M_0$ distinct tiles remain, and
+   their failure events factor because the tiles have disjoint coordinates.
+   The probability that one of these cyclic blocks has no marked tile is at most
+   $d(1-\pi)^{M_0}$, since there are at most $d$ starting tiles.
+3. **Long windows.** Failure of capacity $N_1$ on a length-$G'$ window implies that
+   at least $N_1-1$ unforced positions were selected, the threshold used in the source
+   (a natural subtraction). For an increasing event on a finite set one can replace
+   each probability $p_j$ by $\delta$: holding the other coordinates fixed, the
+   expectation is affine with nonnegative slope in $p_j$ by the absent/present split.
+   Extend the resulting uniform sample to $G'$ positions to bound the tail by
+   $\operatorname{binUpper}(G',\delta,N_1-1)$, the sum of binomial masses from that threshold
+   to $G'$. Union over the $d$ starts.
+
+The indicator of failure of the conjunction is bounded by the sum of the three
+indicators. This proves `src/Development/AutomorphicArithmetic/ThickFrames/NotGoodLe.lean:84–138`.
+Short- and long-window restriction to the coordinates of the window is in the same file
+at `src/Development/AutomorphicArithmetic/ThickFrames/NotGoodLe.lean:20–82`.
+The probability comparisons are in `src/Development/AutomorphicArithmetic/ThickFrames/TailLe.lean:7–41`,
+`src/Development/AutomorphicArithmetic/ThickFrames/MarkedGe.lean:98–185`, and
+`src/Development/AutomorphicArithmetic/ThickFrames/TilesLe.lean:26–105`.
+Restriction and factorization in the proof follow by splitting each subset into its
+intersections with disjoint coordinate sets. The weight factors, and summing over
+unused coordinates gives $1$. This is the split underlying
+`src/Development/AutomorphicArithmetic/ThickFrames/expectationSpec.lean:101–129`.
+The sum over starts needs no independence of overlapping windows. Independence is used
+for distinct points and for disjoint cells and tiles. The factor $4$ in the final weighted
+bad-point bound comes from the selection lemma, whereas the factors $d$ come from counting
+possible starts.
+
+#### The host-scale existence statement and proof
+
+**Proposition (top places at host scale).** [Lean, read]
+Fix $\varepsilon>0$, an upper size and index constant $C_o$, and a window bound $L_b$.
+Set $H_e=2+8\varepsilon$, $\delta=x^{-\varepsilon/8}$,
+$K=\lceil8(H_e+2)/\varepsilon\rceil$ and $r=K+1$. There exist $C_b>0$ and $x_0$
+such that for $x\ge x_0$ the following holds. Take a finite abelian group $A$ of order $N$
+with $x^{H_e}/2\le N\le C_o x^{H_e}$, a subgroup $A_0$ of index $o\le C_o$, and a natural
+$L_2\le L_b$. For each label in a finite set of natural numbers choose a step $h_p$
+of order at least $x^{\varepsilon/4}$ and a nonnegative weight $\omega_p$. Use any
+base-point function $b(h,t)$ with $t\in b(h,t)+\langle h\rangle$.
+Then there is $TT\subseteq A$ of size between $\delta N/2$ and $2\delta N$.
+For each coset $\gamma+A_0$, its count differs from $w_\gamma|TT|/(3o+1)$
+by at most $x^{-1+\varepsilon}|TT|$, where $w_\gamma=4$ for the subgroup
+and $3$ otherwise. The weighted count of retained points failing the three orbit
+conditions above is at most $4 C_b x^{-2}\delta N\sum_p\omega_p$.
+This is `src/Development/AutomorphicArithmetic/ThickFrames/topsGroup.lean:64–75`.
+
+*Proof.* First fit the orbit parameters to the largest and smallest orbit orders.
+With $u=\lceil1/\delta\rceil$, use
+$$M_0=\lceil (H_e+3)\log x\cdot 10^{6r+1}\rceil,\qquad
+G'=(M_0+5)(6r+1)u,\qquad
+N_1=1+\left\lceil\max(6eG'\delta,(H_e+3)\log_2 x)\right\rceil.$$
+These are the parameters of `IsGoodOrbit` at
+`src/Formalism/SharpRestriction/GrowthBounds/UnramifiedQuadraticSetting.lean:239–252`.
+For $x\ge1$, $u\le2x^{\varepsilon/8}$ and $M_0+1\le ((H_e+3)10^{6r+1}+2)(\log x+1)$.
+Since $\log x+1=o(x^{\varepsilon/8})$, the product $(M_0+1)(6r+1)u$ is eventually at most
+$x^{\varepsilon/4}\le d$. The upper bound $d\le N\le C_o x^{H_e}$ converts each local
+probability into a bound uniform in the orbit.
+
+For short windows $\delta^K\le x^{-H_e-2}$ and $\binom{L_2}{K}\le (\max(L_b,1))^K$.
+For tiles take $x$ large enough that $\delta\le1/100$. Then
+$1\le u\delta\le1+\delta$, $\log(1-\delta)\ge-\delta/(1-\delta)$,
+and $u\delta/(1-\delta)\le 103/100$. Hence $(1-\delta)^u\ge 3/10$ using
+$e^{103/100}<10/3$. Also $\lfloor u/2\rfloor\delta\ge(1-\delta)/2\ge99/200$.
+The singleton factor is therefore at least $(99/200)(3/4)(3/10)>1/10$.
+Both factors are at most $1$, using $\lfloor u/2\rfloor\delta\le u\delta/2\le1$.
+Thus $\pi\ge10^{-(6r+1)}$ and $(1-\pi)^{M_0}\le e^{-\pi M_0}\le x^{-H_e-3}$.
+For the binomial bound put $J=N_1-1$. If $J=0$ the tail is $1$.
+For $J\ge1$, each summand with $j\ge J$ is at most $(eG'\delta/j)^j\le 6^{-j}$:
+use $\binom{G'}j\le (G')^j/j!$ and $j^j/j!\le e^j$ from the exponential series.
+Summing the geometric tail gives $(6/5)6^{-J}\le3^{-J}\le e^{-J}$,
+which is at most $x^{-H_e-3}$ since $\log_2 x\ge\log x$ at $x\ge1$.
+After multiplication by $d$ the three contributions sum to at most $C_b x^{-2}$
+with $C_b=(|C_o|+1)((\max(L_b,1))^K+2)$. These estimates are the proof of
+`src/Development/AutomorphicArithmetic/ThickFrames/orbitTerms.lean:7–94`,
+`src/Development/AutomorphicArithmetic/ThickFrames/orbitTerms.lean:97–261` and
+`src/Development/AutomorphicArithmetic/ThickFrames/MarkedLowBounds.lean:6–95`.
+
+Now sample with $p_a=\delta$ on $A_0$ and $3\delta/4$ elsewhere. Take classes
+in $A/A_0$, $D=\sqrt{2\delta N}$ and $\beta=C_b x^{-2}$. Multiplying the forced
+bad probability by $p_t\le\delta$ verifies the selection lemma. Its output has the
+weighted bad count and all class deviations at most $D$.
+Writing $n_0=|A_0|$ and $\eta=x^{-1}$, we have $4oD\le\eta\delta n_0$ for large $x$.
+Indeed $N=o n_0$, and squaring reduces this inequality to $32o^4x^2\le\delta N$.
+This follows from $64C_o^4\le x^\varepsilon$ and
+$\delta x^{H_e}\ge x^{2+\varepsilon}$ for $x\ge1$.
+
+Each coset has $n_0$ points and its expected count is $w_\gamma\delta n_0/4$.
+Their sum is $\mu=(3o+1)\delta n_0/4$, so $\bigl||TT|-\mu\bigr|\le oD\le\delta n_0/4$.
+This gives $|TT|\ge3\delta N/4$ and $|TT|\le2\delta N$.
+Replacing the expected coset count by $w_\gamma|TT|/(3o+1)$ adds at most
+$4oD/(3o+1)\le2D$. The total deviation is at most $3D\le\eta|TT|$ by the
+bound on $4oD$ and $o\ge1$. Finally $\eta\le x^{-1+\varepsilon}$.
+This is the calculation of `src/Development/AutomorphicArithmetic/ThickFrames/SharesOfCounts.lean:8–112`,
+called from `src/Development/AutomorphicArithmetic/ThickFrames/topsGroup.lean:90–143` after
+the scale comparison at `src/Development/AutomorphicArithmetic/ThickFrames/topsGroup.lean:12–38`.
+$\square$
+
+#### From the two sets to the host
+
+`src/Development/AutomorphicArithmetic/ThickFrames/topsFrame.lean:9–41` identifies $N$
+with the frame order and $o$ with the subgroup index. The coset conclusion becomes
+`Shares`. In `src/Development/AutomorphicArithmetic/ThickFrames/topsBase.lean:79–139`,
+take $b=\operatorname{bsH}$, and use primes $p<\lceil X'\rceil$ of inert class
+whose step order is at least $x^{\varepsilon/4}$, with weights $\log p/p$.
+Here $0<\varepsilon<1/52$, $C_o\ge1$, and $k\le2x^{9/2+10\varepsilon}$.
+For every inert prime assume $p>x^{\varepsilon/(5C_o)}$. At $x\ge16$,
+$\log((kx^{26})^4)\le124\log x$ and
+$\log p>(\varepsilon/(5C_o))\log x$. Thus the ceiling of their ratio is
+at most $620C_o/\varepsilon+1$, and twice the supremum of those ceilings bounds
+$L_2$ by $2(620C_o/\varepsilon+1)$. This is the scale calculation at
+`src/Development/AutomorphicArithmetic/ThickFrames/topsBase.lean:9–71`.
+The orbit identity for `bsH` follows from its witness or the fallback $b=t$,
+and for inert primes the local step is $h_p$ itself
+(`src/Formalism/LocalToGlobal/GlobalTheory/IsResidueClassZero.lean:86,267`).
+The coset normalization is `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:139`
+and the resulting prime bound is `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:36–42`. Substituting the scale's
+$\delta_1$ and the orbit parameters gives precisely the weighted count `BadOK`.
+
+In `src/Development/AutomorphicArithmetic/ThickFrames/topsChoiceH.lean:9–67`,
+use $C_o=\max(C_8,2)$. The rank and host bounds supply the size, index, and $k$
+hypotheses. The pair row gives quadratic symbol $+1$ for primes up to
+$Y^{\varepsilon/5}$. An inert odd prime has the opposite symbol, and $2$
+is in the small class since it divides the tower modulus. Thus inert primes
+exceed $Y^{\varepsilon/5}\ge x^{\varepsilon/(5C_o)}$, by $x^{1/J}\le Y$
+and $1\le J\le C_o$.
+
+The consumption is visible in
+`src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:207–227`.
+First `hof_thick` returns $T_2$, `NoRel`, and the lower and upper bounds
+from §17.4.4. Its actual window is
+$L_w=10\lceil405\log x\rceil+2\lceil30/\varepsilon\rceil+22$.
+At $\log x\ge1$ this is at most $(4084+60/\varepsilon)\log x$, as used by
+`src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:58–95`.
+Then `topsChoiceH` fills the `TT` field. The two bounds $\delta_1 n/2\le |TT|\le 2\delta_1 n$
+and $x^{-\varepsilon}n\le|T_2|$ enter `HostVal` next to each other
+(`src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PairRowIffQdRows.lean:78–84`).
+The Behrend lower bound and $4L_w|T_2|\le n_0$ enter `HostGood` separately at
+`src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:242–245`,
+and `BadOK` and `Shares` consume the sampled set. The archive's random step gives a small
+weighted bad count even when it is positive. The three-element supports of the
+example illustrate `NoRel` and deletion, while the host-scale `NoRel` and its
+near-linear size follow from the sphere proof.
+
+**Reading boundary.** The Bernoulli selection and its host conversion use archive A2,
+Lean `v4.33.1`, joined SHA-256
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+The arithmetic pair row is an input. The deeper analytic suppliers
+`zFRDirichlet` (`src/Formalism/LandauZeroFreeBounds/NoZeroComplex.lean:32`),
+`siegelLower` (`src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:17`), and
+`pnt_progressions_relative_weak_holds`
+(`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22`)
+retain their existing [Lean]/[Open] reading boundaries in P13. The example is an exposition of finite
+averaging and alteration. Erdős's 1964 survey, §3, p. 135, credits Szele's directed Hamiltonian path count
+as a classical first-moment precedent. [Original survey](https://users.renyi.hu/~p_erdos/1964-26.pdf)
+
+### 17.4.7 From the von Mangoldt sum to the prime count
+
+The prime supply in this chapter needs a count of primes in a residue class. The analytic input estimates a sum with von Mangoldt weights, so it includes higher prime powers, and each surviving prime still has weight $\log p$. There is a second complication when an exceptional real zero is present. The weighted main term may be small because two terms nearly cancel. To preserve a relative bound, we need a lower bound on that main term before removing the higher powers. We then apply partial summation on $[\sqrt X,X]$ and pay separately for the count below $\sqrt X$.
+
+**A finite example.** Give the primes $2,3,5$ the rational weights $2,3,5$, respectively. Let $A(t)$ be their cumulative weight at $t$, including the jump at $t$. With $f(t)=1/t$, the count on $(2,5]$ is $3/3+5/5=2$. Partial summation gives the same answer by hand:
+
+$$
+\frac{10}{5}-\frac{2}{2}
++2\left(\frac12-\frac13\right)
++5\left(\frac13-\frac15\right)=2.
+$$
+
+The boundary value at $5$ includes its jump, and the one at $2$ subtracts its jump. The integral sees the constant values $2$ and $5$ on the two intervening intervals. The proof below uses logarithmic weights and the same endpoint convention.
+
+**Definitions.** Fix any predicate $P$ on positive integers. For real $u>1$, define $N(u)=\#\{p\le u:p\text{ prime},\ P(p)\}$, $T(u)=\sum_{p\le u,\ p\text{ prime},\ P(p)}\log p$, and $\Psi(u)=\sum_{1\le n\le u,\ P(n)}\Lambda(n)$. Here $\Lambda(p^k)=\log p$ for primes $p$ and integers $k\ge1$, and $\Lambda(n)=0$ otherwise. Real bounds on the sums mean that integers up to and including $\lfloor u\rfloor$ are used. Put
+$L(v)=\int_2^v dt/\log t$ for $v>1$ and, for $u>1$ and $\beta>0$, write
+
+$$
+M(u)=u-\theta u^\beta/\beta,\qquad
+E(u)=L(u)-\theta L(u^\beta),\qquad
+F_a(u;B)=\exp\left(-\frac{a\log u}{\log B}\right)+\exp\left(-\sqrt{a\log u}\right).
+$$
+
+When $\theta=0$, read $M(u)=u$ and $E(u)=L(u)$ for every real $\beta$. The archive uses total real operations and eliminates the zero-coefficient term in this case.
+
+**Conditional deweighting proposition [Lean, read].** Given positive reals $c_2,c_3,C,c_S$, set
+
+$$
+c=\min(c_S,1),\qquad c'_2=16(c_2+4+64/c),\qquad
+d=\min(c_3/2,1/16),\qquad C'=3C+4.
+$$
+
+For every $B\ge3$, every $1\le\phi\le B$, every predicate $P$, and every integer $\theta$ and real $\beta$, assume either $\theta=0$, or $\theta\in\{-1,1\}$, $\beta\ge7/8$ and $1-\beta\ge c_S/B^3$. If for every real $u\ge B^{c_2}$,
+
+$$
+|\phi\Psi(u)-M(u)|\le C F_{c_3}(u;B)M(u),
+$$
+
+then for every real $X\ge B^{c'_2}$,
+
+$$
+|\phi N(X)-E(X)|\le C' F_d(X;B) E(X).
+$$
+
+**Proof.** The partial-summation lemma uses real endpoints $1<Y\le X$. For any weights $a_n$, let $A(t)=\sum_{1\le n\le t}a_n$. For a continuously differentiable $f$ on $[Y,X]$, integrating the finitely many terms $a_n\mathbf{1}_{n\le t}f'(t)$ gives $a_n(f(X)-f(Y))$ for $n\le Y$ and $a_n(f(X)-f(n))$ for $Y<n\le X$. Hence
+$\sum_{Y<n\le X}a_nf(n)=f(X)A(X)-f(Y)A(Y)-\int_Y^X f'(t)A(t)\,dt$.
+In particular, the integral exists because it is a finite sum of integrable functions. Apply this with $a_p=\log p$ for primes satisfying $P$, zero elsewhere, and $f(t)=1/\log t$. Then $a_pf(p)=1$ at each counted prime. Write $w(t)=1/(t\log^2t)$, so $f'=-w$. On the main-term side $M'(t)=1-\theta t^{\beta-1}$ and $E'(t)=M'(t)/\log t$, by $\log(t^\beta)=\beta\log t$. Thus $(E-Mf)'=wM$, and
+$E(X)-E(Y)=f(X)M(X)-f(Y)M(Y)+\int_Y^X w(t)M(t)\,dt$.
+If $|\phi T(u)-M(u)|\le rM(u)$ on the closed interval, with $r\ge0$ and $M\ge0$ there, subtract the two identities and use $f,w>0$ to get
+
+$$
+|\phi(N(X)-N(Y))-(E(X)-E(Y))|
+\le r\left(E(X)-E(Y)+2M(Y)/\log Y\right).
+$$
+
+The factor $2$ arises because taking absolute values turns the subtracted lower boundary term into an added cost.
+
+Next, $\Psi(u)-T(u)$ is the nonnegative sum over $p^k\le u$ with $k\ge2$ and $P(p^k)$, each with weight $\log p$. Write $\Theta(v)=\sum_{p\le v}\log p$ with no filter. We have $\Theta(v)\le v\log 4$ for $v\ge0$. Indeed, the primorial at integer $n$ is at most $4^n$ by induction. The cases $0,1,2$ are immediate. At an odd integer $2m+1$ with $m\ge1$, the primes in $(m+1,2m+1]$ divide $\binom{2m+1}{m}$ and the product of these distinct primes divides it. The two equal central coefficients in row $2m+1$ each are at most $2^{2m}$. Multiplying by the bound $4^{m+1}$ at $m+1$ proves the odd case. At even $n\ge4$ the primorial equals that at $n-1$. Taking logs and using $\lfloor v\rfloor\le v$ proves the claim. There are at most $\log u/\log 2$ exponents $k\ge2$ with $2^k\le u$ and each gives at most $\Theta(u^{1/k})\le\sqrt u\log 4$. For every real $u\ge1$ this gives
+
+$$
+0\le\Psi(u)-T(u)\le 2\sqrt u\log u.
+$$
+
+For the exceptional main term put $\delta=c/B^3$. In the zero-sign case replace $\beta$ by $7/8$, which leaves $M$ and $E$ unchanged and gives $\delta\le1/27\le1/8$. In all cases now $7/8\le\beta\le1-\delta$. When $\log u\ge4$ we have $\delta u\le M(u)\le3u$. For the upper bound use $u^\beta/\beta\le2u$. The lower bound is immediate for $\theta=0,-1$. For $\theta=1$ put $h=1-\beta$. Then $u/u^\beta=\exp(h\log u)\ge1+4h$. Since $\beta^2\ge3/4$ and $\beta^2\ge1-2h$, we have $(1+4h)\beta^2\ge1+h\ge1$. It follows that $u^\beta/\beta\le\beta u$ and $M(u)\ge hu\ge\delta u$. Also $0\le L(v)\le(3/2)v$ for $v\ge2$, from $\log 2>2/3$. When $u\ge4$, both $u$ and $u^\beta\ge\sqrt u$ are at least $2$, so $|E(u)|\le3u$.
+
+Take $s=X^{1/16}$ and $Y=s^8$. We have $s\ge B^{c_2+4+64/c}\ge B^{c_2}$ and $\delta s\ge64B$, since $B^{64/c}\ge 64/c$ by $\log B\ge1$ and $e^v\ge1+v$. Thus $s\ge64B$, $\log s\ge1$, and every $u\in[Y,X]$ lies in the input range and has $\log u\ge8$. Set $e=F_d(X;B)$ and $\rho=Ce$. Since $\log u\ge(\log X)/2$ and $d\le c_3/2$, we have $d\log X\le c_3\log u$. Monotonicity of the square root and exponential gives $F_{c_3}(u;B)\le e$. Also $1/s\le\exp(-d\log X/\log B)\le e$, since $16d\le1\le\log B$.
+
+To pay for the powers, put $v=u^{1/4}\ge s^2$. Then $2\sqrt u\log u=8v^2\log v\le8v^3$. The inequality $8Bs\le\delta v$, from $\delta s\ge64B$, implies $8Bv^3\le\delta u/s\le M(u)/s$. The hypothesis and the prime-power estimate therefore give $|\phi T(u)-M(u)|\le(\rho+1/s)M(u)$ throughout the closed interval.
+
+Finally $M(Y)/\log Y\le Y$ and $|E(Y)|\le3Y$. At the upper endpoint
+
+$$
+M(X)/\log X\ge\delta s^{16}/(16\log s)\ge 8s^{14},
+$$
+
+using $\log s\le s$ and $\delta s\ge64B\ge192>128$. The main-term integral is nonnegative, so $E(X)\ge8s^{14}-4s^8\ge4s^{10}>0$. In the partial-summation bound, the bracket is at most $E(X)+5s^8\le3E(X)$. To restore the cumulative count, add the cost at $Y$, bounded by $BN(Y)+3Y\le(B+3)s^8\le s^9\le E(X)/s$. Here $0\le N(Y)\le Y$ and $B+3\le s$. The final error is at most $(3\rho+4/s)E(X)\le(3C+4)eE(X)$, as asserted.
+
+**A symbolic error budget.** Take $B=3$, $\phi=2$, $\theta=1$, $\beta=7/8$, $c_S=c_2=C=1$ and $c_3=1/8$. This gives $c=1$, $\delta=1/27\le1/8$, $d=1/16$, and $c'_2=1104$. At $s=3^{69}$ and $X=s^{16}$, the output threshold is attained, $\delta s=3^{66}\ge192$, and $Y=3^{552}\ge3$. If the weighted hypothesis is supplied, then $e=\exp(-69)+\exp(-\sqrt{69\log 3})$ and $1/s=3^{-69}\le\exp(-69)$. The interval costs $3e+3\cdot3^{-69}$ in relative units and the lower endpoint adds at most $3^{-69}$, giving a total at most $7e$. These parameters illustrate the inequalities in the conditional theorem.
+
+**Consumption and reading scope.** In `primesRel_holds`, choose the common width $c_1=\min(1/8,a,a')$ from the positive widths $a,a'$ of the exceptional-zero and weighted-count inputs. The exceptional-zero input supplies uniqueness and the separation constant $c_S$ for $c_S/(M^2\log M)\le1-\beta$ at modulus $M\ge3$. For a reduced class $b$, the exceptional character has square one on the unit $b$, hence its integer value $\theta$ is $\pm1$. The supplied $\beta\ge7/8$ and $\log M\le M$ give the exceptional branch of the proposition. The alternative in `ExcData` supplies $\theta=0$ when no exceptional zero exists. The single specialization of the proposition is $B=M$, $\phi=\varphi(M)$, $P(n)=(n\equiv b\pmod M)$, with the same $\theta,\beta$ as in `ExcData`. Under this substitution $\Psi$ is `psiAP`, and the returned $c'_2,d,C'$ fill the threshold, decay and multiplier of the counting field of `PrimesRel`. The uniqueness and stronger separation fields come directly from the exceptional-zero input.
+
+**Source map.** The archive is A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The following ranges identify the local reading.
+
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimeCountRelativeErrorOfPsiRelativeError.lean:10–114` gives the weights, calculus and Abel identity. In that file lines 116–156 give the interval estimate and filtered power bound, lines 158–301 give the main-term and endpoint estimates, and lines 309–388 give the uniform constants and sign cases.
+- `src/Formalism/GL3MeanSquares/SmoothedRemainderRealIntegralFormula.lean:105–107` defines the main term. Mathlib's `integrableOn_mul_sum_Icc` and `sum_mul_eq_sub_sub_integral_mul` use constant sums on unit subintervals and telescoping. Its elementary `Chebyshev.psi_sub_theta_le` groups by prime-power exponent and uses the primorial bound. [Mathlib/NumberTheory/AbelSummation.lean:58–172](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/AbelSummation.lean#L58-L172) · [Mathlib/NumberTheory/Chebyshev.lean:381–442](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Chebyshev.lean#L381-L442) · [Mathlib/NumberTheory/Primorial.lean:122–145](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Primorial.lean#L122-L145) · [Mathlib/NumberTheory/Chebyshev.lean:494–496](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Chebyshev.lean#L494-L496)
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimeCountRelativeErrorOfPsiRelativeErrorStatement.lean:8–9` exports the proposition. `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimesInProgressionsRelativeError.lean:11–51` passes it the progression data. `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ZerosDisc.lean:24–43` gives the three fields and their hypotheses.
+- The weighted input `PsiRel.psiAP_relative` in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ChebyshevPsiProgressionRelativeError.lean:294` and the exceptional-zero input `GlobalTheory.ExceptionalPair.main` in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExceptionalDirichletZeroUniqueZeroFreeRegion.lean:47` remain [Lean], with their deeper proofs [Open] for this reading.
+
+Chebyshev's *Mémoire sur les nombres premiers* defines the logarithm-weighted prime sum and accounts for higher prime powers by comparing coefficients of $\log p$ in a factorial identity. This is a historical antecedent of the elementary prime-power accounting above. [Chebyshev (1852), pp. 369–370](https://www.numdam.org/item/JMPA_1852_1_17__366_0.pdf#page=5)
+
+### 17.4.8 Short-norm primes from the principal ray class
+
+**Motivation.** The host construction needs two large rational primes $g_0,g_1$, each equipped with an integral element of the host's quadratic subfield. Its product with its conjugate must equal the corresponding prime, and it must reduce to $1$ at the host modulus. The archimedean norm equation and the residue constraint are simultaneous conditions on a generator. The supply comes from counting ideals in the principal ray class, then passing from weighted ideals to distinct rational primes.
+
+**Examples.** Take $d=107$ and $M=5$. The tuple $(A,B,p)=(57,5,1481)$ satisfies all three conditions. We have $57^2+107\cdot25=5924=4\cdot1481$, $5\mid5$, and $10\mid50$. With $s=\sqrt{-107}$ and $\omega=(1+s)/2$, its element is $26+5\omega=1+5(5+\omega)$. By contrast, $(39,5,1049)$ has $39^2+107\cdot25=4196=4\cdot1049$ and $5\mid5$, but $10$ does not divide $32$. The element $17+5\omega$ reduces to $2$. Since $1049\equiv4\pmod5$, no generator of norm $1049$ can reduce to $1$ modulo $5$ because taking the norm of such a residue would give $1$ modulo $5$. To certify primality by trial division, test $107$ against $2,3,5,7$, $1049$ against the primes up to $31$, and $1481$ against the primes up to $37$.
+
+**Definitions and the norm lemma [Lean, read].** Let $d$ be prime with $d\equiv3\pmod4$, $K=\mathbb Q(s)$ with $s^2=-d$, and $\mathfrak m=M\mathcal O_K$. The integral basis is $1,\omega$ with $\omega=(1+s)/2$. The archive's predicate $\operatorname{NormOne}(d,M,p)$ says there are integers $A,B$ with $A^2+dB^2=4p$, $M\mid B$, and $2M\mid A-2-B$. In that basis, $\pi=(A+Bs)/2=(A-B)/2+B\omega$. The equation gives $A\equiv B\pmod2$. The two divisibilities say exactly that $\pi=1+M(v+u\omega)$ for integers $u,v$. Its conjugate product is $p$. For prime $p$, multiplication by $\pi$ has determinant $p$ on the integral lattice, so the quotient by $(\pi)$ has $p$ elements and is a field. Thus $\pi$ and its conjugate each generate a prime ideal. Their product is $(p)$, with equality of the two ideals possible at ramified primes.
+
+The Lean lemma allows an ambient number field $E$ and a rational automorphism $c$ with $c(s)=-s$. The witness lies in $\mathcal O_E\cap\mathbb Q(s)$ and satisfies $\pi c(\pi)=p$, a quadratic conjugate product even when $E$ has higher degree. The forward proof uses the monic equation $\omega^2-\omega+(d+1)/4=0$ and constructs $1+M(v+u\omega)$. For the reverse implication, write $\pi-1=My$ and, for $M>0$, divide in the quadratic subfield to see that $y=a+bs$ lies there. Its trace $t=2a$ and norm $n=a^2+db^2$ are rational algebraic integers. The rational number $k=d(2b)$ has square $d(4n-t^2)$, so it is integral, and primality of $d$ yields $d\mid k$. Put $u=k/d=2b$. Reducing $t^2+du^2=4n$ modulo $2$ gives $2\mid t-u$. Now $A=2+Mt$, $B=Mu$ give both divisibilities and the norm equation. At $M=0$ the congruence forces $\pi=1$, and Lean uses $p=1$, $A=2$, $B=0$. The host specialization identifies the sign of conjugation by the complex embedding that sends its distinguished square root to $i\sqrt d$.
+
+The finite ray class group is the group of fractional ideals prime to $\mathfrak m$ modulo principal ideals with a generator congruent to $1$ at the primes of $\mathfrak m$. There is no real-place sign condition. The archive's `rayI` is generated by the primes away from $\mathfrak m$ and `rayP` by principal ideals of integral elements reducing to $1$. Its `rayPrimes` selects nonzero prime ideals away from $\mathfrak m$ with norm at most the given bound and fractional ideal in `rayP`. The actual producer works with `RayData` and norm fibres of the quotient. In this presentation a nonzero integral ideal $I$ prime to $\mathfrak m$ has identity class exactly when $(a)I=(b)$ for nonzero integral $a,b$ both congruent to $1$. Indeed $(b)\subseteq(a)$ gives $b=a\pi$ with $\pi$ integral. Cancelling $(a)$ gives $I=(\pi)$, and $\pi-1=(b-1)-\pi(a-1)\in\mathfrak m$. The converse uses $a=1$. See the full [integral multiplier and projection argument](#1749-the-finite-character-projection-onto-the-principal-ray). This also explains how products and inverses in `rayP` can describe an integral ray-principal ideal. [Milne, *Class Field Theory*, v4.03, Chapter V, §1, pp. 149–150, Definition 1.3 and Proposition 1.6](https://www.jmilne.org/math/CourseNotes/CFT.pdf).
+
+All archive references use A2 (`lean.tar.gz`, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` throughout this subsection). The source declarations are `src/Development/AbelianVarietyTheory/Definitions/Foundations/RayPrimes.lean:26–46`, `src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NonemptyRayDataOfNeZero.lean:194–211,238–252`, and `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/NormOneIffOfSqrt.lean:12–138`.
+
+**Proposition (conditional short-norm supply) [Lean, read].** Use the ray-family construction and analytic estimates specified below. There exist absolute positive real constants $a,c,c'$ such that for every prime $d\ge100$ with $d\equiv3\pmod4$, every natural $M\ge3$, and all reals $X\ge1$ and $h\le1$ with
+$\log Q\le c\sqrt{\log X}$ and $\exp(-c\sqrt{\log X})\le h$, where $Q=4dM^2$, the number $P$ of rational primes $X<p\le X(1+h)$ satisfying $\operatorname{NormOne}(d,M,p)$ obeys $P\ge c'hX/(Q^a\log X)$. All three constants precede $d,M,X,h$ in the quantifiers. The logarithm condition forces $\log X>0$. The archive supplies the named inputs and packages the result as `ShortNorm`. The proof here is conditional on the stated inputs.
+
+**Proof, ray coefficients.** Write $G$ for the ray class group additively, so $0$ is its identity. For $g\in G$, let $a_g(n)$ count nonzero integral ideals prime to $\mathfrak m$ with norm $n$ in class $g$. Define $\lambda_g(n)$ by summing the ideal von Mangoldt weight over that same fibre. The weight of $\mathfrak p^k$, $k\ge1$, is $\log N \mathfrak p$ and every other ideal has weight zero. At a fixed rational norm $n$, the radicals of the contributing ideals are distinct because powers of the same prime ideal have strictly increasing norm. If there is a contributor, $n$ is a power of a rational prime $\ell$, all those radicals divide $(\ell)$, and they are pairwise coprime. Their product divides $(\ell)$, whose norm is $\ell^2$. Taking logs gives $\sum_g\lambda_g(n)\le2\Lambda(n)$, using the disjointness of class fibres. If $\lambda_0(p)\ne0$ for prime $p$, a norm-$p$ ideal lies in the identity class. The cancellation argument above produces $\pi\equiv1\pmod{\mathfrak m}$, and the integral basis calculation gives $\operatorname{NormOne}(d,M,p)$. The producer uses this implication to restrict the support at rational primes.
+
+The constructor `exists_lFam_ray` takes the imaginary quadratic field of discriminant $-d$ and sets the family parameter to $Q$ and the ideal counting density to $\kappa=2\pi/(\sqrt d\,M^2)$. The ray class bound $|G|\le h_K M^2$, with $h_K\le4d$, gives $|G|\le Q$. The numerical bounds $Q\ge4$ and $1/Q\le\kappa\le4$ follow from $d\ge100$ and $M\ge3$. At norm zero all ideal counts vanish. At norm one only the unit ideal occurs, in class $0$. The constructor inserts the ideal count with error at most $10\sqrt y$ from $\kappa y$ and the theta sum with error at most $Q^{10}t$ from $\kappa/t$ for $0<t\le1$. The proof obtains these by grouping the shifted binary quadratic form by its positive integral norm values. The determinant factor is $\alpha\gamma=dM^4/4$, so $\pi/\sqrt{\alpha\gamma}=\kappa$. It also inserts the ideal-divisor convolution for $a_g(n)\log n$ and the real-character convolution inequalities in `LFam.sq`. For the latter a character squaring to $1$ takes only $\pm1$, and its real part is multiplicative.
+
+Source declarations appear in `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/LamIdealOfNotPrimePow.lean:12–69,94–128`, `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/SumLamIdealLe.lean:13–170`, `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExistsLFamRay.lean:21–128`, `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExistsLFamRayStatement.lean:8–9`, and `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayCountThetaFibreCount.lean:11–121`.
+
+**Proof, the weighted short interval.** For each character $\chi$ of $G$ let $\psi_\chi(u)=\sum_{1\le n\le u}\sum_g\chi(g)\lambda_g(n)$. The analytic inputs give a common zero-free region, with at most one simple exceptional zero $\beta$ in the family, real and belonging to a character squaring to $1$. In detail, `zeros` takes the minimum of the two region constants and $1/20$, with region measured using $\log(Q(|\operatorname{Im}s|+2))$. That logarithm is at least $1$, so zeros in the region have real part at least $3/4$. The first region theorem excludes the other characters and nonreal zeros, the uniqueness supplier permits at most one character-zero pair, and the real-zero bound gives $1-\beta\ge\delta=c_9/Q^b$ with $b>0$, $0<c_9\le1$. The finite exceptional set for each character is empty or a singleton. For each member of the family the explicit-formula input bounds $\psi_\chi(u)-\mathbf{1}_{\chi=1}u+\sum_\beta u^\beta/\beta$ in absolute value by $C u\exp(-c_7\sqrt{\log u})$ when $u\ge2$ and $\log Q\le\sqrt{\log u}$. Here the sum is over that character's exceptional set. These estimates concern the archive's normalized functions `LFam.F` and coefficient sums `LFam.psi`.
+
+Set $L=\sqrt{\log X}$ and take $c_0=\min(1,c_7/(2(b+2)),c_7c_9/(24C))$. Under the two interval hypotheses with $c_0$, $1\le\log Q\le c_0L$ and $Y=X(1+h)\in[X,2X]$. The explicit formula applies at both endpoints. Character orthogonality gives $\sum_\chi\psi_\chi(u)=|G|\sum_{1\le n\le u}\lambda_0(n)$. Summing the errors and subtracting the endpoint formulas costs at most $3QCX\exp(-c_7L)$, since $|G|\le Q$. For an exceptional zero, concavity gives $(Y^\beta-X^\beta)/\beta\le hX^\beta$. Also $X^\beta\le X\exp(-\delta)\le X(1-\delta/2)$, using $\log X\ge1$ and $0<\delta\le1$. The same upper bound covers the empty exceptional sum.
+
+To bound the error, $Q^{b+1}\le\exp((b+1)c_0L)$ and $12C\le c_9\exp(c_7L/2)$, the latter by $1\le c_0L$ and $\exp(v)\ge1+v$. Since $(b+2)c_0\le c_7/2$, multiplication gives $12CQ^{b+1}\exp(-c_7L)\le c_9\exp(-c_0L)\le c_9h$. Thus the endpoint error costs at most $\delta hX/4$, leaving $|G|\sum_{X<n\le Y}\lambda_0(n)\ge\delta hX/4$. The weights are nonnegative, so replacing $|G|$ by $Q$ gives the weighted lower bound $e hX/Q^a$ with $a=b+1$ and $e=c_9/4$.
+
+Source declarations appear in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrivialClassShortInterval.lean:12–281` and `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TrivialClassShortIntervalStatement.lean:8–9`.
+
+**Proof, counting rational primes.** Using $\lambda_0(n)\le2\Lambda(n)$ and its prime support, split the interval sum into prime arguments and all other arguments. The former contribute at most $2P\log Y$. For the latter, enlarge the interval to $(0,Y]$ and use $2(\psi(Y)-\theta(Y))$, where $\psi,\theta$ are the ordinary rational Chebyshev functions. Mathlib supplies $\psi(Y)-\theta(Y)\le C_*\sqrt Y$. Put $D=|C_*|+1$ and $K_*=8D/e$.
+
+Choose $c=\min(c_0,1/(2(1+a)+2+K_*))$. Shrinking $c$ tightens both hypotheses. For $L=\sqrt{\log X}$, the new hypotheses force $L\ge2(1+a)+2+K_*$, since $1\le\log Q\le cL$. In particular $\log X\ge1$, $Q^a\le\exp(aL)$ and $h\ge\exp(-L)$. The inequality $1+v\le e^v$ at $v=L^2/2-(1+a)L$ gives $K_*\le\exp(v)$. Hence $K_*\sqrt X\le hX/Q^a$. Finally $\log Y\le2\log X$ and $\sqrt Y\le2\sqrt X$. The weighted sum is therefore at most $4P\log X+4D\sqrt X$, with $4D\sqrt X\le e hX/(2Q^a)$. Comparing with the lower bound gives $P\ge(e/8)hX/(Q^a\log X)$. This is the archive's $c'=e/8$.
+
+Source declarations appear in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/NormPrimesImagQuadShortIntervalLowerBound.lean:10–147`, `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/NormPrimesImagQuadShortIntervalLowerBoundStatement.lean:8–9`, `src/Development/AutomorphicArithmetic/ShortNorms/ShortNorm.lean:8–16`, and `src/Development/AutomorphicArithmetic/ShortNorms/Primes.lean:5`. The elementary Chebyshev bound uses the estimates at the square, cube and fifth roots. [Pinned Mathlib, `Mathlib/NumberTheory/Chebyshev.lean:596–604`](https://github.com/leanprover-community/mathlib4/blob/0df444a/Mathlib/NumberTheory/Chebyshev.lean#L596-L604).
+
+**Host consumption [Lean, read].** The specialization `normPrimesN` fixes $\varepsilon>0$ and obtains one threshold in $x$, before choosing $N,d,Y$. In `ModAt` the host modulus $N$ is positive, $d\mid N$, and $\log N\le3x^{\varepsilon/5}(\log x)^2$. For $t=x^{\varepsilon/5}$ and large $x$, $(\log x)^2\le t$, hence $\log(4dN^2)\le10t^2$. If $\log Y\ge8t^5$, the archive chooses $t$ large enough that $10000,50a,13/c^2\le t$ and $40\exp(-t/20)\le c'$. The third bound gives $c^2\log Y\ge104t^4$, which verifies the modulus condition. Moreover $a\log Q\le t^3/5$, $\log c'\ge-t/20$, and $\log\log Y\le38+\log Y/40$. These bounds imply $a\log Q+\log\log Y\le\log c'+\log Y/10$. Apply the supply with $X=Y$ and $h=1$ to obtain at least $Y^{9/10}$ primes in $(Y,2Y]$.
+
+The pair selector takes $Y=(k\exp(x^\varepsilon))^8$, $k\ge1$, and $1\le r\le x^5$. Writing $m=\lceil16/\varepsilon\rceil$, the Taylor term $x^{m\varepsilon}/m!$ gives $21x^{15}\le\exp(x^\varepsilon)$ eventually, so $20r^3<Y^{3/20}$. The imported `choice_count` [Lean] (`src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/DivLeRpowThreeQuarters.lean:221`) bounds the number of candidates whose $\operatorname{BB}(r,\cdot)$ sets meet the set for a fixed member by $(3r+1)(1+2r^2(Y^{3/4}+1))\le20r^3Y^{3/4}<Y^{9/10}$. If every distinct pair met, this bound would cover the entire candidate set, including the fixed member. Thus two distinct primes with disjoint sets can be selected.
+
+In `levelData` the ranks supply $k=R.k$, $r=R.r$. In `hostOfFieldOf` the actual modulus is $N=H_0.QS\cdot H_0.q\cdot H_0.d$. The bound on $\log N$ there has coefficient $2$, so the call meets the coefficient-$3$ input of `ModAt`. The two norm primes occupy $H.g$ and retain their size interval and disjointness. The congruence consequence gives $g_i\equiv1\pmod N$ for the coprimality and host splitting checks. The host norm lemma gives $\pi_i\in\mathcal O_{H.E}\cap H.K$, $\pi_i H.\mathrm{conj}(\pi_i)=g_i$ and $\pi_i-1\in N\mathcal O_{H.E}$. These are consumed in `HostGood`. The outer `hostOfField` discharges the two supply arguments with `shortNorm` and `smallOne`. The three auxiliary congruence primes use the latter argument described in §17.4.5.
+
+Source declarations appear in `src/Development/AutomorphicArithmetic/ShortNorms/normPrimesN.lean:7–157`, `src/Development/AutomorphicArithmetic/ShortNorms/typePrimesN.lean:9–128`, `src/Development/AutomorphicArithmetic/ShortNorms/levelData.lean:36–77`, `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:159–241`, `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/NormOneModEqOneAndOfDvd.lean:6–23`, and `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8–15`.
+
+**Reading boundary.** The norm bridge, ray-family assembly, two-endpoint weighted estimate, conversion to rational primes, and host-scale transfer above are local R3 [Lean, read]. The zero-free region, uniqueness and simplicity, explicit-formula estimate, and polynomial (Siegel-type) exceptional-zero separation enter through `rayClassLFunction_zero_free_region`, `rayClassLFunction_unique_simple_exceptional_zero`, `rayClassFamily_psi_with_exceptional_zero`, and `exists_rayClassLFunction_real_zero_far_from_one`. These enter this proof as named [Lean] inputs. The companion readings of the region, uniqueness and gap are in [§17.4.10](#17410-the-exceptional-zero-in-the-trivial-ray-class-interval), and the endpoint producer is in [§17.4.11](#17411-producing-the-ray-class-endpoint-formula), with their own conditional reading boundaries. The forwarding interfaces begin at line 8 of the following archive paths.
+
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayClassLFunctionZeroFreeRegionStatement.lean:8`
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayClassLFunctionUniqueSimpleExceptionalZeroStatement.lean:8`
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayClassFamilyPsiWithExceptionalZeroStatement.lean:8`
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExistsRayClassLFunctionRealZeroFarFromOneStatement.lean:8`
+
+The shifted-form parametrization and its two estimates enter through the following [Lean] interfaces. The chapter reads the count and theta assembly in [§17.4.15](#17415-ray-class-size-and-theta-counts-at-a-fixed-modulus) and the fixed-modulus weight and convolution proofs in [§17.4.16](#17416-the-ideal-level-weight-lamray-its-convolution-and-the-real-character-square). The ideal-divisor and real-character convolutions, the class-number bound and the ray-class comparison are also imported here.
+
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayClassIdealCountEqNcardShiftedBinaryFormStatement.lean:8`
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayCountThetaFibreCount.lean:68,75` (calls to the lattice and theta bounds)
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/FiniteIdealsIn.lean:82` and `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ConvRealChar.lean:361`
+- `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExistsLFamRay.lean:52–60` (calls to the class-number and ray-class bounds)
+
+The lower bound uses the exceptional term explicitly, and the exponent loss records first its possible proximity to $1$ and then the passage from the sum over characters to one ray class. The factor $\log X$ comes from the separate passage to an unweighted count.
+
+### 17.4.9 The finite character projection onto the principal ray
+
+**Motivation.** A principal prime ideal has a generator for a norm equation. The host requires a generator in a prescribed residue class, so it singles out the identity of a finer class group. The analytic estimates are indexed by characters, while the desired count is indexed by a ray class. Finite Fourier inversion connects these statements. Since the weights include prime powers, the class to test is the class of the power itself.
+
+**Examples.** In $K=\mathbb Q(i)$, Gaussian norm division makes every ideal principal. The ray class of an ideal coprime to a finite modulus is the invertible residue of a generator modulo the four Gaussian unit images. The principal-ideal criterion below proves this description.
+
+1. Take $\mathfrak m=(3)$ with empty infinite part. Since $T^2+1$ has no root modulo 3, the residue ring is the field of nine elements. The residue $1+i$ squares to $-i$ and has fourth power $-1$, hence order eight. The unit images are the subgroup of order four, leaving a ray group of order two generated by $g=[(1+i)]$. The two characters take values $1,-1$ on $g$. The only prime ideal over 2 is $\mathfrak p=(1+i)$, of norm 2. Its weight $\log 2$ averages to zero at norm 2. At norm 4 the ideal $\mathfrak p^2$ has class $g^2=1$, so the average is $\log 2$. Indeed $(1+i)^2=2i$ has the associate $-2\equiv1\pmod3$. The prime over 3 is omitted. The prime over 2 is ramified over $\mathbb Q$ and stays in the sum because it is coprime to $(3)$.
+2. Take $\mathfrak m=(5)$. Evaluating $i$ at $2$ and $-2$ identifies the residue ring with $\mathbb F_5\times\mathbb F_5$. The product map $(x,y)\mapsto xy$ on invertible pairs is surjective, with kernel exactly the four unit images $(1,1),(4,4),(2,3),(3,2)$. Thus $G\simeq\mathbb F_5^\times$. The class $g$ of $(1+i)$ maps to $3\cdot4=2$ modulo 5 and generates the group. The characters $\chi_j(g)=i^j$ for $j=0,1,2,3$ contribute $\log 2$ times $1,i,-1,-i$ at norm 2. In particular $\chi_1$ and $\chi_3$ give conjugate terms. To extract the coefficient of $g$, multiply each by $\overline{\chi_j(g)}$ before averaging. All four products then equal $\log 2$. Multiplication by $\chi_j(g)$ gives $\log 2$ times $1,-1,1,-1$ and extracts the coefficient of $g^{-1}$. Both Gaussian examples are within the finite projection's scope. The analytic constructor `exists_lFam_ray` requires $d$ prime, $d\equiv3\pmod4$, $d\ge100$ and $M\ge3$.
+
+**Definition.** Put $\mathcal O=\mathcal O_K$ and $\mathfrak m=M\mathcal O$. Here $K$ is imaginary quadratic and the modulus has empty infinite part. A finite ray character gives a Hecke character with trivial infinite component. The common modulus admits characters whose primitive conductor is a proper divisor. The family parameter $B=4dM^2$ bounds the size of the family and is distinct from both the modulus and the individual conductors. For a general field a modulus may include real places and impose positivity there. An angular character at a complex place need not factor through this finite quotient. [Milne, *Class Field Theory*, v4.03, V §1, pp. 149–150](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+The Lean group starts with the monoid of nonzero integral ideals coprime to $\mathfrak m$. It identifies $I,J$ if $(a)I=(b)J$ for nonzero $a,b\in\mathcal O$ with $a,b\equiv1\pmod{\mathfrak m}$. Relations compose by multiplying the multipliers, which stay congruent to $1$. This integral presentation agrees with the fractional-ideal ray quotient, in which one divides out principal ideals of elements locally congruent to $1$ at all finite places of the modulus (Milne, Proposition 1.6). For the identity criterion, take $J=\mathcal O$. Then $b\in(a)$, so $\pi=b/a\in\mathcal O$, and cancelling $(a)$ gives $I=(\pi)$. Also $\pi-1=(b-1)-\pi(a-1)\in\mathfrak m$. Conversely, a generator $\pi\equiv1$ supplies $a=1,b=\pi$. In particular a principal ideal $(\alpha)$ is ray-trivial exactly when some unit multiple of $\alpha$ is congruent to $1$. Two principal ideals in the coprime monoid have equal ray classes exactly when the generator residues differ by a unit image. In one direction use $(a\alpha)=(b\gamma)$. In the other, make the residues equal by changing one generator by a unit, lift their common inverse to $\beta$, and take the multipliers $\beta\gamma,\beta\alpha$.
+
+For each represented ordinary class $c$ choose a coprime ideal $L_c$ in the inverse class by taking a representative to the power $h_K-1$, where $h_K$ is the ordinary class number. Given $I$ of class $c$, choose a generator $\alpha_I$ of $IL_c$. Its residue is invertible. Multiplying $L_c$ by the ideal of a nonzero lift of that inverse produces an inverse for $[I]$ in the ray quotient. To prove finiteness, choose an integral representative of each ray class and assign it the pair $(c,\alpha_I\bmod\mathfrak m)$. Equal pairs for $I,J$ give a common inverse residue with lift $\beta$. Then $(\beta\alpha_J)I=(\beta\alpha_I)J$ by cancellation of $L_c$, so the pair assignment is injective into a finite set. This is the argument in `RayCl.finite_quot` and `RayCl.exists_inv`. The numerical bound in `card_ray_le` uses the upper estimate $|G|\le h_K\mathrm N(\mathfrak m)$ and $h_K\le4|\operatorname{disc}K|$ from named suppliers. The producer substitutes $\mathrm N(M\mathcal O)=M^2$ and $|\operatorname{disc}K|=d$.
+
+**Lemma (finite weighted ray projection) [Lean, read].** Define, for $u\ge0$,
+$$
+\psi_\chi(u)=
+\sum_{\substack{\mathfrak p\nmid\mathfrak m,\ k\ge1\\
+                 (\mathrm N\mathfrak p)^k\le u}}
+   \chi([\mathfrak p]^k)\log\mathrm N\mathfrak p ,
+$$
+where $\mathfrak p$ denotes a nonzero prime ideal. Let $S_1(X,Y)$ sum $\log\mathrm N\mathfrak p$ over the same powers with $X<(\mathrm N\mathfrak p)^k\le Y$ and $[\mathfrak p]^k=1$. For $0\le X\le Y$,
+$$
+ S_1(X,Y)=\frac{1}{|G|}\sum_{\chi\in\widehat G}
+                    \bigl(\psi_\chi(Y)-\psi_\chi(X)\bigr).
+$$
+
+**Proof.** All character values are roots of unity by finiteness of $G$. In a decomposition into cyclic factors, a factor of order $m$ offers $m$ choices for the value of its generator. The choices extend independently, so $|\widehat G|=|G|$. For $g\ne1$, a nonzero coordinate of $g$ is detected by a primitive root character on its cyclic factor. Thus there is an $\eta$ with $\eta(g)\ne1$. Translation $\chi\mapsto\eta\chi$ multiplies the sum of $\chi(g)$ over the dual by $\eta(g)$ and also preserves it. Hence this sum vanishes for $g\ne1$ and equals $|G|$ at $g=1$.
+
+The pinned Mathlib proof obtains the lower cardinal bound by injecting the group into the character group using cyclic factors. The upper bound follows from linear independence in the function space of dimension $|G|$. Indeed, the normalized inner product of two distinct characters is the average of their quotient character, which vanishes by translation on the group. Equality of dimensions gives `complexBasis`. Expanding the function supported at a specified nonzero element in this basis proves separation: if all characters agreed there with their values at $0$, the expanded function would also agree at those points. Evaluation at $g$ is a character on the dual by `doubleDualEmb`, trivial exactly at the group identity. The proof of `sum_apply_eq_ite` uses `sum_eq_ite` on that evaluation character. The trivial branch sums ones. In the other branch, translation by a character whose value at $g$ differs from $1$ proves vanishing.
+
+The fibre `idealsIn D g n` consists of nonzero ideals coprime to $\mathfrak m$ of absolute norm $n$ and class $g$. Fixed-norm finiteness gives a finite fibre. The weight `lamIdeal` on $I=\mathfrak p^k$ for $k\ge1$ is $\log\mathrm N(\sqrt I)=\log\mathrm N\mathfrak p$, and is zero off these powers. Denote the fibre sum `lamRay` by $\lambda_g(n)$. The class homomorphism gives $[\mathfrak p^k]=[\mathfrak p]^k$, so the character sum at fixed norm weights every such power by $\chi(g)$. The family uses the additive copy of $G$. Thus `lam 0 n` is $\lambda_1(n)$ in multiplicative notation, and `χ = 1` means the constant-one character. The definition of `lamChi` uses $\chi(g)$ in this direction. The two finite sum interchanges in `ShortInt.sum_psi` give
+$$
+\sum_\chi\psi_\chi(u)
+=\sum_{1\le n\le\lfloor u\rfloor}\sum_{g\in G}
+  \lambda_g(n)\sum_\chi\chi(g)
+=|G|\sum_{1\le n\le\lfloor u\rfloor}\lambda_1(n).
+$$
+This is an equality in $\mathbb C$ with real right-hand side. Subtract at $X,Y$ and divide by $|G|$. The floor cutoffs give exactly the half-open interval in the lemma.
+
+**Remarks.** For a general target class $a$, use $\overline{\chi(a)}$ because $\overline{\chi(a)}\chi(g)=\chi(a^{-1}g)$. For $a=1$ the multiplier is $1$. The weights are real, which gives $\psi_{\overline\chi}=\overline{\psi_\chi}$ at real endpoints. Conjugate pairs can be grouped as twice a real part. The formal sum runs over the full dual. Its support omits every prime dividing the common modulus, including primes ramified for any character in the family and primes whose Euler factors an individual primitive character would retain. In Lean `rcl` returns $1$ as a default outside the coprime nonzero domain. The explicit conditions in `idealsIn` keep this default out of the count. Field ramification is a separate condition, as the Gaussian example at 2 shows. In the host application $d\mid M$, so the prime over the discriminant prime $d$ is among those omitted.
+
+For the error assembly, write the per-character analytic input at an endpoint as
+$$
+\psi_\chi(u)=\mathbf 1_{\chi=1}u-
+ \sum_{\beta\in Z_\chi}\frac{u^\beta}{\beta}+e_\chi(u),
+ \qquad |e_\chi(u)|\le E(u).
+$$
+Summing yields
+$$
+\left|\,|G|S_1(0,u)-u+
+  \sum_\chi\sum_{\beta\in Z_\chi}\frac{u^\beta}{\beta}\,\right|
+ \le |\widehat G| E(u)=|G|E(u)\le B E(u).
+$$
+The trivial-character term occurs once. The proof of `sum_est` uses the real-to-complex power identity at $u\ge0$ so the real expression inside the absolute value equals the complex sum of errors after coercion. The triangle inequality then bounds that sum without cancellation. The two calls use $u=X$ and $u=Y=X(1+h)$, with bounds $CX\exp(-c_7\sqrt{\log X})$ and $2CX\exp(-c_7\sqrt{\log X})$. Adding these costs gives the endpoint difference error for $|G|S_1(X,Y)$ before division by $|G|$. The finite identity is exact for every interval. Estimates as the endpoints grow require the analytic inputs below.
+
+For $d=107$ the short-norm example uses $M=5$. In the basis $1,\omega$, with $\omega=(1+\sqrt{-107})/2$, the generator $26+5\omega$ of norm $1481$ has residue $1$. The generator $17+5\omega$ of norm $1049$ has residue $2$ and gives an ordinary principal prime ideal. All units here are $\pm1$, since norm $1$ forces the $\sqrt{-107}$ coefficient to vanish in the equation $A^2+107B^2=4$. Neither associate of $17+5\omega$ has residue $1$ modulo 5. Indeed $1049\equiv4\pmod5$ rules out a ray-trivial ideal of that norm. At the actual host call specialized to $d=107$, the modulus is $M=N=H_0.\mathrm{QS}\,H_0.q\,107$. The illustrative modulus $5$ tests the same distinction with smaller arithmetic. The ordinary principal ideal generated by $17+5\omega$ also fails the actual ray condition whenever this ideal is coprime to $N$, because the coefficient of $\omega$ in either associate is $\pm5$ and $107\mid N$. For the host congruence, writing $\pi=a+b\omega$ gives $a\equiv1$ and $b\equiv0\pmod N$. With $A=2a+b$ and $B'=b$ this gives $N\mid B'$ and $2N\mid A-2-B'$, the two congruences in `NormOne d N p` together with $A^2+d(B')^2=4p$. At rational prime norm $p$, any contributing power has exponent $1$ and prime ideal norm $p$. This is the coefficient-level witness consumed by the host.
+
+**Lean production map.** Archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The prefix for the first four rows is `src/Development/AbelianVarietyTheory/`. Mathlib uses the manifest revision `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| Producer and proof location | Arguments supplied to the consumer |
+|---|---|
+| `Definitions/AutomorphicMembership/NonemptyRayDataOfNeZero.lean:13–139,155–211,229–252` [Lean, read] for the finite quotient and the identity relation | `rayData K M hM0` builds the finite group and class map. `D.cls_eq_one_iff hc h0` gives the two multipliers to the prime-norm witness proof. |
+| `Definitions/GlobalTwisting/LamIdealOfNotPrimePow.lean:12–40,48–69,94–109` and `Proofs/GlobalInterpolation/SumLamIdealLe.lean:113–170` [Lean, read] for the norm fibre and witness step | `lamRay D g.toMul n` becomes `𝓕.lam g n`. For `lam 0 p` the witness proof cancels the principal multiplier and calls `normOne_span hgen hnorm hπ`. |
+| `Proofs/GlobalInterpolation/ExistsLFamRay.lean:50–63,73–128` [Lean, read] for the family assembly | The producer takes `d M hd hd4 hd100 hM`, obtains $K,\omega$, uses `D.fin` on `Additive D.G`, and sets $B=4dM^2$. The `count` and `theta` fields use `rayCountTheta … D`, `conv` uses `aRay_mul_log … D` and `sq` uses `RaySq.conv_real_char` with $g\mapsto\operatorname{Re}\chi(g)$ under $\chi^2=1$. These suppliers, the imaginary-quadratic field construction, and the ray and ordinary class-number bounds enter at their stated interfaces. |
+| `Proofs/GlobalInterpolation/TrivialClassShortInterval.lean:103–113,144–164,218–220,249–267` [Lean, read] for the projection and error assembly | `sum_psi 𝓕 u` applies the dual identity at each `g : 𝓕.G`. `sum_est 𝓕 Z u E hu hE` takes a bound at every character and uses the cardinal identity. The caller instantiates it at $X,X(1+h)$. |
+| Mathlib `Mathlib/Algebra/Group/AddChar.lean:314–336`, `Mathlib/Analysis/Fourier/FiniteAbelian/Orthogonality.lean:35–39,45–86` and `Mathlib/Analysis/Fourier/FiniteAbelian/PontryaginDuality.lean:45–109,124–156,163–171,188–190` [Lean, read] for the finite dual argument | `AddChar.sum_apply_eq_ite g` supplies the identity-class selector multiplied by $|G|$. `AddChar.card_eq` supplies the number of errors. |
+| `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExistsLFamRayStatement.lean:8–9`, `TrivialClassShortIntervalStatement.lean:8–9` and `NormPrimesImagQuadShortIntervalLowerBound.lean:99–114` in the same directory | The last consumes `exists_lam_zero_sum_shortInterval_ge` and calls `exists_lFam_normOne_of_mod_four_eq_three d M hd hd4 hd100 hM`. The resulting `hN` takes rational primes and nonzero projected coefficients. |
+| `src/Development/AutomorphicArithmetic/ShortNorms/Primes.lean:5`, `normPrimesN.lean:108–113,119–122,154–157`, `typePrimesN.lean:78–93`, `levelData.lean:36–54` and `hostOfFieldOf.lean:183–197` in the same directory | `levelData` receives `N = H0.QS * H0.q * H0.d` and `d = H0.d`. The arguments pass through `typePrimesN` to `normPrimesN`. There `hmain d N Y 1 …` instantiates the short-norm input at modulus $N$ on $(Y,2Y]$. |
+
+The four deep inputs remain [Lean] at statement level. They are `rayClassLFunction_zero_free_region`, `rayClassLFunction_unique_simple_exceptional_zero`, `exists_rayClassLFunction_real_zero_far_from_one` and `rayClassFamily_psi_with_exceptional_zero`. Their declarations are on line 8 of `RayClassLFunctionZeroFreeRegionStatement.lean`, `RayClassLFunctionUniqueSimpleExceptionalZeroStatement.lean`, `ExistsRayClassLFunctionRealZeroFarFromOneStatement.lean` and `RayClassFamilyPsiWithExceptionalZeroStatement.lean` respectively, in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/`. These interfaces use the family's regularized `LFam.F` for the zeros. See [§17.4.10](#17410-the-exceptional-zero-in-the-trivial-ray-class-interval) and [§17.4.11](#17411-producing-the-ray-class-endpoint-formula) for the separate proof readings and their named analytic dependencies.
+
+#### Conditional dependencies for the two host primes
+
+The diagram follows one quadratic field and one modulus. Fix the admitted data `R,H0` and pair and window hypotheses of `hostOfFieldOf`. Put $d=H_0.d$, $N=H_0.QS\cdot H_0.q\cdot d$ and $Y=(R.k\exp(x^\varepsilon))^8$. In the ray-family constructor take $K=\mathbb Q(\sqrt{-d})$, $M=N$, and $B=4dN^2$. The host norm lemma identifies the quadratic norm equation in the distinguished subfield of the resulting host.
+
+```text
+same RayData K N
+   ├─ §17.4.15 class counts and theta fields
+   └─ §17.4.16 ideal weights, convolution and real-character square
+                  │
+            exists_lFam_ray
+                  ├─ §§17.4.12–14 local formula, continuation and Euler identity
+                  │     └─ §§17.4.10–11 zero region, uniqueness, gap and endpoint errors
+                  └─ §17.4.9 sum_psi and sum_est on the full dual
+                               │ join at X and X(1+h)
+                         §17.4.10 weighted lower bound for lam 0
+                               │ prime support and rational prime-power cost
+                         §17.4.8 ShortNorm at (d,N,Y,1)
+                               │ normPrimesN: at least Y^(9/10) in (Y,2Y]
+                         typePrimesN with choice_count: g₀,g₁ with disjoint BB sets
+                               │ levelData, then normOne_iff_host
+                         HostGood: the two conjugate products and congruences
+```
+
+| Dependency | Condition carried into the conclusion |
+|---|---|
+| [Finite projection](#1749-the-finite-character-projection-onto-the-principal-ray) | All norm fibres and all characters use the same $D$. The projection selects the class of the ideal power. At an endpoint the principal term occurs once and an exceptional zero contributes with a minus sign. |
+| [Exceptional-zero budget](#17410-the-exceptional-zero-in-the-trivial-ray-class-interval) and [endpoint formula](#17411-producing-the-ray-class-endpoint-formula) | The two errors use the same uniform constants. The possible exceptional pair is unique within the family. Its power separation leaves a positive main term after the deduction. |
+| [Short-norm transfer](#1748-short-norm-primes-from-the-principal-ray-class) | The weighted route uses $M\ge3$ and the bound $2(\psi-\theta)$ for rational nonprime arguments. The host call has $h=1$, $d\mid N$, and the stated uniform scale threshold. The resulting witnesses satisfy $\pi_iH.\mathrm{conj}(\pi_i)=g_i$ and $\pi_i-1\in N\mathcal O_{H.E}$. |
+| [Progression deweighting](#1747-from-the-von-mangoldt-sum-to-the-prime-count) and [small-prime supply](#1745-from-congruence-primes-to-a-usable-host-field-scale) | The separate rational progression route uses `pi_rel_of_psi_rel` and yields the three auxiliary primes through `SmallOne`. The ray route uses the short-interval counting step of §17.4.8. |
+| [Bernoulli selection](#1746-bernoulli-selection-of-the-top-places) and [thick indices](#host-scale-balancing) | `hostOfFieldOf` obtains $T_2$ through `hof_thick` and applies `topsChoiceH` to the host data assembled with the supplied primes. The two steps give `NoRel` and the `TT` bounds, `Shares`, and `BadOK`, respectively. |
+
+[Source map and reading boundaries](../sources/SOURCES.md#p13-host-prime-supply)
 
 ### 17.4.10 The exceptional zero in the trivial ray-class interval
 
@@ -874,7 +1432,7 @@ For $|z-1|\le1/4$, the circle of radius $1/10$ about $z$ has real part at least 
 *Proof.* Since $\ell(t)>2$, every zero in the $c_0$ region lies above $3/4$. Lemma 1 forces it onto the real axis and onto a real character, and gives uniqueness across that family and simplicity. Lemma 2 gives the uniform gap after capping its constant by $1$. The sets $Z_\chi$ obtained by collecting these real zeros satisfy all clauses of `ExcZ` simultaneously, even at equality on the region boundary. The three constants are chosen before the family, so the argument uses one constant for every character at the same modulus and the same constants for all allowed $d,M$.
 
 For $u\ge2$ and $\log B\le\sqrt{\log u}$, the endpoint input states
-$\psi_\chi(u)={\bf1}_{\chi=1}u-\sum_{\beta\in Z_\chi}u^\beta/\beta+e_\chi(u)$ with $|e_\chi(u)|\le Cu\exp(-c_7\sqrt{\log u})$, uniformly in the family and character for the chosen $c_0$. The sign follows from the logarithmic derivative: a local factor $(s-\beta)g(s)$ with $g(\beta)\ne0$ gives residue $-1$ in $D_\chi$ after meromorphic continuation. Multiplication by $u^s/s$ gives residue $-u^\beta/\beta$. The principal pole at $1$ contributes $+u$, since $F_1(1)\ne0$. Taking the endpoint at $Y$ minus the endpoint at $X$ gives $-Y^\beta/\beta+X^\beta/\beta$. A principal exceptional character carries both the pole and deduction. A nonprincipal real exceptional character carries only the deduction, while the principal character still supplies $Y-X$. The finite projection used here is the existing trivial-class identity $|G|S=\sum_\chi(\psi_\chi(Y)-\psi_\chi(X))$. Each character has coefficient $1$ in this identity.
+$\psi_\chi(u)={\bf1}_{\chi=1}u-\sum_{\beta\in Z_\chi}u^\beta/\beta+e_\chi(u)$ with $|e_\chi(u)|\le Cu\exp(-c_7\sqrt{\log u})$, uniformly in the family and character for the chosen $c_0$. The sign follows from the logarithmic derivative: a local factor $(s-\beta)g(s)$ with $g(\beta)\ne0$ gives residue $-1$ in $D_\chi$ after meromorphic continuation. Multiplication by $u^s/s$ gives residue $-u^\beta/\beta$. The principal pole at $1$ contributes $+u$, since $F_1(1)\ne0$. Taking the endpoint at $Y$ minus the endpoint at $X$ gives $-Y^\beta/\beta+X^\beta/\beta$. A principal exceptional character carries both the pole and deduction. A nonprincipal real exceptional character carries only the deduction, while the principal character still supplies $Y-X$. The [finite projection of §17.4.9](#1749-the-finite-character-projection-onto-the-principal-ray) gives the trivial-class identity $|G|S=\sum_\chi(\psi_\chi(Y)-\psi_\chi(X))$. Each character has coefficient $1$ in this identity.
 
 Write $L_X=\sqrt{\log X}$ and take $c\le1$. Then $\log B\ge1$ forces $X\ge e$, both endpoints satisfy the endpoint hypotheses, and $X\le Y\le2X$. By the triangle inequality the endpoint differences contribute an aggregate error of magnitude at most $3BCX e^{-c_7 L_X}$. If there is a zero, its positive deduction size is
 $(Y^\beta-X^\beta)/\beta=\int_X^Y t^{\beta-1}\,dt\le hX\exp(-(1-\beta)\log X)\le hX(1-\delta/2)$.
@@ -991,7 +1549,7 @@ This is `exists_factor` (src/Development/AbelianVarietyTheory/Proofs/GlobalInter
 
 *Proof.* One point first. Mathlib's characterization of finite order at $w$ gives $h_0$ analytic at $w$ with $h_0(w)\ne0$ and $f(z)=(z-w)^{m}h_0(z)$ near $w$, $m=m_f(w)$. Define $h(z)=f(z)/(z-w)^m$ for $z\ne w$ and $h(w)=h_0(w)$. Near $w$ this agrees with $h_0$, so $h$ is analytic at $w$. Away from $w$ it is a quotient of analytic functions with nonvanishing denominator. The identity $f=(z-w)^mh$ holds everywhere, at $w$ by the local expansion. Now induct on $S$. Given the factorization for $S$ and a new point $a\notin S$, the finite product $P_S(z)=\prod_{w\in S}(z-w)^{m_f(w)}$ is analytic and nonzero at $a$, so the order of $f$ at $a$ equals the order of the current $g$ at $a$ (Mathlib's additivity of orders under multiplication). Strip $a$ from $g$ by the one-point case. The new quotient is nonzero at $a$ by construction and nonzero at each old $w\in S$ because the old $g$ was nonzero there and $(w-a)^{m}\ne0$. $\square$
 
-**Lemma 2 (the zero count from one logarithm). [Lean, read]** Let $f$ be analytic on a neighborhood of the closed unit disk, $f(0)\ne0$, $|f|\le M$ on the disk, and $0<R<1$. The set $Z_R=\{w:|w|\le R,\ f(w)=0\}$ is finite and $N=\sum_{w\in Z_R}m_f(w)$ satisfies $R^N\le M/|f(0)|$, that is, $N\le L/c_1$ with $L=\log(M/|f(0)|)$.
+**Lemma 2 (the zero count from one logarithm). [Lean, read]** Let $f$ be analytic on a neighborhood of the closed unit disk, $f(0)\ne0$, $|f|\le M$ on the disk, and $0<R<1$. The set $Z_R=\{w:|w|\le R,\ f(w)=0\}$ is finite and $N=\sum_{w\in Z_R}m_f(w)$ satisfies $R^{-N}\le M/|f(0)|$, that is, $N\le L/c_1$ with $L=\log(M/|f(0)|)$.
 
 *Proof.* Since $f(0)\ne0$, the order at $0$ is $0$, hence finite. The closed unit disk is preconnected, so the order is finite at every point of it (Mathlib `AnalyticOnNhd.analyticOrderAt_ne_top_of_isPreconnected`). Zeros of an analytic function with finite orders are isolated, so the zero set is codiscrete in the disk and its intersection with the compact disk of radius $R<1$ is finite. Apply Lemma 1 with $S=Z_R$ to get $f=Pg$. At the origin $|f(0)|=\prod|w|^{m_f(w)}\,|g(0)|\le R^N|g(0)|$. To bound $|g(0)|$, use the reflected factors. For $|z|=1$ and any $w$, $|1-\bar wz|=|\bar z-\bar w|\,|z|=|z-w|$, which is `norm_one_sub_conj_mul` (`:117–123`). The function $G(z)=\prod_{w\in Z_R}(1-\bar wz)^{m_f(w)}g(z)$ is analytic on a neighborhood of the closed disk and satisfies $|G(z)|=|P(z)||g(z)|=|f(z)|\le M$ on the unit circle. The maximum modulus principle (`norm_le_of_sphere`, `:108–115`) gives $|g(0)|=|G(0)|\le M$. Hence $|f(0)|\le R^NM$, and taking logarithms gives $Nc_1\le L$. $\square$
 
@@ -1093,7 +1651,7 @@ With $X=B(|t|+2)\ge8$, the inequalities $(|t|+3)^2\le(9/4)(|t|+2)^2$ and $B\le B
 **Notes.**
 
 1. *Verifying the example family.* Take $\lambda_g(n)=\Lambda(n)$ for odd $n$ in class $g$ and zero otherwise. The support checks the values at $0$ and $1$, nonnegativity, and $\sum_g\lambda_g(n)\le2\Lambda(n)$. At odd $n$, class addition and $\sum_{d\mid n}\Lambda(d)=\log n$ verify the class convolution. At even $n$ the odd-supported products vanish. For the square field, convolution of the principal sequence with a real twisted sequence at odd $n$ is $\prod_{p^e\parallel n}(1+\chi(p)+\cdots+\chi(p)^e)$. The factors are nonnegative for $\chi(p)=\pm1$ and at least $1$ at $n^2$. At positive even $n$ and at $0$, the support gives zero. This checks both square inequalities. For the exponential field, the two geometric series in each class sum to $\cosh(kv)/\sinh(4v)$ for $0<v\le1$, with $k=3$ and $1$ for the respective classes. Over the denominator $4v\sinh(4v)\ge16v^2$, the numerator of the difference from $1/(4v)$ has modulus at most $4v(9v^2/2)\cosh(4)+(4v)^3\cosh(4)/6$ by Taylor's theorem. Hence the difference is at most $((9/8)+(2/3))\cosh(4)\,v<4^{10}v$. Together with the count, $|G|=2\le B$ and $\kappa=1/B=1/4$, this checks the family fields.
-2. *The modulus in the actual ray family.* For the imaginary quadratic construction, $d=|D_K|$ and the modulus is $m\mathcal O_K$, with $d$ prime, $d\equiv3\bmod4$, $d\ge100$ and $m\ge3$. The archive assigns $B=4dm^2$ and $\kappa=2\pi/(\sqrt d\,m^2)$. Each primitive inducing conductor divides the fixed modulus of norm $m^2$. Thus the proof budgets the discriminant and full modulus simultaneously, with the same $B$ for every character. The modulus variable in the construction is distinct from the disk allowance $M$. The small rational examples instantiate the abstract family. [Zaman, §2.1, p. 6](https://arxiv.org/pdf/1502.05679v4) · [Archive source map](../sources/SOURCES.md#p13-ray-class-mellin-continuation-and-growth)
+2. *The modulus in the actual ray family.* For the imaginary quadratic construction, $d=|D_K|$ and the modulus is $m\mathcal O_K$, with $d$ prime, $d\equiv3\bmod4$, $d\ge100$ and $m\ge3$. The archive assigns $B=4dm^2$ and $\kappa=2\pi/(\sqrt d\,m^2)$. Each primitive inducing conductor divides the fixed modulus of norm $m^2$. Thus the proof budgets the discriminant and full modulus simultaneously, with the same $B$ for every character, as in [§17.4.9](#1749-the-finite-character-projection-onto-the-principal-ray). The modulus variable in the construction is distinct from the disk allowance $M$. The small rational examples instantiate the abstract family. [Zaman, §2.1, p. 6](https://arxiv.org/pdf/1502.05679v4) · [Archive source map](../sources/SOURCES.md#p13-ray-class-mellin-continuation-and-growth)
 3. *Uniformity and scope.* A pointwise estimate with its constant chosen after the character or family can contribute an uncontrolled $\log C_{\mathcal F,\chi}$ to the disk budget. An estimate only at the center leaves the closed circle uncontrolled. The supplied bound holds for the entire circle, with the same numerical constant before every choice of family, character, height and disk coordinate. The holomorphy assertion concerns $\Re s>1/2$. The classical fractional-part integral for $\zeta$ illustrates the summatory-error calculation. Zaman gives the classical primitive Hecke functional equation and a conductor-dependent convexity estimate. [NIST DLMF 25.2.8](https://dlmf.nist.gov/25.2.E8) · [Zaman, §2.1 and Lemma 2.1, pp. 6–7](https://arxiv.org/pdf/1502.05679v4)
 4. *Reading boundary.* Local R3 covers the complete continuation and growth proof and its in-file helpers, the exporting wrapper and the direct consumer interface. The disk zero sum and its constants are inherited from §17.4.12. The Euler producer is read in [§17.4.14](#17414-euler-nonvanishing-and-the-center-of-the-local-disk). The concrete family's count and arithmetic suppliers retain their separate read boundaries. Imported Mathlib theorems are used through their statements. [Archive source map](../sources/SOURCES.md#p13-ray-class-mellin-continuation-and-growth)
 
@@ -1971,7 +2529,7 @@ in finite Galois groups, or a three-way top/thick/thin partition of CM places [E
 | `Frame`, `Frame.A`, `a0`, `n0`, `o`, `dig`, `GG`, `Psi`, `placeOf`, `tau1`, `tau2`, `natCard_GG`; `Frame.thick_key`, `Frame.hostThickOrbit` | `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean:15,29,61,68,70,72,89,112,118,120,122,137`; `src/Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean:714,821` | Definition 17.2(4) & Proposition 17.3(1): host abelian frame `Frame`, cyclic subgroup `A0 = ⟨a0⟩` of order `n0`, two CM sheets `tau1`/`tau2`, and lift of `hostThickOrbit` to `Frame.A` (cones 3 and 32). | [Lean, read] |
 | `Ranks`; `PrimeClass`, `Host`, `topPlaces`, `thickPlaces`, `IsThin`, `secondSet_card_lower_bound`, `FactTopsThick` | `src/Formalism/LocalRingCardinality/Params.lean:6`; `src/Formalism/LocalRingCardinality/DataHost.lean:24,39,129,133,136,165,193` | Definition 17.3(1–2): chain rank tuple `Ranks` and concrete `Host R` partitioning `R.Psi` into `topPlaces`, `thickPlaces` (built from `T2`), and `IsThin` (cones 5 and 33). | [Lean, read] |
 | `hE`, `KE`, `dE`; `thickFrame2_card`, `thickFrame2_large`, `thickFrame2`; `topsChoiceH` | `src/Development/AutomorphicArithmetic/ThickFrames/MarkedLow.lean:23,25,29`; `src/Development/AutomorphicArithmetic/ThickFrames/ThickFrame2Large.lean:7,18,29`; `src/Development/AutomorphicArithmetic/ThickFrames/topsChoiceH.lean:30` | Theorem 17.4(1–2): weighted AM–GM with $\delta = \varepsilon/(3C)$ yielding $C_T = 64$, $x^{-\varepsilon}\,\varphi.\mathrm{ord} \le \lvert T_2 \rvert$, $4 L_w \lvert T_2 \rvert \le n_0$, and Bernoulli top-place selection (cones 5, 41, 385). | [Lean, read] |
-| `ThinOK`, `thinScales_iff_hostBound`, `HostGood`, `HostExW`; `FieldRows`, `Choices`, `HostNF`, `exists_host`; `hof_Lwv_le`, `hof_thick`, `hostOfFieldOf`; `hostOfField`, `supplyOfAdm` | `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:61,65,101,120`; `src/Development/AutomorphicArithmetic/CoprimeRanks/SecondSetNoRelation.lean:13,23,55,100`; `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:58,71,159`; `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17` | Definition 17.3(3) & Theorem 17.4(2): assembles `T2`, `TT`, `ccK`, and `levelPrimes` into a scale-admissible `Host R` (`HostGood`) feeding `supplyChi` (`HostOfField` cone 1,314; `shortNorm`/`topsBase` `R2` `[Lean]`). | [Lean, read] |
+| `ThinOK`, `thinScales_iff_hostBound`, `HostGood`, `HostExW`; `FieldRows`, `Choices`, `HostNF`, `exists_host`; `hof_Lwv_le`, `hof_thick`, `hostOfFieldOf`; `hostOfField`, `supplyOfAdm` | `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:61,65,101,120`; `src/Development/AutomorphicArithmetic/CoprimeRanks/SecondSetNoRelation.lean:13,23,55,100`; `src/Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:58,71,159`; `src/Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean:8,17` | Definition 17.3(3) & Theorem 17.4(2): assembles `T2`, `TT`, `ccK`, and `levelPrimes` into a scale-admissible `Host R` (`HostGood`) feeding `supplyChi` (`HostOfField` cone 1,314; see §§17.4.6–9 for the local R3 readings). | [Lean, read] |
 | `PrimesRel`, `primesRel_holds`, `primesInProgressions_relativeError` | `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ZerosDisc.lean:35`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimesInProgressionsRelativeError.lean:22`; `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimesInProgressionsRelativeErrorStatement.lean:8` | Relative prime count and assembly from quantitative inputs. | [Lean, read] |
 | `primesAPInterval_of_primesRel`, `shortIntervalLowerBound`, `shortIntervalImpliesProgressions_statement` | `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/PrimesAPIntervalOfPrimesRel.lean:12`; `src/Formalism/GL3MeanSquares/HookFormulaTorsion/GlobalBoundRefinements.lean:222,366` | Relative error yields an interval count at polynomial scales. | [Lean, read] |
 | `SmallOne`, `smallOne_of`, `smallOne`, `exists_three_primes_one_mod_le_rpow`, `mod_small`, `levelData` | `src/Development/AutomorphicArithmetic/ShortNorms/ShortNorm.lean:13`; `src/Development/AutomorphicArithmetic/ShortNorms/SmallOneOf.lean:8`; `src/Development/AutomorphicArithmetic/ShortNorms/Primes.lean:7`; `src/Development/AutomorphicArithmetic/ShortNorms/ExistsThreePrimesOneModLeRpow.lean:10`; `src/Development/AutomorphicArithmetic/ShortNorms/levelData.lean:10,36` | One witness becomes three, with a common scale bound. | [Lean, read] |

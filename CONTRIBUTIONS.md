@@ -877,6 +877,11 @@ same-model review is recorded separately in the preceding run's audit.
 
 - **Hongmin Li (with AI assistance)** revised the ideal-weight exposition, fixed the producer to `SumLamIdealLe.lean:135–170`, and connected the corrected class and weight inputs to the existing half-plane theorem. [§17.4.16](chapters/17-behrends-sphere-lemma-and-host-geometry.md#17416-the-ideal-level-weight-lamray-its-convolution-and-the-real-character-square)
 
+### Chapter 17 top places and host prime supply (§§17.4.6–9)
+
+- **Archive and community contributions.** Levent Alpöge with Claude supply the A2 producers and their host consumers. Erdős records Szele's first-moment precedent. Chebyshev supplies the classical prime-power accounting, Milne the integral ray-class formulation, and Zaman a published comparison for a real exceptional zero in a family. Mathlib's summation, primorial, Chebyshev and finite-dual contributors are credited by file in the source ledger. [Sources and pin](sources/SOURCES.md#p13-host-prime-supply)
+- **Our contribution.** Hongmin Li with AI assistance assembled the four English proofs with the original hand calculations, the same-modulus dependency diagram and the conditions used by `hostOfFieldOf`. The four original same-source preliminary reviews accepted the indicated local proofs. The proof map records the scope of that reading and the retained analytic inputs. [Textbook module](chapters/17-behrends-sphere-lemma-and-host-geometry.md#1746-bernoulli-selection-of-the-top-places) · [Reading record](notes/proof-map.md#p13-host-prime-supply-reading)
+
 ### Chapter 17 ordinary ideals, Minkowski volume and canonical ray data (§§17.4.17–19)
 
 - **Classical authors.** Hermann Minkowski supplies the convex-body theorem. J. S. Milne's texts supply the classical ideal covolume and representative bounds, quadratic integer models, integral ray representatives and finite ray exact sequence. NIST DLMF supplies the Poisson and translated Gaussian formulas. [Source register](sources/SOURCES.md#p13-minkowski-volume-and-the-ordinary-class-bound)
