@@ -1378,9 +1378,523 @@ Only the two statement-level calls `ring_equiv_cyclotomic_character` (`:29`) and
 
 ---
 
+**Numbering note [Expository].** Sections 18.3.15–19 are reserved for the intervening comparison material. The compact-duality module starts at §18.3.20.
+
+---
+
+### 18.3.20 From compact support to the nine-term Poitou–Tate sequence
+
+**Motivation.** Localization asks whether a global class can be recovered from its restrictions and whether a given tuple of local classes comes from a global class. The long exact sequence of the restriction map answers both questions in terms of compactly supported cohomology. Duality makes those answers usable. It identifies a compactly supported group with a group of characters on a complementary global group. The sum of the local invariants then identifies the arrow into that character group. The same construction pairs the global classes that vanish at every local group.
+
+**Examples [Expository].** The first model uses $R=\mathbb Z/6\mathbb Z$ and $I=2R$, of order $3$. The second uses $R=\mathbb Z/8\mathbb Z$ and $I=2R$, of order $4$. More generally, in the formulas for these models write $R=\mathbb Z/n\mathbb Z$, $I=cR$, and $d=n/c$. The two local positions give $R^2$ in degrees zero through two for each of two coefficient labels $M,M^D$. The global groups for each label are $R$, $R\oplus I$, and $R\oplus I$ in those degrees, and zero in higher degrees. Use these as complexes with zero differential. For $M$, restriction is $a\mapsto(a,0)$ in degree zero and $(a,b)\mapsto(a,0)$ in positive degrees. For $M^D$, use $a\mapsto(0,a)$ and $(a,b)\mapsto(0,a)$. Use coordinatewise multiplication for the local complementary pairings, followed at each position by $j_n(a)=a/n+\mathbb Z$.
+
+In the shifted cone for $M$, the compactly supported group in degree $k$ is the direct sum of the previous local cokernel and the current global kernel. It is zero in degree zero, $R\oplus I$ in degrees one and two, and $R$ in degree three. Order the coordinates as $(u,b)$, with $u$ the surviving second coordinate of the preceding local term. The local-to-compact arrow sends $(x,y)$ to $(y,0)$ in degrees zero and one, and to $y$ in degree two. Forgetting support sends $(u,b)$ to $(0,b)$ in degrees one and two. The corresponding compact groups for $M^D$ use the first local coordinate for the cokernel.
+
+For $k=1,2$, equip the compact term of $M$ with the following pairing with the complementary global term of $M^D$:
+$$
+((u,cs),(a,ct))\longmapsto j_n(ua+cst).
+$$
+In degree three use $(u,a)\mapsto j_n(ua)$. For compact degree zero both groups are zero. The same formulas with the labels interchanged work using the first local coordinate for the compact term of $M^D$. These are models of the maps on cohomology. For the toy trace coefficient $D$, take zero global terms and local $R$ at each position in degree two, giving $H_c^3(D)=R^2$ with trace the sum. Place the value before applying $j_n$ in the second coordinate for $M$ and in the first for $M^D$. On a local boundary this is the vector of complementary products because the complementary restriction occupies just that coordinate. Each local degree-zero adjoint is surjective since a character of the local copy of $R$ is determined by its value on $1$.
+
+Here is the character calculation. The characters of $R$ are $a\mapsto j_n(ua)$, each determined by the value on $1$. A character of $I$ is determined by its value on $c$, which can be any $t/d+\mathbb Z$ with $t$ taken modulo $d$. Thus $b=cs$ gives the character with parameter $s$ on $I$. Multiplication is symmetric on each summand, so flipping either pairing again gives all the characters once. This also checks the pairing before applying $j_n$, since the allowed values on $1$ and $c$ are respectively all of $R$ and the multiples of $c$ in $R$.
+
+In these dual coordinates the nine terms for $M$ and their eight arrows are as follows.
+
+| From | To | Arrow |
+| --- | --- | --- |
+| $R$ | $R^2$ | $a\mapsto(a,0)$ |
+| $R^2$ | $R\oplus I$ | $(x,y)\mapsto(y,0)$ |
+| $R\oplus I$ | $R\oplus I$ | $(u,b)\mapsto(0,b)$ |
+| $R\oplus I$ | $R^2$ | $(a,b)\mapsto(a,0)$ |
+| $R^2$ | $R\oplus I$ | $(x,y)\mapsto(y,0)$ |
+| $R\oplus I$ | $R\oplus I$ | $(u,b)\mapsto(0,b)$ |
+| $R\oplus I$ | $R^2$ | $(a,b)\mapsto(a,0)$ |
+| $R^2$ | $R$ | $(x,y)\mapsto y$ |
+
+The three arrows out of local terms are induced by the sum of the local invariants, evaluated on the complementary global restriction. In order, the seven images and succeeding kernels are $R\oplus0$, $R\oplus0$, $0\oplus I$, $R\oplus0$, $R\oplus0$, $0\oplus I$, $R\oplus0$. The first map embeds the first axis and the last map is onto via $(0,y)$. For $M^D$ one exchanges the two local coordinates and obtains the same image and kernel calculation in the exchanged coordinates.
+
+The degree-one kernel for $M$ and the degree-two kernel for $M^D$ are both $0\oplus I$. Lift $(0,cs)$ to $(0,cs)$ in compact degree one. The pairing matrix on all elements, in increasing generator index, is as follows. Entries are taken in $\mathbb Q/\mathbb Z$.
+$$
+\frac{1}{3}\begin{pmatrix}
+0&0&0\\
+0&1&2\\
+0&2&1
+\end{pmatrix}
+\qquad
+\frac{1}{4}\begin{pmatrix}
+0&0&0&0\\
+0&1&2&3\\
+0&2&0&2\\
+0&3&2&1
+\end{pmatrix}.
+$$
+Any other lift changes only $u$ and hence gives the same value on a class $(0,ct)$. Each matrix lists all the characters in its rows and all the characters in its columns. The models exhibit two nonzero localization kernels and a proper image at each of the first two trace arrows.
+
+**Definitions.** Let $G$ be a profinite group with a finite family of continuous homomorphisms $\phi_v:G_v\to G$ from profinite groups. Throughout, $n\geq1$, $R=\mathbb Z/n\mathbb Z$, and $D$ is a discrete $G$-module. For a discrete coefficient module $A$ write
+$$
+H^i(A)=H^i(G,A),\qquad L^i(A)=\prod_v H^i(G_v,A),\qquad
+A^D=\operatorname{Hom}_{\mathbb Z}(A,D).
+$$
+Local cohomology uses the restricted action. The action on the dual is $(gf)(a)=g f(g^{-1}a)$. For an abelian group $B$, put $B^\vee=\operatorname{Hom}(B,\mathbb Q/\mathbb Z)$. For finite $B$ this is its Pontryagin dual. Set $\mathrm{Sha}^i(A)=\ker(\rho_i^A)$, where $\rho_i^A:H^i(A)\to L^i(A)$ is the product of restrictions.
+
+Write $H_c^i(A)$ for the cohomology of the mapping fibre of restriction on continuous cochains. In one sign convention a cochain is $(a,b)$ in global degree $i$ and local degree $i-1$, with differential $(da,\rho a-db)$. The local-to-compact arrow is induced by the inclusion in the second coordinate, with the local cohomology degree shifted by one. The compact-to-global arrow is projection on the first coordinate. Denote the three arrows in the long exact sequence by
+$$
+H_c^i(A)\xrightarrow{u_i^A}H^i(A)\xrightarrow{\rho_i^A}L^i(A)
+\xrightarrow{\partial_i^A} H_c^{i+1}(A).
+$$
+Use the cup product with the compact factor on the left. For the above cone convention one can cup $(a,b)$ with a global cocycle $z$ by using $(a\cup z,b\cup \rho z)$. Restriction commutes with cups, and the cochain Leibniz identity gives the product on cohomology. In particular
+$$
+(\partial_i^A\xi)\cup z
+=\partial_{i+j}^D\big((\xi_v\cup\operatorname{res}_v z)_v\big),
+\qquad z\in H^j(A^D),
+$$
+using evaluation into $D$. This identity fixes the sign convention for the connecting map and the invariant sum.
+
+Fix a trace $t:H_c^3(D)\to R$ and local invariants $\operatorname{inv}_v:H^2(G_v,D)\to\mathbb Q/\mathbb Z$. The duality data have seven conditions. The conditions involving a coefficient $A$ are required for every finite discrete $G$-module killed by $n$.
+
+1. The additive group of $D$ is isomorphic to $R$.
+2. For $i+j=3$ the map $H^i(A)\to\operatorname{Hom}(H_c^j(A^D),R)$ is bijective. It sends $y$ to the character $x\mapsto t(x\cup y)$, using the evaluation of $A^D$ on $A$ and keeping $x$ on the left.
+3. All $H^i(A)$ are finite.
+4. All $H_c^i(A)$ are finite.
+5. $H^3(A)=0$.
+6. For $\xi\in L^2(D)$ one has $j_n(t(\partial_2^D\xi))=\sum_v\operatorname{inv}_v(\xi_v)$.
+7. At every $v$, the local evaluation-cup adjoint $H^0(G_v,A)\to H^2(G_v,A^D)^\vee$ induced by $\operatorname{inv}_v$ is surjective.
+
+For $i+j=3$, let $E_{i,j}^A:H_c^i(A)\to H^j(A^D)^\vee$ send $x$ to $y\mapsto j_n(t(x\cup y))$. For $0\leq i\leq2$, define the local arrow
+$$
+\lambda_i^A(\xi)(y)=\sum_v\operatorname{inv}_v(\xi_v\cup\operatorname{res}_v y),
+\qquad y\in H^{2-i}(A^D).
+$$
+
+**Lemmas and theorem.** Three facts about additive groups enter the deduction. First, if $X\xrightarrow f Y\xrightarrow g Z\xrightarrow h W\xrightarrow k V$ is exact at $Y,Z,W$, then replacing $Z$ by an isomorphic group via $e:Z\to Z'$ and replacing $g,h$ by $eg,he^{-1}$ preserves exactness at all three positions. Second, if $nB=0$, postcomposition with $j_n$ identifies $\operatorname{Hom}(B,R)$ with $B^\vee$. Third, for finite abelian groups a bilinear pairing into $\mathbb Q/\mathbb Z$ with one bijective adjoint has a bijective adjoint in the other direction. This also holds for a pairing into $R$ on finite groups killed by $n$.
+
+**Theorem 18.3.20 (the nine terms and the kernel pairing) [Lean, read].** Under conditions 1–7 the maps $E_{i,j}^M$ are isomorphisms for every finite discrete $M$ killed by $n$. With $\delta_i=u_{i+1}^M(E_{i+1,2-i}^M)^{-1}$ for $i=0,1$, there is an exact sequence
+$$
+\begin{aligned}
+0&\longrightarrow H^0(M)\xrightarrow{\rho_0^M} L^0(M)
+   \xrightarrow{\lambda_0^M} H^2(M^D)^\vee\\
+ &\xrightarrow{\delta_0} H^1(M)\xrightarrow{\rho_1^M} L^1(M)
+   \xrightarrow{\lambda_1^M} H^1(M^D)^\vee\\
+ &\xrightarrow{\delta_1} H^2(M)\xrightarrow{\rho_2^M} L^2(M)
+   \xrightarrow{\lambda_2^M} H^0(M^D)^\vee\longrightarrow0 .
+\end{aligned}
+$$
+There is a perfect pairing of finite groups
+$$
+\mathrm{Sha}^1(M)\times\mathrm{Sha}^2(M^D)\longrightarrow\mathbb Q/\mathbb Z,
+\qquad (x,y)\longmapsto E_{1,2}^M(\widetilde x)(y)
+$$
+where $u_1^M(\widetilde x)=x$.
+
+**Proof.** For transport, $\ker(eg)=\ker g$ by injectivity of $e$, $\operatorname{im}(eg)=e(\operatorname{im}g)$ and $\ker(he^{-1})=e(\ker h)$ by the inverse identities, and $\operatorname{im}(he^{-1})=\operatorname{im}h$ by surjectivity of $e^{-1}$. For the character identification, $j_n$ is injective with image $(\mathbb Q/\mathbb Z)[n]$. Indeed a rational class killed by $n$ has a representative $a/n$ for some integer $a$, unique modulo $n$ in the numerator. Every character on $B$ takes values there since $n\chi(b)=\chi(nb)=0$. The inverse of $j_n$ on its image gives the required inverse on characters. Consequently, postcomposing a bijective $R$-valued adjoint with $j_n$ preserves bijectivity.
+
+For the flip, a cyclic group of order $m$ has precisely the $m$ characters given by sending a generator to $k/m+\mathbb Z$ for $0\leq k<m$. Decomposition into cyclic factors shows that characters separate points of every finite abelian group $B$ and that $|B^\vee|=|B|$. If $X\to Y^\vee$ is bijective and $y\ne0$, choose a character of $Y$ nonzero at $y$ and represent it by $x$. This proves injectivity of $Y\to X^\vee$. The equality $|Y|=|Y^\vee|=|X|=|X^\vee|$ gives surjectivity. The character identification just proved gives the version over $R$.
+
+The finite discrete modules $M^D$ and $(M^D)^D$ are killed by $n$ because $D$ is. Each orbit map of a homomorphism into $D$ is continuous since it is determined by finitely many evaluations and the original actions are discrete and continuous. Evaluation $M\to (M^D)^D$ is equivariant. Its injectivity and bijectivity follow from separation by characters and the same cardinality calculation, after an additive identification of $D$ with $R$. The resulting isomorphism acts on compact cohomology. By condition 2 at $A=M^D$, the global-to-compact adjoint in degrees $j,i$ is bijective. Flip its pairing over $R$ using finiteness. Pull back its compact argument along evaluation $M\to (M^D)^D$. Its coefficient value on $(m,f)$ is exactly $f(m)$, so cup naturality gives the pairing $t(x\cup y)$ for $M$. The compact argument has stayed on the left in the cup throughout. Finally $nH^j(M^D)=0$ because the cochains are killed by $n$, so the character identification gives $E_{i,j}^M$.
+
+The cup identity followed by condition 6 gives $E_{i+1,2-i}^M\partial_i^M=\lambda_i^M$. Transport exactness at $L^i(M),H_c^{i+1}(M),H^{i+1}(M)$ for $i=0,1$. At $L^2(M)$ use the first equality of the transport lemma with $i=2$. For the head, condition 5 applied to $M^D$ and the isomorphism $E_{0,3}^M$ give $H_c^0(M)=0$. Exactness then makes $\rho_0^M$ injective. For the tail, exactness gives $\operatorname{im}\partial_2^M=\ker u_3^M$. Condition 5 applied to $M$ makes this kernel all of $H_c^3(M)$. Transport by $E_{3,0}^M$ proves surjectivity of $\lambda_2^M$.
+
+For the kernel pairing, exactness gives both the lift and $\ker u_1^M=\operatorname{im}\partial_0^M$. If the lift is changed by $\partial_0^M\xi$, its character changes by $\lambda_0^M(\xi)$, which vanishes on $\mathrm{Sha}^2(M^D)$. This proves independence of the lift and bilinearity, since the sum of two lifts lifts the sum.
+
+We use the extension property of $\mathbb Q/\mathbb Z$: a character on a subgroup extends to the whole group. One proof enlarges the domain to a maximal extension by Zorn's lemma. For an element $a$ outside that domain, if $a$ has order $m$ modulo the domain, choose its character value so that $m$ times the value equals the assigned value of $ma$. Divisibility gives a solution. If the order is infinite, give $a$ value zero. In either case addition defines the extension on the subgroup generated by the domain and $a$, contradicting maximality. In particular, a character killing the kernel of a map descends to its image and extends to the target.
+
+If $x$ pairs to zero with all $y$, the character $E_{1,2}^M(\widetilde x)$ kills $\ker\rho_2^{M^D}$. Write it as $g\rho_2^{M^D}$ by extension, with $g\in L^2(M^D)^\vee$. The family is finite, so $g$ is the sum of its component characters. Condition 7 writes each component as evaluation against a local degree-zero class $\xi_v$. Thus $E_{1,2}^M(\widetilde x)=\lambda_0^M(\xi)=E_{1,2}^M(\partial_0^M\xi)$. Injectivity and exactness now give $x=0$. Conversely, any character of $\mathrm{Sha}^2(M^D)$ extends to $H^2(M^D)$. It has a preimage $\widetilde x$ under $E_{1,2}^M$, and $u_1^M(\widetilde x)$ represents the original character under the pairing. This proves bijectivity of the first adjoint. Both kernels are finite by condition 3, so the flip lemma gives bijectivity of the other adjoint.
+
+**Remarks.** If condition 5 is omitted, exactness identifies the precise defect at the right endpoint:
+$$
+\operatorname{coker}\lambda_2^M \simeq
+\ker\big(H^3(M)\xrightarrow{\rho_3^M}L^3(M)\big).
+$$
+Indeed $\lambda_2^M$ is $\partial_2^M$ followed by an isomorphism, and the quotient of $H_c^3(M)$ by its image under $\partial_2^M$ is the image of $u_3^M$. An example satisfying the other six conditions is the empty family, $G=\mathbb Z_3^3$, $n=3$, and $D=M=\mathbb F_3$ with trivial action. For the empty family $H_c^i(A)=H^i(A)$ and both local conditions are vacuous. Here are the duality and finiteness checks for all finite discrete $3$-torsion coefficients, which are necessary for this example.
+
+Let $\gamma_1,\gamma_2,\gamma_3$ be the three generators of $G$, and write $\Lambda=\mathbb F_3[[G]]=\mathbb F_3[[T_1,T_2,T_3]]$ with $T_i=\gamma_i-1$. The identification follows from the finite quotients, whose group algebras impose $T_i^{3^m}=0$ at level $m$. The Koszul complex on the $T_i$ resolves the trivial module because each variable is a non-zero-divisor modulo the preceding variables. The completed free bar resolution computes continuous cohomology by continuous homomorphisms into a discrete module. Comparison of projective resolutions gives the same calculation with this finite free Koszul resolution. Equivalently, the completed tensor of two such resolutions over the field resolves the diagonal target: over the field the augmented resolutions split as complexes of profinite vector spaces. This also allows comparison of diagonals by chain homotopy. Each cochain group is a finite product of the coefficient group. For trivial coefficients the differentials vanish, and the top exterior generator defines the trace $H^3(D)\to\mathbb F_3$.
+
+For arbitrary such coefficients the cup can be computed by a diagonal on the Koszul resolution. On the exterior generator $e_i$ in degree one, use $e_i\otimes\gamma_i+1\otimes e_i$, with the group elements mapped diagonally and tensor products completed over $\mathbb F_3$. Its differential is $\gamma_i\otimes\gamma_i-1\otimes1$. Extending multiplicatively with the graded tensor sign gives a chain map lifting the diagonal on the trivial module. On the top exterior generator, the summands in complementary degrees pair each wedge indexed by a subset with its complementary wedge. Each pairing is evaluation with a sign and an invertible product of $\gamma_i$ acting on one argument. Thus the resulting cochain pairing into $\mathbb F_3$ in total degree three is perfect. The differential is adjoint to the complementary differential up to the Leibniz sign. Taking cohomology therefore gives a perfect pairing, since exact dualization of finite-dimensional vector spaces identifies the dual cohomology with the cohomology of the dual complex. This verifies condition 2 for all the coefficients in the example. Now $H^3(M)=\mathbb F_3$ and $\lambda_2^M:0\to H^0(M^D)^\vee$ has cokernel of order three. The head also fails here. For a nonempty family of actual restrictions, degree-zero restriction is already injective for every coefficient. Together with $E_{0,3}$ this forces $H^3(A)=0$ for every permitted $A$ by biduality. Allowing the empty family gives a counterexample within the abstract domain.
+
+The torsion hypothesis in the character identification is necessary. Take $n=3$, $X=\mathbb Z/3\mathbb Z$, $B=\mathbb Z/9\mathbb Z$, and pair $(x,y)$ by $x(y\bmod 3)$ in $\mathbb Z/3\mathbb Z$. Every homomorphism $B\to\mathbb Z/3\mathbb Z$ is specified by the image of $1$, so the first adjoint is bijective before postcomposition. After postcomposition, the character sending $1$ to $1/9+\mathbb Z$ is missing. In fact the image consists of the three characters with generator value in $(\mathbb Q/\mathbb Z)[3]$, out of nine characters on $B$. This is a counterexample to extending the adjoint-conversion lemma outside its torsion bound.
+
+For the arithmetic specialization, take a number field $K$ inside $\overline{\mathbb Q}$, a finite set $S$ of finite places containing all places above $n$, and for each $v$ an embedding of $\overline{\mathbb Q}$ into an algebraic closure of $K_v$ over $K$. These specify $G_v\to G_{K,S}$ with $G_v$ the absolute Galois group of $K_v$. Assume $n$ is odd or $K$ is totally complex. Take $D=\mu_n$ in the maximal extension unramified outside $S$, the compact trace from the sum of invariants, and the local invariant through the Brauer group. To supply condition 2 at a general $n$, the arithmetic argument uses the open-subgroup records of [§§18.3.21–23](#18321-from-the-coefficient-trace-to-surjective-compact-corestriction), the fixed-exponent dévissage of [§18.3.25](#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent), and the primary assembly of [§18.3.24](#18324-combining-prime-power-compact-pairings-on-the-same-module). Each such divisor inherits the allowed places and the archimedean guard. The arithmetic finiteness, degree-three vanishing, trace compatibility and local Tate pairing supply the remaining conditions at these same choices. This gives the global-to-compact adjoint, the two finite kernels and both bijective adjoints for their pairing, and the nine-term row with precisely the three invariant-sum arrows. The archive's coefficient and place comparisons in `NineAddCore.lean` and `PtfsSha.lean` consume these outputs. The prime-power compact-duality theorem and the underlying local Tate theorem enter here as named arithmetic inputs. The seven hypotheses, the complementary adjoint, the nine-term row and the kernel pairing are in A2, `PoitouTate/General.lean:22–44,56–91,109–232`. The arithmetic wrapper is `PoitouTate/PoitouTateNineTermGs.lean:23–69`.
+
+Tate defines the two localization kernels and states the finite duality in degree-two-first order in *Duality Theorems in Galois Cohomology over Number Fields*, ICM 1962, §3, Theorem 3.1 [Paper]. He also states the nine-term sequence and records Poitou's independent work. Milne, Chapter I, §4, Theorem 4.10, gives the degree-one-first pairing and describes the local-to-dual arrows as the duals of complementary localization via local duality. His statement uses a finite module whose order is a unit in the ring of $S$-integers and includes archimedean places with Tate modification. In the arithmetic specialization above, the coefficient order has prime divisors only among those of $n$. At complex places the modified groups vanish, and at real places with $n$ odd they vanish since multiplication by $2$ is invertible on the coefficients. The finite family at the finite places thus yields the terms displayed here. The textbook calculation uses the compact-first cup convention stated above. [Tate, pp. 290–291](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf) · [Milne, I, pp. 53–57, 66](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Source ledger](../sources/SOURCES.md#chapter-18-18320-compact-support-and-poitoutate)
+
+**Review status.** Author-level proof and local A2 reading. Same-source preliminary review R003 accepted the conditional deduction, examples and stated interfaces. [Open] Deeper local Tate and arithmetic supplies, external review and kernel replay remain separate.
+
+---
+
+### 18.3.21 From the coefficient trace to surjective compact corestriction
+
+**Motivation.** The prime-power input used in §18.3.20 starts with a trace on compact cohomology in degree three of a restricted Galois group. On a smaller open subgroup one can first corestrict a compact class and then apply this trace. To compare that composite with the trace constructed over the larger fixed field, the archive needs surjectivity of compact corestriction. The proof begins with an onto map of coefficient modules. The obstruction to lifting a compact cohomology class is a class one degree higher, with coefficients in the kernel of that map.
+
+**Two examples [Expository].** Write $C_m$ for a cyclic group of order $m$. First take $G=C_4=\langle t\rangle$, $V=\langle t^2\rangle$ and $D=\mathbb Z/16\mathbb Z$, with $t$ acting by $3$. This defines an action as $3^4=1$ modulo $16$. The generator of $V$ acts by $9$. A function $f$ in the coinduced module satisfies $f(vx)=vf(x)$ for $v\in V$. Record it as $(a,b)=(f(1),f(t^{-1}))$. The values at $t^2$ and $t$ are $9a$ and $9b$. The action $tf(x)=f(xt)$ and the coefficient trace are
+$$
+t(a,b)=(9b,a),\qquad \tau(a,b)=a+3b.
+$$
+Indeed $\tau(t(a,b))=9b+3a=3\tau(a,b)$. The element $(y,0)$ lies over $y$. The kernel consists of $(-3b,b)$, so it is cyclic of order $16$. On its parameter $b$, the action of $t$ is multiplication by $-3$. For example, $\tau(2,5)=1$ and $(2,5)-(1,0)=(1,5)$ belongs to the kernel. The index $2$ is a nonunit in the coefficient ring.
+
+For index three take $G=C_{18}=\langle t\rangle$, $V=\langle t^3\rangle$ and $D=\mathbb Z/9\mathbb Z$, with $t$ acting by $2$. This is an action because $2^6=1$ modulo $9$. The action of $t^3$ is multiplication by $8$. With coordinates $(a,b,c)=(f(1),f(t^{-1}),f(t^{-2}))$, one has $f(t)=8c$ and
+$$
+t(a,b,c)=(8c,a,b),\qquad \tau(a,b,c)=a+2b+4c.
+$$
+The trace of the transformed triple is $8c+2a+4b=2\tau(a,b,c)$. Again $(y,0,0)$ lies over $y$. The kernel is parameterized by $(-2b-4c,b,c)$ and has order $81$ and exponent $9$. The action on the parameters is $(b,c)\mapsto(-2b-4c,b)$. For instance, $\tau(1,2,3)=8$, with difference $(1,2,3)-(8,0,0)=(2,2,3)$ in the kernel. The index $3$ is a nonunit here. In either example the chosen lifts need only respect addition. Applying $t$ can move their support to a different coset.
+
+**Definitions.** Let $G$ be a compact topological group and let $\phi=(\phi_v:H_v\to G)_v$ be a family of continuous homomorphisms from compact topological groups. Profinite groups give the intended applications. Let $V$ be an open subgroup and $D$ a finite discrete $G$-module killed by a natural number $n$. The compact groups in this section use the mapping fibre of the cochain restriction
+$$
+\rho_A:C^\bullet(G,A)\longrightarrow L^\bullet(A)
+=\prod_v C^\bullet(H_v,\operatorname{Res}_{\phi_v}A).
+$$
+All cochains are continuous. Denote the fibre cohomology by $H_c^q(G,\phi;A)$. Its degree-$q$ cochains are $(a,b)\in C^q(G,A)\oplus L^{q-1}(A)$ with differential $d_c(a,b)=(da,\rho_A a-db)$ and $L^{-1}=0$.
+
+Put $N=\operatorname{Res}_V^G D$ and $B=\operatorname{Coind}_V^G N$. In the archive convention $B$ consists of functions $f:G\to D$ satisfying $f(vx)=vf(x)$, with $(gf)(x)=f(xg)$. The quotient $G/V$ consists of cosets $xV$. Choose one $x$ per coset, including $1$ for $V$. The coefficient trace is
+$$
+\tau(f)=\sum_{xV\in G/V}x f(x^{-1}).
+$$
+These summands use the original $G$-action on $D$. In particular the index is finite, since the open cosets cover a compact group. The opposite cosets $Vx^{-1}$ cover the arguments of the function, so the values $f(x^{-1})$ are free coordinates.
+
+**Lemma (the short exact trace sequence).** Put $J=\ker\tau$. Then
+$$
+0\longrightarrow J\xrightarrow{i}B\xrightarrow{\tau}D\longrightarrow0
+$$
+is a short exact sequence of finite discrete $G$-modules killed by $n$.
+
+**Proof.** Replacing $x$ by $xv$ changes its summand to $xv f(v^{-1}x^{-1})=xf(x^{-1})$. If $g\in G$, reindex the trace of $gf$ using $gx$ as a representative. Its summand at $gx$ is $(gx)f((gx)^{-1}g)=gxf(x^{-1})$, giving $\tau(gf)=g\tau(f)$. Thus $J$ is stable. For $d\in D$, let $s_d(x)=xd$ on $V$ and $s_d(x)=0$ off $V$. Left multiplication by a member of $V$ preserves membership in $V$, so $s_d(vx)=vs_d(x)$. Only the identity coset contributes to $\tau(s_d)$ and it contributes $d$. The equivariant map $d\mapsto (x\mapsto xd)$ has full coset support for $d\ne0$. Its composite with $\tau$ is multiplication by $[G:V]$, since every summand equals $d$. The supported lift explains why surjectivity needs no division by the index. The inclusion has image precisely the kernel, proving exactness.
+
+Each coinduced function is continuous: on $Vx^{-1}$ it is given by $v\mapsto vf(x^{-1})$. Evaluation at the finitely many representatives identifies the underlying additive group of $B$ with a finite product of copies of $D$. In these coordinates the orbit map of $f$ is given by $g\mapsto (f(x^{-1}g))_x$, a continuous map to a finite discrete product. Hence $B$ is discrete as a representation and so is its stable subgroup $J$. Both are finite, and $nf=0$ pointwise gives $nJ=0$. The argument also gives finiteness and discreteness for coinduction of any finite discrete $V$-module. [Archive A2, ShapiroDefs.lean:52–105,117–146; EulerChar.lean:210–218; RestrictedRamification/BaseCores.lean:25–84,105–117.]
+
+**The coefficient long exact sequence.** Apply the continuous cochain functor to the sequence globally and along every $\phi_v$. Injectivity and exactness at the middle follow pointwise. A continuous cochain into $D$ lifts by composing with the section $d\mapsto s_d$ between discrete sets. The lift commutes with evaluation on group arguments, which gives degreewise exactness for the local product and the fibre. The coefficient maps commute with the cochain differentials because $i,\tau$ are equivariant. The resulting short exact sequence of complexes gives
+$$
+\begin{aligned}
+\cdots\longrightarrow H_c^3(G,\phi;J)
+ &\xrightarrow{i_*} H_c^3(G,\phi;B)
+ \xrightarrow{\tau_*} H_c^3(G,\phi;D)\\
+ &\xrightarrow{\delta} H_c^4(G,\phi;J)
+ \xrightarrow{i_*} H_c^4(G,\phi;B)
+ \xrightarrow{\tau_*} H_c^4(G,\phi;D)\longrightarrow\cdots .
+\end{aligned}
+$$
+The map $\tau_*$ applies the same coefficient trace globally and at every local group. To compute $\delta$ on a compact cocycle, lift the two components to a cochain of $B$ and apply $d_c$. Its trace is zero, so its two components come from a degree-four cochain of $J$. That cochain is closed because $i$ is injective and $d_c^2=0$. Changing the lift adds a coboundary in $J$. Changing the representative by a coboundary allows the lift to change by the differential of any lift of the preceding cochain, so the class is independent of the representative. If $\delta$ vanishes, subtract the inclusion of a degree-three $J$-cochain whose differential represents $\delta$. The resulting lift is closed. Conversely a closed lift gives zero connecting class. In Lean, *compactRes_exact₃* is exactness at $H_c^3(G,\phi;D)$, for the coefficient map *compactCohomologyResMap* followed by *compactδRes* at degree three. The subscript on *compactRes_exact₃* identifies the position in the standard exactness statements, while its degree is supplied as an argument. This connecting arrow comes from the coefficient sequence. The local-to-compact arrow of §18.3.20 comes from the restriction fibre. [Archive A2, PoincarePairs/Natural.lean:46–58; PoincarePairs/Devissage.lean:41–70; CompactSupportCohomology.lean:284–332.]
+
+**Lemma (the compact Mackey comparison).** For each $v$ and each representative $x$ of a double coset in $G$ under left $V$ and right $\phi_v(H_v)$, let
+$$
+H_{v,x}=\{h\in H_v:x\phi_v(h)x^{-1}\in V\},\qquad
+\psi_{v,x}(h)=x\phi_v(h)x^{-1}.
+$$
+Write $\psi$ for that family of maps to $V$. The local coefficient is $N$ restricted along $\psi_{v,x}$. The compact Mackey isomorphism has direction
+$$
+E_q:H_c^q(G,\phi;B)\xrightarrow{\;\sim\;}H_c^q(V,\psi;N).
+$$
+Compact corestriction for $D$ is $\tau_*E_q^{-1}$.
+
+**Proof.** Shapiro's global cochain map $\alpha$ restricts the arguments to $V$ and evaluates the resulting function at $1$. On the local side the map $\beta$ takes the entry for $v$, restricts its arguments to $H_{v,x}$, and evaluates the coefficient function at $x$. At the coefficient level restriction of $B$ to $H_v$ is the product of the coinductions from $H_{v,x}$ of the indicated restricted $N$. To see the decomposition, send $f$ to the functions $h\mapsto f(x\phi_v(h))$. For each double coset, a function $u_x$ with the required $H_{v,x}$-equivariance gives the inverse formula $f(v_0x\phi_v(h))=v_0u_x(h)$. Two expressions for the argument satisfy $v_0x\phi_v(h)=v_1x\phi_v(h')$. Then $k=h'h^{-1}$ lies in $H_{v,x}$ and $v_1\psi_{v,x}(k)=v_0$, so $v_1u_x(h')=v_0u_x(h)$. The right $H_v$-actions agree under this correspondence. Shapiro on those factors yields the local isomorphisms in cohomology. Products of complexes here have componentwise cycles and boundaries.
+
+The square on cochains commutes up to homotopy. For $g\in G$ let $I_g$ send an inhomogeneous cochain $u$ to the cochain with values $g u(g^{-1}a_1g,\ldots,g^{-1}a_qg)$. In homogeneous coordinates this is evaluation on $(z_0g,\ldots,z_qg)$, where a homogeneous cochain is an equivariant function of $q+1$ group variables. The homotopy $P_g$ from $I_g$ to the identity is given on a homogeneous degree-$q$ cochain $F$ by
+$$
+(P_gF)(z_0,\ldots,z_{q-1})
+=\sum_{i=0}^{q-1}(-1)^i F(z_0,\ldots,z_i,z_i g,\ldots,z_{q-1}g).
+$$
+This is equivariant and continuous, and in degree zero take the map to be zero. In the alternating face differential, deleting a vertex strictly before the adjacent pair $(z_i,z_i g)$ cancels the matching face of $dP_g$ with insertion index lowered by one. Deleting a vertex strictly after the pair cancels the matching face with the same insertion index. Faces deleting one vertex of the pair cancel in adjacent summands, leaving the two evaluations at $(z_jg)_j$ and $(z_j)_j$ with signs $+$ and $-$. Hence $dP_g+P_gd=I_g-1$. In inhomogeneous coordinates this formula inserts $g$ and conjugates the arguments after it, as in *conjHomotopyFun*.
+
+Write $\beta_x,\rho'_x$ for the indicated components. Inserting $I_{x^{-1}}$ before $\beta_x\rho$ conjugates the arguments by $x$ and acts on the coinduced value by $x^{-1}$. Evaluation of that value at $x$ is then evaluation of the original function at $xx^{-1}=1$. Thus $\beta_x\rho I_{x^{-1}}=\rho'_x\alpha$. Taking $h_x=-\beta_x\rho P_{x^{-1}}$ gives $\beta\rho-\rho'\alpha=dh+hd$ after taking the product. This is the orientation used in *mackeyLocalHomotopy*, which reverses *mackeyHomotopy* at each component. The fibre map is
+$$
+(a,b)\longmapsto(\alpha a,\beta b-h a).
+$$
+In the second coordinate, differentiating this image gives $\rho'\alpha a-d\beta b+d h a=\beta\rho a-\beta db-h da$. This is the second coordinate of the image of the differential. The fibre map induces $\alpha$ on the global projection and $\beta$ on the shifted local inclusion. In the long exact sequences of the two fibres, the four groups flanking the compact term are the global and local groups in degrees $q-1$ and $q$. The maps on these groups are isomorphisms by Shapiro and the local decomposition, so the five lemma gives $E_q$ for $q>0$. For $q=0$ the fibre term is the kernel of degree-zero restriction and the same isomorphisms identify the kernels. In the archive this is precisely *mackeyCompactCohomologyIso*. The definition of *compactCores* uses its inverse and then the coefficient map for $\tau$, with the same global and local actions. [Archive A2, MackeyDefs.lean:15–36,41–65; MackeyFormula/Homotopy.lean:18–67; MackeyFormula/ConjHomotopy.lean:33–40,126–130,149–236,294–326; MackeyFormula/CompactSupport.lean:41–122; MackeyFormula/ConeHomotopy.lean:18–27,70–189; PoincarePairs/IsDiscreteRepResHomCoindRes.lean:89–97.]
+
+**Theorem 18.3.21 (surjectivity in degree three) [Lean, read].** Suppose that for every finite discrete $G$-module $M$ killed by $n$ one has $H_c^4(G,\phi;M)=0$. Then for every open $V$ and finite discrete $D$ killed by $n$, the map
+$$
+\operatorname{cores}_{c,V}^G:H_c^3(V,\psi;\operatorname{Res}_V^G D)
+\longrightarrow H_c^3(G,\phi;D)
+$$
+is onto.
+
+**Proof.** Use the trace sequence for this very $D$. Its kernel $J$ meets all the hypotheses on $M$. Therefore any $y\in H_c^3(G,\phi;D)$ satisfies $\delta y=0$ in $H_c^4(G,\phi;J)$. Exactness gives $x\in H_c^3(G,\phi;B)$ with $\tau_* x=y$. Take $E_3 x$ as the preimage under compact corestriction. The definition gives $\operatorname{cores}_{c,V}^G(E_3 x)=\tau_* E_3^{-1}(E_3 x)=y$. This follows the exactness and inverse-composition steps of *surjective_compactCores_three*. For a fixed $V,D$, exactness identifies the cokernel of corestriction with $\operatorname{im}\delta\subseteq H_c^4(G,\phi;J)$. Vanishing for the single kernel suffices for this pair. The theorem uses the uniform hypothesis to cover every such kernel. [Archive A2, RestrictedRamification/BaseCores.lean:90–124.]
+
+**A nonzero instance and a failure without vanishing.** For a nonzero instance of the abstract theorem take $G=\mathbb Z_3^2$, $V=3\mathbb Z_3\times\mathbb Z_3$, $D=\mathbb F_3$ trivial, and two local maps both equal to the identity of $G$. They give the diagonal on cochains for every coefficient $M$. The map $(a,(b_1,b_2))\mapsto b_2-b_1$ identifies the fibre up to quasi-isomorphism with $C^\bullet(G,M)$ shifted by one with differential $-d$. Its kernel is the fibre of the identity, contracted by $(a,b)\mapsto (b,0)$. Each identity map has one Mackey double coset with representative $1$, giving the same family of two identity maps at $V$ after identifying the Mackey groups with $V$. The completed group algebra over $\mathbb F_3$ is $\mathbb F_3[[T_1,T_2]]$ with $T_i=\gamma_i-1$ for generators $\gamma_i$. At each finite quotient of exponent $3^j$ the relations are $T_i^{3^j}=0$, yielding the power series ring on passage to the limit. The regular sequence $T_1,T_2$ gives a length-two free Koszul resolution of the trivial module. Applying continuous module homomorphisms into any finite discrete $3$-torsion $M$ computes continuous cohomology, by comparison with the completed bar resolution. Thus $H_c^4(G,\phi;M)=H^3(G,M)=0$ for all the required $M$. For trivial $D$ the Koszul differentials on cochains vanish, so $H_c^3(G,\phi;D)=H^2(G,D)=\mathbb F_3$. The subgroup is again $\mathbb Z_3^2$ and its corresponding compact group is $\mathbb F_3$ as well. This supplies an index-three case where degree-three surjectivity has a nonzero target.
+
+For failure take $G=C_2=\langle t\rangle$, $V=1$, $D=\mathbb F_2$ trivial, and the one local map $1\to C_2$. The local cohomology vanishes in positive degrees, so projection identifies compact and ordinary cohomology of every coefficient in degrees at least two. On the $V$ side the Mackey family has two trivial groups and compact cohomology also vanishes in these degrees. Write $B=\mathbb F_2^2$ with the swap action. The coefficient trace is $(a,b)\mapsto a+b$, and $J$ is the trivial diagonal copy of $\mathbb F_2$. The cyclic resolution over $\mathbb Z[C_2]$ has successive differentials $t-1,1+t,t-1,1+t,\ldots$, starting with $t-1$ in degree one. Exactness follows because in the group ring the kernel of each map is the image of the other, and the augmentation kernel is generated by $t-1$. On $B$ both cochain operators are $(a,b)\mapsto(a+b,a+b)$, with image equal to kernel, so $H^3(C_2,B)=H^4(C_2,B)=0$. On $D$ and $J$ both operators are zero. The coefficient long exact sequence therefore contains
+$$
+H_c^3(G,\phi;J)=\mathbb F_2 \xrightarrow{0}
+H_c^3(G,\phi;B)=0 \xrightarrow{\tau_*}
+H_c^3(G,\phi;D)=\mathbb F_2 \xrightarrow{\delta}
+H_c^4(G,\phi;J)=\mathbb F_2 \xrightarrow{0} H_c^4(G,\phi;B)=0 .
+$$
+The lift $(1,0)$ of the degree-three generator in the cyclic complex has differential $(1,1)$ in degree four, so $\delta(1)=1$ in the diagonal coordinate. Naturality of the compact-to-global projection gives the same connecting map in the compact row. The coefficient trace hits $1$, but its compact cohomology map and hence corestriction miss the nonzero class. This disproves unconditional surjectivity in the abstract theorem with the vanishing hypothesis removed.
+
+**The restricted-ramification specialization.** Let $K$ be the chosen number field inside $\overline{\mathbb Q}$, let $K_S$ be the maximal extension unramified at finite places outside $S$, and put $G_{K,S}=\operatorname{Gal}(K_S/K)$. Each chosen embedding of $\overline{\mathbb Q}$ into an algebraic closure of $K_v$ gives the continuous map $G_{K_v}\to G_{K,S}$ called *gsFinFamily*. For *surjective_gs_compactCores_three*, $n$ is nonzero, $S$ contains every finite place dividing $n$, and $n$ is odd or $K$ is totally complex. This wrapper works for any finite discrete $D$ killed by $n$. Its call to the theorem supplies *subsingleton_compactCohomology_four* as a named arithmetic input, on the original $G_{K,S}$ and with those same local maps. The input provides the needed conclusion for every discrete $M$ killed by $n$, even without a finiteness condition. Its displayed source uses $H^4(G_{K,S},M)=0$ and $H^3(G_{K_v},M)=0$ for each finite $v$. The restriction-fibre sequence has their product of local third groups on the left of $H_c^4$ and the global fourth group on the right. The arithmetic cohomological-dimension bounds supplying those zeros remain inputs here. [Archive A2, RestrictedRamification/BaseChangeMackey.lean:17–31; RestrictedRamification/Dimension.lean:115–172; RestrictedRamification/BaseCores.lean:134–142.]
+
+The prime-power base in *BaseMain* additionally takes finite $S$, a prime $\ell$ and $n=\ell^k$, with $S$ containing all places above $\ell$. The arithmetic wrapper needs coverage of places dividing $n$. Primality of each place ideal turns membership of $\ell^k$ into membership of $\ell$ when $k>0$. This implication only needs the place ideal to be prime. The primality of the rational prime $\ell$ also supplies a place over $\ell$, so this consumer has a nonempty local family. If $k=0$, then $n=1$ and no place divides $n$. The guard $n$ odd or $K$ totally complex belongs to the finite-place arithmetic vanishing and trace inputs. The abstract trace and exactness argument uses neither this guard nor primality. In *BaseMain*, $D$ is specifically *gsRoots*, the additive form of $\mu_n(K_S)$. The proof obtains an additive identification with $\mathbb Z/n\mathbb Z$ and uses $nD=0$. The additive identification need not respect the Galois action. Its *h3* is $H^3(G_{K,S},D)=0$. This ordinary global condition allows the finite local degree-two boundary to surject onto $H_c^3(G_{K,S},D)$, which enters the definition and surjectivity proof for the invariant trace. It has a separate role from vanishing of $H_c^4(G_{K,S},J)$. In §18.3.20 the degree-three ordinary vanishing in the general duality package is quantified over every allowed coefficient. [Archive A2, RestrictedRamification/BaseMain.lean:15–52; RestrictedRamification/BaseDefs.lean:293–320; RestrictedRamification/BaseInputs.lean:83–87.]
+
+**Where the proof is used.** Write $t_K$ for *gsCompactInv* on $H_c^3(G_{K,S},D)$, with values in $R=\mathbb Z/n\mathbb Z$. At lines 45–47 *BaseMain* constructs *hcores* for every open $U$ using the wrapper. It chooses an open subgroup $W_0$ fixing all the $n$th roots of unity. For $U\le W_0$ the fixed-field step writes $U$ as the subgroup belonging to a finite extension $L\subseteq K_S$ containing those roots. It uses all places of $L$ over $S$ with the transported embeddings. Here *gsBaseBijective_of_le* composes *hcores U* with surjectivity of $t_K$, obtained by choosing one place and lifting through its onto local invariant, to make
+$$
+f=t_K\circ\operatorname{cores}_{c,U}^{G_{K,S}}:W\longrightarrow R
+\quad\text{surjective},\qquad W=H_c^3(U,\psi;D|_U).
+$$
+The arithmetic comparison $e_W:W\to H_c^3(G_{L,S_L},\phi_L;\mu_n)$ and the upper trace $T_L$ give a second map $g=T_L\circ e_W$ on $W$. The upper trace is supplied as bijective. The proof in *BaseLevel* compares $f,g$ on this common domain. The additive endomorphism $f g^{-1}$ of $R$ is multiplication by $c=f(g^{-1}(1))$. Surjectivity gives $cx=1$ for some $x\in R$, so $c$ is a unit. Thus $f=cg$. In the Lean call the bijective comparator is $T_L\circ e^{-1}$ where the archive's $e$ goes from the upper-field group to $W$.
+
+Cup compatibility transports the upper pairing along the corresponding ordinary and compact cohomology isomorphisms. More explicitly, write $B_U(y,x)$ for the cup of a degree-$s$ compact class on $U$ and an ordinary degree-$r$ class with trivial $R$ coefficients, with $r+s=3$. Let $e_Y,e_X$ be the identifications from these groups to the upper-field compact and ordinary groups. Then $e_W B_U(y,x)=B_L(e_Y y,e_X x)$ and
+$$
+f(B_U(y,x))=c\,T_L(B_L(e_Y y,e_X x)).
+$$
+If the upper adjoint is bijective, precomposing the characters by $e_Y$ and multiplying by $c$ are invertible operations, as is the change of ordinary argument by $e_X$. Hence the lower adjoint is bijective. This is the use of *hcores* in the field *bijective_base* of *CompactDualityHypotheses*. The record also contains the additive identification of $D$ and the uniform fourth vanishing. The other inputs are the upper trace isomorphism, the upper base pairing (including *GsPairingInput*), the local-invariant supply, and the field and cup comparisons at their named interfaces. [Archive A2, RestrictedRamification/BaseMain.lean:23–64; RestrictedRamification/BijectiveGsLocalInvRootsOfPlaces.lean:67–116; RestrictedRamification/BaseLevel.lean:19–56,66–108; RestrictedRamification/BaseInv.lean:97–108,263–268; PoincarePairs/IsDiscreteRepResHomCoindRes.lean:111–144.]
+
+The resulting record is the one that *gsBaseCase* requests for $p^{v_p(N)}$ at each prime factor of a general exponent $N$. The full compact adjoint of §18.3.20 still requires the subsequent coefficient dévissage. [Archive A2, PoitouTate/PoitouTateNineTermGs.lean:23–29,36–38.]
+
+The arithmetic hypotheses have genuine instances with a proper subgroup. Take $K=\mathbb Q$, $n=3$, $S=\{(3)\}$ and fix a closure embedding at $3$. The polynomial $X^2+X+1$ has discriminant $-3$. Its root generates $L=\mathbb Q(\zeta_3)$ and the order it generates has discriminant $-3$, so the order is maximal by the discriminant-index formula. Thus $L$ is unramified outside $3$ and lies in $K_S$. Its fixing subgroup is open of index two and fixes $\mu_3$. At the upper field $S_L$ is nonempty and contains all primes over $3$. The conjugate embeddings of $L$ are complex, and the odd guard already holds at both levels. The action on $\mu_3$ over $K$ is nontrivial because the quotient of order two interchanges the primitive roots. The supplied ordinary degree-three vanishing applies at both levels. This instance exercises the same arithmetic coefficient and restriction family as the theorem.
+
+**References and scope.** Milne's *Class Field Theory*, Chapter II, Proposition 1.11 (p. 62) and Example 1.29 (p. 70), and §4 (pp. 87–88) give ordinary Shapiro, the coset trace for corestriction and their continuous setting. Tate's *Duality Theorems in Galois Cohomology over Number Fields*, ICM 1962, §3, Theorem 3.1 [Paper] (pp. 290–291), states the classical kernel pairing and exact row and credits Poitou's independent work. Milne's *Arithmetic Duality Theorems*, second edition, I.4.10 (pp. 56–57), states the local-to-global duality with the real-place terms. The compact comparison and the coefficient sequence used here follow the Alpöge–Claude A2 archive, SHA-256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc, with the cited paths relative to *lean/src/GroundTheory/ProfiniteCohomology*. The status tag records author-level reading of the pinned proof bodies and their immediate consumer wiring. The finite computations verify the examples. See the source ledger for the inherited review and its scope. The arithmetic dimension estimates, upper pairing and the prime-power dévissage into the full duality package remain separately supplied. [Milne, Class Field Theory](https://www.jmilne.org/math/CourseNotes/CFT.pdf) · [Tate, ICM address](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf) · [Milne, Arithmetic Duality Theorems](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Source ledger](../sources/SOURCES.md#chapter-18-18321-compact-corestriction)
+
+**Review status.** Author-level proof and local A2 reading. Same-source preliminary review R019 accepted the named trace, Mackey and surjectivity arguments with their hypotheses. [Lean] The underlying arithmetic dimension estimates are cited at their stated interface. [Open] External review and kernel replay remain pending.
+
+---
+
+### 18.3.22 The upper-field root-of-unity pairing
+
+**Motivation.** The transport in §18.3.21 starts with an invariant and a perfect compact pairing on the larger fixed field. A roots-fixing subgroup makes its root-of-unity module cyclic with trivial action. The arithmetic proof then tests the pairing with characters and Kummer classes. Two tests and a finite count settle one pair of degrees. The opposite pair of degrees needs an additional argument: lift local representatives, then use the first pairing to correct the lift. The two endpoint degrees use ordinary third cohomology in different ways.
+
+**Example 1 (modulo five) [Expository].** Let $R=\mathbb Z/5\mathbb Z$, with compact variable $y=(c,d)$ and ordinary variable $x=(a,b)$ in copies of $R^2$. Set
+$$
+ B(y,x)=c(a+2b)+d(a+b).
+$$
+The values on the compact basis are $(a+2b,a+b)$. For instance $x=(2,4)$ gives $(0,1)$. For prescribed values $(u,v)$ the inverse is $b=u-v$, $a=2v-u$. The values on the ordinary basis are $(c+d,2c+d)$, with inverse $c=v-u$, $d=2u-v$. Each adjoint attains all $25$ characters, given by arbitrary basis values.
+
+**Example 2 (modulo eight) [Expository].** Take $R=\mathbb Z/8\mathbb Z$, $Y=R\oplus\mathbb Z/2\mathbb Z$ and initially $X_0=R$, with $B((c,d),a)=ca$. The ordinary-variable test holds by evaluating at $y=(1,0)$. The compact-variable kernel is $\{(0,0),(0,1)\}$. A character of $Y$ has the form $uc+4vd$ for unique $u\in R$ and $v\in\mathbb Z/2\mathbb Z$, because the image of the order-two generator is $0$ or $4$. The eight ordinary classes miss the eight characters with $v=1$. Now take $X=R\oplus\mathbb Z/2\mathbb Z$ and set
+$$
+ B((c,d),(a,b))=ca+4db.
+$$
+The compact tests $(1,0),(0,1)$ return $a,4b$, and the ordinary tests $(1,0),(0,1)$ return $c,4d$. In particular the added class $(0,1)$ detects the old compact radical generator with value $4$. Each side has $16$ elements and each adjoint attains all $16$ characters of its target group. The factor $4$ is required by the original order-two summands.
+
+**Definition and setting.** Fix one finite subfield $L$ of $\overline{\mathbb Q}$, a finite nonempty set $S_L$ of its finite places, and the embeddings into the algebraic closures of its completions used by the local family $\phi=\texttt{gsFinFamily}$. Put $G=G_{L,S_L}$ and $H_v=G_{L_v}$. Fix $n=\ell^k>0$ with $\ell$ prime and $k\geq0$. Assume that $S_L$ contains every place above $\ell$, that $L$ contains all $n$th roots of unity, and that $n$ is odd or $L$ is totally complex. Let $R=\mathbb Z/n\mathbb Z$ with trivial action and let $D$ be the additive form of the roots of unity of order dividing $n$ in the maximal extension unramified outside $S_L$. Here $D=\mu_n$ inside the chosen closure, is killed by $n$, and has trivial action. Choose an equivariant additive isomorphism $\iota:R\to D$ by sending $1$ to a generator $d_0$. This is a coefficient comparison, with the original invariant fixed. Write $H^q(M)$ for continuous ordinary cohomology of $G$, $L^q(M)=\prod_{v\in S_L}H^q(H_v,M)$ for the product via $\phi$, and $H_c^q(M)$ for cohomology of the mapping fibre of restriction. Denote the maps in its exact row by
+$$
+ H_c^q(M)\xrightarrow{\pi_M^q}H^q(M)\xrightarrow{\rho_M^q} L^q(M)
+ \xrightarrow{\partial_M^q}H_c^{q+1}(M).
+$$
+The coefficient pairing is $D\otimes R\to D$, $d\otimes a\mapsto ad$, and $\smile$ always places the compact input first in a compact product. For $w$ compact with coefficients in $R$ and $u$ ordinary with coefficients in $D$, $w\smile u$ uses the same scalar multiplication with the opposite coefficient order. The local product follows the written order. [A2, joined SHA-256 recorded below, `BaseFormal.lean:25–36,231–286,303–330`; `BaseInv.lean:18–51`.]
+
+**Lemma 18.3.22a (the invariant and its local inputs).** Use ordinary $H^3(D)=0$, the local invariant isomorphisms $t_v:H^2(H_v,D)\to R$ (the $\mathbb Q/\mathbb Z$ normalization sends a value $a$ to $a/n$), and the fact that their sum vanishes on $\rho_D^2 H^2(D)$. There is a unique $T:H_c^3(D)\to R$ with $T\partial_D^2=\sum_v t_v$. It is the invariant `gsCompactInv` and is an isomorphism with the primary Brauer and Kummer supplies described below.
+
+**Proof.** Exactness and $H^3(D)=0$ make $\partial_D^2$ onto with kernel $\rho_D^2 H^2(D)$. Define $T$ by the sum on a lift. A single-place lift of any $a\in R$ proves surjectivity. For injectivity take $Tz=0$ and write $z=\partial_D^2\xi$. The local roots-to-Brauer images of $\xi$ give an $n$-torsion Brauer family, supported at the designated finite places, with zero sum of invariants. The archive's `sUnitsH2PrimaryEquiv` supplies an $\ell$-primary global $S_L$-unit cohomology class $b$ mapping to this family. Multiplication by $n$ annihilates its local images, so injectivity of localization on the Brauer group and `eq_zero_of_sUnitsBrauer_eq_zero` on the $\ell$-primary part give $nb=0$. Kummer exactness lifts $b$ to $x\in H^2(D)$. Compatibility of the roots-to-Brauer maps gives $t_v((\rho_D^2 x)_v)=t_v(\xi_v)$ for every $v$. The injectivity of each $t_v$ yields $\xi=\rho_D^2 x$ and $z=0$.
+
+For later use put $P_v(\eta,\xi)=t_v(\eta\smile\xi)$ with roots on the left. The local adjoints
+$$
+ H^j(H_v,R)\longrightarrow
+ \operatorname{Hom}(H^{2-j}(H_v,D),R),\qquad \xi\longmapsto P_v(-,\xi),
+ \qquad j=1,2
+$$
+are bijective. In the production proof one identifies the restricted modules with the completion's actual $R$ and $\mu_n$, transports scalar multiplication through these coefficient isomorphisms, and uses the local Tate adjoint. Interchanging factors in local degree $(1,1)$ multiplies the result by $-1$, which acts invertibly on the dual. In local degree $(0,2)$ the switch has sign $+1$. The later formal step uses only surjectivity for $j=1$. In compact degree $(1,2)$ we use the identity
+$$
+ T(y\smile \pi_R^2 w)=T(w\smile\pi_D^1 y)
+ \quad (y\in H_c^1(D),\ w\in H_c^2(R)).
+$$
+The archive uses surjectivity of $\partial_D^2$ in the compact graded commutativity comparison, applies the coefficient braiding, and identifies the left- and right-supported cup constructions after forgetting one compact structure. The sign is $(-1)^{1\cdot2}=+1$. [A2, `BaseDefs.lean:284–320`; `BaseInv.lean:97–108,196–268`; `BaseLocalDual.lean:39–56,98–178`; `BaseSwap.lean:19–52`.]
+
+**Lemma 18.3.22b (the two arithmetic kernel tests).** For $X=H^1(R)$ and $Y=H_c^2(D)$, put $B(y,x)=T(y\smile x)$. Both annihilators are zero. We use the following arithmetic maps on the same field, places and embeddings.
+
+- Let $A$ be the additive form of the archive's $S_L$-idele class group and $E=\texttt{GsUnitsDatum}$ the group of unit data. Write $p:E\to A$ for the class map and $u:E\to H_c^1(\mathrm{units})$ for the class in the compact $S_L$-unit complex, with all local units in its sense of the full groups $L_v^\times$ as coefficients before passage to cohomology. The fibre uses global $S_L$-units in the maximal unramified-outside-$S_L$ extension and local units of the algebraic closures. In the presentation of $p(d)$, the local coordinates come from $d_2$ and the divisor away from $S_L$ is $-\operatorname{divAbove}(d_1)$.
+- Let $J:H_c^2(D)\to H_c^2(\mathrm{Kummer\ roots})$ be the roots comparison, and let $\delta_K:H_c^1(\mathrm{units})\to H_c^2(\mathrm{Kummer\ roots})$ be the multiplication-by-$n$ connecting map. Set $F=J^{-1}\delta_Ku$. The inverse comparison is on the same local family, with the same global roots term and the local comparison from the chosen embeddings.
+- For a continuous degree-one cocycle $z$ of $R$, let $\psi_z:A\to R$ be its image under Artin reciprocity, in additive notation. The map `charEquiv` is a bijection from continuous $R$-valued Galois characters onto the homomorphisms $A\to R$ in this statement. The compact cup identity is
+  $$
+  B(F(d),[z])=\psi_z(p(d)).
+  $$
+
+**Proof.** With the trivial action of $R$ the cocycle relation is $z(gh)=z(g)+z(h)$. It implies $z(1)=0$, and local constancy gives continuity into $R$. Conversely a continuous character gives the cocycle by evaluation on the single input. A cocycle with zero character is zero, hence a nonzero class represented by $z$ has a nonzero character. Here is the assembly of the cup identity. Use $j_n:R\hookrightarrow\mathbb Q/\mathbb Z$, $a\mapsto a/n+\mathbb Z$. By $H^3(D)=0$, choose $\xi$ with $\partial_D^2\xi=F(d)\smile[z]$ and write $I_v$ for its image in degree-two local multiplicative cohomology. Then $j_n B(F(d),[z])=\sum_v\operatorname{inv}_v(I_v)$. In the Kummer-to-units comparison, the named cup computation gives a global degree-two cocycle $W$ of the multiplicative group of the maximal unramified-outside-$S_L$ extension. Its quotient by the powers of $d_1$ dictated by the integral Bockstein is $S_L$-unit valued. On the compact units side, the image of the cup is the boundary of the tuple $\operatorname{res}[W]+C$, where $C_v$ is the local cup of the entry $d_{2,v}$ with the integral Bockstein of $[z]$. Hence $I-C-\operatorname{res}[W]$ is in the kernel of the units boundary and is the restriction of a global degree-two $S_L$-unit class. The local Artin evaluation gives $\operatorname{inv}_v(C_v)=j_n\psi_z([d_{2,v}])$, with $[d_{2,v}]$ the idele class at that place alone. Both sums of invariants for $I$ and $C$ are $n$-torsion. Using this torsion bound and the correction just found, the named divisor identity identifies the difference of the two sums with the character evaluated on the divisor idele for $-\operatorname{divAbove}(d_1)$. Adding the local evaluations gives $j_n\psi_z(p(d))$. The injection $j_n$ gives the identity over $R$.
+
+Three facts about the data enter the tests. First, for every $a\in A$ there are $m$ prime to $\ell$ and $d\in E$ with $p(d)=ma$. To see the construction, present $a$ by local entries and a divisor $D_a$ away from $S_L$. Write the finite order of its $S_L$-ideal class as $\ell^j m$. Then $\ell^j(mD_a)$ is principal. The supplier `exists_divAbove_eq` uses a root of a principal generator to realize $mD_a$ upstairs. Taking the negative of the resulting additive datum and raising each local entry to the $m$th power presents $ma$. Here places outside $S_L$ avoid $\ell$, as required by the divisor supplier. Second, $p(d)=0$ implies $u(d)=0$. The principal-presentation kernel gives a single diagonal $a_0\in L^\times$ with the prescribed local coordinates and divisor $-\operatorname{divAbove}(d_1)$. Adding its global image to $d_1$ gives an $S_L$-unit. The global coboundary of this unit agrees with that of $d_1$ since $a_0$ is fixed. Its local images agree with the local entries of the representing compact cocycle, so that cocycle is a boundary in the fibre. Third, $F$ is onto for $k>0$. Surjectivity of $u$ comes from writing the global cocycle of a compact unit class as a multiplicative coboundary by Hilbert 90 in the maximal unramified-outside-$S_L$ extension, then subtracting the corresponding local images to leave locally invariant corrections in $L_v^\times$. Exactness of the compact Kummer sequence makes $\delta_K$ onto: the degree-two map to the unit group sends an $n$-torsion class into its zero $\ell$-primary torsion subgroup, using `eq_zero_of_gsUnitsCompact_two`. The guard for this last input is odd $\ell$ or total complexity, which follows from the guard on $n$ when $k>0$.
+
+For the ordinary-variable kernel let nonzero $x=[z]$ annihilate $Y$. Then $\psi_z$ has a value $\psi_z(a)\ne0$. Pick $p(d)=ma$ as above. Testing with $F(d)$ yields $0=\psi_z(p(d))=m\psi_z(a)$, impossible because $m$ is a unit in $R$.
+
+For the compact-variable kernel suppose that $y$ annihilates $X$. The case $k=0$ has $n=1$ and $Y=0$ by annihilation by $n$. For $k>0$ write $y=F(d)$. Every additive $f:A\to R$ comes from a Galois character and then a cocycle, so the cup identity gives $f(p(d))=0$. Characters to $R$ separate points of $A/nA$. Indeed a nonzero coset generates a cyclic subgroup of order dividing $n$. Send its generator to an element of the same order in $\mathbb Q/\mathbb Z$, extend by divisibility, and use the $n$-torsion image to obtain a map into $R$. The character-extension argument is proved in §18.3.20 and applied to $R$-valued characters in the next lemma. Thus $p(d)=nb$ for some $b\in A$. Choose $m$ prime to $\ell$ and $d'\in E$ with $p(d')=mb$. Then $p(md-nd')=0$, so $m\,u(d)=n\,u(d')$. Applying $J^{-1}\delta_K$ gives $my=nF(d')=0$. As $ny=0$ and $\gcd(m,n)=1$, Bézout gives $y=0$. [A2, `BasePairing.lean:20–149,154–202`; `BaseClassIdele.lean:207–223,252–327`; `BaseKummerDelta.lean:18–48`; `BaseKummer.lean:155–190`; `ClassFieldGSFull.lean:69–97`; `ZmodToQZGsCompactInvLocalToCompactEqLocalInvU.lean:23–27,100–149`; `PoincareDuality/Torsion.lean:72–100`.]
+
+**Lemma 18.3.22c (finite adjoints and extension).** For a biadditive $R$-valued pairing of finite abelian groups $Y,X$, zero annihilators give isomorphisms to the two $R$-valued duals. Also, for a homomorphism $h:B_1\to B_2$ with $nB_2=0$, every $R$-valued character of $B_1$ which kills $\ker h$ is the pullback of a character of $B_2$.
+
+**Proof.** The two adjoints $X\to Y^\vee$ and $Y\to X^\vee$, where $A^\vee=\operatorname{Hom}(A,R)$, are injective by applying the corresponding kernel test to a difference. For a finite cyclic group of order $d$ there are $\gcd(n,d)$ possible images for its generator, so decomposition into cyclic groups gives $|A^\vee|\leq|A|$. In the archive this bound is obtained by embedding the $R$-valued characters into $\mathbb Q/\mathbb Z$ characters and then into the complex character group. In particular
+$$
+ |Y^\vee|\leq |Y|\leq |X^\vee|\leq |X|\leq |Y^\vee|.
+$$
+Equality proves both surjections. For the extension statement first factor the character through $\operatorname{im}h$. Embed $R$ as $(\mathbb Q/\mathbb Z)[n]$ and extend by injectivity of the divisible group $\mathbb Q/\mathbb Z$. For the extension, order all extensions to intermediate subgroups by inclusion and take a maximal one by Zorn’s lemma. If its subgroup omits $b\in B_2$, either no positive multiple of $b$ lies in it, in which case assign the value $0$ to $b$, or take the least such multiple $d b$ and choose a value for $b$ whose $d$-fold multiple equals the assigned value at $d b$. Divisibility guarantees that value and the minimal relation guarantees well-definedness. Maximality therefore gives the extension to $B_2$. Since $nB_2=0$, it lands in the same torsion subgroup, giving an $R$-valued character. These are abstract additive homomorphisms. [A2, `BaseFormal.lean:44–52,424–440,704–720`; `PoincareDuality/Torsion.lean:72–100`; `TorsionDualFinite.lean:65–92,115–127`.]
+
+In the actual application, $X$ is finite by ordinary finite-coefficient finiteness in degree one, applied to the trivial module of order $n$. Primes dividing $n$ are covered by $S_L$. The general finiteness supplier uses an open subgroup fixing roots and reduction to trivial cyclic coefficients. For a cyclic coefficient of order $d$ dividing $n$ on a subgroup of this roots-fixing group, pass to its fixed field, compare with $\mu_d$ and use roots-of-unity finiteness with the places over $S_L$. In the current upper field a direct check also uses $\iota$ and the degree-one Kummer row. The $S_L$-units modulo $n$ are finite by finite generation, and the remaining classes map into the finite $S_L$-ideal class group. For $Y$, use the exact segment
+$$
+ L^1(D)\xrightarrow{\partial_D^1}Y\xrightarrow{\pi_D^2}H^2(D).
+$$
+Local finite-coefficient finiteness in characteristic zero gives finiteness of every $H^1(H_v,D)$. The finite index set makes $L^1(D)$ finite. Global roots-of-unity finiteness gives finite $H^2(D)$. Its direct Kummer argument bounds the kernel of the roots-to-units map by the image of the degree-one unit group (which injects into the finite $S_L$-ideal class group). The image lies in the $n$-torsion of degree-two unit cohomology. The latter injects, by localization and Kummer–Brauer comparison on that torsion, into the finite product of the $n$-torsion local invariant groups at $S_L$ and the infinite places. At each finite place outside $S_L$ the unit Brauer image vanishes. Now $\ker\pi_D^2$ is finite by exactness and $\operatorname{im}\pi_D^2$ is finite inside $H^2(D)$. These are the fibres and the index of the kernel, so $Y$ is finite. [A2, `BaseInputs.lean:17–22,73–77,98–152`; `Finite.lean:174–183,201–222`; `FiniteRoots.lean:47–67,120–167`.]
+
+**Theorem 18.3.22 (upper-field compact perfect duality) [Lean, read].** In the setting above, use ordinary $H^3(D)=H^3(R)=0$ and the named arithmetic and local supplies of Lemmas 18.3.22a–b and the finiteness paragraph. For every pair of nonnegative integers $r,s$ with $r+s=3$ the map
+$$
+ \mathcal A_r:H^r(R)\longrightarrow \operatorname{Hom}(H_c^s(D),R),
+ \qquad x\longmapsto [y\longmapsto T(y\smile x)]
+$$
+is bijective. The invariant in this formula is the same $T$ in every degree. This is `bijective_gs_compactZmodDualityMap` in A2. The names “left kernel” and “right kernel” in the code refer to the adjoint's ordinary and compact variables, respectively.
+
+**Proof.** In using the fibre row, cup product with a class coming from the local term satisfies
+$$
+ T((\partial_M^q\xi)\smile x)=\sum_v t_v(\xi_v\smile(\rho_N^r x)_v),
+ \qquad q+r=2,
+$$
+for $(M,N)=(D,R)$ or $(R,D)$. This is the compact-first boundary formula followed by $T\partial_D^2=\sum_v t_v$. The map $\iota$ identifies $R$ with $D$ in all rows, and $\iota(a)b=a\iota(b)$. In particular $T(w\smile u)=B(\iota_*w,(\iota^{-1})_*u)$ for $w\in H_c^2(R),u\in H^1(D)$. Both adjoints of this pairing are therefore perfect by the two arithmetic tests and the finite count.
+
+For $(r,s)=(0,3)$, $a\in R$ represents the ordinary degree-zero class of the constant $a$. A compact class in degree three has a local lift $\xi$ by $H^3(D)=0$. The local degree-zero cup multiplies each $\xi_v$ by $a$, so $\mathcal A_0(a)=aT$. Choose $y_1$ with $T(y_1)=1$. Every $y$ equals $T(y)y_1$ in the sense of the $R$-module structure, giving the unique preimage $\chi(y_1)$ for every character $\chi$.
+
+For $(r,s)=(1,2)$, the ordinary adjoint is exactly $X\to Y^\vee$ of Lemma 18.3.22c.
+
+For $(r,s)=(2,1)$, first suppose $\mathcal A_2(x)=0$. Test against $\partial_D^0\eta$ with $\eta$ supported at one place $v$. The boundary formula and injectivity of the local degree-two adjoint give $(\rho_R^2x)_v=0$. Thus $x=\pi_R^2 w$ for $w\in H_c^2(R)$. The character $\lambda(u)=T(w\smile u)$ on $H^1(D)$ kills $\ker\rho_D^1$: for $u=\pi_D^1 y$, the compact switch gives $\lambda(u)=T(y\smile x)=0$. Extend $\lambda$ through $\rho_D^1$ to a character of $L^1(D)$ by Lemma 18.3.22c. Since $S_L$ is finite, the extension is the sum of its restrictions to the individual coordinates. By local degree-one surjectivity choose $\xi_v\in H^1(H_v,R)$ representing the $v$th restriction via $P_v(-,\xi_v)$. Then for all $u$,
+$$
+ T((w+\partial_R^1\xi)\smile u)
+ =\lambda(u)+\sum_v t_v(\xi_v\smile(\rho_D^1 u)_v)=0.
+$$
+The sum is $-\lambda(u)$ by the local degree-one sign. The transported compact-variable kernel test forces $w+\partial_R^1\xi=0$. Apply $\pi_R^2$ and use exactness to obtain $x=0$.
+
+For surjectivity in the same degrees, start with $\chi:H_c^1(D)\to R$. The local degree-two adjoints give a tuple $\xi\in L^2(R)$ such that
+$$
+ P_v(\eta,\xi_v)=\chi(\partial_D^0(\operatorname{single}_v\eta))
+ \quad (\eta\in H^0(H_v,D)).
+$$
+Use the single global generator $d_0=\iota(1)\in H^0(D)$ and evaluate at its restrictions. The local degree-zero cup is exactly the map on degree two induced by $\iota$, so
+$$
+ T(\iota_*\partial_R^2\xi)=\sum_v t_v(\iota_*\xi_v)
+ =\chi(\partial_D^0\rho_D^0 d_0)=0.
+$$
+The first equality is naturality of the boundary followed by the invariant sum. Since both $T$ and $\iota_*$ are injective, $\partial_R^2\xi=0$, and exactness lifts $\xi$ to $x_0\in H^2(R)$. Then $\mathcal A_2(x_0)$ and $\chi$ agree on $\operatorname{im}\partial_D^0$ by the boundary formula. Extend their difference through $\pi_D^1$ to $\Lambda:H^1(D)\to R$ by Lemma 18.3.22c, since $\operatorname{im}\partial_D^0=\ker\pi_D^1$ and $nH^1(D)=0$. By the compact adjoint of the transported degree-one pairing, choose $w\in H_c^2(R)$ with $T(w\smile u)=\Lambda(u)$ for all $u$. The compact switch gives
+$$
+ \mathcal A_2(x_0+\pi_R^2 w)(y)
+ =\mathcal A_2(x_0)(y)+\Lambda(\pi_D^1 y)=\chi(y).
+$$
+
+For $(r,s)=(3,0)$ the source vanishes by ordinary $H^3(R)=0$. The target vanishes because $H_c^0(D)$ injects into $H^0(D)$ with image the kernel of restriction, and restriction in degree zero is injective into any one local component (it is inclusion on fixed elements). There is at least one component. These four pairs exhaust $r+s=3$. [A2, `BaseFormal.lean:60–112,365–487,492–525,536–603,613–764`; `BijectiveGsCompactZmodDualityMap.lean:24–71`.]
+
+**Which field does the consumer use?** In `BaseMain`, the operation is under a roots-fixing open subgroup $W_0$ of $G_{K,S}$ for the original field $K$. The package quantifies over every open $U\leq W_0$. For each $U$ the actual larger fixed field $L$ is supplied by `exists_gsOpenSubgroup_eq`. Its local family is indexed by the places over $S$ with `gsMackeyEmbeddings`. Coverage of $\ell$, the roots-fixing property, and the odd-or-totally-complex guard pass to this field. The field-level tests in `GsPairingInput` are applied there. The wrapper `gsBaseBijective_of_le` uses ordinary third vanishing for both coefficients and the two finiteness suppliers in the displayed degrees. It gives `BaseLevel` bijectivity of $T_L$ and of every $\mathcal A_r$ with $r+s=3$, called `GsLevelBijective`. The other argument is surjectivity of $f=t_K\circ\operatorname{cores}_U$ from §18.3.21. With $e_W$ directed from the upper field to the subgroup side, compare $f$ with $g=T_L\circ e_W^{-1}$. The ratio $fg^{-1}$ is multiplication by a unit of $R$, so the adjoint transports along the ordinary and compact comparisons and the cup identity. The resulting subgroup package is precisely `bijective_base`; its other fields retain the original coefficient equivalence and the universal compact fourth-degree vanishing. [A2, `BaseMain.lean:23–64`; `BijectiveGsLocalInvRootsOfPlaces.lean:67–116`; `BaseInputs.lean:83–95`; `BaseLevel.lean:19–56,66–108`.]
+
+**A number-field instance.** Take $K=\mathbb Q$, $S=\{3\}$, $n=3$ and $L=\mathbb Q(\zeta_3)$ in the chosen closure. Both $L$ and $\mathbb Q(\zeta_9)$ lie in the maximal extension unramified outside $3$: the polynomials for the $3$rd and $9$th roots divide $X^9-1$, which has simple roots in residue characteristic different from three, so the corresponding roots lie in unramified local extensions there. The polynomial $X^2+X+1$ after translation by $1$ is Eisenstein at three. There is one place above three, with ramification index two. Use any extension of the local embedding to the chosen algebraic closures. The subgroup fixing $L$ has index two and fixes every element of $\mu_3$. Also $\Phi_9(X+1)$ is Eisenstein at three, and restriction to $\mathbb Q(\zeta_9)/L$ gives a nonzero class in $H^1(G_{L,S_L},\mathbb Z/3\mathbb Z)$. Indeed the extension is cyclic of degree three, generated by $\zeta_9\mapsto\zeta_9^4$, and the trivial-coefficient degree-one coboundaries are zero. The upper compact group in degree three has a class mapping to $1$ by the single-place lift. For the compact degree-two class take the datum $d$ whose first coordinate is the additive form of $(3+\zeta_3)^{-1}$ and its local entry is the multiplicative identity. The first coordinate belongs to the invariant-modulo-$S_L$-units group because it lies in $L^\times$. The norm of $3+\zeta_3$ is $7$, so the displayed divisor of $p(d)$ is the prime of norm $7$ generated by $3+\zeta_3$. Artin evaluation at that prime acts on $\zeta_9$ by exponent $7=4^2\bmod 9$ in the arithmetic convention. Thus the value of the character on $p(d)$ is nonzero (inverting the Artin convention inverts this value). The compact class $F(d)$ detects the ordinary class by the cup identity. This instance gives the actual fields, local family and coefficients. The finite calculations above verify the algebra of the two adjoints on separate finite coefficient groups.
+
+**What fails if a hypothesis is removed?** Example 2 with $X_0$ has finite groups and satisfies the ordinary-variable test while failing surjectivity of $X_0\to Y^\vee$. With the two groups interchanged, the compact-variable test alone permits a nonzero ordinary-variable kernel. For a failure without the finiteness assumptions take $X=Y=\bigoplus_{i\geq1}\mathbb Z/5\mathbb Z$ and $B(y,x)=\sum_i y_ix_i$. Each nonzero vector is detected by a coordinate vector on the other side. The map $y\mapsto\sum_i y_i$ is a character of $Y$ and would require $x_i=1$ for every $i$, which is impossible in the direct sum. These failures concern the algebraic interfaces.
+
+**Source and scope.** The production proofs are Alpöge–Claude A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, under `src/GroundTheory/ProfiniteCohomology/RestrictedRamification/` unless a different subdirectory is given. The classical context is John Tate, *Duality Theorems in Galois Cohomology over Number Fields*, ICM 1962, §3, pp. 290–292 [Paper]. Tate's Theorem 3.1 concerns the finite localization kernels and exact sequence, explains the roots-of-unity case in terms of class field theory, and credits Poitou's independent work. Milne's *Arithmetic Duality Theorems*, second edition, Chapter I, §4, pp. 53–57 and 66, records the complementary local terms, the archimedean conventions and attribution. The named arithmetic inputs here include class field theory, the unit and Brauer comparisons, the local class formation and the restricted Galois cohomological dimension bounds. The proof covers the upper-field base at a fixed prime power and its use in the subgroup package. [Archive A2](https://alpo.ge/lean.tar.gz.part01) · [Tate proceedings scan](https://math.stanford.edu/~conrad/BSDseminar/refs/TateICM.pdf) · [Milne, second edition](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Milne, *Class Field Theory*, v4.03, V.5.3, pp. 178–179](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+**Review status.** Author-level proof and local A2 reading. Same-source preliminary review R062 accepted the fixed-prime-power pairing with the stated arithmetic inputs. [Lean] The deeper class-field, local class-formation, Brauer and dimension supplies enter at their named interfaces. [Open] External review and kernel replay remain pending.
+
+---
+
+### 18.3.23 Open subgroups, larger fixed fields, and the local family
+
+**Motivation.** In §18.3.22 the pairing is computed over a number field $L$. Its consumer starts with an open subgroup $U$ of $G_{K,S}$, where $K$ and the set $S$ of finite places were fixed before $U$ was chosen. Which $L$ gives precisely $U$ inside that original group? Which local terms make the upper-field cup product a cup product for $U$? Fixing more field elements gives a smaller subgroup. At a place, one original local map can yield several maps after passage to $U$.
+
+**Example 1 (a nonnormal cubic).** Let $K=\mathbb Q$, $\alpha=\sqrt[3]{2}$, and $E=\mathbb Q(\alpha,\zeta_3)$. The polynomial $X^3-2$ is Eisenstein at $2$. Its real cubic field acquires both other roots on adjoining the nonreal quadratic root $\zeta_3$. Thus its splitting field $E$ has degree $6$. Number the roots $1,2,3$ in the order $\alpha,\zeta_3\alpha,\zeta_3^2\alpha$. The action on them identifies $\Gamma=\operatorname{Gal}(E/\mathbb Q)$ with $S_3$. The subgroup $B=\{1,(23)\}$ fixes $L=\mathbb Q(\alpha)$. Take $S=\{2,3,5,7\}$. The polynomial discriminant $-108$ implies that the splitting field is unramified outside $2,3$, so $E$ lies in $K_S$. The inverse image $U$ of $B$ in $G_{K,S}$ has index $3$ and fixes exactly $L$.
+
+1. Modulo $5$, $X^3-2=(X-3)(X^2+3X+4)$. The quadratic discriminant is $3$ modulo $5$, a nonsquare. Choose the prime of $E$ with decomposition group $D=\{1,(23)\}$. The complete list of double cosets is
+
+   $$
+   B1D=\{1,(23)\},\qquad B(12)D=\{(12),(123),(132),(13)\}.
+   $$
+
+   Compose permutations from right to left. The two $B$-orbits on the primes of $E$, written as $\Gamma/D$, are $\{D\}$ and $\{(12)D,(13)D\}$. Their stabilizers at the displayed representatives are $B$ and $\{1\}$. The $D$-orbits on the embeddings of $L$ have labels $\{1\}$ and $\{2,3\}$, where the representative $x$ corresponds to $x^{-1}(1)$. The two local degrees are $1,2$, the indices of $D\cap x^{-1}Bx$ in $D$. In particular the degree-one completion of $L$ still has a prime of $E$ above it with decomposition group $B$ over $L$.
+2. The cubes modulo $7$ are $0,1,-1$, so the cubic is irreducible there. Here $D=\{1,(123),(132)\}$. The only double coset is $B1D=\Gamma$. The $B$-orbit on $\Gamma/D$ is $\{D,(23)D\}$ with trivial stabilizer, and $D$ has the single orbit $\{1,2,3\}$ on embeddings. There is one upper place of local degree $3$.
+3. At $2$ the cubic is Eisenstein, and at $3$ the shifted polynomial $(X-1)^3-2=X^3-3X^2+3X-3$ is Eisenstein. The polynomial $X^2+X+1$ is irreducible modulo $2$, and its shift $X^2+3X+3$ is Eisenstein at $3$. At either prime the local splitting field contains extensions of degrees $3$ and $2$. Its degree is divisible by $6$ and at most $6$, so $D=\Gamma$. The only double coset is $B1\Gamma=\Gamma$, the prime orbit is $\{D\}$ with stabilizer $B$, and $D$ is transitive on embeddings. Each prime contributes one upper place of degree $3$. Thus $S_L$ has five places. Conjugation by $(12)$ takes $B$ to $\{1,(13)\}$. The three cosets count embeddings of $L$, whose group of $\mathbb Q$-automorphisms is trivial because only one root of the cubic lies in $L\subset\mathbb R$.
+
+**Example 2 (a cyclic number field).** Take $K=\mathbb Q$, $L=E=\mathbb Q(\zeta_3)$, $\Gamma=\{1,c\}$ with $c$ complex conjugation, and $S=\{2,3,7\}$. Here $B=1$ and $U$ is the kernel of $G_{K,S}\to\Gamma$. This cyclotomic field is ramified only at $3$.
+
+1. Modulo $7$, $X^2+X+1=(X-2)(X-4)$ with simple roots. Each root lifts to $\mathbb Q_7$. Here $D=1$, so the double cosets $\{1\},\{c\}$ give two singleton orbits on primes with trivial stabilizers. There are two copies of $G_{\mathbb Q_7}$ in the local family, indexed by different places.
+2. Modulo $2$ the polynomial has no root. There is one double coset $\{1,c\}$ because $2$ is inert and $D=\Gamma$. The prime orbit is a singleton with trivial $B$-stabilizer. The local source is the index-two subgroup of $G_{\mathbb Q_2}$ fixing the unramified quadratic completion. At $3$ the shifted Eisenstein polynomial gives a single ramified upper place, again with local degree $2$ and one double coset $\{1,c\}$. Its local source fixes the ramified quadratic completion. Thus $S_L$ has four places.
+3. Take $n=3$ and $W_0=U$. Then $W_0$ fixes $\mu_3$, both families cover the primes over $\ell=3$, and $n$ is odd. The roots coefficient upstairs is the additive form of $\mu_3\subset L$, and downstairs it is the same group in $K_S$ with action restricted to $U$. Both actions are trivial. An ordinary degree-one input is the character of $\operatorname{Gal}(\mathbb Q(\zeta_9)/L)$ sending the exponent $4$ to $1$ in $\mathbb Z/3\mathbb Z$. This is a quotient of $G_{L,S_L}$ because the cyclotomic layer is unramified outside $3$. At either prime over $7$, Frobenius has exponent $7=4^2\bmod 9$, so the restriction has value $2$ on Frobenius. For a compact input of degree $2$, each of the two local cochain coordinates over $7$ is in degree $1$. Each cups with the corresponding local restriction of the ordinary input, producing a degree-two roots cochain in the local part of the compact degree-three output.
+
+**Definitions.** Let $K$ be a finite subfield of $\Omega=\overline{\mathbb Q}$, $S$ a finite set of finite places of $K$, and $K_S\subseteq\Omega$ the maximal extension unramified outside $S$ at finite places. Each conjugate of a finite extension unramified outside $S$ is unramified outside $S$, because conjugation permutes places over each base place and preserves ramification indices. Taking composita gives a Galois extension $K_S/K$. Write $G=\operatorname{Gal}(K_S/K)$ with its Krull topology. Fix $K$-embeddings $\iota_v:\Omega\hookrightarrow\overline{K_v}$ for $v\in S$. Let $H_v=\operatorname{Gal}(\overline{K_v}/K_v)$ and let $\lambda_v:H_v\to G$ be restriction through $\iota_v$ to $K_S$. Its image $D_v$ is the decomposition group at the induced place of $K_S$. The map can have a kernel. For an intermediate field $L$, write
+
+$$
+ S_L=\operatorname{placesOver}(S)=\{w:\mathfrak p_w\cap\mathcal O_K=\mathfrak p_v\text{ for some }v\in S\}.
+$$
+
+The Mackey index for $U\leq G$ consists of $(v,UxD_v)$. For a representative $x$, its local source and map to $U$ are
+
+$$
+ H_{v,x}=\{\sigma\in H_v:x\lambda_v(\sigma)x^{-1}\in U\},\qquad
+ \lambda_{v,x}(\sigma)=x\lambda_v(\sigma)x^{-1}.
+$$
+
+Thus $H_{v,x}$ is the preimage of $x^{-1}Ux\cap D_v$ in $H_v$. The examples compute the finite images that specify these preimages.
+
+**Theorem 18.3.23a (the finite fixed field) [Lean, read].** Every open subgroup $U$ of $G$ is the pointwise fixing subgroup of a unique finite intermediate field $K\subseteq L\subseteq K_S$. With the inclusion into $\Omega$ this subgroup is precisely the archive's `gsOpenSubgroup` for $L\hookrightarrow K_S$. Also $[L:K]=[G:U]$, and $U_1\subseteq U_2$ gives $K_S^{U_2}\subseteq K_S^{U_1}$. The identification $G/U\simeq\operatorname{Gal}(L/K)$ as groups requires $U$ to be normal.
+
+**Proof.** An open subgroup is closed because the other cosets form an open complement. The Krull neighbourhood basis gives a finite Galois intermediate extension $E/K$ for which $N=\operatorname{Gal}(K_S/E)\subseteq U$. Restriction $q:G\to\operatorname{Gal}(E/K)$ is surjective and $U=q^{-1}(qU)$. The fixed field of $N$ in $K_S$ is $E$. Indeed $K_S/E$ is Galois, so an element outside $E$ has another conjugate over $E$, and the embedding sending it to that conjugate extends to an automorphism of $K_S$. Consequently $K_S^U=E^{qU}$. Finite Galois correspondence gives
+
+$$
+ L=E^{qU},\qquad \operatorname{Gal}(E/L)=qU,\qquad
+ [L:K]=[\operatorname{Gal}(E/K):qU]=[G:U].
+$$
+
+The upstairs fixing group of $L$ is $q^{-1}(\operatorname{Gal}(E/L))=U$. Any intermediate field with fixing group $U$ equals $K_S^U$ by the conjugate argument over that field. Order reversal follows from the pointwise definition. Normality of $U$ is equivalent to normality of $qU$, and finite Galois correspondence yields the group quotient in precisely that case.
+
+The archive uses the closed-subgroup fixed-field equality, followed by the openness and finite-degree equivalence. It maps the resulting intermediate field of $K_S$ into $\Omega$, uses the tower formula for finiteness over $\mathbb Q$, and restricts scalars to represent the result as a `FiniteSubfield`. For a subset $T$ equal to the image of $L$ in $K_S$, fixing $T$ gives pointwise fixing on $L$ by membership of every image in $T$. The converse uses a preimage for every element of $T$. The image lemma identifies the resulting open subgroup with the original $U$. $\square$
+
+**Lemma 18.3.23b (the same places and local maps) [Lean, read].** For $L=K_S^U$, $S_L$ is finite. Under the natural topological isomorphism $\theta:U\to G_{L,S_L}$ there is a bijection $e:(v,UxD_v)\mapsto w$ onto $S_L$. For the embeddings chosen from the same representatives there are continuous group isomorphisms $\psi_{v,x}:H_{v,x}\to G_{L_w}$ with
+
+$$
+ \theta\lambda_{v,x}=\lambda^L_w\psi_{v,x}.
+$$
+
+**Proof.** A prime of $K$ has finitely many primes above it in $L$. In the archive the height-one primes inject into the set of ideals, and the finite set of prime ideals over $\mathfrak p_v$ pulls back to the fibre over $v$. The finite union gives $S_L$. Lying over makes each fibre nonempty. A rational integer lying in $\mathfrak p_w$ lies in its contraction, which gives the coverage implication at $\ell$ used by the consumer.
+
+The maximal extensions $L_{S_L}$ and $K_S$ have the same elements in $\Omega$. Outside $S$ the ramification index in a finite tower is the product of the two indices, and the residue extensions are separable. Since $L/K$ is unramified outside $S$, a finite extension of $L$ unramified outside $S_L$ is unramified over $K$ outside $S$. Conversely, for an element of $K_S$ take a finite subextension containing the element and $L$. Its extension over $L$ is unramified outside $S_L$ by the tower formula. Here finite unramified subextensions are closed under compositum, since their completions embed in the corresponding maximal unramified local extensions. The groups in $\theta$ act by the same automorphisms on the common field fixing $L$. Stabilizers of finite sets of elements give the same topology.
+
+Use the finite Galois layer $E/K$ from Theorem 18.3.23a. For the prime $P$ of $E$ induced by $\iota_v$, the image $q(D_v)$ equals the decomposition group $D(P)$. This follows from surjective restriction of the local absolute Galois group to the finite Galois completion $E_P/K_v$. Surjectivity of $q$, with $\ker q\subseteq U$, identifies the two sets of double cosets.
+
+$$
+(U\setminus G)/D_v \ \simeq\ (q(U)\setminus \operatorname{Gal}(E/K))/D(P).
+$$
+
+Indeed equality of two double cosets downstairs lifts using one element each of $U$ and $D_v$, and the residual factor in $\ker q$ can be absorbed on the left. The primes of $E$ over $v$ form $\operatorname{Gal}(E/K)/D(P)$ via $g\mapsto gP$. Each fibre of contraction to $L$ is one orbit of $\operatorname{Gal}(E/L)=qU$ by Galois transitivity. So $UxD_v$ corresponds to $\left.q(x)P\right|_{L}$, and its stabilizer in $qU$ at $q(x)P$ is $qU\cap q(x)D(P)q(x)^{-1}$. By inversion one can instead use $D(P)$-orbits on the embeddings $\operatorname{Gal}(E/K)/qU$ of $L$.
+
+To obtain the full local group, embed $L$ into $\overline{K_v}$ by $j_x=\iota_v\circ x^{-1}|_L$, using $\iota_v$ on $K_S$. The induced place is $w$. The relation $\iota_v\lambda_v(\sigma)=\sigma\iota_v$ on $K_S$ shows that fixing $j_x(L)$ pointwise is equivalent to $\sigma\in H_{v,x}$. By continuity it is equivalent to fixing its closure, the embedded completion $L_w$. Choose an algebraic closure identification $b_x:\overline{K_v}\simeq\overline{L_w}$ extending the completion identification. Conjugation by $b_x$ gives $\psi_{v,x}$ with continuous inverse, since it carries finite-set stabilizers to finite-set stabilizers. Lift $x$ to $\widetilde x\in\operatorname{Gal}(\Omega/K)$ and take $\iota^L_w=b_x\iota_v\widetilde x^{-1}$, an $L$-embedding. For $a\in K_S$ and $\sigma\in H_{v,x}$,
+
+$$
+\begin{aligned}
+ \psi_{v,x}(\sigma)\iota^L_w(a)
+ &= b_x\sigma\iota_v(x^{-1}a)\\
+ &= b_x\iota_v\bigl(\lambda_v(\sigma)x^{-1}a\bigr)\\
+ &= \iota^L_w\bigl(x\lambda_v(\sigma)x^{-1}a\bigr).
+\end{aligned}
+$$
+
+This is the restriction equation. In `gsBaseChange_mackeyFamily_eq` the first equality is supplied by `gsBaseChange_mackeyFamily`. The proof then rewrites the upper local map using the value of `gsMackeyEmbeddings` at $e(v,UxD_v)$, which returns the embedding built from the same representative. The finite quotient above proves the indexing bijection in textbook terms. The archive constructs the bijection by comparing local embeddings inducing the same place. $\square$
+
+**Changing choices.** If $x'=ux\lambda_v(h)$ with $u\in U$ and $h\in H_v$, then $j_{x'}=h^{-1}j_x$ on $L$. The induced place is unchanged. Conjugation by $h^{-1}$ identifies $H_{v,x}$ with $H_{v,x'}$, and
+
+$$
+ \lambda_{v,x'}(h^{-1}\sigma h)=u\lambda_{v,x}(\sigma)u^{-1}.
+$$
+
+A different lower embedding at $v$ differs on $K_S$ by precomposition with some $g\in G$. Then $\lambda_v'=g^{-1}\lambda_v g$, $D_v'=g^{-1}D_vg$, and the coordinate $UxD_v$ is represented by $UxgD_v'$. Two $L$-embeddings into the same upper local closure over $w$ likewise differ on $L_{S_L}$ by precomposition with some $g\in G_{L,S_L}$. This conjugates the map in the target. For $\lambda'=g^{-1}\lambda g$ the action of $g^{-1}$ identifies the $\lambda$-pullback of a module with its $\lambda'$-pullback. These isomorphisms identify the local restriction maps one coordinate at a time. To compare whole restriction diagrams when the conjugations vary with the place, keep the global map fixed and use the conjugation homotopy at each coordinate. In the bar construction, conjugate homomorphisms are functors between one-object group categories related by the natural transformation given by the conjugating element. Inserting that element at each possible position in a bar simplex with alternating signs gives the cochain homotopy, with the same coefficient action at the two ends. The product of these homotopies gives a map of restriction fibres. The two vertical cochain maps induce isomorphisms, so the long exact sequence of the fibre gives an isomorphism on compact cohomology. Changing the identification of completions also conjugates their local absolute groups. The archive's `exists_gsBaseChange_mackeyFamily_eq` gives the upper embedding comparison in this conjugate form. The literal equality in the lemma uses the matched embeddings.
+
+**Theorem 18.3.23c (compact transport and the cup product) [Lean, read].** Let $A'$ be a discrete module for $G_{L,S_L}$ over a commutative ring, $A$ a discrete module for $U$, and $f:\theta^\ast A'\simeq A$ equivariant. In every degree $a$ there is an isomorphism $e_{A,a}:H_c^a(G_{L,S_L},S_L;A')\to H_c^a(U,\mathrm{Mackey};A)$. For discrete integral modules $D',D$ killed by the same positive $n$ and identified by such an $f$, use $R=\mathbb Z/n\mathbb Z$ with trivial action on both groups. Let $e_{R,q}:H^q(G_{L,S_L},R)\to H^q(U,R)$ denote ordinary pullback. With scalar pairing $d\otimes b\mapsto bd$, the compact-first cup satisfies
+
+$$
+ e_{D,p+q}(y\smile x)=e_{D,p}(y)\smile e_{R,q}(x),\qquad
+ y\in H_c^p(G_{L,S_L},S_L;D'),\quad x\in H^q(G_{L,S_L},R).
+$$
+
+**Proof.** On global continuous cochains pull back arguments along $\theta$ and apply $f$ to values. On local cochains take the coordinate $w=e(v,UxD_v)$, pull back arguments along $\psi_{v,x}$, and apply $f$. The local restriction equation makes the two composites equal at every coordinate. The maps commute with the differentials by equivariance. The inverse group isomorphisms, inverse numbering, and $f^{-1}$ give inverse cochain maps. In the mapping fibre a degree-$a$ cochain is a global cochain of degree $a$ and a local family of degree $a-1$, with negative degrees zero. The two maps applied componentwise commute with the fibre differential $(a,b)\mapsto(da,\operatorname{res}(a)-db)$. In the archive the same restriction square gives a mapping-cocone map using the equality homotopy. The isomorphisms on global and local cohomology give the isomorphism on compact cohomology. The constructor `gsMackeyCompactIso` passes both families, $\theta$, $e$, the $\psi_{v,x}$, the commuting equation and $f$ to this construction.
+
+The ordinary coefficient comparison is the identity on $R$. If $b\in R$ has integer representative $m$, then $f(bd)=f(md)=mf(d)=bf(d)$, independently of the representative since $n$ kills both modules. This checks the pairing on pure tensors. In the cochain cup, the first block of arguments supplies the first value and acts through its product on the value from the second block. Pullback respects that product, and equivariance and the pure-tensor identity respect the paired value. This applies to both global and local cochains. In the indicated fibre convention the compact-first product with an ordinary cochain $z$ is $(a\smile z,b\smile\operatorname{res}(z))$. If the fibre input has degree $p$, the Leibniz identity for this operation follows from the usual identity on global cochains and, on the local term, from $-\!(-1)^{p-1}=(-1)^p$. Thus the operation descends to cohomology, where it commutes with transport. The archive checks scalar multiplication in `zmodMulPairingRight_res`, then applies global and coordinatewise local cochain cup naturality in `compactTransport_compactCupRes`. The correction terms are zero for the equality homotopies. The specialization uses $f$ on the compact input and output and the identity scalar comparison on the ordinary input. $\square$
+
+**Reading the square in both examples.** In the cubic example at $n=3$, the coefficient is the additive form of the actual $\mu_3$ in the common maximal extension. Complex conjugation belongs to $U$ and moves $\zeta_3$, so the coefficient action must be carried along $\theta$. For compact degree $2$ and ordinary degree $1$, the two local cups at $5$ use the degree-$1$ and degree-$2$ completions, and the single cup at $7$ uses the degree-$3$ completion. Each local part pairs degree-one cochains and lands in degree two. The same operation in the cyclic example at the split prime $7$ uses the two separate degree-$1$ completions and the same trivial scalar module. The target in both cases is transported by $e_{D,3}$. The cyclic example also satisfies the roots-fixing hypothesis for the upper-field arithmetic pairing.
+
+For explicit local values, identify the additive roots with $\mathbb Z/3\mathbb Z$ by $\zeta_3\mapsto 1$. In Example 2 choose the compact boundary of the local degree-one class supported at the first place over $7$ and represented there by the scalar character just computed, with values now in the roots module. In the fibre convention its representative has zero global component and local cochain $b$ in degree $1$. At a Frobenius lift $\tau$ the value $b(\tau)$ is $2$ in the first coordinate and $0$ in the second. The output cochain at $(\tau,\tau)$ has first value $2\cdot 2=1\bmod 3$ and second value $0$. Reindexing gives the same values in the two corresponding Mackey coordinates.
+
+In Example 1 choose the ordinary character obtained from $\operatorname{Gal}(\mathbb Q(\zeta_9)/\mathbb Q)$ by quotienting by complex conjugation and sending the class of $4$ to $1$. It restricts to $G_{L,S_L}$ because the compositum is unramified outside $S_L$. At the degree-one place over $5$ its Frobenius value is $1$ since $5=-4\bmod 9$. A local roots cochain $b(\sigma)=\sigma(1)-1$ uses the additive generator $1$, with action by the cyclotomic character. At a Frobenius lift $\tau$ it has value $2-1=1\bmod 3$, since $5=2\bmod 3$. With the fibre input $(0,b)$ supported at this single coordinate the output at $(\tau,\tau)$ is $1\cdot 1=1\bmod 3$. The scalar action on the second factor is trivial even though the first coefficient has nontrivial action. These are cochain values, and this second $b$ is a coboundary. The calculation tracks the operation and the reindexing on representatives.
+
+**The actual consumers.** `BaseMain` starts with every open $U\leq W_0$, where $W_0$ fixes the $n$th roots in $K_S$. It rewrites $U$ by Theorem 18.3.23a and retains the inclusion in $W_0$. The next wrapper builds the finite nonempty $S_L$, transfers coverage of primes over $\ell$, supplies the roots in $L$ and the odd-or-totally-complex guard, and invokes the inherited upper-field package with `gsMackeyEmbeddings`. It supplies the trace $T_L$ and its complementary-degree adjoints. The `BaseLevel` consumer calls the ordinary degree $r$ and compact degree $s$, so its cup uses $s+r=3$ from $r+s=3$. Its arrows are $e_X=e_{R,r}$, $e_Y=e_{D,s}$ and $e_W=e_{D,3}$, from the upper field to the subgroup model. The comparison $f$ is `gsRootsOfUnityIso.symm`, from the upper roots pulled back along $\theta$ to the lower roots restricted to $U$. On the subgroup-side compact degree three, the traces are $t_K\circ\operatorname{cores}_U$ and $T_L\circ e_W^{-1}$. The inherited trace argument relates them by a unit of $R$, enough to transfer bijectivity. Sections 18.3.21–22 give the surjectivity and four degree branches.
+
+**Removing hypotheses.** With $K=\mathbb Q$ and $S=\{3\}$, put $M=\bigcup_{a\geq1}\mathbb Q(\zeta_{3^a})$. Every layer is unramified outside $3$ and has degree $2\cdot 3^{a-1}$. The closed normal subgroup $\operatorname{Gal}(K_S/M)$ fixes exactly $M$. Its index is at least $2\cdot3^{a-1}$ for every $a$, so it cannot be open. No finite intermediate field realizes this subgroup as a pointwise fixing group. Example 1 shows the distinct effect of dropping normality from the quotient assertion. The finite field still exists, but its three-element coset set has no quotient group structure induced from $G$.
+
+**Sources and status.** Milne, *Fields and Galois Theory*, v5.10, Proposition 7.6 (p. 95), Proposition 7.12 (p. 97) and Theorem 7.13 (p. 98) give the Krull basis and infinite correspondence, including the openness and normality clauses. The finite reduction uses Theorem 3.17 (pp. 39–40). [Author PDF](https://www.jmilne.org/math/CourseNotes/FT.pdf)
+
+Milne, *Algebraic Number Theory*, v3.08, Theorem 3.34 (p. 59) gives finite factorization and the degree sum, Proposition 8.2 (p. 136) gives the completion factors for the finite separable extension $L/K$ at the discrete nonarchimedean place $v$. Propositions 8.10 and 8.13(a) (pp. 139, 141) give the decomposition group in the finite Galois layer and its intersection with the fixing subgroup. Corollaries 7.51–7.52 (p. 128) give the local unramified extensions inside a given finite extension and inside the algebraic closure, respectively. Corollary 8.22 and Theorem 8.23 (p. 145) give the squarefree reduction and cycle comparison. Theorem 6.4 (pp. 99–100) gives cyclotomic degree and ramification. [Author PDF](https://www.jmilne.org/math/CourseNotes/ANT.pdf)
+
+The source ledger gives full paths and line ranges in Alpöge–Claude archive A2, joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. The named production bodies were read at local R3. The proofs and examples here are an author-level exposition. Kernel replay, exported `Main` reachability and external review remain [Open]. The arithmetic application retains the hypotheses of the fixed-prime-power consumer. The resulting scalar adjoints are the input to [§18.3.25](#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent) and then to [§18.3.24](#18324-combining-prime-power-compact-pairings-on-the-same-module). [Source ledger](../sources/SOURCES.md#chapter-18-18323-open-subgroups-and-the-mackey-local-family)
+
+**Review status.** Author-level proof and local A2 reading. Same-source preliminary review R105 partially accepted the original draft: its four mathematical findings were accepted, and the completion reference and unramified-extension citation have been corrected. [Open] External review and kernel replay remain pending.
+
+---
+
 ### 18.3.24 Combining prime-power compact pairings on the same module
 
-**Motivation.** At a prime power the open-subgroup argument starts from a scalar pairing over the subgroups below a roots-fixing open subgroup. The fixed-field, local Mackey, and compact corestriction arguments provide the scalar input on those subgroups. Its output at that prime power can be applied to a primary summand of a larger coefficient module. To put the summands back together, each pairing has to use the invariant of the original finite-place family. For instance, the class of $1$ in $\mathbb Z/3\mathbb Z$ has invariant $1/3$ in $\mathbb Q/\mathbb Z$. As a value in $\mathbb Z/15\mathbb Z$, it must therefore be represented by $5$.
+**Motivation.** At a prime power the open-subgroup argument starts from a scalar pairing over the subgroups below a roots-fixing open subgroup. [§18.3.21](#18321-from-the-coefficient-trace-to-surjective-compact-corestriction) gives the compact Mackey comparison and surjective degree-three corestriction. [§18.3.22](#18322-the-upper-field-root-of-unity-pairing) provides the upper-field trace and all four scalar adjoints at the same prime power. [§18.3.23](#18323-open-subgroups-larger-fixed-fields-and-the-local-family) realizes every such subgroup as a fixed-field group, identifies its local family and transports the compact-first cup. Together they furnish the scalar input to the fixed-exponent dévissage in [§18.3.25](#18325-from-coinduced-coefficients-to-compact-duality-at-a-fixed-exponent). Its output at that prime power can be applied to a primary summand of a larger coefficient module. To put the summands back together, each pairing has to use the invariant of the original finite-place family. The assembled adjoint supplies condition 2 of [§18.3.20](#18320-from-compact-support-to-the-nine-term-poitoutate-sequence), where the nine-term row and kernel pairing use it together with the other six conditions. For instance, the class of $1$ in $\mathbb Z/3\mathbb Z$ has invariant $1/3$ in $\mathbb Q/\mathbb Z$. As a value in $\mathbb Z/15\mathbb Z$, it must therefore be represented by $5$.
 
 **Example 1 (exponent 15).** Take $K=\mathbb Q$, $S=\{(3),(5)\}$, the original completion embeddings, and the trivial $G_{K,S}$-module $M=\mathbb Z/15\mathbb Z$. Work in $(r,s)=(0,3)$. Evaluation at $1$ identifies the roots-valued dual of $M$ with $\mu_{15}$, with its cyclotomic action. Take $x=7$ in $H^0(G_{K,S},M)$. Choose a local roots class at $(3)$ of invariant $11/15$ and zero at $(5)$, and let $y$ be the corresponding compact boundary class under the identification by evaluation at $1$. These local lifts exist by Kummer and Hilbert 90: $H^2(K_v,\mu_m)\to \operatorname{Br}(K_v)$ identifies the source with the $m$-torsion, and the normalized local invariant identifies that torsion with $(1/m)\mathbb Z/\mathbb Z$. For an explicit Brauer representative, take the unramified extension of degree $m$, its arithmetic Frobenius, and the cyclic algebra with parameter $\pi^k$, where $\pi$ is a uniformizer. Its valuation cocycle is $k\lfloor(i+j)/m\rfloor$ for Frobenius exponents $0\le i,j<m$. This is the cocycle of the boundary of the character sending Frobenius to $k/m$, so its invariant is $k/m$. Here one can use $m=15$, $k=11$, $\pi=3$. The descended trace has $\lambda_{15}(y)=11$, so $y$ is nonzero. [Milne, *Arithmetic Duality Theorems*, I, Example 1.6(b) and §2](https://www.jmilne.org/math/Books/ADTnot.pdf)
 
