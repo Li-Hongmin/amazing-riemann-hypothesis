@@ -5801,6 +5801,81 @@ The three `local_degree_…_square` bodies occupy lines 134–137, 139–150 and
 
 [Paper] Milne, *Arithmetic Duality Theorems*, 2nd ed., I §4, pp. 56–57 and 66. The complementary duals precede Theorem 4.10 and the row follows it. The notes give the attribution to Tate and Poitou. PDF SHA-256 `2c6195ec76a974f3f336c77cb71cc3845b018aad2d43136716b3477a3bc5fb31`. [Author PDF](https://www.jmilne.org/math/Books/ADTnot.pdf)
 
+
+### Chapter 18 §18.3.28 Existence of compatible single-field inputs
+
+[Lean, read] Archive A2 by Levent Alpöge with Claude, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, Lean v4.33.1 and Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. Each pinned member below was byte-compared with the compressed release. The full archive remains external.
+
+| Production and supply | Actual use |
+| --- | --- |
+| `PtfsHyp.lean:12–17`, `PTConclAt.lean:10–22`, `PtfsHypOfCmp.lean:12–17`, `PtfsTransfer.lean:50–77`, `PtfsShaHalf.lean:12–35` | The two comparison assumptions specialize to one tuple and the two transfers give the outputs. `PoitouTateNormalisedOfNine.lean:11–22` supplies `LocHyp` from `MemDecompositionSubgroupIff.lean:36–62` and calls the assembly at line 19. |
+| `ExistsSubfieldModel.lean:6–20`, `Bridge.lean:14–28`, `PtConclOfIsoOf.lean:22–80` | Choose the model and obtain its theorem from `PtfsHyp`. The normalization is chosen before the finite family. Existing transport applies the theorem at line 80. |
+| `ExistsInvFamNormalised.lean:12–28`, `NormalisedLocalInvariantExistsStatement.lean:6–7`, `NormalisedLocalInvariantExists.lean:11–48` | Family selection, place uniqueness, and the inherited rescaling proof of §18.3.6a. The three direct arithmetic supplies are `local_brauer_roots_unity_equiv`, `local_invariant_cup_uniformizer` and `local_invariant_cup_kummer`. |
+| `PoitouTateNineTermTransgressionZeroApply.lean:17–37,64–99,254–280`, `Global.lean:265–266,338`, `GalCoh.lean:132–142` | Places and localization, descent of the character, and the scalar-action identification for `invAt` in `PTConclAt`. |
+| `ExistsLocalEmbeddingOverPlace.lean:15–105`, `DecompositionGroupLocalGaloisIso.lean:14–246`, `ExistsAlgHomMulEquivDec.lean:9–16` | Produce an embedding realizing the specified valuation ring, then the local-to-decomposition isomorphism and absolute action equality. |
+| `PtfsGsEquiv.lean:12–51`, `LocalCmp2.lean:13–57`, `PtfsRep.lean:11–24`, `PtfsDualPf.lean:17–225`, `FinalPtfsDataEx.lean:15–31` | Build the quotient, local square and two coefficient identifications for `FoundData`. `PoitouTateNormalisedHolds.lean:13–19` applies them through `nineAdd_core` and `nineCmpFS_of_nineAddFS`. |
+| `NineAddCore.lean:27–88`, `LocTr0B.lean:17ff.`, `LocTr1C.lean:18ff.`, `LocTr2.lean:18ff.` | The core consumes the arithmetic row and normalized comparisons, with scalar signs minus, plus, minus relative to ordinary-first evaluation. |
+| `PtfsLocal.lean:13–54`, `PtfsShaFinal.lean:27–77`, `PtfsSha.lean:117–144` | The Sha branch uses the smaller local wrapper, four kernel identifications and the supplied two pairings. |
+
+[Lean] Retained deeper interfaces include `NS_eq_fixingSubgroup`, the internal scalar and cochain comparison `FinalInv.lean:15ff.` (`invCmp`), `NineAddOfFound3.lean:13ff.` (`nineAdd_of_found3`), the three Brauer and uniformizer-cup implementations, and `VanishAll.lean:62ff.`. The prior compact-support sections supply their established scopes for `poitouTate_nineTerm_gs` and `poitouTate_sha_gs`. The Mathlib closure and analytic implementation dependencies remain at their contracts. Independent review of this subsection, exact Main reachability and kernel replay are [Open].
+
+[Paper] John Tate, ICM 1962, §3, pp. 290–291, Theorem 3.1 and the attribution to Poitou. Jürgen Neukirch, Alexander Schmidt and Kay Wingberg, *Cohomology of Number Fields*, 2nd ed., v2.3, pp. 472–475, 485, 488–491, (8.6.7) and (8.6.10). These give the classical hypotheses of the comparison. The online preview of Jean-Pierre Serre, *Cohomologie galoisienne*, locates Chapter II §§6.1–6.3. The publisher provides subscription access to the chapter. Milne, *Arithmetic Duality Theorems*, I Example 1.6(b), §§2 and 4 gives the local invariant and the finite/restricted product conventions. [Tate](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM1962.1/ICM1962.1.ocr.pdf) · [NSW](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.PDF) · [Serre](https://doi.org/10.1007/BFb0108760) · [Milne, ADT](https://www.jmilne.org/math/Books/ADTnot.pdf) · [Milne, CFT, III §1, pp. 99–100](https://www.jmilne.org/math/CourseNotes/CFT.pdf)
+
+[§18.3.28](../chapters/18-auditing-the-published-layer-case-studies.md#18328-choosing-the-inputs-for-a-single-field)
+
+| A2 member | SHA-256 |
+| --- | --- |
+| `lean/lake-manifest.json` | `fee57ee9ed399d0a638ca955e5ad40a37a36eeb9b6dfd9f5964114fa7bbe4774` |
+| `lean/lean-toolchain` | `3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71` |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DecompositionGroupLocalGaloisIso.lean` | `584ad6b184392faca2712d148e1372f641cd635ce7358c4cb772b7f92cb8c0d9` |
+| `lean/src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalEmbeddingOverPlace.lean` | `5555145a0f5c6e5b99a9b70df0f9a60bfabc087d6d1b1ff5f8538806b19a3134` |
+| `lean/src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNineTermTransgressionZeroApply.lean` | `bcfbfe5f61dc3c2b76374ca7a9c4a68ff13b626decc01690dc55ee6f40bec6bd` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsAlgHomMulEquivDec.lean` | `6417fea5ff9d9791170a69a833219d61929cd4beba986393f94e4c0f44bd0db6` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsInvFamNormalised.lean` | `67cd3b3316084986f4a931b512645a0b3e4093e6cf9ecdf93383fa488151810d` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsSubfieldModel.lean` | `37ff2573204870c34f090a9ae47c399c3f50cbf748d09ac21bc84bc6359fa571` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalBrauerRootsUnityEquiv.lean` | `5a3b37c22926c74d4a7696fb6dd849c12567fbe40922e13516693b64ef4c448c` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalBrauerRootsUnityEquivStatement.lean` | `44afd247e71a287ddaca5e6d4a1fbc77e1a569639ed627a103ffeffb280bf393` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalInvariantCupKummer.lean` | `0df39383b2c5dcd780d531b3f22dd3bdd3970deea16c9322f8f12311db0930c3` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalInvariantCupKummerStatement.lean` | `d4c5240dd4aa358472432829da3626f4449386d81951256a3a0d82d3c3239573` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalInvariantCupUniformizer.lean` | `15f4137e0da40371c081efdccda83afc36f3b5e9624045edb71453f9b05c7ad6` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/LocalInvariantCupUniformizerStatement.lean` | `791c9d30dda36fa728baf361778f1461372cdd0ded2d36cec1c0123fb87dbd33` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NormalisedLocalInvariantExists.lean` | `e69fb58eb9c926242f35d83a6fd4051f5e2b374c1fc944c77bd541b6d81b91ae` |
+| `lean/src/Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NormalisedLocalInvariantExistsStatement.lean` | `07210ab6cd56112f774d193164643d6fc3c5bde828e94a1464d9c58a965bc93e` |
+| `lean/src/Development/WeilBound/CoreStatements/EulerCharacteristicCounts/GcohCmp.lean` | `d1242bb5eb2462d702f59bcb69b7777f62c60f3f74eab423b5908120af3c0340` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/Bridge.lean` | `a81cfd125f4d79835e1452e25791e29c24c841f619b7cf0e256993e8d0bc1a03` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/FinalPtfsData.lean` | `205f909428ff851b919be5edcc90889ee9867047ed00c2433c8ec8c3703caf04` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/FinalPtfsDataEx.lean` | `5a5a42fa1056880d13a1103fdaa1799142367c3fcde905b2134f237195774f74` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/LocTr0B.lean` | `a45ae8114fc5f6f710d24edf254066cfcccf20d8bb7976e34161bfb18f340103` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/LocTr1C.lean` | `d56ef9fa9ae4c08423938f9a4b39028f38435e6c777fbb8d541081e5fa24137e` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/LocTr2.lean` | `d121432450cf34591772bee7875b6cd9b68f5a18d67852586d12914de3ce8c87` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/LocalCmp2.lean` | `8fb050c3e728a6fb18fe174f9065d68cd844f9c96393b160afc34939c739f0dc` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/MemDecompositionSubgroupIff.lean` | `2992c685d2d004c40a31653f2979545d99c099922eb112e4413a3e59f9f369e2` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PoitouTateNineTerm/NineAddCore.lean` | `407993227a867b89b6257a8a5b437dc6703c57302113f031edfd174daeb4d1d2` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PoitouTateNineTerm/PoitouTateNormalisedHolds.lean` | `f5ed6740be7890f37d9601452e52ecf1e820edb4be40ef8c5342afc30ed67edd` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PoitouTateNormalisedOfNine.lean` | `1f5418c75a76cf6b7e8704ca102232aab6535eaa752274fd3f410e7a2bc527bd` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtConclOfIsoOf.lean` | `b2c8762cb16379c5a0c01d2ce51ec9a04f9b5371ae4e2d17dda16bf45343c0fa` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsAddTransfer.lean` | `617f3a17c0a88afd828fed4e281cf8b6495ef128f9bf060e9ba41e08f2792b2e` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsDefs.lean` | `bfc42ce85c268cd82d248378bdb84f5d62fed72e1d0f161487e909b4aa122228` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsDualPf.lean` | `65b1ceddeef9f873dae9ea60e06646a1632bde0e4bafbdd13be43f2c2740492c` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsGsEquiv.lean` | `f12518a2315808d3db9e663b89e5661c824354eeacfc8bc9c8a302293c73bb1a` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsHyp.lean` | `b7416da5521e505ec866a65a8eea70c11fbe1fd293c9293687b81ea1c7dff14b` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsHypOfCmp.lean` | `540da974cf332e96d73751ff8d0a7d9bc0fde0117db8b3f7f173d152e132fff1` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsLocal.lean` | `06e9be4c316f600c6bf87ca24588ae9313814b3d496963dad2ffb50530a58b65` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsNineAdd.lean` | `9906b88ce3d78271a2db668c597f65f00fb9fff22ee54f8b0fba285112b1eb68` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsRep.lean` | `0a52448cb3ece1329a2a7bc86b98438098374298425771bde789752645964284` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsSha.lean` | `05905ee609258a39d4081253e7faa9f3d1b0f445dde5cec66b5f6a05f91f869a` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsShaFinal.lean` | `297c8e6048bbb429f163af3677a284bf7dcc4c8fbbbadd154d9b2b87deec1406` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsShaHalf.lean` | `6b1a12aa2e2dc5ffd1031a811c08bef2bdf12ac217004fffefaf7a6375c5af03` |
+| `lean/src/Development/WeilBound/CoreStatements/PublishedTheorems/PoitouTateDuality/PtfsTransfer.lean` | `40a5251e33afc30c9456725f48767d1d1df03c5abe1abc586a836794cbe29b0b` |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PTConclAt.lean` | `91fc1ddcf77460a64a442bd21b9d484330b890acb1886b903e17232560ecb934` |
+| `lean/src/Development/WeilBound/CoreStatements/TemperedRepresentationTheory/GelfandSpectralNormalisation/NormalisedInvariants/PoitouTateExactSecond.lean` | `58eef8050a8fdd718a06701dad24878f174352792808464c31489b7774378ce4` |
+| `lean/src/GroundTheory/ProfiniteCohomology/PoitouTate/PoitouTateNineTermGs.lean` | `33f1f1e9233cd3d869236df8237d7a3c365a773ce9c367d4f744303bdc5f3593` |
+| `lean/src/GroundTheory/ProfiniteCohomology/RestrictedRamification/BaseChangeMackey.lean` | `0f1510b2adc3729048386c9d79a61b7b8d4fb7388ff497f936ded0d96414e97d` |
+| `lean/src/GroundTheory/ProfiniteCohomology/RestrictedRamification/SUnits.lean` | `c6bc3e4f439257661db34cadb677cae29f7047ea8f4e4a948d63d92256b308fd` |
+| `lean/src/ReciprocityTheory/GaloisValuations/Global.lean` | `c8e9465c22e48ca68c4e2cfec74c1f9407d8c471b2eb5e2440f11b910a6bfbd6` |
+| `lean/src/ReciprocityTheory/Hypotheses/GalCoh.lean` | `8b5051953b0209402d9ef496c5877eec8b809d1b10fbd67877408876c36f30cd` |
+
+
 ### Root multisets and separable root counting (§5.3.1.12)
 
 Archive A2 ([first original archive part](https://alpo.ge/lean.tar.gz.part01)). Recomputed SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Its `lean/lake-manifest.json:5–14` pins Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. The paths below are relative to the root of that Mathlib revision. Only the declarations listed as read were assigned local R3. The work consists of source reading and textbook proofs.

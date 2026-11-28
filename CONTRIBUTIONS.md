@@ -1671,6 +1671,14 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Tate and Poitou** supply the classical duality context, documented by **J. S. Milne**. **Levent Alpöge with Claude** supply the six comparison proofs, continuous cup constructions and the transport in A2. **Mathlib contributors** supply the linear dual, finite sum and quotient interfaces used by those proofs. [Source ledger](sources/SOURCES.md#chapter-18-18327-the-six-localization-and-trace-comparisons)
 - **Hongmin Li with AI assistance** followed the cochain values and continuous primitives, worked the two finite models and their failure tests, and connected the individual comparisons to the published ladder. The new exposition has author-level local R3. [Chapter text](chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two)
 
+### Chapter 18 §18.3.28 — Choosing the inputs for a single field
+
+- **Classical authors.** Tate and Poitou supply global duality and the exact sequence. Serre gives the classical exposition of finiteness and duality. Neukirch, Schmidt and Wingberg give the pairing and exact sequence with their restricted-product conventions. Milne supplies the local invariant and the arithmetic duality presentation. [Sources](sources/SOURCES.md#chapter-18-18328-existence-of-compatible-single-field-inputs)
+- **Mathlib community.** Algebraic closure lifts, field ranges, arithmetic and topological foundations at `0df444a360eaa60ab8c11dca51a86af692955474`. [Pinned Mathlib](https://github.com/leanprover-community/mathlib4/tree/0df444a360eaa60ab8c11dca51a86af692955474)
+- **Levent Alpöge with Claude.** The A2 producers for the matching embeddings, decomposition groups, normalized family and the two fixed-field comparison inputs. [Archive ledger](sources/SOURCES.md#chapter-18-18328-existence-of-compatible-single-field-inputs)
+- **This book.** Followed the actual suppliers of the model-field input. The new examples use the Gaussian field and a nonnormal cubic, and the counterexamples isolate the local matching and finite-sum conditions. [§18.3.28](chapters/18-auditing-the-published-layer-case-studies.md#18328-choosing-the-inputs-for-a-single-field)
+
+
 ### Root multisets and separable root counting (§5.3.1.12)
 
 - **Chris Hughes, Johannes Hölzl, Kim Morrison, Jens Wagemaker, Johan Commelin, Thomas Browning, Kenny Lau and Mathlib contributors** — The pinned polynomial file headers credit the root multiplicity and root multiset development and the split-product interface used in [§5.3.1.12](chapters/05-the-square-root-barrier-core-gm.md#53112-root-multisets-and-separable-root-counting). [Fixed Mathlib source map](sources/SOURCES.md#root-multisets-and-separable-root-counting-53112)

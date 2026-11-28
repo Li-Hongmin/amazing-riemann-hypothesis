@@ -206,6 +206,8 @@ Chapter 13, §§13.4.4–13.4.8, supplies the regular-character construction and
 
 **Chapter 18 §18.3.27 (P18).** Follow three restriction squares and three trace-pairing squares on continuous representatives, with the cup primitives, two finite models and the exact arguments to the existing nine-term ladder. [Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18327-restriction-and-trace-pairing-squares-in-degrees-zero-through-two)
 
+**Chapter 18 §18.3.28 (P18).** Choose the compatible embeddings and normalized invariants on a single field, follow the actual fixed-field comparison calls, and check two arithmetic examples and the missing-hypothesis failures. [Subsection](../chapters/18-auditing-the-published-layer-case-studies.md#18328-choosing-the-inputs-for-a-single-field)
+
 - **Chapter 12, P14, §12.4.4.** Teach the odd-rank seed’s finite étale holomorphic Lefschetz input using a permutation matrix, then prove the conditional formula by clopen trace gluing and the integral Čech assembly. Follow the actual Hecke specialization to `GeoOne`. [Chapter 12](../chapters/12-galois-representations-and-local-langlands.md#the-holomorphic-lefschetz-input-to-the-odd-rank-seed)
 
 - **P14, Chapter 12.** After the two-leg formula, compute the local weight in dimensions one and two, then prove the chart identity through the cochain lift, exterior trace, Koszul comparison and reduced-fibre trace. [Local Lefschetz weight](../chapters/12-galois-representations-and-local-langlands.md#from-a-finite-étale-chart-to-the-local-lefschetz-weight)
