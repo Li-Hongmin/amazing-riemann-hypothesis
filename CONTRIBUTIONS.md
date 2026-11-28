@@ -1236,9 +1236,15 @@ same-model review is recorded separately in the preceding run's audit.
 ### Chapter 19 trivial inertia and the relative different (§19.3.21)
 
 - **Classical arithmetic.** Dedekind's prime factorization criterion and the classical inertia and trace-dual arguments are cited through J. S. Milne's *Algebraic Number Theory*. [Classical sources](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
-- **Mathlib community.** The referenced files credit Andrew Yang for the local unramifiedness and different bridges, Yongle Hu and Jiedong Jiang for Galois ramification, Thomas Browning for the invariant and finite flat proofs, Anne Baanen for the finite ideal quotient, Xavier Roblot for finite quotients and cyclotomic integral generation, and Oliver Nash for perfect fields. [Pinned sources](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
+- **Mathlib community.** Andrew Yang supplies the local unramifiedness and different bridges and the inertia-order theorem `card_inertia_eq_ramificationIdxIn` (#30675). Riccardo Brasca supplies the power divisibility of the different (#18228). Yongle Hu and Jiedong Jiang's file supplies the Galois ramification indices. Thomas Browning supplies the invariant and finite flat proofs and the perfect-residue-field instance (#40436). Anne Baanen supplies the finite ideal quotient. Xavier Roblot supplies finite quotients, the stabilizer cardinal and cyclotomic integral generation. Oliver Nash's file supplies perfect fields. [Pinned sources](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
 - **Levent Alpöge with Claude.** The A2 archive supplies the inertia-to-different application, the agreement of the two conjugations and the signed discriminant square of the general host. [Archive source record](sources/SOURCES.md#chapter-19-19321-inertia-and-the-relative-different)
 - **Textbook exposition.** Hongmin Li with Codex supplies the step-by-step bridge, two integral-basis calculations with a deleted-premise control, and the verified declaration and chapter links. [§19.3.21](chapters/19-published-layer-case-studies-ii.md#19321-from-trivial-inertia-to-the-unit-relative-different)
+
+### Chapter 19 raw-host unramifiedness (§19.3.22)
+
+- **Levent Alpöge with Claude.** A2 supplies the type I stabilizer theorem, the separate modulus-16 obstruction, and the inertia exclusion installed as the raw host input. [Source record](sources/SOURCES.md#chapter-19-19322-the-raw-host-unramifiedness-producer)
+- **Classical arithmetic.** Dedekind factorization and the different–discriminant criterion are cited through Neukirch. Serre supplies the residue quotient, simple-root lifting and the complete unramified lift. Mathlib supplies the pinned contraction, finite quotient and finite-field Frobenius interfaces. [Source record](sources/SOURCES.md#chapter-19-19322-the-raw-host-unramifiedness-producer)
+- **Textbook exposition.** Hongmin Li with Codex supplies the proofs, the Gaussian and real cubic calculations and the lowered-layer counterexample. [§19.3.22](chapters/19-published-layer-case-studies-ii.md#19322-constructing-the-unramified-extension-of-the-raw-host-the-decomposition-type-i-producer)
 
 ### Chapter 19 power-basis isomorphisms (§19.3.19)
 

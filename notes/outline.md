@@ -299,6 +299,8 @@ Chapter 19 §19.3.20 proves the three discriminant bounds for the general raw ho
 
 Chapter 19 §19.3.21 follows trivial inertia through the ramification index, residue separability and the local different criterion. It gives the two CM calculations and returns to the signed square on the original host under `C.unramEF`. [§19.3.21](../chapters/19-published-layer-case-studies-ii.md#19321-from-trivial-inertia-to-the-unit-relative-different)
 
+Chapter 19 §19.3.22 proves type I splitting, the modulus-16 exclusion at the remaining conductor prime, and the inertia exclusion that produces finite unramifiedness. [§19.3.22](../chapters/19-published-layer-case-studies-ii.md#19322-constructing-the-unramified-extension-of-the-raw-host-the-decomposition-type-i-producer)
+
 Chapter 19 §19.3.19 constructs the two algebra substitutions, proves both inverse identities on polynomial representatives, and supplies the same-field automorphism at a primitive root and its unit power. The order-nine calculation and the quadratic quotients show where each relation is used. [§19.3.19](../chapters/19-published-layer-case-studies-ii.md#19319-from-conjugate-roots-to-power-basis-isomorphisms)
 
 Chapter 19 [§19.3.12](../chapters/19-published-layer-case-studies-ii.md#19312-the-finite-group-and-the-stable-frame-order) follows the finite frame of `AnyGrp.host`. The examples modulo 8 and 32 obstruct sections of the two projections separately. The common quotient describes the joint image, and the common-modulus lift gives the stable order used by `fieldChi`.
@@ -703,6 +705,7 @@ They link to dominated convergence and §§2.3.2.7.4–6 at the $L^1$ conclusion
 | Chapter 19, §19.3.15 | [Chapter 19, §19.3.15](../chapters/19-published-layer-case-studies-ii.md#19315-integral-bases-at-general-cyclotomic-conductor) |
 | Chapter 19, §19.3.16 | [Chapter 19, §19.3.16](../chapters/19-published-layer-case-studies-ii.md#19316-relative-trace-after-extending-the-base-field) |
 | Chapter 19, §19.3.21 | [Chapter 19, §19.3.21](../chapters/19-published-layer-case-studies-ii.md#19321-from-trivial-inertia-to-the-unit-relative-different) |
+| Chapter 19, §19.3.22 | [§19.3.22](../chapters/19-published-layer-case-studies-ii.md#19322-constructing-the-unramified-extension-of-the-raw-host-the-decomposition-type-i-producer) |
 | Chapter 19, §19.4 | [Chapter 19, §19.4](../chapters/19-published-layer-case-studies-ii.md#194-global-doubling) |
 | Chapter 19, §19.5 | [Chapter 19, §19.5](../chapters/19-published-layer-case-studies-ii.md#195-unramified-split-doubling) |
 | Chapter 19, §19.6 | [Chapter 19, §19.6](../chapters/19-published-layer-case-studies-ii.md#196-convergent-rallis-inner-product) |
