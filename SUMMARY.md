@@ -23,6 +23,7 @@
 - [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
   - [Normalized induction and Jacquet modules (§§7.4.3.8–13)](chapters/07-normalized-induction-reading-guide.md)
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
+  - [8.4.12.1 Why restriction to one place preserves the same InClass witness](chapters/08-single-place-class-restriction.md)
 - [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 - [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)

@@ -1745,7 +1745,7 @@ In the explicit lattice conclusion, write $M$ for the chain length, $V$ for the 
 $\sum _ {J=1}^{M}\bigl(\sum _ {v\in V}\max(G _ n(v,J)-P _ n(v,J),G _ n^0(v,J))+\sum _ {v\notin V}G _ n^0(v,J)\bigr)-\sum _ {j=0}^{M-1}X.\operatorname{dG}(j)$.
 The resulting `p5D : LowTermBound D X Y` is the last field of `Conclusion₂`. The reader `unit_bound_of_sum_over_primes` projects that field at line 270 of `JointsTw.lean`. Its `UAt_of` applies the bound to the gain, low-term and period-loss functions at line 127.
 
-**Remark (reading record).** The mathematics and formal proofs are those of Levent Alpöge with Claude, archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Local R3 covers the bridge and direct polynomial transport. The proof bodies supplying `ea_brClass`, `ea_restSExpV_of`, `restGc`, `restSIntA`, `nm_restNorm_of_place`, `minor_hits`, `e_one_vanish_of`, `theorem_of_alternate_form` and the deep theta geometry retain their reading boundaries [Lean] [Open]. The three Gauss bounds, `EntryStar`, `ea_brNum` and the positive Hecke step are cited at the levels of their own subsections.
+**Remark (reading record).** The mathematics and formal proofs are those of Levent Alpöge with Claude, archive A2, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Local R3 covers the bridge and direct polynomial transport. The separate class proof is in [§8.4.12.1](08-single-place-class-restriction.md#84121-why-restriction-to-one-place-preserves-the-same-inclass-witness). The proof bodies supplying `ea_restSExpV_of`, `restGc`, `restSIntA`, `nm_restNorm_of_place`, `minor_hits`, `e_one_vanish_of`, `theorem_of_alternate_form` and the deep theta geometry retain their reading boundaries [Lean] [Open]. The three Gauss bounds, `EntryStar`, `ea_brNum` and the positive Hecke step are cited at the levels of their own subsections.
 
 | Role | Archive A2 source |
 | --- | --- |
@@ -1755,6 +1755,8 @@ The resulting `p5D : LowTermBound D X Y` is the last field of `Conclusion₂`. T
 | Directional coefficient interfaces | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementAB.lean:18–70`, `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/FinsuppStepInduction.lean:189,227,446,746`, `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/NormNatCastLeOfDvd.lean:397–456` |
 | Generic frame assumptions [Lean] | `src/Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementGK.lean:63–103` |
 | Packet and lattice readers | `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PrvAndKernelCommutationUpToUnitsOfRests.lean:79–108`, `src/Formalism/SharpRestriction/GrowthBounds/MultisetValuation/AofUpdate.lean:172–218`, `src/Formalism/SharpRestriction/GrowthBounds/JointsTw.lean:243` |
+
+[§8.4.12.1](08-single-place-class-restriction.md#84121-why-restriction-to-one-place-preserves-the-same-inclass-witness) follows the production proof of `ea_brClass` and the transport of the same full-series witness.
 
 ### 8.4.13 The normalized local norm supply `nm_restNorm_of_place`
 
