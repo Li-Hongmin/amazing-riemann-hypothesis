@@ -16,7 +16,7 @@
 - [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
 <!-- Chapter 3, §3.4.1 includes #from-compact-exhaustions-to-radon-inner-regularity. -->
 - [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
-<!-- Chapter 4 includes §4.10.28 (#p13-spaced-zero-density). -->
+<!-- Chapter 4 includes §4.8.7.7 (#p13-twisted-von-mangoldt) and §4.10.28 (#p13-spaced-zero-density). -->
 - [5. The square-root barrier as bookkeeping: `core_gm`](chapters/05-the-square-root-barrier-core-gm.md)
 <!-- Chapter 5 includes the quadratic norm branch in §5.3.1.23 (#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle) and the S-unit supplier in §5.3.1.24 (#53124-auxiliary-places-and-the-s-unit-norm-index), with the involution identities in §5.3.1.24.1 (#531241-two-square-index-identities-for-an-involution). -->
 

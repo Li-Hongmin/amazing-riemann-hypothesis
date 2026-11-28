@@ -22,6 +22,8 @@ statement level (`R2` / `[Lean]`). Sections 4.8–4.10 later read local proof bo
 
 [Section 4.4.5.1](#4451-why-coprime-twists-stay-primitive) proves the exact conductor formula for the coprime twists used in both sieve stages.
 
+[§4.8.7.7](#p13-twisted-von-mangoldt) proves the twisted von Mangoldt series identity used in the Perron numerator.
+
 [§4.10.28](#p13-spaced-zero-density) proves the character-fiber spacing estimates and assembles the far-range density witness from the two block counts.
 
 [Section 4.11](#411-from-separated-inertia-lines-to-residual-irreducibility) follows the bad-prime handoff to residual irreducibility. [Section 4.11.1](#4111-why-a-prime-cycle-forces-primitivity-in-small-degree) proves the small-degree primitivity input to its Jordan call. [Section 4.11.2](#4112-why-three-fixed-points-suffice-in-jordans-theorem) proves the alternating containment step.
@@ -1712,7 +1714,7 @@ F_y(s)=\frac{D(s)y^s}{s(s-1)}.
 $$
 For $y>0$ use $y^s=\exp(s\log y)$. The sum is locally finite, continuous and zero for $0<y\le1$. At an integer $m$ the entering term has weight zero, so the cutoffs $n<m$ and $n\le m$ agree and inversion uses the ordinary value at $m$.
 
-**Lemma 4.8.7.3 (smoothed inversion) [Lean, read] for the convergence and the inversion identity; the tail majorant is [Expository].** Assume the identity $D(s)=\sum_{n\ge1}a_n n^{-s}$ for $\Re s>1$. For $y\ge1$, $c>1$ and $T>0$,
+**Lemma 4.8.7.3 (smoothed inversion) [Lean, read] for the convergence and the inversion identity; the tail majorant is [Expository].** Assume the identity $D(s)=\sum_{n\ge1}a_n n^{-s}$ for $\Re s>1$. [§4.8.7.7](#p13-twisted-von-mangoldt) proves this input. For $y\ge1$, $c>1$ and $T>0$,
 $$
 S_\chi(y)=\frac1{2\pi}\left(\int_{-T}^T F_y(c+it)\,dt+E_y\right),\qquad
 E_y=\int_{\mathbb R\setminus(-T,T]}F_y(c+it)\,dt.
@@ -1820,7 +1822,107 @@ The Mellin conventions also appear in DLMF §2.5(i), equations (2.5.1)–(2.5.2)
 | Orientation and consumer instantiation | `src/Formalism/ZeroFreeRegion/SmallHeightLogDeriv.lean:9–11`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourA.lean:20–35`; `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContour.lean:24–48,87–89`. |
 | Zeta specialization of the principal calculation | `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LaurentAtOne.lean:8–89` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectShiftOf.lean:32–88`. The latter uses the separate `rectangle_double_pole` supplier in `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RectDoublePole.lean:103`, read in §4.10.8. |
 
-**Retained inputs.** At depth, Mathlib supplies `DirichletCharacter.LSeries_twist_vonMangoldt_eq`, `DirichletCharacter.LFunction_eq_LSeries`, `DirichletCharacter.LSeries_ne_zero_of_one_lt_re`, `ArithmeticFunction.LSeriesSummable_vonMangoldt`, `integral_Ioi_cpow_of_lt`, `integral_Ioi_rpow_of_lt`, `integral_tsum_of_summable_integral_norm`, `Integrable.fourierInv_fourier_eq`, `DirichletCharacter.differentiable_LFunction`, `DirichletCharacter.LFunction_apply_one_ne_zero`, `Complex.differentiableOn_dslope` and `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`. The principal analogue also uses the zeta Laurent input `log_deriv_riemannZeta_eq_neg_inv_sub_add`, the zeta residue at $1$, and the principal Euler-factor identity. The transitive proofs remain outside the local R3 reading. For the real-zero correction see the statement of `RectShiftChi` and the conditional `smoothed_character_sum_of` assembly (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SmoothChiOf.lean:9`). The zero-free-region and exceptional-zero deduction remain R2 [Lean], including `logDerivRegionChi`, `zFRDirichlet`, `siegelLower` and `excBound` through `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:17–34`. For the deeper box-bound inputs see §4.8.6.
+[§4.8.7.7](#p13-twisted-von-mangoldt) gives the direct production of the two von Mangoldt inputs. Chapter 2 §2.6.3 supplies the reciprocal and strict-half-plane nonvanishing. The continuation agreement `DirichletCharacter.LFunction_eq_LSeries` is used at its stated contract.
+
+**Further retained inputs.** Mathlib supplies `integral_Ioi_cpow_of_lt`, `integral_Ioi_rpow_of_lt`, `integral_tsum_of_summable_integral_norm`, `Integrable.fourierInv_fourier_eq`, `DirichletCharacter.differentiable_LFunction`, `DirichletCharacter.LFunction_apply_one_ne_zero`, `Complex.differentiableOn_dslope` and `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`. The principal analogue also uses the zeta Laurent input `log_deriv_riemannZeta_eq_neg_inv_sub_add`, the zeta residue at $1$, and the principal Euler-factor identity. The transitive proofs remain outside the local R3 reading. For the real-zero correction see the statement of `RectShiftChi` and the conditional `smoothed_character_sum_of` assembly (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SmoothChiOf.lean:9`). The zero-free-region and exceptional-zero deduction remain R2 [Lean], including `logDerivRegionChi`, `zFRDirichlet`, `siegelLower` and `excBound` through `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:17–34`. For the deeper box-bound inputs see §4.8.6.
+
+#### 4.8.7.7 The twisted von Mangoldt series on the right half-plane {#p13-twisted-von-mangoldt}
+
+The numerator in the Perron integral is a derivative of a complex function. The smoothed sum on the other side is built from prime powers. The bridge is a divisor identity. The logarithm introduced by differentiating $n^{-s}$ equals the sum of prime-power weights over the divisors of $n$. This gives a product of two absolutely convergent series. The reciprocal of the character series then lets us recover the prime-power series.
+
+**Two calculations at $s=3$ [Expository].** The weight at $p^k$, for a prime $p$ and $k\ge1$, is $\log p$. Thus $3$ and $9$ carry the same weight before twisting. The weights at $6$, $10$ and $12$ are zero. At $12$ the divisors carrying weight are $2,3,4$, so their weights add to $2\log 2+\log 3=\log 12$.
+
+Let $\chi_4$ be the nonprincipal character modulo $4$, with values $+1$ on $1\bmod4$, $-1$ on $3\bmod4$, and zero on even integers. Let $\chi_{0,8}$ be the principal character modulo $8$, with value $1$ on odd integers and zero on even integers. Both delete the powers of $2$. Here are the nonzero terms through $12$, with denominators $n^3$.
+
+| $n$ | $3$ | $5$ | $7$ | $9$ | $11$ |
+|---|---|---|---|---|---|
+| $\Lambda(n)$ | $\log 3$ | $\log 5$ | $\log 7$ | $\log 3$ | $\log 11$ |
+| $\chi_4(n)$ | $-1$ | $1$ | $-1$ | $1$ | $-1$ |
+| $\chi_{0,8}(n)$ | $1$ | $1$ | $1$ | $1$ | $1$ |
+| $n^3$ | $27$ | $125$ | $343$ | $729$ | $1331$ |
+
+Multiplying the weights by the character values and dividing by the indicated denominators gives
+$$
+P_4=-\frac{\log 3}{27}+\frac{\log 5}{125}-\frac{\log 7}{343}
+       +\frac{\log 3}{729}-\frac{\log 11}{1331},\qquad
+P_{0,8}=\frac{\log 3}{27}+\frac{\log 5}{125}+\frac{\log 7}{343}
+       +\frac{\log 3}{729}+\frac{\log 11}{1331}.
+$$
+The $9$ term of the first calculation is positive since $\chi_4(9)=\chi_4(3)^2$. In the second calculation all surviving weights are positive. The strict tail bound for both cases, also valid at $3+it$ with the corresponding complex powers in the prefix, is
+$$
+\left|\sum_{n>12}\Lambda(n)\chi(n)n^{-3-it}\right|
+\le \sum_{n>12}\frac{\log n}{n^3}
+<\int_{12}^{\infty}\frac{\log x}{x^3}\,dx
+=\frac{2\log 12+1}{576}<\frac1{96}.
+$$
+Here $x^{-3}\log x$ is strictly decreasing for $x\ge12$. Also $\log 12<5/2$, since the sum of the first eight Taylor terms of $e^{5/2}$ exceeds $12$. The principal tail at the real point $3$ is positive, since it contains the term at $13$ and has no negative terms. For hand bounds on the prefixes, for $m>1$ put $r=(m-1)/(m+1)$. Integrating the geometric series for $2/(1-x^2)$ from $0$ to $r$ gives
+$$
+0<\log m-2\sum_{j=0}^{J-1}\frac{r^{2j+1}}{2j+1}
+<\frac{2r^{2J+1}}{(2J+1)(1-r^2)}.
+$$
+With $J=10$ this gives $-34/1000<P_4<-33/1000$ and $62/1000<P_{0,8}<63/1000$. Even with the full tails the two real values have opposite signs. The theorem below identifies them with the negative logarithmic derivatives.
+
+**Definitions.** For a positive modulus $N$ let $\chi$ be any complex Dirichlet character modulo $N$. Reduce positive integers modulo $N$, apply the character of the unit group on units, and give nonunits value zero. The resulting function is completely multiplicative. On units its values are roots of unity because the group is finite, so $|\chi(n)|$ is $1$ on $(n,N)=1$ and zero otherwise. This includes the principal and imprimitive characters and uses the full modulus $N$.
+
+For $n\ge1$, use $n^{-s}=\exp(-s\log n)$ with the real logarithm. Then $|n^{-s}|=n^{-\Re s}$ and $(ab)^{-s}=a^{-s}b^{-s}$ for $a,b\ge1$. For a sequence $f$ let $D_f(s)=\sum_{n\ge1}f(n)n^{-s}$ when absolutely summable. The fixed library defines `LSeries.term` on $\mathbb N$ by setting the term at $0$ identically to zero for every $f(0)$ and $s$, and using $f(n)/n^s$ otherwise. Its term at $1$ is the constant $f(1)$. Both endpoint terms have derivative zero. The library normalizes the real and complex logarithms at zero to $0$ in the coefficient formulas. This convention involves no power or analytic logarithm at zero in the series.
+
+Write $\mathbf 1$ for the constant sequence of ones and $\delta_1$ for the sequence supported at $1$ with value $1$. Use juxtaposition for coefficientwise products and $\ast$ for Dirichlet convolution.
+$$
+(f\ast g)(n)=\sum_{d\mid n} f(d)g(n/d)\qquad(n\ge1).
+$$
+The convolution is zero at $0$, since the library's finite divisor antidiagonal of $0$ is empty. The library arithmetic function written $\zeta$ agrees with $\mathbf 1$ at positive integers and is zero at $0$. Both give the same convolution with any sequence. For the von Mangoldt coefficients use $\Lambda(0)=\Lambda(1)=0$ and $\Lambda(n)=0$ off the positive prime powers.
+
+**Lemma (the prime-power divisors give the logarithm) [Lean, read].** For every $n\in\mathbb N$ the sum of $\Lambda$ over the library's divisor finset of $n$ equals $\log n$, with the above convention at zero. In particular $\Lambda\ast\mathbf 1=\log$ as sequences, and $0\le\Lambda(n)\le\log n$.
+
+*Proof.* At $0$ the sum is empty and equals the normalized logarithm. At $1$ it is $\Lambda(1)=0$. At $p^k$ the divisors are $1,p,\ldots,p^k$, and each positive power supplies $\log p$. Their sum is $k\log p=\log(p^k)$. If $a,b>1$ are coprime, a prime power dividing $ab$ divides exactly one of $a$ and $b$. Its prime cannot divide both, and its exponent in $ab$ is its exponent in the one containing it. The prime-power divisors of $ab$ thus form the disjoint union of those of $a$ and of $b$. The sums add, and $\log(ab)=\log a+\log b$. Factoring a positive integer into coprime prime powers completes the induction, including the empty factorization at $1$.
+
+This is the split in `vonMangoldt_sum`. After the unit and prime-power cases, the coprime branch filters by `IsPrimePow` and sums a disjoint union. `vonMangoldt_mul_zeta` translates the divisor sum into arithmetic-function multiplication. `convolution_vonMangoldt_zeta` casts it to complex coefficients, and `convolution_vonMangoldt_const_one` uses the agreement of the two sequences on positive integers. Nonnegativity follows from $\log p>0$. For $n\ge1$ the divisor $n$ itself occurs, so its nonnegative weight is at most the divisor sum. At zero both sides are zero. This is the comparison in `vonMangoldt_le_log`. [Prime-power proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean#L65-L120) · [Logarithm bound](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean#L151-L155)
+
+**Lemma (absolute convergence and the two derivative inputs) [Lean, read].** For every $s$ with $\sigma=\Re s>1$, the series $D_\Lambda$, $D_{\chi\Lambda}$ and $D_\chi$ converge absolutely at $s$. The derivative of $D_\chi$ at $s$ is $-D_{\chi\log}(s)$.
+
+*Proof.* The constant and character series are summable at each real $u>1$ by the $p$-series test and $|\chi(n)|\le1$. For the converse in the pinned abscissa calculation, the terms at $n=1+kN$ have character value $1$. For $k\ge0$, $(1+kN)^{-1}\ge [N(k+1)]^{-1}$, so this norm subseries diverges at $\Re s=1$. The norm terms increase when the real part decreases. Thus the absolute abscissa of $\chi$ is $1$ for every $N\ge1$, including the constant sequence from modulus $1$.
+
+Apply the termwise theorem proved in §17.4.14.1 with $f=\mathbf 1$. The first projection of its joint proof gives summability of $D_{\log}$. Comparison with $0\le\Lambda(n)\le\log n$ gives summability of $D_\Lambda$, and $|\chi(n)|\le1$ gives summability of $D_{\chi\Lambda}$. These are the calls to `LSeriesSummable_logMul_of_lt_re` and `LSeriesSummable_mul`. Each comparison has zero terms at index $0$. For a direct estimate on the logarithmic majorant, choose $u=(1+\sigma)/2$ and $\eta=\sigma-u$. The inequality $t e^{-\eta t}\le1/(e\eta)$ for $t\ge0$ gives $(\log n)n^{-\sigma}\le n^{-u}/(e\eta)$.
+
+Apply the derivative projection with $f=\chi$. In this instance the proof chooses a real summability point $u$ and an intermediate real $v$ with $1<u<v<\sigma$. Throughout $\Re z>v$ the terms are bounded in modulus by $|\chi(n)|n^{-u}$, a single summable majorant. The uniform summation and holomorphic derivative limit from §17.4.14.1 give the sum of term derivatives at $s$. Differentiating the exponential introduces $-\log n$, including the zero contribution at $1$, and `LSeries_deriv` extracts the resulting equality. [Termwise differentiation](17-behrends-sphere-lemma-and-host-geometry.md#174141-why-dirichlet-series-can-be-differentiated-term-by-term) · [Pinned derivative projections](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Deriv.lean#L42-L100) · [Pinned summability](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L380-L405)
+
+**Theorem (twisting and dividing) [Lean, read].** Let $N\ge1$ and let $\chi$ be any complex Dirichlet character modulo $N$. For every complex $s$ with $\Re s>1$, the continued $L$-function $L(s,\chi)$ is nonzero and
+$$
+-\frac{L'(s,\chi)}{L(s,\chi)}
+ =\sum_{n\ge1}\frac{\Lambda(n)\chi(n)}{n^s}
+ =\sum_{p\nmid N}\sum_{k\ge1}(\log p)\chi(p)^k p^{-ks}.
+$$
+
+*Proof.* For each $n>0$, every term of $(\chi\Lambda)\ast\chi$ has the common multiplier $\chi(d)\chi(n/d)=\chi(n)$. Consequently
+$$
+((\chi\Lambda)\ast\chi)(n)=\chi(n)\sum_{d\mid n}\Lambda(d)=\chi(n)\log n.
+$$
+If $n$ is a nonunit modulo $N$, each divisor pair has a nonunit coordinate and both sides vanish. At $1$ the weight is $\Lambda(1)=0=\chi(1)\log 1$. At $0$ the empty convolution agrees with the normalized logarithm. This is `mul_convolution_distrib` applied to $\Lambda$ and $\mathbf 1$, followed by the divisor identity.
+
+Apply the absolute convolution theorem of §2.6.3.1 to $D_{\chi\Lambda}$ and $D_\chi$. The double family has absolute mass bounded by the product of their norm sums. On a positive multiplication fiber $ab=n$ one has $a^{-s}b^{-s}=n^{-s}$, so the fiber sum is exactly the $n$th term of the convolution series. In the formal proof the $ab=0$ fiber is infinite and every summand there vanishes by the term convention. Using the coefficient identity and the derivative just proved gives
+$$
+D_{\chi\Lambda}(s)D_\chi(s)=D_{(\chi\Lambda)\ast\chi}(s)
+ =D_{\chi\log}(s)=-D_\chi'(s).
+$$
+The inherited reciprocal from §2.6.3 is $D_\chi(s)D_{\chi\mu}(s)=1$, where $\mu$ is the Möbius function. The series with coefficient $\chi\mu$ is absolutely convergent by $|\chi\mu|\le1$. Its convolution with $\chi$ has coefficient $\chi(n)\sum_{d\mid n}\mu(d)=\delta_1(n)$, whose series equals $1$. Hence $D_\chi(s)\ne0$. This is exactly the fact spent by `eq_div_iff` in the pinned proof. Division gives the negative quotient, with the sign supplied by differentiating $n^{-s}$.
+
+By `LFunction_eq_LSeries`, the continued $L$-function equals $D_\chi$ throughout the open half-plane. The equality holds in a neighborhood of each point, so the derivatives coincide there as well. `PerronChi.lean` uses this eventual equality to replace the derivative of the series by the derivative of `LFunction`. Finally absolute convergence allows grouping by prime, with $\chi(p^k)=\chi(p)^k$. At $p\mid N$ all these terms vanish. [Möbius inverse](02-functional-equations-and-primitive-characters.md#263-the-möbius-inverse-on-the-open-half-plane) · [Multiplication fibers](02-functional-equations-and-primitive-characters.md#2631-regrouping-an-absolutely-convergent-product-by-multiplication) · [Pinned twisting and division](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L395-L420) · [Pinned series agreement](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L75-L85)
+
+**Moduli and endpoints.** A character induced from conductor $f\mid N$ has the inducing values at primes $p\nmid N$. At $p\mid f$ both characters vanish. Each $p\mid N$ with $p\nmid f$ deletes the entire prime-power contribution of the inducing character. For a principal character the sum is therefore the untwisted one with the primes dividing $N$ deleted.
+
+The exact Mathlib statement `LSeries_twist_vonMangoldt_eq` also quantifies over $N=0$. In that branch `modZero_eq_delta` identifies the character on natural indices with $\delta_1$. The only positive integer unit of $\mathbb Z$ is $1$, where the character is $1$, and at $0$ the character vanishes. Thus $D_\chi=1$, its derivative is zero, and the twisted coefficients vanish since $\Lambda(1)=0$. This gives the identity for the raw `LSeries`. In A2 the `PerronChi` contract has `[NeZero q]` and uses the positive-modulus branch. For example $q=1$ and $s=2$ lie in its coefficient-supply domain. [Pinned modulus-zero branch](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L155-L172)
+
+**Why the strict inequality matters [Expository].** At $\Re s=1$ the absolute divergence of the character series is visible on $1+kN$. The weighted series also fails to converge absolutely for every positive modulus. Put $H_X=\sum_{1\le m\le X}1/m$ for real $X\ge1$. The finite divisor identity gives
+$$
+\sum_{n\le X}\frac{\log n}{n}
+  =\sum_{d\le X}\frac{\Lambda(d)}d H_{X/d}
+  \le (1+\log X)\sum_{d\le X}\frac{\Lambda(d)}d.
+$$
+For integer $X\ge3$, the left side is at least $\int_3^{X+1}(\log x)/x\,dx$, since the integrand decreases for $x\ge3$. This lower bound grows quadratically in $\log X$, whereas $1+\log X$ grows linearly. Thus $\sum_{d\le X}\Lambda(d)/d$ tends to infinity. Deleting the bad primes costs at most the finite sum $\sum_{p\mid N}(\log p)/(p-1)$, obtained by summing their geometric prime-power tails. The remaining terms have $|\chi(n)|=1$ on their support. The twisted norm sum therefore diverges at real part $1$ at every height, and comparison gives divergence for smaller real parts too. The same argument by absolute rearrangement and termwise differentiation stops at the line $\Re s=1$. Conditional convergence and analytic continuation are separate questions.
+
+**Return to §4.8.7.** In `PerronChi.lean:67–81`, the bound $|a_n|\le\Lambda(n)$ on a real sequence gives summability of its complexified series by `LSeriesSummable_vonMangoldt`. At lines 95–98 this applies to $\Lambda(n)\Re\chi(n)$ and $\Lambda(n)\Im\chi(n)$ separately. Lines 83–91 use `LSeries_twist_vonMangoldt_eq` and local agreement of $L$ with its series. The two component series recombine into the numerator of the existing Mellin formula at lines 236–253. Lines 106–126 use the same untwisted majorant on the original line $\Re s=\sigma_0>1$, and line 168 spends it in the integrability estimate. [Perron and Mellin production](#4873-definitions-and-the-mellin-production-lemma) · [Ray-class exponential supply in §17.4.14](17-behrends-sphere-lemma-and-host-geometry.md#17414-euler-nonvanishing-and-the-center-of-the-local-disk) · [Declaration map](../sources/SOURCES.md#ch04-twisted-von-mangoldt-sources)
+
+**Classical context.** Montgomery and Vaughan give differentiation of convergent Dirichlet series in §1.2, equation (1.8), and the untwisted logarithmic derivative and divisor identity in §1.3, Corollary 1.11 and equation (1.22). The Dirichlet series and Euler product of an arbitrary Dirichlet character are in DLMF §25.15(i), equations (25.15.1)–(25.15.2), on $\Re s>1$. The proof here specializes the existing convolution and differentiation theorems to the coefficients of the fixed library and the A2 Perron call. [Montgomery and Vaughan, pp. 13, 23–24](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/05.0_pp_1_34_Dirichlet_series_I.pdf) · [DLMF §25.15(i)](https://dlmf.nist.gov/25.15#i)
 
 ### 4.8.8 Local zeros and the logarithmic derivative in TailBox
 

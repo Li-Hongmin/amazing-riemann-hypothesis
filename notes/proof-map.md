@@ -1362,6 +1362,10 @@ Local R3 [Lean, read] for the production and the direct proof bodies. [Textbook 
 
 Author-level local R3 [Lean, read] for the production chain. [Textbook section](../chapters/02-functional-equations-and-primitive-characters.md#l1-conditional-expectation) · [Sources](../sources/SOURCES.md#ch02-l1-conditional-expectation-sources)
 
+### P13 twisted von Mangoldt supply for Perron
+
+[§4.8.7.7](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-twisted-von-mangoldt) gives author-level R3 for the fixed Mathlib divisor identity, comparison and twisted quotient in `VonMangoldt.lean:65–120,151–155` and `Dirichlet.lean:129–136,155–213,249–251,372–420`. The proof uses the Chapter 2 convolution and reciprocal and the two projections from the Chapter 17 termwise-derivative proof. In A2, `PerronChi.lean:67–91` supplies the real-sequence comparison and replaces the raw series quotient by the continued one under $1<\Re s$. The two component calls, their recombination and the vertical majorant are mapped at :93–126,142–145,168,236–253. The Perron wrapper and the ray-class exponential supply keep their inherited reviews. [Declaration map](../sources/SOURCES.md#ch04-twisted-von-mangoldt-sources)
+
 ### P13 spaced density for the far-range zero sum
 
 `PNTDensSpace.lean:60–130` supplies the two components of `zero_spacing`. The packing component enters `trivial_bound` at lines 154–166. The harmonic component enters the same-character row in `PNTDensBlock.lean:118–156`. `PNTDens.lean:19–109` uses `trivial_bound` and the two named counts `zero_count_first` and `zero_count_second` to assemble `LogDensityM`. `PNTFinal.lean:18,22–24` passes the witness to `PNTZSumL.lean:30–33,78–82`, where `density_norm` furnishes the finite-height representative count used at `PNTZSum.lean:482`. The detector and mean-square count proofs retain [Lean] / [Open] reading status. [Textbook section](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#p13-spaced-zero-density) · [Pinned source record](../sources/SOURCES.md#ch04-spaced-zero-density-sources)
