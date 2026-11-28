@@ -1824,6 +1824,214 @@ For an original measurable $J$, the restricted outer values are $\mu^o(T\cap J)$
 [ch3-nc-tao]: https://terrytao.wordpress.com/2010/09/09/245a-notes-1-lebesgue-measure/
 [ch3-nc-billingsley]: https://eclass.uoa.gr/modules/document/file.php/MATH643/Billingsley%20Probability%20and%20Measure%201995%20%28third%20ed%29.pdf
 
+#### From a finite filter to an integrable endpoint neighborhood
+
+**Motivation.** The horizontal leg of a short complex wedge is a real interval integral with values in $\mathbb C$. To differentiate it we first need a neighborhood on which every sufficiently short leg is integrable. Local measurability, finite mass and a norm bound must be available on the same set. The set must also belong to the original endpoint filter so that it contains the entire short interval eventually.
+
+**Example 1 (a one-sided endpoint). [Expository]** Give $E=\mathbb R^2$ the norm $\|(u,v)\|=|u|+|v|$. Use Lebesgue measure $\lambda$, endpoint $0$, and approach from $t>0$. This filter has basis $(0,r)$ for $r>0$, so it is measurably generated. Put $f(t)=(2+t,1-2t)$ for $t>0$, $f(0)=(2,1)$, and $f(t)=(1/|t|,0)$ for $t<0$. This piecewise continuous function is Borel with separable range, hence strongly measurable. For $0<t\le 1/4$ both coordinates are positive, so
+$$
+ \|f(t)-(2,1)\|=3t,\qquad \|f(t)\|=3-t.
+$$
+For tolerance $\varepsilon>0$ use $(0,\min(1/4,\varepsilon/3))$. The single basis member $(0,1/4)$ has mass $1/4$ and carries the norm bound and strong measurability. The interval $(0,h]$ lies inside it for $0<h<1/4$. At $h=1/4$ the added end point has measure zero. For $0<h\le 1/4$, integrate the two affine coordinates and their sum to get
+$$
+ \int_0^h f(t)\,dt=(2h+h^2/2,\ h-h^2),\qquad
+ \int_0^h\|f(t)\|\,dt=3h-h^2/2.
+$$
+At $h=1/4$ these are $(17/32,3/16)$ and $23/32$. Dividing the vector integral by $h$ gives $(2+h/2,1-h)$, at distance $3h/2$ from $(2,1)$. Each band $[-2^{-k},-2^{-k-1})$ contributes at least $2^k2^{-k-1}=1/2$ to the norm integral on the negative side. Every left neighborhood contains all sufficiently late bands. This same function therefore has no integrable two-sided neighborhood.
+
+**Example 2 (dense null changes). [Expository]** Keep $E$ and $\lambda$. Start with $g(t)=(1+t,2-t)$. At each dyadic $m/2^n$ with $n\ge1$ and $m$ odd, replace $g(m/2^n)$ by $(2^n,-2^n)$. Also put $f(0)=(7,-4)$ and leave $f=g$ elsewhere. The reduced dyadic form is unique. The changes lie in a countable null set and $g$ is a strongly measurable representative for every restriction of $\lambda$. Off the changed set, for $|t|<1/2$ one has
+$$
+ \|f(t)-(1,2)\|=2|t|,\qquad \|f(t)\|=3.
+$$
+For each $\varepsilon>0$ use the full neighborhood $(-r,r)$ with $r=\min(1/2,\varepsilon/2)$, where the error bound holds almost everywhere. Along $2^{-n}$ the norm is $2^{n+1}$, so even the ordinary punctured right limit fails. Choose the full basis member $S=(-1/4,1/4)$, of mass $1/2$. The integral over $S$ equals that of $g$ by a.e. equality. The two linear terms integrate to zero by oddness, and the constant terms integrate to $(1/2,1)$. The norm integral is $3\cdot(1/2)=3/2$. For $0<|h|<1/4$, the signed integral and its short average are
+$$
+ \int_0^h f(t)\,dt=(h+h^2/2,2h-h^2/2),\qquad
+ \frac1h\int_0^h f(t)\,dt=(1+h/2,2-h/2).
+$$
+For $h=1/8$ the vector integral is $(17/128,31/128)$ and the average is $(17/16,31/16)$. For $h=-1/8$ the vector integral is $(-15/128,-33/128)$ and the average is $(15/16,33/16)$. The averages tend to $(1,2)$ from both sides, while $f(0)=(7,-4)$. The full integrable neighborhood contains the changed endpoint and arbitrarily high spikes.
+
+**Definitions.** Let $(X,\Sigma,\mu)$ be a measure space, $\ell$ a filter on $X$, $E$ a normed additive commutative group, and $f:X\to E$. An eventual property has truth set in the filter. A *measurably generated* filter has a measurable member inside every member. Write $\mu(S)$ for the induced outer measure when $S$ is arbitrary. The restriction $\mu|_S$ is defined by $(\mu|_S)(A)=\mu(A\cap S)$ for measurable $A$. The filter $\operatorname{ae}(\mu)$ consists of sets with null complement. Each contains a measurable conull set by the measurable null-hull property. Every member of the meet $\ell\wedge\operatorname{ae}(\mu)$ has the form $T\cap U$ with $T\in\ell$ and $U$ conull. Thus an eventual property on the meet holds almost everywhere on some member of $\ell$. For a measurably generated filter, convergence along the meet means that for every $\varepsilon>0$ some measurable $T_\varepsilon\in\ell$ satisfies $\|f-b\|\le\varepsilon$ a.e. for $\mu|_{T_\varepsilon}$. To see the reverse implication, apply this bound with tolerance $\varepsilon/2$ to obtain the eventual open-ball condition of radius $\varepsilon$. For measurable $T$ and a bad set $B$, nullity under $\mu|_T$ is equivalent to $\mu(B\cap T)=0$. A measurable $\mu|_T$-null hull of $B$ gives one implication by the restriction formula. Conversely, if $N$ is a measurable $\mu$-null hull of $B\cap T$, then $N\cup(X\setminus T)$ is a measurable $\mu|_T$-null hull of $B$. The member and the null exceptional set may depend on the tolerance.
+
+The measure is *finite at $\ell$* when some $S_0\in\ell$ has finite measure. The function is *strongly measurable at $\ell$* in Mathlib's sense when some $S_1\in\ell$ admits a strongly measurable representative for the restricted measure $\mu|_{S_1}$. Strong measurability of that representative means it is a pointwise limit of measurable simple functions. Integrability on $S$ requires a.e. strong measurability and a finite nonnegative integral of $\|f\|$ for $\mu|_S$. Integrability at $\ell$ means integrability on some $S\in\ell$. The filter $\ell.\mathrm{smallSets}$ on subsets has a base of families $\{A:A\subseteq S\}$ for $S\in\ell$. Thus a property holds eventually on $\ell.\mathrm{smallSets}$ when there exists $S\in\ell$ such that the property holds on every subset of $S$, including $S$ itself. Integrability passes to subsets, so integrability at $\ell$ is exactly this eventual property. [Local measurability][ch3-li-def] · [Finiteness][ch3-li-fin] · [Small sets][ch3-li-small]
+
+**Lemma (one integrable set in the original filter). [Lean, read]** Suppose $\ell$ is measurably generated, $\mu$ is finite at $\ell$, $f$ is strongly measurable at $\ell$ in the preceding sense, and $f$ tends to $b\in E$ along $\ell\wedge\operatorname{ae}(\mu)$. Then $f$ is integrable at $\ell$. The proof yields a measurable $S\in\ell$ of finite measure on which $f$ is integrable and $\|f\|\le\|b\|+1$ almost everywhere. The set can be chosen inside any prescribed member, or refined to a member of a prescribed filter basis. The pinned Lean result asserts integrability at the filter. The explicit constant, simultaneous witness and refinement clauses are textbook consequences [Expository]. [Pinned theorem][ch3-li-theorem]
+
+**Proof.** First suppose $\|f\|\le C$ eventually pointwise along a measurably generated filter $k$ at which finiteness and local strong measurability hold. Intersect the finite-mass member, the measurability member and the pointwise bound member. Choose a measurable $V\in k$ inside this intersection. The measure of $V$ is finite by monotonicity. A strongly measurable representative on the measurability witness remains a representative for the smaller restricted measure $\mu|_V$. The bound holds $\mu|_V$-almost everywhere, because it holds everywhere on the measurable set $V$. Constant comparison gives
+$$
+ \int \|f\|\,d(\mu|_V)\le \max(C,0)\,\mu(V)<\infty.
+$$
+This gives integrability on $V$. In the source each of the three properties becomes eventual on $k.\mathrm{smallSets}$ because it passes to subsets. The conjunction is then witnessed on one measurable member. [Common witness][ch3-li-theorem] · [Measurable refinement][ch3-li-gen]
+
+Apply this argument with $k=\ell\wedge\operatorname{ae}(\mu)$. This filter is measurably generated by intersecting measurable refinements of an $\ell$ member and a conull member. The finiteness and measurability witnesses for $\ell$ are also members of $k$. Convergence and the triangle inequality give the eventual pointwise bound $\|f\|\le\|b\|+1$ on $k$. The pinned proof uses continuity of the norm and eventual upper boundedness of a convergent real map. We get $V\in k$ as above. Write $V=T\cap U$ with $T\in\ell$ and $U$ conull. For each measurable test set $A$, the intersections $A\cap V$ and $A\cap T$ differ by a subset of $X\setminus U$. By monotonicity and subadditivity each intersection has measure at most the measure of the other plus zero. Equality on measurable test sets gives $\mu|_V=\mu|_T$, even for nonmeasurable $T$. Taking $A=X$ gives $\mu(V)=\mu(T)$. The equality transfers integrability, finite mass and the a.e. bound to $T$. Intersect $T$ with the original $S_0$ and $S_1$ and with the prescribed member, if supplied. Take a measurable refinement $S\in\ell$ of the intersection. The finite measure, a.e. bound and integrability pass to $S$ and to every basis member contained in $S$. To retain measurability of the basis witness, use a measurable basis, as with the real interval bases below. $\square$ [Return to the original filter][ch3-li-back] · [Restriction congruence][ch3-li-restrict]
+
+**Remarks on endpoints and representatives.**
+
+- At a real point $a$ the full neighborhood has basis $(a-r,a+r)$ for $r>0$. The two-sided punctured basis deletes $a$. The open right and left bases are $(a,a+r)$ and $(a-r,a)$, and their closed-side versions add $a$. A short right leg uses $(a,a+h]$ for $h>0$. A short left leg uses $(a+h,a]$ for $h<0$ before reversing the sign. The pinned interval API accordingly uses an open right inner filter and a closed left inner filter for the respective closed-side endpoint approaches. For the closed right outer approach, every sufficiently short ordered half-open interval is contained in an open right inner basis member, even when the lower endpoint is $a$. For the closed left outer approach the upper endpoint can be $a$, so the inner basis includes $a$. Full two-sided approach tests both sides. Example 1 pays only for the right side. [FTC filter instances][ch3-li-ftc-filter]
+- For Lebesgue measure, deleting $a$ gives the same restricted measure and the same meet with $\operatorname{ae}(\lambda)$. Indeed the punctured filter is the meet of the full filter and the principal filter of $\mathbb R\setminus\{a\}$, and the latter set is conull. The original filters still differ. An atom changes the comparison. For Dirac mass at $a$, every full neighborhood and every conull set contains $a$, so a finite a.e. limit along the full neighborhood must equal $f(a)$. The punctured neighborhood meets that a.e. filter in the bottom filter, on which every eventual property holds. For the original punctured filter, any punctured basis interval is a zero-mass witness. If the original filter itself is bottom, the empty set is a witness. Global a.e. equality preserves local measurability, integrability and the a.e. limit condition. Pointwise continuity of the chosen representative is the additional condition the ordinary endpoint FTC uses to identify the limit with the point value.
+- The production lemma works without a scalar action or completeness. The derivative consumer needs a real normed vector space for the scalar linear term and completeness for the Bochner integral. Its signed-length formula uses Lebesgue measure. It also needs base-interval integrability and a geometric containment for the moving half-open intervals. These enter the interval argument.
+
+**Failure upon deleting a hypothesis. [Expository]** Drop finiteness at the filter and take counting measure on $\mathbb Z$ with the filter of tails to $+\infty$. The nonzero constant $(1,0)$ is strongly measurable and converges to itself. Each member contains $N$ tail points for every $N\ge1$, so the norm integral on each member is infinite. To drop the finite-limit hypothesis instead, take $\lambda$ and the open right approach at $0$, and set $f(t)=(1/t,0)$ for $t>0$ and $f(t)=0$ otherwise. The function is strongly measurable and the filter contains sets of finite measure. Each member contains $(0,r)$ for some $r>0$. For every $k$ with $2^{-k}<r$, the disjoint band $(2^{-k-1},2^{-k}]$ contributes at least $2^k2^{-k-1}=1/2$. Arbitrarily many such bands force the norm integral to be infinite. For each proposed finite $b$, the norm exceeds $\|b\|+1$ on a sufficiently small right interval of positive measure, so the required a.e. convergence fails. An eventual a.e. norm bound suffices in the proof. A finite limit is one way to provide that bound.
+
+**Where the endpoint FTC consumes the lemma.** `Filter.Tendsto.integral_sub_linear_isLittleO_ae` invokes the production theorem, obtains integrability on all sufficiently small sets, and intersects this property with eventual finite mass, local measurability and the tolerance-$\varepsilon$ error bound. Integrability justifies moving the subtraction of the constant inside the integral. The interval proof uses the resulting estimate on both ordered half-open intervals. A second call, via `Filter.Tendsto.eventually_intervalIntegrable_ae`, ensures the short legs can be joined to the integrable base interval by adjacent-interval additivity. These are two uses of the same production theorem. The Lebesgue specialization uses signed length with the first endpoint fixed. [Pinned set estimate][ch3-li-set] · [Eventual interval integrability][ch3-li-int] · [Fixed-endpoint FTC](#differentiating-an-oriented-interval-integral-at-its-right-endpoint)
+
+In the pinned Mathlib disk primitive the actual call is `intervalIntegral.integral_hasDerivAt_right int1 int2 int3` at `Mathlib/Analysis/Complex/HasPrimitives.lean:217`. For $z\in D(c,R)$ the slice is $q(t)=f(t+i\Im z)$ and the evaluation point is $a=\Re z$. The Lean function is defined on the whole complex plane and continuous on the disk. The triangle inequality puts the slice inside the disk for $|t-a|<R-|z-c|$. Continuity on that open real interval gives `int2`, local a.e. strong measurability since the real source is second-countable, and `int3`, continuity at $a$ with $q(a)=f(z)$. The source gets `int1` by restricting the continuous slice to the degenerate base interval $a..a$. Its half-open supports are empty, so this integrability also follows directly. Real volume is finite on bounded intervals and $\mathbb C$ is complete as a real normed space. The second endpoint moves through a **full** neighborhood. The production lemma gives a basis interval $(a-r,a+r)$ with $0<r<(R-|z-c|)/2$. Every sufficiently short half-open leg lies in it. Composing with the real projection yields the horizontal term $\Re(w-z)f(z)$ up to $o(|w-z|)$. Rectangle cancellation gives the wedge difference identity and the vertical estimate supplies $i\Im(w-z)f(z)$. The derivative acting on $w-z$ is their sum, $(w-z)f(z)$, in the proof of the [disk primitive](#a-normalized-holomorphic-logarithm-on-a-zero-free-disk). [Pinned slice and wedge][ch3-li-wedge]
+
+**An archive call with a nondegenerate base interval.** In the archive's winding argument, write $\gamma(t)=R e^{it}$ and $g(t)=\overline{u(\gamma(t))}\,D_{\mathbb R}u(\gamma(t))[\gamma(t)i]$. The smoothness hypothesis on the annulus and the fact that the circle lies inside it give continuity of $g$ on $\mathbb R$. The proof calls the same `intervalIntegral.integral_hasDerivAt_right` for $G(t)=\int_0^t g(\theta)\,d\theta$ at every real $t$. It explicitly supplies integrability on $0..t$, strong measurability at $\mathcal N(t)$ and continuity at $t$ from that continuity proof. It uses $G'=g$ in the derivative of $u(\gamma(t))e^{-G(t)}$. [Archive A2, `src/Formalism/HermitianCurvature/HermitianCurvatureProofs/CutGCoreGTCHolPh.lean:52–93`][ch3-archive]
+
+**Scope and attribution.** The disk primitive permits integration of $g'/g$ on a zero-free disk to obtain a normalized holomorphic logarithm. Archive A2 uses the pinned disk exactness theorem in `src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/NormOneSubConjMul.lean:49–56` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivBound.lean:12–19`. This is a local tool for logarithmic derivatives, alongside the Landau/Laplace discussion's residue and analytic-germ arguments. The chapter's `poleData_abstract` uses the analytic-germ construction described above. The present proof gives integrability on local short legs. Global Laplace tails have separate hypotheses. The archive SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc` and the Mathlib pin is `0df444a360eaa60ab8c11dca51a86af692955474`. [Source ledger](../sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
+Bochner's 1933 paper assumes a complete normed vector space (§1, pp. 262–263), introduces measurability by a.e. approximation (§2.I, p. 263), defines summability by integrability of the norm (§3.I, p. 265), and uses integrable real domination (§3.III–IV, p. 266). A constant majorant on a region of finite measure provides this type of domination. The original filter, the measurable basis choice and the conull removal are the pinned Mathlib formulation. Montgomery and Vaughan use the normalized zero-free disk logarithm in *Multiplicative Number Theory I*, Lemma 6.3, pp. 170–171, to bound a logarithmic derivative. The logarithm is introduced on p. 171. [Bochner (1933), original scan index](https://matwbn.icm.edu.pl/ksiazki/fm/fm20/fm20127.pdf) · [Montgomery–Vaughan, Chapter 6](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/10.0_pp_168_198_The_Prime_Number_Theorem.pdf)
+
+[ch3-li-def]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntegrableOn.lean#L39-L55
+[ch3-li-fin]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Typeclasses/Finite.lean#L254-L270
+[ch3-li-small]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Order/Filter/SmallSets.lean#L38-L89
+[ch3-li-theorem]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntegrableOn.lean#L656-L684
+[ch3-li-gen]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/MeasurableSpace/MeasurablyGenerated.lean#L85-L112
+[ch3-li-back]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntegrableOn.lean#L626-L633
+[ch3-li-restrict]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Restrict.lean#L95-L103
+[ch3-li-ftc-filter]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean#L195-L229
+[ch3-li-set]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Bochner/FundThmCalculus.lean#L41-L62
+[ch3-li-int]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean#L622-L628
+[ch3-li-wedge]: https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Complex/HasPrimitives.lean#L197-L292
+
+#### Differentiating an oriented interval integral at its right endpoint
+
+**Motivation.** The horizontal leg of a short complex wedge integrates along a real line at fixed height. Its signed length is the change in the real coordinate. To find its first-order term, divide the integral by that signed length. The quotient is a short-interval average even when the endpoint moves to the left. Here “right endpoint” means the second argument of the oriented integral. The derivative uses increments of both signs.
+
+**Example 1 (a reversed base interval). [Expository]** In the real Euclidean plane take $f(t)=(t,t^2)$, fix $a=2$, and differentiate at $b=1$. Integrating the two monomials gives $F(u)=((u^2-4)/2,(u^3-8)/3)$ and $F(1)=(-3/2,-7/3)$. Hence, for $h\ne0$,
+$$
+\frac{F(1+h)-F(1)}{h}
+ =\left(1+\frac h2,1+h+\frac{h^2}{3}\right).
+$$
+For $h=1/2$ this gives $(5/4,19/12)$ and for $h=-1/2$ it gives $(3/4,7/12)$. Both sides tend to $(1,1)=f(1)$. The sign of the base integral has no effect on the derivative.
+
+**Example 2 (a continuous integrand with a corner). [Expository]** Take $f(t)=(|t|,2+t)$, $a=-1$ and $b=0$. The integral from $-1$ to $0$ is $(1/2,3/2)$. The extra integral from $0$ to $h$ is $(h|h|/2,2h+h^2/2)$, since the first coordinate integrates $t$ on the positive side and $-t$ on the negative side. Thus the quotient is $(|h|/2,2+h/2)$ for either sign of $h$. At $h=1/2$ and $h=-1/2$ it gives $(1/4,9/4)$ and $(1/4,7/4)$ respectively, with common limit $(0,2)$. The corner in $f$ is compatible with differentiability of its integral.
+
+**Definitions.** Let $E$ be a real Banach space and $\lambda$ Lebesgue measure on $\mathbb R$. For real $p,q$ put
+$$
+ I(p,q)=\int_{(p,q]} f\,d\lambda-\int_{(q,p]} f\,d\lambda,
+$$
+where $(p,q]$ is empty if $q\le p$. Interval integrability means Bochner integrability over $(\min(p,q),\max(p,q)]$. On such an interval the integral is determined by the almost-everywhere class. In particular $I(p,p)=0$ and $I(q,p)=-I(p,q)$. We use the Bochner facts of linearity on integrable functions, additivity on disjoint measurable pieces, the constant integral, and the bound of the norm of the integral by the integral of the norm.
+
+**Lemma (right-endpoint FTC and its strict estimate). [Lean, read]** For every real Banach space $E$, map $f:\mathbb R\to E$, points $a,b\in\mathbb R$ and vector $L\in E$, assume that $f$ is interval integrable on $a..b$, and that it is a.e. strongly measurable on some open interval about $b$. Assume also that for every $\varepsilon>0$ there exists $\delta>0$ such that $\|f(t)-L\|\le\varepsilon$ for a.e. $t\in(b-\delta,b+\delta)$. Then $F(u)=I(a,u)$ exists as a Bochner interval integral throughout a neighbourhood of $b$. For every $\varepsilon>0$ there exists $\rho>0$ such that for all real $u,v$ with $|u-b|,|v-b|<\rho$,
+$$
+ \|F(v)-F(u)-(v-u)L\|\le\varepsilon|v-u|.
+$$
+In particular the two-sided limit of $(F(b+h)-F(b))/h$ as $h\to0$ with $h\ne0$ is $L$. If $f$ is continuous at $b$, the local a.e. limit hypothesis follows with $L=f(b)$.
+
+**Proof.** Apply the [original-filter lemma](#from-a-finite-filter-to-an-integrable-endpoint-neighborhood) to the full neighborhood filter at $b$. In this setting the witness is obtained by using the limit condition with tolerance $1$ and shrinking the measurability neighbourhood to a bounded interval $J$ on which $\|f\|\le\|L\|+1$ a.e. The norm is integrable on $J$ by this bound and finite length. Together with a.e. strong measurability this gives Bochner integrability there and on all the short intervals whose two endpoints are in $J$. The base interval and a short interval from $b$ to $u\in J$ cover the interval from $a$ to $u$, up to null endpoints. The restrictions of $f$ to the union are integrable, as is seen by splitting into disjoint pieces of the two intervals. Thus $F(u)$ is defined on $J$.
+
+On that union oriented additivity gives $I(a,v)-I(a,u)=I(u,v)$. Indeed, as functions of $t$ the signed interval indicator for $p..q$ is $1_{t\le q}-1_{t\le p}$. Subtract the indicators for $a..v$ and $a..u$ and use linearity on the bounded union containing their supports. This identity works for every order of $a,u,v$.
+
+For a given $\varepsilon>0$, choose $\rho$ small enough that $(b-\rho,b+\rho)$ lies in $J$ and the a.e. error bound holds there. The oriented integral of the constant function $L$ from $u$ to $v$ is $(v-u)L$ by the Lebesgue length formula. For $u,v$ in this neighbourhood, put $K=(\min(u,v),\max(u,v)]$. The norm of the oriented remainder equals the norm of the integral of $f-L$ over $K$, as the two possible orientations differ by a sign. It is at most
+$$
+ \int_K\|f(t)-L\|\,dt\le\varepsilon\lambda(K)=\varepsilon|v-u|.
+$$
+The same inequality holds at $v=u$, when the remainder is zero. Take $u=b$ and $v=b+h$. Dividing the norm bound by $|h|$ proves the stated limit, equivalently the real derivative with linear map $h\mapsto hL$. The estimate uses only an a.e. error bound. Ordinary continuity at $b$ gives this bound everywhere on a sufficiently small neighbourhood with $L=f(b)$. $\square$
+
+**Hand calculation (consuming the original witness). [Expository]** In the preceding section's dense-null-change example, take $a=b=0$. On $(-1/4,1/4)$ the representative $(1+t,2-t)$ gives $F(u)=(u+u^2/2,2u-u^2/2)$. For $L=(1,2)$ the two-point error in the sum norm is
+$$
+\|F(v)-F(u)-(v-u)L\|=|v-u|\,|u+v|.
+$$
+If $|u|,|v|<\rho\le 1/4$, this is bounded by $2\rho|v-u|$. Thus the same full neighborhood that permits integrating the short legs gives derivative $L$, although the chosen representative takes the value $(7,-4)$ at zero. [Original witness](#from-a-finite-filter-to-an-integrable-endpoint-neighborhood)
+
+**Failure at the endpoint. [Expository]** Let $E=\mathbb R^2$, $a=-1$, $b=0$, and $f(t)=(1,0)$ for $t<0$ and $(0,1)$ for $t\ge0$. All intervals are locally integrable. For every positive $h$ the quotient is $(0,1)$, while for every negative $h$ it is $(1,0)$. Thus the derivative can fail even though $F$ is continuous. Changing the value at $0$ cannot change either quotient. There is a second failure specific to identifying the derivative with the chosen point value. If $f(t)=0$ for $t\ne0$ and $f(0)=(1,0)$, then $F$ is identically zero and its derivative is the a.e. limit $0$, while $f(0)\ne0$.
+
+**Transport to the horizontal leg.** Let $R$ be real, let $D(c,R)=\{\zeta:|\zeta-c|<R\}$, let $f:\mathbb C\to\mathbb C$ be continuous on $D(c,R)$, and fix $z\in D(c,R)$. Put $b=\Re z$, $d=R-|z-c|>0$ and $g(t)=f(t+i\Im z)$. The triangle inequality puts the slice for $|t-b|<d$ in the disk. A function given only on the disk can be extended arbitrarily off it. On the slice $g$ is continuous, hence strongly measurable there by separability of the continuous image of a real interval. Its base interval is $b..b$, which is integrable because both half-open intervals are empty. The lemma gives
+$$
+ H_z(w)=\int_{\Re z}^{\Re w}f(t+i\Im z)\,dt
+       =\Re(w-z) f(z)+o(|w-z|).
+$$
+For this substitution the real estimate says that the error is bounded by $\varepsilon|\Re(w-z)|$ for all sufficiently close $w$. This is at most $\varepsilon|w-z|$ and includes $\Re w=\Re z$, where the horizontal integral and linear term vanish. It is the horizontal part of the wedge derivative. The vertical leg and the local identity for the difference of wedges are the inputs from the [disk primitive construction](#a-normalized-holomorphic-logarithm-on-a-zero-free-disk). With those inputs the two linear terms are $\Re(w-z)f(z)$ and $i\Im(w-z)f(z)$, whose sum is $(w-z)f(z)$. No rectangle identity is needed for the horizontal estimate itself.
+
+**Notes on the hypotheses and the pinned proof.**
+
+- Local a.e. strong measurability provides measurable Bochner representatives on small intervals. Continuity at a single point provides a bound near that point. The combination gives local integrability, while base-interval integrability pays for the fixed long part. With $a=b$ the long part is empty, which is the case in the wedge. The integral uses an a.e. class. Pointwise continuity relates that class's local limit to the chosen value at $b$.
+- Completeness is used by the Bochner integral construction, which takes limits of integrals of simple approximants in the target. The pinned set-integral estimate assumes completeness and the general measure interval estimate discharges the incomplete case by the formal zero convention. The pinned real endpoint derivative is in the complete-space section. For an incomplete space with a nonzero constant integrand, the formal zero integral would have derivative zero, whereas the endpoint formula asks for that constant. For the wedge, $\mathbb C$ is complete as a real normed space.
+- The pinned interval proof first proves the small-set bound at an a.e. limit, uses it on each ordered half-open interval, then uses eventual integrability and adjacent-interval additivity to change the endpoint. The volume specialization replaces the integral of $1$ by signed length. The ordinary derivative is obtained from the strict derivative. The elementary proof above specializes this mechanism to Lebesgue measure and one moving endpoint, retaining the two-point estimate. For comparison, OpenStax's scalar FTC Part 1 assumes continuity on an interval and derives the derivative of the accumulated area. [Pinned interval FTC](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean#L615-L728) · [Pinned set estimate](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/Bochner/FundThmCalculus.lean#L41-L62) · [OpenStax, Calculus Volume 1, §5.3](https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus)
+
+**Freezing the first endpoint in Lean.** The two-endpoint estimate uses the outer and inner filter pair `(pure a, ⊥)` at the fixed endpoint. Both first endpoint maps are constantly $a$, both half-open intervals there are empty, and local strong measurability and convergence on the bottom inner filter are automatic. The fixed base interval still requires `IntervalIntegrable f volume a b`. At $b$ the strict derivative uses the full outer and inner neighborhood filters. In `integral_hasStrictDerivAt_of_tendsto_ae_right` the moving endpoints are the two projections of a pair tending to $(b,b)$. The one-sided filter instances in the preceding section have their own short-interval conditions. [Frozen endpoint](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean#L430-L437) · [Strict derivative](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean#L615-L632)
+
+**The integral used here.** Restriction gives the almost-everywhere class on each half-open interval. The bounded operator on $L^1$ supplies the Bochner integral of that class and its norm bound. Chapter 2 explains its construction by continuous linear extension and uses it for dominated convergence. [Chapter 2, §2.3.2.7](02-functional-equations-and-primitive-characters.md#2327-dominated-convergence-through-the-l1-extension-the-filter-to-sequence-reduction-the-decreasing-tail-supremum-step-and-local-uniform-domination-of-the-complex-gamma-kernel)
+
+#### A normalized holomorphic logarithm on a zero-free disk
+
+**Motivation.** The Landau-window argument uses logarithmic derivatives to detect poles. Earlier in this chapter, a zero of order $m$ contributed $m/(z-w)$ at its location $w$. Once those factors have been accounted for, one still needs to control the logarithmic derivative of the zero-free factor $g$. An upper bound for $|g(z)/g(c)|$ is information about a modulus. To turn it into a real-part bound for a holomorphic function, we first need a logarithm of that ratio throughout the disk. [The Chapter 17 application](17-behrends-sphere-lemma-and-host-geometry.md#17412-producing-the-finite-local-zero-formula)
+
+**Example 1 (one linear factor). [Expository]** Let $g(z)=1-az$ with $a\in\mathbb C$. Put $R_a=1/|a|$ for $a\ne0$, and $R_a=\infty$ for $a=0$. For any finite $0<R\le R_a$, the open disk $|z|<R$ is zero-free. When $a\ne0$ the zero $1/a$ lies on the circle of radius $R_a$, so every larger centered open disk contains it. Along the segment $t\mapsto tz$ the candidate normalized integral is
+$$
+h(z)=\int_0^1\frac{-az}{1-taz}\,dt
+     =-\sum_{n=1}^{\infty}\frac{a^n}{n}z^n .
+$$
+Indeed, expand $(1-taz)^{-1}=\sum_{k\ge0}(taz)^k$. Uniform convergence for $0\le t\le1$ follows from $|az|<1$, and $\int_0^1 t^k\,dt=1/(k+1)$. The constant coefficient is zero. Differentiating the series on the disk gives $h'=-a/(1-az)$, so $((1-az)e^{-h(z)})'=0$. Its value at zero is $1$, and hence $e^h=1-az$. For $a=0$ the integral and all coefficients vanish on every finite disk, and the identity holds on the entire plane. With $a=2$, the maximal centered disk has radius $1/2$ and the first three terms are $-2z-2z^2-8z^3/3$.
+
+**Example 2 (two factors and an exponential). [Expository]** For $a,b,c\in\mathbb C$, take $g(z)=(1-az)(1-bz)e^{cz}$. Here $c$ is the exponential coefficient and the disk is centered at $0$. With the same convention for $R_a,R_b$, every finite disk $0<R\le\min(R_a,R_b)$ is zero-free. If the minimum is finite, a nearest linear zero lies on that circle even when $a=b\ne0$. The exponential never vanishes. Product differentiation gives $g'/g=c-a/(1-az)-b/(1-bz)$, and the segment integral is
+$$
+\begin{aligned}
+h(z)&=\int_0^1\left(cz-\frac{az}{1-taz}-\frac{bz}{1-tbz}\right)dt\\
+    &=cz-\sum_{n=1}^{\infty}\frac{a^n+b^n}{n}z^n.
+\end{aligned}
+$$
+Both geometric series converge uniformly in $t\in[0,1]$ for each $z$ in the disk. The constant coefficient is zero, the linear coefficient is $c-a-b$, and the coefficient of $z^n$ for $n\ge2$ is $-(a^n+b^n)/n$. Exponentiating the sum of the two single-factor primitives and $cz$ gives $e^h=g$ with $g(0)=1$. A zero coefficient $a$ or $b$ simply drops its summand. If both vanish, $h(z)=cz$ works on the entire plane. For instance, $a=1/2$, $b=-1/2$, $c=1$ gives a maximal centered open disk of radius $2$, zeros at $\pm2$, and $h=z-z^2/4-z^4/32-\cdots$. The linear contributions of the two factors cancel, leaving the exponential coefficient as the linear term.
+
+**Definitions.** Write $D(c,R)=\{z\in\mathbb C:|z-c|<R\}$. A primitive of $F$ on this open disk is a holomorphic $H$ with $H'(z)=F(z)$ at every point of the disk. A normalized logarithm of a zero-free $g$ is a holomorphic $h$ with $h(c)=0$ and $e^{h(z)}=g(z)/g(c)$. The real logarithm of $|g(z)/g(c)|$ will be its real part.
+
+**Lemma (the disk primitive). [Lean, read]** For every $c\in\mathbb C$, $R>0$, and $F$ complex differentiable at every point of $D(c,R)$, there is a primitive $H$ on $D(c,R)$ with $H(c)=0$. In the pinned Mathlib proof, <code>DifferentiableOn.isExactOn_ball</code> uses the integral along two axis-parallel segments. The rectangle theorem proved earlier supplies the boundary identity for this construction. [Weighted circle integrals and the rectangle theorem](#weighted-circle-integrals-and-the-rectangle-theorem) · [Pinned source](../sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
+*Proof.* For points $v,w$ with the indicated segments in the disk, let $W(v,w)$ be the integral of $F(\zeta)\,d\zeta$ along the horizontal segment from $v$ to $\Re w+i\Im v$ and the vertical segment from there to $w$. In coordinates,
+$$
+W(v,w)=\int_{\Re v}^{\Re w}F(x+i\Im v)\,dx
+      +i\int_{\Im v}^{\Im w}F(\Re w+iy)\,dy.
+$$
+The bounds are oriented. The turning point of $W(c,w)$ belongs to the disk since its distance from $c$ is $|\Re(w-c)|\le |w-c|$. Convexity keeps both segments inside. Set $H(w)=W(c,w)$, so $H(c)=0$.
+
+Fix $z$ in the disk and put $d=R-|z-c|>0$. For $|w-z|<d$, the point $u=\Re w+i\Im z$ is within distance $|w-z|$ of $z$. The rectangle whose two real coordinates are $\Re z,\Re w$ and whose two imaginary coordinates are $\Im c,\Im z$ lies in the disk. Its corners at imaginary coordinate $\Im z$ are $z,u$. The other two are their projections onto the line of imaginary coordinate $\Im c$, which decrease the distance from $c$. Convexity contains their entire rectangle. The difference of the paths for $H(w)-H(z)-W(z,w)$, after cancelling shared pieces by additivity of oriented integrals, is the oriented boundary of this rectangle. Explicitly, with $x_z=\Re z$, $x_w=\Re w$, $y_z=\Im z$, and $y_c=\Im c$, it is
+$$
+\int_{x_z}^{x_w}[F(x+iy_c)-F(x+iy_z)]\,dx
++i\int_{y_c}^{y_z}[F(x_w+iy)-F(x_z+iy)]\,dy.
+$$
+Cauchy–Goursat for rectangles makes this expression zero, including reversed bounds by orientation and degenerate rectangles by cancellation. Thus locally $H(w)-H(z)=W(z,w)$.
+
+The [right-endpoint FTC](#differentiating-an-oriented-interval-integral-at-its-right-endpoint) supplies the horizontal linear term in the pinned proof. Both segments of $W(z,w)$ lie in the closed disk of radius $|w-z|$ about $z$, by convexity and the bound on $|u-z|$. Given $\varepsilon>0$, continuity at $z$ gives $|F(\zeta)-F(z)|\le\varepsilon$ along them for all sufficiently close $w$. Integrating the constant $F(z)$ along the wedge gives $(w-z)F(z)$. Integrating the difference gives the bound
+$$
+|H(w)-H(z)-(w-z)F(z)|
+\le\varepsilon\bigl(|\Re(w-z)|+|\Im(w-z)|\bigr)
+\le 2\varepsilon|w-z|.
+$$
+This proves the full complex derivative at $z$. In the pinned implementation the horizontal error uses the real endpoint derivative of an interval integral, while the vertical error uses continuity uniformly along that moving segment. Their sum is the little-$o$ remainder above. $\square$
+
+**Proposition (existence and uniqueness of the normalized logarithm).** The construction and exponential identity are [Lean, read]. The uniqueness argument is given here in prose. For every $c\in\mathbb C$, finite real $R>0$, and function $g$ holomorphic on $D(c,R)$ with $g(z)\ne0$ at every point there, there is exactly one holomorphic $h$ on that disk with
+$$
+h(c)=0,\qquad h'(z)=\frac{g'(z)}{g(z)},\qquad g(z)=g(c)e^{h(z)}
+\quad(z\in D(c,R)).
+$$
+Either the derivative condition or the exponential condition, together with the normalization, characterizes this same $h$.
+
+*Proof.* Complex differentiability on an open set gives holomorphy of the derivative there by the power series theorem. Division by the nonvanishing $g$ makes $F=g'/g$ holomorphic on the disk. Apply the lemma. More generally, a primitive $\eta$ can be normalized by $\eta(z)-\eta(c)$, which is the specialization to value zero of <code>IsExactOn.with_val_at</code>. Since $R>0$, the center belongs to the disk and $g(c)\ne0$. The chain and product rules give
+$$
+(g e^{-h})'=e^{-h}(g'-gh')=0.
+$$
+A holomorphic function with zero derivative is constant here: restrict it to the segment from $c$ to any point of the convex disk, apply the real chain rule, and apply the mean-value theorem to its real and imaginary parts. At $c$ the constant is $g(c)$, giving the exponential identity. If $k$ is any other primitive with $k(c)=0$, the same segment argument makes $h-k$ constant and normalization makes that constant zero. Finally, differentiating $g=g(c)e^k$ for any holomorphic normalized logarithm gives $g'=gk'$, so it too is this primitive. Uniqueness is pointwise on the disk. [Pinned consumer proof](../sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
+**Remarks.**
+
+1. *Geometry and radius.* Convexity makes this disk star-shaped and also supplies the rectangles needed by the source proof. The segment formula
+   $$
+   h(z)=(z-c)\int_0^1 \frac{g'(c+t(z-c))}{g(c+t(z-c))}\,dt
+   $$
+   follows by integrating the derivative of $h(c+t(z-c))$ in $t$. This explains the integrals in the examples. The same chain-rule argument along any piecewise continuously differentiable path in the disk yields its endpoint difference. The Lean exactness declaration itself quantifies over every real radius and has a vacuous derivative condition when $R\le0$. A value at the center of an empty disk can be assigned to a total Lean function, but the center lies in the disk precisely for $R>0$. The normalized ratio uses this positive radius. Differentiability and nonvanishing are required in the open disk, with no boundary values involved.
+
+2. *Failure on a punctured disk.* Take $g(z)=z$ on $0<|z|<1$. It is holomorphic and never zero there. For any $0<\rho<1$, on $\gamma(t)=\rho e^{it}$, $0\le t\le2\pi$, one has
+   $$
+   \int_\gamma\frac{g'(z)}{g(z)}\,dz
+   =\int_0^{2\pi}\frac{i\rho e^{it}}{\rho e^{it}}\,dt=2\pi i.
+   $$
+   A primitive would give zero by the chain rule on this closed path. A holomorphic logarithm of $g/g(c)$ at any base point $c$ of the punctured disk would differentiate to $1/z$ and is therefore impossible. This gives an obstruction when the disk geometry is dropped even for a connected open domain and a zero-free holomorphic function.
+
+3. *Consumer interface.* Taking moduli yields $\Re h(z)=\log(|g(z)|/|g(c)|)$. In Chapter 17 this converts the modulus budget into $\Re h\le K$ and gives $h'=g'/g$ on the whole production disk. The estimates on a smaller disk then use the Borel–Carathéodory and Cauchy inputs there. Montgomery and Vaughan use the same normalized ratio for the zero-free factor in their local logarithmic derivative argument. [Chapter 17, Lemma 3](17-behrends-sphere-lemma-and-host-geometry.md#17412-producing-the-finite-local-zero-formula) · [Montgomery and Vaughan, Chapter 6, Lemma 6.3, pp. 170–171](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/10.0_pp_168_198_The_Prime_Number_Theorem.pdf)
+
+4. *The two archive uses.* At `NormOneSubConjMul.lean:54–56` the quotient is made differentiable on the disk and `isExactOn_ball.with_val_at 0 0` gives the primitive. Lines 59–82 obtain the exponential identity and the real-part bound for `norm_logDeriv_le`, which the finite zero formula calls at line 233. In `LogDerivBound.lean:12–40`, `zflb_exists_log` applies the same exactness theorem and subtracts the primitive's value at the arbitrary center. The exponential identity is proved there before bounding the derivative in TailBox. [Chapter 17, §17.4.12](17-behrends-sphere-lemma-and-host-geometry.md#17412-producing-the-finite-local-zero-formula) · [Chapter 4, §4.8.8](04-auxiliary-prime-pairs-and-host-fields.md#488-local-zeros-and-the-logarithmic-derivative-in-tailbox)
+
 ### 3.4.2 From pointwise power windows to logarithmic integral windows
 
 Before proving `landau_window`, we record the elementary translation from pointwise bounds

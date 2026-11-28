@@ -190,6 +190,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 
 ## Mathlib
 
+- For Chapter 3's endpoint-to-logarithm chain, the pinned headers credit **Zhouhang Zhou and Yury Kudryashov** for filter integrability and the Bochner FTC, **Yury Kudryashov, Patrick Massot and Sébastien Gouëzel** for interval integration and its FTC, **Ian Jauslin, Alex Kontorovich and Oliver Nash** for primitives on complex disks, and **Yury Kudryashov** for the Cauchy integral file. [Source record](sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
 - The file headers for §1.2.2.14 credit **Anne Baanen, Kexing Ying and Eric Wieser** for quadratic forms, **Andreas Swerdlow and Kexing Ying** for bilinear orthogonality, **Johan Commelin** for algebraicity and integral multiples, **Xavier Roblot** for integer lattices and covolume, **Joseph Myers, Sébastien Gouëzel and Heather Macbeth** for Euclidean inner products, and **Sébastien Gouëzel and Jireh Loreaux** for the finite normed product. **Andrew V. Sutherland** provides the classical lattice and volume reference. [Pinned sources and references](sources/SOURCES.md#chapter-1-12214-trace-realization)
 
 - For the supplies used in §1.2.2.13, the pinned Mathlib file headers credit **Judith Ludwig and Christian Merten** for algebraic lattices, **Ashvni Narayanan and Anne Baanen** for number fields, **Anne Baanen** for PID freeness and trace, **Alexander Bentkamp and Mohanad Ahmed** for positive matrix forms, and **Monica Omar** for the matrix-order file containing the zero-form criterion. [Source record](sources/SOURCES.md#chapter-1-12213)
@@ -1496,3 +1498,7 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 ### Chapter 6 local norm lifting and inertia annihilation
 
 - **Hongmin Li (with AI assistance)** — Textbook account of the Newton lift used by `adicInt_exists_norm`, the dependent local choices and the inertia polynomial consumer. The publication preserves the worked examples, corrects the three theta renderings and records the two source ranges and exact Kummer call. The underlying Lean archive is by Alpöge with Claude, and the general complete-ring lifting argument is from Mathlib. [§6.4.17.1](chapters/06-stepanovs-method-and-multiplicity.md#64171-from-adic-completeness-to-a-local-norm-solution) · [§6.4.23](chapters/06-stepanovs-method-and-multiplicity.md#local-record-inertia-polynomial)
+
+### Chapter 3 local integrability, endpoint FTC and disk logarithms
+
+Hongmin Li with AI assistance presents the common measurable witness, the endpoint and null-representative examples, the wedge calculation and uniqueness on the disk. The chapter follows Alpöge and Claude's three archive applications in the winding and local logarithmic derivative arguments. [Chapter 3](chapters/03-landau-window-criterion.md#from-a-finite-filter-to-an-integrable-endpoint-neighborhood) · [Archive calls and classical references](sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)

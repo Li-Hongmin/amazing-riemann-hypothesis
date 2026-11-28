@@ -132,6 +132,8 @@ Chapter 17, §17.4.24 proves the rational-prime descent in `HeightOneSpectrum`, 
 
 **Chapter 4 §4.11.2.** Local R3 for the fixed-point tuple lift, Sylow correction, support commutator and the final primitive three-cycle call. The two worked actions use odd and even prime cycles. Alternating nonsolvability remains a named input. [§4.11.2](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#4112-why-three-fixed-points-suffice-in-jordans-theorem) · [Source register](../sources/SOURCES.md#chapter-4-4112-jordans-prime-cycle-theorem)
 
+Chapter 3 §3.4.1 follows one local chain from an integrable member of the original filter through strict Banach-valued endpoint differentiation to disk exactness and the logarithmic derivative estimates in Chapters 4 and 17. Local proof-body readings and the named deeper suppliers are recorded in the source ledger. [Local integrability](../chapters/03-landau-window-criterion.md#from-a-finite-filter-to-an-integrable-endpoint-neighborhood) · [Right-endpoint FTC](../chapters/03-landau-window-criterion.md#differentiating-an-oriented-interval-integral-at-its-right-endpoint) · [Normalized disk logarithm](../chapters/03-landau-window-criterion.md#a-normalized-holomorphic-logarithm-on-a-zero-free-disk) · [Source ledger](../sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
+
 ## Next batch
 
 Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
