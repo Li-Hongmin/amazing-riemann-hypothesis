@@ -572,6 +572,7 @@ Chapter 7 [§7.4.3.21](../chapters/07-chains-of-theta-lifts.md#74321-why-mirabol
 - [§11.4.3.16](../chapters/11-the-window-bound-vwin.md#114316-fundamental-classes-and-the-three-subgroup-hypotheses-in-a-class-formation) constructs and uniquely normalizes the finite fundamental class, including its restriction to nonnormal subgroups. It applies §15 to derive continuous vanishing in degrees at least three.
 - [§11.4.3.17](../chapters/11-the-window-bound-vwin.md#114317-arithmetic-realization-of-the-non-archimedean-local-class-formation-localclassformation) realizes the axioms on discrete separable-closure units using the local invariant and its finite-separable restriction law.
 - [§11.4.3.18](../chapters/11-the-window-bound-vwin.md#114318-local-cup-symbols-and-evaluation-of-artin-reciprocity) evaluates the positive carry cup using arithmetic Artin, follows the Kummer norm consumer into §11.4.5, and gives the real quadratic place calculation.
+- [§11.4.3.21](../chapters/11-the-window-bound-vwin.md#114321-why-finite-extensions-are-local-fields-in-the-same-valuation-topology) follows the spectral absolute value to the inherited topology on each finite fixed field. The finite basis gives completeness and compact balls. [Declaration ledger](../sources/SOURCES.md#chapter-11-finite-extensions-in-the-same-valuation-topology)
 
 ## Chapter 6 local norm and inertia module
 
