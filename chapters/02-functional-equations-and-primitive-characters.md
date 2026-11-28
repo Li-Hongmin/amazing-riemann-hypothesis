@@ -1996,6 +1996,162 @@ Mathlib declarations are cited at the pinned commit `0df444a360eaa60ab8c11dca51a
 | `lintegral_iSup`, `lintegral_iSup'`, `lintegral_tendsto_of_tendsto_of_monotone`, `lintegral_iSup_ae`; `aeSeq`; `lintegral_iInf_ae`, `lintegral_tendsto_of_tendsto_of_antitone`; `setLIntegral_iUnion_of_directed`; `integrableOn_Ioc_of_intervalIntegral_norm_bounded_left`, `tendsto_integral_Ioi_zero`; `tendsto_partialGamma` | `Mathlib/MeasureTheory/Integral/Lebesgue/Add.lean:34,96,113,128`; `Mathlib/MeasureTheory/Function/AEMeasurableSequence.lean:41`; `Mathlib/MeasureTheory/Integral/Lebesgue/Sub.lean:51,133`; `Mathlib/MeasureTheory/Integral/Lebesgue/Basic.lean:646`; `Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean:592,669`; `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean:149` | Monotone convergence for measurable and for a.e.-measurable functions with values in $[0,\infty]$, the a.e. representatives behind it, its decreasing form under one finite integral, monotone convergence over truncation domains without measurability, the zero-end integrability criterion, and the signed improper limits at both ends under the common dominating function $\lVert f\rVert$ (§2.3.2.6). | [Lean, read] |
 | `tendsto_integral_of_dominated_convergence`, `tendsto_integral_filter_of_dominated_convergence`; `L1.setToL1`, `setToFun`, `tendsto_setToFun_of_dominated_convergence`, `tendsto_setToFun_filter_of_dominated_convergence`; `hasFiniteIntegral_of_dominated_convergence`, `tendsto_lintegral_norm_of_dominated_convergence`; `limsup_lintegral_le`, `tendsto_lintegral_of_dominated_convergence'`; `aestronglyMeasurable_of_tendsto_ae`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `mellin_hasDerivAt_of_isBigO_rpow`, `hasDerivAt_GammaIntegral`, `Complex.differentiableAt_Gamma` | `Mathlib/MeasureTheory/Integral/DominatedConvergence.lean:57,67`; `Mathlib/MeasureTheory/Integral/SetToL1.lean:418,630,1252,1296`; `Mathlib/MeasureTheory/Function/L1Space/HasFiniteIntegral.lean:367,383`; `Mathlib/MeasureTheory/Integral/Lebesgue/DominatedConvergence.lean:27,61`; `Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean:693`; `Mathlib/Analysis/Calculus/ParametricIntegral.lean:288`; `Mathlib/Analysis/MellinTransform.lean:320`; `Mathlib/Analysis/SpecialFunctions/Gamma/Deriv.lean:50,65` | Bochner dominated convergence for sequences and countably generated filters through the continuous linear $L^1$ extension `L1.setToL1`, the filter-to-sequence shift, separable-range closure of strong measurability, and the decreasing tail-supremum lower-integral step; payment to signed truncation and Euler-limit consumers, and local uniform domination and complex differentiability of the Mellin and Gamma integrals on $\Re s>0$ (§2.3.2.7). | [Lean, read] for the listed declarations; simple-function density, Banach extension and Borel metrizable limit measurability [Lean] |
 
+### 2.6.3 The Möbius inverse on the open half-plane
+
+The strict inequality branch of `LFunction_ne_zero_of_one_le_re`, listed in [§2.6.2](#262-mathlib-declarations-used-by-these-proofs), proves nonvanishing by constructing a reciprocal. In a product of Dirichlet series the terms indexed by $a$ and $b$ contribute at $ab$. This suggests finding an inverse at the coefficient level first, then proving that the grouped coefficients really sum to the product of the two series.
+
+**Two examples.** Let $\chi_4$ take values $1,-1$ on $1,3\bmod 4$ and vanish on even integers. Put $b(n)=\mu(n)\chi_4(n)$, with $\mu(1)=1$, $\mu(p)=-1$ and $\mu(p^2)=0$ for primes $p$. In each coefficient calculation the second argument ranges over the divisors in increasing order.
+
+- At $1$ the coefficient is $\chi_4(1)b(1)=1$.
+- At $3$ it is $\chi_4(3)b(1)+\chi_4(1)b(3)=-1+1=0$.
+- At $9$ it is $\chi_4(9)b(1)+\chi_4(3)b(3)+\chi_4(1)b(9)=1-1+0=0$.
+- At $15$ it is $\chi_4(15)b(1)+\chi_4(5)b(3)+\chi_4(3)b(5)+\chi_4(1)b(15)=-1+1+1-1=0$.
+- At $6$ it is $\chi_4(6)b(1)+\chi_4(3)b(2)+\chi_4(2)b(3)+\chi_4(1)b(6)=0+0+0+0$.
+
+For an imprimitive example, induce $\chi_4$ to modulus $12$ as in [§2.3.1](#231-conductors-level-change-and-bundled-primitive-characters). The resulting $\psi$ takes values $1,1,-1,-1$ on $1,5,7,11\bmod 12$ and vanishes off the units. Put $c=\mu\psi$. Then $\psi(1)c(1)=1$. At $7$ the coefficient is $\psi(7)c(1)+\psi(1)c(7)=-1+1=0$. At $35$ it is $\psi(35)c(1)+\psi(7)c(5)+\psi(5)c(7)+\psi(1)c(35)=-1+1+1-1=0$. At $15$ it is $\psi(15)c(1)+\psi(5)c(3)+\psi(3)c(5)+\psi(1)c(15)=0+0+0+0$. The modulus change affects the reciprocal coefficient itself. We have $b(3)=1$ and $c(3)=0$.
+
+**Definitions.** For functions on the positive integers, Dirichlet convolution is $(f\ast g)(n)=\sum_{ab=n}f(a)g(b)$. Its identity is $\delta$, with $\delta(1)=1$ and all other values zero. In $(f\ast\delta)(n)$ only $b=1$ contributes. The Möbius function is zero on integers divisible by a prime square and equals $(-1)^r$ on a product of $r$ distinct primes, including the empty product at $1$. Write $D_f(s)=\sum_{n\ge1}f(n)n^{-s}$ in the region of absolute convergence. For $n>0$, $n^{-s}=\exp(-s\log n)$ uses the real logarithm. Mathlib uses sequences on $\mathbb N$ with the zeroth series term set to zero independently of the zeroth coefficient. The zeroth convolution coefficient is also zero. [DLMF §27.5, Eqs. (27.5.1)–(27.5.2)](https://dlmf.nist.gov/27.5)
+
+<a id="dirichlet-coefficient-inverse"></a>
+
+**Lemma (coefficient inverse) [Lean, read].** For a Dirichlet character $\chi$ modulo $N\ge1$, one has $\chi\ast(\mu\chi)=\delta$, where $\mu\chi$ is pointwise multiplication.
+
+**Proof.** The nonzero terms of $\sum_{d\mid n}\mu(d)$ correspond to subsets of the distinct prime divisors of $n$. The signed subset sum is a product of one factor $1-1$ for each such prime. This gives $1$ at $n=1$ and $0$ elsewhere, proving $\mathbf 1\ast\mu=\delta$ for the constant sequence $\mathbf 1$. Twisting both inputs of a convolution by $\chi$ multiplies every summand by $\chi(a)\chi(b)=\chi(n)$. The complete multiplicativity holds off the units as well. If $ab$ is a nonunit modulo $N$, at least one factor is a nonunit, and its character value is zero. Consequently $\chi\ast(\mu\chi)=\chi(\mathbf 1\ast\mu)=\chi\delta=\delta$, since $\chi(1)=1$. This calculation uses multiplication by $\chi(n)$ even when that value is zero. $\square$
+
+<a id="dirichlet-coefficient-comparison"></a>
+
+**Lemma (absolute convergence) [Lean, read].** A bound $|f(n)|\le Cn^{x-1}$ with $C\ge0$ gives absolute convergence at $\sigma=\Re s>x$.
+
+**Proof.** The complex exponential gives $|n^{-s}|=n^{-\sigma}$, so each term is bounded in modulus by $Cn^{-(\sigma+1-x)}$. For $q>1$, the block $2^j\le n<2^{j+1}$ contributes at most $2^j (2^j)^{-q}=2^{-j(q-1)}$ to $\sum n^{-q}$. The geometric sum of these bounds is finite. This proves the comparison, including bounded coefficients when $x=1$. $\square$
+
+<a id="strict-half-plane-reciprocal"></a>
+
+**Theorem (strict-half-plane reciprocal) [Lean, read].** Let $\chi$ be a complex Dirichlet character modulo $N\ge1$. Assume the continued $L(s,\chi)$ has the series agreement $L(s,\chi)=D_\chi(s)$ for $\Re s>1$. In this half-plane $L(s,\chi)D_{\mu\chi}(s)=1$, and hence $L(s,\chi)\ne0$.
+
+**Proof.** The units modulo $N$ have finite order, so the corresponding character values are roots of unity and have modulus $1$. The other residues give zero. This bounds $|\chi(n)|$ by $1$, and $|\mu(n)|\le1$ follows from its definition. The comparison lemma gives absolute convergence for $D_\chi$ and $D_\mu$. The additional termwise inequality $|\mu(n)\chi(n)n^{-s}|\le|\mu(n)n^{-s}|$ gives absolute convergence of the twist. Applying the [multiplicative Cauchy product theorem](#multiplicative-cauchy-product) and coefficient inverse yields $D_\chi(s)D_{\mu\chi}(s)=D_\delta(s)=1$. Substitute the series agreement. A zero of $L(s,\chi)$ would make the product zero.
+
+For the Hurwitz definition, series agreement follows by grouping the absolutely convergent series into residue classes $j=0,\ldots,N-1$. Each class consists of the positive values of $Nm+j$ for integers $m\ge0$. The factorization $(Nm+j)^{-s}=N^{-s}(m+j/N)^{-s}$ gives the finite Hurwitz combination from the Hurwitz series formula. At $j=0$ the zero term is omitted. DLMF (25.15.3) uses the range $1$ through $N-1$ for $N>1$, where the omitted residue has character value zero. The modulus-one case uses the separate convention below. For the construction and series identification, see [Chapter 1, §1.3.2](01-statement-and-fidelity.md#132-from-the-finite-hurwitz-sum-to-the-classical-dirichlet-l-function). General Hurwitz analytic continuation in `Mathlib/NumberTheory/LSeries/HurwitzZeta.lean` enters as a named input [Lean]. $\square$ [DLMF §25.15(i), Eqs. (25.15.1), (25.15.3)](https://dlmf.nist.gov/25.15)
+
+<a id="mobius-inverse-modulus-one"></a>
+
+**Remark (modulus one).** The only residue is the identity of the unit group. Thus $\chi(n)=1$ for every integer, including $0$. The zeroth series term is still zero. Here $L(s,\chi)=\zeta(s)$, and the reciprocal for $\sigma>1$ is $D_\mu(s)$. The coefficient identity reduces to $\mathbf 1\ast\mu=\delta$.
+
+<a id="mobius-inverse-absolute-convergence-boundary"></a>
+
+**Remark (failure of absolute convergence on the line).** At $\Re s=1$ we have $\chi(1+kN)=1$ and $(1+kN)^{-1}\ge [N(k+1)]^{-1}$, so the series for $\chi$ fails to converge absolutely at every height. The reciprocal series also fails absolute convergence. On primes $p$ outside the finite set dividing $N$, its absolute terms are $1/p$, and Euler's prime reciprocal sum diverges. This uses the named input `not_summable_one_div_on_primes` [Lean]. The finite convolution identity still holds, while the two absolute sums needed for the Cauchy product estimate are infinite. The closed-half-plane declaration is listed in [§2.6.2](#262-mathlib-declarations-used-by-these-proofs).
+
+| Scope | What the argument supplies |
+|---|---|
+| Positive integer coefficients, independently of $s$ | The finite convolution identity for every modulus $N\ge1$, including the principal, primitive and imprimitive cases. |
+| $\Re s>1$ | Both absolute sums are finite. The product regroups by the positive multiplication fibers and gives the reciprocal of the continued $L$-function via series agreement. |
+| $\Re s=1$ | Both absolute sums diverge. The coefficient identity still holds. The reciprocal proof supplies no boundary nonvanishing conclusion. |
+| $\Re s<1$ | Outside the application of the character-series product and of the strict branch in this section. |
+
+**Source map.** Archive A2 SHA-256 is `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. `lean/lake-manifest.json:10` fixes Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| Role | Fixed source | Reading scope |
+|---|---|---|
+| Strict inequality branch | [Nonvanishing.lean:398–401](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Nonvanishing.lean#L398-L401) | R3 for the strict branch of `LFunction_ne_zero_of_one_le_re`. It rewrites by `LFunction_eq_LSeries` and calls `LSeries_ne_zero_of_one_lt_re`. |
+| Series agreement | [DirichletContinuation.lean:67–77](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean#L67-L77) and [ZMod.lean:69–120](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/ZMod.lean#L69-L120) | R3 for the wrappers and residue-class calculation, using `Nat.sumByResidueClasses` and `hasSum_hurwitzZeta_of_one_lt_re` as inputs [Lean]. |
+| Reciprocal and coefficient inverse | [Dirichlet.lean:128–153](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L128-L153) and [Dirichlet.lean:218–232](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L218-L232) and [Moebius.lean:84–112](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean#L84-L112) and [Moebius.lean:155–181](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean#L155-L181) | R3. Mathlib proves the untwisted inverse by prime powers and coprime products, casts the identity and twists. |
+| Absolute convergence | `Mathlib/NumberTheory/LSeries/Dirichlet.lean:71–76,188–190,209–213`, `Mathlib/NumberTheory/LSeries/Basic.lean:114–126,346–368,393–396`, `Mathlib/NumberTheory/DirichletCharacter/Bounds.lean:24–37` and `Mathlib/Analysis/PSeries.lean:280–296 (nonnegative exponent arm)` | R3 for the forward supply, including the `.mpr` arm of `LSeriesSummable_moebius_iff`, the character bound, the twist comparison and the $p$-series criterion. |
+| Multiplicative Cauchy product | [Convolution.lean:84–154](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Convolution.lean#L84-L154), [Complex.lean:186–200](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/SpecialFunctions/Pow/Complex.lean#L186-L200) and [Basic.lean:287–312](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Basic.lean#L287-L312) | R3 for the finite convolution formula, the multiplication fibers, `LSeriesHasSum.convolution`, `LSeries_convolution'`, the power identity and evaluation on $\delta$. |
+| Modulus one and the line | `Mathlib/NumberTheory/LSeries/Dirichlet.lean:165–172,176–185,293–301` | R3 for constant coefficients at modulus one, comparison on the residue class of $1$ at $s=1$, and the untwisted reciprocal identity. |
+
+At the reading boundary, the general Hurwitz continuation, the Hurwitz series input, the residue-class sum rule, the lower condensation and infinite-sum infrastructure, `Real.not_summable_indicator_one_div_natCast`, and Euler’s prime reciprocal divergence remain named [Lean] inputs. The general summation proofs used by the product are mapped in [§2.6.3.1](#2631-regrouping-an-absolutely-convergent-product-by-multiplication). The archive uses the modulus-one specialization at `lean/src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:75–100` via `riemannZeta_ne_zero_of_one_le_re` in [Nonvanishing.lean:410–415](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Nonvanishing.lean#L410-L415).
+
+**Review scope.** The author’s local R3 reading covers the named bodies and branches above. The reciprocal manuscript received a same-source review of five claims. The detailed fiber supply in §2.6.3.1 received an independent-source review of its own scope. [Source and review record](../sources/SOURCES.md#chapter-2-möbius-inverse-and-multiplication-fibers)
+
+#### 2.6.3.1 Regrouping an absolutely convergent product by multiplication
+
+The reciprocal calculation supplies a finite coefficient at each positive integer. To turn it into a product of series, we must account for every ordered pair in the product of the two sums. A rectangular cutoff limits the two coordinates separately, while a Dirichlet-series cutoff limits their product. An absolute tail estimate lets us pass between these cutoffs.
+
+<a id="multiplication-fiber-at-twelve"></a>
+
+**Example (the fiber at twelve).** Take $u_a=\chi_4(a)a^{-s}$ and $v_b=\mu(b)\chi_4(b)b^{-s}$, with $\chi_4$ as above and $\Re s>1$. The positive divisors of $12$ are $1,2,3,4,6,12$, so there are six ordered pairs. Each weighted term has the common factor $12^{-s}$.
+
+| $(a,b)$ | $\chi_4(a)$ | $\mu(b)\chi_4(b)$ | Coefficient of $12^{-s}$ |
+|---|---:|---:|---:|
+| $(1,12)$ | $1$ | $0$ | $0$ |
+| $(2,6)$ | $0$ | $0$ | $0$ |
+| $(3,4)$ | $-1$ | $0$ | $0$ |
+| $(4,3)$ | $0$ | $(-1)(-1)=1$ | $0$ |
+| $(6,2)$ | $0$ | $0$ | $0$ |
+| $(12,1)$ | $0$ | $1$ | $0$ |
+
+In every pair an even coordinate forces a zero. The fiber sum is $12^{-s}(0+0+0+0+0+0)=0$. The square cutoff at $4$ includes $(3,4)$ and $(4,3)$ from this fiber. The product cutoff at $12$ includes all six pairs.
+
+<a id="multiplication-zero-fiber-control"></a>
+
+**Example (retaining a zeroth term).** On $\mathbb N=\{0,1,2,\ldots\}$ put $u_0=2$, $v_0=3$, and $u_a=v_a=2^{-a}$ for $a\ge1$. The geometric sum on either positive axis is $1$, so the product of the full sums is $(2+1)(3+1)=12$. The pairs with product zero consist of $(0,0)$, $(0,b)$ for $b\ge1$, and $(a,0)$ for $a\ge1$. Their total is
+$$
+2\cdot 3+2\sum_{b\ge1}2^{-b}+3\sum_{a\ge1}2^{-a}=6+2+3=11.
+$$
+The positive pairs sum to $1\cdot1=1$, as is also seen by squaring the finite geometric sums and passing to the limit. Dropping the zero fiber therefore loses $11$ even though both factors converge absolutely. This example uses raw sequences. Mathlib's Dirichlet-series term convention sets both zeroth terms to zero before multiplying.
+
+<a id="positive-multiplication-fibers"></a>
+
+**Definitions.** For a family $w$ on a set $I$, the unordered sum $\sum_{i\in I}w_i=S$ means that for every $\varepsilon>0$ there is a finite $E_0\subset I$ such that
+$$
+\left|\sum_{i\in E}w_i-S\right|<\varepsilon
+\qquad(E_0\subseteq E\subset I,\ E\text{ finite}).
+$$
+This is the finite-subset limit expressed by Mathlib's default `HasSum`. For a summable family, `tsum` is its value. The absolute mass on any subset is the supremum of the finite sums of the norms there. Write $I=\mathbb N_{>0}\times\mathbb N_{>0}$ and $m(a,b)=ab$. For $n\ge1$, write $F_n=m^{-1}(\{n\})$. Its elements are exactly $(d,n/d)$ with $d$ a positive divisor of $n$. Indeed $ab=n$ with $a,b\ge1$ gives $1\le a,b\le n$ and fixes $b$ once $a$ is given. Thus $F_n$ is finite and its pairs are ordered. On $\mathbb N\times\mathbb N$, the zero fiber is the union of the two coordinate axes and contains infinitely many distinct pairs.
+
+<a id="absolute-series-transport-through-fibers"></a>
+
+**Lemma (transport through fibers).** Let $w_i\in\mathbb C$ have finite absolute mass $M$ on $I$, and let $p:I\to J$ be any map. Then every fiber has an unordered sum, the fiber sums form an absolutely summable family, and their unordered sum equals the unordered sum of $w$.
+
+**Proof.** Given $\varepsilon>0$, choose a finite $E_0$ whose absolute mass exceeds $M-\varepsilon$. Every finite set disjoint from $E_0$ has absolute mass less than $\varepsilon$, bounded uniformly by $M-\sum_{i\in E_0}|w_i|$. Two finite sums over supersets of $E_0$ differ by at most this bound, using their symmetric difference. Completeness of $\mathbb C$ gives the unordered sum. The argument applies to each restriction. Passing to the limit in the triangle inequality bounds the norm of every fiber sum by that fiber's absolute mass. For finitely many distinct fibers the sum of their absolute masses is at most $M$. Indeed one can approximate each mass from below by a finite sum and take the disjoint union of the approximating sets. This proves absolute summability of the fiber sums.
+
+There is a bijection from pairs $(j,i)$ with $p(i)=j$ to $I$, given by forgetting $j$, with inverse $i\mapsto(p(i),i)$. Finite sums are carried exactly across this bijection. For a finite set $B\subset J$ containing $p(E_0)$, the sum of the fiber sums over $B$ equals the unordered sum on $p^{-1}(B)$. For this finite union, take a finite witness for convergence in each fiber with error less than $\varepsilon/(1+|B|)$ and unite the witnesses. Any finite superset in $p^{-1}(B)$ then gives that error bound in each fiber, and the errors add to less than $\varepsilon$. The complementary union lies outside $E_0$, with absolute mass at most $M-\sum_{i\in E_0}|w_i|$. Adding the two unordered sums by the same finite-union argument shows that the fiber sum over $B$ differs from the full sum by less than $\varepsilon$. This is precisely the finite-subset limit on $J$. $\square$
+
+<a id="multiplicative-cauchy-product"></a>
+
+**Theorem (multiplicative Cauchy product).** Let $u,v:\mathbb N_{>0}\to\mathbb C$ satisfy $U=\sum_{a\ge1}|u_a|<\infty$ and $V=\sum_{b\ge1}|v_b|<\infty$. Then $c_n=\sum_{(a,b)\in F_n}u_av_b$ is absolutely summable and
+$$
+\sum_{n\ge1}c_n
+=\sum_{(a,b)\in I}u_av_b
+=\left(\sum_{a\ge1}u_a\right)\left(\sum_{b\ge1}v_b\right).
+$$
+The identity also holds for the zero extensions of $u$ and $v$ to $\mathbb N$, with the extra coefficient $c_0=0$. Write $T_u(K)=\sum_{a>K}|u_a|$, $T_v(K)=\sum_{b>K}|v_b|$ and $E_K=VT_u(K)+UT_v(K)$. The error from the product is at most $E_K$ for rectangles with both sides at least $K$ and for hyperbolic cutoffs $ab\le X$ with $X\ge K^2$.
+
+**Proof.** Each finite set of pairs lies in a rectangle. The sum of the absolute values on the rectangle is the product of the two finite sums of absolute values there, so the absolute mass of the family is at most $UV$. Apply the lemma with $p=m$ to obtain the sum of the $c_n$ and its absolute convergence. The sum over the rectangle $a\le A$, $b\le B$ is $(\sum_{a\le A}u_a)(\sum_{b\le B}v_b)$ by finite distributivity. These rectangles eventually contain any given finite set, so their sums approach the unordered sum as $A,B\to\infty$. By continuity of multiplication, the limit is the product of the two series.
+
+Outside the square of side $K$ the pairs satisfy $a>K$ or $b>K$. For a finite set of such pairs, bound the part with $a>K$ by the product of a finite $u$-tail sum of norms and a finite $v$ sum of norms. Bound the part with $b>K$ by the corresponding product with the roles reversed. This gives a uniform bound $E_K$ even if a pair is counted twice. Taking suprema gives the same bound for the absolute mass outside the square. A rectangle with $A,B\ge K$ contains the square, and so does $ab\le X$ for $X\ge K^2$. The latter set is finite since both positive coordinates are at most $X$. Its sum equals $\sum_{1\le n\le X}c_n$ by finite partition. For either cutoff the omitted sum has norm at most $E_K$, which tends to zero. In particular the two finite sums differ by at most $2E_K$ at these cutoffs.
+
+Upon zero extension, any new pair has an index $0$ and contributes zero. Finite sums on the enlarged domain restrict to exactly the same finite sums on positive pairs, and the witnesses for convergence remain valid. Every term on the zero fiber is zero, so its unordered sum is zero despite the infinite index set. To discard this fiber in the formal argument Mathlib uses termwise vanishing. For arbitrary sequences a cancellation within the zero fiber could also make its total zero, but absolute summability alone does not imply that cancellation. $\square$
+
+<a id="lseries-hassum-convolution"></a>
+
+**Application to the reciprocal.** For $f,g:\mathbb N\to\mathbb C$, use their series terms $u_n=\operatorname{term}(f,s,n)$ and $v_n=\operatorname{term}(g,s,n)$. Each is $0$ at $n=0$ and is the coefficient times $n^{-s}$ at $n>0$. For $ab=n>0$, the real logarithm gives $a^{-s}b^{-s}=n^{-s}$, so $c_n=\operatorname{term}(f\ast g,s,n)$, including $c_0=0$. If the two term families have sums $A,B$ in the sense above, they are absolutely summable in $\mathbb C$. To see this implication, take a finite convergence witness for error $1$. Every finite sum outside the witness has norm at most $2$, by taking the difference of the sums over the witness with and without that finite set. Split any finite set outside the witness according to the signs of its real and imaginary parts in turn. Each sign class has absolute component sum at most $2$. Since $|z|\le|\Re z|+|\Im z|$, the total absolute mass outside the witness is at most $8$. Thus the theorem proves the actual `LSeriesHasSum.convolution` assertion with output sum $AB$. In particular, whenever the two Dirichlet series converge absolutely at $s$, this gives $D_{f\ast g}(s)=D_f(s)D_g(s)$ with absolute convergence of the convolution series.
+
+For $\Re s>1$, the comparison and coefficient inverse from §2.6.3 give the two input sums $D_\chi(s)$ and $D_{\mu\chi}(s)$ and identify the output family with the terms of $\delta$. Its unique unordered sum is $1$. In particular, writing $h$ for the term family of $\chi\ast(\mu\chi)$, the convolution step gives
+$$
+\operatorname{HasSum}\bigl(h,D_\chi(s)D_{\mu\chi}(s)\bigr),
+\qquad \operatorname{HasSum}(h,1).
+$$
+In the fixed proof `LSeries.mul_mu_eq_one` calls `LSeries_convolution'`; that declaration turns both summability witnesses into `LSeriesHasSum`, takes the convolution sum, and reads off its value using `LSeries_eq`. It then remains to rewrite by the coefficient inverse and evaluate the delta series. The strict branch then uses `LSeries_ne_zero_of_one_lt_re` and transports its conclusion along `LFunction_eq_LSeries`. [Nonvanishing.lean:398–401](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Nonvanishing.lean#L398-L401) · [Mathlib/NumberTheory/LSeries/Dirichlet.lean:218–224](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Dirichlet.lean#L218-L224)
+
+**Classical context.** The transport lemma is the grouping form of absolute rearrangement, or discrete Fubini for counting indices. One-dimensional permutation invariance follows by taking singleton fibers. Tonelli's nonnegative rearrangement corresponds to applying the same grouping to the absolute masses. Here the proof uses finite sums and completeness. The ordinary additive Cauchy product groups by $a+b$ and is the setting of Mertens' theorem, which requires absolute convergence of only one factor when the other converges. [Jiří Lebl, *Basic Analysis I*, Proposition 2.6.3 and Theorem 2.6.5](https://www.jirka.org/ra/html/sec_moreonseries.html) · [T. Tao, 245A Notes 6, Remark 37 and Corollary 46](https://terrytao.wordpress.com/2010/10/30/245a-notes-6-outer-measures-pre-measures-and-product-measures/)
+
+**Reading the fixed proof [Lean, read].** The three stages in `LSeriesHasSum.convolution` are visible in its two proof lines. First it takes the summable norms of both input families. The proof of `summable_mul_of_summable_norm` multiplies the two nonnegative norm families by summing rows first. Each row has sum $|u_a|V$, and the row sums are summable by scalar multiplication. The norm inequality compares the norm of the complex product to the product of the norms. The final passage from summable norms to summable complex terms uses completeness. The rectangle proof above gives a direct estimate for this same step over positive integer indices.
+
+Next `HasSum.mul` starts with a sum of the summable pair family. In `HasSum.mul_eq`, every row has sum $u_a B$ by continuity of multiplication. The row grouping gives an outer sum with the same value as the pair family. Independently, multiplying the first sum by $B$ gives the outer sum $AB$. Uniqueness identifies these values. The grouping by rows here is through the first projection.
+
+Finally `HasSum.tsum_fiberwise` changes the grouping to the multiplication map. Its proof uses the equivalence between the disjoint union of the fibers and the original index type. Each fiber has a sum by restriction of a summable family. The underlying `HasSum.sigma` works with closed neighborhoods of the target. For a given closed neighborhood, project the finite convergence witness for the total sum onto the outer indices. For any finite set of outer indices containing this projection, filter the finite partial sums to those indices. Eventually these filtered sums still contain the original witness and lie in the closed neighborhood. Taking limits inside the finitely many selected fibers gives their sum in the same neighborhood. This proves convergence of the outer finite sums. At a positive index, `term_convolution'` replaces the fiber sum by the finite sum on `Nat.divisorsAntidiagonal`. That finset scans first coordinates in $[1,n]$, retaining $(a,n/a)$ exactly when it multiplies to $n$. At zero the formal proof expands the fiber as the union of the axes and uses `term_zero` on each axis. This matches the output term at zero.
+
+| Fixed Mathlib source | Local reading |
+|---|---|
+| [Mathlib/NumberTheory/LSeries/Convolution.lean:84–154](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Convolution.lean#L84-L154) and [Mathlib/NumberTheory/Divisors.lean:59–66,124–134](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/Divisors.lean#L124-L134) | R3 for the fiber identification and term formulas, the multiplication consumer, and its sum-to-value wrapper. |
+| [Mathlib/NumberTheory/LSeries/Basic.lean:70–94,215–230](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/NumberTheory/LSeries/Basic.lean#L70-L94) | R3 for the term definition, zero branch and the sum interfaces used here. |
+| [Mathlib/Analysis/Normed/Ring/InfiniteSum.lean:34–48](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Normed/Ring/InfiniteSum.lean#L34-L48) and [Mathlib/Topology/Algebra/InfiniteSum/Real.lean:70–82](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/InfiniteSum/Real.lean#L70-L82) | R3 for the norm-product and nonnegative product criterion bodies. |
+| [Mathlib/Topology/Algebra/InfiniteSum/Ring.lean:39–43,171–182](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/InfiniteSum/Ring.lean#L171-L182) and [Mathlib/Topology/Algebra/InfiniteSum/Constructions.lean:112–138,239–243](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/InfiniteSum/Constructions.lean#L112-L138) | R3 for multiplication by scalars, pair multiplication, grouping by rows, and grouping by arbitrary fibers. The additive grouping proofs are generated from the displayed multiplicative bodies. |
+
+The following formal inputs retain [Lean] at this reading boundary. `Summable.norm` supplies finite-dimensional absolute summability (see `Mathlib/Analysis/Normed/Module/FiniteDimension.lean:612–628`). `Summable.of_norm`, `Summable.of_norm_bounded` and `summable_iff_cauchySeq_finset` supply the completeness step. `NNReal.summable_sigma` and `ENNReal.tsum_sigma'` underlie the nonnegative row criterion. `Equiv.sigmaFiberEquiv`, `Equiv.hasSum_iff`, `Summable.subtype`, `closed_nhds_basis`, `tendsto_finset_preimage_atTop_atTop`, and `Finset.tsum_subtype'` supply the reindexing, topology and finite-subtype infrastructure. The textbook arguments establish the required complex specializations directly. They use completeness of $\mathbb C$. A measure-theoretic Tonelli theorem is unnecessary for this proof.
+
+For the general Banach-space finite-tail criterion used elsewhere in the book, see [Chapter 1, §1.2.2.9](01-statement-and-fidelity.md#1229-unordered-summation-finite-tail-cauchy-criteria-and-banach-completeness).
+
 **Summary of the chapter.** Every Dirichlet $L$-function differs from its primitive $L$-function
 only by finitely many Euler factors $1 - \chi^*(p) p^{-s}$, none of which vanishes on $\Re s > 0$
 (Lemma 2.1) [Lean, read]. Hence non-vanishing of primitive $L$-functions on $\Re s > 1/2$
