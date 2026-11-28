@@ -1407,7 +1407,7 @@ $s \ne n_*$. We read its statement and its first lines, `:25–26` [Lean].
    `excBound := excBound_of_siegelLower siegelLower`
    (`src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26,32`) derives it from Siegel's lower bound
    $\lvert L(1, \chi) \rvert \ge c\,q^{-\varepsilon}$ (`SiegelLower`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:29`) [Siegel1935] and from a bound for
-   $L'$ near $1$. The mean-value theorem is the classical route [Expository]. We read the assembly; `siegelLower`
+   $L'$ near $1$. The ordinary derivative and real-segment integral are worked out in [§4.10.24](#41024-separating-a-real-zero-from-1). We read the assembly; `siegelLower`
    (`src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:17`) is [Lean].
 2. `PNTAPRelW` (`src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MeanSquareHypWIff.lean:38`) is the prime number theorem in progressions modulo
    $M$ with $8 \mid M$, in relative form with an optional exceptional pair $(\chi_1, \beta_1)$:
@@ -4632,6 +4632,387 @@ $\lvert L'/L(1,\chi) \rvert \le 4\log x$ on $[Y, Y^A]$ (Theorem 4.7) [Lean, read
 quadratic `VWin` windows from exponent $401$ to $400$ and from $[W, W^2]$ to $[Z, Z^{3/2}]$ yields
 `supplyChi` (Proposition 4.8 and Theorem 4.9) [Lean, read], delivering the exact host-field package
 `EAtH` consumed in Chapter 5.
+
+### 4.10.24 Separating a real zero from 1
+
+#### 4.10.24.1 Motivation
+
+In a reduced residue class $b$ with $\chi(b)=1$, the exceptional term subtracts $\operatorname{li}_2(X^\beta)$ from $\operatorname{li}_2(X)$ before division by $\varphi(M)$. As $\beta$ approaches $1$ at fixed $X$, this difference approaches zero. A relative prime-counting estimate therefore needs a separate lower bound on $1-\beta$ to give a useful count. An estimate for $L(1,\chi)$ provides such a bound once we control the rate at which $L(\sigma,\chi)$ can change on the real segment from $\beta$ to $1$.
+
+#### 4.10.24.2 Two worked substitutions [Expository]
+
+Take the character modulo $8$ that is $+1$ on $1,7$, $-1$ on $3,5$, and zero on even integers. Its values are given by $(-1)^{(n^2-1)/8}$ for odd $n$. This is multiplicative on the units, and $1$ and $5$ have different values although they agree modulo $4$. Thus its conductor is $8$. In the class $b=1$, an exceptional term, if present, has the subtractive sign. The counting input with constant $c$ gives $1-\beta\ge c/8$.
+
+For a second example take modulus $40$ and induce the preceding character from modulus $8$. The new character has the same signs on integers coprime to $40$ and is zero on multiples of $2$ or $5$. It is nonprincipal since its value at $3$ is $-1$. Its conductor is still $8$. The counting input now gives $1-\beta\ge c/40$. The extra Euler factor is $1+5^{-s}$, since the inducing character takes value $-1$ at $5$. At $s=1$ it multiplies the primitive value by $6/5$.
+
+To do the threshold arithmetic by hand, insert trial values $c=1/2$, $d=1/2$, $B=C=1$, and $\varepsilon=1/100$ into the formula in §4.10.24.5. These are illustrative inputs to the formula. They do not supply witnesses for the analytic estimates. The logarithm of the threshold is
+$320+20.008+8\log 8+8(\log 8)^2+\log 640<400$,
+using $\log 8<2.08$ and $\log 640<6.47$. Set $x=\exp(400)$ and choose $X=M^{40000}$ in each example. Then $\log X=(\log x)^2\log M/4$. Since $2<\log 8<\log 40<4$, both choices give $80000<\log X<160000$. This meets the auxiliary lower scale $x^{\varepsilon/6}=\exp(2/3)$ and the upper scale $x^{\varepsilon/5}(\log x)^2=160000\exp(4/5)$. The trial gaps are $1/16$ at modulus $8$ and $1/80$ at modulus $40$. The corresponding requirements $\log(320/c)\le \log X/20$ hold in both cases since $\log 640<6.47<4000$. These substitutions make no assumption about the existence of a real zero for either character.
+
+#### 4.10.24.3 Definitions and analytic inputs
+
+A Dirichlet character modulo $M$ is a character of $(\mathbb Z/M\mathbb Z)^\times$, extended by zero on nonunits. It is real precisely when every unit value is $1$ or $-1$. Equivalently, $\chi^2$ is the principal character modulo $M$, which Lean denotes by $1$. The additional condition $\chi\ne 1$ excludes the character that is identically $1$ on the units.
+
+The conductor $f$ is the least divisor of $M$ through whose unit group the character factors. The character of modulus $f$ inducing $\chi$ is primitive. The character of modulus $M$ is primitive when $f=M$ and imprimitive when $f<M$. If $\chi^\ast$ is the primitive inducing character, the Euler products give
+$L(s,\chi)=L(s,\chi^\ast)\prod_{p\mid M,\ p\nmid f}(1-\chi^\ast(p)p^{-s})$.
+The factorization first holds in $\Re s>1$ and extends by analytic continuation. Every extra factor is nonzero for $\Re s>0$ because $|\chi^\ast(p)p^{-s}|<1$ there. The progression has modulus $M$, and the inputs below are uniform at that modulus, including imprimitive characters. In particular, a primitive lower bound at $f$ needs control of the extra factors at $1$ before it can supply the required bound at $M$. [NIST DLMF, §25.15(i), equations (25.15.2) and (25.15.4)](https://dlmf.nist.gov/25.15#i)
+
+We use the following two bounds in the form supplied by the archive.
+
+- **Siegel lower bound** ($\texttt{SiegelLower}$) [Lean]. For each $\eta>0$ there exists $a(\eta)>0$ such that $|L(1,\chi)|\ge a(\eta)M^{-\eta}$ for every positive integer $M$ and every real nonprincipal character modulo $M$.
+- **Derivative bound near 1** ($\texttt{LDerivNearOne}$). There is one constant $D$ such that for every positive integer $M$, every nonprincipal character modulo $M$, and every real $\sigma$ in $[1-1/\log(3M),1]$, one has $|L'(\sigma,\chi)|\le D\log^2(3M)$. Real-valuedness of the character is unnecessary for this bound.
+
+We use the standard analytic continuation of $L(s,\chi)$ for nonprincipal $\chi$ and nonvanishing for real $s\ge1$. For $s>1$ the Euler product proves nonvanishing, and at $s=1$ the Dirichlet nonvanishing theorem applies. [NIST DLMF, §25.15(i)–(ii)](https://dlmf.nist.gov/25.15)
+
+**Lemma (the derivative bound) [Lean, read].** One may take $D=76\exp(3/2)$.
+
+**Proof.** A nonprincipal character has $M\ge3$. Put $H=\log(3M)\ge2$ and $A(t)=\sum_{1\le n\le t}\chi(n)$. The sum over a full period vanishes by character orthogonality, so $|A(t)|\le M+1$. Summation by parts for $w$ with $r=\Re w>0$ gives
+$L(w,\chi)=\sum_{n\le M}\chi(n)n^{-w}-A(M)(M+1)^{-w}+R(w)$,
+where
+$R(w)=\sum_{n\ge M+1} A(n)(n^{-w}-(n+1)^{-w})$.
+Indeed, the finite summation-by-parts identity telescopes and its last boundary term tends to zero. The series on the right converges locally uniformly for $r>0$, and agrees with $L$ by continuation from $r>1$. Integrating the derivative of $t^{-w}$ over each unit interval gives $|R(w)|\le (M+1)(|w|/r)(M+1)^{-r}$.
+
+Suppose $r\ge1-3/(2H)$, $r\ge1/4$, and $|w|\le2$. For $1\le t\le M+1$, one has $t^{1-r}\le \exp(3/2)$, by considering the sign of $1-r$ and using $\log t\le H$. The harmonic sum now bounds the first term by $\exp(3/2)(1+H)$. The boundary term is at most $\exp(3/2)$ and the tail at most $8\exp(3/2)$. Their sum is at most $38\exp(3/2)H$, the bound used in the archive. Around any $\sigma\in[1-1/H,1]$, the circle of radius $1/(2H)$ lies in this region: its real part is at least $1-3/(2H)\ge1/4$, and its modulus is at most $1+1/(2H)\le2$. Cauchy's derivative estimate divides the circle bound by the radius, giving the stated $D$.
+
+#### 4.10.24.4 The conditional real-zero separation theorem
+
+**Lemma (absorbing the logarithm).** If $h>0$ and $u\ge1$, then $\log(3u)\le (\log 3+1/h)u^h$.
+
+**Proof.** Integrate $1/t\le t^{h-1}$ from $1$ to $u$ to obtain $\log u\le (u^h-1)/h\le u^h/h$. Also $\log 3\le (\log 3)u^h$.
+
+**Theorem (real-zero separation from the two bounds) [Lean, read].** Assume the two bounds in §4.10.24.3. For every $\delta>0$ there is $c(\delta)>0$ such that for every positive integer $M$, every real nonprincipal character $\chi$ modulo $M$, and every real $\beta$ with $L(\beta,\chi)=0$,
+$\beta\le1-c(\delta)M^{-\delta}$.
+The statement applies to all such real zeros. No simplicity or exceptional-region hypothesis is needed.
+
+**Proof.** Fix $\delta>0$ and take the lower-bound witness $a=a(\delta/3)$. Put $K=\log 3+3/\delta$ and $D_+=\max(D,1)$. Choose
+$c(\delta)=\min(1/K,a/(D_+K^2))>0$
+before choosing $M,\chi,\beta$. Now let $U=M^{\delta/3}$ and $H=\log(3M)$. Then $U\ge1$, $H>0$, $H\le KU$, and $M^{-\delta}=U^{-3}$. Nonvanishing on the real half-line $[1,\infty)$ implies $\beta<1$.
+
+If $\beta\le 1-1/H$, then $1-\beta\ge 1/H\ge 1/(KU)\ge c(\delta)U^{-3}$. Otherwise the entire interval $[\beta,1]$ is in the derivative range. The fundamental theorem of calculus for the restriction of $L$ to the real segment and $L(\beta,\chi)=0$ give
+$|L(1,\chi)|\le \int_\beta^1 |L'(\sigma,\chi)|\,d\sigma\le D_+K^2U^2(1-\beta)$.
+The lower bound at exponent $\delta/3$ gives $|L(1,\chi)|\ge a/U$. Division by $D_+K^2U^2$ yields $1-\beta\ge aU^{-3}/(D_+K^2)\ge c(\delta)U^{-3}$. The three powers of $U$ account for the exponent: one comes from the lower bound at $1$ and two come from the derivative estimate.
+
+#### 4.10.24.5 The constant actually used by the counting proof
+
+Write $d,B,C$ for the relative progression constants $c_3,A_0,C_0$ in Lean. First fix $\varepsilon>0$ and obtain the uniform relative progression estimate with $d>0$. In `count_a`, apply the separation theorem at $\delta=1$ once and call its witness $c_0$. With the witness constructed in §4.10.24.4, $c_0=\min(1/(\log 3+3),a(1/3)/(D_+(\log 3+3)^2))$. Put $c=\min(c_0,1)$, so $0<c\le1$. The implication $L(\beta,\chi)=0\Rightarrow\beta\le1-c/M$ for real nonprincipal $\chi$ can now be specialized to any chosen modulus. This specialization is the hypothesis `hcb` of `count_pos`. The relative-error exponent $d$ comes from the progression estimate.
+
+For each $M$ with $8\mid M$, the relative progression supplier chooses an option $e$ fixed for that modulus. If $e$ contains $(\chi_1,\beta_1)$, the conditions of `IsExcPair` give $\chi_1^2=1$, $\chi_1\ne1$, and $L(\beta_1,\chi_1)=0$, along with $1-1/(8\log M)<\beta_1<1$. In the subtractive case $\chi_1(b)=1$, put $L=\log X\ge4$. Then $X^{\beta_1}\ge2$ and
+$X-X^{\beta_1}\ge X(1-\exp(-c/M))\ge cX/(2M)$.
+The first inequality uses $(1-\beta_1)L\ge c/M$. The second uses $0<c/M\le1$ and the convexity bound $\exp(-v)\le1-v/2$ on $[0,1]$. Integrating $1/\log t$ from $X^{\beta_1}$ to $X$ gives at least $(X-X^{\beta_1})/L$. The empty option and the nonsubtractive case already have the lower bound $(X-2)/L$ before division by $\varphi(M)$. Using $\varphi(M)\le M$ gives the uniform lower bound $cX/(2LM^2)$ for the progression main term. This is the point where the separation constant enters `mainAP_lower`.
+
+Set $J=\log(4(|B|+1))$. The exact uniform threshold chosen in `count_a` is
+$x_0=\exp\big(320+4|C|(5+\varepsilon/5)+|4J/d|+|4J^2/d|+|\log(320/c)|\big)$.
+For all $x\ge x_0$, positive $X$, positive integers $M$ divisible by $8$, and $b$ coprime to $M$, the positive branch invokes `count_pos` when
+$(\log x)^2\log M/4\le\log X\le x^{\varepsilon/5}(\log x)^2$.
+The outer `count_a` also accepts $x^{\varepsilon/6}\le\log X$, which the call in the positive branch does not use. The threshold enforces the range and relative-error conditions in [§4.9](#49-counting-enough-candidates-before-the-sieve). In particular, $\log x\ge320$ and $\log M\ge1$ give $L\ge80\log x$ and hence $\log(320/c)\le L/20$. Along with $L\ge80\log M$, these are the two size conditions that convert the main-term lower bound into $4X^{9/10}$ in [§4.9](#49-counting-enough-candidates-before-the-sieve). The conclusion is at least $X^{9/10}$ primes in $(\sqrt X,X]$ in the class $b$.
+
+The displayed formula expresses the threshold in terms of the witnesses. The Siegel input asserts existence of $a(\eta)$ and leaves its numerical value as an input to this deduction. The derivative constant and logarithm bound are explicit, but this proof supplies neither an effective $c_0$ nor an effective numerical $x_0$. The same witness works simultaneously for all moduli and characters. An effective bound for a fixed modulus would address a different quantifier order.
+
+#### 4.10.24.6 Notes and source map
+
+[Source register](../sources/SOURCES.md#chapter-4-real-zeros-and-the-siegel-product)
+
+The direct producer of `ExcBound` is the two-input theorem `exceptional_zero_bound_of`. The file named `LogDerivRegionChiOf` declares both `LDerivNearOne` and `ExcBoundOf`, and it also declares a separate proposition controlling the *logarithmic* derivative with exceptional poles subtracted. The proof here uses the ordinary derivative of $L$. In the supplier file, `excBound_of_siegelLower` inserts the ordinary derivative bound, and `excBound` inserts `siegelLower` from `FinalSiegel`. The neighboring Siegel–Walfisz statement is another consumer of this separation.
+
+All archive paths below are relative to the extracted Lean root of the [pinned release](../sources/SOURCES.md#1-the-lean-archive-primary-source), SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+
+| Role and read status | Declaration and archive location |
+|---|---|
+| Statements and dependency arrows | `LDerivNearOne`, `ExcBound`, `ExcBoundOf`, `SiegelWalfiszOf`, `src/Formalism/LandauZeroFreeBounds/LogDerivRegionChiOf.lean:45–52,78–80` |
+| Lower-bound statement [Lean] | `SiegelLower`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:29–31` |
+| Derivative estimate [Lean, read] | `lfunction_norm_le_near_one` and `lfunction_deriv_near_one` with the preliminary estimates, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LDerivNearOne.lean:10–159` |
+| Separation proof [Lean, read] | `log_le_const_mul_rpow`, `rpow_neg_eq_inv_pow`, `exceptional_zero_bound_of`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ExcBoundOf.lean:9–102` |
+| Direct assembly [Lean, read] | `excBound_of_siegelLower`, `excBound`, and neighboring use in `siegelWalfisz_of_siegelLower`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–34` |
+| Lower-bound assembly [Lean] | `bqKey`, `siegelLower`, `src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:14–19` |
+| Exceptional pair | `IsExcPair`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MeanSquareHypWIff.lean:29–32` |
+| Counting specialization [Lean, read] | `mainAP_lower`, `count_pos`, `count_a`, `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqCount.lean:86–173,175–203,275–397`; production call in `src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqMain.lean:58` |
+
+The local reading covers the elementary reduction, the ordinary derivative estimate with its partial-sum and Cauchy steps, and the stated counting specialization. The summation-by-parts representation of $L$, Dirichlet nonvanishing and Cauchy's estimate are standard inputs. The conditional proof through `siegel_theorem_of` is developed in [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series). The regularization and circle bound it uses are developed in [§4.10.26](#41026-regularizing-the-four-factor-product-and-bounding-its-taylor-remainder). The assembly in `FinalSiegel` identifies its producers and carries no full-proof reading claim. Siegel's original paper gives the classical context for the lower bound. [Siegel1935, pp. 83–86](https://doi.org/10.4064/AA-1-1-83-86)
+
+### 4.10.25 The Siegel lower bound from biquadratic product series
+
+#### 4.10.25.1 Motivation
+
+[§4.10.24](#41024-separating-a-real-zero-from-1) reduced the real-zero separation `ExcBound` to two analytic inputs: the explicit derivative bound `LDerivNearOne` near $s = 1$, proved there with $D = 76\exp(3/2)$, and the named lower bound `SiegelLower`, which asserts that for every $\delta > 0$ there is a constant $c_\delta > 0$ such that $\lVert L(1, \chi) \rVert \ge c_\delta q^{-\delta}$ for every positive modulus $q$ and every real nonprincipal character $\chi \bmod q$. In Section 4.10.24.5, specializing `ExcBound` at exponent $1$ supplied the uniform counting threshold in `count_a` and `count_pos`.
+
+How can one bound $L(1, \chi)$ from below without first knowing where the real zeros of $L(s, \chi)$ lie? The auxiliary product $\zeta(s)L(s, \chi)$ has nonnegative Dirichlet coefficients $(1 \ast \chi)(n) \ge 0$ and a simple pole at $s = 1$ with residue $L(1, \chi)$, and positivity alone leaves its size to be controlled. Siegel’s method uses two real characters $\chi_1 \bmod q_1$ and $\chi \bmod q$ together in the four-factor biquadratic product
+$\displaystyle F(s) := \zeta(s)\,L(s, \chi_1)\,L(s, \chi)\,L(s, \psi),$
+where $\psi \bmod q_1 q$ represents the pointwise product of $\chi_1$ and $\chi$ on $(\mathbb Z/q_1 q\mathbb Z)^\times$. When $\chi_1, \chi, \psi$ are all nonprincipal, $F(s)$ has only a simple pole at $s = 1$ with residue $\lambda = L(1, \chi_1)L(1, \chi)L(1, \psi)$, while its Dirichlet series still has **nonnegative** coefficients and leading term $1$. The Taylor method presented by Montgomery and Vaughan (Lemma 11.13) expands $G(s) := F(s) - \lambda/(s - 1)$ in a Taylor series around $s = 2$ and leads here to the lower bound $\frac{1}{2} - C\lVert \lambda \rVert (q_1 q)^{K(1-\sigma)}/(1 - \sigma)$ for $\Re F(\sigma)$ at every $\sigma \in [7/8, 1)$. Fixing **one** reference character $\chi_1 \bmod q_1$ and abscissa $\sigma$ depending only on $\delta$ — taken at an exceptional real zero $\beta \in [\sigma_0, 1)$ if any exists across all moduli, and otherwise at $\sigma_0$ itself using $\zeta(\sigma_0) < 0$ — forces $\Re F(\sigma) \le 0$ for every $\chi$ with $\psi \neq 1$, which rearranges to $\lVert L(1, \chi) \rVert \ge c_\delta q^{-\delta}$. When $\psi = 1$, $\chi_1$ and $\chi$ share the same underlying primitive character and a finite Euler-factor comparison across the prime divisors of $q_1 q$ handles $\chi$ directly.
+
+#### 4.10.25.2 Two hand calculations [Expository]
+
+Before stating the formal interfaces, we test both branches of the archive's construction on concrete real nonprincipal characters.
+
+**Example 4.10.25.1 (A genuinely biquadratic pair with $\psi \neq 1$: an odd character modulo $4$ and an even character modulo $5$).** Take $\chi_1 = \chi_4 \bmod 4$, the archive's explicit witness `characterModFour` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/CharExists.lean:36`), defined by $\chi_4(1) = +1$, $\chi_4(3) = -1$, and $\chi_4(n) = 0$ for even $n$ (odd: $\chi_4(-1) = -1$, primitive of conductor $4$, corresponding to negative fundamental discriminant $-4$). Pair it with the Legendre symbol $\chi_2 = \chi_5 \bmod 5$, defined by $\chi_5(1) = \chi_5(4) = +1$, $\chi_5(2) = \chi_5(3) = -1$, and $\chi_5(5k) = 0$ (even: $\chi_5(-1) = +1$, primitive of conductor $5$, corresponding to positive fundamental discriminant $+5$). Their level-lifted product $\psi \bmod 20$ satisfies $\psi(n) = \chi_4(n)\chi_5(n)$ for every $n \in \mathbb N$: on the eight reduced classes $(1, 3, 7, 9, 11, 13, 17, 19) \bmod 20$ it takes values $(+1, +1, +1, +1, -1, -1, -1, -1)$, and it vanishes whenever $2 \mid n$ or $5 \mid n$. Because $\psi(11) = -1 \neq 1$, $\psi$ is nonprincipal (primitive of conductor $20$, odd, corresponding to discriminant $-20$). Notice that negative and positive discriminants enter symmetrically with no separate case analysis.
+
+For $\Re s > 1$, $F(s) = \zeta(s)L(s, \chi_4)L(s, \chi_5)L(s, \psi) = \sum_{n=1}^\infty f(n)n^{-s}$ has local Euler factor
+$\displaystyle E_p(s) = (1 - p^{-s})^{-1}(1 - \chi_4(p)p^{-s})^{-1}(1 - \chi_5(p)p^{-s})^{-1}(1 - \psi(p)p^{-s})^{-1}$
+and multiplicative coefficients $f = (1 \ast \chi_4) \ast (\chi_5 \ast \psi)$. Representative primes display every case of the archive's coefficient proof (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:63–72`):
+
+1. **Double-inert prime $p = 3$, with $(\chi_4(3), \chi_5(3), \psi(3)) = (-1, -1, +1)$.** The local Euler factor is
+   $\displaystyle E_3(s) = (1 - 3^{-s})^{-2}(1 + 3^{-s})^{-2} = (1 - 3^{-2s})^{-2} = \sum_{m=0}^\infty (m + 1)\,3^{-2ms}.$
+   In the archive's divisor-convolution formula, $(1 \ast \chi_4)(3^a) = \sum_{i=0}^a (-1)^i = \mathbf{1}_{2 \mid a}$ and $(\chi_5 \ast \psi)(3^b) = (-1)^b \mathbf{1}_{2 \mid b} = \mathbf{1}_{2 \mid b}$. Hence $f(3^k) = \sum_{a+b=k,\,2\mid a,\,2\mid b} 1$ equals $0$ when $k$ is odd ($f(3) = f(27) = 0$) and $k/2 + 1$ when $k$ is even ($f(1) = 1$, $f(9) = 2$, $f(81) = 3$).
+2. **Ramified prime $p = 2$, with $(\chi_4(2), \chi_5(2), \psi(2)) = (0, -1, 0)$ (the swap branch).** The local Euler factor is
+   $\displaystyle E_2(s) = (1 - 2^{-s})^{-1}(1 + 2^{-s})^{-1} = (1 - 2^{-2s})^{-1} = \sum_{m=0}^\infty 2^{-2ms},$
+   so $f(2^k) = \mathbf{1}_{2 \mid k}$ ($f(1) = 1$, $f(2) = 0$, $f(4) = 1$, $f(8) = 0$). Watch why the proof of `dirichlet_product_coefficients` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:55–70`) swaps $\chi_1$ and $\chi_2$ here: in the unswapped grouping $(1 \ast \chi_4) \ast (\chi_5 \ast \psi)$, the second convolution factor at $2^1$ is $\chi_5(2)\psi(1) + \chi_5(1)\psi(2) = -1 < 0$, so termwise nonnegativity of the two factors fails; after rewriting $f = (1 \ast \chi_5) \ast (\chi_4 \ast \psi)$, both $(1 \ast \chi_5)(2^a) = \mathbf{1}_{2 \mid a} \ge 0$ and $(\chi_4 \ast \psi)(2^b) = 0^b \mathbf{1}_{2 \mid b} = \mathbf{1}_{b=0} \ge 0$ are nonnegative at every divisor of $2^k$.
+3. **Ramified prime $p = 5$, with $(\chi_4(5), \chi_5(5), \psi(5)) = (+1, 0, 0)$, and totally split prime $p = 41 \equiv 1 \pmod{20}$, with $(+1, +1, +1)$.** At $p = 5$, $E_5(s) = (1 - 5^{-s})^{-2} = \sum_{k=0}^\infty (k + 1)5^{-ks}$, giving $f(5^k) = k + 1$ ($f(5) = 2$, $f(25) = 3$). At $p = 41$, $E_{41}(s) = (1 - 41^{-s})^{-4} = \sum_{k=0}^\infty \binom{k+3}{3}41^{-ks}$ ($f(41) = 4$, $f(41^2) = 10$).
+
+By multiplicativity, the first twelve coefficients $f(1), \dots, f(12)$ are $1, 0, 0, 1, 2, 0, 0, 0, 2, 0, 0, 0$, with $f(20) = f(4)f(5) = 2$ and $f(36) = f(4)f(9) = 2$; all coefficients are nonnegative and $f(1) = 1$.
+
+**Example 4.10.25.2 (Imprimitive characters induced by $\chi_4$: why $\psi = 1$ occurs and why `SiegelLower` uses the modulus $q$).** Keep $\chi_1 = \chi_4 \bmod 4$ and let $\chi \bmod 12$ be the character induced by $\chi_4$: $\chi(1) = \chi(5) = +1$, $\chi(7) = \chi(11) = -1$, and $\chi(n) = 0$ when $2 \mid n$ or $3 \mid n$. Then $\chi^2 = 1$ and $\chi \neq 1$, with conductor $\operatorname{cond}(\chi) = 4 < 12$. Its product with $\chi_4$ at modulus $q_1 q = 48$ satisfies $\psi(n) = \chi_4(n)^2 = +1$ whenever $\gcd(n, 48) = 1$ and $\psi(n) = 0$ otherwise, so **$\psi = 1$ is the principal character modulo $48$**. Here $L(s, \psi) = (1 - 2^{-s})(1 - 3^{-s})\zeta(s)$ has a pole at $s = 1$, giving $F(s)$ a double pole and excluding `BqKey`. Instead, lifting both $\chi_4$ and $\chi$ to modulus $48$, whose prime-factor set is $S = \{2, 3\}$ of size $\omega(48) = 2$, equates
+$\displaystyle L(1, \chi_4)\bigl(1 - \chi_4(2)2^{-1}\bigr)\bigl(1 - \chi_4(3)3^{-1}\bigr) = L(1, \chi)\bigl(1 - \chi(2)2^{-1}\bigr)\bigl(1 - \chi(3)3^{-1}\bigr).$
+Since $\chi_4(2) = 0$, $\chi_4(3) = -1$, and $\chi(2) = \chi(3) = 0$, this gives $\frac{4}{3}L(1, \chi_4) = L(1, \chi)$, so $L(1, \chi) = \frac{4}{3}\cdot\frac{\pi}{4} = \frac{\pi}{3}$. The archive's universal Case B bound (`lfunction_one_same_character`) replaces the exact Euler factors by $\prod_{p \in \{2,3\}}(1 - 1/p) = \frac{1}{3} = \frac{1}{\omega(48)+1}$ on the left and $\prod_{p \in \{2,3\}}(1 + 1/p) = 2 \le 3 = \omega(48) + 1$ on the right, obtaining $L(1, \chi) \ge \frac{1}{(\omega(48)+1)^2}L(1, \chi_4) = \frac{1}{9}L(1, \chi_4)$.
+
+By contrast, if $\chi' \bmod 20$ is induced by $\chi_4$ across the split prime $5 \equiv 1 \pmod 4$ ($\chi_4(5) = +1$), the extra factor **shrinks** the $L$-value to $L(1, \chi') = (1 - \frac{1}{5})L(1, \chi_4) = \frac{4}{5}L(1, \chi_4) = \frac{\pi}{5}$ (still above the Case B bound $\frac{1}{9}L(1, \chi_4)$, since $\omega(80) = 2$). Inducing $\chi_4$ modulo $q_P = 4\prod_{p \le P,\,p \equiv 1 \pmod 4} p$ keeps $\operatorname{cond}(\chi) = 4$ constant while $L(1, \chi) = \frac{\pi}{4}\prod_{p \le P,\,p \equiv 1 \pmod 4}(1 - 1/p) \to 0$ as $P \to \infty$. Thus a lower bound valid for **imprimitive** characters cannot have the form $c_\delta \operatorname{cond}(\chi)^{-\delta}$; the bound here uses the **modulus** factor $q^{-\delta}$ (absorbing $(\omega(q_1 q) + 1)^2 \ll_\delta (q_1 q)^\delta$), and it specializes to $c_\delta \operatorname{cond}(\chi)^{-\delta}$ precisely when $\chi$ is primitive ($q = \operatorname{cond}(\chi)$).
+
+#### 4.10.25.3 Definitions, quantifiers, and analytic inputs
+
+Inspecting `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean`, and `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean` gives four features of the formal statements [Lean]:
+
+1. **Quantifier order and modulus versus conductor.** In `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:29–31`, `SiegelLower` is defined (writing $\delta$ here for Lean's parameter `ε`, to distinguish it from the chapter's sieve exponent $\varepsilon < 1/52$) by
+   $\displaystyle \forall \delta > 0,\ \exists c_\delta > 0,\ \forall q \ge 1,\ \forall \chi \bmod q,\quad \chi^2 = 1 \implies \chi \neq 1 \implies c_\delta\,q^{-\delta} \le \lVert L(1, \chi) \rVert.$
+   The witness $c_\delta$ is chosen once after $\delta$ and works uniformly for all positive integers $q$ and all real nonprincipal characters modulo $q$, primitive or imprimitive.
+2. **Primitivity and level-lifted products.** Given $\chi_1 \bmod q_1$ and $\chi_2 \bmod q_2$, `IsProdChar χ₁ χ₂ ψ` (`src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:10–12`) means $\psi$ is a Dirichlet character modulo $q_1 q_2$ satisfying $\psi(n) = \chi_1(n)\chi_2(n)$ for every $n \in \mathbb N$ (viewing each value through the natural cast $\mathbb N \to \mathbb Z/M\mathbb Z$). Neither $\chi_1$, $\chi_2$, nor $\psi$ is reduced to its conductor; instead `siegel_product_character_inequality` branches on whether $\psi = 1$ or $\psi \neq 1$.
+3. **Positive and negative discriminants.** A quadratic field $\mathbb Q(\sqrt{d})$ of fundamental discriminant $d$ corresponds to an even primitive quadratic character ($\chi(-1) = +1$) when $d > 0$ and to an odd one ($\chi(-1) = -1$) when $d < 0$. The archive never passes through quadratic number fields, regulators, or Dirichlet's class-number formula: every real nonprincipal character $\chi \bmod q$ ($\chi^2 = 1$, $\chi \neq 1$) of either parity is handled by one uniform analytic argument.
+4. **Selection of the fixed reference character.** In `siegel_theorem_of` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean:9–64`), after fixing $\delta > 0$ and the cutoff $\sigma_0 := \max\bigl(\frac{7}{8}, 1 - \frac{\delta}{2(K+1)}\bigr)$, classical excluded middle splits on whether *any* positive modulus $q_1$ and real nonprincipal $\chi_1 \bmod q_1$ has a real zero $\beta \in [\sigma_0, 1)$: if so, one such triple $(q_1, \chi_1, \beta)$ is fixed with $\sigma = \beta$; if not, the explicit modulus-$4$ character $(q_1, \chi_1) = (4, \chi_4)$ is fixed with $\sigma = \sigma_0$.
+
+For positive $q_1, q_2$ and characters $\chi_1 \bmod q_1$, $\chi_2 \bmod q_2$, $\psi \bmod q_1 q_2$, define (`src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:14–21`) [Lean]
+$\displaystyle F_{\chi_1, \chi_2, \psi}(s) := \zeta(s)\,L(s, \chi_1)\,L(s, \chi_2)\,L(s, \psi), \qquad \lambda_{\chi_1, \chi_2, \psi} := L(1, \chi_1)\,L(1, \chi_2)\,L(1, \psi)$
+(`Fbq` and `lamBq`). We use the following analytic inputs. [§4.10.26](#41026-regularizing-the-four-factor-product-and-bounding-its-taylor-remainder) gives the construction for `BqEntire` and the boundary estimate for `BqGrowth`. These enter here as hypotheses.
+
+- **Simple-pole decomposition (`BqEntire`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:34–37`, supplied by `dirichlet_product_entire`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqEntire.lean:31–50`) [Lean].** Whenever $\chi_1 \neq 1$, $\chi_2 \neq 1$, and $\psi \neq 1$, there exists an entire function $G : \mathbb C \to \mathbb C$ (`Differentiable ℂ G`) such that $F_{\chi_1, \chi_2, \psi}(s) = G(s) + \lambda_{\chi_1, \chi_2, \psi}/(s - 1)$ for all $s \neq 1$.
+- **Circle growth bound (`BqGrowth`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:39–42`, supplied by `product_lfunction_growth_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqGrowth.lean:48–82`) [Lean].** There exist real constants $C_g, K_g$ such that for all positive $q_1, q_2$, all nonprincipal $\chi_1 \bmod q_1$, $\chi_2 \bmod q_2$, $\psi \bmod q_1 q_2$, and all $s \in \mathbb C$ on the circle $\lVert s - 2 \rVert = 3/2$, one has $\lVert F_{\chi_1, \chi_2, \psi}(s) \rVert \le C_g (q_1 q_2)^{K_g}$ (proved in the archive with $K_g = 3$ from `lfunction_polynomial_growth` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53` and `Formalism.ZF.growthBound` in `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:78`).
+- **Logarithmic upper bound at $1$ (`LFunctionOneUpperBound`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:44–46`, supplied by `lfunction_one_upper_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LFunctionOneUpperBound.lean:10–17`) [Lean, read].** There exists $C_L \in \mathbb R$ such that $\lVert L(1, \chi) \rVert \le C_L \log(3q)$ for every $q \ge 1$ and every $\chi \bmod q$ with $\chi \neq 1$. In `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LFunctionOneUpperBound.lean:11–17`, this is an eight-line specialization at $w = 1$ of the circle bound `lfunction_norm_le_near_one` already proved in Section 4.10.24.3, yielding $C_L = 38\exp(3/2)$.
+- **Negativity of $\zeta$ on $(0, 1)$ (`ZetaNegReal`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:55–56`, supplied by `zeta_negative_real_axis`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ZetaNegReal.lean:29–66`) [Lean].** For every real $\sigma \in (0, 1)$, $\Im\zeta(\sigma) = 0$ and $\Re\zeta(\sigma) < 0$.
+- **Real positivity of real $L$-functions (`LRealPos`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:58–61`, supplied by `real_lfunction_real_on_reals`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRealPos.lean:27–44`) [Lean, read].** For every $q \ge 1$, every $\chi \bmod q$ with $\chi^2 = 1$ and $\chi \neq 1$, and every $\sigma_0 \in \mathbb R$, if $L(\sigma, \chi) \neq 0$ for all $\sigma \ge \sigma_0$, then $\Im L(\sigma, \chi) = 0$ and $\Re L(\sigma, \chi) > 0$ for all $\sigma \ge \sigma_0$. Indeed (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRealPos.lean:28–44`), Schwarz reflection $\overline{L(\bar s, \chi)} = L(s, \chi)$ (`realCharConj`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/TrivReal.lean:60–79` [Lean]) gives $\Im L(t, \chi) = 0$ for all $t \in \mathbb R$; as $x \to +\infty$, $L(x, \chi) = \sum_{n=1}^\infty \chi(n)n^{-x} \to 1 > 0$ (`lfunction_tendsto_one_atTop`, `:16–25`), so if $\Re L(\sigma, \chi) \le 0$ for some $\sigma \ge \sigma_0$, continuity of $t \mapsto \Re L(t, \chi)$ (`differentiable_LFunction`) and the intermediate value theorem on $[\sigma, x]$ would produce $c \ge \sigma_0$ with $L(c, \chi) = 0$, contradicting the zero-free hypothesis.
+- **Pinned Mathlib $L$-series and complex-analysis inputs (`0df444a360eaa60ab8c11dca51a86af692955474`) [Lean].** Nonnegativity $(1 \ast \chi)(n) \ge 0$ for $\chi^2 = 1$ (`DirichletCharacter.zetaMul_nonneg`, `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:106`); nonvanishing $L(s, \chi) \neq 0$ for $\Re s \ge 1, \chi \neq 1$ and in particular $L(1, \chi) \neq 0$ (`LFunction_ne_zero_of_one_le_re`, `LFunction_apply_one_ne_zero`, `:398, 406`); level-change Euler-factor identity `LFunction_changeLevel` (`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:150`); alternating derivative sign $(-1)^n (L\,a)^{(n)}(2) \ge 0$ for nonnegative $a$ (`LSeries.iteratedDeriv_alternating`, `Mathlib/NumberTheory/LSeries/Positivity.lean:40`); and entire Taylor series with Cauchy sphere derivative bounds (`Complex.hasSum_taylorSeries_of_entire`, `Mathlib/Analysis/Complex/TaylorSeries.lean:129`; `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le`, `Mathlib/Analysis/Complex/CauchyIntegral.lean`).
+
+#### 4.10.25.4 Nonnegative coefficients, Taylor truncation at $2$, and level comparison
+
+We now give full proofs of all local production lemmas leading to `BqKey` and `SameCharacterLFunctionOne`.
+
+**Lemma 4.10.25.1 (Product characters, real witness, and principal-product criterion) [Lean, read].**
+1. *(`ProdCharExists`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/CharExists.lean:7–34`.) For any $q_1, q_2 \in \mathbb N$ and characters $\chi_1 \bmod q_1$, $\chi_2 \bmod q_2$, the product $\psi := (\operatorname{changeLevel}\,\chi_1)\cdot(\operatorname{changeLevel}\,\chi_2)$ modulo $q_1 q_2$ satisfies $\psi(n) = \chi_1(n)\chi_2(n)$ for all $n \in \mathbb N$.*
+2. *(`RealCharExists`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/CharExists.lean:36–56`.) There exists a positive integer $q_1$ and $\chi_1 \bmod q_1$ with $\chi_1^2 = 1$ and $\chi_1 \neq 1$, witnessed by $q_1 = 4$ and $\chi_4$.*
+3. *(`product_real_characters_sq_eq_one` and `agree_coprime_of_product_principal`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:10–44`.) Suppose $q_1, q \ge 1$, $\chi_1^2 = 1$, $\chi^2 = 1$, and `IsProdChar χ₁ χ ψ`. Then $\psi^2 = 1$. Moreover, if $\psi = 1$, then $\chi_1(n) = \chi(n)$ for every $n \in \mathbb N$ with $\gcd(n, q_1 q) = 1$.*
+
+*Proof.*
+1. Fix $n \in \mathbb N$. If $n$ is a unit in $\mathbb Z/q_1 q_2\mathbb Z$, then each `changeLevel` evaluates $\chi_i$ at the projected residue $n \bmod q_i$, so $\psi(n) = \chi_1(n)\chi_2(n)$. If $n$ is a nonunit modulo $q_1 q_2$, then $\gcd(n, q_1 q_2) > 1$, hence $\gcd(n, q_1) > 1$ or $\gcd(n, q_2) > 1$; thus $\psi(n) = 0$ and at least one of $\chi_1(n), \chi_2(n)$ is $0$, so both sides vanish.
+2. On $\mathbb Z/4\mathbb Z$, $\chi_4$ sends $0, 1, 2, 3$ to $0, 1, 0, -1$. Being quadratic, $\chi_4^2 = 1$; since $3$ is a unit modulo $4$ with $\chi_4(3) = -1 \neq 1$, $\chi_4 \neq 1$.
+3. Let $a \in (\mathbb Z/q_1 q\mathbb Z)^\times$ have canonical representative $m \in \mathbb N$ with $\gcd(m, q_1 q) = 1$; then $\gcd(m, q_1) = \gcd(m, q) = 1$, so $\psi^2(a) = \psi(m)^2 = \chi_1(m)^2\chi(m)^2 = 1 \cdot 1 = 1$, giving $\psi^2 = 1$. If $\psi = 1$ and $\gcd(n, q_1 q) = 1$, then $\chi_1(n)\chi(n) = \psi(n) = 1$ and $\chi(n)^2 = 1$, whence $\chi_1(n) = \chi_1(n)\chi(n)^2 = (\chi_1(n)\chi(n))\chi(n) = \chi(n)$. $\square$
+
+**Lemma 4.10.25.2 (Nonnegative Dirichlet coefficients of the biquadratic product: `BqCoeff`) [Lean, read].** *Let $q_1, q_2 \ge 1$, and let $\chi_1 \bmod q_1$, $\chi_2 \bmod q_2$, and $\psi \bmod q_1 q_2$ satisfy $\chi_1^2 = 1$, $\chi_2^2 = 1$, and `IsProdChar χ₁ χ₂ ψ`. Then there exists $a : \mathbb N \to \mathbb C$ such that $a(n) \in [0, \infty)$ for all $n$ (`0 ≤ a n` in `ComplexOrder`, i.e. $\Im a(n) = 0$ and $\Re a(n) \ge 0$), $a(1) = 1$, the abscissa of absolute convergence of $\sum a(n)n^{-s}$ is at most $1$, and $F_{\chi_1, \chi_2, \psi}(s) = \sum_{n=1}^\infty a(n)n^{-s}$ for all $\Re s > 1$.* *(Lean: `dirichlet_product_coefficients`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:34–93`, via `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ConvolutionNonnegOfDivisors.lean:10–70`.)*
+
+*Proof.* View $\chi_1, \chi_2, \psi$ as arithmetic functions (vanishing at $0$) and define the Dirichlet convolution
+$\displaystyle f := (1 \ast \chi_1) \ast (\chi_2 \ast \psi),$
+where $1 \ast \chi_1 = \operatorname{zetaMul}(\chi_1)$. Because $1, \chi_1, \chi_2, \psi$ are multiplicative arithmetic functions, $f$ is multiplicative with $f(1) = 1$ (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:51–54, 83`). Also, by commutativity and associativity of Dirichlet convolution, $f = (1 \ast \chi_2) \ast (\chi_1 \ast \psi)$ (`hswap`, `:55–59`).
+
+First compute $\chi' \ast \psi$ whenever $\psi(m) = \chi(m)\chi'(m)$ (`character_convolution_eq`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ConvolutionNonnegOfDivisors.lean:17–37`): for every $n \ge 1$,
+$\displaystyle (\chi' \ast \psi)(n) = \sum_{i \mid n} \chi'(n/i)\,\psi(i) = \sum_{i \mid n} \chi'(n/i)\,\chi(i)\,\chi'(i) = \chi'(n)\sum_{i \mid n} \chi(i) = \chi'(n)\,(1 \ast \chi)(n),$
+using complete multiplicativity $\chi'(n/i)\chi'(i) = \chi'(n)$. Next, for any character $\chi$ with $\chi^2 = 1$, every value $\chi(x)$ lies in $\{0, 1, -1\}$ (`hvals`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:40–50`), and `zetaMul_nonneg` gives $(1 \ast \chi)(d) \ge 0$ for all $d$, with $(1 \ast \chi)(p^j) = \sum_{i=0}^j \chi(p)^i$ at a prime power $p^j$.
+
+We claim `prime_power_coefficient_nonneg` (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ConvolutionNonnegOfDivisors.lean:41–70`): if $\chi^2 = 1$, $\psi(m) = \chi(m)\chi'(m)$, $p$ is prime, and either $\chi'(p) = 0$, or $\chi'(p) = 1$, or $(\chi'(p) = -1 \land \chi(p) = -1)$, then $((1 \ast \chi) \ast (\chi' \ast \psi))(p^k) \ge 0$ for all $k \ge 0$. Since the Dirichlet convolution of two functions that are nonnegative on all divisors of $n$ is nonnegative at $n$ (`convolution_nonneg_of_divisors`, `:10–15`), and $(1 \ast \chi)(d) \ge 0$ for every $d \mid p^k$, it suffices to check $(\chi' \ast \psi)(p^j) = \chi'(p)^j (1 \ast \chi)(p^j) \ge 0$ for every $0 \le j \le k$:
+
+- If $\chi'(p) = 0$ or $\chi'(p) = 1$, then $\chi'(p)^j \in \{0, 1\} \ge 0$ while $(1 \ast \chi)(p^j) \ge 0$.
+- If $\chi'(p) = -1$ and $\chi(p) = -1$, then $(1 \ast \chi)(p^j) = \sum_{i=0}^j (-1)^i$, which equals $0$ when $j$ is odd and $1$ when $j$ is even; when $j$ is even, $(-1)^j = +1$, so $(\chi' \ast \psi)(p^j) = \mathbf{1}_{2 \mid j} \ge 0$.
+
+Now let $p$ be any prime (`hpp`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:63–72`). Since $\chi_2(p) \in \{0, 1, -1\}$ and $\chi_1(p) \in \{0, 1, -1\}$: if $\chi_2(p) \in \{0, 1\}$ or $(\chi_2(p) = -1 \land \chi_1(p) = -1)$, apply the claim to $(\chi, \chi') = (\chi_1, \chi_2)$; in the remaining two cases $\chi_2(p) = -1$ and $\chi_1(p) \in \{0, 1\}$, swap the roles via $f = (1 \ast \chi_2) \ast (\chi_1 \ast \psi)$ and apply the claim to $(\chi, \chi') = (\chi_2, \chi_1)$. Thus $f(p^k) \ge 0$ for every prime power, so multiplicativity $f(n) = \prod_{p^k \parallel n} f(p^k)$ (and $f(0) = 0$) gives $f(n) \ge 0$ for all $n \in \mathbb N$. Finally, for $\Re s > 1$, the four Dirichlet series of $1, \chi_1, \chi_2, \psi$ converge absolutely, so Cauchy multiplication of absolutely convergent $L$-series (`ArithmeticFunction.LSeries_mul'`) shows that $\sum_{n=1}^\infty f(n)n^{-s}$ converges absolutely (forcing abscissa $\le 1$) and equals $\zeta(s)L(s, \chi_1)L(s, \chi_2)L(s, \psi) = F_{\chi_1, \chi_2, \psi}(s)$. $\square$
+
+**Proposition 4.10.25.3 (Taylor truncation at $s = 2$ and `BqKey`) [Lean, read].** *Assume `BqCoeff`, `BqEntire`, `BqGrowth`, and `LFunctionOneUpperBound`. Then `BqKey` holds (`src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:48–53`): there exist real constants $C$ and $K \ge 0$ such that for all $q_1, q_2 \ge 1$, all characters $\chi_1 \bmod q_1$, $\chi_2 \bmod q_2$, $\psi \bmod q_1 q_2$ satisfying $\chi_1^2 = 1$, $\chi_2^2 = 1$, $\chi_1 \neq 1$, $\chi_2 \neq 1$, $\psi \neq 1$, and `IsProdChar χ₁ χ₂ ψ`, and every real $\sigma \in [7/8, 1)$,*
+$\displaystyle \frac{1}{2} - C\,\lVert \lambda_{\chi_1, \chi_2, \psi} \rVert\,\frac{(q_1 q_2)^{K(1 - \sigma)}}{1 - \sigma} \le \Re F_{\chi_1, \chi_2, \psi}(\sigma).$
+*Specifically (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:64–73`), if $(C_g, K_g)$ and $C_L$ are the witnesses of `BqGrowth` and `LFunctionOneUpperBound`, one may set $c_0 := \lvert C_g \rvert + 54\lvert C_L \rvert^3 + 1$, $K' := \max(K_g, 2)$, $\ell := \log(4/3) > 0$, $C := e^2\exp\bigl(\frac{\log(8c_0)}{8\ell}\bigr)$, and $K := K'/\ell \ge 0$.* *(Lean: `lseries_taylor_lower_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivLseriesAlternatingNonneg.lean:30–151`, and `product_lfunction_key_inequality`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:60–152`.)*
+
+*Proof.* Fix characters as in the statement and write $F = F_{\chi_1, \chi_2, \psi}$, $\lambda = \lambda_{\chi_1, \chi_2, \psi}$, and $N := q_1 q_2 \ge 1$. Let $a : \mathbb N \to \mathbb C$ come from `BqCoeff` and let $G$ come from `BqEntire`, so $G$ is entire and $F(s) = G(s) + \lambda(s - 1)^{-1}$ for $s \neq 1$, while $F(s) = (L\,a)(s)$ on $\Re s > 1$.
+
+**Step 1: Bounding $G$ on the circle $\lVert s - 2 \rVert = 3/2$.** Using $\log(3q) \le 3q$ (`norm_le_of_log_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:10–18`), `LFunctionOneUpperBound` gives $\lVert L(1, \chi_i) \rVert \le 3\lvert C_L \rvert q_i$ and $\lVert L(1, \psi) \rVert \le 3\lvert C_L \rvert N$, so $\lVert \lambda \rVert \le 27\lvert C_L \rvert^3 N^2$ (`:82–89`). On the sphere $\lVert s - 2 \rVert = 3/2$, the triangle inequality gives $\lVert s - 1 \rVert \ge \lVert s - 2 \rVert - 1 = 1/2$, so $\lVert \lambda/(s - 1) \rVert \le 2\lVert \lambda \rVert \le 54\lvert C_L \rvert^3 N^2$. Combining with `BqGrowth` ($\lVert F(s) \rVert \le C_g N^{K_g}$) and $N \ge 1$ gives (`:95–115`)
+$\displaystyle \lVert G(s) \rVert \le \lVert F(s) \rVert + \lVert \lambda/(s - 1) \rVert \le B := c_0 N^{K'} \qquad (\lVert s - 2 \rVert = 3/2),$
+with $B \ge c_0 \ge 1$.
+
+**Step 2: Exact pole cancellation in the Taylor series of $G$ at $2$.** Let $\sigma \in [7/8, 1)$ and set $x := 2 - \sigma \in (1, 9/8]$. Since $\{s : \Re s > 1\}$ is an open neighborhood of $2$ on which $(L\,a)(s) = G(s) + \lambda(s - 1)^{-1}$, differentiating $n$ times at $s = 2$ and using $\frac{d^n}{ds^n}(s - 1)^{-1}\big|_{s=2} = (-1)^n n!$ (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivInvSubOneAtTwo.lean:10–26`) gives
+$\displaystyle (L\,a)^{(n)}(2) = G^{(n)}(2) + \lambda\,(-1)^n n! \qquad (n \ge 0).$
+Put $\beta_n := \frac{(-1)^n}{n!}(L\,a)^{(n)}(2)$. Since $a(m) \ge 0$ and the abscissa of absolute convergence is $\le 1 < 2$, `LSeries.iteratedDeriv_alternating` gives $\beta_n \ge 0$ for all $n \ge 0$, while $\beta_0 = (L\,a)(2) \ge a(1) = 1$ (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivLseriesAlternatingNonneg.lean:10–28`). Because $G$ is entire, $G(\sigma) = \sum_{n=0}^\infty t_n$ where, using $\sigma - 2 = -x$,
+$\displaystyle t_n := \frac{(\sigma - 2)^n}{n!}G^{(n)}(2) = \frac{(-x)^n}{n!}\bigl((L\,a)^{(n)}(2) - \lambda(-1)^n n!\bigr) = x^n \beta_n - \lambda x^n$
+(`:52–71`). Choose any truncation order $M \ge 1$. Summing $n = 0, \dots, M - 1$ via $\sum_{i=0}^{M-1} x^i = \frac{x^M - 1}{x - 1}$ and adding back $\frac{\lambda}{\sigma - 1} = -\frac{\lambda}{x - 1}$ cancels the $+\frac{\lambda}{x - 1}$ term cleanly (`:73–78, 121–133`):
+$\displaystyle F(\sigma) = G(\sigma) + \frac{\lambda}{\sigma - 1} = \sum_{i=0}^{M-1} x^i \beta_i - \lambda\frac{x^M}{x - 1} + \sum_{i=0}^\infty t_{i+M}.$
+Because $M \ge 1$, $x > 1 > 0$, and $\beta_i \ge 0$, we have $\sum_{i=0}^{M-1} x^i \beta_i \ge \beta_0 \ge 1$ (`:79–88`). For $j = i + M \ge M$, Cauchy's derivative estimate on $\lVert s - 2 \rVert = 3/2$ gives $\lVert G^{(j)}(2) \rVert \le j!\,B/(3/2)^j$; since $x \le 9/8$, we have $\frac{x}{3/2} \le \frac{9/8}{3/2} = \frac{3}{4}$, so $\lVert t_j \rVert \le B(3/4)^j$ and summing the geometric tail yields $\lVert \sum_{i=0}^\infty t_{i+M} \rVert \le B(3/4)^M(1 - 3/4)^{-1} = 4B(3/4)^M$ (`:90–116`). Taking real parts with $x - 1 = 1 - \sigma > 0$ gives `lseries_taylor_lower_bound`:
+$\displaystyle 1 - \lVert \lambda \rVert\frac{(2 - \sigma)^M}{1 - \sigma} - 4B\Bigl(\frac{3}{4}\Bigr)^M \le \Re F(\sigma).$
+
+**Step 3: Choosing the truncation order $M$.** Set $T := 8B = 8c_0 N^{K'} \ge 8$ and choose $M := \lceil \frac{\log T}{\ell} \rceil + 1 \ge 1$, where $\ell = \log(4/3)$ (`exists_taylor_truncation_order`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:20–45`). Then $(4/3)^M \ge T$, so $4B(3/4)^M = \frac{1}{2}T(3/4)^M \le \frac{1}{2}$, leaving $1 - 4B(3/4)^M \ge \frac{1}{2}$. Meanwhile $M \le 2 + \frac{\log(8c_0) + K'\log N}{\ell}$. Since $2 - \sigma = 1 + (1 - \sigma) \le e^{1 - \sigma}$ and $1 - \sigma \le 1/8$ on $[7/8, 1)$, we have (`two_sub_pow_le_exp` and `:122–144`)
+$\displaystyle (2 - \sigma)^M \le \exp\bigl(M(1 - \sigma)\bigr) \le e^2\exp\Bigl(\frac{\log(8c_0)(1 - \sigma) + K'(\log N)(1 - \sigma)}{\ell}\Bigr) \le e^2\exp\Bigl(\frac{\log(8c_0)}{8\ell}\Bigr)\,N^{(K'/\ell)(1 - \sigma)} = C\,N^{K(1 - \sigma)},$
+which yields the stated lower bound on $\Re F(\sigma)$. $\square$
+
+**Lemma 4.10.25.4 (Euler-factor comparison when two characters agree on coprime integers: `SameCharacterLFunctionOne`) [Lean, read].** *Let $q_1, q \ge 1$, and let $\chi_1 \bmod q_1$ and $\chi \bmod q$ satisfy $\chi_1 \neq 1$, $\chi \neq 1$, and $\chi_1(n) = \chi(n)$ whenever $\gcd(n, q_1 q) = 1$. Writing $\omega(q_1 q)$ for the number of distinct prime divisors of $q_1 q$,*
+$\displaystyle \lVert L(1, \chi_1) \rVert \le \bigl(\omega(q_1 q) + 1\bigr)^2\,\lVert L(1, \chi) \rVert.$
+*(Lean: `lfunction_one_same_character`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SameCharacterLFunctionOne.lean:98–144`.)*
+
+*Proof.* First we show $\prod_{p \in S}(1 - 1/p) \ge \frac{1}{\lvert S \rvert + 1}$ for every finite set $S \subset \mathbb N$ with $\min S \ge 2$ (`prod_one_sub_inv_ge_inv_card_succ`, `:9–42`), by induction on the maximum element of $S$. For $S = \emptyset$ both sides equal $1$. If $S = s \cup \{a\}$ with $p < a$ for all $p \in s$, then $s \subseteq [2, a) \cap \mathbb N$, so $\lvert s \rvert \le a - 2$, i.e. $a \ge \lvert s \rvert + 2$. By the induction hypothesis on $s$,
+$\displaystyle \Bigl(1 - \frac{1}{a}\Bigr)\prod_{p \in s}\Bigl(1 - \frac{1}{p}\Bigr) \ge \Bigl(1 - \frac{1}{a}\Bigr)\frac{1}{\lvert s \rvert + 1} = \frac{1}{\lvert s \rvert + 2} + \frac{a - (\lvert s \rvert + 2)}{a(\lvert s \rvert + 1)(\lvert s \rvert + 2)} \ge \frac{1}{\lvert S \rvert + 1}.$
+Also, since $(1 + 1/p)(1 - 1/p) = 1 - 1/p^2 \le 1$, we have $\bigl(\prod_{p \in S}(1 + 1/p)\bigr)\bigl(\prod_{p \in S}(1 - 1/p)\bigr) \le 1$ (`prod_one_add_mul_one_sub_le_one`, `:87–96`), whence $\prod_{p \in S}(1 + 1/p) \le \lvert S \rvert + 1$.
+
+Now let $S := \operatorname{primeFactors}(q_1 q)$, of cardinality $\omega := \omega(q_1 q)$. Because $\chi_1$ and $\chi$ agree on integers coprime to $q_1 q$, their lifts to modulus $q_1 q$ via `changeLevel` coincide on $(\mathbb Z/q_1 q\mathbb Z)^\times$ and hence are equal as Dirichlet characters modulo $q_1 q$ (`changeLevel_eq_of_agree_coprime`, `:44–53`). Evaluating `DirichletCharacter.LFunction_changeLevel` at $s = 1$ (valid since $\chi_1 \neq 1$ and $\chi \neq 1$) and taking norms gives (`:103–111`)
+$\displaystyle \lVert L(1, \chi_1) \rVert \prod_{p \in S}\bigl\lVert 1 - \chi_1(p)p^{-1} \bigr\rVert = \lVert L(1, \chi) \rVert \prod_{p \in S}\bigl\lVert 1 - \chi(p)p^{-1} \bigr\rVert.$
+Since $\lVert \chi_1(p)p^{-1} \rVert \le 1/p$ and $\lVert \chi(p)p^{-1} \rVert \le 1/p$, the left product is at least $\prod_{p \in S}(1 - 1/p) \ge \frac{1}{\omega + 1}$ and the right product is at most $\prod_{p \in S}(1 + 1/p) \le \omega + 1$ (`:112–133`). Multiplying through by $\omega + 1$ yields $\lVert L(1, \chi_1) \rVert \le (\omega + 1)^2 \lVert L(1, \chi) \rVert$. $\square$
+
+#### 4.10.25.5 Conditional proof of the Siegel lower bound
+
+We now assemble the unified product-character deduction (`siegel_product_character_inequality`) and the top-level dichotomy (`siegel_theorem_of`).
+
+**Theorem 4.10.25.5 (Conditional Siegel lower bound: `SiegelOf` / `SiegelLower`) [Lean, read].** *Assume `BqKey`, `LFunctionOneUpperBound`, `ZetaNegReal`, and `LRealPos` (along with the proved packages `ProdCharExists`, `RealCharExists`, and `SameCharacterLFunctionOne` of Lemmas 4.10.25.1 and 4.10.25.4, and `LFunction_ne_zero_of_one_le_re` / `LFunction_apply_one_ne_zero`). Then `SiegelLower` holds: for every $\delta > 0$ there exists $c_\delta > 0$ such that for every integer $q \ge 1$ and every Dirichlet character $\chi \bmod q$ with $\chi^2 = 1$ and $\chi \neq 1$,*
+$\displaystyle L(1, \chi) = \lVert L(1, \chi) \rVert \ge c_\delta\,q^{-\delta}.$
+*In particular, for every primitive real nonprincipal Dirichlet character $\chi$ (so $q = \operatorname{cond}(\chi)$),*
+$\displaystyle L(1, \chi) \ge c_\delta\,\operatorname{cond}(\chi)^{-\delta}.$
+*(Lean: `siegel_product_character_inequality`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:106–183`; `siegel_theorem_of`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean:9–64`; assembled as `siegelLower` at `src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:17–19`.)*
+
+*Proof.* Fix $\delta > 0$, let $(C, K)$ with $K \ge 0$ be the constants of `BqKey`, and let $C_L$ be the constant of `LFunctionOneUpperBound`. Define (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean:13`)
+$\displaystyle \sigma_0 := \max\Bigl(\frac{7}{8},\, 1 - \frac{\delta}{2(K + 1)}\Bigr).$
+Since $K + 1 > 0$ and $\delta > 0$, we have $\frac{7}{8} \le \sigma_0 < 1$. Moreover, for every $\sigma \in [\sigma_0, 1)$, $1 - \sigma \le \frac{\delta}{2(K + 1)}$ gives $K(1 - \sigma) \le (K + 1)(1 - \sigma) \le \delta/2$ (`hKa`, `:20–29`).
+
+**Part 1: Choosing the fixed reference datum $(q_1, \chi_1, \sigma)$ (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean:30–64`).** Split by classical excluded middle on the proposition
+$\displaystyle \mathrm{hex} :\iff \exists q_1 \ge 1,\ \exists \chi_1 \bmod q_1,\ \exists \beta \in \mathbb R,\quad \chi_1^2 = 1 \land \chi_1 \neq 1 \land \sigma_0 \le \beta < 1 \land L(\beta, \chi_1) = 0.$
+
+- **Exceptional branch (`hex` holds, `:32–37`).** Choose one witness $(q_1, \chi_1, \beta)$ and set $\sigma := \beta \in [\sigma_0, 1) \subseteq [7/8, 1)$. For any $q \ge 1$, $\chi \bmod q$, and $\psi \bmod q_1 q$, we have $F_{\chi_1, \chi, \psi}(\beta) = \zeta(\beta)\cdot 0\cdot L(\beta, \chi)\,L(\beta, \psi) = 0$, so $\Re F_{\chi_1, \chi, \psi}(\sigma) \le 0$.
+- **Zero-free branch (`¬ hex` holds, `:38–64`).** Choose the fixed witness $(q_1, \chi_1) = (4, \chi_4)$ from Lemma 4.10.25.1(2) and set $\sigma := \sigma_0 \in [7/8, 1)$. For *every* $m \ge 1$ and *every* real nonprincipal $\varphi \bmod m$, $L(t, \varphi) \neq 0$ holds for $t \in [\sigma_0, 1)$ by `¬ hex` and for $t \ge 1$ by `LFunction_ne_zero_of_one_le_re`; hence `LRealPos` at $\sigma_0$ gives $\Im L(\sigma_0, \varphi) = 0$ and $\Re L(\sigma_0, \varphi) > 0$ (`:41–50`). Given any real nonprincipal $\chi \bmod q$ and product $\psi \bmod q_1 q$ with $\psi \neq 1$, Lemma 4.10.25.1(3) gives $\psi^2 = 1$, so $L(\sigma_0, \chi_1)$, $L(\sigma_0, \chi)$, and $L(\sigma_0, \psi)$ are all positive real numbers, whereas `ZetaNegReal` gives $\zeta(\sigma_0) \in (-\infty, 0)$. Their product is strictly negative, so again $\Re F_{\chi_1, \chi, \psi}(\sigma) \le 0$ (`:52–64`).
+
+**Part 2: Unified deduction for all $(q, \chi)$ from $(q_1, \chi_1, \sigma)$ (`src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:106–183`).** With $(q_1, \chi_1, \sigma)$ fixed above (satisfying $7/8 \le \sigma < 1$, $K(1 - \sigma) \le \delta/2$, and $\Re F_{\chi_1, \chi, \psi}(\sigma) \le 0$ whenever $\psi \neq 1$), note that $L_1 := \lVert L(1, \chi_1) \rVert > 0$ by `LFunction_apply_one_ne_zero` (`:121–122`). Define (`:133–136`)
+$\displaystyle c_\delta := \min\left(\frac{1 - \sigma}{2\max(C, 1)\,L_1\,(\lvert C_L \rvert + 1)\,(2/\delta)\,(3q_1)^\delta},\ \frac{L_1}{\bigl(\frac{2}{\delta\log 2} + 1\bigr)^2\,(3q_1)^\delta}\right) > 0.$
+Now let $q \ge 1$ and let $\chi \bmod q$ satisfy $\chi^2 = 1$ and $\chi \neq 1$. Construct $\psi \bmod q_1 q$ satisfying `IsProdChar χ₁ χ ψ` by Lemma 4.10.25.1(1), and split on whether $\psi = 1$ (`:148`):
+
+- **Case B: $\psi = 1$ (`:149–153`).** By Lemma 4.10.25.1(3), $\chi_1(n) = \chi(n)$ whenever $\gcd(n, q_1 q) = 1$, so Lemma 4.10.25.4 gives $L_1 \le (\omega(q_1 q) + 1)^2 \lVert L(1, \chi) \rVert$. For any integer $n \ge 1$, every prime divisor of $n$ is at least $2$, so $2^{\omega(n)} \le \prod_{p \mid n} p \le n$ (`two_pow_card_primeFactors_le_self`, `:46–50`). Taking logarithms and applying $\log n \le \frac{n^{\delta/2}}{\delta/2}$ together with $1 \le n^{\delta/2}$ gives $\omega(n) + 1 \le \bigl(\frac{2}{\delta\log 2} + 1\bigr)n^{\delta/2}$, and squaring gives (`card_primeFactors_add_one_sq_le_rpow`, `:51–72`)
+  $\displaystyle \bigl(\omega(q_1 q) + 1\bigr)^2 \le \Bigl(\frac{2}{\delta\log 2} + 1\Bigr)^2 (q_1 q)^\delta \le \Bigl(\frac{2}{\delta\log 2} + 1\Bigr)^2 (3q_1)^\delta\,q^\delta.$
+  Dividing $L_1 \le (\omega(q_1 q) + 1)^2 \lVert L(1, \chi) \rVert$ by the positive coefficient of $q^\delta$ (`div_le_mul_of_chain_caseB`, `:97–104`) gives $\lVert L(1, \chi) \rVert \ge c_\delta q^{-\delta}$.
+
+- **Case A: $\psi \neq 1$ (`:154–183`).** Combining `BqKey` at $\sigma$ with $\Re F_{\chi_1, \chi, \psi}(\sigma) \le 0$ and $\lVert \lambda_{\chi_1, \chi, \psi} \rVert = L_1\,\lVert L(1, \chi) \rVert\,\lVert L(1, \psi) \rVert$ gives (`:156–165`)
+  $\displaystyle \frac{1 - \sigma}{2} \le C\,\bigl(L_1\,\lVert L(1, \chi) \rVert\,\lVert L(1, \psi) \rVert\bigr)\,(q_1 q)^{K(1 - \sigma)} \le \max(C, 1)\,L_1\,\lVert L(1, \chi) \rVert\,\lVert L(1, \psi) \rVert\,(q_1 q)^{K(1 - \sigma)}.$
+  Because $\psi \neq 1$, `LFunctionOneUpperBound` and $\log u \le \frac{u^{\delta/2}}{\delta/2}$ at $u = 3q_1 q \ge 3$ give (`:166–175`)
+  $\displaystyle \lVert L(1, \psi) \rVert \le (\lvert C_L \rvert + 1)\log(3q_1 q) \le (\lvert C_L \rvert + 1)\,\frac{2}{\delta}\,(3q_1 q)^{\delta/2}.$
+  Meanwhile $K(1 - \sigma) \le \delta/2$ and $q_1 q \ge 1$ imply $(q_1 q)^{K(1 - \sigma)} \le (q_1 q)^{\delta/2} \le (3q_1 q)^{\delta/2}$ (`:176–178`). Multiplying the two factors of $(3q_1 q)^{\delta/2}$ yields $(3q_1 q)^\delta = (3q_1)^\delta q^\delta$ (`:179–181`), so
+  $\displaystyle \frac{1 - \sigma}{2} \le \max(C, 1)\,L_1\,(\lvert C_L \rvert + 1)\,\frac{2}{\delta}\,(3q_1)^\delta\,q^\delta\,\lVert L(1, \chi) \rVert.$
+  Dividing (`div_le_mul_of_main_bound_caseA`, `:74–95`) gives $\lVert L(1, \chi) \rVert \ge c_\delta q^{-\delta}$.
+
+Finally, for any real nonprincipal $\chi \bmod q$, `LFunction_ne_zero_of_one_le_re` gives $L(t, \chi) \neq 0$ for all $t \ge 1$, so `LRealPos` applied at $\sigma_0 = 1$ gives $\Im L(1, \chi) = 0$ and $\Re L(1, \chi) > 0$; thus $L(1, \chi) = \lVert L(1, \chi) \rVert \ge c_\delta q^{-\delta}$. When $\chi$ is primitive, its modulus $q$ equals $\operatorname{cond}(\chi)$, giving $L(1, \chi) \ge c_\delta\operatorname{cond}(\chi)^{-\delta}$. $\square$
+
+#### 4.10.25.6 Notes and source map
+
+[Source register](../sources/SOURCES.md#chapter-4-real-zeros-and-the-siegel-product)
+
+**Editorial correction on effectiveness.** The draft inferred that the existence of an exceptional reference character is undecidable and that no positive numerical constant can be computed. The proof uses excluded middle across all moduli and gives no uniform effective way to select the branch or bound the reference data for arbitrary $\delta>0$. Given a certified exceptional character and a certified interval for its zero with upper endpoint below $1$, the displayed formula can give a numerical lower bound using bounds for $L_1$ and $1-\sigma$. The argument establishes existence of $c_\delta$ and leaves the uniform effective construction unproved. The same limitation passes to the separation and the counting threshold. [Montgomery and Vaughan, §11.2, p. 373](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf)
+
+**Historical sources [Paper].** Siegel establishes his classical result through quadratic and biquadratic fields and fixes a reference discriminant in the proof. Montgomery and Vaughan present the related pole-subtracted Taylor argument and fixed-reference dichotomy (Lemma 11.13 and Theorem 11.14). They credit Estermann for the method. The constants and the direct comparison of imprimitive characters here follow the cited Lean declarations. The Estermann citation identifies the historical paper at the bibliographic level. [Siegel1935, pp. 83–86](https://doi.org/10.4064/AA-1-1-83-86) · [MontgomeryVaughan2007, Ch. 11](https://doi.org/10.1017/CBO9780511618314.013) · [Estermann1948](https://doi.org/10.1112/jlms/s1-23.4.275)
+
+**Consumers and reading scope.** `siegelLower` (`src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:17`) has two direct calls in `SiegelWalfiszAPOfSiegelLower.lean`: `excBound` (`src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:32`, feeding `count_a` at $\delta = 1/3$ via $\delta_{\mathrm{Exc}} = 1$ as proved in [§4.9](#49-counting-enough-candidates-before-the-sieve) and [§4.10.24](#41024-separating-a-real-zero-from-1)) and `siegelWalfisz` (`:34`). `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:1` imports `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelBoundSameCharacter.lean` (`siegel_bound_key_rearrange`, `siegel_bound_same_character`), which proves a close variant of the Case A/B algebra, but `siegel_product_character_inequality` uses its own private helpers (`:46–104`) instead.
+
+All archive paths below are relative to the `lean/` root of the [pinned release](../sources/SOURCES.md#1-the-lean-archive-primary-source), SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`, with Mathlib pinned at `0df444a360eaa60ab8c11dca51a86af692955474`.
+
+| Role and read status | Declaration and archive / Mathlib location |
+|---|---|
+| Target statement and consumers [Lean] | `SiegelLower`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:29–31`; `excBound_of_siegelLower`, `siegelWalfisz_of_siegelLower`, `excBound`, `siegelWalfisz`, `src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean:26–34` |
+| Product-$L$ interfaces [Lean] | `IsProdChar`, `Fbq`, `lamBq`, `ProdCharExists`, `BqCoeff`, `BqEntire`, `BqGrowth`, `LFunctionOneUpperBound`, `BqKey`, `ZetaNegReal`, `LRealPos`, `SameCharacterLFunctionOne`, `RealCharExists`, `BqKeyOf`, `SiegelOf`, `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:10–75` |
+| Product character and mod-$4$ witness [Lean, read] | `isProdChar_changeLevel_mul`, `exists_product_character`, `characterModFour`, `exists_real_nontrivial_character`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/CharExists.lean:7–56` |
+| Nonnegative biquadratic coefficients [Lean, read] | `convolution_nonneg_of_divisors`, `character_convolution_eq`, `prime_power_coefficient_nonneg`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ConvolutionNonnegOfDivisors.lean:10–70`; `dirichlet_product_coefficients`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqCoeff.lean:10–93` |
+| Taylor expansion at $s = 2$ and `BqKeyOf` [Lean, read] | `iteratedDeriv_inv_sub_one_at_two`, `iteratedDeriv_lseries_at_two`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivInvSubOneAtTwo.lean:10–26`; `one_le_lseries_at_two`, `iteratedDeriv_lseries_alternating_nonneg`, `lseries_taylor_lower_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivLseriesAlternatingNonneg.lean:10–151`; `norm_le_of_log_bound`, `exists_taylor_truncation_order`, `two_sub_pow_le_exp`, `product_lfunction_key_inequality`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:10–152` |
+| Same-character Euler-factor bound [Lean, read] | `prod_one_sub_inv_ge_inv_card_succ`, `changeLevel_eq_of_agree_coprime`, `lfunction_one_same_character`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SameCharacterLFunctionOne.lean:9–144` (unused variant in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelBoundSameCharacter.lean:9–106`) |
+| Unified two-branch inequality and dichotomy [Lean, read] | `real_character_apply_sq_eq_one`, `product_real_characters_sq_eq_one`, `agree_coprime_of_product_principal`, `siegel_product_character_inequality`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:10–183`; `siegel_theorem_of`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelOf.lean:9–64` |
+| Upper bound at $1$ and real positivity [Lean, read]. Final wiring [Lean] | `lfunction_one_upper_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LFunctionOneUpperBound.lean:10–17` (from §4.10.24); `real_lfunction_real_on_reals`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRealPos.lean:10–44`; `bqKey`, `siegelLower`, `src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:14–19` |
+| Named deeper analytic and library inputs [Lean] | `dirichlet_product_entire`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqEntire.lean:31–50`; `product_lfunction_growth_bound`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqGrowth.lean:48–82` (with `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:53–71` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:78–95`); `zeta_negative_real_axis`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ZetaNegReal.lean:29–66`; `realCharConj`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/TrivReal.lean:60–79`; pinned Mathlib `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:106,398,406`, `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:75,98,150`, `Mathlib/NumberTheory/LSeries/Positivity.lean:40`, `Mathlib/Analysis/Complex/TaylorSeries.lean:129` |
+
+Local `R3` (`[Lean, read]`) applies strictly to the listed direct production proofs from `BqCoeff` through `BqKeyOf`, the same-character comparison, the two-branch inequality, the conditional Siegel theorem, real positivity and the upper bound at $1$. The complete `siegelLower` supplier, negative-real-$\zeta$ and the deeper Mathlib dependencies retain R2 [Lean].
+
+### 4.10.26 Regularizing the four-factor product and bounding its Taylor remainder
+
+#### 4.10.26.1 Motivation
+
+The argument of [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series) uses a circle of radius $3/2$ about $2$. This circle encloses $1$. The Dirichlet series identifies the product to the right of $1$, while Cauchy's estimate requires a function holomorphic across $1$. In this section we construct that function and derive the modulus-uniform bound passed to the Taylor argument. The analytic construction works for arbitrary nonprincipal complex characters at the three indicated levels. Reality and the product-character identity enter the coefficient and branch arguments of [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series).
+
+#### 4.10.26.2 Two hand calculations [Expository]
+
+**An odd character times an even character.** Take the odd character $\chi_4$, with values $1,-1$ at $1,3\bmod 4$, and the even quadratic character $\chi_5$, with values $1,-1,-1,1$ at $1,2,3,4\bmod 5$. Their product $\psi$ at level $20$ takes value $+1$ at $1,3,7,9$, value $-1$ at $11,13,17,19$, and zero on nonunits. It is odd and nonprincipal. By the coprime-modulus decomposition of the unit group, each nontrivial local component forces its prime-power level, so the conductor of $\psi$ is $20$.
+
+Integrating the geometric blocks term by term gives
+$L(1,\chi_4)=\int_0^1 (1+t^2)^{-1}\,dt=\pi/4$ and
+$L(1,\chi_5)=\int_0^1 (1-t)(1-t^2)/(1-t^5)\,dt$.
+For $\psi$ the block polynomial is $(1-t^{10})(1+t^2+t^6+t^8)$, so
+$L(1,\psi)=\int_0^1 (1+t^2+t^6+t^8)/(1+t^{10})\,dt$.
+Indeed, a block ending at level $q$ contributes its polynomial times $t^{jq}$, and integrating a monomial gives the corresponding reciprocal integer. The integrated partial blocks converge by dominated convergence because the quotients after cancellation are bounded on $[0,1]$. Their limits equal the continued values by the summation formula below. All three values are positive. The four-factor product therefore has a simple pole with residue $(\pi/4)L(1,\chi_5)L(1,\psi)$, and subtracting this residue divided by $s-1$ gives the entire function used at $N=20$.
+
+**A principal product from the same primitive character.** Induce $\chi_4$ to level $12$ and call the resulting character $\chi_{12}$. On units modulo $48$ the characters agree and their product is $1$. At every nonunit modulo $48$ at least one factor vanishes. Thus $\psi$ is principal at level $48$, with conductor $1$, and both input characters have conductor $4$. Since $\chi_4(3)=-1$,
+$L(s,\chi_{12})=(1+3^{-s})L(s,\chi_4)$.
+The principal factor is $\zeta(s)(1-2^{-s})(1-3^{-s})$ off $1$. The coefficient of $(s-1)^{-2}$ in the four-factor product is accordingly
+$(\pi/4)^2(1+1/3)(1-1/2)(1-1/3)=\pi^2/36$.
+This double pole rules out the simple-pole subtraction in this branch. This branch uses the same-character comparison of Lemma 4.10.25.4, where the exact ratio is $L(1,\chi_{12})/L(1,\chi_4)=4/3$. The Euler-factor identities follow on $\Re s>1$ by removing the multiples of the added primes, then extend by uniqueness to the common holomorphic domain. For the two nonprincipal factors this includes $1$.
+
+#### 4.10.26.3 Definitions and analytic inputs
+
+Let $q_1,q_2$ be positive integers, put $N=q_1q_2$, and take $\chi_i\bmod q_i$ and $\psi\bmod N$. The analytic lemmas below assume all three characters are nonprincipal. Write
+$P(s)=L(s,\chi_1)L(s,\chi_2)L(s,\psi)$, $F(s)=\zeta(s)P(s)$ and $\lambda=P(1)$.
+Use $x^{-s}=\exp(-s\log x)$ for positive real $x$. The principal character at level $q$ is $1$ on units and $0$ elsewhere. The conductor is the least inducing modulus. Each $L$-function here is evaluated at its displayed level, with the Euler factors at primes dividing that level omitted. In particular, the growth and residue bounds below use $q_1,q_2,N$ even if the corresponding conductors are smaller.
+
+We use the classical continuation of $\zeta$ and $L(s,\chi)$, their agreement with their series on $\Re s>1$, and the Laurent expansion of $\zeta$ with residue $1$ and constant term $\gamma$. In the archive, entire continuation for nonprincipal characters enters through Mathlib's `DirichletCharacter.differentiable_LFunction`. The zeta input enters through differentiability off $1$ and the limit of $\zeta(s)-1/(s-1)$ at $1$. For the classical statements see [DLMF §25.2(i)–(ii)](https://dlmf.nist.gov/25.2) and [DLMF §25.15(i)](https://dlmf.nist.gov/25.15).
+
+#### 4.10.26.4 Lemma (entire continuation of the regularized product) [Lean, read]
+
+There is a unique entire $G$ such that $F(s)=G(s)+\lambda/(s-1)$ for $s\ne 1$. At the removed point, $G(1)=\gamma P(1)+P'(1)$.
+
+*Proof.* Define $Z(s)=\zeta(s)-1/(s-1)$ for $s\ne 1$ and $Z(1)=\gamma$. The punctured-plane function is holomorphic, and its finite limit at $1$ supplies the removable extension. Each nonprincipal $L$-factor is entire, hence so is $P$. Define $D_P(s)=(P(s)-P(1))/(s-1)$ off $1$ and $D_P(1)=P'(1)$. This divided difference is holomorphic off $1$ and its removable value follows from differentiability, or by cancelling the first power in the Taylor expansion of $P(s)-P(1)$. Set $G=ZP+D_P$, exactly the archive's construction with `zetaSubPole` and `dslope`. Substitution off $1$ yields the claimed decomposition and evaluation at $1$ gives the stated value. Any entire function agreeing with $F-\lambda/(s-1)$ even on the open half-plane $\Re s>1$ agrees with $G$ on the connected plane by the identity theorem. The residue is forced by the limit of $(s-1)F(s)$ at $1$. If it vanishes, $F$ itself has a removable singularity there. The formula uses Laurent data independently of any value assigned to a meromorphic function at its pole in a total-function formalization. ◻
+
+#### 4.10.26.5 Lemma (the two growth inputs) [Lean, read]
+
+For $\sigma=\Re s\ge 1/2$ and $\chi\bmod q$ nonprincipal,
+$|L(s,\chi)|\le 9q(1+|s|)$.
+For $\sigma>0$ and $s\ne 1$,
+$|\zeta(s)|\le 1+1/|s-1|+|s|(1+1/\sigma)$.
+
+*Proof of the character bound.* Multiplication by a unit $u$ with $\chi(u)\ne 1$ permutes the complete residue system, and multiplies its character sum by $\chi(u)$. The sum is therefore zero. Splitting an initial sum starting at $0$ into complete periods and a final block bounds its norm by $q$, since each value has norm at most $1$. Removing the term at $0$ gives the archive's bound $B=q+1$ for $A(m)=\sum_{1\le n\le m}\chi(n)$.
+
+Finite summation by parts gives the identity
+$\sum_{n=1}^{m}\chi(n)n^{-s}
+=\sum_{n=1}^m A(n)(n^{-s}-(n+1)^{-s})+A(m)(m+1)^{-s}$.
+By integrating the derivative of $x^{-s}$ on $[n,n+1]$, the difference has norm at most $(|s|/\sigma)(n^{-\sigma}-(n+1)^{-\sigma})$, and also at most $|s|n^{-\sigma-1}$. The second bound gives locally uniform convergence of the difference series on $\Re s>0$ by comparison on compact subsets with a constant times $n^{-1-\eta}$ for some $\eta>0$. Its summands are entire in $s$. The endpoint term tends to zero, so on $\Re s>1$ the limit agrees with the ordinary Dirichlet series. Both functions are holomorphic on the connected half-plane $\Re s>0$, and the identity theorem identifies the limit with $L(s,\chi)$ throughout it.
+
+For the error at an integer cutoff $m\ge 1$, the first difference bound telescopes from $n=m+1$ and gives $B(|s|/\sigma)(m+1)^{-\sigma}$. Including the endpoint gives $B(1+|s|/\sigma)(m+1)^{-\sigma}$, which is bounded by the archive's $2B(1+|s|/\sigma)m^{-\sigma}$. At $m=1$, $\chi(1)1^{-s}=1$. For $\sigma\ge 1/2$ we obtain
+$|L(s,\chi)|\le 1+2(q+1)(1+2|s|)\le 9q(1+|s|)$, using $q+1\le 2q$ and $1\le q$.
+
+*Proof of the zeta bound.* For integers $n\ge 1$ define
+$d_n(s)=n^{1-s}-(n+1)^{1-s}-(s-1)(n+1)^{-s}$.
+Integrating the derivative of $x^{1-s}$ expresses this as
+$(s-1)\int_n^{n+1}(x^{-s}-(n+1)^{-s})\,dx$.
+The inner difference is $s\int_x^{n+1}t^{-s-1}\,dt$. Taking norms and using $t\ge n$ on that interval gives
+$|d_n(s)|\le |s-1||s|n^{-\sigma-1}$.
+Consequently $D(s)=\sum_{n\ge 1}d_n(s)$ is holomorphic on $\Re s>0$, by the same locally uniform majorant argument. Summing the definition through $m$ gives
+$1-(m+1)^{1-s}-(s-1)\sum_{n=2}^{m+1}n^{-s}$.
+For $\Re s>1$ the limit is $s-(s-1)\zeta(s)$. The holomorphic function $s-D(s)$ therefore agrees there with $(s-1)\zeta(s)$, extended by $1$ at $1$. The identity theorem on the connected half-plane gives equality throughout $\Re s>0$.
+
+For $\sigma>0$, integrating the decreasing function $x^{-\sigma-1}$ on successive unit intervals bounds $\sum_{n\ge 1}n^{-\sigma-1}$ by $1+1/\sigma$. Equivalently, the archive telescopes $\sigma(n+1)^{-\sigma-1}\le n^{-\sigma}-(n+1)^{-\sigma}$. Thus $|D(s)|\le |s-1||s|(1+1/\sigma)$. For $s\ne 1$, divide $|s-D(s)|\le |s-1|+1+|D(s)|$ by $|s-1|$. ◻
+
+#### 4.10.26.6 Proposition (circle, disk and the constants passed to Taylor) [Lean, read]
+
+Put $R=3/2$ and let $C_g=14(81/2)^3$ and $K_g=3$. Then $|F(s)|\le C_gN^3$ for $|s-2|=R$. With $C_L=38\exp(3/2)$ from the existing bound at $1$, put $c_0=C_g+54C_L^3+1$ and $B=c_0N^3$. Then $|G(s)|\le B$ for $|s-2|\le R$, and this $B$ is the one passed to the Taylor remainder estimate of [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series).
+
+*Proof.* On the circle we have $\Re s\ge 1/2$, $|s|\le 7/2$ and $|s-1|\ge 1/2$ by the triangle and reverse triangle inequalities. Hence $|\zeta(s)|\le 1+2+(7/2)3=27/2\le 14$, and each nonprincipal factor at level $q$ is bounded by $(81/2)q$. Multiplying gives $14(81/2)^3q_1q_2N$. Since $q_i\le N$, the archive bounds the three levels by $N$ separately and obtains $C_gN^3$. The product $q_1q_2N=N^2$ also gives an available sharper circle bound. The constants below use the archived exponent $3$.
+
+At $1$ the available estimate $|L(1,\chi)|\le C_L\log(3q)$ and $\log(3q)\le 3q$ give $|\lambda|\le 27C_L^3 N^2$. On the circle the pole term is at most twice this, so $|G|\le C_gN^3+54C_L^3N^2\le B$. In the general form of the consumer the constants are $|C_g|+54|C_L|^3+1$ and $\max(K_g,2)$, so the present witnesses give the claimed $c_0$ and exponent. The maximum modulus principle applied to the entire $G$ supplies the same bound on the closed disk, including its removable point. The raw product bound applies on the circle. In the simple-pole case $F$ is unbounded as $s$ approaches $1$ inside the disk.
+
+The existing Taylor lemma consumes the sphere estimate for $G$, and the circle lies in its holomorphic domain. For $7/8\le \sigma<1$, the distance ratio is $(2-\sigma)/R\le 3/4$. Cauchy bounds each coefficient $|G^{(j)}(2)|/j!$ by $B/R^j$. The previously proved Taylor estimate uses the geometric remainder bound $4B(3/4)^M$, with $4=1/(1-3/4)$. With $\ell=\log(4/3)$ and $T=8B\ge 1$ the consumer takes $M=\lceil\log T/\ell\rceil+1$. Thus $T(3/4)^M\le 1$, so the remainder allowance is at most $1/2$. The same choice satisfies $M\le 2+\log(8c_0)/\ell+(3/\ell)\log N$. Using $2-\sigma\le e^{1-\sigma}$, $1-\sigma\le 1/8$ for the $\log(8c_0)$ term, and $1-\sigma\le 1$ for the additive $2$, gives the constants $C=e^2\exp(\log(8c_0)/(8\ell))$ and $K=3/\ell$ in $(2-\sigma)^M\le C N^{K(1-\sigma)}$. These are the constants passed to the pole term in Proposition 4.10.25.3. ◻
+
+#### 4.10.26.7 Remarks and source map
+
+[Source register](../sources/SOURCES.md#chapter-4-real-zeros-and-the-siegel-product)
+
+The word “product” in the analytic lemmas refers to the product of functions. The archive's hypotheses on the three characters are nonprincipality, with levels $q_1,q_2,N$. The real-character application further requests a product character $\psi$ at level $N$. If that character is principal, its $L$-factor supplies another possible pole, and the actual consumer redirects to `SameCharacterLFunctionOne`. All uniqueness arguments use an open region of agreement and a connected common domain. The removable value at $1$ is determined by the punctured neighborhood.
+
+The following paths are relative to the fixed archive root `lean/` in `lean.tar.gz`, SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Reading level R3 applies to the cited local production bodies. The maximum-modulus step that extends the sphere bound to the closed disk is an expository addition. The theorem labels refer to the archived assertions used in the Siegel argument.
+
+| Declaration or consumer | Source and role |
+|---|---|
+| `Fbq`, `lamBq`, `BqEntire`, `BqGrowth`, `BqKeyOf` | `src/Formalism/LandauZeroFreeBounds/SameCharacterLFunctionOne.lean:14–46,72` defines the interfaces. |
+| `zeta_sub_pole_differentiable`, `dirichlet_product_entire` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqEntire.lean:9–50` constructs the entire regular part. |
+| `lfunction_polynomial_growth` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LGrowth.lean:10–71` gives the period bounds and the witness $9$. |
+| `norm_tail_le`, `l_function_partial_sum`, `LFunction_eq_G` | `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/LPartialSum.lean:12–169` and `src/Formalism/LFunctionBounds/LFunctionBoundsProofs/LFunctionEqGOfOneLt.lean:11–244` give the finite cutoff, tail and half-plane identification. |
+| `norm_dz_le`, `Dz_differentiableOn`, `riemannZetaOne_eq_one_sub_of_re_pos`, `growthBound` | `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/DzDifferentiableOn.lean:11–75`, `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/RiemannZetaOneEqOneSubOfRePos.lean:11–87` and `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaGrowth.lean:10–95` provide the zeta estimate. The unit-interval identity and bounds are in `src/Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/NormCpowSubLePoint.lean:11–78`. |
+| `product_lfunction_growth_bound` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqGrowth.lean:11–82` supplies the boundary geometry and growth witnesses. |
+| `lfunction_one_upper_bound`, `product_lfunction_key_inequality`, `bqKey` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LFunctionOneUpperBound.lean:10–17`, `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/BqKeyOf.lean:10–152`, and `src/Formalism/LandauZeroFreeBounds/FinalSiegel.lean:14–19` fix the residue budget, Cauchy input and assembly. |
+| `lseries_taylor_lower_bound`, `siegel_product_character_inequality` | `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/IteratedDerivLseriesAlternatingNonneg.lean:30–151` consumes the sphere bound, and `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/SiegelProductCharacterInequality.lean:106–183` selects the legal branch. See [§4.10.25](#41025-the-siegel-lower-bound-from-biquadratic-product-series) for those proofs. |
+
+**Named inputs retained at their existing reading levels.** At pinned Mathlib commit `0df444a360eaa60ab8c11dca51a86af692955474`, `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:75,98,150` supplies series agreement, entire continuation and change of level. The library boundaries are the underlying residue-class continuation, the change-of-level auxiliary identity, `differentiableAt_riemannZeta` and `zeta_eq_tsum_one_div_nat_add_one_cpow` (`Mathlib/NumberTheory/LSeries/RiemannZeta.lean:139,214`), `tendsto_riemannZeta_sub_one_div`, `differentiable_riemannZeta₁`, `Complex.differentiableOn_compl_singleton_and_continuousAt_iff`, `Complex.differentiableOn_dslope`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le` and `Complex.hasSum_taylorSeries_of_entire`. The nonvanishing input `DirichletCharacter.LFunction_apply_one_ne_zero` in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean:406` remains at its prior reading level. The underlying near-one estimate `lfunction_norm_le_near_one` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LDerivNearOne.lean:89` is imported from [§4.10.24](#41024-separating-a-real-zero-from-1). The separate `ZetaNegReal` input, `zeta_negative_real_axis` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/ZetaNegReal.lean:29–66`, remains [Lean] at R2, as does `realCharConj` in `src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/TrivReal.lean:60–79`.
 
 ## 4.11 From separated inertia lines to residual irreducibility
 

@@ -6272,3 +6272,16 @@ The seven classical PDFs and the pinned community report were retrieved on 2026-
 - `Rubin.pdf` — `1b0229731e38bfaaa55b38a219c055019d1c7db1f0ecec3c083125da87b6e8e4`
 - `Tate.pdf` — `cf598c827436cd0f2276cb64e1bd20cdf5ee1b7a472611147a5cd8060ca15b96`
 - `LUMI.md` — `079e077183d6326403c3bde6cdc5b7155c5ac01e9a939f2ba8340f3c74beee0a`
+
+### Chapter 4 real zeros and the Siegel product {#chapter-4-real-zeros-and-the-siegel-product}
+
+[§4.10.24](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41024-separating-a-real-zero-from-1) follows A2’s `LDerivNearOne.lean:10–159` and `ExcBoundOf.lean:9–102`, then specializes the real-zero gap in `MSqCount.lean:86–173,175–203,275–397`. The separation proof takes `SiegelLower` as a hypothesis.
+
+[§4.10.25](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41025-the-siegel-lower-bound-from-biquadratic-product-series) follows A2’s product-character construction, convolution positivity, finite Taylor subtraction, level comparison and reference-character dichotomy. The chapter gives declaration ranges and pinned Mathlib inputs. The conditional proof retains the named inputs `ZetaNegReal` and `realCharConj`, and the complete `siegelLower` supplier stays at R2.
+
+[§4.10.26](../chapters/04-auxiliary-prime-pairs-and-host-fields.md#41026-regularizing-the-four-factor-product-and-bounding-its-taylor-remainder) follows A2’s `BqEntire.lean:9–50`, `BqGrowth.lean:11–82` and the handoff to `BqKeyOf.lean:10–152`. The book includes the maximum-modulus extension of the sphere bound and examples at levels $20$ and $48$.
+
+- [Siegel1935](https://doi.org/10.4064/AA-1-1-83-86), pp. 83–86. The [publisher scan](https://www.impan.pl/shop/en/publication/transaction/download/product/93175) was fetched again on 2026-11-28. Its SHA-256 is `263e24ba83fdaa09f84412ca1cd259661cef211fc40311b9eaf081d6eddb122f`.
+- [MontgomeryVaughan2007, Chapter 11](https://doi.org/10.1017/CBO9780511618314.013), Lemma 11.13, Theorem 11.14 and p. 373. The author-hosted chapter documents the related Taylor method, the fixed reference and the effectiveness issue.
+- [Estermann1948](https://doi.org/10.1112/jlms/s1-23.4.275). T. Estermann, “On Dirichlet’s $L$ Functions,” *Journal of the London Mathematical Society* s1-23(4), 275–279. Bibliographic record verified through Crossref on 2026-11-28. The method attribution uses Montgomery and Vaughan.
+- [NIST DLMF §25.2](https://dlmf.nist.gov/25.2) supplies the Laurent expansion and simple pole of zeta. [NIST DLMF §25.15](https://dlmf.nist.gov/25.15) supplies the Euler product, induced factors, nonprincipal continuation and nonvanishing at $1$.
