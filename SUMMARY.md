@@ -14,6 +14,7 @@
 
 - [2. One half-plane implies everything: functional equations and primitive characters](chapters/02-functional-equations-and-primitive-characters.md)
 - [3. Prime sums with a sign: the Landau-window criterion](chapters/03-landau-window-criterion.md)
+<!-- Chapter 3, §3.4.1 includes #from-compact-exhaustions-to-radon-inner-regularity. -->
 - [4. Auxiliary prime pairs and host fields](chapters/04-auxiliary-prime-pairs-and-host-fields.md)
 <!-- Chapter 4 includes §4.10.28 (#p13-spaced-zero-density). -->
 - [5. The square-root barrier as bookkeeping: `core_gm`](chapters/05-the-square-root-barrier-core-gm.md)

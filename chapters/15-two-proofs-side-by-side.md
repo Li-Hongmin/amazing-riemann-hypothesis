@@ -1558,6 +1558,9 @@ $\mu,\nu$ of §§15.4.3.1–15.4.3.2 free, the measures compared here are called
    every locally finite measure on a $\sigma$-compact pseudometrizable space is regular
    (`:1183–1187`). The last instance covers $\mathbb R^n$, $\mathbb C$, $\mathbb C^\times$,
    $\mathbb Q_p$, $\mathbb Q_p^\times$, $K_S$ and $K_S^\times$.
+   Compact finiteness gives local finiteness on these locally compact groups.
+   Chapter 3 proves the compact-exhaustion supply for this instance and for all-Borel
+   inner regularity. [From compact exhaustions to Radon inner regularity](03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity)
 5. For $m$ a Haar measure and $m'$ left-invariant and finite on compact sets, the *scalar factor*
    $c(m',m)\in[0,\infty)$ is `haarScalarFactor m' m` (`Haar/Unique.lean:277–281`). On a locally
    compact group it is a number with $\int f\,dm'=c(m',m)\int f\,dm$ for every continuous
@@ -1693,7 +1696,7 @@ regular case, regularity writes $m'(U)$ and $m(U)$ as suprema over compact subse
 $m(E)=\inf\{m(U):U\supseteq E\text{ open}\}$ (`OuterRegular.ext_isOpen`, `Measure/Regular.lean:481–486`).
 (2) A second-countable locally compact group is $\sigma$-compact and pseudometrizable, so every
 measure finite on compact sets is regular by the instance of Definition 15.7(4), and (1) applies
-(`:924`). $\square$
+(`:924`). $\square$ The [Chapter 3 production proof](03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity) gives the open compact supremum and the outer field used here.
 
 **Lemma 15.7e (σ-finite left-invariant measures on a measurable group: Halmos's argument)
 `[Lean, read]`.** Let $G$ be a group whose multiplication $G\times G\to G$ and inversion are
@@ -1944,7 +1947,7 @@ paths under `Mathlib/`.
 | `MeasureTheory/Measure/Haar/OfBasis.lean:50–51, 187–200, 253–279` | `parallelepiped`, `Basis.parallelepiped`, `Basis.addHaar`, `Basis.addHaar_eq_iff`, `Basis.addHaar_self` | Example 1 | R3 |
 | `MeasureTheory/Measure/Haar/DistribChar.lean:43–86` | `distribHaarChar`, `addHaarScalarFactor_smul_eq_distribHaarChar`, `distribHaarChar_mul` | Theorem 15.8(6) | inherited R3 (§15.4.3.1) |
 | `MeasureTheory/Group/Measure.lean:371–372, 496–503, 662–663, 758–781, 791–797, 804–827, 912–916` | inversion instances, `measure_univ_of_isMulLeftInvariant`, `IsAddHaarMeasure`, `IsHaarMeasure`, `IsHaarMeasure.smul`, `isHaarMeasure_of_isCompact_nonempty_interior`, `isHaarMeasure_map`, `IsHaarMeasure.sigmaFinite` | Definition 15.7(1), Lemma 15.7b, Examples 2(d), 3(d) | R3 for the definitions, statement level for the instances |
-| `MeasureTheory/Measure/Regular.lean:304–337, 481–486, 881–884, 1112–1123, 1176–1187` | `OuterRegular`, `Regular`, `InnerRegular`, `InnerRegularCompactLTTop`, `OuterRegular.ext_isOpen`, `measure_eq_iSup_isCompact(_of_ne_top)`, `Regular.domSMul`, `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` | Definition 15.7(4), Lemma 15.7d, Theorem 15.8(6) | definitions and `ext_isOpen` R3; instances statement level |
+| `MeasureTheory/Measure/Regular.lean:304–337, 481–486, 881–884, 1112–1123, 1176–1187` | `OuterRegular`, `Regular`, `InnerRegular`, `InnerRegularCompactLTTop`, `OuterRegular.ext_isOpen`, `measure_eq_iSup_isCompact(_of_ne_top)`, `Regular.domSMul`, `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` | Definition 15.7(4), Lemma 15.7d, Theorem 15.8(6) | definitions and `ext_isOpen` R3; `:1183–1187` local R3 in [Chapter 3](03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity); other listed instances retain statement level here |
 | `MeasureTheory/Measure/EverywherePos.lean:280–288` · `Topology/UrysohnsLemma.lean:404–406, 540–548` · `MeasureTheory/Integral/Prod.lean:600–606` · `MeasureTheory/Constructions/BorelSpace/Basic.lean:288–289, 543–544, 605–608` · `Topology/Algebra/Group/Pointwise.lean:419–423` | Halmos's completion-regularity theorem, `exists_continuous_one_zero_of_isCompact`, `exists_continuous_nonneg_pos`, `integral_integral_swap_of_hasCompactSupport`, `IsCompact.measure_closure`, `ContinuousInv.measurableInv`, `ContinuousMul.measurableMul₂`, `HasCompactSupport.eq_zero_or_locallyCompactSpace_of_group` | named inputs of Lemmas 15.7a–e | statement level (`exists_continuous_nonneg_pos` R3) |
 | `Analysis/InnerProductSpace/Defs.lean:53–54` · `Analysis/InnerProductSpace/Basic.lean:903–915` · `MeasureTheory/Function/L2Space.lean:134–138` | convention, `RCLike.innerProductSpace`, `RCLike.inner_apply`, `L2.inner_def` | Corollary 15.9(5), Examples 1(e), 2(e), Theorem 15.6(2) | R3 |
 
@@ -1954,7 +1957,7 @@ paths under `Mathlib/`.
 |---|---|
 | Read here (R3) | The test-function chain of `Haar/Unique.lean` (`:74–711`, `:821–924`, `:1042–1072`); the Halmos chain of `Group/Prod.lean:78–335`; `haarMeasure_unique` and its neighbours in `Haar/Basic.lean`; the product lemmas of `Constructions/Pi.lean`; `Basis.addHaar`; the inner-product convention |
 | Inherited | `distribHaarChar` and `isInvInvariant_of_regular` (§15.4.3.1); the determinant and `withDensity` lemmas, Lemmas 15.5a–d and Theorem 15.6 (§15.4.3.2) |
-| Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the regularity and $\sigma$-finiteness instances; measurability of multiplication under second countability; the archive's own call sites of these theorems |
+| Statement level, named | The construction of Haar measure from Haar content; Halmos's completion-regularity theorem; the open-set case `measure_isHaarMeasure_eq_smul_of_isEverywherePos`; Urysohn's lemma; Fubini for compactly supported functions; Tonelli and `pi_eq`; the remaining regularity and $\sigma$-finiteness instances (the [compact-exhaustion instance](03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity) is read in Chapter 3); measurability of multiplication under second countability; the archive's own call sites of these theorems |
 | Literature | Halmos, *Measure Theory* (1950), Ch. XI, §§59–60, as cited by `Group/Prod.lean` [Halmos1950; bibliographic record checked, text not consulted]; F. van Doorn, "Formalized Haar Measure", ITP 2021, §6 [vanDoorn2021]; C. McQuillan's answer to S. Gouëzel's MathOverflow question 456670 [McQuillan2024] |
 
 **Reading order.** [Finite covers and Haar existence](#15434-constructing-haar-measure-from-finite-covers) supply the comparison measure used above. [Finite-place products](#15435-finite-place-products-from-rectangles-and-marginals) recover the density and transport constants of Theorem 15.6. [Carathéodory restriction](#15436-from-outer-measure-to-a-countably-additive-measure) supplies both measure constructions.

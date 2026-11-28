@@ -140,6 +140,8 @@ Chapter 3 §3.4.1 follows one local chain from an integrable member of the origi
 
 **Chapter 3, §3.4.1, open outer approximation (N5).** Author-level local R3 [Lean, read] covers closed exhaustion in a pseudometrizable space, finite Borel bracket induction, and patching along a countable cover by finite-mass open sets. The application is the ambient open neighborhood of the relative bad set for the closed-hull restriction. Two exact constructions use restricted interval volume and a finite density with full support. [Open outer approximation](../chapters/03-landau-window-criterion.md#why-locally-finite-borel-measures-admit-open-outer-approximation) · [Source register](../sources/SOURCES.md#chapter-3-open-outer-approximation)
 
+**Chapter 3, §3.4.1, compact inner regularity.** Author-level local R3 [Lean, read] for compact covering, threshold composition, finite restrictions and the two pinned instance bodies. The original P5 box uses the compact hull and the open outer supply. Chapter 15, Definition 15.7(4) and Lemma 15.7d use the regularity fields for Haar comparison. [Textbook proof](../chapters/03-landau-window-criterion.md#from-compact-exhaustions-to-radon-inner-regularity) · [Source register](../sources/SOURCES.md#chapter-3-compact-exhaustions-and-radon-inner-regularity)
+
 ## Next batch
 
 Expanded edition (Chapters 0–18 across Parts 0–IV, plus "The story so far", post-audit errata closure
