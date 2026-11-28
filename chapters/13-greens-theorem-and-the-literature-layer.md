@@ -1175,7 +1175,157 @@ For a general $\varphi$, take $\pi=\psi_s$ for $s(P)=\deg P$. Its mass on this f
 
 The norm call is in `src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterCuspidalRootSumRegular.lean:101–111`. The orbit calls are in `src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean:175–225`.
 
-The following deeper suppliers remain [Lean] with their source-body comparison [Open]. The mixed, transversal and contained-subspace counts use `sum_primitiveEndClassFunction_restrict_mixed_subspace`, `finsum_mobiusInverseCharpoly_transversal_subspaces` and `finsum_mobiusInverseCharpoly_invariant_le`. The cyclic-vector recurrence uses `finsum_card_cyclic_vectors_invariant_subspaces` and `endomorphismMassOfCharpoly_card_cyclic_vectors`. The normalized block count uses `finsum_subspaceStabilizer_mul_block_functions` and `card_subspaces_mul_generalLinearGroupCard`. The primary conjugacy proof uses `primary_endomorphism_cyclic_decomposition_finrank_ker` and `exists_perm_of_sum_min_eq_positive_family`. The elementary counting and module arguments in this section explain the interfaces supplied by these lemmas.
+[§13.4.6.1](#13461-counting-invariant-subspaces-and-cyclic-vectors-for-the-gram-matrix) reads the nine direct suppliers for these counts. It gives the three invariant-subspace sums in the primitivity induction, the cyclic-vector and block counts in the density recurrence, and the primary kernel comparison in the expansion.
+
+#### 13.4.6.1 Counting invariant subspaces and cyclic vectors for the Gram matrix
+
+The Gram calculation in [§13.4.6](#1346-the-gram-matrix-and-fourier-expansion-of-primitive-class-functions) groups matrices by characteristic polynomial. Even over $\mathbb F_2$, the identity and a nonidentity unipotent matrix in dimension two have the same polynomial $(X-1)^2$. The identity fixes all three lines and has no cyclic vector. The unipotent matrix fixes one line and has two cyclic vectors. Their contributions to the inverse of the degree function are $2-3=-1$ and $2-1=1$. The Gram calculation retains both contributions, weighted by the sizes of their classes.
+
+##### The lattice on which to invert
+
+Let $F=\mathbb F_q$, let $\dim_F V=n$, and write $P_g=\operatorname{charpoly}(g)$. Give $V$ an $F[X]$-module structure by letting $X$ act as $g$. Write $\mathcal L_g$ for the lattice of $g$-invariant subspaces. If $U\le W$ in this lattice, the interval $[U,W]$ is the invariant-subspace lattice of the induced map on $W/U$. A vector is cyclic in $W$ if its $F[X]$-span is $W$. Write $c(g|_W)$ for the number of such vectors, so $c(g|_0)=1$.
+
+For a finite poset let $\mu_{\mathcal L}$ be the inverse of the incidence function $\zeta(U,W)=1$ for $U\le W$. The defining sum of $\mu_{\mathcal L}$ from either endpoint is $1$ if the endpoints coincide and $0$ otherwise. For the ordinary subspace lattice,
+$$
+{n\brack a}_q=\prod_{i=0}^{a-1}\frac{q^n-q^i}{q^a-q^i},
+\qquad
+\mu_{\mathrm{Sub}(V)}(U,W)=(-1)^r q^{r(r-1)/2},\qquad r=\dim_F(W/U).
+$$
+The ordered-independent-tuple count and Gaussian Pascal recurrence are proved in [§13.4.9.3](#13493-möbius-inversion-of-affine-dimension-sums). By that recurrence the coefficient of $z^a$ in $\prod_{i=0}^{r-1}(1-q^i z)$ is $(-1)^a q^{a(a-1)/2}{r\brack a}_q$. Setting $z=1$ gives $0$ for $r>0$ and $1$ for $r=0$, as required on the interval of subspaces of $W/U$.
+
+The incidence rule on $\mathcal L_g$ gives two inverses.
+$$
+\begin{aligned}
+\psi_s(W,g|_W)&=\sum_{U\le W\text{ in }\mathcal L_g}\mu_{\mathcal L_g}(U,W)\,s(P_{g|_U}),\\
+c(g|_W)&=\sum_{U\le W\text{ in }\mathcal L_g}\mu_{\mathcal L_g}(U,W)\,q^{\dim U}.
+\end{aligned}
+$$
+For the first, isolate $U=W$ in $s(P_{g|_W})=\sum_{U\le W}\psi_s(U,g|_U)$. This is the archive recursion. For the second, partition the vectors of $W$ by the unique submodule $F[X]v$ that they generate. Each part consists of the cyclic vectors in its indexing submodule. The inverse map from a pair $(U,v)$ takes the underlying vector. In particular the sum of $c(g|_U)$ over $\mathcal L_g$ is $q^n$. The archive uses this bijection directly.
+
+On a semisimple $F[X]$-module $\bigoplus_f(F[X]/(f))^{b_f}$, invariant subspaces split by the distinct irreducibles $f$. The projections are polynomials in $g$, by Bézout. Within each factor the invariant spaces are precisely the subspaces over the field $F[X]/(f)$. Thus for each profile $(a_f)$ of dimensions over the factor fields there are $\prod_f {b_f\brack a_f}_{q^{\deg f}}$ subspaces. The interval Möbius weights multiply because the defining sums factor. For a general interval put $M=W/U$. Its bottom-to-top weight is zero if $M$ is nonsemisimple. Indeed, induct on $\dim_F M$ and let $S$ be the sum of the simple submodules. It is nonzero and proper in the nonsemisimple case, and all semisimple submodules lie in $S$. Every submodule of $S$ is semisimple by the factor-field description above. The sum of weights over proper submodules of $M$ reduces by induction to the sum over submodules of $S$. This is zero since $S\ne0$. A size-two Jordan block thus gives a three-element invariant chain with bottom-to-top weight zero, whereas the ordinary two-dimensional lattice has weight $q$.
+
+##### Three ways a subspace meets the fixed block
+
+For a $g$-invariant subspace $A$, put $Q=V/A$ and let $\bar g$ act on $Q$. Write $H_A=\operatorname{Hom}_F(Q,A)$ as endomorphisms of $V$ using projection and inclusion. Adding any $h\in H_A$ preserves both $g|_A$ and $\bar g$.
+
+**Contained.** For $W\le A$, stability and restriction are independent of $h$. Inclusion identifies the stable subspaces of $g|_A$ with those of $g$ contained in $A$. Their cumulative inverse sum is $s(P_{g|_A})$, yielding $|H_A|s(P_{g|_A})$ after summing over $h$. The archive implements inclusion by image and preimage, then transports $\psi_s$ along the intertwiner.
+
+**Transversal.** Suppose $W\cap A=0$. Its image $U$ in $Q$ is $\bar g$-stable. Choose a splitting $V=A\oplus Q$ and write $g(a,u)=(g_Aa+B(u),\bar g u)$. Every $W$ above $U$ is the graph of a unique $\tau:U\to A$. Stability under $g+h$ is equivalent to
+$$
+h|_U=\tau\bar g|_U-g_A\tau-B|_U.
+$$
+For $a=\dim A$, $u=\dim U$, $b=\dim Q$, there are $q^{au}$ graphs and $q^{a(b-u)}$ choices of $h$ for each. The archive combines the graph parameter and the unrestricted part of $h$ into a single map $Q\to A$ via a projection onto $U$. The quotient identifies the action on the graph with $\bar g|_U$. Sum over $U$ by the inverse recursion to get $|H_A|s(P_{\bar g})$, including the zero graph over $U=0$.
+
+**Mixed.** Fix $W$ with $0<D=W\cap A<W$. Let $\mathcal T$ be the translations $h$ for which $g+h$ stabilizes $W$. Extend each $k:W/D\to D$ to a map $Q\to A$ by using the injection $W/D\hookrightarrow Q$. The resulting endomorphism $L$ belongs to $H_A$ and restricts to the endomorphism induced by $k$ on $W$. Then $h\mapsto h+L$ permutes $\mathcal T$ and adds that endomorphism to $(g+h)|_W$. Each restriction stabilizes $D$. For a primitive function $\phi$ on $\operatorname{End}_F(W)$, sum the translated values over $k$ first. Primitivity at $D$ gives zero for each $h$. With the order reversed, every $k$ gives the same original sum. The number of $k$ is positive since the zero map is included, so the original sum is zero. An empty $\mathcal T$ also gives zero.
+
+In the primitivity induction of §13.4.6, $0<A<V$ and $s$ is additive. The zero subspace has weight $s(1)=0$ and can appear in both pure branches. For proper mixed $W$ the induction hypothesis supplies primitivity on $W$. The two pure contributions cancel the leading term by $P_g=P_{g_A}P_{\bar g}$. The pure-branch identities themselves allow arbitrary $s$.
+
+##### Cyclic vectors, polynomial fibers, and block normalization
+
+**Lemma (cyclic count and mass).** If $g$ is cyclic with characteristic polynomial $P$, then
+$$
+c(g)=q^n\prod_{\substack{f\mid P\\ f\ \mathrm{monic\ irreducible}}}(1-q^{-\deg f}).
+$$
+If $g$ has no cyclic vector, $c(g)=0$. For every monic $P$ of degree $n$, the sum of $c(g)$ over its endomorphism fiber is $|\mathrm{GL}_n(F)|$.
+
+*Proof.* A cyclic vector identifies $V$ with $F[X]/(P)$ by $[p]\mapsto p(g)v$. The kernel of the polynomial map is $(P)$ by Cayley–Hamilton and equality of dimensions. Invariant subspaces are ideals indexed by monic divisors $D$ of $P$. The ideal $(D)/(P)$ has dimension $n-\deg D$ and multiplication by $D$ identifies it with $F[X]/(P/D)$. The generators of $V$ itself are the units modulo $P$. Modulo $f^m$, excluding multiples of $f$ leaves $q^{m\deg f}-q^{(m-1)\deg f}$ choices. Multiply by the Chinese remainder theorem. In the incidence calculation, the divisor lattice is a product of chains whose weights over intervals of length at least two vanish. Inverting the vector count therefore gives the same inclusion–exclusion over distinct $f$.
+
+For the mass, the archive counts isomorphisms $e:F[X]/(P)\to V$ of $F$-spaces. Send $e$ to multiplication by $X$ transported by $e$, together with $e(1)$. The reverse map for $(g,v)$ is $[p]\mapsto p(g)v$. This identifies the power basis with $(v,gv,\ldots,g^{n-1}v)$, with the last column determined by $P$. Choosing one reference isomorphism identifies the entire set with $\mathrm{GL}(V)$. For $n=0$, $P=1$ and the zero space has one vector and one automorphism. $\square$
+
+**Lemma (block count).** Fix $W\le V$ of dimension $a$ and set $b=n-a$. Functions $\Phi$ on $\operatorname{End}_F(W)$ and $\Xi$ on $\operatorname{End}_F(V/W)$ satisfy
+$$
+\sum_{gW\subseteq W}\Phi(g|_W)\Xi(g_{V/W})
+=q^{ab}\left(\sum_y\Phi(y)\right)\left(\sum_z\Xi(z)\right).
+$$
+The group orders satisfy
+$$
+|\mathrm{GL}_n(F)|=\prod_{i=0}^{n-1}(q^n-q^i)
+=q^{n(n-1)/2}\prod_{j=1}^n(q^j-1)
+={n\brack a}_q q^{ab}|\mathrm{GL}_a(F)|\,|\mathrm{GL}_b(F)|.
+$$
+
+*Proof.* A section of $V\to V/W$ and the corresponding projection onto $W$ give coordinates $(y,z,t)$ for a stabilizing endomorphism, with $t:V/W\to W$ arbitrary. The inverse reads the restriction, quotient and off-diagonal block. Each pair $(y,z)$ has $q^{ab}$ lifts. The first group product counts ordered bases. The first $a$ choices form an ordered basis of their span, giving the Gaussian count times $|\mathrm{GL}_a(F)|$. The remaining factors are $q^n-q^{a+i}=q^a(q^b-q^i)$ for $0\le i<b$. This is the archive's product split, also valid if either block is zero. $\square$
+
+Write $\rho(P)=M_1(P)/|\mathrm{GL}_{\deg P}(F)|$, denoted $\mu(P)$ in §13.4.6. For an ordered factorization $P=DE$, count pairs $(g,W)$ with $P_g=P$, $gW\subseteq W$, and restriction and quotient polynomials $D,E$. Their number is $|\mathrm{GL}_n(F)|\rho(D)\rho(E)$ by the block lemma. The same count allows a weight on the restriction. Using the vector partition and the normalized cyclic mass $1$ gives $q^{\deg P}\rho(P)=(\mathbf1*\rho)(P)$ with ordered monic convolution. This is the input to **Computing the mass of the inverse** in §13.4.6, which gives $M_{\psi_s}(f^m)=|\mathrm{GL}_n(F)|s(f)/(q^n-1)$ for additive $s$ and $\deg(f^m)=n>0$. The torus calculation there converts that mass into the mixed Gram entry. Pairing replacement gives the same entry for the two inverses. In the notation of §13.4.6, both normalized pairings count the indices $0\le i<n$ with $kq^i\equiv l\pmod{q^n-1}$.
+
+##### Primary blocks and the kernel profile
+
+**Lemma (primary classification by kernels).** Let $F$ be any field, let $f\in F[X]$ be irreducible and suppose $f(g)^m=0$. Then $V$ is a sum of $F[X]$-modules $F[X]/(f^{e_i})$ with $e_i>0$, and
+$$
+K_j:=\dim_F\ker f(g)^j=(\deg f)\sum_i\min(j,e_i).
+$$
+Two such operators with the same $f$ and the same profile $(K_j)_{j\ge0}$ are conjugate.
+
+*Proof.* The space is finitely generated over $F[X]$, and the annihilator makes it $f$-power torsion. The PID structure theorem supplies cyclic summands. Delete the zero modules indexed by exponent zero. On a block $F[X]/(f^e)$, the image of multiplication by $f^j$ is the kernel of the quotient onto $F[X]/(f^{\min(j,e)})$. Rank–nullity for the two maps gives the dimension $\deg f\min(j,e)$ for the kernel of multiplication. Add across the blocks. Then $(K_{j+1}-K_j)/\deg f$ counts the blocks strictly longer than $j$. Subtract the count at $j+1$ to obtain the number of blocks of length $j+1$. Positivity excludes invisible blocks of length zero. Match indices within each length and transport the $F[X]$-module isomorphism to an intertwiner. For general $g$, factor $P_g$ and split into the primary kernels by Bézout and Cayley–Hamilton. $\square$
+
+In §13.4.6, translations by $H_{\ker f(g)}$ that leave the first kernel unchanged also leave all the higher kernels unchanged. The block matching proves that these terms have the same class-function value. This supplies the conjugacy step in the passage from zero mass to zero function used by the expansion.
+
+##### Two complete counts over the binary field
+
+**Dimension two.** The three lines are generated by $e_1,e_2,e_1+e_2$. The full subspace count is $(1,3,1)$ by dimension, with Möbius weights $1,-1,2$ from zero. The group order is $3\cdot2=6$. Put $D=X-1$, $f=X^2+X+1$, and $t_k=\omega^k+\omega^{2k}$ with $\omega$ the lift of a generator of $\mathbb F_4^\times$. The stable counts include the zero and full spaces.
+
+| Operator | $P_g$ | Class size | Stable counts by dimension | $c(g)$ | $R_k$ | $\psi_k$ |
+|---|---|---:|---|---:|---|---|
+| $I$ | $D^2$ | 1 | $(1,3,1)$ | 0 | 2 | $2-3=-1$ |
+| $J_2(1)$ | $D^2$ | 3 | $(1,1,1)$ | 2 | 2 | $2-1=1$ |
+| Multiplication by $[X]$ modulo $f$ | $f$ | 2 | $(1,0,1)$ | 3 | $t_k$ | $t_k$ |
+
+Write $J_r(1)=I+N$ with $Ne_i=e_{i-1}$ for $i>1$ and $Ne_1=0$. For $J_2(1)$ the centralizer consists of the two invertible matrices $I+bN$, and the cyclic vectors are $e_2,e_1+e_2$. In the irreducible row the commuting group is the three units of $\mathbb F_4$, and every nonzero vector is cyclic. The class sizes sum to six. The partitions of the vectors give totals $1+3=4$, $1+1+2=4$ and $1+3=4$. The cyclic masses are $3\cdot2=6$ and $2\cdot3=6$. The $D^2$ kernel profiles from $j=1$ are $(2,2,\ldots)$ and $(1,2,2,\ldots)$, giving lengths $(1,1)$ and $(2)$.
+
+The mixed contribution from $D^2$ is $2(-1+3)=4$. The self-family contribution there is $1+3=4$. Thus both totals are $4+2t_k\overline{t_l}$. For labels $0,1,2$, the root sums are $2,-1,-1$. The normalized Gram matrix is
+$$
+\frac{1}{6}\begin{pmatrix}12&0&0\\0&6&6\\0&6&6\end{pmatrix}
+=\begin{pmatrix}2&0&0\\0&1&1\\0&1&1\end{pmatrix}.
+$$
+The doubling orbits modulo three are $\{0\}$ and $\{1,2\}$.
+
+**Dimension three.** There are seven lines, one for each nonzero binary vector, and seven planes, one kernel for each nonzero linear functional. The full subspace count is $(1,7,7,1)$ with Möbius weights $1,-1,2,-8$ from zero. The group order is $7\cdot6\cdot4=168=7\cdot4\cdot6\cdot1$. Again let $D=X-1$ and $f=X^2+X+1$. Let $\alpha$ have minimal polynomial $X^3+X+1$ in $\mathbb F_8$. It has order seven. Set $\eta=\theta(\alpha)$ and $t_k(j)=\eta^{jk}+\eta^{2jk}+\eta^{4jk}$. The cubic root orbits are represented by $j=1,3$. The only monic cubics with no binary root are $X^3+X+1$ and $X^3+X^2+1$.
+
+| Operator | $P_g$ | Class size | Stable counts by dimension | $c(g)$ | $R_k$ | $\psi_k$ |
+|---|---|---:|---|---:|---|---|
+| $I$ | $D^3$ | 1 | $(1,7,7,1)$ | 0 | 3 | $3-7+7=3$ |
+| $J_2(1)\oplus 1$ | $D^3$ | 21 | $(1,3,3,1)$ | 0 | 3 | $3-3-(-1+1+1)=-1$ |
+| $J_3(1)$ | $D^3$ | 42 | $(1,1,1,1)$ | 4 | 3 | $3-1-1=1$ |
+| $1\oplus$ multiplication by $[X]$ modulo $f$ | $Df$ | 56 | $(1,1,1,1)$ | 3 | $1+\omega^k+\omega^{2k}$ | 0 |
+| Multiplication by $\alpha^j$, $j=1,3$ | Two irreducible cubics | 24 each | $(1,0,0,1)$ | 7 each | $t_k(j)$ | $t_k(j)$ |
+
+For $J_2(1)\oplus1$ the stable lines are the three in $\ker N$. The stable planes are the three through $\operatorname{im}N$. The plane $\ker N$ is scalar and the other two carry $J_2(1)$. With $Ne_2=e_1$ and $Ne_3=0$, commuting with $N$ gives the invertible centralizer
+$$
+\left\{\begin{pmatrix}1&u&v\\0&1&0\\0&w&1\end{pmatrix}:u,v,w\in F\right\}.
+$$
+This group has order eight, giving class size $168/8=21$. For $J_3(1)$, the subspaces form the chain of ideals in $F[X]/(D^3)$. The cyclic vectors lie outside $\ker N^2$ and the centralizer consists of the four units modulo $D^3$. For $Df$, the two simple summands have distinct annihilators. The invariant lattice is the product of two two-element chains, the cyclic vectors have both components nonzero, and the centralizer has order $1\cdot3$. Subtracting the two simple-summand values gives inverse value zero. For each irreducible cubic there are seven cyclic vectors, and the centralizer consists of the seven field units. The class sizes sum to $1+21+42+56+24+24=168$.
+
+The vector partitions total $1+7=8$, $1+3+2\cdot2=8$, $1+1+2+4=8$, $1+1+3+3=8$ and $1+7=8$ in each cubic. The cyclic masses are $42\cdot4=168$ on $D^3$, $56\cdot3=168$ on $Df$, and $24\cdot7=168$ on each cubic. On the three $D^3$ classes the kernel profiles through $j=3$ are $(3,3,3),(2,3,3),(1,2,3)$, with respective lengths $(1,1,1),(2,1),(3)$.
+
+The mixed contribution from $D^3$ is $3(3-21+42)=72$. The self-family contribution there is $9+21+42=72$. The split row gives zero in both. Each cubic contributes $24t_k(j)\overline{t_l(j)}$. Thus the two pairings both equal $8\sum_{j=0}^6t_k(j)\overline{t_l(j)}$, since $t_k(0)=3$ and the nonzero orbits each have three roots. Expand the series using the exponents $2^a,2^b$, with $0\le a,b<3$. A term sums to $56$ if $2^ak\equiv 2^bl\bmod 7$ and to zero otherwise. Every $i$ with $2^ik\equiv l\bmod 7$ accounts for three pairs $(a,b)$ with $a-b\equiv i\bmod 3$. In the order $0,1,2,4,3,5,6$ the normalized Gram matrix is block diagonal with blocks $(3)$ and two $3\times3$ all-ones matrices.
+
+**Translation fibers in the scalar row.** Take $g=I$ in dimension three and $A=\langle e_1\rangle$. A translation on $Q$ is a binary row $(r_1,r_2)$. For $U=0$ the zero graph allows all four rows. Each line $U$ has two graphs and two rows annihilating $U$, giving four pairs. For $U=Q$ there are four graphs and only the zero row. For $s(P)=\deg P$, the weighted transversal sum is $4(0+3\cdot1-1)=8$ and the contained sum is $4(0+1)=4$. For each plane $W$ through $A$, two rows vanish on its image and two restrict nontrivially there. Its mixed sum is $2(-1)+2(1)=0$. The total $12$ cancels the four leading terms of value $3$.
+
+##### Scope and source reading
+
+Dropping cyclicity from the pointwise product already fails for $I$ in dimension two over $\mathbb F_2$. The polynomial $D^2$ gives $4(1-1/2)=2$ in the product, while the actual count is zero. The other class supplies all six pairs in that fiber. Dropping positivity from the block matching leaves the extra exponent in $(2,0)$ invisible to every sum of minima. Dropping primitivity in the mixed argument also fails. On the planes of the translation example the constant function $1$ gives a sum of $4$.
+
+Finite fields are perfect. The torus step uses distinct Frobenius roots of each irreducible and the finite group order. Over the imperfect field $F=\mathbb F_2(t)$, the polynomial $f=X^2-t$ is irreducible since the $t$-valuation of a square is even. Its splitting field has a single distinct root $\beta$, with $f=(X-\beta)^2$. Multiplication by $[X]$ on $F[X]/(f)$ has $\dim_F\ker f(g)=2$. Over the splitting field the operator has one size-two Jordan block. Its ordinary eigenspace at $\beta$ has dimension one and the generalized eigenspace has dimension two. The counting step that distributes multiplicities among distinct Frobenius roots is unavailable here. The PID decomposition and the formula for $\dim_F\ker f(g)^j$ still apply.
+
+**Attribution.** [Paper] Rota records incidence inversion and the ordinary subspace-lattice weight, crediting Philip Hall for the latter. Green describes the primary blocks in §1 and uses finite torus conjugacy and primary multiplicity in Lemmas 6.3 and 8.3. The endomorphism mass argument follows A2. The binary calculations and deletion tests are the book's illustrations. [Rota 1964, Propositions 1–2 and Example 2](https://doi.org/10.1007/BF00531932) · [Green 1955, pp. 405–407, 435, 442–443](https://doi.org/10.1090/S0002-9947-1955-0072878-2)
+
+**Archive reading [Lean, read].** Archive A2 joined SHA-256 `9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`. Toolchain `leanprover/lean4:v4.33.1` and Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`. File names are relative to `lean/src/Development/AbelianVarietyTheory/Proofs/CharacterTheory/`.
+
+| Export in GlobalTheory.T | Export location | Producer and local proof ranges | Direct call in §13.4.6 |
+|---|---|---|---|
+| `sum_primitiveEndClassFunction_restrict_mixed_subspace` | `SumPrimitiveEndClassFunctionRestrictMixedSubspacStatement.lean:6–7` | `SumPrimitiveEndClassFunctionRestrictMixedSubspac.lean` · `sum_restrict_eq_zero_of_mixed:34–97`, `exists_comp_eq_of_ker_le:8–15`, `exists_nilRad_extend:17–32` | `IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean:111` |
+| `finsum_mobiusInverseCharpoly_transversal_subspaces` | `FinsumMobiusInverseCharpolyTransversalSubspacesStatement.lean:6–7` | `FinsumMobiusInverseCharpolyTransversalSubspaces.lean` · `finsum_psi_transversal:219–274`, `card_nilRad_eq_card_linearMap_quot:13–22`, `card_invariant_complements_over_eq_card_nilRad:25–190`, `psi_restrict_complement_eq_psi_quotient:193–214` | `IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean:128` |
+| `finsum_mobiusInverseCharpoly_invariant_le` | `FinsumMobiusInverseCharpolyInvariantLeStatement.lean:6–7` | `FinsumMobiusInverseCharpolyInvariantLe.lean` · `finsum_psi_le:10–37` | `IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean:118` |
+| `finsum_card_cyclic_vectors_invariant_subspaces` | `FinsumCardCyclicVectorsInvariantSubspacesStatement.lean:6–7` | `FinsumCardCyclicVectorsInvariantSubspaces.lean` · `finsum_card_cyclic_eq:7–60` | `CharpolyEndomorphismDensityGLRecursion.lean:83` |
+| `endomorphismMassOfCharpoly_card_cyclic_vectors` | `EndomorphismMassOfCharpolyCardCyclicVectorsStatement.lean:6–7` | `EndomorphismMassOfCharpolyCardCyclicVectors.lean` · `mass_card_cyclic:112–131`, `CyclicMass.charpoly_mulLeft_root:12–20`, `CyclicMass.map_mk:22–33`, `CyclicMass.cyclic_one:35–49`, `CyclicMass.card_pairs:51–106` | `CharpolyEndomorphismDensityGLRecursion.lean:92` |
+| `finsum_subspaceStabilizer_mul_block_functions` | `FinsumSubspaceStabilizerMulBlockFunctionsStatement.lean:6–7` | `FinsumSubspaceStabilizerMulBlockFunctions.lean` · `finsum_stabiliser_mul_blocks:7–92` | `EndomorphismMassMulParabolicInductionTrivial.lean:102` |
+| `card_subspaces_mul_generalLinearGroupCard` | `CardSubspacesMulGeneralLinearGroupCardStatement.lean:6–7` | `CardSubspacesMulGeneralLinearGroupCard.lean` · `card_subspaces_mul_glCard:16–36`, `card_GL_eq_prod_range:9–14` | `EndomorphismMassMulParabolicInductionTrivial.lean:153` |
+| `primary_endomorphism_cyclic_decomposition_finrank_ker` | `PrimaryEndomorphismCyclicDecompositionFinrankKerStatement.lean:6–7` | `PrimaryEndomorphismCyclicDecompositionFinrankKer.lean` · `primary_structure:104–126`, `finrank_ker_lsmul_pow_quotient:10–51`, `piDropTrivial:53–68`, `kerAevalEquivPi:70–102` | `ConjOfPrimaryFinrankKerPowEq.lean:26–27` |
+| `exists_perm_of_sum_min_eq_positive_family` | `ExistsPermOfSumMinEqPositiveFamilyStatement.lean:6–7` | `ExistsPermOfSumMinEqPositiveFamily.lean` · `exists_equiv_of_sum_min_eq:22–47`, `sum_min_succ_eq_add_card:7–11`, `card_gt_eq_card_eq_add_card_gt:13–20` | `ConjOfPrimaryFinrankKerPowEq.lean:34` |
+
+The recursion and conjugation transport use `CharpolyEqFinsumPsi.lean:9–33` and `InvariantSubspaceMobiusInverseCharpolyLinearEqui.lean:10–51`. The basis fibers use `CardSubspacesOfFinrankMulCardBases.lean:7–60`. The pinned Mathlib basis count is `Matrix/GeneralLinearGroup/Card.lean:39–58,74–93`, and the primary torsion theorem is `Algebra/Module/PID.lean:172–228`. Deeper suppliers `LinearMap.exists_extend`, `LinearMap.exists_rightInverse_of_surjective`, `Finset.sum_fiberwise`, `Module.natCard_eq_pow_finrank`, `exists_smul_eq_zero_and_mk_eq`, `lequivProdOfRightSplitExact` remain [Lean], with full source comparison [Open].
+
+Local R3 covers the nine forwarding and production proofs and the explicitly read local helpers. The exact finite example checks have their own evidence record. Same-source review of §13.4.6 applies to its original scope. Review of the new subsection, Lean kernel replay, and declaration reachability from Main are [Open]. [Source ledger](../sources/SOURCES.md#invariant-subspace-counts-for-the-gram-matrix)
 
 ### 13.4.7 Parabolic induction and the virtual-character subtraction
 

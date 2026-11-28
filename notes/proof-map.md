@@ -112,6 +112,8 @@ injectivity, and exhaustion supply to `GreenSeries.green_series`,
 `cuspParam_of_green`, and `eSer_eq`). The reading scope and deeper inputs are
 listed in the Chapter 13 source tables; §13.4.15 discharges **(U4)** (`zIdemOrthogonal_holds` / `central_idempotent_properties`) and returns `iso_of_label` to `cuspParam_all`, `PM.greenCuspidal`, and `PendTie.greenO`, leaving **(U3)** as the sole remaining R2 interface on `PM.greenCuspidal` itself.
 
+**P16 and the Gram count.** [§13.4.6.1](../chapters/13-greens-theorem-and-the-literature-layer.md#13461-counting-invariant-subspaces-and-cyclic-vectors-for-the-gram-matrix) reads the nine suppliers formerly listed as [Open] in §13.4.6. Local R3 covers the three translation sums at calls 111, 118 and 128 in `IsPrimitiveEndClassFunctionInvariantSubspaceMobi.lean`, cyclic mass and vector partition at calls 83 and 92 in `CharpolyEndomorphismDensityGLRecursion.lean`, block normalization at calls 102 and 153 in `EndomorphismMassMulParabolicInductionTrivial.lean`, and the primary profile and length matching in `ConjOfPrimaryFinrankKerPowEq.lean:26–34`. The exact boundary and the deeper [Lean]/[Open] interfaces are in the section table. The finite certificate checks the two sample dimensions.
+
 **P16 and the positive sign.** Steps 3–4 of Proposition 13.6 (§13.4.10) use three facts on
 $\mathrm{GL}_d(F)$: an integral class function of norm one is $\pm$ an irreducible character (I8),
 the identity value $\prod_{i=1}^{d-1}(1-q^i)$ obtained by counting all subspaces (I2), and
