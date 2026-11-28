@@ -1352,6 +1352,12 @@ the exact uses of the representative in the Sylow and closed-subgroup arguments.
 - **Aapo Lipponen and the LUMI contributors.** The fixed guide outlines the first jet estimate, the class and its accumulation over the chain. Kedlaya's Tate algebra notes supply the classical Gauss norm background. [Source record](sources/SOURCES.md#ch08-frame-target-second-gauss-sources)
 - **This book.** The three English expositions and worked local models connect the two-frame calculation and the placewise estimate to their shared lattice consumer. The edition carries forward the original local source-reading and review scopes. [§8.4.7](chapters/08-divisibility-at-inert-primes.md#847-frame-changes-and-integral-normalization-in-local-interpolation) · [§8.4.8](chapters/08-divisibility-at-inert-primes.md#848-from-target-pairings-to-the-lattice-bound) · [§8.4.9](chapters/08-divisibility-at-inert-primes.md#849-the-second-gauss-bound-and-the-even-position-loss)
 
+### Chapter 8 §§8.4.10–13 · From the positive Hecke bound to normalized place tests
+
+- **Alpöge with Claude.** The weighted Gauss estimate, numerical bridge, finite jet transport and normalized local norm supply are the production proofs in A2. [Archive declarations and review record](sources/SOURCES.md#ch08-positive-hecke-jet-norm-sources)
+- **Community and literature.** Aapo Lipponen and the LUMI contributors provide navigation. Kedlaya, Stanley and Bosch–Güntzer–Remmert supply the classical norm and partition results. Jake Levinson, Johan Commelin and the Mathlib spectral-norm contributors supply the cited formal library background. [Sources](sources/SOURCES.md#ch08-positive-hecke-jet-norm-sources)
+- **This book.** Four full English expositions, worked examples, the zero-index counterexample, the same-data consumer table, and the publication corrections documented with the inherited reviews. [Chapter 8 §§8.4.10–13](chapters/08-divisibility-at-inert-primes.md#8410-the-positive-hecke-index-and-the-weighted-gauss-bound)
+
 ### Chapter 2 §§2.3.2.7.4–6 — Hölder and Bochner products
 
 - **Frigyes Riesz** gives the historical finite-sum and conjugate integral comparisons, equations (1) and (5). The source record distinguishes the attribution of the finite-sum triangle inequality, equation (2), from the derivation of the integral triangle inequality, equation (6). [Source record](sources/SOURCES.md#chapter-2-hölder-and-bochner-products)
