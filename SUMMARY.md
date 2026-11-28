@@ -37,6 +37,7 @@
 <!-- Chapter 10 includes the tame inertia witness in §10.4.7.3.1 (#104731-choosing-a-tame-inertia-witness-for-the-auxiliary-prime-construction). -->
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 - [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)
+<!-- Chapter 11 includes §11.4.3.24 (#114324-finitely-many-galois-characters-of-bounded-exponent-and-fixed-ramification-support). -->
 
 # Part III. Foundations built inside the archive
 
