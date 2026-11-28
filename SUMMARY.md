@@ -29,7 +29,7 @@
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
   - [8.4.12.1 Why restriction to one place preserves the same InClass witness](chapters/08-single-place-class-restriction.md)
 - [9. Heights, slopes, and near-orthogonality](chapters/09-heights-slopes-and-near-orthogonality.md)
-<!-- Chapter 9 includes §9.4.32 (#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span). -->
+<!-- Chapter 9 includes §9.4.32 (#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span) and §9.4.33 (#9433-highest-weight-lines-compact-irreducibility-and-casimir-transfer). -->
 <!-- Chapter 10 includes the finite inertia exclusions in §10.4.13.1 (#104131-only-finitely-many-places-have-inertia-moving-a-fixed-finite-extension). -->
 - [10. From congruence modules to Tate–Shafarevich groups](chapters/10-congruence-modules-to-sha.md)
 - [11. The window bound `VWin`](chapters/11-the-window-bound-vwin.md)

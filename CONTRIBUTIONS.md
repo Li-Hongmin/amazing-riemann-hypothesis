@@ -2208,6 +2208,12 @@ Hongmin Li with AI assistance transcribed the conditional proof, traced the thre
 - **Classical precedent.** Anthony W. Knapp describes the corresponding finite-dimensional highest-weight properties in Theorems 5.5 and 5.110. [Author PDF](https://www.math.stonybrook.edu/~aknapp/download/Beyond2-clickable.pdf)
 - **Textbook.** Hongmin Li with AI assistance gives the read-through of the diagonal and compact raising recursions, worked symmetric-power examples, counterexamples and the specific consumer map. [§9.4.32](chapters/09-heights-slopes-and-near-orthogonality.md#9432-lowering-word-weights-and-stability-of-the-lowest-k-type-span)
 
+### Chapter 9 compact highest weight and Casimir transfer (§9.4.33)
+
+- **A2.** Levent Alpöge with Claude supplies the height and scalar-line proofs, compact extraction and dominance, and the paired product comparison using the first noncompact layer. [Textbook section](chapters/09-heights-slopes-and-near-orthogonality.md#9433-highest-weight-lines-compact-irreducibility-and-casimir-transfer)
+- **Library and classical sources.** Zhouhang Zhou, Frédéric Dupuis and Heather Macbeth supply the pinned orthogonal projection API. Anthony W. Knapp gives the classical highest-weight, complete reducibility and ordered-monomial results. [Source ledger](sources/SOURCES.md#chapter-9-compact-highest-weight-and-casimir-transfer)
+- **Textbook.** Hongmin Li with Codex assistance supplies the hand-worked projection and weight lattice, the explicit product matrices, the hypothesis analysis, and the rank-one failure of the paired transfer, using the earlier layer manuscript's scalar example. [Textbook section](chapters/09-heights-slopes-and-near-orthogonality.md#9433-highest-weight-lines-compact-irreducibility-and-casimir-transfer)
+
 ### Chapter 5 quadratic Hasse norm branch (§5.3.1.23)
 
 - **A2.** Levent Alpöge with Claude supplied the square-root basis, the same-witness tensor conversion and the quadratic local–global production through the admitted-set and unit interface. [Pinned archive bodies](sources/SOURCES.md#the-quadratic-hasse-norm-branch-53123)
