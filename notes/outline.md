@@ -552,6 +552,12 @@ Chapter 7 [§7.4.3.20](../chapters/07-chains-of-theta-lifts.md#74320-from-positi
 
 **Chapter 14, spectral prerequisites.** [Real spectrum](../chapters/14-masullos-trace-formula-route.md#why-self-adjoint-elements-have-real-spectrum) follows the unitary exponential in any unital complex C*-algebra, including the zero algebra. [Spectral permanence](../chapters/14-masullos-trace-formula-route.md#spectral-permanence-by-propagation-of-the-resolvent) develops seeded resolvent propagation and transfers both one-sided inverses. [Continuous functional calculus and the positive root](../chapters/14-masullos-trace-formula-route.md#continuous-functional-calculus-and-the-positive-square-root) constructs the real calculus and the unique bounded positive root on arbitrary complex Hilbert spaces. [Positive compact spectral decomposition](../chapters/14-masullos-trace-formula-route.md#the-spectral-decomposition-of-a-positive-compact-operator) gives the finite-threshold decomposition, its norm-convergent root and the trace evaluation, including the nonseparable kernel. Masullo's positive-width strip trace independence remains [Open].
 
+### Chapter 11 fundamental classes, local formation and Artin evaluation
+
+- [§11.4.3.16](../chapters/11-the-window-bound-vwin.md#114316-fundamental-classes-and-the-three-subgroup-hypotheses-in-a-class-formation) constructs and uniquely normalizes the finite fundamental class, including its restriction to nonnormal subgroups. It applies §15 to derive continuous vanishing in degrees at least three.
+- [§11.4.3.17](../chapters/11-the-window-bound-vwin.md#114317-arithmetic-realization-of-the-non-archimedean-local-class-formation-localclassformation) realizes the axioms on discrete separable-closure units using the local invariant and its finite-separable restriction law.
+- [§11.4.3.18](../chapters/11-the-window-bound-vwin.md#114318-local-cup-symbols-and-evaluation-of-artin-reciprocity) evaluates the positive carry cup using arithmetic Artin, follows the Kummer norm consumer into §11.4.5, and gives the real quadratic place calculation.
+
 ## Chapter 6 local norm and inertia module
 
 - [§6.4.17.1](../chapters/06-stepanovs-method-and-multiplicity.md#64171-from-adic-completeness-to-a-local-norm-solution) opens the local R3 Newton proof behind the norm solver in §6.4.17. The examples show the choice of a unit derivative in odd and even residue characteristic.
