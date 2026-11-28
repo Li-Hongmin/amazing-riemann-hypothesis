@@ -13,3 +13,5 @@ The compact model gives an invariant positive form on the induced module. The ne
 - [§7.4.3.13](07-chains-of-theta-lifts.md#74313-invariant-complements-of-admissible-smooth-representations) Invariant complements of admissible submodules.
 
 The chapter continues with [§7.4.3.17](07-chains-of-theta-lifts.md#74317-separating-mirabolic-vectors-by-small-box-averages), [§7.4.3.18](07-chains-of-theta-lifts.md#74318-from-successive-mirabolic-quotients-to-one-grouped-derivative), [§7.4.3.19](07-chains-of-theta-lifts.md#74319-why-normalized-jacquet-modules-have-finite-length) and [§7.4.3.20](07-chains-of-theta-lifts.md#74320-from-positive-semidefinite-forms-to-the-strict-lower-derivative-bound).
+
+[§7.4.3.23](07-chains-of-theta-lifts.md#74323-from-an-integral-lattice-basis-to-ordered-iwasawa-decomposition) constructs the integral lattice basis for the separate GroundTheory Iwasawa proof. The resulting factorization supplies the compact cell-support argument of §7.4.3.5 and the finite generation step of §7.4.3.19.

@@ -26,6 +26,7 @@
   - [Local period comparison, norm selection and equivariance (§§6.4.24–26)](chapters/06-period-comparison-reading-guide.md)
 <!-- Chapter 6 includes §6.4.25.1 (#determinant-norm-units) and §6.4.25.2 (#norm-selection-equivariance). -->
 <!-- Chapter 7 includes §7.4.3.21 (#74321-why-mirabolic-derivatives-have-finite-length) and §7.4.3.22 (#74322-smooth-actions-on-twisted-jacquet-quotients). -->
+<!-- Chapter 7 includes §7.4.3.23 (#74323-from-an-integral-lattice-basis-to-ordered-iwasawa-decomposition), linked from the normalized-induction reading guide. -->
 - [7. Chains of theta lifts](chapters/07-chains-of-theta-lifts.md)
   - [Normalized induction and Jacquet modules (§§7.4.3.8–13)](chapters/07-normalized-induction-reading-guide.md)
 - [8. Divisibility at inert primes](chapters/08-divisibility-at-inert-primes.md)
