@@ -2151,6 +2151,150 @@ The integral-multiple lemma also has consumers without a Euclidean embedding. On
 
 In <code>short_vector_every_place</code>, the same map realizes both the reference lattice and the given genus member. Their witnesses permit comparison of the two covolumes and the application of the Minkowski short-vector step to the genus member. The inner-product identity converts the resulting norm estimate back to a trace estimate. The packing argument in <code>encard_shortVectors_le</code> takes just the inner-product identity, and uses its own integrality and archimedean positivity inputs for length and separation estimates. The fixed-shift theta sum and short-vector-set finiteness in §1.2.2.13 are separate inherited applications. The present proof uses the lattice trace lower bound directly. [Consumer ranges and read levels](../sources/SOURCES.md#chapter-1-12214-trace-realization)
 
+#### 1.2.2.15 Why the trace Gram matrix needs the scalar action
+
+Two families of short vectors in the Euclidean realization of §1.2.2.14 can have exactly the same inner products. The coordinate identification then preserves rational trace lengths and angles. A Hermitian lattice, however, also carries multiplication by the ring of integers, and an isometry in its genus must be linear over the number field. The extra data record inner products after multiplying the first vector by each element of a single rational basis of the field. These measurements force the coordinate identification to commute with multiplication. [Trace realization](#12214-from-a-rational-hermitian-trace-form-to-a-euclidean-lattice) · [Pinned source record](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+**Example 1 (a line over the Gaussian field).** Take $K=\mathbb Q(i)$, $V=K$, $h(x,y)=\bar x y$ and the fixed rational field basis $\omega=(1,i)$. Multiplication by $a+bi$ has matrix $\left(\begin{smallmatrix}a&-b\\b&a\end{smallmatrix}\right)$ on $\omega$, so $\operatorname{Tr}(a+bi)=2a$. For $x=a+bi$ and $y=c+di$ the ordinary and $i$-twisted pairings are
+$$
+B(x,y)=2(ac+bd),\qquad B(ix,y)=2(ad-bc).
+$$
+In particular $B$ is positive definite. Use the two vectors from the fractional ideal of §1.2.2.14 and their rotations,
+$$
+u=((1+i)/2,i),\qquad u'=((-1+i)/2,-1).
+$$
+Each list has real-independent images, since the first has rational coordinate determinant $1/2$ on $(1,i)$ and the second is obtained by multiplication by $i$, of determinant $1$. The entries from the two pairing formulas, with the first argument indexing rows, give
+$$
+G(u)=G(u')=A_1(u)=A_1(u')=\begin{pmatrix}1&1\\1&2\end{pmatrix},
+\qquad
+A_i(u)=A_i(u')=\begin{pmatrix}0&1\\-1&0\end{pmatrix}.
+$$
+Indeed the dot products are unchanged by $(a,b)\mapsto(-b,a)$, and the alternating expression $ad-bc$ is unchanged by applying that rotation to both pairs. With column coordinates, the multiplication matrix $J$ has transpose $A_iG^{-1}$, because the $j$th row of $A_i$ pairs $iu_j$ with all $u_\ell$. Here
+$$
+G^{-1}=\begin{pmatrix}2&-1\\-1&1\end{pmatrix},
+\qquad
+J=(A_iG^{-1})^{\mathsf T}=\begin{pmatrix}-1&-2\\1&1\end{pmatrix}.
+$$
+The same $J$ works on $u'$ and $J^2=-I_2$. For $x=1$ the ordinary pairing row is $(1,0)$, so the coefficient row is $(1,0)G^{-1}=(2,-1)$. Thus the coordinate map sends $1$ to $2u'_1-u'_2=i$. The map is multiplication by $i$ and has inverse multiplication by $-i$. The direct identity $h(ix,iy)=\overline{ix}\,iy=\bar x y$ checks preservation of the original pairing.
+
+**What fails with the ordinary Gram matrix alone.** Keep the same field basis, form, and source family $u$. Compare it with $u^{c}=(\overline{u_1},\overline{u_2})$, whose images are real-independent by reflection of the imaginary coordinate. The ordinary matrix is again $G$, because conjugation fixes the real coordinate and reverses the imaginary coordinate of each vector. The twisted matrix is $-A_i$ by the alternating formula. In particular $B(iu_1,u_2)=1$ and $B(i\overline{u_1},\overline{u_2})=-1$. The unique rational-linear map with this prescribed action on $u$ is conjugation $c$. It preserves $B$ on all pairs and satisfies $c(i\cdot1)=-i$, whereas $i\,c(1)=i$. Also $h(c(1),c(i))=-i\ne i=h(1,i)$. Thus ordinary Gram equality fails to guarantee a $K$-linear isometry **sending the prescribed vectors to their partners**. The same fractional ideal is stable under $c$, since $\bar u_1=-iu_1$ and $\bar u_2=-u_2$. The failure already occurs for a rational trace isometry of an actual lattice.
+
+**Example 2 (a non-diagonal form on $K^2$).** Keep $K=\mathbb Q(i)$ and $\omega=(1,i)$. For column vectors put $h(x,y)=\bar x^{\mathsf T}H y$ and take the two ordered rational bases
+$$
+H=\begin{pmatrix}2&1+i\\1-i&3\end{pmatrix},\qquad
+u=(e_1,ie_1,e_2,ie_2),\qquad
+u'=(-e_1,-ie_1,e_2-(1+i)e_1,ie_2+(1-i)e_1).
+$$
+We have $h(x,x)=2|x_1+(1+i)x_2/2|^2+2|x_2|^2$, so $B(x,x)=2h(x,x)>0$ for nonzero $x$. Both lists are integer bases of $\mathbb Z[i]^2$. In fact the columns $-e_1,e_2-(1+i)e_1$ form the matrix
+$$
+F=\begin{pmatrix}-1&-1-i\\0&1\end{pmatrix},\qquad F^2=I_2,
+$$
+over $\mathbb Z[i]$, and the two ordered lists insert the $i$-multiple after each field-basis vector. Both have real-independent images in the four-dimensional trace realization. Multiplying out the pairing on the new field-basis vectors gives
+$$
+HF=\begin{pmatrix}-2&-1-i\\-1+i&1\end{pmatrix},
+\qquad
+\bar F^{\mathsf T}(HF)=\begin{pmatrix}2&1+i\\1-i&3\end{pmatrix}=H .
+$$
+Thus the two field-basis pairing tables agree. To obtain the rational tables from either one, a field entry $z=a+bi$ gives the $2$-by-$2$ block $\left(\begin{smallmatrix}2a&-2b\\2b&2a\end{smallmatrix}\right)$, by taking the traces of $z,iz,-iz,z$ in row order. The left $i$-twist multiplies the field entries before trace by $-i$. Consequently the complete matrices on both $u$ and $u'$ are
+$$
+G=A_1=\begin{pmatrix}
+4&0&2&-2\\0&4&2&2\\2&2&6&0\\-2&2&0&6
+\end{pmatrix},
+\qquad
+A_i=\begin{pmatrix}
+0&4&2&2\\-4&0&-2&2\\-2&2&0&6\\-2&-2&-6&0
+\end{pmatrix}.
+$$
+Explicitly,
+$$
+G^{-1}=\frac1{16}\begin{pmatrix}
+6&0&-2&2\\0&6&-2&-2\\-2&-2&4&0\\2&-2&0&4
+\end{pmatrix},
+\qquad
+(A_iG^{-1})^{\mathsf T}=\begin{pmatrix}
+0&-1&0&0\\1&0&0&0\\0&0&0&-1\\0&0&1&0
+\end{pmatrix}.
+$$
+For $x=(1+i,2-i)^{\mathsf T}$, the two components of $\bar x^{\mathsf T}H$ are $5-3i$ and $8+3i$. Pairing $x$ against $u$ therefore gives the row $(10,6,16,-6)$. Right multiplication by $G^{-1}$ gives $(1,1,2,-1)$. The same coefficients on $u'$ give $(-4-2i,2-i)^{\mathsf T}=Fx$. The matching scalar matrices give the same action on both lists and the involution $F^2=I_2$ supplies the inverse. The computation with $H$ checks the $K$-valued isometry on all pairs.
+
+**Definitions.** Fix a number field $K$ with a field involution $a\mapsto\bar a$, a $K$-vector space $V$, and a pairing $h:V\times V\to K$ that is conjugate-linear in the first variable and linear in the second. In the lattice application $h$ is Hermitian. The local reconstruction below uses just sesquilinearity and the following trace hypotheses. Write $B(x,y)=\operatorname{Tr}_{K/\mathbb Q}h(x,y)$ and assume $B(x,x)>0$ for every $x\ne0$. Let $\iota:V\to\mathbb R^n$ be one additive map with
+$$
+\langle\iota(x),\iota(y)\rangle=B(x,y)
+\quad\text{for all }x,y\in V,
+$$
+using the rational-to-real inclusion on the right. In particular $B$ is symmetric. It is rational bilinear because the involution fixes rational scalars and the trace is rational-linear. Fix a single rational basis $(\omega_k)_{k\in I}$ of $K$, with $I$ finite, and two lists $u=(u_j)_{j=1}^n$, $u'=(u'_j)_{j=1}^n$ in $V$ whose images under this same map are each real-linearly independent. Put
+$$
+G(u)_{j\ell}=B(u_j,u_\ell),\qquad
+A_{\omega_k}(u)_{j\ell}=B(\omega_k u_j,u_\ell),
+$$
+and use the same definitions and field basis for $u'$. The placement of the scalar in the first argument gives $A_{\omega_k}(u)_{j\ell}=\operatorname{Tr}(\bar\omega_k h(u_j,u_\ell))$. In general the chosen field basis need not contain $1$. The archive states ordinary Gram equality separately, even though it follows by expanding $1$ when the full twisted data agree.
+
+**Lemma (recovering rational coordinates).** [Lean, read] If $w$ is either $u$ or $u'$, the pairings $B(x,w_\ell)$ determine $x$. For every $x\in V$ there is a unique rational row $t=(t_j)_j$ satisfying
+$$
+x=\sum_j t_jw_j,\qquad
+tG(w)=(B(x,w_\ell))_\ell .
+$$
+
+**Proof.** The $n$ independent images $\iota(w_\ell)$ span $\mathbb R^n$. If $B(z,w_\ell)=0$ for all $\ell$, $\iota(z)$ is orthogonal to all of $\mathbb R^n$. In particular its squared norm is zero, so $B(z,z)=0$ and $z=0$ by trace positivity. By applying this to a difference, equal pairing rows determine equal vectors. An additive map between the rational vector spaces here respects rational scalars. For $q=a/b$ with $a,b\in\mathbb Z$ and $b\ne0$, multiply $\iota(qx)$ by $b$ to obtain $a\iota(x)$, and divide by $b$. Thus if $\sum_j r_jw_j=0$ with $r_j\in\mathbb Q$, applying $\iota$ and using real independence forces every $r_j=0$.
+
+The rational linear operator $r\mapsto rG(w)$ on the rational row space has zero kernel. Indeed, if its value is zero then $\sum_j r_jw_j$ has zero pairing row, hence vanishes, and rational independence gives $r=0$. The operator is therefore surjective, since domain and codomain have the same finite dimension $n$. Solve $tG(w)=(B(x,w_\ell))_\ell$ in that rational space. The difference $x-\sum_j t_jw_j$ has zero pairing row by bilinearity and must vanish. This proves existence and uniqueness in $\mathbb Q$, even though the initial independence was over $\mathbb R$. For $n=0$ the separation argument gives $V=0$ and all rows are empty. This is the linear solve in <code>classSetAssembly_span</code> and the separation test in <code>eq_of_trace_apply_eq_lemma_5</code>. [Proof ranges](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+**Theorem (trace data with the scalar action).** [Lean, read] Suppose $G(u)=G(u')$ and $A_{\omega_k}(u)=A_{\omega_k}(u')$ for **every** $k\in I$, entry by entry. There is a unique $K$-linear automorphism $\phi$ with $\phi u_j=u'_j$ for every $j$. It preserves $B$ on every pair.
+
+**Proof.** Let $t(x)$ be the rational row from the lemma for $u$ and define $\phi x=\sum_j t_j(x)u'_j$. Ordinary Gram equality gives, for every $x$ and $\ell$,
+$$
+B(\phi x,u'_\ell)=\sum_j t_j(x)B(u'_j,u'_\ell)=B(x,u_\ell).
+$$
+The pairing rows of $\phi(x+y)$ and $\phi x+\phi y$ therefore agree against $u'$, which proves additivity by separation. In the scalar calculation, $K$ is commutative, so a field scalar commutes with every coordinate coefficient $t_j(x)$. The twisted equalities give
+$$
+B(\omega_k\phi x,u'_\ell)
+=\sum_j t_j(x)B(\omega_k u'_j,u'_\ell)
+=\sum_j t_j(x)B(\omega_k u_j,u_\ell)
+=B(\omega_k x,u_\ell).
+$$
+Now write an arbitrary $a\in K$ uniquely as $a=\sum_k q_k\omega_k$ with $q_k\in\mathbb Q$. For every $y,z\in V$,
+$$
+B(ay,z)=\sum_k q_k B(\omega_k y,z).
+$$
+This is rational bilinearity in the first argument after expanding the scalar action. It is the identity in <code>trace_smul_left_basis_lemma_8</code>. Consequently
+$$
+B(\phi(ax),u'_\ell)=B(ax,u_\ell)
+=\sum_k q_k B(\omega_k x,u_\ell)
+=\sum_k q_k B(\omega_k\phi x,u'_\ell)
+=B(a\phi x,u'_\ell).
+$$
+Separation against $u'$ proves $\phi(ax)=a\phi x$ for every $a,x$. This constructs the $K$-linear map of <code>exists_linearMap_of_gram_lemma_9</code>.
+
+Use the same construction with $u'$ as source, $u$ as target, the **same** $\omega$, and the reversed Gram equalities. It produces a $K$-linear $\psi$ with $B(\psi y,u_\ell)=B(y,u'_\ell)$. Then
+$$
+B(\phi\psi y,u'_\ell)=B(\psi y,u_\ell)=B(y,u'_\ell),\qquad
+B(\psi\phi x,u_\ell)=B(\phi x,u'_\ell)=B(x,u_\ell).
+$$
+Separation against the respective lists makes the two composites identities. On each $u_j$, the ordinary row of $\phi u_j$ against $u'$ is the $j$th row of $G(u)$, which is also the row for $u'_j$. Hence $\phi u_j=u'_j$. Every $K$-linear map with these values agrees with $\phi$ on the rational expansions, proving uniqueness.
+
+Finally for $y=\sum_\ell s_\ell u_\ell$, linearity gives $\phi y=\sum_\ell s_\ell u'_\ell$, so for all $x,y$,
+$$
+B(\phi x,\phi y)=\sum_\ell s_\ell B(\phi x,u'_\ell)
+=\sum_\ell s_\ell B(x,u_\ell)=B(x,y).
+$$
+The inverse identities, images of the lists and second-variable expansion are the steps of <code>classSetAssembly_exists_isom</code>. $\square$ [Proof ranges](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+**Lemma (from trace isometry to Hermitian isometry).** [Lean, read] The proposition <code>IsomOfTrace</code> says that for every number field with involution, every $K$-vector space with the indicated sesquilinear pairing $h$, and every **$K$-linear automorphism** $g$, the hypothesis $B(gx,gy)=B(x,y)$ for all $x,y$ implies $g\in\operatorname{isom}(h)$. Membership means $h(gx,gy)=h(x,y)$ for all $x,y$. Neither positivity nor Hermitian symmetry is needed at this step.
+
+**Proof.** Fix $x,y$ and put $\Delta=h(gx,gy)-h(x,y)$. For every $a\in K$, test the trace identity at $x,ay$. By $K$-linearity of $g$ and linearity of the second variable, subtraction gives $\operatorname{Tr}(a\Delta)=0$. If $\Delta\ne0$ take $a=\Delta^{-1}$. This would give $\operatorname{Tr}(1)=0$, but multiplication by $1$ on $K$ is the identity and has trace $[K:\mathbb Q]>0$. Thus $\Delta=0$ for every pair. The archive's <code>isomOfTrace</code> proves this using the single test with $\Delta^{-1}y$. This is the trace-duality argument for the recovered map. In the opposite direction a $K$-linear isometry carrying $u$ to $u'$ preserves the ordinary and all twisted data, by applying trace preservation to $u_j,u_\ell$ and $\omega_k u_j,u_\ell$. $\square$ [Definitions, proof and call site](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+**Why the finite encoding uses both tables.** In <code>classSetAssembly_main</code> one works with a family $S$ of $\mathcal O_K$-submodules of the same $V$, with the compatible scalar tower. The inputs supply a single positive integer $d$ with $d h(M,M)\subseteq\mathcal O_K$ for every $M\in S$, and one length bound $L$ for the $n$ vectors of a real-independent list $u(M)$ chosen in each $M$. The proof uses the rational field basis from an integral basis of $K$. Since its elements carry every $M$ into itself, both kinds of trace entries are in $d^{-1}\mathbb Z$, by the integrality of the trace of an algebraic integer. Cauchy–Schwarz and the inherited norm bounds $C_k$ for the scalar operators bound the entries in absolute value by one $R$, for instance $L^2(1+\sum_k|C_k|)$. The set of rationals in $d^{-1}\mathbb Z\cap[-R,R]$ is finite, so the image of the code $D(M)=(G(u(M)),(A_{\omega_k}(u(M)))_k)$ is finite.
+
+For each realized code $\delta$, choose one $M_0$ in that fiber. The call at <code>ClassSetAssembly.lean:641–644</code> uses the two projections of the **same** code equality to obtain $\phi_M$ from $u(M_0)$ to $u(M)$, preserving $B$. The lattice itself may contain more than the integer span of the chosen list. The proof therefore records the pulled-back additive subgroup $\phi_M^{-1}M$ as well. It contains the integer span of $u(M_0)$, and the denominator supplier <code>classSetAssembly_denom</code> together with <code>classSetAssembly_le_Q</code> puts it inside the integer span of $e^{-1}u(M_0)$ for a fixed nonzero integer $e$ in that fiber. The upper inclusion uses trace preservation with the *same* frame to transfer the integral pairings back to $M_0$. The <code>FinIntermediate</code> input, applied through <code>classSetAssembly_finite_between</code>, supplies finiteness of the possible pulled-back groups.
+
+If $N,M$ have the same augmented code, their pullbacks agree. The map $g=\phi_M\circ\phi_N^{-1}$ then sends $N$ onto $M$ and preserves $B$ by cancellation of the two trace identities. This is where <code>classSetAssembly_main</code> applies its explicit hypothesis <code>hF : IsomOfTrace</code> to $g$ at lines 688–696, and checks the lattice image at 697–704. Thus equal codes with equal pullbacks yield a representative in the original Hermitian isometry class. Distinct Gram codes give disjoint fibers, and within a fixed fiber equality of the pullback gives disjoint strata whose union covers that fiber. Multiple strata may represent the same isometry class. For $n=0$, $V=0$ and a nonempty family has one code and one pullback. An empty family contributes no realized codes. [Consumer ranges and dependencies](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+**Scope and precedent.** <code>classSetFinite_core</code> obtains the uniformly short lists from <code>ShortVectors</code> with the lower norm and covolume bounds. <code>classSetFinite_of</code> supplies the family from one genus using the trace realization, genus scale and genus covolume bound. The wrapper <code>classSetFinite</code> supplies all six inputs, including <code>isomOfTrace</code> as its last one. The short-vector, denominator and finite-intermediate-subgroup producers, the genus arithmetic and the global class-set finiteness proof retain their named [Lean] boundaries here. The selected body reading and direct handoffs leave declaration-level reachability from Main and kernel replay [Open]. [Source record](../sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
+Sutherland’s trace-pairing theorem gives the general classical duality used in the last proof. [Lecture 5, p. 6](https://math.mit.edu/classes/18.785/2021fa/LectureNotes5.pdf#page=6)
+
+Braun and Coulangeon give the classical imaginary-quadratic comparison in their author preprint, Theorem 4.12. Their statement compares two nondegenerate Hermitian forms using the ordinary trace and the trace after multiplying the form value by a quadratic generator. In our two models $B(ix,y)=\operatorname{Tr}(-i h(x,y))$, so the second table encodes exactly that second test up to sign, with the conjugate-linear argument on the left. Equality on the two rational bases extends to the full rational space. Here the archive constructs the map from real-independent lists for a general number field, uses a whole rational field basis, and implements the particular finite-code consumer described above. [Braun and Coulangeon, §4.1](https://arxiv.org/pdf/1304.0559v1#page=12)
+
 ### 1.2.3 The excluded points are exactly the trivial zeros
 
 The trivial zeros of $\zeta$ are $-2,-4,-6,\dots$, and Mathlib proves that they are zeros:

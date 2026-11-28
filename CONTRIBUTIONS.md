@@ -38,6 +38,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
   supplied A2's `HaarVolumes` coordinate-density chain, `CDHaar` witnesses, and
   formal-degree scale bridges. [Source record](sources/SOURCES.md#chapter-9-compact-dual-coordinate-density-and-haar-normalization)
 
+- **Levent Alpöge with Claude** supplied the A2 rational coordinate and twisted-Gram reconstruction proofs, the trace-to-Hermitian comparison, and their class-set assembly. [Pinned source record](sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
+
 ## Checking and formalization
 
 ### Compilation, axiom audits and kernel checks (Alpöge archive)
@@ -188,6 +190,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Sam Hopkins, Will Sawin, Timothy Chow and Stanley Yao Xiao** (MathOverflow) — Opened and answered a MathOverflow thread on how mathematicians can collaboratively digest and human-verify an enormous AI-generated formal proof. — `commentary` — [Community] Public forum discussion — [MathOverflow #518033](https://mathoverflow.net/questions/518033) (2026-11-20 to 2026-11-21)
 - **Steven Strogatz, James McKee and Alex Kontorovich** (quoted in press) — Offered early reactions in the press noting conditional consequences of GRH (McKee in *New Scientist*), context alongside recent PDE claims (Kontorovich in AP), and caution that independent human verification remained ahead (Strogatz in *Business Insider*). — `commentary` — [Community] Quoted statements in press — [New Scientist](https://www.newscientist.com/article/2600134-anthropic-mathematician-claims-ai-assisted-proof-of-the-riemann-hypothesis/), [Business Insider](https://www.businessinsider.com/reimann-hypothesis-anthropic-claude-solved-biggest-problem-in-math-2026-11), [AP / The Independent](https://www.the-independent.com/news/claude-anthropic-san-francisco-rutgers-university-wall-street-b3089058.html) (2026-11-20 to 2026-11-21)
 
+- **Oliver Braun and Renaud Coulangeon** record the classical two-trace comparison over an imaginary quadratic field. **Andrew V. Sutherland** supplies the classical trace-pairing, trace-integrality and integral-basis references. [Braun and Coulangeon](https://arxiv.org/pdf/1304.0559v1#page=12) · [Sutherland](https://math.mit.edu/classes/18.785/2021fa/LectureNotes5.pdf#page=6)
+
 ## Mathlib
 
 - For Chapter 3's endpoint-to-logarithm chain, the pinned headers credit **Zhouhang Zhou and Yury Kudryashov** for filter integrability and the Bochner FTC, **Yury Kudryashov, Patrick Massot and Sébastien Gouëzel** for interval integration and its FTC, **Ian Jauslin, Alex Kontorovich and Oliver Nash** for primitives on complex disks, and **Yury Kudryashov** for the Cauchy integral file. [Source record](sources/SOURCES.md#chapter-3-local-integrability-at-a-filter)
@@ -295,6 +299,8 @@ Kinds: `proof` · `formalization` · `compilation/kernel check` · `review` · `
 - **Salvatore Mercuri, Xavier Roblot and Alex J. Best (Mathlib)** — Supplied the infinite-place completion and embedding declarations used in the real scalar square. [Pinned source record](sources/SOURCES.md#the-same-tensor-norm-witness-at-a-real-place-53118)
 
 - **Floris van Doorn** is credited in the Haar, content and finite-product files, and **Heather Macbeth** shares credit for the lower marginals. **Johannes Hölzl and Mario Carneiro** are credited in the outer-measure, induced measure and measure-space files. The group-topology suppliers credit **Johannes Hölzl, Mario Carneiro and Patrick Massot**. The compact-set supplier credits **Floris van Doorn and Yaël Dillies**. **Paul R. Halmos**, **Jonathan Gleason** and **Terence Tao** supply the classical covering, extension and product precedents. — [Lean, read] for the listed production bodies · [Community] for the classical sources. [Source ledger](sources/SOURCES.md)
+
+- **Anne Baanen** authored the cited Mathlib field trace and integral trace files. **Ashvni Narayanan and Anne Baanen** authored the cited number-field file supplying the integral basis and its integral elements. [Pinned source record](sources/SOURCES.md#chapter-1-12215-trace-gram-and-scalar-action)
 
 ## Sources for the lattice estimates
 
@@ -2194,3 +2200,7 @@ Hongmin Li with AI assistance transcribed the conditional proof, traced the thre
 - **Mathlib.** Andrew Yang, Chris Hughes, Kim Morrison, Johan Commelin, Anne Baanen and the other credited contributors supplied basis extension, tensor bases, multiplication matrices, determinants and arithmetic infrastructure. [Pinned declarations and file authors](sources/SOURCES.md#the-quadratic-hasse-norm-branch-53123)
 - **Classical precedents.** Hasse's norm theorem, with the prime-degree antecedent he credits to Hilbert and Furtwängler, and the Hasse–Minkowski theorem supply the classical statements compared here. [Classical sources](sources/SOURCES.md#the-quadratic-hasse-norm-branch-53123)
 - **Textbook.** Hongmin Li with OpenAI Codex assistance traced the same scalar through the proof, computed the split and field cases over the rationals, and gave counterexamples for the real-place, unit and characteristic hypotheses. [Chapter 5 §5.3.1.23](chapters/05-the-square-root-barrier-core-gm.md#53123-from-a-square-root-basis-to-the-quadratic-hasse-norm-principle)
+
+### Chapter 1 §1.2.2.15 — Trace Gram and scalar action
+
+**Hongmin Li with AI assistance** wrote the graduate-level reconstruction and comparison proofs, the two worked Gaussian-field examples, the conjugation counterexample, the exact arithmetic certificate and the consumer map. [Chapter 1 §1.2.2.15](chapters/01-statement-and-fidelity.md#12215-why-the-trace-gram-matrix-needs-the-scalar-action)
