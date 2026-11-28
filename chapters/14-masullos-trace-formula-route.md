@@ -1253,10 +1253,15 @@ lines 308–326, and the instance `Regular.weaklyRegular` at lines 341–346
 For a normed space $E$ and $p\in[1,\infty)$, write $\mathcal L^p$ for the
 strongly measurable functions $f\colon\alpha\to E$ with
 $\int\|f\|^p\,d\mu<\infty$ and $L^p$ for its quotient by almost-everywhere
-equality. The map `ContinuousMap.toLp` sends a continuous function on a
-compact space to its $L^p$ class, and `BoundedContinuousFunction.toLp`
-does the same for bounded continuous functions on an arbitrary space.
-Both are continuous linear maps.
+equality. For finite $\mu(X)$, `BoundedContinuousFunction.toLp`
+sends every bounded continuous function to its $L^p$ class.
+On a compact space `ContinuousMap.toLp` composes this map with the
+inclusion into bounded continuous functions. Both are continuous
+linear maps under the library's Borel, second-countability, and
+scalar-action hypotheses. With infinite total measure, an individual
+bounded continuous function must first satisfy the $L^p$ membership
+condition. See [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure).
+[Pinned definitions](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean#L49-L144).
 
 **The circle satisfies every hypothesis.** The following table aligns the
 instance arguments of `ContinuousMap.toLp_denseRange` with the circle
@@ -1274,10 +1279,10 @@ $\mu_h=$ `haarAddCircle`.
 | `[Fact (1 ≤ p)]`, `hp : p ≠ ∞` | $p=2$. |
 
 Only the `NormalSpace`, `OuterRegular` and `WeaklyRegular` hypotheses are
-used in the proof bodies below, together with finiteness of the measure
-of the set being approximated. The compactness hypothesis enters only to
-make every continuous function bounded, so that `ContinuousMap.toLp` is
-defined.
+used for the indicator construction, along with the Borel and normed-space
+interfaces and finiteness of the measure of the set being approximated.
+Compactness makes every continuous function bounded. Global finiteness
+supplies the full-domain `toLp` maps used in the range statement.
 
 **Lemma A (small sets have small indicator norm).** Let $p\in(0,\infty)$,
 $c\in E$ and $\varepsilon>0$. There is $\eta>0$ such that every measurable
@@ -1297,11 +1302,11 @@ $\mu(A\setminus F)<\eta$ and an open $U\supseteq A$ with
 $\mu(U\setminus A)<\eta$.
 
 **Proof.** Call a Borel set *good* if it has both properties for every
-$\eta$. A closed set $F$ is good: take $F$ itself inside, and outside take
+$\eta$. The empty set uses empty inner and outer sets. A nonempty closed set $F$ is good: take $F$ itself inside, and outside take
 $U_n=\{x:d(x,F)<1/n\}$, open with $\bigcap_nU_n=F$ because $F$ is closed.
 Continuity from above for the finite measure $\mu$ gives $\mu(U_n)\to\mu(F)$.
 The complement of a good set is good, since complements exchange closed
-with open and $A^c\setminus U^c=U\setminus A$. For a countable union
+with open and $A^c\setminus U^c=U\setminus A$. For a countable union indexed by $n=1,2,\ldots$,
 $A=\bigcup_nA_n$ of good sets, choose closed $F_n\subseteq A_n$ and open
 $U_n\supseteq A_n$ with errors below $\eta2^{-n-1}$. Then $U=\bigcup U_n$
 is open and $\mu(U\setminus A)\le\sum\mu(U_n\setminus A_n)<\eta/2$. The
@@ -1328,7 +1333,7 @@ $h\mathbb Z$. The Lean theorem has no metric hypothesis.
 with $\mu$ outer regular, let $s\subseteq u$ with $s$ closed, $u$ open and
 $\mu(s)<\infty$, let $c\in E$, $p\in(0,\infty)$ and $\varepsilon>0$. There
 is a continuous $f\colon\alpha\to E$ with $\|f(x)\|\le\|c\|$ for all $x$,
-support contained in $u$, $f\in\mathcal L^p$, and
+nonzero set contained in $u$, $f\in\mathcal L^p$, and
 $\|f-c\,\mathbf 1_s\|_{L^p}\le\varepsilon$.
 
 **Proof.** Take $\eta$ from Lemma A for $c$ and $\varepsilon$. Outer
@@ -1337,8 +1342,8 @@ $\mu(V\setminus s)<\eta$. Put $v=u\cap V$, which is open, contains $s$ and
 has finite measure. The sets $v^c$ and $s$ are closed and disjoint, so
 Urysohn's lemma for the normal space $\alpha$ gives a continuous
 $g\colon\alpha\to[0,1]$ with $g=0$ on $v^c$ and $g=1$ on $s$. Set
-$f(x)=g(x)\,c$. Then $\|f(x)\|=g(x)\|c\|\le\|c\|$, and the support of $f$
-lies in $v\subseteq u$.
+$f(x)=g(x)\,c$. Then $\|f(x)\|=g(x)\|c\|\le\|c\|$, and $\{x:f(x)\ne0\}$
+lies in $v\subseteq u$. This is `Function.support`.
 
 The key estimate is pointwise. If $x\in s$, then $f(x)=c=c\mathbf 1_s(x)$,
 so the difference vanishes. If $x\in v\setminus s$, then
@@ -1358,10 +1363,8 @@ the Urysohn function at lines 95–97 with the disjointness of $v^c$ and $s$
 supplied by $s\subseteq v$, the three pointwise cases at lines 106–115,
 the support at lines 116–118, the $\mathcal L^p$ membership at lines
 119–128, and the final monotonicity step at lines 129–131. Urysohn's
-lemma itself, `exists_continuous_zero_one_of_isClosed`
-(`Mathlib/Topology/UrysohnsLemma.lean:322`), is used as a named input:
-its statement was read, its construction by iterated midpoint
-interpolation was not [Lean].
+lemma itself, `exists_continuous_zero_one_of_isClosed`, is proved by
+iterated midpoint interpolation in [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure).
 
 **Lemma D (the indicator of a measurable set).** Let $\alpha$ be normal
 and $\mu$ weakly regular. For every measurable $t$ with $\mu(t)<\infty$,
@@ -1385,7 +1388,7 @@ are the intervals shrunk by $\delta$, and the Urysohn functions are the
 caps. The halving device is `exists_Lp_half`
 (`Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean:81–85`),
 which covers $p<1$ through the constant in the quasi-triangle inequality.
-Its statement was read and its body is retained [Lean].
+Its proof is read in [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp).
 
 **Lemma E (from simple functions to all of $\mathcal L^p$).** Let
 $p\in(0,\infty)$ and let $P$ be a class of almost-everywhere strongly
@@ -1428,8 +1431,8 @@ at lines 869–894 with the two cases above. The zero case at lines
 `memLp_add_of_disjoint` at lines 885–886 are the places where the
 hypotheses are consumed. The density of simple functions in $L^p$ behind
 `exists_simpleFunc_eLpNorm_sub_lt` and `Lp.simpleFunc.denseRange`
-(`SimpleFuncDenseLp.lean:671–673`) is a retained input; the dominated
-convergence proof above covers the circle case [Lean].
+(`SimpleFuncDenseLp.lean:671–673`) is expanded in [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp).
+The dominated convergence proof above covers the circle case.
 
 **Theorem (continuous functions are dense in $L^p$).** Let $\alpha$ be a
 normal space with its Borel $\sigma$-algebra, $\mu$ a weakly regular
@@ -1522,7 +1525,7 @@ book do not constitute a kernel check.
 | [`Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean:39–59`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Indicator.lean#L39-L59) | Lemma A. | Read here |
 | [`Mathlib/MeasureTheory/Measure/Regular.lean:308–346,385–390,1036–1041`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Regular.lean#L308-L346) | Regularity classes, regular implies weakly regular, and the two approximation statements of Lemma B. | Classes and the two short bodies read; `exists_isClosed_lt_add` and `weaklyRegular_of_finite` retained |
 | [`Mathlib/Topology/Separation/Regular.lean:523–525`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L523-L525) · [`Mathlib/Topology/Instances/AddCircle/Real.lean:33`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Instances/AddCircle/Real.lean#L33) · [`Mathlib/MeasureTheory/Measure/Haar/Basic.lean:550–557`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Haar/Basic.lean#L550-L557) | The circle instances of the alignment table. | Statements read; bodies retained [Lean] |
-| [`Mathlib/Topology/UrysohnsLemma.lean:322`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L322) · [`Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean:81–85`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81-L85) · [`SimpleFuncDenseLp.lean:343,671–673`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L671-L673) | Urysohn's lemma, the halving constant, the finite-measure deduction and the density of simple functions. | Retained inputs [Lean] |
+| [`Mathlib/Topology/UrysohnsLemma.lean:322`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L322) · [`Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean:81–85`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81-L85) · [`SimpleFuncDenseLp.lean:343,671–673`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L671-L673) | Urysohn's lemma is read in [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure). The halving constant, finite-measure deduction and simple-function density are read in [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp). | [Lean, read] for the cited bodies |
 | [`Mathlib/Analysis/Fourier/AddCircle.lean:261–269`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Analysis/Fourier/AddCircle.lean#L261-L269) | The consumer `span_fourierLp_closure_eq_top`. | Inherited from §14.4.2.1 |
 
 For the classical background see Terence Tao's 245A notes, where Theorem
@@ -1533,6 +1536,576 @@ The Mathlib file is by Heather Macbeth (2021) and its header describes
 the same three-step plan followed here
 [Mathlib docs](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Function/ContinuousMapDense.html).
 
+
+The next three subsections follow the approximation from a representative
+to a compactly supported continuous function. In [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp), read
+each nonzero fiber as a finite-measure step. In [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure), read the
+cutoff from its plateau on the closed set through the two ramps to zero
+outside the open neighborhood. In [§14.4.2.5](#14425-compactly-supported-continuous-functions-are-dense-in-l2), the compact inner set
+and its compact neighborhood control the missing mass and the closed support.
+
+##### 14.4.2.3.1 Finite-measure simple functions in Lp
+
+**Motivation.** Lemma E starts with an approximation procedure for indicators
+of finite-measure sets. To use that procedure on an arbitrary $L^p$ class,
+we first have to produce finitely many such sets and control the error of
+the resulting simple function. This step precedes the compact inner
+approximation and continuous transition of [§14.4.2.5](#14425-compactly-supported-continuous-functions-are-dense-in-l2).
+
+**Example 1 (a vector staircase on the line).** Use Lebesgue measure and
+the Euclidean norm on $\mathbb R^2$. For $n\ge1$, put $I_n=[n,n+1)$,
+and let $u_n=(1,0)$ for odd $n$, $u_n=(0,1)$ for even $n$. Define
+$f(x)=2^{-n}u_n$ on $I_n$ and $f(x)=0$ elsewhere. The truncations
+$s_N=\sum_{n=1}^N 2^{-n}u_n\mathbf 1_{I_n}$ are simple and converge
+pointwise to $f$. Their nonzero sets have measure $N$. Each interval
+has length one, so $\int_{\mathbb R}\|f\|^p=\sum_{n\ge1}2^{-np}
+=1/(2^p-1)$ for $p>0$. The retained intervals contribute zero to
+the error, so $\|f-s_N\|_p^p=\sum_{n>N}2^{-np}=2^{-Np}/(2^p-1)$.
+Taking the $p$th root gives the class distance for $1\le p<\infty$.
+At $p=2$, three intervals give squared error $1/192$. The nonzero
+set of $f$ has infinite measure.
+
+**Example 2 (counting measure on an uncountable set).** Equip an uncountable
+discrete set $X$ with all subsets measurable and counting measure. Each
+finite-measure set is finite, and a countable union of finite sets cannot
+cover $X$. Choose distinct points $x_n$, $n\ge1$, and set $f(x_n)=3^{-n}$
+and $f=0$ elsewhere. The finite truncations
+$t_N=\sum_{n=1}^N 3^{-n}\mathbf 1_{\{x_n\}}$ converge pointwise to $f$.
+Integrating on the singletons gives $\int_X |f|^p=1/(3^p-1)$ and
+$\|f-t_N\|_p^p=\sum_{n>N}3^{-np}=3^{-Np}/(3^p-1)$.
+In particular $\|f\|_1=1/2$, and keeping four points gives $L^1$
+error $1/162$. The empty set is the only null set, so the class distance
+equals the distance of the displayed representatives.
+
+**Definitions.** Let $(X,\mathcal A,\mu)$ be any measure space and $E$ a
+normed additive commutative group, with its Borel structure when discussing
+measurability. A simple function has finite range and measurable fibers.
+Write $S(s)=\{x:s(x)\ne0\}$. Strong measurability means being a pointwise
+limit of simple functions. Almost-everywhere strong measurability means
+agreement almost everywhere with such a limit. For $p>0$, write
+$\|f\|_p=(\int_X\|h(x)\|^p\,d\mu(x))^{1/p}$ using a strongly measurable
+representative $h$ of $f$. The condition $f\in\mathcal L^p$
+(Lean's `MemLp`) requires such a representative and finite $\|f\|_p$.
+The space $L^p$ consists of the corresponding almost-everywhere classes.
+For a strongly measurable $h$, the scalar function $x\mapsto\|h(x)\|$
+is measurable as the pointwise limit of the norms of its simple approximants.
+
+**Lemma (fibers and indicator tails).** For a simple function $s$ and
+$0<p<\infty$, one has $s\in\mathcal L^p$ precisely when
+$\mu(S(s))<\infty$. For $f\in\mathcal L^p$ and its strongly measurable
+representative $h$, put $A_m=\{x:\|h(x)\|>1/m\}$ for integers $m\ge1$.
+Then $\mu(A_m)\le m^p\|f\|_p^p$ and $\|h-h\mathbf 1_{A_m}\|_p\to0$.
+
+**Proof.** The integral of $\|s\|^p$ is
+$\sum_{c\in s(X),\,c\ne0}\|c\|^p\mu(s^{-1}(\{c\}))$.
+Each coefficient is strictly positive. Thus finiteness is equivalent
+to finite measure of each nonzero fiber, or of their finite union.
+For the tail, $\|h\|^p\ge m^{-p}\mathbf 1_{A_m}$. The error power
+$\|h\|^p\mathbf 1_{X\setminus A_m}$ tends pointwise to zero, also at
+points where $h=0$, and is bounded by the integrable $\|h\|^p$.
+Dominated convergence gives the norm limit. Restricting the defining
+simple approximants to $A_m$ shows strong measurability of
+$h\mathbf 1_{A_m}$. In particular $S(h)=\bigcup_m A_m$ carries a
+$\sigma$-finite restricted measure. $\square$
+
+**Theorem (finite-measure simple density and descent).** For any measure
+space, any normed additive commutative group $E$, and $1\le p<\infty$,
+every $f\in\mathcal L^p(\mu;E)$ has simple approximants $q_N$ with
+$\mu(S(q_N))<\infty$ and $\|f-q_N\|_p\to0$. Their almost-everywhere
+classes converge to $[f]$ in $L^p(\mu;E)$ and the set of all such
+simple classes is dense. [Lean, read]
+
+**Proof.** Choose a strongly measurable $h$ equal almost everywhere to $f$, and
+simple $r_j$ tending to $h$ pointwise. The limit is Borel measurable.
+Indeed, distances from $r_j$ to any nonempty closed set are measurable
+scalars, and their limit has zero set the preimage of that closed set;
+the empty set has empty preimage. Let $D=\{0\}\cup\bigcup_j r_j(X)$.
+This is countable and $h(X)\cup\{0\}\subseteq\overline D$. The closure
+is a separable metric space, and a subspace is separable because it
+inherits a countable base from which one can choose a countable dense
+subset. Thus $h(X)\cup\{0\}$ has a dense sequence, which we enumerate
+starting with $a_0=0$ and repeating terms if needed. This supplies the
+almost-everywhere separable range of $f$.
+
+For $N\ge0$, set $q_N(x)=a_k$ where $k$ is the least index minimizing
+$\|h(x)-a_k\|$ among $0\le k\le N$. Selecting $k$ requires strictly
+smaller distance than at every earlier index and at most the distance
+at each later index. These are finitely many measurable comparisons.
+Each fiber of $q_N$ is a finite union of the corresponding selecting
+sets, including when candidate values repeat. Once a candidate lies
+within a given positive distance of $h(x)$, all subsequent minima are
+at most that distance. Hence $q_N(x)\to h(x)$. Comparison with $a_0$
+and the triangle inequality give $\|h-q_N\|\le\|h\|$ and
+$\|q_N\|\le2\|h\|$ pointwise.
+
+The second bound gives $\int_X\|q_N\|^p\le 2^p\|f\|_p^p$, so the fiber
+lemma yields finite measure of $S(q_N)$. The first bounds the measurable
+error power by the integrable $\|h\|^p$. Dominated convergence and
+continuity of the $p$th root give $\|h-q_N\|_p\to0$.
+For an approximant restricted to a specified finite-measure region,
+use $\|h-q_N\mathbf 1_{A_m}\|_p^p=\int_{A_m}\|h-q_N\|^p+
+\int_{X\setminus A_m}\|h\|^p$. Given $\varepsilon>0$, first choose $m$
+so that the second integral is less than $\varepsilon^p/2$, then $N$
+so that the integral of $\|h-q_N\|^p$ on the whole space is less than
+$\varepsilon^p/2$.
+
+Changing either representative on a null set preserves the difference
+almost everywhere. Thus $d([f],[g])=\|f-g\|_p$ is well defined.
+The difference of two strongly measurable representatives is strongly
+measurable, by subtracting their defining simple approximants. Minkowski
+gives finiteness and the triangle inequality, and a nonnegative
+function has integral zero only when it vanishes almost everywhere.
+Consequently $d([f],[q_N])=\|h-q_N\|_p$ proves convergence in the
+quotient. For measurable representatives, their nonzero sets have the
+same measure whenever the representatives agree almost everywhere.
+$\square$
+
+**Notes.** The $\sigma$-finite cover in the lemma concerns the nonzero
+set of one representative. The theorem allows arbitrary measures, as
+Example 2 illustrates. The group can be incomplete and nonseparable.
+
+Each $q_N$ is the sum of $c\mathbf 1_{\{q_N=c\}}$ over its nonzero
+values. At $1\le p<\infty$, spend less than $\varepsilon/2$ on
+approximating $f$ by $q_N$, and at most $\varepsilon/(2k)$ on each of
+its $k>0$ nonzero fibers using the indicator approximation in Lemma E.
+Minkowski gives total error at most $\varepsilon$. If $k=0$, apply
+the indicator approximation to the empty set. This is the input for
+the compact-support argument of [§14.4.2.5](#14425-compactly-supported-continuous-functions-are-dense-in-l2).
+
+At $p=\infty$, the scalar $f=1$ on the Lebesgue line has distance at
+least $1$ from every finite-measure supported simple function because
+the complement of the approximant's nonzero set has infinite measure. The zero function
+attains the infimum $1$. Even unrestricted simple functions can fail
+for a general target. On the positive integers with counting measure
+let $f(n)=e_n$ in $\ell^2$, the unit coordinate vectors. The finite
+truncations make $f$ strongly measurable, and $\|f\|_\infty=1$.
+A simple function takes the same value at some distinct $n,m$.
+The errors at those indices have sum at least
+$\|e_n-e_m\|=\sqrt{2}$. Since counting measure has no nonempty null
+sets, the essential supremum error is at least $1/\sqrt{2}$.
+
+**Source notes.** The pinned representative theorem
+`MemLp.exists_simpleFunc_eLpNorm_sub_lt` admits all finite extended
+exponents. At $p=0$ its seminorm convention is zero and its conclusion
+gives no finite-support condition. For positive finite $p$, the
+nearest-point and fiber arguments also work below one. The class result
+`Lp.simpleFunc.denseRange` uses $1\le p$ and $p\ne\infty$.
+In `MemLp.induction_dense`, the first error is the approximation by a
+simple representative and the second is its approximation by the desired
+class of functions. Its disjoint-sum case splits integrability between
+summands and adds their approximation errors. The lemma `exists_Lp_half`
+gives a positive tolerance for two errors using Mathlib's finite
+`LpAddConst` and yields a strict bound. In the normed range and for finite $\delta$,
+$\delta/3$ serves for a strict bound of $\delta$.
+Chapter 3 reads the definition of the same nearest-point sequence in
+its box-integral comparison. [Chapter 3](03-landau-window-criterion.md#fubini-and-the-box-comparison-on-a-rectangle)
+The threshold localization above is an additional textbook estimate.
+Tao's Theorem 15(1) gives the classical scalar Lebesgue $L^1$ case.
+[245A Notes 2](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/)
+
+| Reading | Source | Role |
+|---|---|---|
+| Inherited, call sites reread | [ContinuousMapDense.lean:135–166](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L135) | Calls induction_dense at 146 and exists_Lp_half at 157. Compact inner approximation and Urysohn transition are inherited from §14.4.2.5. |
+| Read | [SimpleFuncDense.lean:56–125,154–183](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDense.lean#L56) | Least-index nearest point, dense sequence and initial zero error bound. |
+| Read | [SimpleFuncDenseLp.lean:69–198](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L69) | Error and size majorants, dominated convergence, membership and almost-everywhere replacement. |
+| Read | [SimpleFuncDenseLp.lean:267–310,335–349](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L267) | Finite fibers, finite support and indicator deduction. |
+| Read | [SimpleFuncDenseLp.lean:368–381,637–676](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L368) | Simple subgroup, dense embedding and dense range. |
+| Read | [SimpleFuncDenseLp.lean:847–894](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L847) | Zero exponent, representative reduction, indicator case and disjoint-sum case. |
+| Read | [LpSeminorm/TriangleInequality.lean:81–100](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81) | Positive tolerance for two errors via the finite addition constant. |
+| Read | [StronglyMeasurable/Basic.lean:659–679](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean#L659) | Countable simple ranges and separable range. |
+| Read | [StronglyMeasurable/AEStronglyMeasurable.lean:66–69,170–185,641–655](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean#L66) | Almost-everywhere representative and separability. |
+| Read | [LpSpace/Basic.lean:104–122,178–186,276–280](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L104) | Class constructor, representative and distance identity. |
+| Retained [Lean] | [SimpleFuncDenseLp.lean:89–124](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L89) | SimpleFunc.measurable_bind, lintegral_rpow_enorm_lt_top_of_eLpNorm_lt_top and tendsto_lintegral_of_dominated_convergence. |
+| Retained [Lean] | [SimpleFuncDenseLp.lean:169–177,273–285,869–894](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L169) | Lp.tendsto_Lp_iff_tendsto_eLpNorm'', FinMeasSupp.of_lintegral_ne_top, SimpleFunc.induction and memLp_add_of_disjoint. |
+| Retained [Lean] | [LpSpace/Basic.lean:104–122](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/Basic.lean#L104) | AEEqFun.coeFn_mk and the underlying quotient implementation. |
+| Retained [Lean] | [SimpleFuncDense.lean:122–125,154–164](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDense.lean#L122) | denseSeq and denseRange_denseSeq. |
+| Retained [Lean] | [LpSeminorm/TriangleInequality.lean:81–100](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81) | The underlying primed eLpNorm_add_le estimate and LpAddConst_lt_top. |
+
+#### 14.4.2.4 Urysohn cutoffs with finite measure
+
+**Motivation.** A continuous approximation to an indicator has two jobs. It must take
+the correct values on the closed set and away from its open
+neighborhood. It must also confine the transition to a region of small
+measure. Normality supplies the function, and outer regularity lets us
+choose the size of that region. The closed-set cap in Lemma C combines
+these two steps.
+
+**Example 1 (a circle arc).** Use the coordinate $t\in[0,1)$ on
+$\mathbb R/\mathbb Z$, with probability measure $dt$. Set
+$F=[1/4,1/2]$ and choose $0<d<1/4$. Take $U=V=(1/4-d,1/2+d)$.
+Set $g=1$ on $F$, set $g=0$ off $V$, and on the two remaining intervals
+set $g(t)=(t-(1/4-d))/d$ on the left and $g(t)=((1/2+d)-t)/d$
+on the right. These formulas agree at the joins and the function
+vanishes near the coordinate seam. For any complex $c$, put $f=cg$.
+On each ramp the magnitude of $f-c\mathbf 1_F$ is $|c|s/d$, where
+$s\in(0,d)$ is distance from the outer endpoint of the ramp. Each ramp
+contributes $|c|^2d^{-2}\int_0^d s^2\,ds=|c|^2d/3$.
+Thus $\|f-c\mathbf 1_F\|_2^2=2|c|^2d/3$ and
+$\|f\|_2^2=|c|^2(1/4+2d/3)$. The estimate based only on the transition
+set gives squared error at most $2|c|^2d$. At $c=1$ and $d=1/24$, the
+actual norm of the error is $1/6$. Here $\{g\ne0\}=U$ and its closure
+includes both endpoints of $U$.
+
+**Example 2 (localizing on the real line).** With Lebesgue measure take
+$F=[0,1]$, $U=\mathbb R$, and $V=(-d,1+d)$ for $d>0$. Use $g=1$ on $F$
+and $g=0$ off $V$. On $(-d,0)$ use $(x+d)/d$ and on $(1,1+d)$
+use $(1+d-x)/d$. The formulas match at $-d,0,1,1+d$, so $g$ is
+continuous. Here $\mu(V)=1+2d$ and $\mu(V\setminus F)=2d$.
+For $f=2g$, each ramp contributes
+$4\int_0^d(s/d)^2\,ds=4d/3$ to the squared error. Hence
+$\|f-2\mathbf 1_F\|_2^2=8d/3$, whereas the bound from the measure
+of the two ramps alone is $8d$. The plateau contributes $4$ to the squared
+norm of $f$, so $\|f\|_2^2=4+8d/3$. For $d=1/96$ the error again has
+norm $1/6$. The nonzero set is $V$ and its closure is $[-d,1+d]$.
+
+**Definition.** For a scalar or vector-valued function $a$, write
+$S(a)=\{x:a(x)\ne0\}$ for Mathlib's `Function.support`. Its closure
+$\overline{S(a)}$ is the closed support. A space is normal here if
+disjoint closed sets have disjoint open neighborhoods. Given a closed
+$C$ in an open $O$, normality separates $C$ and $X\setminus O$ by open
+sets $W,B$ respectively. Since $W\cap B=\varnothing$,
+$C\subseteq W\subseteq\overline W\subseteq X\setminus B\subseteq O$.
+This is the shrinking step. [`Mathlib/Topology/Separation/Regular.lean:477–484`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L477-L484).
+
+**Lemma (continuous separation).** In a normal space $X$, for every
+closed $C\subseteq O$ with $O$ open, there exists a continuous
+$h:X\to[0,1]$ with $h=0$ on $C$ and $h=1$ on $X\setminus O$.
+
+**Proof.** For each pair $P=(C,O)$ choose a shrinking $W$ as above. Define
+$P_L=(C,W)$ and $P_R=(\overline W,O)$. Both are again closed-in-open pairs.
+Use subscripts for further splits, so that $P_{LR}$ is the right child of
+$P_L$. Write $C_Q,O_Q$ for the sets of a pair $Q$.
+For every pair simultaneously start with
+$a_{0,P}=\mathbf 1_{X\setminus O_P}$ and define
+$a_{n+1,P}=(a_{n,P_L}+a_{n,P_R})/2$.
+
+By induction every $a_{n,P}$ lies in $[0,1]$, equals zero on $C_P$ and
+one off $O_P$. Indeed both children have those endpoint properties on
+the parent's prescribed sets, and the midpoint preserves them. At
+depth zero $a_{0,P_R}=a_{0,P}\le a_{0,P_L}$ by nesting of the open sets,
+so $a_{0,P}\le a_{1,P}$. If $a_{n,P}\le a_{n+1,P}$ for all pairs,
+averaging the two inequalities for the children gives the next one.
+This gives the monotonicity used by the source, whose proof also records
+the two-sided comparison with the child approximations. The pointwise
+supremum $h_P=\sup_{n\ge0}a_{n,P}$ is therefore their limit, has the same
+range and endpoint values, and satisfies
+$h_P=(h_{P_L}+h_{P_R})/2$ by taking limits in the recursion.
+
+For continuity, for every $P,x,n$ we show that $x$ has a neighborhood
+on which $|h_P(y)-h_P(x)|\le r_n=(3/4)^n$. For $n=0$ use the
+range bound. Suppose the claim holds at depth $n$ for all pairs.
+
+- If $x\in O_{P_L}$, intersect this open neighborhood with the one
+  given by induction for $P_L$. Both $x$ and $y$ belong to $C_{P_R}$,
+  so the right child's values vanish. The midpoint has oscillation
+  from $x$ at most $r_n/2\le r_{n+1}$.
+- If $x\notin O_{P_L}$, it lies in the open complement of
+  $C_{P_{LR}}$, since $C_{P_{LR}}\subseteq O_{P_L}$. On this neighborhood
+  both $x$ and $y$ are outside $O_{P_{LL}}\subseteq C_{P_{LR}}$.
+  The function $h_{P_{LL}}$ is identically one there. Intersect with the
+  induction neighborhoods for $P_{LR}$ and $P_R$. Expanding the left
+  midpoint gives $h_P=h_{P_{LL}}/4+h_{P_{LR}}/4+h_{P_R}/2$.
+  The first term cancels in the difference, giving
+  $r_n/4+r_n/2=r_{n+1}$.
+
+Since $r_n\to0$, $h_P$ is continuous at each $x$. The fixed implementation
+packages the splitting rule in a structure `Urysohns.CU` with a
+predicate on admissible pairs. The normal-space theorem uses the
+always-true predicate and starts with the closed zero set and the
+complement of the closed one set. [Lean, read].
+[`Mathlib/Topology/UrysohnsLemma.lean:105–339`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L105-L339).
+
+**Theorem (finite-measure cutoff).** Let $X$ be normal with its Borel
+$\sigma$-algebra and an outer regular measure $\mu$. Let $F\subseteq U$,
+with $F$ closed, $U$ open and $\mu(F)<\infty$. For every $\eta>0$ there
+are an open $V\supseteq F$ with $\mu(V)<\infty$ and
+$\mu(V\setminus F)<\eta$, and a continuous $g:X\to[0,1]$ with
+$g|_F=1$ and $S(g)\subseteq v=U\cap V$. For every $c$ in a
+real normed vector space (including $\mathbb C$ with real scalars),
+$f=gc$ belongs to $\mathcal L^2(\mu)$, and
+$\|f-c\mathbf 1_F\|_2^2\le\|c\|^2\mu(v\setminus F)$.
+In particular for every $\varepsilon>0$ one can obtain error
+strictly below $\varepsilon$.
+
+**Proof.** Outer regularity gives open $V\supseteq F$ with
+$\mu(V)<\mu(F)+\eta<\infty$. Additivity on the disjoint Borel sets
+$F$ and $V\setminus F$ gives the desired excess bound. Then
+$F\subseteq v$ and $\mu(v)\le\mu(V)$. The separation lemma with
+$C=F$ and $O=v$ gives $g=1-h_{(F,v)}$. In the source the call instead
+orders the closed sets as $X\setminus v,F$, giving the zero and one
+values directly. Both descriptions give the required constraints.
+
+The value $g=1$ on $F$ makes $f=c$ there. Outside $v$ both $f$ and
+$c\mathbf 1_F$ vanish. On $v\setminus F$ their difference is $gc$,
+of norm at most $\|c\|$. Thus
+$\|f-c\mathbf 1_F\|\le\|c\|\mathbf 1_{v\setminus F}$
+and $\|f\|\le\|c\|\mathbf 1_v$ pointwise. The scalar $g$ is Borel
+measurable and can be approximated pointwise by scalar simple functions
+by rounding down on dyadic meshes. Multiplying these simple functions
+by $c$ proves strong measurability even when the full vector space
+is nonseparable. Integrating the squares gives the claimed error
+and $\|f\|_2^2\le\|c\|^2\mu(v)<\infty$. For $c\ne0$ use
+$\eta=(\varepsilon/\|c\|)^2$ and the strict excess inequality. For
+$c=0$ the error is zero. Mathlib uses the same three pointwise cases
+and indicator domination at finite exponent, with separate lemmas for
+the indicator norm and `MemLp`. [Lean, read] for the producer at
+$p=2$. [`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean:79–131`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L131).
+
+**Remarks.** Compactness and global finiteness play separate roles on
+the circle. Compact Hausdorff topology gives normality and makes every
+continuous scalar function bounded. Probability Haar measure gives the
+global finite-measure premise of `toLp`. The inherited outer
+approximation still supplies a *small excess* for the error bound.
+For a general Borel set of finite measure the inherited inner
+closed approximation and the triangle estimate in Lemma D feed
+this cap into the simple-function step of [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp).
+
+On $\mathbb R$, dropping finiteness of $F$ allows $F=U=\mathbb R$.
+For $c=1$ the cutoff must then equal one everywhere, and its squared
+integral is infinite. Even when $F=[0,1]$, applying separation with
+$U=\mathbb R$ alone allows $g\equiv1$, with infinite squared error off
+$F$. The size bounds in the theorem come from $V$. The same constant
+function disproves a full-domain finite-exponent `toLp` for bounded
+continuous functions with Lebesgue measure on $\mathbb R$.
+
+From $S(g)\subseteq v$ one obtains $\overline{S(g)}\subseteq\overline v$.
+The circle example has boundary points of $U$ in the closed support,
+even though $g$ vanishes there. To arrange closed support inside $v$,
+one may first shrink to an open $W$ with
+$F\subseteq W\subseteq\overline W\subseteq v$ and then separate using $W$.
+The production lemma states the nonzero-set containment. Compact
+support in a general space requires a separate compactness argument.
+
+Urysohn's original proof in Appendix III, §25, takes the threshold
+of a nested family of open sets and bounds its change on a neighborhood.
+DiBenedetto gives a dyadic-neighborhood exposition. The proof here
+follows the pinned Mathlib pointwise midpoint limit and its local
+oscillation estimate. [Urysohn, pp. 290–291](https://doi.org/10.1007/BF01208659).
+[DiBenedetto, *Real Analysis*, Ch. I, §2, pp. 19–20](https://doi.org/10.1007/978-1-4612-0117-5).
+
+| Source at the archive pin | Reading and role |
+|---|---|
+| [`Mathlib/Topology/UrysohnsLemma.lean:105–233,240–272,274–339`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L105-L339) | Read here. Pair splitting, midpoint approximations, limit, continuity and normal-space wrapper. |
+| [`Mathlib/Topology/Separation/Regular.lean:477–484`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L477-L484) | Read here. Normal shrinking. |
+| [`ContinuousMapDense.lean:79–131`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L131) | Read here at the cutoff interface. Regular approximation and simple-function density are inherited from §14.4.2.3. |
+| [`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean:49–103`](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean#L49-L103) | Read for the finite-measure interface. |
+| `Metric.nhds_basis_closedBall_pow`, `tendsto_atTop_ciSup`, `dist_midpoint_midpoint_le`, `MemLp.smul` | Library inputs, proof bodies retained [Lean]. |
+
+The archive SHA-256 is
+`9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc`.
+Its manifest fixes Mathlib at `0df444a360eaa60ab8c11dca51a86af692955474`.
+The proofs above were compared with the specified source bodies.
+Reading and building the book are separate from Lean kernel verification.
+
+#### 14.4.2.5 Compactly supported continuous functions are dense in $L^2$
+
+**Motivation.** On the circle every continuous function has compact closed support
+and is square integrable for Haar probability. On the real line, a
+continuous cutoff can have a finite-measure nonzero set that reaches
+arbitrarily far out. To produce a compactly supported approximant,
+keep a compact part of each finite-measure step, then prescribe a
+compact neighborhood in which to build its continuous cutoff.
+
+**Example 1 (Lebesgue measure on the real line).** Let $I_n=(2n,2n+1)$
+for $n\ge1$ and put $f=\sum_{n\ge1}2^{-n}\mathbf 1_{I_n}$. The intervals
+are disjoint and $\|f\|_2^2=\sum_{n\ge1}4^{-n}=1/3$. Keep the first $N$
+steps in $s_N$. Then $\|f-s_N\|_2^2=4^{-N}/3$. For $0<d<1/4$ take
+$F_n=[2n+d,2n+1-d]$ inside $I_n$, and use the compact neighborhood
+$K_n=[2n,2n+1]$. Inside its interior use
+$V_n=(2n+d/2,2n+1-d/2)$. Define $b_n$ to be one on $F_n$, zero off
+$V_n$, and affine on each of the two intervals between those regions.
+The joins match, so $g=\sum_{n=1}^N2^{-n}b_n$ is continuous. Its closed
+support is $\bigcup_{n=1}^N\overline{V_n}\subseteq\bigcup_{n=1}^N K_n$.
+
+Write $S_N=\sum_{n=1}^N4^{-n}=(1-4^{-N})/3$ and
+$t_N=\sum_{n=1}^N2^{-n}\mathbf 1_{F_n}$. The squared inner truncation
+error is $\|s_N-t_N\|_2^2=2dS_N$. Each ramp of $b_n$ has length $d/2$
+and squared integral $\int_0^{d/2}(2u/d)^2\,du=d/6$.
+Thus $\|g-t_N\|_2^2=dS_N/3$, with the coarser upper bound $dS_N$ obtained using only the
+measure of the transition regions. Given $\varepsilon>0$,
+choose $N$ with $4^{-N}/3<\varepsilon^2/9$ and
+$0<d<\min(1/4,\varepsilon^2/6)$. Since $S_N<1/3$, the tail, inner
+truncation and ramps each cost less than $\varepsilon/3$ in norm,
+even with the measure bound on the ramps. The exact total squared
+error is $4^{-N}/3+(4d/3)S_N$. At each end of a retained step there
+is a zero strip of length $d/2$ and a ramp whose deficit from one
+has squared integral $d/6$.
+
+**Example 2 (a noncompact discrete probability space).** Give
+$\mathbb N_{\ge1}$ the discrete topology and mass $2^{-n}$ at $n$.
+An open cover by singletons shows that compact sets are finite.
+All sets are open and closed, and finite subsets exhaust the mass
+of each set. The measure is regular. Let $f(n)=1+2^{-n}$,
+which is bounded and in $L^2$. Take a simple function $s_M$
+equal to $f$ through $M$ and to one on $T=\{n>M\}$. The squared
+simple-function error is $\sum_{n>M}8^{-n}=8^{-M}/7$.
+For $N\ge M$ keep the first $M$ singleton steps unchanged and
+take $F=\{M<n\le N\}$ for the tail. Here
+$\mu(T\setminus F)=2^{-N}$. Use $K=U=V=F$ for the tail and
+the singleton itself for each singleton step. The cutoffs are
+indicators of finite clopen sets, with zero transition error.
+Their sum with the step coefficients gives $g$ equal to $f$
+through $M$, one for $M<n\le N$, and zero thereafter. Its closed
+support is $\{1,\ldots,N\}$.
+Choose $M$ with $8^{-M}/7<\varepsilon^2/4$ and then $N\ge M$
+with $2^{-N}<\varepsilon^2/4$. The simple-function and inner
+truncation errors each cost less than $\varepsilon/2$ in norm.
+The exact squared error is
+$\sum_{M<n\le N}8^{-n}+\sum_{n>N}2^{-n}(1+2^{-n})^2
+=8^{-M}/7+2^{-N}+2\cdot4^{-N}/3$.
+Here a simple function in $L^2$ can be nonzero on infinitely
+many points, and a compactly supported replacement vanishes
+except at finitely many points.
+
+**Definitions.** Write $S(g)=\{x:g(x)\ne0\}$ for `Function.support`
+and $\operatorname{tsupp}(g)=\overline{S(g)}$ for `tsupport`.
+The space $C_c(X,E)$ consists of continuous maps with compact
+closed support. In the Hausdorff case it suffices that $g$
+vanish off a compact $K$, because $K$ is closed. Regularity
+of $\mu$ means finiteness on compact sets, outer regularity
+on Borel sets and inner regularity by compact sets on open
+sets. Local compactness is used through the existence of a
+compact neighborhood at every point. Normality is the
+separation property of [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure).
+
+**Lemma (one compactly supported step).** Let $X$ be normal and
+locally compact Hausdorff, with its Borel $\sigma$-algebra and a
+regular measure $\mu$. Let $T$ be Borel with $\mu(T)<\infty$
+and let $c$ belong to a real normed vector space $E$. For
+$1\le p<\infty$ and $\delta>0$ there is $b\in C_c(X,E)$ with
+$\|b-c\mathbf 1_T\|_p<\delta$. The function $b$ is strongly
+measurable and has finite $p$-norm.
+
+**Proof.** For $c=0$ take $b=0$. Otherwise put
+$\eta=(\delta/(2\|c\|))^p$. Choose a compact closed $F\subseteq T$
+with $\mu(T\setminus F)<\eta$ as follows. Take open $A\supseteq T$
+of finite measure with $\mu(A\setminus T)<\eta/2$. By outer
+regularity again, cover $A\setminus T$ by open $B$ with
+$\mu(B)<\eta/2$. By inner regularity on $A$, find compact
+$D\subseteq A$ with $\mu(A\setminus D)<\eta/2$.
+Then $F=D\setminus B$ is compact and closed, belongs to $T$,
+and $T\setminus F\subseteq(A\setminus D)\cup B$.
+The pinned measure lemma uses the $R_1$ and Borel hypotheses
+to take the closure of a compact subset within a Borel set.
+
+Cover $F$ by the interiors of compact neighborhoods of its
+points and take a finite subcover. The union $K$ of the
+corresponding compact neighborhoods is compact and
+$F\subseteq\operatorname{int}K$. Invoke [§14.4.2.4](#14424-urysohn-cutoffs-with-finite-measure) with
+$U=\operatorname{int}K$, the finite-measure closed set $F$ and
+excess budget $\eta$. Its construction chooses open $V\supseteq F$
+with $\mu(V\setminus F)<\eta$ and yields $b=\phi c$ with
+$0\le\phi\le1$, $\phi=1$ on $F$ and $S(b)\subseteq v=U\cap V$.
+
+Integrating the pointwise bounds to the $p$th power gives
+$\|b-c\mathbf 1_F\|_p^p\le\|c\|^p\mu(v\setminus F)$ and
+$\|c\mathbf 1_F-c\mathbf 1_T\|_p^p=\|c\|^p\mu(T\setminus F)$.
+Each norm is less than $\delta/2$. Scalar simple approximations
+to $\phi$ multiplied by $c$ give strong measurability even if
+$E$ is nonseparable, and $\|b\|_p^p\le\|c\|^p\mu(v)<\infty$.
+Finally $S(b)\subseteq\operatorname{int}K\subseteq K$ implies
+$\operatorname{tsupp}(b)\subseteq K$ by closedness of $K$.
+This closed subset of $K$ is compact. Minkowski's inequality
+combines the two errors. [Lean, read] for the compact step.
+[Pinned compact step](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L154-L185).
+
+**Theorem (compact-support density).** Under the hypotheses on
+$(X,\mu,E,p)$ of the lemma, let $f:X\to E$ be almost everywhere
+strongly measurable with $\int_X\|f(x)\|^p\,d\mu(x)<\infty$.
+For every $\varepsilon>0$ there is a strongly measurable
+$g\in C_c(X,E)$ of finite $p$-norm with $\|f-g\|_p<\varepsilon$.
+In particular the classes of $C_c(X,E)$ are dense in $L^p(\mu;E)$,
+including $p=2$.
+
+Every $h\in C_c(X,E)$ defines such a class. The image of its
+compact closed support, together with zero, is compact in
+the metric space $E$, hence bounded and separable. The map
+$h$ is Borel. Choosing at each point a nearest value from
+the first $n$ terms of a countable dense sequence in that
+compact set, breaking ties by index, gives measurable
+finite-valued approximations converging pointwise to $h$.
+Thus $h$ is strongly measurable, and its norm is bounded
+and supported in a set of finite measure.
+
+**Proof.** Simple-function approximation from [§14.4.2.3.1](#144231-finite-measure-simple-functions-in-lp) gives
+a measurable finite-valued $s\in\mathcal L^p$ with
+$\|f-s\|_p<\varepsilon/2$. The pinned proof first takes a
+strongly measurable representative equal to $f$ almost
+everywhere and applies simple approximation on its separable
+range together with zero. Write $s=\sum_{j=1}^m c_j\mathbf 1_{T_j}$
+using the disjoint Borel fibers of its nonzero values. Then
+$\|c_j\|^p\mu(T_j)\le\|s\|_p^p$ gives $\mu(T_j)<\infty$.
+If $m=0$ take $g=0$. Otherwise approximate each indicator step
+by $b_j$ with budget $\varepsilon/(2m)$ and put $g=\sum_j b_j$.
+The nonzero set of the sum lies in the union of the $S(b_j)$.
+Its closure lies in the finite union of their compact closed
+supports. Continuity, strong measurability and finite
+$p$-norm pass to the sum, and
+$\|f-g\|_p\le\|f-s\|_p+\sum_j\|c_j\mathbf 1_{T_j}-b_j\|_p<\varepsilon$.
+In the quotient by almost-everywhere equality the distance
+between classes is the norm of the same difference.
+
+The pinned proof uses `MemLp.induction_dense` with the predicate
+“continuous, `MemLp` and `HasCompactSupport`.” Addition preserves
+the predicate, and `MemLp` supplies the induction's almost
+everywhere strong measurability premise. The proof first
+approximates by a simple function, then handles an indicator
+or a disjoint sum by induction. It uses `exists_Lp_half` whenever
+two errors are combined, including the inner truncation and
+the cutoff. [Lean, read] for the producer and induction.
+[Pinned producer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L135-L185)
+· [Simple-function induction](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L847-L894).
+
+**Notes.**
+
+- **Exact source interface.** `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`
+  has ambient `TopologicalSpace`, `NormalSpace`,
+  `MeasurableSpace`, `BorelSpace`, `NormedAddCommGroup E` and
+  `NormedSpace ℝ E`, with `R1Space`, `WeaklyLocallyCompactSpace`
+  and `μ.Regular` at the declaration. It takes `p ≠ ∞`,
+  `MemLp f p μ` and an extended nonnegative tolerance `ε ≠ 0`.
+  It returns `HasCompactSupport g`, extended seminorm error at
+  most `ε`, `Continuous g` and `MemLp g p μ`. The norm proof
+  above uses $1\le p<\infty$ on a normal locally compact Hausdorff
+  space, a special case of the topological hypotheses at the pin.
+  The examples specialize to $p=2$. The source uses `HasCompactSupport.intro` in its $R_1$
+  form. Vanishing outside $K$ places the closed support inside
+  $\overline K$, which is compact in an $R_1$ space. The
+  producer needs no finite total measure, completeness of $E$
+  or second-countability. Complex values use real scalars.
+  [Ambient hypotheses](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L66-L72)
+  · [Support interface](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/Support.lean#L210-L249).
+- **Without local compactness.** Take $\mathbb Q$ with the
+  usual metric and Dirac measure at zero. It is regular: a
+  set missing zero lies in the open complement of zero, and
+  $\{0\}$ supplies the entire mass of any open set containing
+  zero. Every nonempty open subset of $\mathbb Q$ contains
+  rational points in an interval converging in $\mathbb R$
+  to an irrational point. If a compact subset of $\mathbb Q$
+  contained that open set, its image in $\mathbb R$ would
+  be closed and would contain the irrational limit. Compact
+  sets thus have empty interior. A continuous function
+  nonzero at a point has an open nonzero neighborhood there,
+  so $C_c(\mathbb Q,\mathbb R)=\{0\}$. The constant one has
+  $L^2$ norm one and distance one from this class of approximants.
+- **At the infinite exponent.** Use $f=\mathbf 1_{(0,1)}$ on
+  the real line with Lebesgue measure. If continuous real
+  $g$ has essential supremum error $r<1/2$, continuity and
+  positive measure of open intervals give $|g(x)|\le r$
+  throughout $x<0$ and $|1-g(x)|\le r$ throughout $0<x<1$.
+  The two limits at zero give $1\le2r$. The infimum is $1/2$
+  even with compact support, attained by the cutoff equal
+  to $1/2$ on $[0,1]$, zero off $[-1,2]$, and affine on
+  the two ramps. These examples and hand calculations are
+  [Expository].
+- **Relation to the circle.** The Fourier consumer in §14.4.2.3
+  takes `ContinuousMap.toLp_denseRange` on the compact circle.
+  The representative-level compact-support producer gives
+  approximation on noncompact spaces, where a continuous function
+  may have infinite $L^2$ norm. For classical background, Tao's
+  245A Notes 2, Theorem 15(3), treats compactly supported continuous
+  approximation in scalar Lebesgue $L^1(\mathbb R^d)$.
+  [Tao, 245A Notes 2](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/).
 
 #### Factorial ratios and the infinite radius of the Banach exponential
 

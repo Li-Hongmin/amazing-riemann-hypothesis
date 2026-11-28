@@ -635,8 +635,9 @@ classes and two approximation lemmas of Sébastien Gouëzel's
 `Measure/Regular.lean`, were read at pin
 `0df444a360eaa60ab8c11dca51a86af692955474` on 2026-11-25 (UTC+9); file
 hashes are in the table above. Urysohn's lemma (Yury Kudryashov's
-`UrysohnsLemma.lean`), `exists_Lp_half`, the weakly-regular inner
-approximation and the density of simple functions are retained inputs.
+`UrysohnsLemma.lean`), `exists_Lp_half` and simple-function density are
+expanded in the following entries. The weakly regular inner approximation
+remains a named input.
 [Pinned source](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean)
 · [Mathlib docs](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Function/ContinuousMapDense.html)
 
@@ -655,6 +656,63 @@ hypothesis with the circle, computes the exact $L^2$ error of a continuous
 cap on an arc and of a two-step function, and explains why the inequality
 $\|f\|_2\le\|f\|_\infty$ alone does not give $L^2$ density.
 [Chapter 14](../chapters/14-masullos-trace-formula-route.md#14423-continuous-functions-are-dense-in-l2-of-the-circle)
+
+**Chapter 14, §§14.4.2.3.1, 14.4.2.4 and 14.4.2.5. Community formalization.**
+Zhouhang Zhou, Yury Kudryashov and Heather Macbeth are credited in
+`SimpleFuncDense.lean` and `SimpleFuncDenseLp.lean`. The representative
+approximation and class density use the nearest-point selection and
+finite-measure fibers. Rémy Degenne and Sébastien Gouëzel are credited in
+`StronglyMeasurable/Basic.lean`. Rémy Degenne's `TriangleInequality.lean`
+supplies `exists_Lp_half`. The nearest-point sequence and `induction_dense`
+were already read in Chapters 3 and 14 respectively. The pinned
+`SimpleFuncDenseLp.lean` was retrieved on 2026-11-25 and has SHA-256
+`b1ecbd32e34997ddc82627f777d350abb79f4b26e107588c2eef84f46489f067`.
+[Nearest point](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDense.lean#L56-L183)
+· [Representative proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L69-L198)
+· [Class proof](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L637-L676)
+· [Strong measurability](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean#L659-L679)
+· [Halving](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/LpSeminorm/TriangleInequality.lean#L81-L100)
+
+Yury Kudryashov formalized the Urysohn midpoint construction. The normal
+shrinking lemma is in `Topology/Separation/Regular.lean`, whose header
+credits Johannes Hölzl and Mario Carneiro. Heather Macbeth's
+`ContinuousMapDense.lean` contains the cutoff and compact-support
+producers. The latter uses measure regularity (file authors Sébastien
+Gouëzel, Floris van Doorn and Yury Kudryashov), compact neighborhoods
+(Johannes Hölzl, Mario Carneiro and Yury Kudryashov) and closed support
+(Floris van Doorn and Patrick Massot).
+[Midpoint construction](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/UrysohnsLemma.lean#L105-L339)
+· [Normal shrinking](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Separation/Regular.lean#L477-L484)
+· [Cutoff](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L79-L131)
+· [Compact-support producer](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L135-L185)
+· [Measure regularity](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/MeasureTheory/Measure/Regular.lean#L821-L865)
+· [Compact neighborhoods](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Compactness/LocallyCompact.lean#L56-L63)
+· [Closed support](https://github.com/leanprover-community/mathlib4/blob/0df444a360eaa60ab8c11dca51a86af692955474/Mathlib/Topology/Algebra/Support.lean#L210-L249)
+
+**Classical sources.** Terence Tao, *245A, Notes 2: The Lebesgue integral*
+(2010), Theorem 15(1) and (3), gives the scalar Lebesgue $L^1$ cases on
+$\mathbb R^d$. The SHA-256
+`90e5e4eed50169fe62acdf20d528a4b9d583b51dd4ab2178040c3dd446adc621`
+identifies the 2026-11-25 HTML snapshot of the dynamic lecture page.
+Paul Urysohn, *Über die Mächtigkeit der zusammenhängenden Mengen*,
+*Mathematische Annalen* 94 (1925), pp. 262–295, Appendix III §25,
+pp. 290–291, uses nested open sets and a threshold. Emmanuele
+DiBenedetto, *Real Analysis* (2002), Ch. I §2, Lemma 2.1, pp. 19–20,
+gives the dyadic-neighborhood construction. The cutoff proof follows
+the midpoint construction in the pinned Mathlib file.
+[Tao's notes](https://terrytao.wordpress.com/2010/09/19/245a-notes-2-the-lebesgue-integral/)
+· [Urysohn](https://doi.org/10.1007/BF01208659)
+· [Göttingen scans](https://gdz.sub.uni-goettingen.de/id/PPN235181684_0094)
+· [DiBenedetto](https://doi.org/10.1007/978-1-4612-0117-5)
+
+**Textbook contribution.** Hongmin Li with AI assistance explains the
+finite-measure fibers and descent to classes, the cutoff and its
+pointwise error regions, and the compact-neighborhood argument. The
+three subsections provide six worked examples and explain the boundary
+cases for the hypotheses.
+[§14.4.2.3.1](../chapters/14-masullos-trace-formula-route.md#144231-finite-measure-simple-functions-in-lp)
+· [§14.4.2.4](../chapters/14-masullos-trace-formula-route.md#14424-urysohn-cutoffs-with-finite-measure)
+· [§14.4.2.5](../chapters/14-masullos-trace-formula-route.md#14425-compactly-supported-continuous-functions-are-dense-in-l2)
 
 ### Chapter 1 §1.2.2.11
 
